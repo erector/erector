@@ -1,0 +1,76 @@
+------------------------------------------------------------------------
+r1245 | btakita | 2008-01-31 09:41:00 -0800 (Thu, 31 Jan 2008) | 1 line
+Changed paths:
+   M /erector/trunk/lib/erector/widget.rb
+   M /erector/trunk/spec/erector/widget_spec.rb
+
+Renamed Widget#tag to #element and #standalone_tag to #standalone_element.
+------------------------------------------------------------------------
+r1244 | btakita | 2008-01-31 09:39:15 -0800 (Thu, 31 Jan 2008) | 1 line
+Changed paths:
+   A /erector/trunk/lib/erector/html_parts.rb
+   M /erector/trunk/lib/erector/widget.rb
+   M /erector/trunk/lib/erector.rb
+
+Renamed Widget#tag to #__tag__ and #standalone_tag to #__standalone_tag__. Moved HtmlParts into its own file.
+------------------------------------------------------------------------
+r1243 | btakita | 2008-01-30 17:28:39 -0800 (Wed, 30 Jan 2008) | 1 line
+Changed paths:
+   M /erector/trunk/lib/erector/helpers.rb
+
+CTI/BT - Adding a couple of rails helpers.
+------------------------------------------------------------------------
+r1242 | btakita | 2008-01-30 17:22:26 -0800 (Wed, 30 Jan 2008) | 1 line
+Changed paths:
+   M /erector/trunk/lib/erector/widget.rb
+   M /erector/trunk/spec/erector/widget_spec.rb
+
+CTI/BT - Added standalone tag support.
+------------------------------------------------------------------------
+r1179 | btakita | 2008-01-09 22:38:47 -0800 (Wed, 09 Jan 2008) | 1 line
+Changed paths:
+   D /erector/trunk/spec/erector/widgets/standard_table_spec.rb
+
+Removing failing spec.
+------------------------------------------------------------------------
+r1178 | btakita | 2008-01-09 22:37:14 -0800 (Wed, 09 Jan 2008) | 1 line
+Changed paths:
+   A /erector/trunk/README
+   A /erector/trunk/Rakefile
+   A /erector/trunk/erector.iml
+   A /erector/trunk/init.rb
+   A /erector/trunk/install.rb
+   A /erector/trunk/lib
+   A /erector/trunk/lib/erector
+   A /erector/trunk/lib/erector/extensions
+   A /erector/trunk/lib/erector/extensions/action_controller.rb
+   A /erector/trunk/lib/erector/extensions/object.rb
+   A /erector/trunk/lib/erector/helpers.rb
+   A /erector/trunk/lib/erector/widget.rb
+   A /erector/trunk/lib/erector/widgets
+   A /erector/trunk/lib/erector/widgets/table.rb
+   A /erector/trunk/lib/erector/widgets.rb
+   A /erector/trunk/lib/erector.rb
+   A /erector/trunk/spec
+   A /erector/trunk/spec/erector
+   A /erector/trunk/spec/erector/extensions
+   A /erector/trunk/spec/erector/extensions/render_widget_spec.rb
+   A /erector/trunk/spec/erector/widget_spec.rb
+   A /erector/trunk/spec/erector/widgets
+   A /erector/trunk/spec/erector/widgets/standard_table_spec.rb
+   A /erector/trunk/spec/erector/widgets/table_spec.rb
+   A /erector/trunk/spec/spec_helper.rb
+   A /erector/trunk/spec/spec_suite.rb
+   A /erector/trunk/spec/view_caching.rb
+   A /erector/trunk/tasks
+   A /erector/trunk/tasks/widgets_tasks.rake
+   A /erector/trunk/uninstall.rb
+
+BT - Adding erector,.
+------------------------------------------------------------------------
+r1172 | btakita | 2008-01-07 23:04:02 -0800 (Mon, 07 Jan 2008) | 1 line
+Changed paths:
+   A /erector/trunk
+
+trunk
+------------------------------------------------------------------------
