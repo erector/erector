@@ -30,7 +30,7 @@ To install as a gem:
 
 To install as a plugin:
 
-* ???
+* TODO
 
 == LICENSE:
 
