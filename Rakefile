@@ -8,8 +8,11 @@ require 'rake/gempackagetask'
 
 require './tasks/hoex.rb'
 
-Hoe.new("erector", "0.1.0") do |hoe|
-  hoe.name = "erector"
+GEM_VERSION = "0.1.0"
+GEM_NAME = "erector"
+
+Hoe.new(GEM_NAME, GEM_VERSION) do |hoe|
+  hoe.name = GEM_NAME
   hoe.developer("Pivotal Labs", "alex@pivotallabs.com")
   hoe.rdoc_dir = "rdoc"
   hoe.remote_rdoc_dir = "rdoc"
@@ -17,9 +20,6 @@ Hoe.new("erector", "0.1.0") do |hoe|
 end
 Hoe::remove_tasks("audit", "check_manifest", "post_blog", "multi", "test", "test_deps")
 
-GEM_VERSION = "0.1.0"
-PROJECT_NAME = "erector"
-RUBYFORGE_PROJECT_NAME = PROJECT_NAME
 
 desc 'Default: run unit tests.'
 task :default => :spec

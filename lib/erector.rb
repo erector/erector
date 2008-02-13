@@ -5,3 +5,8 @@ require "erector/helpers"
 require "erector/html_parts"
 require "erector/widget"
 require "erector/widgets"
+
+##
+# Erector view framework
+module Erector
+end
