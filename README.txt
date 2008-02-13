@@ -11,11 +11,12 @@ objects, not template files, which allows the full power of OO (inheritance, mod
 
 == FEATURES/PROBLEMS:
 
-* FIX (list of features or problems)
+This is a *prerelease work in progress* and this gem is **NOT READY FOR USE** by anyone who's not on the Erector team yet. We'll be rolling out a
+version 0.2.0 soon which should include howto documentation and such.
 
 == SYNOPSIS
 
-TODO
+TODO (HOWTO, sample code, etc.)
 
 == REQUIREMENTS
 
@@ -25,7 +26,7 @@ TODO
 
 To install as a gem:
 
-* sudo gem install hoe
+* sudo gem install erector
 
 To install as a plugin:
 
