@@ -16,7 +16,7 @@ module Erector
         when 'text'
           part['value'].to_s.html_escape
         when 'instruct'
-          "<?xml#{format_attributes(part['attributes'])}?>"
+          "<?xml#{format_sorted(sort_for_xml_declaration(part['attributes']))}?>"
         end
       end.join
     end
@@ -24,8 +24,12 @@ module Erector
     protected
     def format_attributes(attributes)
       return "" if !attributes || attributes.empty?
+      return format_sorted(sorted(attributes))
+    end
+
+    def format_sorted(sorted)
       results = ['']
-      sorted(attributes).each do |key, value|
+      sorted.each do |key, value|
         if value
           if value.is_a?(Array)
             value = [value].flatten.join(' ')
@@ -33,7 +37,7 @@ module Erector
           results << "#{key}=\"#{value.to_s.html_escape}\""
         end
       end
-      results.join ' '
+      return results.join(' ')
     end
 
     def sorted(attributes)
@@ -42,6 +46,16 @@ module Erector
         stringized << [key.to_s, value]
       end
       return stringized.sort
+    end
+
+    def sort_for_xml_declaration(attributes)
+      # correct order is "version, encoding, standalone" (XML 1.0 section 2.8).  
+      # But we only try to put version before encoding for now.
+      stringized = []
+      attributes.each do |key, value|
+        stringized << [key.to_s, value]
+      end
+      return stringized.sort{|a, b| b <=> a}
     end
   end  
 end

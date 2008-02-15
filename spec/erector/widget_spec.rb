@@ -13,11 +13,8 @@ module WidgetSpec
       it "when passed no arguments; returns an instruct element with version 1 and utf-8" do
         html = Erector::Widget.new do
           instruct!
-        end.to_s
-        html.should include("<?xml")
-        html.should include('encoding="UTF-8"')
-        html.should include('version="1.0')
-        html.should include("?>")
+          # version must precede encoding, per XML 1.0 4th edition (section 2.8)
+        end.to_s.should == "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
       end
     end
 
