@@ -57,7 +57,7 @@ module Erector
     end
 
     def h(content)
-      text CGI.escapeHTML(content)
+      content.to_s.html_escape
     end
 
     def open_tag(tag_name, attributes={})
@@ -67,6 +67,18 @@ module Erector
     def text(value)
       @doc << {'type' => 'text', 'value' => value}
       nil
+    end
+
+    def raw(value)
+      RawString.new(value.to_s)
+    end
+
+    def rawtext(value)
+      text raw(value)
+    end
+
+    def nbsp(value)
+      raw(value.to_s.html_escape.gsub(/ /,'&#160;'))
     end
 
     def close_tag(tag_name)
@@ -113,7 +125,7 @@ module Erector
       close_tag tag_name
     end
     alias_method :element, :__element__
-    
+
     def __standalone_element__(tag_name, attributes={})
       @doc << {'type' => 'standalone', 'tagName' => tag_name, 'attributes' => attributes}
     end
@@ -124,7 +136,7 @@ module Erector
         original_doc = @doc
         @doc = HtmlParts.new
         yield
-        @doc.to_s
+        raw(@doc.to_s)
       ensure
         @doc = original_doc
       end
@@ -172,9 +184,25 @@ module Erector
       widget = self
       @helpers.metaclass.class_eval do
         define_method :concat do |some_text, binding|
-          widget.text some_text
+          widget.text widget.raw(some_text)
         end
       end
     end
+  end
+end
+
+class RawString < String
+  def html_escape
+    self
+  end
+
+  def to_s
+    self
+  end
+end
+
+class String
+  def html_escape
+    CGI.escapeHTML(self)
   end
 end

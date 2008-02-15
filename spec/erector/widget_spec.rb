@@ -44,6 +44,18 @@ module WidgetSpec
         div[:nil_attribute].should be_nil
       end
 
+      it "with an array of CSS classes, returns a tag with the classes separated" do
+        html = Erector::Widget.new {
+          element('div', :class => [:foo, :bar])
+        }.to_s.should == "<div class=\"foo bar\"></div>";
+      end
+
+      it "with a CSS class which is a string, just use that as the attribute value" do
+        html = Erector::Widget.new {
+          element('div', :class => "foo bar")
+        }.to_s.should == "<div class=\"foo bar\"></div>";
+      end
+
       it "with inner tags; returns nested tags" do
         widget = Erector::Widget.new do
           element 'div' do
@@ -102,6 +114,61 @@ module WidgetSpec
           end
         end
       end
+
+      it "when outputting text; quotes it" do
+        Erector::Widget.new do
+          element 'div', 'test &<>text'
+        end.to_s.should == "<div>test &amp;&lt;&gt;text</div>"
+      end
+
+      it "when outputting text via text; quotes it" do
+        Erector::Widget.new do
+          element 'div' do
+            text "test &<>text"
+          end
+        end.to_s.should == "<div>test &amp;&lt;&gt;text</div>"
+      end
+
+      it "when outputting attribute value; quotes it" do
+        Erector::Widget.new do
+          element 'a', :href => "foo.cgi?a&b"
+        end.to_s.should == "<a href=\"foo.cgi?a&amp;b\"></a>"
+      end
+
+      it "with raw text, does not quote it" do
+        Erector::Widget.new do
+          element 'div' do
+            text raw("<b>bold</b>")
+          end
+        end.to_s.should == "<div><b>bold</b></div>"
+      end
+
+      it "with raw text and no block, does not quote it" do
+        Erector::Widget.new do
+          element 'div', raw("<b>bold</b>")
+        end.to_s.should == "<div><b>bold</b></div>"
+      end
+
+      it "with raw attribute, does not quote it" do
+        Erector::Widget.new do
+          element 'a', :href => raw("foo?x=&nbsp;")
+        end.to_s.should == "<a href=\"foo?x=&nbsp;\"></a>"
+      end
+
+      it "with quote in attribute, quotes it" do
+        Erector::Widget.new do
+          element 'a', :onload => "alert(\"foo\")"
+        end.to_s.should == "<a onload=\"alert(&quot;foo&quot;)\"></a>"
+      end
+
+      it "with a non-string, non-raw, calls to_s and quotes" do
+        Erector::Widget.new do
+          element 'a' do
+            text [7, "foo&bar"]
+          end
+        end.to_s.should == "<a>7foo&amp;bar</a>"
+      end
+
     end
 
     describe "#standalone_element" do
@@ -117,7 +184,7 @@ module WidgetSpec
         end.to_s.should == '<br />'
       end
 
-      it "renders the proper standalone tags" do
+      it "renders the proper empty-element tags" do
         ['area', 'base', 'br', 'hr', 'img', 'input', 'link', 'meta'].each do |tag_name|
           expected = "<#{tag_name} />"
           actual = Erector::Widget.new do
@@ -126,10 +193,47 @@ module WidgetSpec
           begin
             actual.should == expected
           rescue Spec::Expectations::ExpectationNotMetError => e
-            puts "Expected #{tag_name} to be a standalone element. Expected #{expected}, got #{actual}"
+            puts "Expected #{tag_name} to be an empty-element tag. Expected #{expected}, got #{actual}"
             raise e
           end
         end
+      end
+    end
+
+    describe "nbsp" do
+      it "turns consecutive spaces into consecutive non-breaking spaces" do
+        Erector::Widget.new do
+          text nbsp("a  b")
+        end.to_s.should == "a&#160;&#160;b"
+      end
+
+      it "works in text context" do
+        Erector::Widget.new do
+          element 'a' do
+            text nbsp("&<> foo")
+          end
+        end.to_s.should == "<a>&amp;&lt;&gt;&#160;foo</a>"
+      end
+
+      it "works in attribute value context" do
+        Erector::Widget.new do
+          element 'a', :href => nbsp("&<> foo")
+        end.to_s.should == "<a href=\"&amp;&lt;&gt;&#160;foo\"></a>"
+      end
+
+    end
+
+    describe '#h' do
+      before do
+        @widget = Erector::Widget.new
+      end
+
+      it "escapes regular strings" do
+        @widget.h("&").should == "&amp;"
+      end
+
+      it "does not escape raw strings" do
+        @widget.h(@widget.raw("&")).should == "&"
       end
     end
 
@@ -137,7 +241,7 @@ module WidgetSpec
       it "when receiving a block; renders the content inside of a script text/javascript element" do
         body = Erector::Widget.new do
           javascript do
-            text 'alert("hello");'
+            rawtext 'alert("hello");'
           end
         end.to_s
         doc = Hpricot(body)
@@ -156,13 +260,30 @@ module WidgetSpec
 
       it "when receiving text and a params hash; renders a source file" do
         html = Erector::Widget.new do
-          javascript('alert("hello");', :src => "/my/js/file.js")
+          javascript(raw('alert("hello");'), :src => "/my/js/file.js")
         end.to_s
         doc = Hpricot(html)
         script_tag = doc.at('script')
         script_tag[:src].should == "/my/js/file.js"
         script_tag.inner_html.should include('alert("hello");')
       end
+
+      it "does not quote inlined javascript with the javascript tag" do
+        Erector::Widget.new do
+          javascript do
+            rawtext "if (x < y || x > z) onEnterGetTo('/search?a=b&c=d')"
+          end
+        end.to_s.should == "<script type=\"text/javascript\">if (x < y || x > z) onEnterGetTo('/search?a=b&c=d')</script>"
+      end
+
+      it "does not quote inlined javascript with the script tag" do
+        Erector::Widget.new do
+          script(:type => "text/javascript") do
+            rawtext "if (x < y || x > z) onEnterGetTo('/search?a=b&c=d')"
+          end
+        end.to_s.should == "<script type=\"text/javascript\">if (x < y || x > z) onEnterGetTo('/search?a=b&c=d')</script>"
+      end
+
     end
 
     describe '#capture' do

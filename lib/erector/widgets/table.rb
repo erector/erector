@@ -18,8 +18,8 @@ module Erector
           tr do
             column_definitions.each do |column_def|
               th do
-                h column_def.name
-                end
+                text column_def.name
+              end
             end
           end
           tbody do

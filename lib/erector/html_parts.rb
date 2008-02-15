@@ -14,7 +14,7 @@ module Erector
             "<#{part['tagName']}#{format_attributes(part['attributes'])} />" :
             "<#{part['tagName']}  />"
         when 'text'
-          part['value'].to_s
+          part['value'].to_s.html_escape
         when 'instruct'
           "<?xml#{format_attributes(part['attributes'])}?>"
         end
@@ -26,7 +26,12 @@ module Erector
       return "" if !attributes || attributes.empty?
       results = ['']
       attributes.each do |key, value|
-        results << "#{key}=#{value.to_s.inspect}" if value
+        if value
+          if value.is_a?(Array)
+            value = [value].flatten.join(' ')
+          end
+          results << "#{key}=\"#{value.to_s.html_escape}\""
+        end
       end
       results.join ' '
     end

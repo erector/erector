@@ -1,18 +1,25 @@
 module Erector
   module Helpers
     [
-        :link_to,
         :image_tag,
         :javascript_include_tag,
         :stylesheet_link_tag,
-        :link_to_function,
-        :link_to_remote,
         :sortable_element,
-        :sortable_element_js,
-        :mail_to
+        :sortable_element_js
     ].each do |helper_name|
       define_method helper_name do |*args|
-        text helpers.send(helper_name, *args)
+        text raw(helpers.send(helper_name, *args))
+      end
+    end
+
+    [
+        :link_to_function,
+        :link_to,
+        :link_to_remote,
+        :mail_to
+    ].each do |link_helper|
+      define_method link_helper do |link_text, *args|
+        text raw(helpers.send(link_helper, h(link_text), *args))
       end
     end
 
@@ -36,8 +43,8 @@ module Erector
       helpers.cycle(*args)
     end
 
-    def simple_format(*args)
-      helpers.simple_format(*args)
+    def simple_format(string)
+      p raw(string.to_s.html_escape.gsub(/\r\n?/, "\n").gsub(/\n/, "<br/>\n"))
     end
 
     def time_ago_in_words(*args)
