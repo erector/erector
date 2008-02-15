@@ -2,10 +2,10 @@ module Erector
   class Widget
     class << self
       def all_tags
-        Erector::Widget.full_tags + Erector::Widget.standalone_tags
+        Erector::Widget.full_tags + Erector::Widget.empty_tags
       end
 
-      def standalone_tags
+      def empty_tags
         ['area', 'base', 'br', 'hr', 'img', 'input', 'link', 'meta']
       end
 
@@ -126,10 +126,10 @@ module Erector
     end
     alias_method :element, :__element__
 
-    def __standalone_element__(tag_name, attributes={})
-      @doc << {'type' => 'standalone', 'tagName' => tag_name, 'attributes' => attributes}
+    def __empty_element__(tag_name, attributes={})
+      @doc << {'type' => 'empty', 'tagName' => tag_name, 'attributes' => attributes}
     end
-    alias_method :standalone_element, :__standalone_element__
+    alias_method :empty_element, :__empty_element__
 
     def capture(&block)
       begin
@@ -160,10 +160,10 @@ module Erector
       )
     end
 
-    standalone_tags.each do |tag_name|
+    empty_tags.each do |tag_name|
       self.class_eval(
         "def #{tag_name}(*args, &block)\n" <<
-        "  __standalone_element__('#{tag_name}', *args, &block)\n" <<
+        "  __empty_element__('#{tag_name}', *args, &block)\n" <<
         "end",
         __FILE__,
         __LINE__ - 4

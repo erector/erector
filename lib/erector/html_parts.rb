@@ -9,7 +9,7 @@ module Erector
             "<#{part['tagName']}>"
         when 'close'
           "</#{part['tagName']}>"
-        when 'standalone'
+        when 'empty'
           part['attributes'] ?
             "<#{part['tagName']}#{format_attributes(part['attributes'])} />" :
             "<#{part['tagName']}  />"

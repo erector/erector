@@ -3,9 +3,9 @@ require File.expand_path("#{File.dirname(__FILE__)}/../spec_helper")
 module WidgetSpec
   describe Erector::Widget do
     describe ".all_tags" do
-      it "returns set of full and standalone tags" do
+      it "returns set of full and empty tags" do
         Erector::Widget.all_tags.class.should == Array
-        Erector::Widget.all_tags.should == Erector::Widget.full_tags + Erector::Widget.standalone_tags
+        Erector::Widget.all_tags.should == Erector::Widget.full_tags + Erector::Widget.empty_tags
       end
     end
 
@@ -171,16 +171,16 @@ module WidgetSpec
 
     end
 
-    describe "#standalone_element" do
-      it "when receiving attributes, renders a standalone_element with the attributes" do
+    describe "#empty_element" do
+      it "when receiving attributes, renders an empty element with the attributes" do
         Erector::Widget.new do
-          standalone_element 'input', :name => 'foo[bar]'
+          empty_element 'input', :name => 'foo[bar]'
         end.to_s.should == '<input name="foo[bar]" />'
       end
 
-      it "when not receiving attributes, renders a standalone_element without attributes" do
+      it "when not receiving attributes, renders an empty element without attributes" do
         Erector::Widget.new do
-          standalone_element 'br'
+          empty_element 'br'
         end.to_s.should == '<br />'
       end
 
