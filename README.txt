@@ -59,7 +59,46 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 == DOCUMENTATION
 
-TODO
+TODO (more on how you get started, and call it from rails)
+
+The basic way to construct some HTML/XML with erector is to pass a
+block to Erector::Widget.new.  For example:
+
+  html = Erector::Widget.new do
+    instruct!                       # generates <?xml version="1.0" encoding="UTF-8"?>
+  end
+  html.to_s          # gets the output
+
+Here are the basics:
+
+  element('foo')           # generates <foo></foo>
+  empty_element('foo')     # generates <foo />
+  html                     # generates <html></html> (likewise for other common html tags)
+  text 'foo'               # generates foo
+  text '&<>'               # generates &amp;&lt;&gt; (what you generally want, especially
+                           # if the text came from the user or a database)
+  text raw('&<>')          # generates &<>
+  html { text foo }        # generates <html>foo</html>
+  html foo                 # generates <html>foo</html>
+  a(:href => 'foo.html')   # generates <a href="foo.html"></a>
+  a(:href => 'q?a&b')      # generates <a href="q?a&amp;b"></a>  (quotes as for text)
+  a(:href => raw('&amp;')) # generates <a href="&amp;"></a>
+  text nbsp("Save Doc")    # generates Save&#160;Doc (turns spaces into non-breaking spaces)
+
+More extended example:
+
+  div :id => 'outer' do
+    p do
+      b 'Always'
+      text ' generate nice html'
+    end
+  end
+
+generates
+
+  <div id="outer"><p><b>Always</b> generate nice html</p></div>
+
+TODO: document more obscure features like capture, Table, :class => ['one', 'two']
 
 === Layout Inheritance
 
