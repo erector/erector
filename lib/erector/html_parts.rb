@@ -25,7 +25,7 @@ module Erector
     def format_attributes(attributes)
       return "" if !attributes || attributes.empty?
       results = ['']
-      attributes.each do |key, value|
+      sorted(attributes).each do |key, value|
         if value
           if value.is_a?(Array)
             value = [value].flatten.join(' ')
@@ -34,6 +34,14 @@ module Erector
         end
       end
       results.join ' '
+    end
+
+    def sorted(attributes)
+      stringized = []
+      attributes.each do |key, value|
+        stringized << [key.to_s, value]
+      end
+      return stringized.sort
     end
   end  
 end

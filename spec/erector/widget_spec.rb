@@ -45,15 +45,23 @@ module WidgetSpec
       end
 
       it "with an array of CSS classes, returns a tag with the classes separated" do
-        html = Erector::Widget.new {
+        Erector::Widget.new do
           element('div', :class => [:foo, :bar])
-        }.to_s.should == "<div class=\"foo bar\"></div>";
+        end.to_s.should == "<div class=\"foo bar\"></div>";
       end
 
       it "with a CSS class which is a string, just use that as the attribute value" do
-        html = Erector::Widget.new {
+        Erector::Widget.new do
           element('div', :class => "foo bar")
-        }.to_s.should == "<div class=\"foo bar\"></div>";
+        end.to_s.should == "<div class=\"foo bar\"></div>";
+      end
+
+      it "with many attributes, alphabetizes them" do
+        Erector::Widget.new do
+          empty_element('foo', :alpha => "", :betty => "5", :aardvark => "tough",
+            :carol => "", :demon => "", :erector => "", :pi => "3.14", :omicron => "", :zebra => "", :brain => "")
+        end.to_s.should == "<foo aardvark=\"tough\" alpha=\"\" betty=\"5\" brain=\"\" carol=\"\" demon=\"\" " \
+           "erector=\"\" omicron=\"\" pi=\"3.14\" zebra=\"\" />";
       end
 
       it "with inner tags; returns nested tags" do
