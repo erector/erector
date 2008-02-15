@@ -53,7 +53,7 @@ module WidgetSpec
         end.to_s.should == "<div class=\"foo bar\"></div>";
       end
 
-      it "with many attributes, alphabetizes them" do
+      it "with many attributes, alphabetize them" do
         Erector::Widget.new do
           empty_element('foo', :alpha => "", :betty => "5", :aardvark => "tough",
             :carol => "", :demon => "", :erector => "", :pi => "3.14", :omicron => "", :zebra => "", :brain => "")
@@ -243,16 +243,18 @@ module WidgetSpec
     end
 
     describe "#javascript" do
-      it "when receiving a block; renders the content inside of a script text/javascript element" do
-        body = Erector::Widget.new do
+      it "when receiving a block; renders the content inside of script text/javascript tags" do
+        Erector::Widget.new do
           javascript do
-            rawtext 'alert("hello");'
+            rawtext 'if (x < y && x > z) alert("don\'t stop");'
           end
-        end.to_s
-        doc = Hpricot(body)
-        script_tag = doc.at("script")
-        script_tag[:type].should == "text/javascript"
-        script_tag.inner_html.should include('alert("hello");')
+        end.to_s.should == <<EXPECTED
+<script type="text/javascript">
+// <![CDATA[
+if (x < y && x > z) alert("don't stop");
+// ]]>
+</script>
+EXPECTED
       end
 
       it "when receiving a params hash; renders a source file" do
@@ -265,23 +267,23 @@ module WidgetSpec
 
       it "when receiving text and a params hash; renders a source file" do
         html = Erector::Widget.new do
-          javascript(raw('alert("hello");'), :src => "/my/js/file.js")
+          javascript('alert("&<>\'hello");', :src => "/my/js/file.js")
         end.to_s
         doc = Hpricot(html)
         script_tag = doc.at('script')
         script_tag[:src].should == "/my/js/file.js"
-        script_tag.inner_html.should include('alert("hello");')
+        script_tag.inner_html.should include('alert("&<>\'hello");')
       end
 
-      it "does not quote inlined javascript with the javascript tag" do
-        Erector::Widget.new do
-          javascript do
-            rawtext "if (x < y || x > z) onEnterGetTo('/search?a=b&c=d')"
-          end
-        end.to_s.should == "<script type=\"text/javascript\">if (x < y || x > z) onEnterGetTo('/search?a=b&c=d')</script>"
+      it "with too many arguments; raises ArgumentError" do
+        proc do
+          Erector::Widget.new do
+            javascript 'foobar', {}, 'fourth'
+          end.to_s
+        end.should raise_error(ArgumentError)
       end
 
-      it "does not quote inlined javascript with the script tag" do
+      it "script method doesn't do any magic" do
         Erector::Widget.new do
           script(:type => "text/javascript") do
             rawtext "if (x < y || x > z) onEnterGetTo('/search?a=b&c=d')"

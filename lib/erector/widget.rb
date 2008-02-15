@@ -89,15 +89,33 @@ module Erector
       @doc << {'type' => 'instruct', 'attributes' => attributes}
     end
 
-    def javascript(*args, &blk)
-      params = args[0] if args[0].is_a?(Hash)
-      params ||= args[1] if args[1].is_a?(Hash)
-      unless params
-        params = {}
-        args << params
+    def javascript(*args, &block)
+      if args.length > 2
+        raise ArgumentError, "Cannot accept more than two arguments"
       end
-      params[:type] = "text/javascript"
-      script(*args, &blk)
+      attributes, value = nil, nil
+      arg0 = args[0]
+      if arg0.is_a?(Hash)
+        attributes = arg0
+      else
+        value = arg0.to_s
+        arg1 = args[1]
+        if arg1.is_a?(Hash)
+          attributes = arg1
+        end
+      end
+      attributes ||= {}
+      attributes[:type] = "text/javascript"
+      open_tag 'script', attributes
+      rawtext "\n// <![CDATA[\n"
+      if block
+        instance_eval(&block)
+      else
+        rawtext value
+      end
+      rawtext "\n// ]]>\n"
+      close_tag 'script'
+      text "\n"
     end
 
     def __element__(tag_name, *args, &block)
