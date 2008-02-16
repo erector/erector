@@ -20,7 +20,6 @@ TODO (HOWTO, sample code, etc.)
 
 == REQUIREMENTS
 
-* treetop
 
 == INSTALL
 
@@ -65,25 +64,46 @@ The basic way to construct some HTML/XML with erector is to pass a
 block to Erector::Widget.new.  For example:
 
   html = Erector::Widget.new do
-    instruct!                       # generates <?xml version="1.0" encoding="UTF-8"?>
+    p "Hello, world!"
   end
-  html.to_s          # gets the output
+  html.to_s          #=> <p>Hello, world!</p>
 
+Or, subclass Erector::Widget and implement a render method:
+
+  class Hello < Erector::Widget
+    def render
+      html do
+        head do
+          title "Hello"
+        end
+        body do
+          text "Hello, "
+          b "world!"
+        end
+      end
+    end
+  end
+  Hello.new.to_s  
+  #=> <html><head><title>Hello</title></head><body>Hello, <b>world!</b></body></html>
+  
 Here are the basics:
 
-  element('foo')           # generates <foo></foo>
-  empty_element('foo')     # generates <foo />
-  html                     # generates <html></html> (likewise for other common html tags)
-  text 'foo'               # generates foo
-  text '&<>'               # generates &amp;&lt;&gt; (what you generally want, especially
+  element('foo')           # <foo></foo>
+  empty_element('foo')     # <foo />
+  html                     # <html></html> (likewise for other common html tags)
+  b "foo"                  # <b>foo</b>
+  text 'foo'               # foo
+  text '&<>'               # &amp;&lt;&gt; (what you generally want, especially
                            # if the text came from the user or a database)
-  text raw('&<>')          # generates &<>
-  html { text foo }        # generates <html>foo</html>
-  html foo                 # generates <html>foo</html>
-  a(:href => 'foo.html')   # generates <a href="foo.html"></a>
-  a(:href => 'q?a&b')      # generates <a href="q?a&amp;b"></a>  (quotes as for text)
-  a(:href => raw('&amp;')) # generates <a href="&amp;"></a>
-  text nbsp("Save Doc")    # generates Save&#160;Doc (turns spaces into non-breaking spaces)
+  text raw('&<>')          # &<>
+  html { text foo }        # <html>foo</html>
+  html "foo"               # <html>foo</html>
+  html foo                 # <html>bar</html> (if the method foo returns the string "bar")
+  a(:href => 'foo.html')   # <a href="foo.html"></a>
+  a(:href => 'q?a&b')      # <a href="q?a&amp;b"></a>  (quotes as for text)
+  a(:href => raw('&amp;')) # <a href="&amp;"></a>
+  text nbsp("Save Doc")    # Save&#160;Doc (turns spaces into non-breaking spaces)
+  instruct!                # <?xml version="1.0" encoding="UTF-8"?>
 
 More extended example:
 
@@ -136,19 +156,19 @@ This allows the same layout to be shared in a backward compatible way.
 
 * Check out project from rubyforge: 
 
-svn co svn+ssh://developername@rubyforge.org/var/svn/erector/trunk erector
+  svn co svn+ssh://developername@rubyforge.org/var/svn/erector/trunk erector
 
 * Install gems:
 
-sudo gem install rake rails rspec rubyforge hpricot
+  sudo gem install rake rails rspec rubyforge hpricot
 
 * Run specs:
 
-rake
+  rake
 
 * Check out the available rake tasks:
 
-rake -T
+  rake -T
 
 
 === VERSIONING POLICY

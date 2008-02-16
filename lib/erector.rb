@@ -1,3 +1,4 @@
+require "rubygems"
 require "action_controller"
 require "erector/extensions/action_controller"
 require "erector/extensions/object"
