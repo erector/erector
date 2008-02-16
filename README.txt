@@ -57,7 +57,7 @@ CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
 TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-== DOCUMENTATION
+== USER DOCUMENTATION
 
 TODO (more on how you get started, and call it from rails)
 
@@ -131,3 +131,36 @@ methods in its subclasses. There's one trick you'll need to use this layout for 
 Here the abstract layout widget is used in a concrete fashion by the template-based layout. Normally, the `content` method
 would be implemented by subclassing widgets, but the layout template sets it directly and then calls to_s on the layout widget.
 This allows the same layout to be shared in a backward compatible way.
+
+== DEVELOPER NOTES
+
+* Check out project from rubyforge: 
+
+svn co svn+ssh://developername@rubyforge.org/var/svn/erector/trunk erector
+
+* Install gems:
+
+sudo gem install rake rails rspec rubyforge hpricot
+
+* Run specs:
+
+rake
+
+* Check out the available rake tasks:
+
+rake -T
+
+
+=== VERSIONING POLICY
+
+* Versions are of the form major.minor.tiny
+* Tiny revisions fix bugs or documentation
+* Minor revisions add API calls, or change behavior
+* Minor revisions may also remove API calls, but these must be clearly announced in History.txt, with instructions on how to migrate 
+* Major revisions are about marketing more than technical needs. We will stay in major version 0 until we're happy taking the "alpha" label off it. And if we ever do a major overhaul of the API, especially one that breaks backwards compatibility, we will probably want to increment the major version.
+* We will not be shy about incrementing version numbers -- if we end up going to version 0.943.67 then so be it.
+* Developers should attempt to add lines in History.txt to reflect their checkins. These should reflect feature-level changes, not just one line per checkin. The top section of History.txt is used as the Release Notes by the "rake publish" task and will appear on the RubyForge file page.
+* Someone making a release must fill in the version number in History.txt as well as in Rakefile. Note that "rake publish" requires a "VERSION=1.2.3" parameter to confirm you're releasing the version you intend.
+* As soon as a release is made and published, the publisher should go into History.txt and make a new section. Since we won't yet know what the next version will be called, the new section will be noted by a single "==" at the top of the file. 
+
+
