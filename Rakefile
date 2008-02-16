@@ -24,6 +24,8 @@ Hoe::remove_tasks("audit", "check_manifest", "post_blog", "multi", "test", "test
 desc 'Default: run unit tests.'
 task :default => :spec
 
+task :test => :spec
+
 desc "Run the specs for the erector plugin"
 Spec::Rake::SpecTask.new do |t|
   t.spec_files = FileList['spec/**/*_spec.rb']
