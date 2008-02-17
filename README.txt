@@ -95,7 +95,8 @@ Here are the basics:
   text 'foo'               # foo
   text '&<>'               # &amp;&lt;&gt; (what you generally want, especially
                            # if the text came from the user or a database)
-  text raw('&<>')          # &<>
+  text raw('&<>')          # &<> (back door for raw html)
+  rawtext('&<>')           # &<> (alias for text(raw()))
   html { text foo }        # <html>foo</html>
   html "foo"               # <html>foo</html>
   html foo                 # <html>bar</html> (if the method foo returns the string "bar")

@@ -47,6 +47,12 @@ module WidgetSpec
         end.to_s.should == "<div class=\"foo bar\"></div>";
       end
 
+      it "with an array of CSS classes as strings, returns a tag with the classes separated" do
+        Erector::Widget.new do
+          element('div', :class => ['foo', 'bar'])
+        end.to_s.should == "<div class=\"foo bar\"></div>";
+      end
+
       it "with a CSS class which is a string, just use that as the attribute value" do
         Erector::Widget.new do
           element('div', :class => "foo bar")
