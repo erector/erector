@@ -1,24 +1,44 @@
 $: << "../lib"
 require 'erector'
 
+class Head < Erector::Widget
+  attr_reader :elements
+  attr_accessor :title
+
+  def initialize
+    super
+    @elements = []
+    @elements << Erector::Widget.new do
+      title @title if @title
+    end
+  end
+
+  def <<(element)
+    @elements << element
+  end
+  
+  def render
+    head do
+      elements.each do |e|
+        e.render_to(doc)
+      end
+    end
+  end
+end
+
 class Page < Erector::Widget
   attr_accessor :content
-  attr_accessor :head_elements
+  attr_reader :head
   
   def initialize
     super
-    @head_elements = []
+    @head = Head.new
   end
 
   def render
     instruct!
     html do
-      head do
-        head_elements.each do |e|
-          e.call
-        end
-      end
-      # body content here
+      head.render_for(self)
       body do
         text content
       end
@@ -29,10 +49,10 @@ end
 class Hello < Page
   def initialize
     super
-    head_elements << lambda do
+    head << Erector::Widget.new do
       title "Hello"
     end
-    head_elements << lambda do
+    head << Erector::Widget.new do
       link :type=>"text/css", :rel=>"stylesheet", :href=>"/page.css"
     end
     @content = "Hey"

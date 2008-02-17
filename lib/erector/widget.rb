@@ -50,6 +50,17 @@ module Erector
         instance_eval(&@block)
       end
     end
+    
+    def render_to(doc)
+      @doc = doc
+      render
+    end
+
+    def render_for(parent)
+      @parent = parent
+      @doc = parent.doc
+      render
+    end
 
     def widget(widget_class, assigns={}, &block)
       child = widget_class.new(helpers, assigns, doc, &block)
@@ -61,11 +72,11 @@ module Erector
     end
 
     def open_tag(tag_name, attributes={})
-      @doc << {'type' => 'open', 'tagName' => tag_name, 'attributes' => attributes}
+      @doc << {:type => :open, :tagName => tag_name, :attributes => attributes}
     end
 
     def text(value)
-      @doc << {'type' => 'text', 'value' => value}
+      @doc << {:type => :text, :value => value}
       nil
     end
 
@@ -82,11 +93,11 @@ module Erector
     end
 
     def close_tag(tag_name)
-      @doc << {'type' => 'close', 'tagName' => tag_name}
+      @doc << {:type => :close, :tagName => tag_name}
     end
 
     def instruct!(attributes={:version => "1.0", :encoding => "UTF-8"})
-      @doc << {'type' => 'instruct', 'attributes' => attributes}
+      @doc << {:type => :instruct, :attributes => attributes}
     end
 
     def javascript(*args, &block)
@@ -107,6 +118,7 @@ module Erector
       attributes ||= {}
       attributes[:type] = "text/javascript"
       open_tag 'script', attributes
+      # Shouldn't this be a "cdata" HtmlPart?
       rawtext "\n// <![CDATA[\n"
       if block
         instance_eval(&block)
@@ -145,7 +157,7 @@ module Erector
     alias_method :element, :__element__
 
     def __empty_element__(tag_name, attributes={})
-      @doc << {'type' => 'empty', 'tagName' => tag_name, 'attributes' => attributes}
+      @doc << {:type => :empty, :tagName => tag_name, :attributes => attributes}
     end
     alias_method :empty_element, :__empty_element__
 
