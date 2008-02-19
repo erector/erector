@@ -106,19 +106,6 @@ Here are the basics:
   text nbsp("Save Doc")    # Save&#160;Doc (turns spaces into non-breaking spaces)
   instruct!                # <?xml version="1.0" encoding="UTF-8"?>
 
-More extended example:
-
-  div :id => 'outer' do
-    p do
-      b 'Always'
-      text ' generate nice html'
-    end
-  end
-
-generates
-
-  <div id="outer"><p><b>Always</b> generate nice html</p></div>
-
 TODO: document more obscure features like capture, Table, :class => ['one', 'two']
 
 === Layout Inheritance
