@@ -180,6 +180,12 @@ module WidgetSpec
         end.to_s.should == "<a>7foo&amp;bar</a>"
       end
 
+      it "calls to_s" do
+        Erector::Widget.new do
+          img :width=>50
+        end.to_s.should == "<img width=\"50\" />"
+      end
+
     end
 
     describe "#empty_element" do
@@ -326,6 +332,18 @@ EXPECTED
           end
         end
         widget.to_s.should == '<div><p>Captured Content</p><p>Nested Capture</p></div>'
+      end
+    end
+
+    describe 'nested' do
+      it "can insert another widget without raw" do
+        inner = Erector::Widget.new do
+          p "foo"
+        end
+
+        outer = Erector::Widget.new do
+          div inner
+        end.to_s.should == '<div><p>foo</p></div>'
       end
     end
 

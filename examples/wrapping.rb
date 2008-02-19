@@ -6,7 +6,7 @@ x = Erector::Widget.new do
 end
 
 y = Erector::Widget.new do
-  div raw(x)
+  div x
 end
 
 puts y.to_s

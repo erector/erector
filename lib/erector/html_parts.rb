@@ -14,7 +14,7 @@ module Erector
             "<#{part[:tagName]}#{format_attributes(part[:attributes])} />" :
             "<#{part[:tagName]}  />"
         when :text
-          part[:value].to_s.html_escape
+          part[:value].html_escape
         when :instruct
           "<?xml#{format_sorted(sort_for_xml_declaration(part[:attributes]))}?>"
         end
@@ -34,7 +34,7 @@ module Erector
           if value.is_a?(Array)
             value = [value].flatten.join(' ')
           end
-          results << "#{key}=\"#{value.to_s.html_escape}\""
+          results << "#{key}=\"#{value.html_escape}\""
         end
       end
       return results.join(' ')

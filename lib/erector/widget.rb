@@ -68,7 +68,7 @@ module Erector
     end
 
     def h(content)
-      content.to_s.html_escape
+      content.html_escape
     end
 
     def open_tag(tag_name, attributes={})
@@ -89,7 +89,7 @@ module Erector
     end
 
     def nbsp(value)
-      raw(value.to_s.html_escape.gsub(/ /,'&#160;'))
+      raw(value.html_escape.gsub(/ /,'&#160;'))
     end
 
     def close_tag(tag_name)
@@ -109,7 +109,7 @@ module Erector
       if arg0.is_a?(Hash)
         attributes = arg0
       else
-        value = arg0.to_s
+        value = arg0
         arg1 = args[1]
         if arg1.is_a?(Hash)
           attributes = arg1
@@ -147,7 +147,7 @@ module Erector
       if arg0.is_a?(Hash)
         attributes = arg0
       else
-        value = arg0.to_s
+        value = arg0
         arg1 = args[1]
         if arg1.is_a?(Hash)
           attributes = arg1
@@ -184,6 +184,10 @@ module Erector
       return @__to_s if @__to_s
       render(&blk)
       @__to_s = @doc.to_s
+    end
+
+    def html_escape()
+      return to_s()
     end
 
     alias_method :inspect, :to_s
@@ -233,14 +237,10 @@ class RawString < String
   def html_escape
     self
   end
-
-  def to_s
-    self
-  end
 end
 
-class String
+class Object
   def html_escape
-    CGI.escapeHTML(self)
+    return CGI.escapeHTML(to_s())
   end
 end
