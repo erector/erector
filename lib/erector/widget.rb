@@ -118,7 +118,14 @@ module Erector
       attributes ||= {}
       attributes[:type] = "text/javascript"
       open_tag 'script', attributes
+
       # Shouldn't this be a "cdata" HtmlPart?
+      # (maybe, but the syntax is specific to javascript; it isn't
+      # really a generic XML CDATA section.  Specifically,
+      # ]]> within value is not treated as ending the
+      # CDATA section by Firefox2 when parsing text/html, 
+      # although I guess we could refuse to generate ]]>
+      # there, for the benefit of XML/XHTML parsers).
       rawtext "\n// <![CDATA[\n"
       if block
         instance_eval(&block)
@@ -126,6 +133,7 @@ module Erector
         rawtext value
       end
       rawtext "\n// ]]>\n"
+
       close_tag 'script'
       text "\n"
     end
