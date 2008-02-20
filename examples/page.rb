@@ -36,7 +36,7 @@ class Page < Erector::Widget
   end
 
   def render
-    instruct!
+    instruct
     html do
       head.render_for(self)
       body do

@@ -9,10 +9,10 @@ module WidgetSpec
       end
     end
 
-    describe "#instruct!" do
-      it "when passed no arguments; returns an instruct element with version 1 and utf-8" do
+    describe "#instruct" do
+      it "when passed no arguments; returns an XML declaration with version 1 and utf-8" do
         html = Erector::Widget.new do
-          instruct!
+          instruct
           # version must precede encoding, per XML 1.0 4th edition (section 2.8)
         end.to_s.should == "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
       end

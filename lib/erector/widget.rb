@@ -96,6 +96,11 @@ module Erector
       @doc << {:type => :close, :tagName => tag_name}
     end
 
+    def instruct(attributes={:version => "1.0", :encoding => "UTF-8"})
+      @doc << {:type => :instruct, :attributes => attributes}
+    end
+
+    # Deprecated synonym of instruct
     def instruct!(attributes={:version => "1.0", :encoding => "UTF-8"})
       @doc << {:type => :instruct, :attributes => attributes}
     end

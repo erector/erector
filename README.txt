@@ -104,7 +104,7 @@ Here are the basics:
   a(:href => 'q?a&b')      # <a href="q?a&amp;b"></a>  (quotes as for text)
   a(:href => raw('&amp;')) # <a href="&amp;"></a>
   text nbsp("Save Doc")    # Save&#160;Doc (turns spaces into non-breaking spaces)
-  instruct!                # <?xml version="1.0" encoding="UTF-8"?>
+  instruct                 # <?xml version="1.0" encoding="UTF-8"?>
 
 TODO: document more obscure features like capture, Table, :class => ['one', 'two']
 

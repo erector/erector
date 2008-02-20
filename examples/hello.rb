@@ -8,7 +8,7 @@ class Hello < Erector::Widget
   end
   
   def render
-    instruct!
+    instruct
     html do
       head do
         title "Hello"

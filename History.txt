@@ -1,12 +1,14 @@
 ===
 
+* Renamed instruct! to instruct
 * raw
 * nbsp method
 * :class => ['one', 'two']  (that is, passing an array rather than a string)
 ... perhaps one or two I forgot.
 * rename tag to element
 * add empty_element feature
-* for the built-in HTML tags, knows which ones should be empty and which shouldn't be. For example, generates `<input />` rather than `<input></input>`
+* for the built-in HTML tags, knows which ones should be empty and which shouldn't be.
+  For example, generates `<input />` rather than `<input></input>`
 
 === 0.1.0 / 2008-02-13
 
