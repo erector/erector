@@ -5,6 +5,7 @@ module TableSpec
     column :column_a
     column :column_b
     column :column_c
+    row_classes :even, :odd
   end
 
   class CustomHeadingTable < Erector::Widgets::Table
@@ -66,10 +67,11 @@ module TableSpec
       before do
         @object1 = Struct.new(:column_a, :column_b, :column_c).new(1, 2, 3)
         @object2 = Struct.new(:column_a, :column_b, :column_c).new(4, 5, 6)
+        @object3 = Struct.new(:column_a, :column_b, :column_c).new(7, 8, 9)
         view_cache do
           widget = DefaultsTestTable.new(
             nil,
-              :row_objects => [@object1, @object2]
+              :row_objects => [@object1, @object2, @object3]
           )
           widget.to_s
         end
@@ -90,8 +92,16 @@ module TableSpec
 
         cell_values.should == [
           ['1', '2', '3'],
-            ['4', '5', '6']
+          ['4', '5', '6'],
+          ['7', '8', '9'],
         ]
+      end
+
+      it "renders the row classes" do
+        data_rows = @table.search("tr")[1..-1]
+        data_rows[0]['class'].should == 'even'
+        data_rows[1]['class'].should == 'odd'
+        data_rows[2]['class'].should == 'even'
       end
     end
   end

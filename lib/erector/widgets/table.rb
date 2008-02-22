@@ -11,6 +11,11 @@ module Erector
         def column_definitions
           @column_definitions ||= []
         end
+
+        def row_classes(*row_classes)
+          @row_class_list = row_classes
+        end
+        attr_reader :row_class_list
       end
 
       def render
@@ -27,8 +32,8 @@ module Erector
             end
           end
           tbody do
-            @row_objects.each do |object|
-              tr do
+            @row_objects.each_with_index do |object, index|
+              tr(:class => cycle(index)) do
                 column_definitions.each do |column_def|
                   td do
                     self.instance_exec(object, &column_def.cell_proc)
@@ -43,6 +48,11 @@ module Erector
       protected
       def column_definitions
         self.class.column_definitions
+      end
+
+      def cycle(index)
+        list = self.class.row_class_list
+        list ? list[index % list.length] : ''
       end
     end
   end
