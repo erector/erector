@@ -1,7 +1,5 @@
-===
+=== 0.1.25 / 2008-02-26
 
-* Renamed instruct! to instruct
-* raw
 * nbsp method
 * :class => ['one', 'two']  (that is, passing an array rather than a string)
 ... perhaps one or two I forgot.
@@ -9,6 +7,12 @@
 * add empty_element feature
 * for the built-in HTML tags, knows which ones should be empty and which shouldn't be.
   For example, generates `<input />` rather than `<input></input>`
+* text and attributes are quoted by default; call raw to avoid this
+* h is rarely necessary now, but it returns a string rather than appending to the buffer
+* nbsp method turns spaces into non-breaking spaces
+* sending in an array for attribute values (typically CSS classes) concatenates them separated by spaces
+* The column definition name can be a Proc that gets executed.
+* Renamed instruct! to instruct (old one remains as a deprecated method for now), as it is no more side-effecting (or dangerous or whatever) than any other method in Widget.
 
 === 0.1.0 / 2008-02-13
 
