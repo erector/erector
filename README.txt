@@ -163,6 +163,7 @@ This allows the same layout to be shared in a backward compatible way.
 
 * Versions are of the form major.minor.tiny
 * Tiny revisions fix bugs or documentation
+* Tiny revisions are roughly equal to the svn revision number when they were made
 * Minor revisions add API calls, or change behavior
 * Minor revisions may also remove API calls, but these must be clearly announced in History.txt, with instructions on how to migrate 
 * Major revisions are about marketing more than technical needs. We will stay in major version 0 until we're happy taking the "alpha" label off it. And if we ever do a major overhaul of the API, especially one that breaks backwards compatibility, we will probably want to increment the major version.
