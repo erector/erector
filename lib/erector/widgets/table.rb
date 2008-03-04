@@ -50,6 +50,7 @@ module Erector
         end
       end
 
+      # Im overridable
       def row_css_class(object, index)
         cycle(index)
       end
