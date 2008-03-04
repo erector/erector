@@ -41,7 +41,7 @@ module Erector
 
       protected
       def row(object, index)
-        tr(:class => row_css_class(index)) do
+        tr(:class => row_css_class(object, index)) do
           column_definitions.each do |column_def|
             td do
               self.instance_exec(object, &column_def.cell_proc)
@@ -50,7 +50,7 @@ module Erector
         end
       end
 
-      def row_css_class(index)
+      def row_css_class(object, index)
         cycle(index)
       end
 
