@@ -33,19 +33,23 @@ module Erector
           end
           tbody do
             @row_objects.each_with_index do |object, index|
-              tr(:class => cycle(index)) do
-                column_definitions.each do |column_def|
-                  td do
-                    self.instance_exec(object, &column_def.cell_proc)
-                  end
-                end
-              end
+              row object, index
             end
           end
         end
       end
 
       protected
+      def row(object, index)
+        tr(:class => cycle(index)) do
+          column_definitions.each do |column_def|
+            td do
+              self.instance_exec(object, &column_def.cell_proc)
+            end
+          end
+        end
+      end
+
       def column_definitions
         self.class.column_definitions
       end
