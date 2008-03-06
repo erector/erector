@@ -39,7 +39,6 @@ module Erector
         end
       end
       @helpers = helpers
-      fake_erbout
       @parent = block ? eval("self", block.binding) : nil
       @doc = doc
       @block = block
@@ -50,7 +49,7 @@ module Erector
         instance_eval(&@block)
       end
     end
-    
+
     def render_to(doc)
       @doc = doc
       render
@@ -128,7 +127,7 @@ module Erector
       # (maybe, but the syntax is specific to javascript; it isn't
       # really a generic XML CDATA section.  Specifically,
       # ]]> within value is not treated as ending the
-      # CDATA section by Firefox2 when parsing text/html, 
+      # CDATA section by Firefox2 when parsing text/html,
       # although I guess we could refuse to generate ]]>
       # there, for the benefit of XML/XHTML parsers).
       rawtext "\n// <![CDATA[\n"
@@ -226,13 +225,21 @@ module Erector
         super
       end
     end
-    
-    def fake_erbout
+
+    def fake_erbout(&blk)
       widget = self
       @helpers.metaclass.class_eval do
+        raise "Cannot nest fake_erbout" if instance_methods.include?('concat_without_erector')
+        alias_method :concat_without_erector, :concat
         define_method :concat do |some_text, binding|
           widget.text widget.raw(some_text)
         end
+      end
+      yield
+    ensure
+      @helpers.metaclass.class_eval do
+        alias_method :concat, :concat_without_erector
+        remove_method :concat_without_erector
       end
     end
   end
