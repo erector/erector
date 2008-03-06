@@ -20,13 +20,15 @@ module Erector
 
       def render
         table do
-          tr do
-            column_definitions.each do |column_def|
-              th do
-                if column_def.name.is_a?(Proc)
-                  self.instance_exec(column_def.id, &column_def.name)
-                else
-                  text column_def.name
+          thead do
+            tr do
+              column_definitions.each do |column_def|
+                th do
+                  if column_def.name.is_a?(Proc)
+                    self.instance_exec(column_def.id, &column_def.name)
+                  else
+                    text column_def.name
+                  end
                 end
               end
             end
