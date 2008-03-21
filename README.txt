@@ -29,7 +29,8 @@ To install as a gem:
 
 To install as a plugin:
 
-* TODO
+* Copy the erector source to vendor/plugins/erector in your rails
+directory.
 
 == LICENSE:
 
@@ -58,17 +59,8 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 == USER DOCUMENTATION
 
-TODO (more on how you get started, and call it from rails)
-
-The basic way to construct some HTML/XML with erector is to pass a
-block to Erector::Widget.new.  For example:
-
-  html = Erector::Widget.new do
-    p "Hello, world!"
-  end
-  html.to_s          #=> <p>Hello, world!</p>
-
-Or, subclass Erector::Widget and implement a render method:
+The basic way to construct some HTML/XML with erector is to 
+subclass Erector::Widget and implement a render method:
 
   class Hello < Erector::Widget
     def render
@@ -108,8 +100,42 @@ Here are the basics:
 
 TODO: document more obscure features like capture, Table, :class => ['one', 'two']
 
+=== Using erector from rails
+
+Your views are just ruby classes.  Your controller instantiates the
+relevant view and calls render.  For example:
+
+app/controllers/welcome_controller.rb:
+
+  class WelcomeController < ApplicationController
+
+    def index
+      render :text => Views::Welcome::Show.new().to_s
+    end
+
+  end
+
+app/views/welcome/show.rb:
+
+  class Views::Welcome::Show < Erector::Widget
+
+    def render
+      html do
+        head do
+          title "Welcome page"
+        end
+      
+        body do
+          p "Hello, world"
+        end
+      end
+    end
+  
+  end
+
 === Layout Inheritance
 
+This section describes how to mix erector with other rendering systems.
 Erector replaces the typical Rails layout mechanism with a more natural construct, the use of inheritance. Want a common
 layout? Just implement a layout superclass and inherit from it. Implement render in the superclass and implement template
 methods in its subclasses. There's one trick you'll need to use this layout for non-erector templates. Here's an example.
@@ -139,6 +165,16 @@ methods in its subclasses. There's one trick you'll need to use this layout for 
 Here the abstract layout widget is used in a concrete fashion by the template-based layout. Normally, the `content` method
 would be implemented by subclassing widgets, but the layout template sets it directly and then calls to_s on the layout widget.
 This allows the same layout to be shared in a backward compatible way.
+
+=== Other ways to call erector
+
+Instead of subclassing Erector::Widget and implementing a render
+method, you can pass a block to Erector::Widget.new.  For example:
+
+  html = Erector::Widget.new do
+    p "Hello, world!"
+  end
+  html.to_s          #=> <p>Hello, world!</p>
 
 == DEVELOPER NOTES
 
