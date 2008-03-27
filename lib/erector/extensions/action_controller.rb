@@ -9,11 +9,11 @@ class ActionController::Base
     @rendered_widget.to_s
   end
   
-  def render_with_erector_widget(options = nil, &block)
-    if options.is_a?(Hash) && widget = options.delete(:widget)
-      render_widget widget, options, &block
+  def render_with_erector_widget(*options, &block)
+    if options.first.is_a?(Hash) && widget = options.first.delete(:widget)
+      render_widget widget, *options, &block
     else
-      render_without_erector_widget options, &block
+      render_without_erector_widget *options, &block
     end
   end
   alias_method_chain :render, :erector_widget
