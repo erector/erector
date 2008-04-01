@@ -6,20 +6,26 @@
 
 == DESCRIPTION
 
-Erector is a Builder-based view framework, inspired by Markaby but overcoming some of its flaws. In Erector all views are
-objects, not template files, which allows the full power of OO (inheritance, modular decomposition, encapsulation) in views.
+Erector is a Builder-like view framework, inspired by Markaby but overcoming some of its flaws. In Erector all views are
+objects, not template files, which allows the full power of object-oriented programming (inheritance, modular decomposition, encapsulation) in views.
 
 == FEATURES/PROBLEMS:
 
-This is a *prerelease work in progress* and this gem is **NOT READY FOR USE** by anyone who's not on the Erector team yet. We'll be rolling out a
-version 0.2.0 soon which should include howto documentation and such.
+While Erector is in use on several projects, it is still at a relatively
+early stage.  In particular, not all features are documented (although
+the most important ones are).  
 
 == SYNOPSIS
 
-TODO (HOWTO, sample code, etc.)
+require 'erector' 
+class YourView < Erector::Widget
+  def render . . .
+end
 
 == REQUIREMENTS
 
+The gem depends on hoe and rake, although this is just for building
+erector (those who just use erector won't need these).
 
 == INSTALL
 
@@ -27,10 +33,13 @@ To install as a gem:
 
 * sudo gem install erector
 
+Then add "require 'erector'" to any files which need erector.
+
 To install as a plugin:
 
 * Copy the erector source to vendor/plugins/erector in your rails
-directory.
+directory.  When installing this way, erector is automatically
+available to your rails code (no require directive is needed).
 
 == LICENSE:
 
