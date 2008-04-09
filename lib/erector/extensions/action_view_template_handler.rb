@@ -5,14 +5,14 @@ module ActionView
         @view = view
       end
 
-      def render(template, assigns)
+      def render(template, local_assigns)
         paths = @view.first_render.split('/')
         dot_rb = /\.rb$/
         widget_class = paths.inject(Views) do |current_module, node|
           current_module.const_get(node.gsub(dot_rb, '').camelize)
         end
 
-        rendered_widget = widget_class.new(@view, assigns)
+        rendered_widget = widget_class.new(@view, @view.assigns)
         rendered_widget.to_s
       end
     end
