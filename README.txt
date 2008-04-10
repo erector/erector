@@ -119,7 +119,7 @@ app/controllers/welcome_controller.rb:
   class WelcomeController < ApplicationController
 
     def index
-      render :text => Views::Welcome::Show.new().to_s
+      render :template => 'welcome/show'
     end
 
   end
