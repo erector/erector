@@ -1,6 +1,6 @@
 === 
 
-
+* Rails Controller now can render Erector widgets using #render
 
 === 0.1.25 / 2008-02-26
 
