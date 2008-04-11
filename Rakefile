@@ -7,7 +7,7 @@ require 'spec/rake/spectask'
 
 require './tasks/hoex.rb'  # Alex's patched version of Hoe
 
-GEM_VERSION = "0.1.25"
+GEM_VERSION = "0.2.42"
 GEM_NAME = "erector"
 
 Hoe.new(GEM_NAME, GEM_VERSION) do |hoe|

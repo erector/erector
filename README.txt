@@ -238,7 +238,7 @@ method, you can pass a block to Erector::Widget.new.  For example:
 * Minor revisions add API calls, or change behavior
 * Minor revisions may also remove API calls, but these must be clearly announced in History.txt, with instructions on how to migrate 
 * Major revisions are about marketing more than technical needs. We will stay in major version 0 until we're happy taking the "alpha" label off it. And if we ever do a major overhaul of the API, especially one that breaks backwards compatibility, we will probably want to increment the major version.
-* We will not be shy about incrementing version numbers -- if we end up going to version 0.943.67 then so be it.
+* We will not be shy about incrementing version numbers -- if we end up going to version 0.943.67454 then so be it.
 * Developers should attempt to add lines in History.txt to reflect their checkins. These should reflect feature-level changes, not just one line per checkin. The top section of History.txt is used as the Release Notes by the "rake publish" task and will appear on the RubyForge file page.
 * Someone making a release must fill in the version number in History.txt as well as in Rakefile. Note that "rake publish" requires a "VERSION=1.2.3" parameter to confirm you're releasing the version you intend.
 * As soon as a release is made and published, the publisher should go into History.txt and make a new section. Since we won't yet know what the next version will be called, the new section will be noted by a single "==" at the top of the file. 

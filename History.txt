@@ -1,6 +1,7 @@
-=== 
+=== 0.2.42 / 2008-04-11
 
 * Rails Controller now can render Erector widgets using #render
+* Erector views can live inside Rails "app/views" directory, just like other views
 
 === 0.1.25 / 2008-02-26
 
