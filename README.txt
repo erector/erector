@@ -19,14 +19,15 @@ the most important ones are).
 
 == SYNOPSIS
 
-require 'erector' 
-class YourView < Erector::Widget
-  def render
-    div do
-      text "Hello!"
+    require 'erector'
+
+    class Hello < Erector::Widget
+      def render
+        div do
+          text "Hello!"
+        end
+      end
     end
-  end
-end
 
 == REQUIREMENTS
 
@@ -41,11 +42,12 @@ To install as a gem:
 
 Then add "require 'erector'" to any files which need erector.
 
-To install as a plugin:
+To install as a Rails plugin:
 
-* Copy the erector source to vendor/plugins/erector in your rails
-directory.  When installing this way, erector is automatically
-available to your rails code (no require directive is needed).
+* Copy the erector source to vendor/plugins/erector in your Rails directory.
+
+When installing this way, erector is automatically available to your Rails code
+(no require directive is needed).
 
 == LICENSE:
 
@@ -85,8 +87,8 @@ but briefly:
   * Well-defined semantics for variables, loops, blocks
   * Dependency injection via constructor params
 * As little magic as possible (e.g. no automagic copying of "assigns" variable from your controller)
-* yield works again
-* Testability
+* yield works again (Markaby broke it)
+* Very testable
 * form_for ERB code is craaaaazy (not to mention the quagmire of options vs. htmloptions)
 * Output is streamed, improving performance over string copy
 
