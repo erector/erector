@@ -6,8 +6,10 @@
 
 == DESCRIPTION
 
-Erector is a Builder-like view framework, inspired by Markaby but overcoming some of its flaws. In Erector all views are
-objects, not template files, which allows the full power of object-oriented programming (inheritance, modular decomposition, encapsulation) in views.
+Erector is a Builder-like view framework, inspired by Markaby but overcoming
+some of its flaws. In Erector all views are objects, not template files,
+which allows the full power of object-oriented programming (inheritance,
+modular decomposition, encapsulation) in views.
 
 == FEATURES/PROBLEMS:
 
@@ -19,7 +21,11 @@ the most important ones are).
 
 require 'erector' 
 class YourView < Erector::Widget
-  def render . . .
+  def render
+    div do
+      text "Hello!"
+    end
+  end
 end
 
 == REQUIREMENTS
@@ -66,6 +72,25 @@ CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
 TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
+== MOTIVATION
+
+Why use Erector? This section will soon become a real essay or blog post,
+but briefly:
+
+* Markaby-style DOM Domain language
+* Your views are real classes, written in a real language, allowing
+  * Functional decomposition
+  * Inheritance
+  * Composition, not partials
+  * Well-defined semantics for variables, loops, blocks
+  * Dependency injection via constructor params
+* As little magic as possible (e.g. no automagic copying of "assigns" variable from your controller)
+* yield works again
+* Testability
+* form_for ERB code is craaaaazy (not to mention the quagmire of options vs. htmloptions)
+* Output is streamed, improving performance over string copy
+
+
 == USER DOCUMENTATION
 
 The basic way to construct some HTML/XML with erector is to 
@@ -109,7 +134,7 @@ Here are the basics:
 
 TODO: document more obscure features like capture, Table, :class => ['one', 'two']
 
-=== Using erector from rails
+=== Using erector from Ruby on Rails
 
 Your views are just ruby classes.  Your controller instantiates the
 relevant view and calls render.  For example:
@@ -144,7 +169,6 @@ app/views/welcome/show.rb:
 
 === Layout Inheritance
 
-This section describes how to mix erector with other rendering systems.
 Erector replaces the typical Rails layout mechanism with a more natural construct, the use of inheritance. Want a common
 layout? Just implement a layout superclass and inherit from it. Implement render in the superclass and implement template
 methods in its subclasses. There's one trick you'll need to use this layout for non-erector templates. Here's an example.

@@ -1,5 +1,7 @@
 require File.expand_path("#{File.dirname(__FILE__)}/../../spec_helper")
 
+#TODO: This is very confusing with column_a etc.  Rewrite to use LastName, FirstName, Email or something like that.
+
 module TableSpec
   class DefaultsTestTable < Erector::Widgets::Table
     column :column_a
