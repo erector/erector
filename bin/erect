@@ -1,0 +1,16 @@
+#!/usr/local/bin/ruby
+dir = File.expand_path(File.dirname(__FILE__))
+$LOAD_PATH.unshift("#{dir}/../lib")
+require "erector"
+
+ARGV.each do |file|
+  print "Erecting #{file}... "
+  begin
+    e = Erector::Erected.new(file)
+    e.convert
+    puts "--> #{e.filename}"
+  rescue => e
+    puts e
+    puts
+  end
+end

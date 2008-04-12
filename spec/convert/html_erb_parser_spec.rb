@@ -22,7 +22,7 @@ module ParserTestHelper
 end
 
 
-describe "parser" do
+describe HtmlErbParser do
   include ParserTestHelper
   
   before :each do
