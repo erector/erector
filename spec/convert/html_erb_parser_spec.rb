@@ -4,7 +4,7 @@ require "#{dir}/../spec_helper"
 # require 'test/unit'
 require 'rubygems'
 require 'treetop'
-Treetop.load "#{dir}/../../lib/erector/html_erb"
+require "erector/erected"  # pull this out so we don't recreate the grammar every time
 
 module ParserTestHelper
   def assert_evals_to_self(input)
@@ -12,7 +12,7 @@ module ParserTestHelper
   end
 
   def parse(input)
-    result = @parser.parse(input)
+    result = @parser.parse(input).set_indent(0)
     unless result
       puts @parser.terminal_failures.join("\n")
     end
@@ -52,17 +52,16 @@ describe HtmlErbParser do
   it "converts two nested divs" do
     parse("<div><div></div></div>").convert.should ==
       "div do\n" +
-        "div do\n" +
-        "end\n" +
+      "  div do\n" +
+      "  end\n" +
       "end\n"
-
   end
 
   it "converts two nested divs with whitespace" do
     parse("<div> <div> </div> </div>").convert.should ==
       "div do\n" +
-        "div do\n" +
-        "end\n" +
+      "  div do\n" +
+      "  end\n" +
       "end\n"
   end
 
@@ -71,11 +70,11 @@ describe HtmlErbParser do
   end
 
   it "converts open, text, and no close tag" do
-    parse("<div>hello").convert.should == "div do\ntext 'hello'\n"
+    parse("<div>hello").convert.should == "div do\n  text 'hello'\n"
   end
 
   it "converts open, text, close" do
-    parse("<div>hello</div>").convert.should == "div do\ntext 'hello'\nend\n"
+    parse("<div>hello</div>").convert.should == "div do\n  text 'hello'\nend\n"
   end
 
   it "converts a scriptlet" do
@@ -85,31 +84,31 @@ describe HtmlErbParser do
   it "converts open, text, scriptlet, text, close" do
     parse("<div>hello <% 5.times do %> very <% end %> much</div>").convert.should ==
       "div do\n" +
-        "text 'hello'\n" +
-        "5.times do\n" +
-          "text 'very'\n" +
-        "end\n" +
-        "text 'much'\n" +
+      "  text 'hello'\n" +
+      "  5.times do\n" +
+      "    text 'very'\n" +
+      "  end\n" +
+      "  text 'much'\n" +
       "end\n"
   end
 
   it "converts open, scriptlet, text, close" do
     parse("<div><% 5.times do %> very <% end %> much</div>").convert.should ==
       "div do\n" +
-        "5.times do\n" +
-          "text 'very'\n" +
-        "end\n" +
-        "text 'much'\n" +
+      "  5.times do\n" +
+      "    text 'very'\n" +
+      "  end\n" +
+      "  text 'much'\n" +
       "end\n"
   end
 
   it "converts open, text, scriptlet, close" do
     parse("<div>hello <% 5.times do %> very <% end %></div>").convert.should ==
       "div do\n" +
-        "text 'hello'\n" +
-        "5.times do\n" +
-          "text 'very'\n" +
-        "end\n" +
+      "  text 'hello'\n" +
+      "  5.times do\n" +
+      "    text 'very'\n" +
+      "  end\n" +
       "end\n"
   end
 
@@ -129,10 +128,41 @@ describe HtmlErbParser do
     end
   end
 
+  it "indents" do
+    i = Erector::Indenting.new(nil, nil)
+    i.line("foo").should ==     "foo\n"
+    i.line_in("bar").should ==  "bar\n"
+    i.line_in("baz").should ==  "  baz\n"
+    i.line("baf").should ==     "    baf\n"
+    i.line_out("end").should == "  end\n"
+    i.line_out("end").should == "end\n"
+  end
+
+  it "indents extra when told to" do
+    parse("<div>hello</div>").set_indent(2).convert.should ==
+      "    div do\n" +
+      "      text 'hello'\n" +
+      "    end\n"
+  end
+
+  it "indents scriptlets ending with do and end" do
+    parse("<% form_for :foo do |x,y| %><% 5.times do %>hello<% end %><% end %>bye").convert.should ==
+      "form_for :foo do |x,y|\n" +
+      "  5.times do\n" +
+      "    text 'hello'\n" +
+      "  end\n" +
+      "end\n" +
+      "text 'bye'\n"
+  end
+
+  it "converts HTML attributes"
+
+  ## More functional-type specs below here
+
   it "ignores spaces, tabs and newlines" do
     parse("  <div>\t\n" + "\thello !" + "\n\t</div>").convert.should ==
       "div do\n" +
-        "text 'hello !'\n" +
+      "  text 'hello !'\n" +
       "end\n"
   end
 
@@ -142,10 +172,10 @@ describe HtmlErbParser do
   <%=h @foo.name %>
 </p>""").convert.should ==
       "p do\n" +
-        "b do\n" +
-          "text 'Name:'\n" +
-        "end\n" +
-        "text @foo.name\n" +
+      "  b do\n" +
+      "    text 'Name:'\n" +
+      "  end\n" +
+      "  text @foo.name\n" +
       "end\n"
   end
 

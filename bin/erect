@@ -2,6 +2,7 @@
 dir = File.expand_path(File.dirname(__FILE__))
 $LOAD_PATH.unshift("#{dir}/../lib")
 require "erector"
+require "erector/erected"  # pull this out so we don't recreate the grammar every time
 
 ARGV.each do |file|
   print "Erecting #{file}... "

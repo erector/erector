@@ -1,6 +1,7 @@
 grammar HtmlErb
+
   rule doc
-    space node space x:doc? {
+    space node space x:doc? <Erector::Indenting> {
       def convert
         if x.empty?
           node.convert
@@ -8,7 +9,7 @@ grammar HtmlErb
           node.convert + x.convert
         end
       end
-    }    
+    }
   end
 
   rule node
@@ -17,27 +18,34 @@ grammar HtmlErb
 
   rule scriptlet
     #todo: match non-greedily so we can have %s inside the scriptlet
-    '<%' space code:[^%]* space '%>' {
+    '<%' space code:[^%]* space '%>' <Erector::Indenting> {
       def convert
-        code.text_value.strip + "\n"
+        text = code.text_value.strip
+        if text =~ /\bdo( |.*|)?$/
+          line_in text
+        elsif text == "end"
+          line_out text
+        else
+          line text
+        end
       end
     }
   end
 
   rule printlet
     #todo: match non-greedily so we can have %s inside the scriptlet
-    '<%=' space code:[^%]* space '%>' {
+    '<%=' space code:[^%]* space '%>' <Erector::Indenting> {
       def convert
-        "rawtext #{code.text_value.strip}\n"
+        line "rawtext #{code.text_value.strip}"
       end
     }
   end
 
   rule hprintlet
     #todo: match non-greedily so we can have %s inside the scriptlet
-    '<%=' space 'h' ' '+ code:[^%]* space '%>' {
+    '<%=' space 'h' ' '+ code:[^%]* space '%>' <Erector::Indenting> {
       def convert
-        "text #{code.text_value.strip}\n"
+        line "text #{code.text_value.strip}"
       end
     }
   end
@@ -47,37 +55,37 @@ grammar HtmlErb
   end
 
   rule self_closing_tag
-    '<' tag_name:tagname space '/>' {
+    '<' tag_name:tagname space '/>' <Erector::Indenting> {
       def convert
-        "#{tag_name.text_value}\n"
+        line tag_name.text_value
       end
     }
   end
 
   rule opentag
-   '<' tag_name:tagname '>' {
+   '<' tag_name:tagname '>' <Erector::Indenting> {
       def convert
-        "#{tag_name.text_value} do\n"
+        line_in "#{tag_name.text_value} do"
       end
     }
   end
 
   rule closetag
-   '</' tag_name:tagname '>' {
+   '</' tag_name:tagname '>' <Erector::Indenting> {
       def convert
-        "end\n"
+        line_out "end"
       end
     }
   end
 
   rule text
-    [^<>]+ {
+    [^<>]+ <Erector::Indenting> {
       def convert
         stripped = text_value.strip
         if stripped.blank?
           ""
         else
-          "text '#{text_value.strip}'\n"
+          line "text '#{text_value.strip}'"
         end
       end
     }

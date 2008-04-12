@@ -1,6 +1,7 @@
 require 'rubygems'
 require 'treetop'
 dir = File.dirname(__FILE__)
+require "#{dir}/indenting"
 Treetop.load "#{dir}/../../lib/erector/html_erb"
 
 module Erector
@@ -36,9 +37,9 @@ module Erector
       else
         File.open(filename, "w") do |f|
           f.puts("class #{classname} < Erector::Widget")
-          f.puts("def render")
-          f.puts(parsed.convert)
-          f.puts("end")
+          f.puts("  def render")
+          f.puts(parsed.set_indent(2).convert)
+          f.puts("  end")
           f.puts("end")
         end
       end
