@@ -138,8 +138,8 @@ TODO: document more obscure features like capture, Table, :class => ['one', 'two
 
 === Using erector from Ruby on Rails
 
-Your views are just ruby classes.  Your controller instantiates the
-relevant view and calls render.  For example:
+Your views are just ruby classes.  Your controller instantiates the relevant view and calls render.
+For example:
 
 app/controllers/welcome_controller.rb:
 
@@ -169,8 +169,9 @@ app/views/welcome/show.rb:
   
   end
 
-For Rails to find these Erector .rb files as views, you must either copy the erector source to vendor/plugins/erector,
-or add `require 'erector'` to `config/environment.rb`.
+For Rails to find these .rb files during render, you must first either copy the erector source to
+vendor/plugins/erector, or add `require 'erector'` to config/environment.rb. You also should delete (or rename) 
+any other generated view files with the same base name that might be getting in the way.
 
 To make Rails integration as smooth as possible, we've written a little tool that will help you
 erect your existing Rails app. The "erect" tool will convert HTML or HTML/ERB into an Erector class.
@@ -178,7 +179,7 @@ It ships as part of the Erector gem, so to try it out, install the gem, then run
 
     erect app/views/foos/*.html.erb
     
-and then delete the original files when you're satisfied with the copy.
+and then delete the original files when you're satisfied.
 
 The current version of erect is very rough and has only been made to work with the standard Rails 2.0.2 generated
 scaffolding files. Eventually we hope it will be more robust so you can use it on complicated rhtml files.
@@ -224,6 +225,8 @@ method, you can pass a block to Erector::Widget.new.  For example:
     p "Hello, world!"
   end
   html.to_s          #=> <p>Hello, world!</p>
+
+This lets you define mini-widgets on the fly, which might be useful if you're
 
 == DEVELOPER NOTES
 
