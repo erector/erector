@@ -1,5 +1,6 @@
 module Erector
   module Helpers
+
     [
         :image_tag,
         :javascript_include_tag,
@@ -20,6 +21,18 @@ module Erector
     ].each do |link_helper|
       define_method link_helper do |link_text, *args|
         text raw(helpers.send(link_helper, h(link_text), *args))
+      end
+    end
+
+    def error_messages_for(*args)
+      fake_erbout do
+        helpers.error_messages_for(*args)
+      end
+    end
+
+    def form_for(*args, &block)
+      fake_erbout do
+        helpers.form_for(*args, &block)
       end
     end
 

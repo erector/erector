@@ -232,7 +232,7 @@ module Erector
         raise "Cannot nest fake_erbout" if instance_methods.include?('concat_without_erector')
         alias_method :concat_without_erector, :concat
         define_method :concat do |some_text, binding|
-          widget.text widget.raw(some_text)
+          widget.rawtext(some_text)
         end
       end
       yield

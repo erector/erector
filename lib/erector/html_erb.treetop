@@ -12,7 +12,7 @@ grammar HtmlErb
   end
 
   rule node
-    printlet / scriptlet / self_closing_tag / closetag / opentag / text
+    hprintlet / printlet / scriptlet / self_closing_tag / closetag / opentag / text
   end
 
   rule scriptlet
@@ -28,10 +28,19 @@ grammar HtmlErb
     #todo: match non-greedily so we can have %s inside the scriptlet
     '<%=' space code:[^%]* space '%>' {
       def convert
+        "rawtext #{code.text_value.strip}\n"
+      end
+    }
+  end
+
+  rule hprintlet
+    #todo: match non-greedily so we can have %s inside the scriptlet
+    '<%=' space 'h' ' '+ code:[^%]* space '%>' {
+      def convert
         "text #{code.text_value.strip}\n"
       end
     }
-end
+  end
 
   rule tagname
     [A-Za-z0-9_]+

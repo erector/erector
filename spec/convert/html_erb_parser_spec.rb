@@ -21,7 +21,6 @@ module ParserTestHelper
   end
 end
 
-
 describe HtmlErbParser do
   include ParserTestHelper
   
@@ -114,9 +113,14 @@ describe HtmlErbParser do
       "end\n"
   end
 
-  it "converts printlets" do
-    parse("<%= 1+1 %>").convert.should == "text 1+1\n"
-    parse("<%= link_to \"mom\" %>").convert.should == "text link_to \"mom\"\n"
+  it "converts printlets into rawtext statements" do
+    parse("<%= 1+1 %>").convert.should == "rawtext 1+1\n"
+    parse("<%= link_to \"mom\" %>").convert.should == "rawtext link_to \"mom\"\n"
+  end
+
+  it "converts h-printlets into text statements" do
+    parse("<%=h foo %>").convert.should == "text foo\n"
+    parse("<%= h \"mom\" %>").convert.should == "text \"mom\"\n"
   end
 
   it "understand percents inside scriptlets" do
@@ -141,7 +145,7 @@ describe HtmlErbParser do
         "b do\n" +
           "text 'Name:'\n" +
         "end\n" +
-        "text h @foo.name\n" +
+        "text @foo.name\n" +
       "end\n"
   end
 
