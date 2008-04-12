@@ -31,10 +31,14 @@ grammar HtmlErb
         "text #{code.text_value.strip}\n"
       end
     }
+end
+
+  rule tagname
+    [A-Za-z0-9_]+
   end
 
   rule self_closing_tag
-    '<' tag_name:[A-Za-z]+ space '/>' {
+    '<' tag_name:tagname space '/>' {
       def convert
         "#{tag_name.text_value}\n"
       end
@@ -42,7 +46,7 @@ grammar HtmlErb
   end
 
   rule opentag
-   '<' tag_name:[A-Za-z]+ '>' {
+   '<' tag_name:tagname '>' {
       def convert
         "#{tag_name.text_value} do\n"
       end
@@ -50,7 +54,7 @@ grammar HtmlErb
   end
 
   rule closetag
-   '</' tag_name:[A-Za-z]+ '>' {
+   '</' tag_name:tagname '>' {
       def convert
         "end\n"
       end
@@ -60,7 +64,12 @@ grammar HtmlErb
   rule text
     [^<>]+ {
       def convert
-        "text '#{text_value.strip}'\n"
+        stripped = text_value.strip
+        if stripped.blank?
+          ""
+        else
+          "text '#{text_value.strip}'\n"
+        end
       end
     }
   end
@@ -68,7 +77,7 @@ grammar HtmlErb
   rule space
     ' '* {
       def convert
-        " "
+        ""
       end
     }
   end
