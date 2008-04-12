@@ -1,0 +1,76 @@
+grammar HtmlErb
+  rule doc
+    space node space x:doc? {
+      def convert
+        if x.empty?
+          node.convert
+        else
+          node.convert + x.convert
+        end
+      end
+    }    
+  end
+
+  rule node
+    printlet / scriptlet / self_closing_tag / closetag / opentag / text
+  end
+
+  rule scriptlet
+    #todo: match non-greedily so we can have %s inside the scriptlet
+    '<%' space code:[^%]* space '%>' {
+      def convert
+        code.text_value.strip + "\n"
+      end
+    }
+  end
+
+  rule printlet
+    #todo: match non-greedily so we can have %s inside the scriptlet
+    '<%=' space code:[^%]* space '%>' {
+      def convert
+        "text #{code.text_value.strip}\n"
+      end
+    }
+  end
+
+  rule self_closing_tag
+    '<' tag_name:[A-Za-z]+ space '/>' {
+      def convert
+        "#{tag_name.text_value}\n"
+      end
+    }
+  end
+
+  rule opentag
+   '<' tag_name:[A-Za-z]+ '>' {
+      def convert
+        "#{tag_name.text_value} do\n"
+      end
+    }
+  end
+
+  rule closetag
+   '</' tag_name:[A-Za-z]+ '>' {
+      def convert
+        "end\n"
+      end
+    }
+  end
+
+  rule text
+    [^<>]+ {
+      def convert
+        "text '#{text_value.strip}'\n"
+      end
+    }
+  end
+
+  rule space
+    ' '* {
+      def convert
+        " "
+      end
+    }
+  end
+
+end
