@@ -7,7 +7,7 @@ require 'spec/rake/spectask'
 
 require './tasks/hoex.rb'  # Alex's patched version of Hoe
 
-GEM_VERSION = "0.2.42"
+GEM_VERSION = "0.2.46"
 GEM_NAME = "erector"
 
 Hoe.new(GEM_NAME, GEM_VERSION) do |hoe|
@@ -15,7 +15,7 @@ Hoe.new(GEM_NAME, GEM_VERSION) do |hoe|
   hoe.developer("Pivotal Labs", "alex@pivotallabs.com")
   hoe.rdoc_dir = "rdoc"
   hoe.remote_rdoc_dir = "rdoc"
-  hoe.files = ["{spec,lib}/**/*", "README.txt"]
+  hoe.files = ["{spec,lib}/**/*", "README.txt", "bin/erect"]
 end
 Hoe::remove_tasks("audit", "check_manifest", "post_blog", "multi", "test", "test_deps")
 

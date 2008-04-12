@@ -169,6 +169,20 @@ app/views/welcome/show.rb:
   
   end
 
+For Rails to find these Erector .rb files as views, you must either copy the erector source to vendor/plugins/erector,
+or add `require 'erector'` to `config/environment.rb`.
+
+To make Rails integration as smooth as possible, we've written a little tool that will help you
+erect your existing Rails app. The "erect" tool will convert HTML or HTML/ERB into an Erector class.
+It ships as part of the Erector gem, so to try it out, install the gem, then run
+
+    erect app/views/foos/*.html.erb
+    
+and then delete the original files when you're satisfied with the copy.
+
+The current version of erect is very rough and has only been made to work with the standard Rails 2.0.2 generated
+scaffolding files. Eventually we hope it will be more robust so you can use it on complicated rhtml files.
+
 === Layout Inheritance
 
 Erector replaces the typical Rails layout mechanism with a more natural construct, the use of inheritance. Want a common

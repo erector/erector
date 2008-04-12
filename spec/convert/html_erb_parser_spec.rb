@@ -157,6 +157,8 @@ describe HtmlErbParser do
 
   it "converts HTML attributes"
 
+  it "wraps printlets in parens if necessary, to avoid warning: parenthesize argument(s) for future version"
+
   ## More functional-type specs below here
 
   it "ignores spaces, tabs and newlines" do
