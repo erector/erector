@@ -1,6 +1,6 @@
 ===
 
-
+* New script erect to convert (some) .html.erb files to erector.
 
 === 0.2.42 / 2008-04-11
 

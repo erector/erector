@@ -226,7 +226,7 @@ method, you can pass a block to Erector::Widget.new.  For example:
   end
   html.to_s          #=> <p>Hello, world!</p>
 
-This lets you define mini-widgets on the fly, which might be useful if you're
+This lets you define mini-widgets on the fly.
 
 == DEVELOPER NOTES
 
