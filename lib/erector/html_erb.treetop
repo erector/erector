@@ -36,7 +36,7 @@ grammar HtmlErb
     #todo: match non-greedily so we can have %s inside the scriptlet
     '<%=' space code:[^%]* space '%>' <Erector::Indenting> {
       def convert
-        line "rawtext #{code.text_value.strip}"
+        line "rawtext(#{code.text_value.strip})"
       end
     }
   end
