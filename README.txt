@@ -236,7 +236,7 @@ This lets you define mini-widgets on the fly.
 
 * Install gems:
 
-  sudo gem install rake rails rspec rubyforge hpricot
+  sudo gem install rake rails rspec rubyforge hpricot treetop
 
 * Run specs:
 
