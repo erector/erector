@@ -136,7 +136,7 @@ Here are the basics:
 
 TODO: document more obscure features like capture, Table, :class => ['one', 'two']
 
-=== Using erector from Ruby on Rails
+=== Using Erector from Ruby on Rails
 
 Your views are just ruby classes.  Your controller instantiates the relevant view and calls render.
 For example:
@@ -171,7 +171,7 @@ app/views/welcome/show.rb:
 
 For Rails to find these .rb files during render, you must first either copy the erector source to
 vendor/plugins/erector, or add `require 'erector'` to config/environment.rb. You also should delete (or rename) 
-any other generated view files with the same base name that might be getting in the way.
+any other view files with the same base name that might be getting in the way.
 
 To make Rails integration as smooth as possible, we've written a little tool that will help you
 erect your existing Rails app. The "erect" tool will convert HTML or HTML/ERB into an Erector class.

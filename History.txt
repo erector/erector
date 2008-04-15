@@ -1,3 +1,5 @@
+===
+
 === 0.2.54 / 2008-04-15
 
 * New script "erect" to convert (some) .html.erb files into erector classes.
