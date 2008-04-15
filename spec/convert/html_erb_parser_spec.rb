@@ -114,7 +114,7 @@ describe HtmlErbParser do
 
   it "converts printlets into rawtext statements" do
     parse("<%= 1+1 %>").convert.should == "rawtext 1+1\n"
-    parse("<%= link_to \"mom\" %>").convert.should == "rawtext link_to \"mom\"\n"
+    parse("<%= link_to \"mom\" %>").convert.should == "rawtext(link_to \"mom\")\n"
   end
 
   it "converts h-printlets into text statements" do
@@ -157,7 +157,17 @@ describe HtmlErbParser do
 
   it "converts HTML attributes"
 
-  it "wraps printlets in parens if necessary, to avoid warning: parenthesize argument(s) for future version"
+  it "wraps printlets in parens if necessary, to avoid warning: parenthesize argument(s) for future version" do
+    parse("<%= h \"mom\" %>").convert.should == "text \"mom\"\n"
+    parse("<%= h hi \"mom\" %>").convert.should == "text(hi \"mom\")\n"
+    parse("<%= link_to blah %>").convert.should == "rawtext(link_to blah)\n"
+    parse("<%= link_to(blah) %>").convert.should == "rawtext link_to(blah)\n"
+  end
+  
+  it "won't parenthesize because of spaces within string constants" do
+    # Is this fancier than needed?  Where do we draw the line?
+    pending { parse("<%= h \"a string\" %>").convert.should == "text \"a string\"\n" }
+  end
 
   ## More functional-type specs below here
 

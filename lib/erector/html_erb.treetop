@@ -36,7 +36,12 @@ grammar HtmlErb
     #todo: match non-greedily so we can have %s inside the scriptlet
     '<%=' space code:[^%]* space '%>' <Erector::Indenting> {
       def convert
-        line "rawtext(#{code.text_value.strip})"
+        argument = code.text_value.strip
+        if / /.match(argument)
+          line "rawtext(#{argument})"
+        else
+          line "rawtext #{argument}"
+        end
       end
     }
   end
@@ -45,7 +50,12 @@ grammar HtmlErb
     #todo: match non-greedily so we can have %s inside the scriptlet
     '<%=' space 'h' ' '+ code:[^%]* space '%>' <Erector::Indenting> {
       def convert
-        line "text #{code.text_value.strip}"
+        argument = code.text_value.strip
+        if / /.match(argument)
+          line "text(#{argument})"
+        else
+          line "text #{argument}"
+        end
       end
     }
   end

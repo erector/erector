@@ -78,17 +78,6 @@ module Erector
       end
     end
     
-    it "does not lead to ruby warnings about missing parentheses" do
-      convert(".",
-        "<%= link_to 'Show', post %>",
-        "class Dummy < Erector::Widget\n" +
-          "  def render\n" +
-          "    rawtext(link_to 'Show', post)\n" +
-          "  end\n" +
-          "end\n"
-        )
-    end
-
   end
 end
 
