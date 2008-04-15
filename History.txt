@@ -1,6 +1,6 @@
-===
+=== 0.2.54 / 2008-04-15
 
-* New script erect to convert (some) .html.erb files to erector.
+* New script "erect" to convert (some) .html.erb files into erector classes.
 
 === 0.2.42 / 2008-04-11
 
@@ -30,4 +30,5 @@
 === 0.0.1
 
 * Was on pivotalrb.rubyforge.org
+
 
