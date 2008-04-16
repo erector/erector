@@ -65,17 +65,17 @@ grammar HtmlErb
   end
 
   rule self_closing_tag
-    '<' tag_name:tagname space '/>' <Erector::Indenting> {
+    '<' tag_name:tagname attrs:attributes? space '/>' <Erector::Indenting> {
       def convert
-        line tag_name.text_value
+        line "#{tag_name.text_value}#{attrs.blank? ? "" : attrs.convert}"
       end
     }
   end
 
   rule opentag
-   '<' tag_name:tagname '>' <Erector::Indenting> {
+   '<' tag_name:tagname attrs:attributes? space '>' <Erector::Indenting> {
       def convert
-        line_in "#{tag_name.text_value} do"
+        line_in "#{tag_name.text_value}#{attrs.blank? ? "" : attrs.convert} do"
       end
     }
   end
@@ -101,12 +101,37 @@ grammar HtmlErb
     }
   end
 
+  rule attributes
+		first:attribute rest:attributes* {
+			def convert
+				" " + first.convert + 
+					if rest.blank? 
+						""
+					else
+					  ",#{rest.elements.first.convert}"  # this is hacky -- is there a better way?
+					end
+			end
+		}
+	end
+
+  rule attribute
+		space n:(tagname) space '=' space v:quoted space {
+			def convert
+				":#{n.text_value} => '#{v.value}'"
+			end
+		}
+  end
+
+	rule quoted
+		(('"' val:([^"]*) '"') / ('\'' val:([^']*) '\'')) {
+			def value
+				val.text_value
+			end
+		}
+	end
+
   rule space
-    ' '* {
-      def convert
-        ""
-      end
-    }
+    ' '*
   end
 
 end

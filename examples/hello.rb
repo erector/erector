@@ -1,4 +1,5 @@
-$: << "../lib"
+dir = File.expand_path(File.dirname(__FILE__))
+$LOAD_PATH.unshift("#{dir}/../lib")
 require 'erector'
 
 class Hello < Erector::Widget
@@ -15,7 +16,7 @@ class Hello < Erector::Widget
       end
       body do
         text "Hello, "
-        b "#{@friend}!"
+        b "#{@friend}!", :class=>:foo
       end
     end
   end

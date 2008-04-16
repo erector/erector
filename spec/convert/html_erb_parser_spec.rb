@@ -12,11 +12,13 @@ module ParserTestHelper
   end
 
   def parse(input)
-    result = @parser.parse(input).set_indent(0)
-    unless result
+    result = @parser.parse(input)
+    if result
+      result.set_indent(0) if result.respond_to? :set_indent
+    else
       puts @parser.terminal_failures.join("\n")
+      result.should_not be_nil
     end
-    result.should_not be_nil
     result
   end
 end
@@ -155,7 +157,13 @@ describe HtmlErbParser do
       "text 'bye'\n"
   end
 
-  it "converts HTML attributes"
+  it "converts HTML attributes" do
+    parse("<div id='foo'/>").convert.should == "div :id => 'foo'\n"
+    parse("<div id='foo' class='bar'/>").convert.should == "div :id => 'foo', :class => 'bar'\n"
+    parse("<div id='foo'>bar</div>").convert.should == "div :id => 'foo' do\n  text 'bar'\nend\n"    
+  end
+  
+  it "escapes single quotes inside attribute values"
 
   it "wraps printlets in parens if necessary, to avoid warning: parenthesize argument(s) for future version" do
     parse("<%= h \"mom\" %>").convert.should == "text \"mom\"\n"
@@ -168,7 +176,25 @@ describe HtmlErbParser do
     # Is this fancier than needed?  Where do we draw the line?
     pending { parse("<%= h \"a string\" %>").convert.should == "text \"a string\"\n" }
   end
+  
+  it "parses quoted strings" do
+    @parser.root = :quoted
+    parse("'foo'").value.should == "foo"
+    parse("\"foo\"").value.should == "foo"
+  end
 
+  it "converts attributes in isolation" do
+    @parser.root = :attribute
+    parse("a='foo'").convert.should == ":a => 'foo'"
+    parse("a=\"foo\"").convert.should == ":a => 'foo'"
+  end
+  
+  it "parses a set of attributes" do
+    @parser.root = :attributes
+    parse("a='foo' b='bar'").convert.should == " :a => 'foo', :b => 'bar'"
+  end
+  
+  
   ## More functional-type specs below here
 
   it "ignores spaces, tabs and newlines" do

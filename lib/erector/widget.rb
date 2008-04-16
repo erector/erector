@@ -1,3 +1,5 @@
+require 'cgi'
+
 module Erector
   class Widget
     class << self
@@ -22,7 +24,8 @@ module Erector
       end
     end
 
-    include ActionController::UrlWriter, Helpers
+    include ActionController::UrlWriter
+    include Helpers
     attr_reader :helpers
     attr_reader :assigns
     attr_reader :doc
