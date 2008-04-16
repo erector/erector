@@ -32,8 +32,8 @@ module Erector
       parser = HtmlErbParser.new
       parsed = parser.parse(File.read(@in_file))
       if parsed.nil?
-        raise "Could not parse #{@in_file}" +
-          parser.terminal_failures.join("\n")
+        raise "Could not parse #{@in_file}\n" +
+          parser.failure_reason
       else
         File.open(filename, "w") do |f|
           f.puts("class #{classname} < Erector::Widget")

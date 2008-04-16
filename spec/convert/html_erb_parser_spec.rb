@@ -16,6 +16,7 @@ module ParserTestHelper
     if result
       result.set_indent(0) if result.respond_to? :set_indent
     else
+      puts @parser.failure_reason
       puts @parser.terminal_failures.join("\n")
       result.should_not be_nil
     end
@@ -34,6 +35,13 @@ describe HtmlErbParser do
     parse("hello").convert.should == "text 'hello'\n"
     parse("hello maude!").convert.should == "text 'hello maude!'\n"
     parse(" hello ").convert.should == "text 'hello'\n"
+  end
+  
+  it "unescapes HTML entities in text" do
+    pending do
+      parse("&lt;").convert.should == "text '<'"
+      parse("5 &gt; 2").convert.should == "text '5 > 2'"
+    end
   end
 
   it "converts self-closing tags" do
