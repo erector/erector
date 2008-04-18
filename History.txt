@@ -4,7 +4,7 @@
   * works on HTML attributes (including namespaced attributes and hyphenated attributes)
   * works on directories (recursively looking for .html and .html.erb and .rhtml files)
   * converts DOCTYPE nodes
-  * deal with HTML entities inside text and attributes
+  * deals with HTML entities inside text and attributes
 
 === 0.2.54 / 2008-04-15
 

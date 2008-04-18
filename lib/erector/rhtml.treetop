@@ -18,7 +18,7 @@ grammar Rhtml
 
   rule scriptlet
     #todo: match non-greedily so we can have %s inside the scriptlet
-    '<%' space code:[^%]* space '%>' <Erector::Indenting> {
+    '<%' space code:(('%' !'>') /  [^%])* space '%>' <Erector::Indenting> {
       def convert
         text = code.text_value.strip
         if text =~ /\bdo( |.*|)?$/

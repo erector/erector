@@ -132,10 +132,8 @@ describe RhtmlParser do
     parse("<%= h \"mom\" %>").convert.should == "text \"mom\"\n"
   end
 
-  it "understand percents inside scriptlets" do
-    pending do
-      parse("<% x = 10 % 5 %>").convert.should == "x = 10 % 5"
-    end
+  it "allows naked percent signs inside scriptlets" do
+      parse("<% x = 10 % 5 %>").convert.should == "x = 10 % 5\n"
   end
 
   it "indents" do
