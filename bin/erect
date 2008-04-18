@@ -12,7 +12,7 @@ require "rake"
 files = FileList.new
 ARGV.each do |file|
   if File.directory?(file)
-    files.add(FileList["#{file}/**/*.rhtml", "#{file}/**/*.html", "#{file}/**/*.html.rb"])
+    files.add(FileList["#{file}/**/*.rhtml", "#{file}/**/*.html", "#{file}/**/*.html.erb"])
   else
     files.add(file)
   end
