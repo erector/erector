@@ -5,6 +5,7 @@
       <configuration>
         <JRUBY_FACET_CONFIG_ID NAME="JRUBY_SDK_NAME" VALUE="" />
         <JRUBY_FACET_CONFIG_ID NAME="SHOULD_USE_RSPEC" VALUE="false" />
+        <JRUBY_FACET_CONFIG_ID NAME="NUMBER" VALUE="0" />
       </configuration>
     </facet>
   </component>
