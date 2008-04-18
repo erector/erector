@@ -23,7 +23,7 @@ files.each do |file|
   begin
     e = Erector::Erected.new(file)
     e.convert
-    puts "--> #{e.filename}"
+    puts " --> #{e.filename}"
   rescue => e
     puts e
     puts
