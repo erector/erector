@@ -16,7 +16,7 @@ class Hello < Erector::Widget
       end
       body do
         text "Hello, "
-        b "#{@friend}!", :class=>:foo
+        b "#{@friend}!", :class => :friend_name
       end
     end
   end

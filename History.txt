@@ -1,5 +1,10 @@
 ===
 
+* Improvements to "erect"
+  * works on HTML attributes (including namespaced attributes and hyphenated attributes)
+  * works on directories (recursively looking for .html and .html.erb and .rhtml files)
+  * converts DOCTYPE nodes
+
 === 0.2.54 / 2008-04-15
 
 * New script "erect" to convert (some) .html.erb files into erector classes.

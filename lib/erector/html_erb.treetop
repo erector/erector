@@ -13,7 +13,7 @@ grammar HtmlErb
   end
 
   rule node
-    hprintlet / printlet / scriptlet / self_closing_tag / closetag / opentag / text
+    hprintlet / printlet / scriptlet / doctype / self_closing_tag / closetag / opentag / text
   end
 
   rule scriptlet
@@ -60,8 +60,16 @@ grammar HtmlErb
     }
   end
 
+	rule doctype
+		'<!DOCTYPE' [^>]* '>' <Erector::Indenting> {
+			def convert
+				line "rawtext '#{text_value}'"
+			end
+		}
+	end
+
   rule tagname
-    [A-Za-z0-9_]+
+    [A-Za-z0-9_:-]+
   end
 
   rule self_closing_tag
@@ -117,7 +125,8 @@ grammar HtmlErb
   rule attribute
 		space n:(tagname) space '=' space v:quoted space {
 			def convert
-				":#{n.text_value} => '#{v.value}'"
+				attr_name = (n.text_value =~ /[-:]/) ? "'#{n.text_value}'" : ":#{n.text_value}"
+				"#{attr_name} => '#{v.value}'"
 			end
 		}
   end

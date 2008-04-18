@@ -172,6 +172,8 @@ describe HtmlErbParser do
   end
   
   it "escapes single quotes inside attribute values"
+  
+  it "deals with HTML entities in attribute values"
 
   it "wraps printlets in parens if necessary, to avoid warning: parenthesize argument(s) for future version" do
     parse("<%= h \"mom\" %>").convert.should == "text \"mom\"\n"
@@ -202,6 +204,16 @@ describe HtmlErbParser do
     parse("a='foo' b='bar'").convert.should == " :a => 'foo', :b => 'bar'"
   end
   
+  it "works with namespaced attributes" do
+    @parser.root = :attribute
+    parse('xml:lang="en"').convert.should == "'xml:lang' => 'en'"
+  end
+  
+  it "converts DOCTYPEs" do
+    html = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+           "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">'
+    parse(html).convert.should == "rawtext '#{html}'\n"
+  end
   
   ## More functional-type specs below here
 
@@ -268,4 +280,8 @@ describe HtmlErbParser do
 """)
   end
 
+  it "does meta" do
+    parse('<meta http-equiv="content-type" content="text/html;charset=UTF-8" />').convert.should ==
+    "meta 'http-equiv' => 'content-type', :content => 'text/html;charset=UTF-8'\n"
+  end
 end
