@@ -1,4 +1,4 @@
-grammar HtmlErb
+grammar Rhtml
 
   rule doc
     space node space x:doc? <Erector::Indenting> {
