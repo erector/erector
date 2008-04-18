@@ -122,7 +122,7 @@ describe RhtmlParser do
 
   it "converts printlets into rawtext statements" do
     parse("<%= 1+1 %>").convert.should == "rawtext 1+1\n"
-    parse("<%= link_to \"mom\" %>").convert.should == "rawtext(link_to \"mom\")\n"
+    parse("<%= link_to \"mom\" %>").convert.should == "rawtext link_to(\"mom\")\n"
   end
 
   it "converts h-printlets into text statements" do
@@ -176,16 +176,26 @@ describe RhtmlParser do
     parse("&lt;").convert.should == "text '<'\n"
   end
 
+  it "deals with a naked less-than or greater-than sign inside text" do
+    parse("if x > 2 or x< 5 then").convert.should == "text 'if x > 2 or x< 5 then'\n"
+  end
+
   it "wraps printlets in parens if necessary, to avoid warning: parenthesize argument(s) for future version" do
     parse("<%= h \"mom\" %>").convert.should == "text \"mom\"\n"
-    parse("<%= h hi \"mom\" %>").convert.should == "text(hi \"mom\")\n"
-    parse("<%= link_to blah %>").convert.should == "rawtext(link_to blah)\n"
+    parse("<%= h hi \"mom\" %>").convert.should == "text hi(\"mom\")\n"
+
+    parse("<%= \"mom\" %>").convert.should == "rawtext \"mom\"\n"
+    parse("<%= hi \"mom\" %>").convert.should == "rawtext hi(\"mom\")\n"
+
+    parse("<%= link_to blah %>").convert.should == "rawtext link_to(blah)\n"
+    parse("<%= link_to blah blah %>").convert.should == "rawtext link_to(blah blah)\n"
+    parse("<%= link_to blah(blah) %>").convert.should == "rawtext link_to(blah(blah))\n"
+
     parse("<%= link_to(blah) %>").convert.should == "rawtext link_to(blah)\n"
   end
   
-  it "won't parenthesize because of spaces within string constants" do
-    # Is this fancier than needed?  Where do we draw the line?
-    pending { parse("<%= h \"a string\" %>").convert.should == "text \"a string\"\n" }
+  it "won't parenthesize expressions" do
+    parse("<%= h foo / bar %>").convert.should == "text foo / bar\n"
   end
   
   it "parses quoted strings" do

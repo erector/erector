@@ -17,8 +17,7 @@ grammar Rhtml
   end
 
   rule scriptlet
-    #todo: match non-greedily so we can have %s inside the scriptlet
-    '<%' space code:(('%' !'>') /  [^%])* space '%>' <Erector::Indenting> {
+    '<%' space code space '%>' <Erector::Indenting> {
       def convert
         text = code.text_value.strip
         if text =~ /\bdo( |.*|)?$/
@@ -33,29 +32,27 @@ grammar Rhtml
   end
 
   rule printlet
-    #todo: match non-greedily so we can have %s inside the scriptlet
-    '<%=' space code:[^%]* space '%>' <Erector::Indenting> {
+    '<%=' space code space '%>' <Erector::Indenting> {
       def convert
-        argument = code.text_value.strip
-        if / /.match(argument)
-          line "rawtext(#{argument})"
-        else
-          line "rawtext #{argument}"
-        end
+        line "rawtext #{code.convert}"
       end
     }
   end
 
   rule hprintlet
-    #todo: match non-greedily so we can have %s inside the scriptlet
-    '<%=' space 'h' ' '+ code:[^%]* space '%>' <Erector::Indenting> {
+    '<%=' space 'h' ' '+ code space '%>' <Erector::Indenting> {
       def convert
-        argument = code.text_value.strip
-        if / /.match(argument)
-          line "text(#{argument})"
-        else
-          line "text #{argument}"
-        end
+        line "text #{code.convert}"
+      end
+    }
+  end
+
+  rule code
+    (('%' !'>') /  [^%])* <Erector::Indenting> {
+      def convert
+        code = text_value.strip
+        # matches a word, followed by either a word, a string, or a symbol
+        code.gsub(/(\w+) ([\w:"'].*)$/, '\1(\2)')          
       end
     }
   end
@@ -97,7 +94,7 @@ grammar Rhtml
   end
 
   rule text
-    [^<>]+ <Erector::Indenting> {
+    (([<>] !(tagname / [/%!])) / [^<>])+ <Erector::Indenting> {
       def convert
         stripped = text_value.strip
         if stripped.blank?
