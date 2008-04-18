@@ -1,4 +1,4 @@
-===
+=== 0.2.61 / 2008-04-18
 
 * Improvements to "erect"
   * works on HTML attributes (including namespaced attributes and hyphenated attributes)
