@@ -173,16 +173,35 @@ For Rails to find these .rb files during render, you must first either copy the 
 vendor/plugins/erector, or add `require 'erector'` to config/environment.rb. You also should delete (or rename) 
 any other view files with the same base name that might be getting in the way.
 
+=== Erect
+
 To make Rails integration as smooth as possible, we've written a little tool that will help you
 erect your existing Rails app. The "erect" tool will convert HTML or HTML/ERB into an Erector class.
 It ships as part of the Erector gem, so to try it out, install the gem, then run
 
     erect app/views/foos/*.html.erb
+
+or just
+
+    erect app/views
     
 and then delete the original files when you're satisfied.
 
-The current version of erect is very rough and has only been made to work with the standard Rails 2.0.2 generated
-scaffolding files. Eventually we hope it will be more robust so you can use it on complicated rhtml files.
+Here's a little command-line howto for erecting a scaffold Rails app:
+
+    rails foo
+    cd foo
+    script/generate scaffold post title:string body:text published:boolean
+
+    erect app/views/posts/*.erb
+
+    mate app/views/posts
+    sleep 30 # this should be enough time for you to stop drooling
+    rm app/views/posts/*.erb
+    (echo ""; echo "require 'erector'") >> config/environment.rb
+    rake db:migrate
+    script/server
+    open http://localhost:3000/posts
 
 === Layout Inheritance
 
