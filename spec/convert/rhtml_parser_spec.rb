@@ -24,11 +24,11 @@ module ParserTestHelper
   end
 end
 
-describe HtmlErbParser do
+describe RhtmlParser do
   include ParserTestHelper
   
   before :each do
-    @parser = HtmlErbParser.new
+    @parser = RhtmlParser.new
   end
   
   it "converts text" do

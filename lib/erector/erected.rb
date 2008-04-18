@@ -29,7 +29,7 @@ module Erector
     end
 
     def convert
-      parser = HtmlErbParser.new
+      parser = RhtmlParser.new
       parsed = parser.parse(File.read(@in_file))
       if parsed.nil?
         raise "Could not parse #{@in_file}\n" +
