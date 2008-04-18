@@ -38,10 +38,8 @@ describe RhtmlParser do
   end
   
   it "unescapes HTML entities in text" do
-    pending do
-      parse("&lt;").convert.should == "text '<'"
-      parse("5 &gt; 2").convert.should == "text '5 > 2'"
-    end
+      parse("&lt;").convert.should == "text '<'\n"
+      parse("5 &gt; 2").convert.should == "text '5 > 2'\n"
   end
 
   it "converts self-closing tags" do
