@@ -103,7 +103,7 @@ grammar Rhtml
         if stripped.blank?
           ""
         else
-          line "text '#{text_value.strip}'"
+          line "text '#{text_value.strip.html_unescape}'"
         end
       end
     }
@@ -126,7 +126,7 @@ grammar Rhtml
 		space n:(tagname) space '=' space v:quoted space {
 			def convert
 				attr_name = (n.text_value =~ /[-:]/) ? "'#{n.text_value}'" : ":#{n.text_value}"
-				"#{attr_name} => '#{v.value}'"
+				"#{attr_name} => '#{v.value.html_unescape}'"
 			end
 		}
   end

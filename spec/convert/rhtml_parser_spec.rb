@@ -173,7 +173,9 @@ describe RhtmlParser do
   
   it "escapes single quotes inside attribute values"
   
-  it "deals with HTML entities in attribute values"
+  it "deals with HTML entities in text" do
+    parse("&lt;").convert.should == "text '<'\n"
+  end
 
   it "wraps printlets in parens if necessary, to avoid warning: parenthesize argument(s) for future version" do
     parse("<%= h \"mom\" %>").convert.should == "text \"mom\"\n"
@@ -209,6 +211,12 @@ describe RhtmlParser do
     parse('xml:lang="en"').convert.should == "'xml:lang' => 'en'"
   end
   
+  it "deals with HTML entities in attribute values" do
+    @parser.root = :attribute
+    parse("foo='b<r'").convert.should == ":foo => 'b<r'"
+    parse("foo='b&lt;r'").convert.should == ":foo => 'b<r'"
+  end
+
   it "converts DOCTYPEs" do
     html = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
            "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">'

@@ -193,8 +193,8 @@ module Erector
       @__to_s = @doc.to_s
     end
 
-    def html_escape()
-      return to_s()
+    def html_escape
+      return to_s
     end
 
     alias_method :inspect, :to_s
@@ -256,6 +256,10 @@ end
 
 class Object
   def html_escape
-    return CGI.escapeHTML(to_s())
+    return CGI.escapeHTML(to_s)
+  end
+
+  def html_unescape
+    CGI.unescapeHTML(to_s)
   end
 end
