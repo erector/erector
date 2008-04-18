@@ -126,7 +126,7 @@ grammar Rhtml
 		space n:(tagname) space '=' space v:quoted space {
 			def convert
 				attr_name = (n.text_value =~ /[-:]/) ? "'#{n.text_value}'" : ":#{n.text_value}"
-				"#{attr_name} => '#{v.value.html_unescape}'"
+				"#{attr_name} => '#{v.value.html_unescape.escape_single_quotes}'"
 			end
 		}
   end

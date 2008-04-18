@@ -167,7 +167,10 @@ describe RhtmlParser do
     parse("<div id='foo'>bar</div>").convert.should == "div :id => 'foo' do\n  text 'bar'\nend\n"    
   end
   
-  it "escapes single quotes inside attribute values"
+  it "escapes single quotes inside attribute values" do
+    @parser.root = :attribute
+    parse("a=\"don't worry\"").convert.should == ":a => 'don\\'t worry'"
+  end
   
   it "deals with HTML entities in text" do
     parse("&lt;").convert.should == "text '<'\n"
