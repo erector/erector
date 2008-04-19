@@ -6,8 +6,20 @@ module ActionView
       end
 
       def render(template, local_assigns)
-        paths = @view.first_render.split('/')
+        banana = @view.first_render
+        paths = banana.split('/')
         dot_rb = /\.rb$/
+        file_path = "#{RAILS_ROOT}/app/views/#{banana}.rb"
+        if File.exists?(file_path)
+          require_dependency file_path
+        else
+          partial_file_path = file_path.gsub(/\/([^\/]*)$/, '/_\1')
+          if File.exists?(partial_file_path)
+            require_dependency partial_file_path
+          else
+            return
+          end
+        end
         widget_class = paths.inject(Views) do |current_module, node|
           current_module.const_get(node.gsub(dot_rb, '').camelize)
         end
