@@ -25,7 +25,7 @@ task :default => :spec
 
 task :test => :spec
 
-task :cruise => :geminstaller, :test
+task :cruise => [:geminstaller, :test]
 
 task :geminstaller do
   system "geminstaller"
