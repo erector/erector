@@ -28,7 +28,7 @@ task :test => :spec
 task :cruise => [:geminstaller, :test]
 
 task :geminstaller do
-  system "geminstaller"
+  system "geminstaller --sudo"
 end
 
 desc "Run the specs for the erector plugin"
