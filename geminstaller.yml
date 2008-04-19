@@ -1,0 +1,5 @@
+gems:
+- name: treetop
+  version: '>= 1.2.3'
+- name: hpricot
+- name: rspec
