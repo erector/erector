@@ -25,6 +25,12 @@ task :default => :spec
 
 task :test => :spec
 
+task :cruise => :geminstaller, :test
+
+task :geminstaller do
+  system "geminstaller"
+end
+
 desc "Run the specs for the erector plugin"
 Spec::Rake::SpecTask.new do |t|
   t.spec_files = FileList['spec/**/*_spec.rb']
