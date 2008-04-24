@@ -1,5 +1,8 @@
-===
+=== 0.2.83 / 2008-04-23
 
+* "erect" supports command-line options
+* "erect" now works backwards -- you can output static html from a widget.rb file
+* The web site is generated from erector classes (still pretty minimal though)
 
 === 0.2.61 / 2008-04-18
 

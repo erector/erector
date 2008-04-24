@@ -98,22 +98,27 @@ module Erector
     def to_html
       files.each do |file|
         say "Erecting #{file}... "
-        #todo: move this into Erected
+        #todo: move this into Erected with better tests for the naming methods
         begin
           #todo: fail if file isn't a .rb file
-          load file
+          require file
           #todo: understand modulized widgets (e.g. class Foo::Bar::Baz < Erector::Widget in baz.rb)
           filename = file.split('/').last.gsub(/\.rb$/, '')
           widget_name = camelize(filename)
           widget_class = constantize(widget_name)
-          widget = widget_class.new
-          dir = output_dir || File.dirname(file)
-          FileUtils.mkdir_p(dir)
-          output_file = "#{dir}/#{filename}.html"
-          File.open(output_file, "w") do |f|
-            f.puts widget.to_s
+          
+          if widget_class < Erector::Widget
+            widget = widget_class.new
+            dir = output_dir || File.dirname(file)
+            FileUtils.mkdir_p(dir)
+            output_file = "#{dir}/#{filename}.html"
+            File.open(output_file, "w") do |f|
+              f.puts widget.to_s
+            end
+            say " --> #{output_file}\n"
+          else
+            say " -- not a widget, skipping\n"
           end
-          say " --> #{output_file}\n"
         rescue => e
           puts e
           puts

@@ -133,5 +133,13 @@ module Erector
     it "supports the --add-to-svn option"
     it "supports the --delete-original option"
 
+    it "skips rendering classes that aren't widgets" do
+      mr_slate_rb = "#{dir}/mr_slate.rb"
+      mr_slate_html = "#{dir}/mr_slate.html"
+      create(mr_slate_rb, "class MrSlate\nend")
+      erect = Erect.new(["--to-html", mr_slate_rb])
+      erect.run
+      File.exist?(mr_slate_html).should be_false
+    end
   end
 end
