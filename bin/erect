@@ -2,30 +2,6 @@
 dir = File.expand_path(File.dirname(__FILE__))
 $LOAD_PATH.unshift("#{dir}/../lib")
 require "erector"
-require "erector/erected"  # pull this out so we don't recreate the grammar every time
-require "rake"
+require "erector/erect"
 
-# todo:
-# --add_to_svn
-# --delete_original
-
-files = FileList.new
-ARGV.each do |file|
-  if File.directory?(file)
-    files.add(FileList["#{file}/**/*.rhtml", "#{file}/**/*.html", "#{file}/**/*.html.erb"])
-  else
-    files.add(file)
-  end
-end
-
-files.each do |file|
-  print "Erecting #{file}... "
-  begin
-    e = Erector::Erected.new(file)
-    e.convert
-    puts " --> #{e.filename}"
-  rescue => e
-    puts e
-    puts
-  end
-end
+Erector::Erect.new(ARGV).run

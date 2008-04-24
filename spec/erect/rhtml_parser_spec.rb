@@ -84,6 +84,10 @@ describe RhtmlParser do
   it "converts open, text, close" do
     parse("<div>hello</div>").convert.should == "div do\n  text 'hello'\nend\n"
   end
+  
+  it "autocloses an img tag" do
+    parse("<img src='foo'>").convert.should == "img :src => 'foo'\n"
+  end
 
   it "converts a scriptlet" do
     parse("<% foo %>").convert.should == "foo\n"

@@ -13,7 +13,7 @@ grammar Rhtml
   end
 
   rule node
-    hprintlet / printlet / scriptlet / doctype / self_closing_tag / closetag / opentag / text
+    hprintlet / printlet / scriptlet / doctype / self_closing_tag / imgtag / closetag / opentag / text
   end
 
   rule scriptlet
@@ -81,6 +81,14 @@ grammar Rhtml
    '<' tag_name:tagname attrs:attributes? space '>' <Erector::Indenting> {
       def convert
         line_in "#{tag_name.text_value}#{attrs.blank? ? "" : attrs.convert} do"
+      end
+    }
+  end
+
+  rule imgtag
+   '<' tag_name:'img' attrs:attributes? space '>' <Erector::Indenting> {
+      def convert
+        line "#{tag_name.text_value}#{attrs.blank? ? "" : attrs.convert}"
       end
     }
   end
