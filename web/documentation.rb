@@ -61,12 +61,13 @@ text '&<>'               # &amp;&lt;&gt; (what you generally want, especially
                          # if the text came from the user or a database)
 text raw('&<>')          # &<> (back door for raw html)
 rawtext('&<>')           # &<> (alias for text(raw()))
-html { text foo }        # <html>foo</html>
+html { text 'foo' }      # <html>foo</html>
 html 'foo'               # <html>foo</html>
 html foo                 # <html>bar</html> (if the method foo returns the string \"bar\")
 a(:href => 'foo.html')   # <a href=\"foo.html\"></a>
 a(:href => 'q?a&b')      # <a href=\"q?a&amp;b\"></a>  (quotes as for text)
 a(:href => raw('&amp;')) # <a href=\"&amp;\"></a>
+a 'foo', :href => "bar"  # <a href=\"bar\">foo</a>
 text nbsp('Save Doc')    # Save&#160;Doc (turns spaces into non-breaking spaces)
 instruct                 # <?xml version=\"1.0\" encoding=\"UTF-8\"?>
 DONE
@@ -75,8 +76,12 @@ DONE
 
     Section.new("Using Erector from Ruby on Rails") do
 
-      p "Your views are just ruby classes.  Your controller instantiates the relevant view and calls render."
-
+      p do
+        text "Your views are just ruby classes.  Your controller can either call Rails' "
+        code "render :template"
+        text " method as usual, or directly instantiate the view class and call its render method."
+      end
+      
       p "For example:"
 
       code "app/controllers/welcome_controller.rb:"
@@ -105,7 +110,9 @@ end
 DONE
 
       p do
-        text "For Rails to find these .rb files during render, you must first either copy the erector source to "
+        text "For Rails to find these .rb files during "
+        code "render :template"
+        text ", you must first either copy the erector source to "
         code "vendor/plugins/erector"
         text ", or add "
         code "require 'erector'"
