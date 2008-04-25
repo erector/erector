@@ -1,0 +1,50 @@
+body, td, a, p {
+  font-family: arial,sans-serif;
+}
+
+img {
+  margin-right: 3em;
+}
+
+li {
+  margin-left: 1.5em;
+  padding-bottom: .5em;
+}
+
+h1 {
+  font-variant: small-caps;
+}
+
+pre {
+  background-color: lemonchiffon;
+  border: 1px solid gray;
+  padding: .5em;
+  padding-left: 2em;
+  margin-right: 6em;
+}
+
+/* sidebar */
+
+div.sidebar {
+  float: left;
+  margin-right: 1em;
+}
+
+.sidebar ul {
+}
+
+.sidebar li {
+  background-color: cadetblue;
+  list-style-type: none;
+  text-align: right;
+  padding: .2em;
+  padding-right: 1em;
+  font-variant: small-caps;
+  margin-bottom: 2px;
+}
+
+.sidebar a, .sidebar a:visited {
+  text-decoration: none;
+  font-weight: bold;
+  color: white;
+}

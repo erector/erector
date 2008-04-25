@@ -14,7 +14,8 @@ module Erector
       def full_tags
         [
           'a', 'acronym', 'address', 'b', 'bdo', 'big', 'blockquote', 'body',
-          'button', 'caption', 'cite', 'code', 'dd', 'del', 'div', 'dl', 'dt', 'em',
+          'button', 'caption', 'center', 'cite', 'code',
+          'dd', 'del', 'div', 'dl', 'dt', 'em',
           'fieldset', 'form', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'head', 'html', 'i',
           'iframe', 'ins', 'kbd', 'label', 'legend', 'li', 'map',
           'noframes', 'noscript', 'ol', 'optgroup', 'option', 'p', 'param', 'pre',
@@ -22,6 +23,7 @@ module Erector
           'table', 'tbody', 'td', 'textarea', 'th', 'thead', 'title', 'tr', 'tt', 'u', 'ul', 'var'
         ]
       end
+
     end
 
     include ActionController::UrlWriter

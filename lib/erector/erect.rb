@@ -109,6 +109,7 @@ module Erector
           
           if widget_class < Erector::Widget
             widget = widget_class.new
+            #todo: skip if it's missing a no-arg constructor
             dir = output_dir || File.dirname(file)
             FileUtils.mkdir_p(dir)
             output_file = "#{dir}/#{filename}.html"
@@ -121,7 +122,6 @@ module Erector
           end
         rescue => e
           puts e
-          puts
         end
       end
     end

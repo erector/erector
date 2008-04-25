@@ -5,8 +5,11 @@ require 'rake/rdoctask'
 require 'rake/gempackagetask'
 require 'spec/rake/spectask'
 require './tasks/hoex.rb'  # Alex's patched version of Hoe
-require 'lib/erector'
-require 'lib/erector/erect'
+
+dir = File.dirname(__FILE__)
+$: << "#{dir}/lib"
+require "erector"
+require "erector/erect"
 
 GEM_VERSION = Erector::VERSION # defined in lib/erector.rb
 GEM_NAME = "erector"
