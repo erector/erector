@@ -16,16 +16,26 @@ modular decomposition, encapsulation) in views.
 
     class Hello < Erector::Widget
       def render
-        div do
-          text "Hello!"
+        html do
+          head do
+            title "Hello"
+          end
+          body do
+            text "Hello, "
+            b "world!", :class => 'big'
+          end
         end
       end
     end
 
+    Hello.new.to_s
+    => "<html><head><title>Hello</title></head><body>Hello, <b class=\"big\">world!</b></body></html>"
+
 == REQUIREMENTS
 
-The gem depends on hoe and rake, although this is just for building
-erector (those who just use erector won't need these).
+The gem depends on rake and treetop, although this is just for using the "erect" tool, 
+so deployed applications won't need these. Currently it also requires rails, although
+we plan to separate the rails-dependent code so you can use Erector cleanly in a non-Rails app.
 
 == INSTALL
 

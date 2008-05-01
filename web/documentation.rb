@@ -31,7 +31,10 @@ class Documentation < Page
   [
     Section.new("The Basics") do
       p "The basic way to construct some HTML/XML with erector is to subclass Erector::Widget and implement a render method:"
-      pre <<DONE
+      table do
+        tr do 
+          td do
+            pre <<DONE
 class Hello < Erector::Widget
   def render
     html do
@@ -45,9 +48,27 @@ class Hello < Erector::Widget
     end
   end
 end
-Hello.new.to_s
-#=> <html><head><title>Hello</title></head><body>Hello, <b>world!</b></body></html>
 DONE
+          end
+          td do
+            span :class => "separator" do
+              text "=>"
+            end
+          end
+          td do
+            pre <<DONE
+<html>
+  <head>
+    <title>Hello</title>
+  </head>
+  <body>
+  Hello, <b>world!</b>
+  </body>
+</html>
+DONE
+          end
+        end
+      end
     end,
 
     Section.new("API Cheatsheet") do
@@ -70,6 +91,13 @@ a(:href => raw('&amp;')) # <a href=\"&amp;\"></a>
 a 'foo', :href => "bar"  # <a href=\"bar\">foo</a>
 text nbsp('Save Doc')    # Save&#160;Doc (turns spaces into non-breaking spaces)
 instruct                 # <?xml version=\"1.0\" encoding=\"UTF-8\"?>
+
+javascript { rawtext('if (x < y && x > z) alert("don\\\'t stop");') } #=>
+<script type="text/javascript">
+// <![CDATA[
+if (x < y && x > z) alert("don't stop");
+// ]]>
+</script>
 DONE
       i "TODO: document more obscure features like capture, Table, :class => ['one', 'two']"
     end,

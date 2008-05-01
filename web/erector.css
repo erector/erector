@@ -21,8 +21,12 @@ pre {
   padding: .5em;
   padding-left: 2em;
   margin-right: 6em;
+  overflow: auto;
 }
 
+.separator {
+  margin-right: 6em;
+}
 /* sidebar */
 
 div.sidebar {

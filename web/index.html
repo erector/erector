@@ -1,4 +1,4 @@
-<html><head><title>Erector - Home</title><link href="erector.css" rel="stylesheet" type="text/css" /></head><body><table><tr><td valign="top"><div class="sidebar"><img align="left" src="erector.jpg" /><br clear="all" /><ul><li><a href="index.html">Home</a></li><li><a href="motivation.html">Motivation</a></li><li><a href="documentation.html">Documentation</a></li><li><a href="developers.html">Developers</a></li></ul><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><center><p>Supported by </p><a href="http://www.pivotallabs.com"><img alt="Pivotal Labs" height="57" src="pivotal.gif" width="158" /></a></center></div></td><td valign="top"><h1 class="title">Erector - Home</h1><hr /><div class="body"><h2>Links:</h2><ul><li><a href="http://rubyforge.org/frs/?group_id=4797">Download</a><span> (current version: 0.2.83)</span></li><li><a href="rdoc">RDoc Documentation</a></li><li><a href="http://rubyforge.org/projects/erector/">RubyForge Project</a></li><li><a href="http://rubyforge.org/scm/?group_id=4797">Subversion Repository</a></li><li><a href="http://rubyforge.org/mailman/listinfo/erector-devel">erector-devel mailing list</a></li></ul><hr /><h1>Readme</h1><ul>
+<html><head><title>Erector - Home</title><link href="erector.css" rel="stylesheet" type="text/css" /></head><body><table><tr><td valign="top"><div class="sidebar"><img align="left" src="erector.jpg" /><br clear="all" /><h3>Sections:</h3><ul><li><a href="index.html">Readme</a></li><li><a href="documentation.html">User Guide</a></li><li><a href="motivation.html">Motivation</a></li><li><a href="developers.html">For Developers</a></li></ul><hr /><h3>Links:</h3><ul><li><a href="http://rubyforge.org/frs/?group_id=4797">Download</a><br /><span> (current version: 0.2.83)</span></li><li><a href="rdoc">RDoc Documentation</a></li><li><a href="http://rubyforge.org/projects/erector/">RubyForge Project</a></li><li><a href="http://rubyforge.org/scm/?group_id=4797">Subversion Repository</a></li><li><a href="http://rubyforge.org/mailman/listinfo/erector-devel">erector-devel mailing list</a></li></ul><hr /><h3>Supported by:</h3><center><a href="http://www.pivotallabs.com"><img alt="Pivotal Labs" height="57" src="pivotal.gif" width="158" /></a></center></div></td><td valign="top"><h1 class="title">Erector - Home</h1><hr /><div class="body"><h1>Readme</h1><ul>
 <li>http://erector.rubyforge.org
 
 </li>
@@ -19,16 +19,27 @@ template files, which allows the full power of object-oriented programming
 
     class Hello &lt; Erector::Widget
       def render
-        div do
-          text &quot;Hello!&quot;
+        html do
+          head do
+            title &quot;Hello&quot;
+          end
+          body do
+            text &quot;Hello, &quot;
+            b &quot;world!&quot;, :class =&gt; 'big'
+          end
         end
       end
     end
+
+    Hello.new.to_s
+    =&gt; &quot;&lt;html&gt;&lt;head&gt;&lt;title&gt;Hello&lt;/title&gt;&lt;/head&gt;&lt;body&gt;Hello, &lt;b class=\&quot;big\&quot;&gt;world!&lt;/b&gt;&lt;/body&gt;&lt;/html&gt;&quot;
 </pre>
 <h2>REQUIREMENTS</h2>
 <p>
-The gem depends on hoe and rake, although this is just for building erector
-(those who just use erector won&#8217;t need these).
+The gem depends on rake and treetop, although this is just for using the
+&quot;erect&quot; tool, so deployed applications won&#8217;t need these.
+Currently it also requires rails, although we plan to separate the
+rails-dependent code so you can use Erector cleanly in a non-Rails app.
 </p>
 <h2>INSTALL</h2>
 <p>
