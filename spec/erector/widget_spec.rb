@@ -268,6 +268,18 @@ if (x < y && x > z) alert("don't stop");
 </script>
 EXPECTED
       end
+      
+      it "renders the raw content inside script tags when given text" do
+        Erector::Widget.new do
+          javascript('alert("&<>\'hello");')
+        end.to_s.should == <<EXPECTED
+<script type="text/javascript">
+// <![CDATA[
+alert("&<>'hello");
+// ]]>
+</script>
+EXPECTED
+      end
 
       it "when receiving a params hash; renders a source file" do
         html = Erector::Widget.new do

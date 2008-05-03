@@ -5,6 +5,7 @@ require "erector/extensions/action_view_template_handler"
 require "erector/extensions/object"
 require "erector/helpers"
 require "erector/html_parts"
+require "erector/raw_string"
 require "erector/widget"
 require "erector/widgets"
 

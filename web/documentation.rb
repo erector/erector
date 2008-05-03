@@ -92,7 +92,7 @@ a 'foo', :href => "bar"  # <a href=\"bar\">foo</a>
 text nbsp('Save Doc')    # Save&#160;Doc (turns spaces into non-breaking spaces)
 instruct                 # <?xml version=\"1.0\" encoding=\"UTF-8\"?>
 
-javascript { rawtext('if (x < y && x > z) alert("don\\\'t stop");') } #=>
+javascript('if (x < y && x > z) alert("don\\\'t stop");') #=>
 <script type="text/javascript">
 // <![CDATA[
 if (x < y && x > z) alert("don't stop");

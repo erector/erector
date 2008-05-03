@@ -49,6 +49,16 @@ module Erector
       @block = block
     end
 
+### methods for other classes to call, left public for ease of testing and documentation
+
+    def to_s(&blk)
+      return @__to_s if @__to_s
+      render(&blk)
+      @__to_s = @doc.to_s
+    end
+
+    alias_method :inspect, :to_s
+
     def render
       if @block
         instance_eval(&@block)
@@ -70,6 +80,12 @@ module Erector
       child = widget_class.new(helpers, assigns, doc, &block)
       child.render
     end
+
+    def html_escape
+      return to_s
+    end
+
+### methods for subclasses to call
 
     def h(content)
       content.html_escape
@@ -109,6 +125,37 @@ module Erector
       @doc << {:type => :instruct, :attributes => attributes}
     end
 
+    def capture(&block)
+      begin
+        original_doc = @doc
+        @doc = HtmlParts.new
+        yield
+        raw(@doc.to_s)
+      ensure
+        @doc = original_doc
+      end
+    end
+
+    full_tags.each do |tag_name|
+      self.class_eval(
+        "def #{tag_name}(*args, &block)\n" <<
+        "  __element__('#{tag_name}', *args, &block)\n" <<
+        "end",
+        __FILE__,
+        __LINE__ - 4
+      )
+    end
+
+    empty_tags.each do |tag_name|
+      self.class_eval(
+        "def #{tag_name}(*args, &block)\n" <<
+        "  __empty_element__('#{tag_name}', *args, &block)\n" <<
+        "end",
+        __FILE__,
+        __LINE__ - 4
+      )
+    end
+
     def javascript(*args, &block)
       if args.length > 2
         raise ArgumentError, "Cannot accept more than two arguments"
@@ -146,82 +193,19 @@ module Erector
       close_tag 'script'
       text "\n"
     end
-
-    def __element__(tag_name, *args, &block)
-      if args.length > 2
-        raise ArgumentError, "Cannot accept more than three arguments"
-      end
-      attributes, value = nil, nil
-      arg0 = args[0]
-      if arg0.is_a?(Hash)
-        attributes = arg0
-      else
-        value = arg0
-        arg1 = args[1]
-        if arg1.is_a?(Hash)
-          attributes = arg1
-        end
-      end
-      attributes ||= {}
-      open_tag tag_name, attributes
-      if block
-        instance_eval(&block)
-      else
-        text value
-      end
-      close_tag tag_name
+    
+    def element(*args, &block)
+      __element__(*args, &block)
     end
-    alias_method :element, :__element__
-
-    def __empty_element__(tag_name, attributes={})
-      @doc << {:type => :empty, :tagName => tag_name, :attributes => attributes}
+      
+    def empty_element(*args, &block)
+      __empty_element__(*args, &block)
     end
-    alias_method :empty_element, :__empty_element__
+      
+### internal utility methods
 
-    def capture(&block)
-      begin
-        original_doc = @doc
-        @doc = HtmlParts.new
-        yield
-        raw(@doc.to_s)
-      ensure
-        @doc = original_doc
-      end
-    end
+protected
 
-    def to_s(&blk)
-      return @__to_s if @__to_s
-      render(&blk)
-      @__to_s = @doc.to_s
-    end
-
-    def html_escape
-      return to_s
-    end
-
-    alias_method :inspect, :to_s
-
-    full_tags.each do |tag_name|
-      self.class_eval(
-        "def #{tag_name}(*args, &block)\n" <<
-        "  __element__('#{tag_name}', *args, &block)\n" <<
-        "end",
-        __FILE__,
-        __LINE__ - 4
-      )
-    end
-
-    empty_tags.each do |tag_name|
-      self.class_eval(
-        "def #{tag_name}(*args, &block)\n" <<
-        "  __empty_element__('#{tag_name}', *args, &block)\n" <<
-        "end",
-        __FILE__,
-        __LINE__ - 4
-      )
-    end
-
-    protected
     def method_missing(name, *args, &block)
       block ||= lambda {} # captures self HERE
       if @parent
@@ -247,26 +231,37 @@ module Erector
         remove_method :concat_without_erector
       end
     end
-  end
-end
+    
+private
 
-class RawString < String
-  def html_escape
-    self
-  end
-end
+    def __element__(tag_name, *args, &block)
+      if args.length > 2
+        raise ArgumentError, "Cannot accept more than three arguments"
+      end
+      attributes, value = nil, nil
+      arg0 = args[0]
+      if arg0.is_a?(Hash)
+        attributes = arg0
+      else
+        value = arg0
+        arg1 = args[1]
+        if arg1.is_a?(Hash)
+          attributes = arg1
+        end
+      end
+      attributes ||= {}
+      open_tag tag_name, attributes
+      if block
+        instance_eval(&block)
+      else
+        text value
+      end
+      close_tag tag_name
+    end
 
-class Object
-  def html_escape
-    return CGI.escapeHTML(to_s)
-  end
-
-  def html_unescape
-    CGI.unescapeHTML(to_s)
-  end
-
-  # OMGWTF
-  def escape_single_quotes
-    self.gsub(/[']/, '\\\\\'')
+    def __empty_element__(tag_name, attributes={})
+      @doc << {:type => :empty, :tagName => tag_name, :attributes => attributes}
+    end
+    
   end
 end
