@@ -17,6 +17,9 @@ module Erector
   # its +render_to+ method, passing in +self+ (or +self.doc+ if you prefer). This assures that the same HtmlParts stream
   # is used, which gives better performance than using +capture+ or +to_s+.
   # 
+  # In this documentation we've tried to keep the distinction clear between methods that *emit* text and those that
+  # *return* text. "Emit" means that it writes HtmlParts to the doc stream; "return" means that it returns a string 
+  # like a normal method and leaves it up to the caller to emit that string if it wants.
   class Widget
     class << self
       def all_tags
@@ -67,7 +70,16 @@ module Erector
 #-- methods for other classes to call, left public for ease of testing and documentation
 #++
 
+    # Entry point for rendering a widget (and all its children). This method creates a new HtmlParts doc stream,
+    # calls this widget's #render method, converts the HtmlParts to a string, and returns the string. 
+    #
+    # If it's called again later 
+    # then it returns the earlier rendered string, which leads to higher performance, but may have confusing
+    # effects if some underlying state has changed. In general we recommend you create a new instance of every
+    # widget for each render, unless you know what you're doing.
     def to_s(&blk)
+      # The @__to_s variable is used as a cache. 
+      # If it's useful we should add a test for it.  -ac
       return @__to_s if @__to_s
       render(&blk)
       @__to_s = @doc.to_s
@@ -75,12 +87,17 @@ module Erector
 
     alias_method :inspect, :to_s
 
+    # Template method which must be overridden by all widget subclasses. Inside this method you call the magic
+    # #element methods which emit HTML and text to the HtmlParts stream.
     def render
       if @block
         instance_eval(&@block)
       end
     end
 
+    # To call one widget from another, inside the parent widget's render method, instantiate the child widget and call 
+    # its +render_to+ method, passing in +self+ (or +self.doc+ if you prefer). This assures that the same HtmlParts stream
+    # is used, which gives better performance than using +capture+ or +to_s+.
     def render_to(doc_or_widget)
       if doc_or_widget.is_a?(Widget)
         @parent = doc_or_widget
@@ -91,17 +108,13 @@ module Erector
       render
     end
 
-    # def render_to(parent)
-    #   @parent = parent
-    #   @doc = parent.doc
-    #   render
-    # end
-
+    # Convenience method for on-the-fly widgets. (Should we make this hidden? How is it used?)
     def widget(widget_class, assigns={}, &block)
       child = widget_class.new(helpers, assigns, doc, &block)
       child.render
     end
 
+    # (Should we make this hidden?)
     def html_escape
       return to_s
     end
@@ -139,35 +152,46 @@ module Erector
       __empty_element__(*args, &block)
     end
 
+    # Returns an HTML-escaped version of its parameter. Leaves the HtmlParts stream untouched. Note that
+    # the #text method automatically HTML-escapes its parameter, so be careful *not* to do something like
+    # +text(h("2<4"))+ since that will double-escape the less-than sign.
     def h(content)
       content.html_escape
     end
 
+    # Emits an open tag, comprising '<', tag name, optional attributes, and '>'
     def open_tag(tag_name, attributes={})
       @doc << {:type => :open, :tagName => tag_name, :attributes => attributes}
     end
 
+    # Emits text which will be HTML-escaped.
     def text(value)
       @doc << {:type => :text, :value => value}
       nil
     end
 
+    # Returns text which will *not* be HTML-escaped.
     def raw(value)
       RawString.new(value.to_s)
     end
 
+    # Returns text which will *not* be HTML-escaped. Same effect as text(raw(s))
     def rawtext(value)
       text raw(value)
     end
 
+    # Returns a non-breaking space character, using the entity-escaping format '&#160;' since that works
+    # in both HTML and XML (as opposed to '&nbsp;' which only works in HTML).
     def nbsp(value)
       raw(value.html_escape.gsub(/ /,'&#160;'))
     end
 
+    # Emits a close tag, consisting of '<', tag name, and '>'
     def close_tag(tag_name)
       @doc << {:type => :close, :tagName => tag_name}
     end
 
+    # Emits an XML instruction, which looks like this: <?xml version=\"1.0\" encoding=\"UTF-8\"?>
     def instruct(attributes={:version => "1.0", :encoding => "UTF-8"})
       @doc << {:type => :instruct, :attributes => attributes}
     end
@@ -177,6 +201,9 @@ module Erector
       @doc << {:type => :instruct, :attributes => attributes}
     end
 
+    # Creates a whole new doc stream, executes the block, then converts the doc stream to a string and 
+    # emits it as raw text. If at all possible you should avoid this method since it hurts performance,
+    # and use #render_to instead.
     def capture(&block)
       begin
         original_doc = @doc
@@ -208,6 +235,7 @@ module Erector
       )
     end
 
+    # Emits a javascript block inside a +script+ tag, wrapped in CDATA doohickeys like all the cool JS kids do.
     def javascript(*args, &block)
       if args.length > 2
         raise ArgumentError, "Cannot accept more than two arguments"
@@ -246,6 +274,7 @@ module Erector
       text "\n"
     end
     
+    # Convenience method to emit a css file link, which looks like this: <link href="erector.css" rel="stylesheet" type="text/css" />
     def css(href)
       link :rel => 'stylesheet', :type => 'text/css', :href => "erector.css"        
     end
