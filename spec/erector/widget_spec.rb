@@ -316,6 +316,14 @@ EXPECTED
       end
 
     end
+    
+    describe "#css" do
+      it "makes a link when passed a string" do
+        Erector::Widget.new do
+          css "erector"
+        end.to_s.should == "<link href=\"erector.css\" rel=\"stylesheet\" type=\"text/css\" />"
+      end
+    end
 
     describe '#capture' do
       it "should return content rather than write it to the buffer" do
@@ -384,6 +392,40 @@ EXPECTED
 
       it "renders nested widgets in the correct order" do
         Parent.new.to_s.should == '123'
+      end
+    end
+    
+    describe '#render_to' do
+      class A < Erector::Widget
+        def render
+          p "A"
+        end
+      end
+
+      it "renders to a doc" do
+        class B < Erector::Widget
+          def render
+            text "B"
+            A.new.render_to(@doc)
+            text "B"
+          end
+        end
+        b = B.new
+        b.to_s.should == "B<p>A</p>B"
+        b.doc.size.should == 5  # B, <p>, A, </p>, B
+      end
+      
+      it "renders to a widget's doc" do
+        class B < Erector::Widget
+          def render
+            text "B"
+            A.new.render_to(self)
+            text "B"
+          end
+        end
+        b = B.new
+        b.to_s.should == "B<p>A</p>B"
+        b.doc.size.should == 5  # B, <p>, A, </p>, B
       end
     end
   end

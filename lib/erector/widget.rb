@@ -1,6 +1,22 @@
 require 'cgi'
 
 module Erector
+  
+  # A Widget is the center of the Erector universe. 
+  #
+  # To create a widget, extend Erector::Widget and implement 
+  # the +render+ method. Inside this method you may call any of the tag methods like +span+ or +p+ to emit HTML/XML
+  # tags. 
+  # 
+  # You can also define a widget on the fly by passing a block to +new+. This block will get executed when the widget's
+  # +render+ method is called.
+  #
+  # To render a widget from the outside, instantiate it and call its +to_s+ method.
+  # 
+  # To call one widget from another, inside the parent widget's render method, instantiate the child widget and call 
+  # its +render_to+ method, passing in +self+ (or +self.doc+ if you prefer). This assures that the same HtmlParts stream
+  # is used, which gives better performance than using +capture+ or +to_s+.
+  # 
   class Widget
     class << self
       def all_tags
@@ -34,7 +50,6 @@ module Erector
     attr_reader :block
     attr_reader :parent
 
-    # Each item in @doc is an array containing three values: type, value, attributes
     def initialize(helpers=nil, assigns={}, doc = HtmlParts.new, &block)
       @assigns = assigns
       assigns.each do |name, value|
@@ -49,7 +64,8 @@ module Erector
       @block = block
     end
 
-### methods for other classes to call, left public for ease of testing and documentation
+#-- methods for other classes to call, left public for ease of testing and documentation
+#++
 
     def to_s(&blk)
       return @__to_s if @__to_s
@@ -65,16 +81,21 @@ module Erector
       end
     end
 
-    def render_to(doc)
-      @doc = doc
+    def render_to(doc_or_widget)
+      if doc_or_widget.is_a?(Widget)
+        @parent = doc_or_widget
+        @doc = @parent.doc
+      else
+        @doc = doc_or_widget
+      end
       render
     end
 
-    def render_for(parent)
-      @parent = parent
-      @doc = parent.doc
-      render
-    end
+    # def render_to(parent)
+    #   @parent = parent
+    #   @doc = parent.doc
+    #   render
+    # end
 
     def widget(widget_class, assigns={}, &block)
       child = widget_class.new(helpers, assigns, doc, &block)
@@ -85,7 +106,38 @@ module Erector
       return to_s
     end
 
-### methods for subclasses to call
+#-- methods for subclasses to call
+#++
+
+    # Internal method used to emit an HTML/XML element, including an open tag, attributes (optional, via the default hash), 
+    # contents (also optional), and close tag. 
+    #
+    # Using the arcane powers of Ruby, there are magic methods that call +element+ for all the standard
+    # HTML tags, like +a+, +body+, +p+, and so forth. Look at the source of #full_tags for the full list.
+    # Unfortunately, this big mojo confuses rdoc, so we can't see each method in this rdoc page, but trust
+    # us, they're there.
+    #
+    # When calling one of these magic methods, put attributes in the default hash. If there is a string parameter,
+    # then it is used as the contents. If there is a block, then it is executed (yielded), and the string parameter is ignored.
+    # The block will usually be in the scope of the child widget, which means it has access to all the 
+    # methods of Widget, which will eventually end up appending text to the +doc+ HtmlParts stream. See how 
+    # elegant it is? Not confusing at all if you don't think about it.
+    #
+    def element(*args, &block)
+      __element__(*args, &block)
+    end
+  
+    # Internal method used to emit a self-closing HTML/XML element, including a tag name and optional attributes
+    # (passed in via the default hash).
+    # 
+    # Using the arcane powers of Ruby, there are magic methods that call +empty_element+ for all the standard
+    # HTML tags, like +img+, +br+, and so forth. Look at the source of #empty_tags for the full list.
+    # Unfortunately, this big mojo confuses rdoc, so we can't see each method in this rdoc page, but trust
+    # us, they're there.
+    #
+    def empty_element(*args, &block)
+      __empty_element__(*args, &block)
+    end
 
     def h(content)
       content.html_escape
@@ -194,14 +246,10 @@ module Erector
       text "\n"
     end
     
-    def element(*args, &block)
-      __element__(*args, &block)
+    def css(href)
+      link :rel => 'stylesheet', :type => 'text/css', :href => "erector.css"        
     end
-      
-    def empty_element(*args, &block)
-      __empty_element__(*args, &block)
-    end
-      
+    
 ### internal utility methods
 
 protected

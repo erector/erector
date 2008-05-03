@@ -38,7 +38,7 @@ class Page < Erector::Widget
   def render
     instruct
     html do
-      head.render_for(self)
+      head.render_to(self)
       body do
         text content
       end
@@ -53,7 +53,7 @@ class Hello < Page
       title "Hello"
     end
     head << Erector::Widget.new do
-      link :type=>"text/css", :rel=>"stylesheet", :href=>"/page.css"
+      css "hello"
     end
     @content = "Hey"
   end

@@ -9,7 +9,7 @@ class Page < Erector::Widget
     html do
       head do
         title "Erector - #{@title}"
-        link :rel => 'stylesheet', :type => "text/css", :href => "erector.css"        
+        css "erector"
       end
       body do
         table do

@@ -599,6 +599,7 @@ class Hoe
       title = "#{name}-#{version} Documentation"
       title = "#{rubyforge_name}'s " + title if rubyforge_name != name
 
+      rd.options << "--inline-source"
       rd.options << "-t #{title}"
     end
 

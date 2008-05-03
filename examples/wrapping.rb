@@ -21,7 +21,7 @@ puts z.to_s
 
 w = Erector::Widget.new do
   div do
-    x.render_for(self)
+    x.render_to(self)
   end
 end
 
