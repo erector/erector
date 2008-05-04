@@ -427,6 +427,15 @@ EXPECTED
         b.to_s.should == "B<p>A</p>B"
         b.doc.size.should == 5  # B, <p>, A, </p>, B
       end
+      
+      it "passing a widget to text method renders it" do
+        Erector::Widget.new() do
+          text "B"
+          text A.new()
+          text "B"
+        end.to_s.should == "B<p>A</p>B"
+      end
+
     end
   end
 end
