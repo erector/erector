@@ -14,7 +14,7 @@ module Erector
   # To render a widget from the outside, instantiate it and call its +to_s+ method.
   # 
   # To call one widget from another, inside the parent widget's render method, instantiate the child widget and call 
-  # its +render_to+ method, passing in +self+ (or +self.doc+ if you prefer). This assures that the same HtmlParts stream
+  # its +render_to+ method, passing in +self+ (or self.doc if you prefer). This assures that the same HtmlParts stream
   # is used, which gives better performance than using +capture+ or +to_s+.
   # 
   # In this documentation we've tried to keep the distinction clear between methods that *emit* text and those that
@@ -96,7 +96,7 @@ module Erector
     end
 
     # To call one widget from another, inside the parent widget's render method, instantiate the child widget and call 
-    # its +render_to+ method, passing in +self+ (or +self.doc+ if you prefer). This assures that the same HtmlParts stream
+    # its +render_to+ method, passing in +self+ (or self.doc if you prefer). This assures that the same HtmlParts stream
     # is used, which gives better performance than using +capture+ or +to_s+.
     def render_to(doc_or_widget)
       if doc_or_widget.is_a?(Widget)

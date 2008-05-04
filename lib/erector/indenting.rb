@@ -2,7 +2,7 @@ require 'rubygems'
 require 'treetop'
 
 module Erector
-  class Indenting < Treetop::Runtime::SyntaxNode
+  class Indenting < Treetop::Runtime::SyntaxNode #:nodoc:
     @@indent = 0
 
     def set_indent(x)

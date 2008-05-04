@@ -8,7 +8,9 @@
 Erector is a Builder-like view framework, inspired by Markaby but overcoming
 some of its flaws. In Erector all views are objects, not template files,
 which allows the full power of object-oriented programming (inheritance,
-modular decomposition, encapsulation) in views.
+modular decomposition, encapsulation) in views. See the rdoc for the
+Erector::Widget class to learn how to make your own widgets, and visit the
+project site at http://erector.rubyforge.org for more documentation.
 
 == SYNOPSIS
 

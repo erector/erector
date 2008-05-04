@@ -1,5 +1,5 @@
-module ActionView
-  module TemplateHandlers
+module ActionView #:nodoc:
+  module TemplateHandlers #:nodoc:
     class Erector
       def initialize(view)
         @view = view

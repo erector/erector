@@ -1,4 +1,6 @@
 module Erector
+  
+  # An array to which is written a stream of HTML "parts" -- each part being an open tag, a string, a close tag, etc.
   class HtmlParts < Array
     def to_s
       map do |part|

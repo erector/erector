@@ -1,5 +1,5 @@
 module Erector
-  module Widgets
+  module Widgets #:nodoc:
     class Table < Erector::Widget
       ColumnDefinition = Struct.new(:id, :name, :cell_proc)
       class << self

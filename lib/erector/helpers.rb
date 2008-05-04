@@ -1,4 +1,6 @@
 module Erector
+  
+  # Wrappers or replacements for the Rails helpers that are available from Rails views
   module Helpers
 
     [

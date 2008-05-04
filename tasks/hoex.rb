@@ -595,10 +595,8 @@ class Hoe
       files = spec.files.grep(rdoc_pattern)
       files -= ['Manifest.txt']
       rd.rdoc_files.push(*files)
-
       title = "#{name}-#{version} Documentation"
       title = "#{rubyforge_name}'s " + title if rubyforge_name != name
-
       rd.options << "--inline-source"
       rd.options << "-t #{title}"
     end
