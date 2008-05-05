@@ -320,7 +320,7 @@ EXPECTED
     describe "#css" do
       it "makes a link when passed a string" do
         Erector::Widget.new do
-          css "erector"
+          css "erector.css"
         end.to_s.should == "<link href=\"erector.css\" rel=\"stylesheet\" type=\"text/css\" />"
       end
     end

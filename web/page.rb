@@ -9,7 +9,7 @@ class Page < Erector::Widget
     html do
       head do
         title "Erector - #{@title}"
-        css "erector"
+        css "erector.css"
       end
       body do
         table do

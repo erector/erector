@@ -53,7 +53,7 @@ class Hello < Page
       title "Hello"
     end
     head << Erector::Widget.new do
-      css "hello"
+      css "hello.css"
     end
     @content = "Hey"
   end

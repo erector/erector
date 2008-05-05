@@ -26,10 +26,12 @@ module Erector
         Erector::Widget.full_tags + Erector::Widget.empty_tags
       end
 
+      # tags which are always self-closing
       def empty_tags
         ['area', 'base', 'br', 'hr', 'img', 'input', 'link', 'meta']
       end
 
+      # tags which can contain other stuff
       def full_tags
         [
           'a', 'acronym', 'address', 'b', 'bdo', 'big', 'blockquote', 'body',
@@ -154,7 +156,8 @@ module Erector
 
     # Returns an HTML-escaped version of its parameter. Leaves the HtmlParts stream untouched. Note that
     # the #text method automatically HTML-escapes its parameter, so be careful *not* to do something like
-    # +text(h("2<4"))+ since that will double-escape the less-than sign.
+    # text(h("2<4")) since that will double-escape the less-than sign (you'll get "2&amp;lt;4" instead of
+    # "2&lt;4").
     def h(content)
       content.html_escape
     end
@@ -276,7 +279,7 @@ module Erector
     
     # Convenience method to emit a css file link, which looks like this: <link href="erector.css" rel="stylesheet" type="text/css" />
     def css(href)
-      link :rel => 'stylesheet', :type => 'text/css', :href => "erector.css"        
+      link :rel => 'stylesheet', :type => 'text/css', :href => href
     end
     
 ### internal utility methods
