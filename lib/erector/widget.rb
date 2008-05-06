@@ -183,7 +183,8 @@ module Erector
       text raw(value)
     end
 
-    # Returns a non-breaking space character, using the entity-escaping format '&#160;' since that works
+    # Returns a copy of value with spaces replaced by non-breaking space characters.
+    # The output uses the entity-escaping format '&#160;' since that works
     # in both HTML and XML (as opposed to '&nbsp;' which only works in HTML).
     def nbsp(value)
       raw(value.html_escape.gsub(/ /,'&#160;'))
