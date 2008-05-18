@@ -11,3 +11,11 @@ require "action_controller/test_process"
 Spec::Runner.configure do |config|
   config.include ViewCaching
 end
+
+# This mimics Rails load path and dependency stuff
+RAILS_ROOT = File.expand_path("#{File.dirname(__FILE__)}/../test/rails_root") unless defined?(RAILS_ROOT)
+#$: << "#{RAILS_ROOT}/app"
+module Views
+  module TemplateHandlerSpec
+  end
+end

@@ -279,6 +279,9 @@ module Erector
     end
     
     # Convenience method to emit a css file link, which looks like this: <link href="erector.css" rel="stylesheet" type="text/css" />
+    # The parameter is the full contents of the href attribute, including any ".css" extension. 
+    #
+    # If you want to emit raw CSS inline, use the #script method instead.
     def css(href)
       link :rel => 'stylesheet', :type => 'text/css', :href => href
     end
@@ -297,19 +300,29 @@ protected
     end
 
     def fake_erbout(&blk)
-      widget = self
-      @helpers.metaclass.class_eval do
-        raise "Cannot nest fake_erbout" if instance_methods.include?('concat_without_erector')
-        alias_method :concat_without_erector, :concat
-        define_method :concat do |some_text, binding|
-          widget.rawtext(some_text)
+      # override concat on the helpers object (which is usually a Rails view object)
+      unless @helpers.respond_to?(:concat_without_erector)
+        @helpers.metaclass.class_eval do
+          alias_method :concat_without_erector, :concat
+          define_method :concat do |some_text, binding|
+            raise "widget stack too big" if  @erector_widget_stack.size > 10
+            if @erector_widget_stack.empty?
+              concat_without_erector(some_text, binding)
+            else
+              @erector_widget_stack.first.rawtext(some_text)
+            end
+          end
+          define_method :erector_widget_stack do
+            @erector_widget_stack ||= []
+          end
         end
       end
+      
+      @helpers.erector_widget_stack.unshift(self)
       yield
     ensure
-      @helpers.metaclass.class_eval do
-        alias_method :concat, :concat_without_erector
-        remove_method :concat_without_erector
+      if @helpers.respond_to?(:concat_without_erector)
+        @helpers.erector_widget_stack.shift
       end
     end
     

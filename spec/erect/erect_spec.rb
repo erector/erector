@@ -141,5 +141,8 @@ module Erector
       erect.run
       File.exist?(mr_slate_html).should be_false
     end
+    
+    it "properly indents lines beginning with for, unless, etc."
+    it "escapes single quotes inside text strings"
   end
 end

@@ -1,3 +1,10 @@
+=== 
+
+Lots of changes to support Rails integration better.
+Add partial support for render :partial.
+More Rails helpers proxies added to helpers.rb.
+Fake erbouts can now nest, allowing better support for Rails helpers like form_for (though they're currently capped at 10 deep to head off infinite regress).
+
 === 0.2.83 / 2008-04-23
 
 * "erect" supports command-line options
