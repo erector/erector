@@ -1,5 +1,3 @@
-require 'cgi'
-
 module Erector
   
   # A Widget is the center of the Erector universe. 
@@ -47,7 +45,6 @@ module Erector
 
     end
 
-    include ActionController::UrlWriter
     include Helpers
     attr_reader :helpers
     attr_reader :assigns
