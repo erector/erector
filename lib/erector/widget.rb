@@ -275,7 +275,7 @@ module Erector
       rawtext "\n// ]]>\n"
 
       close_tag 'script'
-      text "\n"
+      rawtext "\n"
     end
     
     # Convenience method to emit a css file link, which looks like this: <link href="erector.css" rel="stylesheet" type="text/css" />
