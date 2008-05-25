@@ -246,10 +246,10 @@ describe RhtmlParser do
   end
 
   it "parses some scaffolding" do
-    parse("""<p>
+    parse("<p>
   <b>Name:</b>
   <%=h @foo.name %>
-</p>""").convert.should ==
+</p>").convert.should ==
       "p do\n" +
       "  b do\n" +
       "    text 'Name:'\n" +
@@ -259,7 +259,7 @@ describe RhtmlParser do
   end
 
   it "parses edit.erb.html" do
-    parse("""<h1>Editing foo</h1>
+    parse("<h1>Editing foo</h1>
 
 <%= error_messages_for :foo %>
 
@@ -281,11 +281,11 @@ describe RhtmlParser do
 
 <%= link_to 'Show', @foo %> |
 <%= link_to 'Back', foos_path %>
-""")
+")
   end
 
   it "parses show.html.erb" do
-    parse("""<p>
+    parse("<p>
   <b>Name:</b>
   <%=h @foo.name %>
 </p>
@@ -298,7 +298,7 @@ describe RhtmlParser do
 
 <%= link_to 'Edit', edit_foo_path(@foo) %> |
 <%= link_to 'Back', foos_path %>
-""")
+")
   end
 
   it "does meta" do
