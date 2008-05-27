@@ -31,12 +31,10 @@ module Erector
     end
 
     def error_messages_for(*args)
-      fake_erbout do
-        helpers.error_messages_for(*args)
-      end
+      text raw(helpers.error_messages_for(*args))
     end
 
-    [:error_messages_for, :form_for, :form_tag, :text_field_tag, :password_field_tag, :check_box_tag].each do |method_to_proxy_with_block|
+    [:form_for, :form_tag, :text_field_tag, :password_field_tag, :check_box_tag].each do |method_to_proxy_with_block|
       method_def =<<-METHOD_DEF
       def #{method_to_proxy_with_block}(*args, &block)
         fake_erbout do
