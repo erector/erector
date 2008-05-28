@@ -49,6 +49,18 @@ describe "a view" do
     end.to_s.should == "<a href=\"/foo?this=1&amp;that=1\">This&amp;that</a>"
   end
 
+  it "#image_tag" do
+    Erector::Widget.new(@view) do
+      image_tag("/foo")
+    end.to_s.should == %{<img alt="Foo" src="/foo" />}
+  end
+
+  it "#image_tag with parameters" do
+    Erector::Widget.new(@view) do
+      image_tag("/foo", :id => "photo_foo", :class => "a_photo_class")
+    end.to_s.should == %{<img alt="Foo" class="a_photo_class" id="photo_foo" src="/foo" />}
+  end
+
   it "renders non-forgery-protected forms via form_tag" do
     pending("needs ActionView::capture to work")
     class << @view
