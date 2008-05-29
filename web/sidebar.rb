@@ -4,35 +4,45 @@ class Sidebar < Erector::Widget
     @current_page = current_page
   end
 
+  def clickable_li(text, href)
+    li :onclick => "document.location='#{href}'", :class => "clickable" do
+      a text, :href => href
+    end
+  end
+
   def render
 
     div :class => "sidebar" do
-
-      img :src => 'erector.jpg', :align => 'left'
+      a :href => "index.html" do
+        img :src => 'erector.jpg', :align => 'left'
+      end
 
       br :clear => "all"
 
       h3 "Sections:"
       ul do
-        li { a "Readme", :href => 'index.html' }
-        li { a "User Guide", :href => 'documentation.html' }
-        li { a "Motivation", :href => 'motivation.html' }
-        li { a "For Developers", :href => 'developers.html' }
+        clickable_li "Readme", 'index.html'
+        clickable_li "User Guide", 'documentation.html'
+        clickable_li "FAQ", 'faq.html'
+        clickable_li "For Developers", 'developers.html'
       end
 
       hr
 
       h3 "Links:"
       ul do
-        li do
-          a('Download', :href => 'http://rubyforge.org/frs/?group_id=4797')
+        href = 'http://rubyforge.org/frs/?group_id=4797'
+        li :class => 'clickable', :onclick => "document.location='#{href}'" do
+          a('Download', :href => href)
           br
           span " (current version: #{Erector::VERSION})"
         end
-        li { a('RDoc Documentation', :href =>'rdoc') }
-        li { a('RubyForge Project', :href => 'http://rubyforge.org/projects/erector/') }
-        li { a('Subversion Repository', :href => 'http://rubyforge.org/scm/?group_id=4797') }
-        li { a("erector-devel mailing list", :href => "http://rubyforge.org/mailman/listinfo/erector-devel") }
+        clickable_li 'Version History', "http://erector.rubyforge.org/svn/trunk/History.txt"
+        clickable_li 'RDoc Documentation', 'rdoc'
+        clickable_li 'RubyForge Project', 'http://rubyforge.org/projects/erector/'
+        clickable_li 'Lighthouse Project', 'http://erector.lighthouseapp.com'
+        clickable_li 'Subversion Repository', 'http://rubyforge.org/scm/?group_id=4797'
+        clickable_li "erector-devel mailing list", "http://rubyforge.org/mailman/listinfo/erector-devel"
       end
 
       hr

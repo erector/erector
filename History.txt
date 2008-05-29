@@ -6,6 +6,7 @@
 * Fake erbouts can now nest, allowing better support for Rails helpers like form_for (though they're currently capped at 10 deep to head off infinite regress).
 * Rails finds both .rb and .html.rb files inside the app/views directories.
 * Use Rails view\_paths instead of hardcoded RAILS\_ROOT/app/views (patch by Rami Grossman)
+* add 'url' and 'css' convenience methods to Widget
 
 === 0.2.83 / 2008-04-23
 

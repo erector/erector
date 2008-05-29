@@ -324,6 +324,14 @@ EXPECTED
         end.to_s.should == "<link href=\"erector.css\" rel=\"stylesheet\" type=\"text/css\" />"
       end
     end
+    
+    describe "#url" do
+      it "renders an anchor tag with the same href and text" do
+        Erector::Widget.new do
+          url "http://example.com"
+        end.to_s.should == "<a href=\"http://example.com\">http://example.com</a>"
+      end
+    end
 
     describe '#capture' do
       it "should return content rather than write it to the buffer" do

@@ -290,6 +290,11 @@ module Erector
       link :rel => 'stylesheet', :type => 'text/css', :href => href
     end
     
+    # Convenience method to emit an anchor tag whose href and text are the same, e.g. <a href="http://example.com">http://example.com</a>
+    def url(href)
+      a href, :href => href
+    end
+    
 ### internal utility methods
 
 protected

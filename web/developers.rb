@@ -5,6 +5,8 @@ require "#{dir}/sidebar"
 class Developers < Page
 
   def render_body
+    
+    p "Want to help develop Erector? Here's what to do."
 
     h2 "Check out project from rubyforge:"
     pre "svn co svn+ssh://developername@rubyforge.org/var/svn/erector/trunk erector"
@@ -20,6 +22,11 @@ class Developers < Page
 
     h2 "Sign up for the erector-devel mailing list:"
     a("erector-devel mailing list", :href => "http://rubyforge.org/mailman/listinfo/erector-devel")
+
+    h2 "Join the Lighthouse project:"
+    url "mailto:brian@pivotallabs.com"
+    text " with your Lighthouse account name, then visit "
+    url "http://erector.lighthouseapp.com"
 
     h2 "Versioning and Release Policy"
     ul do

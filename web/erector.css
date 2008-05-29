@@ -11,8 +11,17 @@ li {
   padding-bottom: .5em;
 }
 
+li.clickable:hover {
+  background-color: blue; 
+  cursor: pointer; cursor: hand;
+}
+
 h1 {
   font-variant: small-caps;
+}
+
+h2 {
+  margin-top: 2em;
 }
 
 pre {
@@ -22,6 +31,10 @@ pre {
   padding-left: 2em;
   margin-right: 6em;
   overflow: auto;
+}
+
+code {
+  font-size: 12pt;
 }
 
 .separator {

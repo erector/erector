@@ -1,6 +1,8 @@
 dir = File.dirname(__FILE__)
 require "#{dir}/page"
 require "#{dir}/sidebar"
+require "#{dir}/article"
+require "#{dir}/section"
 
 class Documentation < Page
   def render_body
@@ -11,23 +13,11 @@ class Documentation < Page
       text " for more details on the API."
     end
 
-    h2 "Contents:"
-    ul do
-      sections.each do |section|
-        li do
-          a section.title, :href => "##{section.href}"
-        end
-      end
-    end
-
-    sections.each do |section|
-      a :name => section.href
-      h2 section.title
-      section.render_to(doc)
-    end
+    text sections
   end
 
   def sections
+    Article.new(
   [
     Section.new("The Basics") do
       p "The basic way to construct some HTML/XML with erector is to subclass Erector::Widget and implement a render method:"
@@ -148,16 +138,23 @@ DONE
         code "config/environment.rb"
         text ". You also should delete (or rename) any other view files with the same base name that might be getting in the way."
       end
+      
+      p do
+        text "Currently there is only partial support for some standard Rails features like partials, layouts, assigns, and helpers. Check the "
+        a "erector-devel mailing list", :href => "http://rubyforge.org/mailman/listinfo/erector-devel"
+        text " for status updates on these features."
+      end
 
     end,
 
     Section.new("Erect: Command-line conversion to and from HTML") do
 
-      p <<DONE
+      p """
       To make Rails integration as smooth as possible, we've written a little tool that will help you
-      erect your existing Rails app. The "erect" tool will convert HTML or HTML/ERB into an Erector class.
+      erect your existing Rails app. The 'erect' tool will convert HTML or HTML/ERB into an Erector class.
       It ships as part of the Erector gem, so to try it out, install the gem, then run
-DONE
+      """.strip
+      
       pre "erect app/views/foos/*.html.erb"
 
       p "or just"
@@ -177,6 +174,7 @@ erect app/views/posts
 
 mate app/views/posts
 sleep 30 # this should be enough time for you to stop drooling
+
 rm app/views/posts/*.erb
 (echo ""; echo "require 'erector'") >> config/environment.rb
 rake db:migrate
@@ -190,7 +188,90 @@ DONE
     Section.new("Layout Inheritance") do
       p "Erector replaces the typical Rails layout mechanism with a more natural construct, the use of inheritance. Want a common
       layout? Just implement a layout superclass and inherit from it. Implement render in the superclass and implement template
-      methods in its subclasses. There's one trick you'll need to use this layout for non-erector templates. Here's an example."
+      methods in its subclasses."
+      
+      p do
+        text "For example:"
+        pre <<-DONE
+class Page < Erector::Widget
+  def initialize(title = self.class.name)
+    super
+    @title = title
+  end
+
+  def render
+    html do
+      head do
+        title "MyApp - \#{@title}"
+        css "myapp.css"
+      end
+      body do
+        div :class => 'sidebar' do
+          render_sidebar
+        end
+        div :class => 'body' do
+          render_body
+        end
+        div :class => 'footer' do
+          render_footer
+        end
+      end
+    end
+  end
+
+  def render_sidebar
+    a "MyApp Home", :href => "/"
+  end
+
+  def render_body
+    p "This page intentionally left blank."
+  end
+
+  def render_footer
+    p "Copyright (c) 2112, Rush Enterprises Inc."
+  end
+end
+        DONE
+
+        pre <<-DONE
+class Faq < Page
+  def initialize
+    super("FAQ")
+  end
+
+  def render_body
+    p "Q: Why is the sky blue?"
+    p "A: To get to the other side"
+  end
+
+  def render_sidebar
+    super
+    a "More FAQs", :href => "http://faqs.org"
+  end
+end
+      DONE
+        end
+        p "Notice how this mechanism allows you to..."
+        ul do
+          li "Set instance variables (e.g. title)"
+          li "Override sections completely (e.g. render_body)"
+          li "Append to standard content (e.g. render_sidebar)"
+          li "Use standard content unchanged (e.g. render_footer)"
+        end
+        p "all in a straightforward, easily understood paradigm (OO inheritance). (No more weird yielding to invisible, undocumented closures!)"
+        p do
+          text "To use this in Rails, declare "
+          code "layout nil"
+          text " in "
+          code "app/controllers/application.rb"
+          text " and then define your Page parent class as "
+          code "class Views::Layouts::Page"
+          text " in "
+          code "app/views/layouts"
+          text " as usual."
+        end
+      
+      p "There's one trick you'll need to use this layout for non-erector view templates. Here's an example."
 
       p do
         code "application.rb"
@@ -247,22 +328,14 @@ html.to_s          #=> <p>Hello, world!</p>
 DONE
         text "This lets you define mini-widgets on the fly."
       end
+      
+      p do
+        text "One extra bonus feature of inline widgets is that they can call methods defined on the parent class, even though they're out of scope. How do they do this? Through method_missing magic. (But isn't method_missing magic against the design goals of Erector? Yes, some would say so, and we're probably going to discuss this feature on the mailing list before long.)"
+      end
     end,
 
     
-    ]
+    ])
   end
 end
 
-class Section < Erector::Widget
-  attr_reader :title
-
-  def initialize(title, &block)
-    super(&block)
-    @title = title
-  end
-
-  def href
-    title.split(':').first.gsub(/[^\w]/, '').downcase
-  end
-end

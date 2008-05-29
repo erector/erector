@@ -1,4 +1,4 @@
-<html><head><title>Erector - Documentation</title><link href="erector.css" rel="stylesheet" type="text/css" /></head><body><table><tr><td valign="top"><div class="sidebar"><img align="left" src="erector.jpg" /><br clear="all" /><h3>Sections:</h3><ul><li><a href="index.html">Readme</a></li><li><a href="documentation.html">User Guide</a></li><li><a href="motivation.html">Motivation</a></li><li><a href="developers.html">For Developers</a></li></ul><hr /><h3>Links:</h3><ul><li><a href="http://rubyforge.org/frs/?group_id=4797">Download</a><br /><span> (current version: 0.2.83)</span></li><li><a href="rdoc">RDoc Documentation</a></li><li><a href="http://rubyforge.org/projects/erector/">RubyForge Project</a></li><li><a href="http://rubyforge.org/scm/?group_id=4797">Subversion Repository</a></li><li><a href="http://rubyforge.org/mailman/listinfo/erector-devel">erector-devel mailing list</a></li></ul><hr /><h3>Supported by:</h3><center><a href="http://www.pivotallabs.com"><img alt="Pivotal Labs" height="57" src="pivotal.gif" width="158" /></a></center></div></td><td valign="top"><h1 class="title">Erector - Documentation</h1><hr /><div class="body"><p>Make sure to check out the <a href="rdoc">RDoc Documentation</a> for more details on the API.</p><h2>Contents:</h2><ul><li><a href="#thebasics">The Basics</a></li><li><a href="#apicheatsheet">API Cheatsheet</a></li><li><a href="#usingerectorfromrubyonrails">Using Erector from Ruby on Rails</a></li><li><a href="#erect">Erect: Command-line conversion to and from HTML</a></li><li><a href="#layoutinheritance">Layout Inheritance</a></li><li><a href="#inlinewidgets">Inline Widgets</a></li></ul><a name="thebasics"></a><h2>The Basics</h2><p>The basic way to construct some HTML/XML with erector is to subclass Erector::Widget and implement a render method:</p><table><tr><td><pre>class Hello &lt; Erector::Widget
+<html><head><title>Erector - Documentation</title><link href="erector.css" rel="stylesheet" type="text/css" /></head><body><table><tr><td valign="top"><div class="sidebar"><a href="index.html"><img align="left" src="erector.jpg" /></a><br clear="all" /><h3>Sections:</h3><ul><li class="clickable" onclick="document.location='index.html'"><a href="index.html">Readme</a></li><li class="clickable" onclick="document.location='documentation.html'"><a href="documentation.html">User Guide</a></li><li class="clickable" onclick="document.location='faq.html'"><a href="faq.html">FAQ</a></li><li class="clickable" onclick="document.location='developers.html'"><a href="developers.html">For Developers</a></li></ul><hr /><h3>Links:</h3><ul><li class="clickable" onclick="document.location='http://rubyforge.org/frs/?group_id=4797'"><a href="http://rubyforge.org/frs/?group_id=4797">Download</a><br /><span> (current version: 0.2.83)</span></li><li class="clickable" onclick="document.location='http://erector.rubyforge.org/svn/trunk/History.txt'"><a href="http://erector.rubyforge.org/svn/trunk/History.txt">Version History</a></li><li class="clickable" onclick="document.location='rdoc'"><a href="rdoc">RDoc Documentation</a></li><li class="clickable" onclick="document.location='http://rubyforge.org/projects/erector/'"><a href="http://rubyforge.org/projects/erector/">RubyForge Project</a></li><li class="clickable" onclick="document.location='http://erector.lighthouseapp.com'"><a href="http://erector.lighthouseapp.com">Lighthouse Project</a></li><li class="clickable" onclick="document.location='http://rubyforge.org/scm/?group_id=4797'"><a href="http://rubyforge.org/scm/?group_id=4797">Subversion Repository</a></li><li class="clickable" onclick="document.location='http://rubyforge.org/mailman/listinfo/erector-devel'"><a href="http://rubyforge.org/mailman/listinfo/erector-devel">erector-devel mailing list</a></li></ul><hr /><h3>Supported by:</h3><center><a href="http://www.pivotallabs.com"><img alt="Pivotal Labs" height="57" src="pivotal.gif" width="158" /></a></center></div></td><td valign="top"><h1 class="title">Erector - Documentation</h1><hr /><div class="body"><p>Make sure to check out the <a href="rdoc">RDoc Documentation</a> for more details on the API.</p><ul><li><a href="#thebasics">The Basics</a></li><li><a href="#apicheatsheet">API Cheatsheet</a></li><li><a href="#usingerectorfromrubyonrails">Using Erector from Ruby on Rails</a></li><li><a href="#erect">Erect: Command-line conversion to and from HTML</a></li><li><a href="#layoutinheritance">Layout Inheritance</a></li><li><a href="#inlinewidgets">Inline Widgets</a></li></ul><a name="thebasics"></a><h2>The Basics</h2><p>The basic way to construct some HTML/XML with erector is to subclass Erector::Widget and implement a render method:</p><table><tr><td><pre>class Hello &lt; Erector::Widget
   def render
     html do
       head do
@@ -38,7 +38,7 @@ a 'foo', :href =&gt; &quot;bar&quot;  # &lt;a href=&quot;bar&quot;&gt;foo&lt;/a&
 text nbsp('Save Doc')    # Save&amp;#160;Doc (turns spaces into non-breaking spaces)
 instruct                 # &lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
 
-javascript { rawtext('if (x &lt; y &amp;&amp; x &gt; z) alert(&quot;don\'t stop&quot;);') } #=&gt;
+javascript('if (x &lt; y &amp;&amp; x &gt; z) alert(&quot;don\'t stop&quot;);') #=&gt;
 &lt;script type=&quot;text/javascript&quot;&gt;
 // &lt;![CDATA[
 if (x &lt; y &amp;&amp; x &gt; z) alert(&quot;don't stop&quot;);
@@ -61,10 +61,9 @@ end
     end
   end
 end
-</pre><p>For Rails to find these .rb files during <code>render :template</code>, you must first either copy the erector source to <code>vendor/plugins/erector</code>, or add <code>require 'erector'</code> to <code>config/environment.rb</code>. You also should delete (or rename) any other view files with the same base name that might be getting in the way.</p><a name="erect"></a><h2>Erect: Command-line conversion to and from HTML</h2><p>      To make Rails integration as smooth as possible, we've written a little tool that will help you
-      erect your existing Rails app. The &quot;erect&quot; tool will convert HTML or HTML/ERB into an Erector class.
-      It ships as part of the Erector gem, so to try it out, install the gem, then run
-</p><pre>erect app/views/foos/*.html.erb</pre><p>or just</p><pre>erect app/views</pre><p>and then delete the original files when you're satisfied.</p><p>Here's a little command-line howto for erecting a scaffold Rails app:</p><pre>rails foo
+</pre><p>For Rails to find these .rb files during <code>render :template</code>, you must first either copy the erector source to <code>vendor/plugins/erector</code>, or add <code>require 'erector'</code> to <code>config/environment.rb</code>. You also should delete (or rename) any other view files with the same base name that might be getting in the way.</p><p>Currently there is only partial support for some standard Rails features like partials, layouts, assigns, and helpers. Check the <a href="http://rubyforge.org/mailman/listinfo/erector-devel">erector-devel mailing list</a> for status updates on these features.</p><a name="erect"></a><h2>Erect: Command-line conversion to and from HTML</h2><p>To make Rails integration as smooth as possible, we've written a little tool that will help you
+      erect your existing Rails app. The 'erect' tool will convert HTML or HTML/ERB into an Erector class.
+      It ships as part of the Erector gem, so to try it out, install the gem, then run</p><pre>erect app/views/foos/*.html.erb</pre><p>or just</p><pre>erect app/views</pre><p>and then delete the original files when you're satisfied.</p><p>Here's a little command-line howto for erecting a scaffold Rails app:</p><pre>rails foo
 cd foo
 script/generate scaffold post title:string body:text published:boolean
 
@@ -72,6 +71,7 @@ erect app/views/posts
 
 mate app/views/posts
 sleep 30 # this should be enough time for you to stop drooling
+
 rm app/views/posts/*.erb
 (echo &quot;&quot;; echo &quot;require 'erector'&quot;) &gt;&gt; config/environment.rb
 rake db:migrate
@@ -79,7 +79,60 @@ script/server
 open http://localhost:3000/posts
 </pre><a name="layoutinheritance"></a><h2>Layout Inheritance</h2><p>Erector replaces the typical Rails layout mechanism with a more natural construct, the use of inheritance. Want a common
       layout? Just implement a layout superclass and inherit from it. Implement render in the superclass and implement template
-      methods in its subclasses. There's one trick you'll need to use this layout for non-erector templates. Here's an example.</p><p><code>application.rb</code> - The Erector layout superclass<pre>class Views::Layouts::Application &lt; Erector::Widget
+      methods in its subclasses.</p><p>For example:<pre>class Page &lt; Erector::Widget
+  def initialize(title = self.class.name)
+    super
+    @title = title
+  end
+
+  def render
+    html do
+      head do
+        title &quot;MyApp - #{@title}&quot;
+        css &quot;myapp.css&quot;
+      end
+      body do
+        div :class =&gt; 'sidebar' do
+          render_sidebar
+        end
+        div :class =&gt; 'body' do
+          render_body
+        end
+        div :class =&gt; 'footer' do
+          render_footer
+        end
+      end
+    end
+  end
+
+  def render_sidebar
+    a &quot;MyApp Home&quot;, :href =&gt; &quot;/&quot;
+  end
+
+  def render_body
+    p &quot;This page intentionally left blank.&quot;
+  end
+
+  def render_footer
+    p &quot;Copyright (c) 2112, Rush Enterprises Inc.&quot;
+  end
+end
+</pre><pre>class Faq &lt; Page
+  def initialize
+    super(&quot;FAQ&quot;)
+  end
+
+  def render_body
+    p &quot;Q: Why is the sky blue?&quot;
+    p &quot;A: To get to the other side&quot;
+  end
+
+  def render_sidebar
+    super
+    a &quot;More FAQs&quot;, :href =&gt; &quot;http://faqs.org&quot;
+  end
+end
+</pre></p><p>Notice how this mechanism allows you to...</p><ul><li>Set instance variables (e.g. title)</li><li>Override sections completely (e.g. render_body)</li><li>Append to standard content (e.g. render_sidebar)</li><li>Use standard content unchanged (e.g. render_footer)</li></ul><p>all in a straightforward, easily understood paradigm (OO inheritance). (No more weird yielding to invisible, undocumented closures!)</p><p>To use this in Rails, declare <code>layout nil</code> in <code>app/controllers/application.rb</code> and then define your Page parent class as <code>class Views::Layouts::Page</code> in <code>app/views/layouts</code> as usual.</p><p>There's one trick you'll need to use this layout for non-erector view templates. Here's an example.</p><p><code>application.rb</code> - The Erector layout superclass<pre>class Views::Layouts::Application &lt; Erector::Widget
   attr_accessor :content
 
   def render
@@ -99,4 +152,4 @@ self &lt;&lt; widget.to_s
   p &quot;Hello, world!&quot;
 end
 html.to_s          #=&gt; &lt;p&gt;Hello, world!&lt;/p&gt;
-</pre>This lets you define mini-widgets on the fly.</p></div></td></tr></table></body></html>
+</pre>This lets you define mini-widgets on the fly.</p><p>One extra bonus feature of inline widgets is that they can call methods defined on the parent class, even though they're out of scope. How do they do this? Through method_missing magic. (But isn't method_missing magic against the design goals of Erector? Yes, some would say so, and we're probably going to discuss this feature on the mailing list before long.)</p></div></td></tr></table></body></html>
