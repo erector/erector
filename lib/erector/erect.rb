@@ -90,6 +90,7 @@ module Erector
           say " --> #{e.filename}\n"
         rescue => e
           puts e
+          puts e.backtrace.join("\n\t")
           puts
         end
       end
@@ -122,6 +123,7 @@ module Erector
           end
         rescue => e
           puts e
+          puts e.backtrace.join("\n\t")
         end
       end
     end
