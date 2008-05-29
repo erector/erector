@@ -25,6 +25,8 @@ module ActionView #:nodoc:
           full_path = "#{view_path}/#{template_path}.rb"
           if File.exists?(full_path)
             require_dependency full_path
+            found = true
+            break
           else
             partial_file_path = full_path.gsub(/\/([^\/]*)$/, '/_\1')
             if File.exists?(partial_file_path)
