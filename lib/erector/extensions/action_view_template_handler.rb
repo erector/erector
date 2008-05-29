@@ -20,19 +20,21 @@ module ActionView #:nodoc:
           template_path = paths.join('/')
         end
 
-        # TODO: use Rails view_paths array
-        full_path = "#{RAILS_ROOT}/app/views/#{template_path}.rb"
-        if File.exists?(full_path)
-          require_dependency full_path
-        else
-          partial_file_path = full_path.gsub(/\/([^\/]*)$/, '/_\1')
-          if File.exists?(partial_file_path)
-            require_dependency partial_file_path
+        found = false
+        @view.view_paths.each_with_index do |view_path, i|
+          full_path = "#{view_path}/#{template_path}.rb"
+          if File.exists?(full_path)
+            require_dependency full_path
           else
-            puts "Can't find #{partial_file_path}"
-            return
+            partial_file_path = full_path.gsub(/\/([^\/]*)$/, '/_\1')
+            if File.exists?(partial_file_path)
+              require_dependency partial_file_path
+              found = true
+              break
+            end
           end
         end
+        return unless found
 
         dot_rb = /\.rb$/
         widget_class = paths.inject(Views) do |current_module, node|
