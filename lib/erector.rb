@@ -12,5 +12,5 @@ require "erector/widgets"
 ##
 # Erector view framework
 module Erector
-  VERSION = "0.3.105"
+  VERSION = "0.3.110"
 end

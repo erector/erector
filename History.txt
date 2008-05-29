@@ -1,5 +1,9 @@
 ===
 
+
+
+=== 0.3.110 / 2008-05-29
+
 * support capture from rails helpers, allowing form_for/form_tag to work right
 * fix bug in view_paths support (finding views was hosed)
 
