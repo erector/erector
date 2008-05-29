@@ -61,3 +61,4 @@ ActionView::Base.instance_eval do
     register_template_handler :rb, ActionView::TemplateHandlers::Erector
   end
 end
+# ActionMailer::Base.register_template_extension('rb')

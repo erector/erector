@@ -19,3 +19,22 @@ module Views
   module TemplateHandlerSpec
   end
 end
+
+
+# uncomment this to find leftover debug putses
+#
+# alias :original_puts :puts
+# def puts(string ="")
+#   super string.to_s + "\s(#{caller.first.match(/(\w+\.\w+:\d+)|Rakefile:\d+/)[0]})"
+# end
+# 
+# alias :original_p :p
+# def p(string="")
+#   original_puts "\s(#{caller.first.match(/(\w+\.\w+:\d+)|Rakefile:\d+/)[0]})"
+#   super(string)
+# end
+# 
+# alias :original_print :print
+# def print(string="")
+#   super string + "\s(#{caller.first.match(/(\w+\.\w+:\d+)|Rakefile:\d+/)[0]})"
+# end

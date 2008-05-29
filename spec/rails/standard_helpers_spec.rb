@@ -34,12 +34,13 @@ describe "a view" do
     end
 
     it "renders error messages" do
-      pending("error_messages_for is broken")
+     pending("error_messages_for is broken") do
       message = Erector::Widget.new(@view) do
         error_messages_for(:model)
       end.to_s
       message.should include("too silly")
       message.should include("1 error")
+     end
     end
     
   end
@@ -63,7 +64,6 @@ describe "a view" do
   end
 
   it "renders non-forgery-protected forms via form_tag" do
-    pending("needs ActionView::capture to work")
     class << @view
       def protect_against_forgery?
         false
@@ -78,7 +78,6 @@ describe "a view" do
   end
 
   it "renders forgery-protected forms via form_tag" do
-    pending("needs ActionView::capture to work")
     class << @view
       def protect_against_forgery?
         true
@@ -94,9 +93,7 @@ describe "a view" do
     end
 
     Erector::Widget.new(@view) do
-      puts "starting"
       form_tag("/foo") do
-        puts "start of block"
         p "I'm in a form"
       end
     end.to_s.should == "<form action=\"/foo\" method=\"post\"><div style=\"margin:0;padding:0\"><input name=\"\" type=\"hidden\" value=\"token\" /></div><p>I'm in a form</p></form>"

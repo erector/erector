@@ -312,20 +312,24 @@ protected
       # override concat on the helpers object (which is usually a Rails view object)
       unless @helpers.respond_to?(:concat_without_erector)
         @helpers.metaclass.class_eval do
-#          alias_method :capture_without_erector, :capture
-#          define_method :capture do |*args|
-#            result = nil
-#            widget = @erector_widget_stack.first
-#            begin
-#              original_doc = widget.doc
-#              widget.doc = HtmlParts.new
-#              capture_without_erector(*args)
-#              result = raw(widget.doc.to_s)
-#            ensure
-#              widget.doc = original_doc
-#            end
-#            result
-#          end
+          alias_method :capture_without_erector, :capture
+          def capture(*args, &block)
+            result = nil
+            widget = @erector_widget_stack.first
+            begin
+              original_doc = widget.doc
+              widget.instance_eval do
+                @doc = HtmlParts.new
+              end
+              captured = capture_without_erector(*args, &block)
+              result = widget.raw(widget.doc.to_s)
+            ensure
+              widget.instance_eval do
+                @doc = original_doc
+              end
+            end
+            result
+          end
 
           alias_method :concat_without_erector, :concat
           define_method :concat do |*args|

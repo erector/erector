@@ -23,76 +23,78 @@ module RailsHelpersSpec
       @controller.append_view_path("#{RAILS_ROOT}/app/views")
     end
 
-    it "image_tag" do
-      class Erector::TestWidget < Erector::Widget
-        def render
-          image_tag("rails.png")
-        end
-      end      
-      @controller.render :widget => Erector::TestWidget
-      @response.body.should == "<img alt=\"Rails\" src=\"/images/rails.png\" />"
-    end
+    describe "returning raw text" do
+      it "image_tag" do
+        class Erector::TestWidget < Erector::Widget
+          def render
+            image_tag("rails.png")
+          end
+        end      
+        @controller.render :widget => Erector::TestWidget
+        @response.body.should == "<img alt=\"Rails\" src=\"/images/rails.png\" />"
+      end
 
-    it "javascript_include_tag" do
-      class Erector::TestWidget < Erector::Widget
-        def render
-          javascript_include_tag("rails")
-        end
-      end      
-      @controller.render :widget => Erector::TestWidget
-      @response.body.should == "<script src=\"/javascripts/rails.js\" type=\"text/javascript\"></script>"
-    end
+      it "javascript_include_tag" do
+        class Erector::TestWidget < Erector::Widget
+          def render
+            javascript_include_tag("rails")
+          end
+        end      
+        @controller.render :widget => Erector::TestWidget
+        @response.body.should == "<script src=\"/javascripts/rails.js\" type=\"text/javascript\"></script>"
+      end
     
-    it "define_javascript_functions" do
-      class Erector::TestWidget < Erector::Widget
-        def render
-          define_javascript_functions
+      it "define_javascript_functions" do
+        class Erector::TestWidget < Erector::Widget
+          def render
+            define_javascript_functions
+          end
         end
-      end      
-      @controller.render :widget => Erector::TestWidget
-      @response.body.should =~ /^<script type=\"text\/javascript\">\n/
-    end
+        @controller.render :widget => Erector::TestWidget
+        @response.body.should =~ /^<script type=\"text\/javascript\">\n/
+      end
     
-    it "stylesheet_link_tag" do
-      class Erector::TestWidget < Erector::Widget
-        def render
-          stylesheet_link_tag("rails")
-        end
-      end      
-      @controller.render :widget => Erector::TestWidget
-      @response.body.should == "<link href=\"/stylesheets/rails.css\" media=\"screen\" rel=\"stylesheet\" type=\"text/css\" />"
-    end
+      it "stylesheet_link_tag" do
+        class Erector::TestWidget < Erector::Widget
+          def render
+            stylesheet_link_tag("rails")
+          end
+        end      
+        @controller.render :widget => Erector::TestWidget
+        @response.body.should == "<link href=\"/stylesheets/rails.css\" media=\"screen\" rel=\"stylesheet\" type=\"text/css\" />"
+      end
 
-    def sortable_js_for(element_id, url)
-      "Sortable.create(\"#{element_id}\", {onUpdate:function(){new Ajax.Request('#{url}', {asynchronous:true, evalScripts:true, parameters:Sortable.serialize(\"#{element_id}\")})}})"
-    end
+      def sortable_js_for(element_id, url)
+        "Sortable.create(\"#{element_id}\", {onUpdate:function(){new Ajax.Request('#{url}', {asynchronous:true, evalScripts:true, parameters:Sortable.serialize(\"#{element_id}\")})}})"
+      end
 
-    it "sortable_element" do
-      class Erector::TestWidget < Erector::Widget
-        def render
-          sortable_element("rails", :url => "/foo")
-        end
-      end      
-      @controller.render :widget => Erector::TestWidget
-      @response.body.should == 
-        "<script type=\"text/javascript\">\n//<![CDATA[\n" + 
-        sortable_js_for("rails", "/foo") +
-        "\n//]]>\n</script>"
-    end
+      it "sortable_element" do
+        class Erector::TestWidget < Erector::Widget
+          def render
+            sortable_element("rails", :url => "/foo")
+          end
+        end      
+        @controller.render :widget => Erector::TestWidget
+        @response.body.should == 
+          "<script type=\"text/javascript\">\n//<![CDATA[\n" + 
+          sortable_js_for("rails", "/foo") +
+          "\n//]]>\n</script>"
+      end
 
-    it "sortable_element_js" do
-      class Erector::TestWidget < Erector::Widget
-        def render
-          sortable_element_js("rails", :url => "/foo")
-        end
-      end      
-      @controller.render :widget => Erector::TestWidget
-      @response.body.should == sortable_js_for("rails", "/foo") + ";"
+      it "sortable_element_js" do
+        class Erector::TestWidget < Erector::Widget
+          def render
+            sortable_element_js("rails", :url => "/foo")
+          end
+        end      
+        @controller.render :widget => Erector::TestWidget
+        @response.body.should == sortable_js_for("rails", "/foo") + ";"
       
+      end
+
+      #Note: "text_field_with_auto_complete" is now a plugin, which makes it difficult to test inside the Erector project
     end
-
-    #Note: "text_field_with_auto_complete" is now a plugin, which makes it difficult to test inside the Erector project
-
+    
     # :link_to_function,
     # :link_to,
     # :link_to_remote,

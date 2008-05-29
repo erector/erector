@@ -47,8 +47,6 @@ module Erector
     # return text, take block
     [
       :link_to_function,
-      :form_for, 
-      :form_tag, 
       :text_field_tag, 
       :password_field_tag, 
       :check_box_tag
@@ -63,7 +61,9 @@ module Erector
 
     # render text, take block
     [
-      :error_messages_for, 
+      :error_messages_for,
+      :form_tag, 
+      :form_for,
     ].each do |method_to_proxy_with_block|
       method_def =<<-METHOD_DEF
       def #{method_to_proxy_with_block}(*args, &block)
