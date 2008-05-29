@@ -26,7 +26,7 @@ class Faq < Page
           text " to learn how to make your own widgets, and visit the project site at "
           url "http://erector.rubyforge.org"
           text " for more documentation, especially the "
-          a "user guide", :href => 'documentation.html'          
+          a "user guide", :href => 'userguide.html'          
           text "."
         end
       end,
@@ -57,7 +57,7 @@ class Faq < Page
       Section.new("Where are some examples?") do
         p do
           text "This very web site you're reading right now is built with Erector, using the "
-          a "erect", :href => "documentation.html#erect"
+          a "erect", :href => "userguide.html#erect"
           text " tool. See the "
           a "svn repository", :href => "http://erector.rubyforge.org/svn/trunk/web/"
           text " for source code."
@@ -65,6 +65,26 @@ class Faq < Page
         
         p do
           text "Currently there are no open-source projects built with Erector so we can't show you working source code for a full Erector webapp."
+        end
+      end,
+      
+      Section.new("How does Erector stack up against Markaby?") do
+        p do
+          text "We loved "
+          a "Markaby", :href => "http://code.whytheluckystiff.net/markaby/"
+          text " when we first saw it, since it transformed the gnarliness of Rails' ERB views into a clean, functional programming lanugage where views are primarily code with ways to emit HTML, rather than HTML with ways to hack in code. However, we soon realized Markaby had two main flaws:"
+          ol do
+            li "It didn't go quite far enough down the OO road -- Markaby views are still fragments, not classes"
+            li "Its use of instance_eval and capture, as well as a view's functional-but-not-quite-an-object nature, led to too much magic and made it very difficult to debug"
+          end
+        end
+        p "Erector was conceived as a natural evolution of Markaby, but overcoming these two flaws. We think Erector can do pretty much everything Markaby can; if you find a counterexample, please let us know on the erector-devel mailing list."
+      end,
+      
+      Section.new("How does Erector stack up against HAML?") do
+        p do
+          a "HAML", :href =>"http://haml.hamptoncatlin.com/"
+          text " is beautiful. But it suffers from the same design flaw (or, some would say, advantage) as every templating technology: views are not objects, and markup isn't code. But views want to do codey things like loops and variables and modular decomposition and inheritance, and every effort to wedge control logic into markup ends up smelling like a hack. There's always going to be some algorithmic idiom that's awkward in a template language. We figure, why deny it? Code is code. Embrace your true nature! Lick your screen and taste the code!"
         end
       end,
       
@@ -76,8 +96,9 @@ class Faq < Page
           text ": define a parent class (e.g. Page) and have your view widgets extend this class rather than directly extending Erector::Widget. The parent class implements render, and calls down to the child class to render sections or acquire information that's specific to that view."
         end
         p do
-          text "For an example, see "
-          a "the user guide", :href => "documentation.html#layoutinheritance"
+          text "For an example with source code, see "
+          a "the user guide", :href => "userguide.html#layoutinheritance"
+          text "."
         end
       end
       
@@ -85,4 +106,3 @@ class Faq < Page
   end
 
 end
-

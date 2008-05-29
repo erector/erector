@@ -19,17 +19,17 @@ class Sidebar < Erector::Widget
 
       br :clear => "all"
 
-      h3 "Sections:"
+      h3 "On This Site:"
       ul do
         clickable_li "Readme", 'index.html'
-        clickable_li "User Guide", 'documentation.html'
+        clickable_li "User Guide", 'userguide.html'
         clickable_li "FAQ", 'faq.html'
         clickable_li "For Developers", 'developers.html'
       end
 
       hr
 
-      h3 "Links:"
+      h3 "External Links:"
       ul do
         href = 'http://rubyforge.org/frs/?group_id=4797'
         li :class => 'clickable', :onclick => "document.location='#{href}'" do

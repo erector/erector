@@ -1,6 +1,6 @@
 class Page < Erector::Widget
   def initialize(title = self.class.name, selection = title.downcase)
-    super
+    super(nil)
     @title = title
     @selection = selection
   end

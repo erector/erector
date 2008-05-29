@@ -4,9 +4,12 @@ require "#{dir}/sidebar"
 require "#{dir}/article"
 require "#{dir}/section"
 
-class Documentation < Page
+class Userguide < Page
+  def initialize
+    super("User Guide")
+  end
+  
   def render_body
-
     p do
       text "Make sure to check out the "
       a "RDoc Documentation", :href => "rdoc"
