@@ -47,7 +47,7 @@ module ActionView #:nodoc:
     private
       # TODO: move into widget
       def assign_locals(widget, local_assigns)
-        local_assigns.each { |key, value| widget.instance_variable_set("@#{key}", value) }
+        widget.assign_locals(local_assigns)
       end
       
     end

@@ -57,12 +57,7 @@ module Erector
 
     def initialize(helpers=nil, assigns={}, doc = HtmlParts.new, &block)
       @assigns = assigns
-      assigns.each do |name, value|
-        instance_variable_set("@#{name}", value)
-        metaclass.module_eval do
-          attr_reader name
-        end
-      end
+      assign_locals(assigns)
       @helpers = helpers
       @parent = block ? eval("self", block.binding) : nil
       @doc = doc
@@ -71,6 +66,15 @@ module Erector
 
 #-- methods for other classes to call, left public for ease of testing and documentation
 #++
+
+    def assign_locals(local_assigns)
+      local_assigns.each do |name, value| 
+        instance_variable_set("@#{name}", value)
+        metaclass.module_eval do
+          attr_reader name
+        end
+      end
+    end
 
     # Entry point for rendering a widget (and all its children). This method creates a new HtmlParts doc stream,
     # calls this widget's #render method, converts the HtmlParts to a string, and returns the string. 

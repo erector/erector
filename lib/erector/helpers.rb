@@ -3,6 +3,7 @@ module Erector
   # Wrappers or replacements for the Rails helpers that are available from Rails views
   module Helpers
 
+    # helpers returning raw text
     [
         :image_tag,
         :javascript_include_tag,
@@ -13,28 +14,57 @@ module Erector
         :text_field_with_auto_complete,
     ].each do |helper_name|
       define_method helper_name do |*args|
-        text raw(helpers.send(helper_name, *args))
+        begin
+          text raw(helpers.send(helper_name, *args))
+        rescue => e
+          puts e.backtrace.join("\n\t")
+          raise e
+        end
       end
     end
 
+    # helpers returning raw text whose first parameter is HTML escaped
     [
-        :link_to_function,
         :link_to,
         :link_to_remote,
         :mail_to,
         :button_to,
         :submit_tag,
-    ].each do |link_helper|
-      define_method link_helper do |link_text, *args|
-        text raw(helpers.send(link_helper, h(link_text), *args))
+    ].each do |helper_name|
+      
+      method_def =<<-METHOD_DEF
+      def #{helper_name}(link_text, *args, &block)
+        text raw(helpers.#{helper_name}(h(link_text), *args, &block))
       end
+      METHOD_DEF
+      eval(method_def)
     end
 
     def error_messages_for(*args)
       text raw(helpers.error_messages_for(*args))
     end
 
-    [:form_for, :form_tag, :text_field_tag, :password_field_tag, :check_box_tag].each do |method_to_proxy_with_block|
+    # return text, take block
+    [
+      :link_to_function,
+      :form_for, 
+      :form_tag, 
+      :text_field_tag, 
+      :password_field_tag, 
+      :check_box_tag
+    ].each do |method_to_proxy_with_block|
+      method_def =<<-METHOD_DEF
+      def #{method_to_proxy_with_block}(*args, &block)
+        text raw(helpers.#{method_to_proxy_with_block}(*args, &block))
+      end
+      METHOD_DEF
+      eval(method_def)
+    end
+
+    # render text, take block
+    [
+      :error_messages_for, 
+    ].each do |method_to_proxy_with_block|
       method_def =<<-METHOD_DEF
       def #{method_to_proxy_with_block}(*args, &block)
         fake_erbout do

@@ -9,7 +9,7 @@ module ActionController #:nodoc:
       @rendered_widget = widget_class.new(@template, assigns.merge(:params => params))
       @rendered_widget.to_s
     end
-  
+
     def render_with_erector_widget(*options, &block)
       if options.first.is_a?(Hash) && widget = options.first.delete(:widget)
         render_widget widget, *options, &block
