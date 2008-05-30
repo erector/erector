@@ -114,7 +114,10 @@ module Erector
       render
     end
 
-    # Convenience method for on-the-fly widgets. (Should we make this hidden? How is it used?)
+    # Convenience method for on-the-fly widgets. This is a way of making
+    # a sub-widget which still has access to the methods of the parent class.
+    # This is an experimental erector feature which may disappear in future
+    # versions of erector (see #widget in widget_spec in the Erector tests).
     def widget(widget_class, assigns={}, &block)
       child = widget_class.new(helpers, assigns, doc, &block)
       child.render
@@ -188,7 +191,7 @@ module Erector
     end
 
     # Returns a copy of value with spaces replaced by non-breaking space characters.
-    # The output uses the entity-escaping format '&#160;' since that works
+    # The output uses the escaping format '&#160;' since that works
     # in both HTML and XML (as opposed to '&nbsp;' which only works in HTML).
     def nbsp(value)
       raw(value.html_escape.gsub(/ /,'&#160;'))
@@ -299,6 +302,7 @@ module Erector
 
 protected
 
+    # This is part of the sub-widget/parent feature (see #widget method).
     def method_missing(name, *args, &block)
       block ||= lambda {} # captures self HERE
       if @parent
