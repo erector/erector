@@ -1,6 +1,6 @@
 ===
-
-
+* Renamed HtmlParts to Doc
+* Widget#doc is now a HtmlParts which proxies to the passed in IO stream
 
 === 0.3.110 / 2008-05-29
 
