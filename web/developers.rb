@@ -24,7 +24,7 @@ class Developers < Page
     a("erector-devel mailing list", :href => "http://rubyforge.org/mailman/listinfo/erector-devel")
 
     h2 "Join the Lighthouse project:"
-    url "mailto:brian@pivotallabs.com"
+    url "mailto:erector-devel@rubyforge.org"
     text " with your Lighthouse account name, then visit "
     url "http://erector.lighthouseapp.com"
 
