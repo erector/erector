@@ -7,9 +7,6 @@ dir = File.expand_path(File.dirname(__FILE__))
 $LOAD_PATH.unshift("#{dir}/../lib")
 require 'erector'
 
-class Block < Erector::Widget
-end
-
 class Overall < Erector::Widget
 
   def blocks
