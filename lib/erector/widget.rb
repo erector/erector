@@ -55,12 +55,12 @@ module Erector
     attr_reader :block
     attr_reader :parent
 
-    def initialize(helpers=nil, assigns={}, doc = HtmlParts.new, &block)
+    def initialize(helpers=nil, assigns={}, doc = StringIO.new(""), &block)
       @assigns = assigns
       assign_locals(assigns)
       @helpers = helpers
       @parent = block ? eval("self", block.binding) : nil
-      @doc = doc
+      @doc = HtmlParts.new(doc)
       @block = block
     end
 
@@ -171,13 +171,12 @@ module Erector
 
     # Emits an open tag, comprising '<', tag name, optional attributes, and '>'
     def open_tag(tag_name, attributes={})
-      @doc << {:type => :open, :tagName => tag_name, :attributes => attributes}
+      @doc.open_tag tag_name, attributes
     end
 
     # Emits text which will be HTML-escaped.
     def text(value)
-      @doc << {:type => :text, :value => value}
-      nil
+      @doc.text value
     end
 
     # Returns text which will *not* be HTML-escaped.
@@ -199,18 +198,16 @@ module Erector
 
     # Emits a close tag, consisting of '<', tag name, and '>'
     def close_tag(tag_name)
-      @doc << {:type => :close, :tagName => tag_name}
+      @doc.close_tag tag_name
     end
 
     # Emits an XML instruction, which looks like this: <?xml version=\"1.0\" encoding=\"UTF-8\"?>
     def instruct(attributes={:version => "1.0", :encoding => "UTF-8"})
-      @doc << {:type => :instruct, :attributes => attributes}
+      @doc.instruct attributes
     end
 
     # Deprecated synonym of instruct
-    def instruct!(attributes={:version => "1.0", :encoding => "UTF-8"})
-      @doc << {:type => :instruct, :attributes => attributes}
-    end
+    alias_method :instruct!, :instruct
 
     # Creates a whole new doc stream, executes the block, then converts the doc stream to a string and 
     # emits it as raw text. If at all possible you should avoid this method since it hurts performance,
@@ -218,7 +215,7 @@ module Erector
     def capture(&block)
       begin
         original_doc = @doc
-        @doc = HtmlParts.new
+        @doc = HtmlParts.new(StringIO.new)
         yield
         raw(@doc.to_s)
       ensure
@@ -323,7 +320,7 @@ protected
             begin
               original_doc = widget.doc
               widget.instance_eval do
-                @doc = HtmlParts.new
+                @doc = HtmlParts.new(StringIO.new)
               end
               captured = capture_without_erector(*args, &block)
               result = widget.raw(widget.doc.to_s)
@@ -387,7 +384,7 @@ private
     end
 
     def __empty_element__(tag_name, attributes={})
-      @doc << {:type => :empty, :tagName => tag_name, :attributes => attributes}
+      @doc.empty_element tag_name, attributes
     end
     
   end

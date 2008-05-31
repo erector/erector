@@ -1,29 +1,45 @@
 module Erector
-  
   # An array to which is written a stream of HTML "parts" -- each part being an open tag, a string, a close tag, etc.
-  class HtmlParts < Array
+  class HtmlParts
+    attr_reader :doc
+    def initialize(doc)
+      @doc = doc
+    end
+
+    def open_tag(tag_name, attributes={})
+      doc.print "<#{tag_name}#{format_attributes(attributes)}>"
+    end
+
+    def text(value)
+      doc.print(value.html_escape)
+      nil
+    end
+
+    def close_tag(tag_name)
+      doc.print("</#{tag_name}>")
+    end
+
+    def empty_element(tag_name, attributes={})
+      doc.print "<#{tag_name}#{format_attributes(attributes)} />"
+    end
+
+    def instruct(attributes={:version => "1.0", :encoding => "UTF-8"})
+      doc.print "<?xml#{format_sorted(sort_for_xml_declaration(attributes))}?>"
+    end
+
     def to_s
-      map do |part|
-        case part[:type].to_sym
-        when :open
-          part[:attributes] ?
-            "<#{part[:tagName]}#{format_attributes(part[:attributes])}>" :
-            "<#{part[:tagName]}>"
-        when :close
-          "</#{part[:tagName]}>"
-        when :empty
-          part[:attributes] ?
-            "<#{part[:tagName]}#{format_attributes(part[:attributes])} />" :
-            "<#{part[:tagName]}  />"
-        when :text
-          part[:value].html_escape
-        when :instruct
-          "<?xml#{format_sorted(sort_for_xml_declaration(part[:attributes]))}?>"
-        end
-      end.join
+      doc.string
     end
 
     protected
+    def method_missing(method_name, *args, &blk)
+      if doc.respond_to?(method_name)
+        doc.__send__(method_name, *args, &blk)
+      else
+        super
+      end
+    end
+
     def format_attributes(attributes)
       return "" if !attributes || attributes.empty?
       return format_sorted(sorted(attributes))
@@ -51,7 +67,7 @@ module Erector
     end
 
     def sort_for_xml_declaration(attributes)
-      # correct order is "version, encoding, standalone" (XML 1.0 section 2.8).  
+      # correct order is "version, encoding, standalone" (XML 1.0 section 2.8).
       # But we only try to put version before encoding for now.
       stringized = []
       attributes.each do |key, value|
@@ -59,5 +75,5 @@ module Erector
       end
       return stringized.sort{|a, b| b <=> a}
     end
-  end  
+  end
 end

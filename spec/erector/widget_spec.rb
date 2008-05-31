@@ -420,7 +420,7 @@ EXPECTED
         end
         b = B.new
         b.to_s.should == "B<p>A</p>B"
-        b.doc.size.should == 5  # B, <p>, A, </p>, B
+        b.doc.size.should == 10  # B, <p>, A, </p>, B
       end
       
       it "renders to a widget's doc" do
@@ -433,7 +433,7 @@ EXPECTED
         end
         b = B.new
         b.to_s.should == "B<p>A</p>B"
-        b.doc.size.should == 5  # B, <p>, A, </p>, B
+        b.doc.size.should == 10  # B, <p>, A, </p>, B
       end
       
       it "passing a widget to text method renders it" do
