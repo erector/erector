@@ -7,7 +7,7 @@ describe "a view" do
   end
 
   it "can capture with an erector block" do
-    pending("needs some re-work (maybe how haml does it?)")
+    pending("not sure why this is failing if form_tag is working")
     message = Erector::Widget.new(@view) do
       captured = @helpers.capture do
         h1 'capture me!'
