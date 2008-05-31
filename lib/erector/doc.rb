@@ -33,11 +33,9 @@ module Erector
 
     protected
     def method_missing(method_name, *args, &blk)
-      if doc.respond_to?(method_name)
-        doc.__send__(method_name, *args, &blk)
-      else
-        super
-      end
+      doc.__send__(method_name, *args, &blk)
+    rescue NoMethodError => e
+      raise NoMethodError, "undefined method `#{method_name}' for #{inspect}"
     end
 
     def format_attributes(attributes)

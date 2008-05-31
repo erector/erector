@@ -7,9 +7,11 @@ $LOAD_PATH.unshift("#{dir}/../lib")
 require "erector"
 require "hpricot"
 require "action_controller/test_process"
+require "rr"
 
 Spec::Runner.configure do |config|
   config.include ViewCaching
+  config.mock_with :rr
 end
 
 # This mimics Rails load path and dependency stuff
