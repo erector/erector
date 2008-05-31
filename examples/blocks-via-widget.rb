@@ -28,9 +28,13 @@ end
 
 overall = Erector::Widget.new do
 
+  def username
+    "bob"
+  end
+
   widget Blocks do
     widget Block, :title => "Block 1", :behaviors => 'buttons' do
-      p "my crazy blocks example"
+      p "my crazy blocks example for #{username}"
     end
     widget Block, :title => "Block 2", :behaviors => 'other_buttons' do
       div do

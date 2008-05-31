@@ -64,6 +64,12 @@ class Faq < Page
         end
         
         p do
+          text "We also have several examples checked in to the repository at "
+          url "http://erector.rubyforge.org/svn/trunk/examples"
+          text "."
+        end
+        
+        p do
           text "Currently there are no open-source projects built with Erector so we can't show you working source code for a full Erector webapp."
         end
       end,

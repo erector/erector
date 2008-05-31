@@ -9,6 +9,10 @@ require 'erector'
 
 class Overall < Erector::Widget
 
+  def username
+    "bob"
+  end
+
   def blocks
     ul :class => "blocks" do
       yield
@@ -27,7 +31,7 @@ class Overall < Erector::Widget
   def render
     blocks do
       block :title => "Block 1", :behaviors => 'buttons' do
-        p "my crazy blocks example"
+        p "my crazy blocks example for #{username}"
       end
       block :title => "Block 2", :behaviors => 'other_buttons' do
         div do
