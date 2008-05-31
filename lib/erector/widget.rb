@@ -55,12 +55,12 @@ module Erector
     attr_reader :block
     attr_reader :parent
 
-    def initialize(helpers=nil, assigns={}, doc = StringIO.new(""), &block)
+    def initialize(helpers=nil, assigns={}, io = StringIO.new(""), &block)
       @assigns = assigns
       assign_locals(assigns)
       @helpers = helpers
       @parent = block ? eval("self", block.binding) : nil
-      @doc = HtmlParts.new(doc)
+      @doc = HtmlParts.new(io)
       @block = block
     end
 
