@@ -25,42 +25,42 @@ module RailsHelpersSpec
 
     describe "returning raw text" do
       it "image_tag" do
-        class Erector::TestWidget < Erector::Widget
+        widget_class = Class.new(Erector::Widget) do
           def render
             image_tag("rails.png")
           end
         end      
-        @controller.render :widget => Erector::TestWidget
+        @controller.render :widget => widget_class
         @response.body.should == "<img alt=\"Rails\" src=\"/images/rails.png\" />"
       end
 
       it "javascript_include_tag" do
-        class Erector::TestWidget < Erector::Widget
+        widget_class = Class.new(Erector::Widget) do
           def render
             javascript_include_tag("rails")
           end
         end      
-        @controller.render :widget => Erector::TestWidget
+        @controller.render :widget => widget_class
         @response.body.should == "<script src=\"/javascripts/rails.js\" type=\"text/javascript\"></script>"
       end
     
       it "define_javascript_functions" do
-        class Erector::TestWidget < Erector::Widget
+        widget_class = Class.new(Erector::Widget) do
           def render
             define_javascript_functions
           end
         end
-        @controller.render :widget => Erector::TestWidget
+        @controller.render :widget => widget_class
         @response.body.should =~ /^<script type=\"text\/javascript\">\n/
       end
     
       it "stylesheet_link_tag" do
-        class Erector::TestWidget < Erector::Widget
+        widget_class = Class.new(Erector::Widget) do
           def render
             stylesheet_link_tag("rails")
           end
         end      
-        @controller.render :widget => Erector::TestWidget
+        @controller.render :widget => widget_class
         @response.body.should == "<link href=\"/stylesheets/rails.css\" media=\"screen\" rel=\"stylesheet\" type=\"text/css\" />"
       end
 
@@ -69,12 +69,12 @@ module RailsHelpersSpec
       end
 
       it "sortable_element" do
-        class Erector::TestWidget < Erector::Widget
+        widget_class = Class.new(Erector::Widget) do
           def render
             sortable_element("rails", :url => "/foo")
           end
         end      
-        @controller.render :widget => Erector::TestWidget
+        @controller.render :widget => widget_class
         @response.body.should == 
           "<script type=\"text/javascript\">\n//<![CDATA[\n" + 
           sortable_js_for("rails", "/foo") +
@@ -82,12 +82,12 @@ module RailsHelpersSpec
       end
 
       it "sortable_element_js" do
-        class Erector::TestWidget < Erector::Widget
+        widget_class = Class.new(Erector::Widget) do
           def render
             sortable_element_js("rails", :url => "/foo")
           end
         end      
-        @controller.render :widget => Erector::TestWidget
+        @controller.render :widget => widget_class
         @response.body.should == sortable_js_for("rails", "/foo") + ";"
       
       end
@@ -104,17 +104,17 @@ module RailsHelpersSpec
 
     describe "which html-escape their first parameter:" do
       it "link_to_function with name" do
-        class Erector::TestWidget < Erector::Widget
+        widget_class = Class.new(Erector::Widget) do
           def render
             link_to_function("hi", "alert('hi')")
           end
         end      
-        @controller.render :widget => Erector::TestWidget
+        @controller.render :widget => widget_class
         @response.body.should == "<a href=\"#\" onclick=\"alert('hi'); return false;\">hi</a>"
       end
 
       it "link_to_function with block" do
-        class Erector::TestWidget < Erector::Widget
+        widget_class = Class.new(Erector::Widget) do
           def render
             link_to_function("Show me more", nil, :id => "more_link") do |page|
               page[:details].visual_effect  :toggle_blind
@@ -122,7 +122,7 @@ module RailsHelpersSpec
             end
           end
         end
-        @controller.render :widget => Erector::TestWidget
+        @controller.render :widget => widget_class
         @response.body.should == "<a href=\"#\" id=\"more_link\" onclick=\"$(&quot;details&quot;).visualEffect(&quot;toggle_blind&quot;);\n$(&quot;more_link&quot;).update(&quot;Show me less&quot;);; return false;\">Show me more</a>"
       end
     end
@@ -130,7 +130,7 @@ module RailsHelpersSpec
     describe "which render to the ERB stream:" do
       it "error_messages for, with object name" do
         pending("error_messages_for is broken")
-        class Erector::TestWidget < Erector::Widget
+        widget_class = Class.new(Erector::Widget) do
           def render
             error_messages_for 'user'
           end
@@ -138,7 +138,7 @@ module RailsHelpersSpec
         errors = ActiveRecord::Errors.new(nil)
         errors.add("name", "must be unpronounceable")
         @controller.user = OpenStruct.new({:name => 'bob', :errors => errors})
-        @controller.render :widget => Erector::TestWidget
+        @controller.render :widget => widget_class
         @response.body.should == "<a href=\"#\" onclick=\"alert('hi'); return false;\">hi</a>"
       end
     end

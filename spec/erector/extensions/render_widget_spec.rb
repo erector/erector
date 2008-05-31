@@ -4,19 +4,19 @@ module BaseSpec
   class TestWidgetController < ActionController::Base
     def index_with_implicit_assigns
       @foobar = "foobar"
-      render_widget Erector::TestWidget
+      render_widget TestWidget
     end
 
     def index_with_explicit_assigns
-      render_widget Erector::TestWidget, :foobar => "foobar"
+      render_widget TestWidget, :foobar => "foobar"
     end
     
     def index_with_render_colon_widget
-      render :widget => Erector::TestWidget, :foobar => "foobar"
+      render :widget => TestWidget, :foobar => "foobar"
     end
   end
 
-  class Erector::TestWidget < Erector::Widget
+  class TestWidget < Erector::Widget
     def render
       text @foobar
     end
@@ -37,8 +37,8 @@ module BaseSpec
     describe "#render_widget" do
       it "assigns to @rendered_widget" do
         @controller.rendered_widget.should be_nil
-        @controller.render_widget Erector::TestWidget
-        @controller.rendered_widget.should be_instance_of(Erector::TestWidget)
+        @controller.render_widget TestWidget
+        @controller.rendered_widget.should be_instance_of(TestWidget)
       end
     
       it "instantiates a widget with implicit assigns" do
@@ -55,8 +55,8 @@ module BaseSpec
     describe "#render :widget" do
       it "assigns to @rendered_widget" do
         @controller.rendered_widget.should be_nil
-        @controller.render :widget => Erector::TestWidget
-        @controller.rendered_widget.should be_instance_of(Erector::TestWidget)
+        @controller.render :widget => TestWidget
+        @controller.rendered_widget.should be_instance_of(TestWidget)
       end
       
       it "instantiates a widget with explicit assigns" do
