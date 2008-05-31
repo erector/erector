@@ -14,11 +14,11 @@ module Erector
   # To render a widget from the outside, instantiate it and call its +to_s+ method.
   # 
   # To call one widget from another, inside the parent widget's render method, instantiate the child widget and call 
-  # its +render_to+ method, passing in +self+ (or self.doc if you prefer). This assures that the same HtmlParts stream
+  # its +render_to+ method, passing in +self+ (or self.doc if you prefer). This assures that the same Doc stream
   # is used, which gives better performance than using +capture+ or +to_s+.
   # 
   # In this documentation we've tried to keep the distinction clear between methods that *emit* text and those that
-  # *return* text. "Emit" means that it writes HtmlParts to the doc stream; "return" means that it returns a string 
+  # *return* text. "Emit" means that it writes Doc to the doc stream; "return" means that it returns a string
   # like a normal method and leaves it up to the caller to emit that string if it wants.
   class Widget
     class << self
@@ -60,7 +60,7 @@ module Erector
       assign_locals(assigns)
       @helpers = helpers
       @parent = block ? eval("self", block.binding) : nil
-      @doc = HtmlParts.new(io)
+      @doc = Doc.new(io)
       @block = block
     end
 
@@ -76,8 +76,8 @@ module Erector
       end
     end
 
-    # Entry point for rendering a widget (and all its children). This method creates a new HtmlParts doc stream,
-    # calls this widget's #render method, converts the HtmlParts to a string, and returns the string. 
+    # Entry point for rendering a widget (and all its children). This method creates a new Doc doc stream,
+    # calls this widget's #render method, converts the Doc to a string, and returns the string.
     #
     # If it's called again later 
     # then it returns the earlier rendered string, which leads to higher performance, but may have confusing
@@ -94,7 +94,7 @@ module Erector
     alias_method :inspect, :to_s
 
     # Template method which must be overridden by all widget subclasses. Inside this method you call the magic
-    # #element methods which emit HTML and text to the HtmlParts stream.
+    # #element methods which emit HTML and text to the Doc stream.
     def render
       if @block
         instance_eval(&@block)
@@ -102,7 +102,7 @@ module Erector
     end
 
     # To call one widget from another, inside the parent widget's render method, instantiate the child widget and call 
-    # its +render_to+ method, passing in +self+ (or self.doc if you prefer). This assures that the same HtmlParts stream
+    # its +render_to+ method, passing in +self+ (or self.doc if you prefer). This assures that the same Doc stream
     # is used, which gives better performance than using +capture+ or +to_s+.
     def render_to(doc_or_widget)
       if doc_or_widget.is_a?(Widget)
@@ -142,7 +142,7 @@ module Erector
     # When calling one of these magic methods, put attributes in the default hash. If there is a string parameter,
     # then it is used as the contents. If there is a block, then it is executed (yielded), and the string parameter is ignored.
     # The block will usually be in the scope of the child widget, which means it has access to all the 
-    # methods of Widget, which will eventually end up appending text to the +doc+ HtmlParts stream. See how 
+    # methods of Widget, which will eventually end up appending text to the +doc+ Doc stream. See how
     # elegant it is? Not confusing at all if you don't think about it.
     #
     def element(*args, &block)
@@ -161,7 +161,7 @@ module Erector
       __empty_element__(*args, &block)
     end
 
-    # Returns an HTML-escaped version of its parameter. Leaves the HtmlParts stream untouched. Note that
+    # Returns an HTML-escaped version of its parameter. Leaves the Doc stream untouched. Note that
     # the #text method automatically HTML-escapes its parameter, so be careful *not* to do something like
     # text(h("2<4")) since that will double-escape the less-than sign (you'll get "2&amp;lt;4" instead of
     # "2&lt;4").
@@ -215,7 +215,7 @@ module Erector
     def capture(&block)
       begin
         original_doc = @doc
-        @doc = HtmlParts.new(StringIO.new)
+        @doc = Doc.new(StringIO.new)
         yield
         raw(@doc.to_s)
       ensure
@@ -320,7 +320,7 @@ protected
             begin
               original_doc = widget.doc
               widget.instance_eval do
-                @doc = HtmlParts.new(StringIO.new)
+                @doc = Doc.new(StringIO.new)
               end
               captured = capture_without_erector(*args, &block)
               result = widget.raw(widget.doc.to_s)

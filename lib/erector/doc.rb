@@ -1,6 +1,6 @@
 module Erector
-  # An array to which is written a stream of HTML "parts" -- each part being an open tag, a string, a close tag, etc.
-  class HtmlParts
+  # A proxy to an IO object that adds methods to add xml. 
+  class Doc
     attr_reader :doc
     def initialize(doc)
       @doc = doc
