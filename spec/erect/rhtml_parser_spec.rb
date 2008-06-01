@@ -183,6 +183,7 @@ describe RhtmlParser do
     parse("<%= h hi \"mom\" %>").convert.should == "text hi(\"mom\")\n"
 
     parse("<%= \"mom\" %>").convert.should == "rawtext \"mom\"\n"
+    parse("<%= \"hi mom\" %>").convert.should == "rawtext \"hi mom\"\n"
     parse("<%= hi \"mom\" %>").convert.should == "rawtext hi(\"mom\")\n"
 
     parse("<%= link_to blah %>").convert.should == "rawtext link_to(blah)\n"
@@ -194,6 +195,13 @@ describe RhtmlParser do
   
   it "won't parenthesize expressions" do
     parse("<%= h foo / bar %>").convert.should == "text foo / bar\n"
+  end
+  
+  it "converts yield so layouts work" do
+    pending("easy enough to make this pass, but the result doesn't seem to work as a layout")
+    parse("<%= yield  %>").convert.should == "rawtext @content\n"
+    parse("<%= \"yield\" %>").convert.should == "rawtext \"yield\"\n"
+    parse("<%= \"the yield is good\" %>").convert.should == "rawtext \"the yield is good\"\n"
   end
   
   it "parses quoted strings" do

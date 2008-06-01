@@ -52,7 +52,12 @@ grammar Rhtml
       def convert
         code = text_value.strip
         # matches a word, followed by either a word, a string, or a symbol
-        code.gsub(/(\w+) ([\w:"'].*)$/, '\1(\2)')          
+        result = code.gsub(/^(\w+) ([\w:"'].*)$/, '\1(\2)')
+        
+        # Convert yield, for layouts
+        #result.gsub!(/^yield$/, '@content')
+        
+        result
       end
     }
   end
