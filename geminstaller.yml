@@ -5,4 +5,5 @@ gems:
 - name: rspec
 - name: rails
 - name: rubyforge
+- name: rr
 
