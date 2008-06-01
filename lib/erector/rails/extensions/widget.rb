@@ -1,7 +1,7 @@
 module Erector
-  
-  # Wrappers or replacements for the Rails helpers that are available from Rails views
-  module Helpers
+  Widget.class_eval do
+    include ActionController::UrlWriter
+
 
     # helpers returning raw text
     [
@@ -31,7 +31,7 @@ module Erector
         :button_to,
         :submit_tag,
     ].each do |helper_name|
-      
+
       method_def =<<-METHOD_DEF
       def #{helper_name}(link_text, *args, &block)
         text raw(helpers.#{helper_name}(h(link_text), *args, &block))
@@ -47,8 +47,8 @@ module Erector
     # return text, take block
     [
       :link_to_function,
-      :text_field_tag, 
-      :password_field_tag, 
+      :text_field_tag,
+      :password_field_tag,
       :check_box_tag
     ].each do |method_to_proxy_with_block|
       method_def =<<-METHOD_DEF
@@ -62,7 +62,7 @@ module Erector
     # render text, take block
     [
       :error_messages_for,
-      :form_tag, 
+      :form_tag,
       :form_for,
     ].each do |method_to_proxy_with_block|
       method_def =<<-METHOD_DEF
@@ -74,7 +74,7 @@ module Erector
       METHOD_DEF
       eval(method_def)
     end
-    
+
     def javascript_include_merged(key)
       helpers.javascript_include_merged(key)
     end
@@ -90,7 +90,7 @@ module Erector
     def session
       helpers.controller.session
     end
-    
+
     def controller
       helpers.controller
     end
@@ -109,6 +109,6 @@ module Erector
 
     def pluralize(*args)
       helpers.pluralize(*args)
-    end
+    end    
   end
 end

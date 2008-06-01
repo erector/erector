@@ -1,13 +1,13 @@
 require "rubygems"
-require "action_controller"
-require "erector/extensions/action_controller"
-require "erector/extensions/action_view_template_handler"
-require "erector/extensions/object"
-require "erector/helpers"
-require "erector/doc"
-require "erector/raw_string"
-require "erector/widget"
-require "erector/widgets"
+dir = File.dirname(__FILE__)
+
+require 'cgi'
+require "#{dir}/erector/extensions/object"
+require "#{dir}/erector/doc"
+require "#{dir}/erector/raw_string"
+require "#{dir}/erector/widget"
+require "#{dir}/erector/widgets"
+require "#{dir}/erector/rails"
 
 ##
 # Erector view framework
