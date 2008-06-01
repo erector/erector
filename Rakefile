@@ -36,8 +36,9 @@ task :geminstaller do
 end
 
 desc "Run the specs for the erector plugin"
-Spec::Rake::SpecTask.new do |t|
-  t.spec_files = FileList['spec/**/*_spec.rb']
+task :spec do
+  require "spec/spec_suite"
+  SpecSuite.all
 end
 
 desc "Build the web site from the .rb files in web/"
