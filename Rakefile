@@ -45,10 +45,7 @@ desc "Build the web site from the .rb files in web/"
 task :web do
   dir = File.dirname(__FILE__)
   files = Dir["web/*.rb"] - ["web/page.rb", "web/sidebar.rb"]
-  Erector::Erect.new([
-    "--to-html",
-    *files
-  ]).run
+  Erector::Erect.new(["--to-html", *files]).run
 end
 
 desc "Generate rdoc"
