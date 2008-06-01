@@ -21,14 +21,11 @@ module TableSpec
 
   describe ::Erector::Widgets::Table do
     describe "with custom heading" do
+      attr_reader :html, :doc
       before do
-        view_cache do
-          widget = CustomHeadingTable.new(
-            nil,
-            :row_objects => []
-          )
-          widget.to_s
-        end
+        widget = CustomHeadingTable.new(nil, :row_objects => [])
+        @html = widget.to_s
+        @doc = Hpricot(html)
       end
 
       it "renders a custom heading text and procs" do
@@ -45,12 +42,12 @@ module TableSpec
     end
 
     describe "with custom cell content" do
+      attr_reader :html, :doc
       before do
         @object1 = Struct.new(:first_name).new("Hello")
-        view_cache do
-          widget = CustomCellTable.new(nil, :row_objects => [@object1])
-          widget.to_s
-        end
+        widget = CustomCellTable.new(nil, :row_objects => [@object1])
+        @html = widget.to_s
+        @doc = Hpricot(html)
       end
 
       it "renders custom cell html" do
@@ -61,14 +58,14 @@ module TableSpec
     end
 
     describe "with default heading and cell definitions" do
+      attr_reader :html, :doc
       before do
         @object1 = Struct.new(:first_name, :last_name, :email).new(1, 2, 3)
         @object2 = Struct.new(:first_name, :last_name, :email).new(4, 5, 6)
         @object3 = Struct.new(:first_name, :last_name, :email).new(7, 8, 9)
-        view_cache do
-          widget = DefaultsTestTable.new(nil, :row_objects => [@object1, @object2, @object3])
-          widget.to_s
-        end
+        widget = DefaultsTestTable.new(nil, :row_objects => [@object1, @object2, @object3])
+        @html = widget.to_s
+        @doc = Hpricot(html)
         @table = doc.at("table")
       end
 
