@@ -1,23 +1,21 @@
 require File.expand_path("#{File.dirname(__FILE__)}/../../spec_helper")
 
-#TODO: This is very confusing with column_a etc.  Rewrite to use LastName, FirstName, Email or something like that.
-
 module TableSpec
   class DefaultsTestTable < Erector::Widgets::Table
-    column :column_a
-    column :column_b
-    column :column_c
+    column :first_name
+    column :last_name
+    column :email
     row_classes :even, :odd
   end
 
   class CustomHeadingTable < Erector::Widgets::Table
-    column :a, "Column - A"
-    column :b, lambda {|id| span id}
+    column :first_name, "Column - First Name"
+    column :email, lambda {|id| span id}
   end
 
   class CustomCellTable < Erector::Widgets::Table
-    column :a do |obj|
-      span obj.a
+    column :first_name do |obj|
+      span obj.first_name
     end
   end
 
@@ -27,7 +25,7 @@ module TableSpec
         view_cache do
           widget = CustomHeadingTable.new(
             nil,
-              :row_objects => []
+            :row_objects => []
           )
           widget.to_s
         end
@@ -36,8 +34,8 @@ module TableSpec
       it "renders a custom heading text and procs" do
         table = doc.at("table")
         table.search("th").map {|c| c.inner_html}.should == [
-          "Column - A",
-          "<span>b</span>"
+          "Column - First Name",
+          "<span>email</span>"
         ]
       end
 
@@ -48,12 +46,9 @@ module TableSpec
 
     describe "with custom cell content" do
       before do
-        @object1 = Struct.new(:a).new("Hello")
+        @object1 = Struct.new(:first_name).new("Hello")
         view_cache do
-          widget = CustomCellTable.new(
-            nil,
-              :row_objects => [@object1]
-          )
+          widget = CustomCellTable.new(nil, :row_objects => [@object1])
           widget.to_s
         end
       end
@@ -67,14 +62,11 @@ module TableSpec
 
     describe "with default heading and cell definitions" do
       before do
-        @object1 = Struct.new(:column_a, :column_b, :column_c).new(1, 2, 3)
-        @object2 = Struct.new(:column_a, :column_b, :column_c).new(4, 5, 6)
-        @object3 = Struct.new(:column_a, :column_b, :column_c).new(7, 8, 9)
+        @object1 = Struct.new(:first_name, :last_name, :email).new(1, 2, 3)
+        @object2 = Struct.new(:first_name, :last_name, :email).new(4, 5, 6)
+        @object3 = Struct.new(:first_name, :last_name, :email).new(7, 8, 9)
         view_cache do
-          widget = DefaultsTestTable.new(
-            nil,
-              :row_objects => [@object1, @object2, @object3]
-          )
+          widget = DefaultsTestTable.new(nil, :row_objects => [@object1, @object2, @object3])
           widget.to_s
         end
         @table = doc.at("table")
@@ -83,7 +75,7 @@ module TableSpec
       it "renders column titles" do
         title_row = @table.at("tr")
         titles = title_row.search("th").collect {|heading| heading.inner_html}
-        titles.should == [ "Column A", "Column B", "Column C" ]
+        titles.should == [ "First Name", "Last Name", "Email" ]
       end
 
       it "renders data" do
