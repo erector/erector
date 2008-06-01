@@ -1,7 +1,4 @@
-dir = File.dirname(__FILE__)
-require "#{dir}/../spec_helper"
-require "#{dir}/../../lib/erector/erected"
-require 'tempfile'
+require File.expand_path("#{File.dirname(__FILE__)}/../spec_helper")
 
 module Erector
   describe Erected do

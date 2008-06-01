@@ -8,6 +8,12 @@ require "erector"
 require "hpricot"
 require "action_controller/test_process"
 require "rr"
+require 'tempfile'
+require 'ostruct'
+require 'treetop'
+require "erector/erect"
+require "erector/erected"
+
 
 Spec::Runner.configure do |config|
   config.include ViewCaching

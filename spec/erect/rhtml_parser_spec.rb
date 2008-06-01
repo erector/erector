@@ -1,10 +1,4 @@
-dir = File.dirname(__FILE__)
-require "#{dir}/../spec_helper"
-
-# require 'test/unit'
-require 'rubygems'
-require 'treetop'
-require "erector/erected"  # pull this out so we don't recreate the grammar every time
+require File.expand_path("#{File.dirname(__FILE__)}/../spec_helper")
 
 module ParserTestHelper
   def assert_evals_to_self(input)
