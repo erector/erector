@@ -2,10 +2,15 @@ class SpecSuite
   class << self
     def all
       system("ruby #{dir}/core_spec_suite.rb") || rails("Core Spec Suite failed")
+      system("ruby #{dir}/rails_spec_suite.rb") || rails("Rails Spec Suite failed")
     end
 
     def core
-      run Dir["#{dir}/**/*_spec.rb"]
+      run Dir["#{dir}/{erect,erector}/**/*_spec.rb"]
+    end
+
+    def rails
+      run Dir["#{dir}/rails/**/*_spec.rb"]
     end
 
     def run(files)
