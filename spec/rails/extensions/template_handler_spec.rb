@@ -17,12 +17,13 @@ module TemplateHandlerSpec
         public :rendered_widget, :render
       end
       @controller.append_view_path("#{RAILS_ROOT}/app/views")
+      controller.instance_variable_set('@foo', "foo")
       @view = @response.template
     end
 
     it "assigns locals" do
       controller.render :template => "template_handler_spec/test_page"
-      response.body.should == "<div class=\"page\"><div class=\"partial\"></div></div>"
+      response.body.should == "<div class=\"page\"><div class=\"partial\">foo</div></div>"
     end
   end
 
