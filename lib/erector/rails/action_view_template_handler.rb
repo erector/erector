@@ -17,17 +17,12 @@ module ActionView #:nodoc:
         else
           require_dependency file_path
         end
-        widget_module = paths[0..-1].inject(Views) do |current_module, node|
+        widget_class = paths.inject(Views) do |current_module, node|
           current_module.const_get(node.gsub(dot_rb, '').camelize)
-        end
-        if view.is_partial_template?
-          widget_class = widget_module.const_get("#{paths.last.gsub(dot_rb, '').camelize}Partial")
-        else
-          widget_class = widget_module.const_get(paths.last.gsub(dot_rb, '').camelize)
         end
 
         rendered_widget = widget_class.new(@view, @view.assigns)
-        rendered_widget.to_s
+        rendered_widget.to_s(view.is_partial_template? ? :render_partial : :render)
       end
     end
   end
