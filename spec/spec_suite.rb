@@ -1,8 +1,8 @@
 class SpecSuite
   class << self
     def all
-      system("ruby #{dir}/core_spec_suite.rb") || rails("Core Spec Suite failed")
-      system("ruby #{dir}/rails_spec_suite.rb") || rails("Rails Spec Suite failed")
+      system("ruby #{dir}/core_spec_suite.rb") || raise("Core Spec Suite failed")
+      system("ruby #{dir}/rails_spec_suite.rb") || raise("Rails Spec Suite failed")
     end
 
     def core
