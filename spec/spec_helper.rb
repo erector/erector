@@ -4,6 +4,7 @@ require "active_record"
 require "spec"
 $LOAD_PATH.unshift("#{dir}/../lib")
 require "erector"
+require "erector/rails"
 require "hpricot"
 require "action_controller/test_process"
 require "rr"
