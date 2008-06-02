@@ -1,17 +1,5 @@
 require File.expand_path("#{File.dirname(__FILE__)}/../../spec_helper")
 
-ActionView::Base.class_eval do
-  def render_partial_with_notification
-    @is_partial_template = true
-    render_partial_without_notification
-  end
-  alias_method_chain :render_partial, :notification
-
-  def is_partial_template?
-    @is_partial_template || false
-  end
-end
-
 module TemplateHandlerSpec
   
   class TemplateHandlerSpecController < ActionController::Base
@@ -33,12 +21,8 @@ module TemplateHandlerSpec
     end
 
     it "assigns locals" do
-#      handler = ActionView::TemplateHandlers::Erector.new(view)
-#      content = File.read("#{RAILS_ROOT}/app/views/template_handler_spec/test_page.rb")
-#      mock.proxy(handler).render(content, {:foo => "bar"})
-
       controller.render :template => "template_handler_spec/test_page"
-#      response.body.should == "<div class=\"partial\">bar</div>"
+      response.body.should == "<div class=\"page\"><div class=\"partial\"></div></div>"
     end
   end
 
