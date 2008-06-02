@@ -9,6 +9,48 @@ module WidgetSpec
       end
     end
 
+    describe "#to_s" do
+      class << self
+        define_method("invokes #render and returns the string representation of the rendered widget") do
+          it "invokes #render and returns the string representation of the rendered widget" do
+            widget = Erector::Widget.new do
+              div "Hello"
+            end
+            mock.proxy(widget).render
+            widget.to_s.should == "<div>Hello</div>"
+          end
+        end
+      end
+      
+      context "when passed no arguments" do
+        send "invokes #render and returns the string representation of the rendered widget"
+      end
+
+      context "when passed an argument that is #render" do
+        send "invokes #render and returns the string representation of the rendered widget"
+      end
+
+      context "when passed an argument that is not #render" do
+        attr_reader :widget
+        before do
+          @widget = Erector::Widget.new
+          def widget.alternate_render
+            div "Hello from Alternate Render"
+          end
+          mock.proxy(widget).alternate_render
+        end
+
+        it "invokes the passed in method name and returns the string representation of the rendered widget" do
+          widget.to_s(:alternate_render).should == "<div>Hello from Alternate Render</div>"
+        end
+
+        it "does not invoke #render" do
+          dont_allow(widget).render
+          widget.to_s(:alternate_render)
+        end
+      end
+    end
+
     describe "#instruct" do
       it "when passed no arguments; returns an XML declaration with version 1 and utf-8" do
         html = Erector::Widget.new do

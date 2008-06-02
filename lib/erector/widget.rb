@@ -79,11 +79,11 @@ module Erector
     # then it returns the earlier rendered string, which leads to higher performance, but may have confusing
     # effects if some underlying state has changed. In general we recommend you create a new instance of every
     # widget for each render, unless you know what you're doing.
-    def to_s(&blk)
+    def to_s(render_method_name=:render, &blk)
       # The @__to_s variable is used as a cache. 
       # If it's useful we should add a test for it.  -ac
       return @__to_s if @__to_s
-      render(&blk)
+      send(render_method_name, &blk)
       @__to_s = @doc.to_s
     end
 
