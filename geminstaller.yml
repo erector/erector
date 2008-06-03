@@ -3,6 +3,7 @@ gems:
   version: '>= 1.2.3'
 - name: hpricot
 - name: rspec
+  version: '>= 1.1.4'
 - name: rails
 - name: rubyforge
 - name: rr
