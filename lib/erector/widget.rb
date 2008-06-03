@@ -115,7 +115,7 @@ module Erector
     # This is an experimental erector feature which may disappear in future
     # versions of erector (see #widget in widget_spec in the Erector tests).
     def widget(widget_class, assigns={}, &block)
-      child = widget_class.new(helpers, assigns, doc, &block)
+      child = widget_class.new(helpers, assigns, doc.output, &block)
       child.render
     end
 

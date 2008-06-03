@@ -60,6 +60,41 @@ module WidgetSpec
       end
     end
 
+    describe "#widget" do
+      context "when nested" do
+        it "renders the tag around the rest of the block" do
+          parent_widget = Class.new(Erector::Widget) do
+            def render
+              div :id => "parent_widget" do
+                super
+              end
+            end
+          end
+          child_widget = Class.new(Erector::Widget) do
+            def render
+              div :id => "child_widget" do
+                super
+              end
+            end
+          end
+
+          widget = Class.new(Erector::Widget) do
+            def render
+              widget(parent_widget) do
+                widget(child_widget) do
+                  super
+                end
+              end
+            end
+          end
+
+          widget.new(nil, :parent_widget => parent_widget, :child_widget => child_widget) do
+            div :id => "widget"
+          end.to_s.should == '<div id="parent_widget"><div id="child_widget"><div id="widget"></div></div></div>'
+        end
+      end
+    end
+
     describe "#element" do
       context "when receiving one argument" do
         it "returns an empty element" do
@@ -73,10 +108,10 @@ module WidgetSpec
         it "returns an empty element with the attributes" do
           html = Erector::Widget.new do
             element(
-            'div',
-            :class => "foo bar",
-            :style => "display: none; color: white; float: left;",
-            :nil_attribute => nil
+              'div',
+              :class => "foo bar",
+              :style => "display: none; color: white; float: left;",
+              :nil_attribute => nil
             )
           end.to_s
           doc = Hpricot(html)
