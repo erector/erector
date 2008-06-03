@@ -1,39 +1,39 @@
 module Erector
   # A proxy to an IO object that adds methods to add xml. 
   class Doc
-    attr_reader :doc
-    def initialize(doc)
-      @doc = doc
+    attr_reader :output
+    def initialize(output)
+      @output = output
     end
 
     def open_tag(tag_name, attributes={})
-      doc.print "<#{tag_name}#{format_attributes(attributes)}>"
+      output.print "<#{tag_name}#{format_attributes(attributes)}>"
     end
 
     def text(value)
-      doc.print(value.html_escape)
+      output.print(value.html_escape)
       nil
     end
 
     def close_tag(tag_name)
-      doc.print("</#{tag_name}>")
+      output.print("</#{tag_name}>")
     end
 
     def empty_element(tag_name, attributes={})
-      doc.print "<#{tag_name}#{format_attributes(attributes)} />"
+      output.print "<#{tag_name}#{format_attributes(attributes)} />"
     end
 
     def instruct(attributes={:version => "1.0", :encoding => "UTF-8"})
-      doc.print "<?xml#{format_sorted(sort_for_xml_declaration(attributes))}?>"
+      output.print "<?xml#{format_sorted(sort_for_xml_declaration(attributes))}?>"
     end
 
     def to_s
-      doc.string
+      output.string
     end
 
     protected
     def method_missing(method_name, *args, &blk)
-      doc.__send__(method_name, *args, &blk)
+      output.__send__(method_name, *args, &blk)
     rescue NoMethodError => e
       raise NoMethodError, "undefined method `#{method_name}' for #{inspect}"
     end
