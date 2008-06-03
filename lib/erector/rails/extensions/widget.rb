@@ -2,7 +2,6 @@ module Erector
   Widget.class_eval do
     include ActionController::UrlWriter
 
-
     # helpers returning raw text
     [
         :image_tag,
