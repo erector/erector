@@ -3,6 +3,10 @@
 # with custom styling.  A Block is a container that has a few
 # sections like a Title, and Behaviors plus the body etc.
 
+# Compare with blocks-via-method.rb (which, in this example, is the
+# more straightforward solution, but which may or may not be applicable
+# to more complicated situations).
+
 dir = File.expand_path(File.dirname(__FILE__))
 $LOAD_PATH.unshift("#{dir}/../lib")
 require 'erector'
