@@ -6,7 +6,9 @@ require "#{dir}/erector/doc"
 require "#{dir}/erector/raw_string"
 require "#{dir}/erector/widget"
 require "#{dir}/erector/widgets"
-require "#{dir}/erector/rails"
+if Object.const_defined?(:RAILS_ROOT)
+  require "#{dir}/erector/rails"
+end
 
 ##
 # Erector view framework
