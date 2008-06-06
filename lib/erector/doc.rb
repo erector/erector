@@ -28,12 +28,7 @@ module Erector
     end
   
     def open_tag(tag_name, attributes={})
-      if !@at_start_of_line && newliney(tag_name)
-        output.print "\n"
-        @at_start_of_line = true
-      end
-
-      indent()
+      indent_for_open_tag(tag_name)
       @indent += SPACES_PER_INDENT
 
       output.print "<#{tag_name}#{format_attributes(attributes)}>"
@@ -58,6 +53,15 @@ module Erector
       end
     end
     
+    def indent_for_open_tag(tag_name)
+      if !@at_start_of_line && newliney(tag_name)
+        output.print "\n"
+        @at_start_of_line = true
+      end
+
+      indent()
+    end
+    
     def indent()
       if @at_start_of_line
         output.print " " * @indent
@@ -65,7 +69,14 @@ module Erector
     end
 
     def empty_element(tag_name, attributes={})
+      indent_for_open_tag(tag_name)
+
       output.print "<#{tag_name}#{format_attributes(attributes)} />"
+
+      if newliney(tag_name)
+        output.print "\n"
+        @at_start_of_line = true
+      end
     end
 
     def instruct(attributes={:version => "1.0", :encoding => "UTF-8"})
