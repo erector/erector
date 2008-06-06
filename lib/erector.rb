@@ -1,6 +1,7 @@
 require "rubygems"
 dir = File.dirname(__FILE__)
 require 'cgi'
+require "activesupport"
 require "#{dir}/erector/extensions/object"
 require "#{dir}/erector/doc"
 require "#{dir}/erector/raw_string"

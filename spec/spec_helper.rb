@@ -1,18 +1,15 @@
 dir = File.dirname(__FILE__)
 require "rubygems"
-require "active_record"
-require "spec"
 $LOAD_PATH.unshift("#{dir}/../lib")
 require "erector"
-require "erector/rails"
 require "hpricot"
-require "action_controller/test_process"
 require "rr"
 require 'tempfile'
 require 'ostruct'
 require 'treetop'
 require "erector/erect"
 require "erector/erected"
+require "spec"
 
 
 Spec::Runner.configure do |config|
