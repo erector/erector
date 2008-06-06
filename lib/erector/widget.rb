@@ -71,6 +71,15 @@ module Erector
         end
       end
     end
+    
+    # Set whether Erector should add newlines and indentation.
+    # This is an experimental feature and is subject to change
+    # (either in terms of how it is enabled, or in terms of
+    # what decisions Erector makes about where to add whitespace).
+    def add_newlines(enable)
+      @doc.add_newlines = enable
+      self
+    end
 
     # Entry point for rendering a widget (and all its children). This method creates a new Doc doc stream,
     # calls this widget's #render method, converts the Doc to a string, and returns the string.
