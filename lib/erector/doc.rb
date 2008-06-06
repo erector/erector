@@ -1,22 +1,67 @@
 module Erector
   # A proxy to an IO object that adds methods to add xml. 
   class Doc
+
+    NON_NEWLINEY = {'i' => true, 'b' => true, 'small' => true,
+      'img' => true, 'span' => true, 'a' => true,
+      'input' => true, 'textarea' => true, 'button' => true, 'select' => true
+    }
+    
+    SPACES_PER_INDENT = 2
+    
     attr_reader :output
-    def initialize(output)
+    attr_accessor :add_newlines
+
+    def initialize(output, options = {})
       @output = output
+      @at_start_of_line = true
+      @indent = 0
+      @add_newlines = options[:add_newlines]
     end
 
+    def newliney(tag_name)
+      if @add_newlines
+        !NON_NEWLINEY.include?(tag_name)
+      else
+        false
+      end
+    end
+  
     def open_tag(tag_name, attributes={})
+      if !@at_start_of_line && newliney(tag_name)
+        output.print "\n"
+        @at_start_of_line = true
+      end
+
+      indent()
+      @indent += SPACES_PER_INDENT
+
       output.print "<#{tag_name}#{format_attributes(attributes)}>"
+      @at_start_of_line = false
     end
 
     def text(value)
       output.print(value.html_escape)
+      @at_start_of_line = false
       nil
     end
 
     def close_tag(tag_name)
+      @indent -= SPACES_PER_INDENT
+      indent()
+
       output.print("</#{tag_name}>")
+
+      if newliney(tag_name)
+        output.print "\n"
+        @at_start_of_line = true
+      end
+    end
+    
+    def indent()
+      if @at_start_of_line
+        output.print " " * @indent
+      end
     end
 
     def empty_element(tag_name, attributes={})
