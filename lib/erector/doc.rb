@@ -1,14 +1,14 @@
 module Erector
-  # A proxy to an IO object that adds methods to add xml. 
+  # A proxy to an IO object that adds methods to add xml.
   class Doc
 
     NON_NEWLINEY = {'i' => true, 'b' => true, 'small' => true,
       'img' => true, 'span' => true, 'a' => true,
       'input' => true, 'textarea' => true, 'button' => true, 'select' => true
     }
-    
+
     SPACES_PER_INDENT = 2
-    
+
     attr_reader :output
     attr_accessor :add_newlines
 
@@ -26,7 +26,7 @@ module Erector
         false
       end
     end
-  
+
     def open_tag(tag_name, attributes={})
       indent_for_open_tag(tag_name)
       @indent += SPACES_PER_INDENT
@@ -52,7 +52,7 @@ module Erector
         @at_start_of_line = true
       end
     end
-    
+
     def indent_for_open_tag(tag_name)
       if !@at_start_of_line && newliney(tag_name)
         output.print "\n"
@@ -61,7 +61,7 @@ module Erector
 
       indent()
     end
-    
+
     def indent()
       if @at_start_of_line
         output.print " " * @indent
