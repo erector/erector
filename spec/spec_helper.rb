@@ -2,6 +2,7 @@ dir = File.dirname(__FILE__)
 require "rubygems"
 $LOAD_PATH.unshift("#{dir}/../lib")
 require "erector"
+require "erector/rails"
 require "hpricot"
 require "rr"
 require 'tempfile'
