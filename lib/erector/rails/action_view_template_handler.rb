@@ -17,7 +17,7 @@ module ActionView #:nodoc:
         else
           require_dependency file_path
         end
-        widget_class = paths.inject(Views) do |current_module, node|
+        widget_class = paths[0..-1].inject(Views) do |current_module, node|
           current_module.const_get(node.gsub(dot_rb, '').camelize)
         end
 
