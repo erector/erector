@@ -325,8 +325,6 @@ protected
       end
     end
 
-private
-
     def __element__(tag_name, *args, &block)
       if args.length > 2
         raise ArgumentError, "Cannot accept more than three arguments"
