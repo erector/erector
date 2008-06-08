@@ -567,4 +567,3 @@ module WidgetSpec
     end
   end
 end
-
