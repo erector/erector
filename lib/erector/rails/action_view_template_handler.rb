@@ -1,12 +1,16 @@
 module ActionView #:nodoc:
   module TemplateHandlers #:nodoc:
-    class Erector
+    class Erector < TemplateHandler
+      def self.line_offset
+        2
+      end
+
       attr_reader :view
       def initialize(view)
         @view = view
       end
 
-      def render(template, local_assigns)
+      def compile(template)
         render_path = view.first_render
         paths = render_path.split('/')
         dot_rb = /\.rb$/
@@ -17,12 +21,17 @@ module ActionView #:nodoc:
         else
           require_dependency file_path
         end
-        widget_class = paths[0..-1].inject(Views) do |current_module, node|
-          current_module.const_get(node.gsub(dot_rb, '').camelize)
-        end
 
-        rendered_widget = widget_class.new(@view, @view.assigns)
-        rendered_widget.to_s(view.is_partial_template? ? :render_partial : :render)
+        dot_rb = /\.rb$/
+        widget_class_parts = paths.inject(['Views']) do |class_parts, node|
+          class_parts << node.gsub(dot_rb, '').camelize
+          class_parts
+        end
+        widget_class_name = widget_class_parts.join("::")
+        render_method = view.is_partial_template? ? 'render_partial' : 'render'
+
+        erector_template = "<% #{widget_class_name}.new(self, assigns, StringIO.new(_erbout)).#{render_method} %>"
+        ::ERB.new(erector_template, nil, @view.erb_trim_mode).src
       end
     end
   end
