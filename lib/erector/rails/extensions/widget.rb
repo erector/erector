@@ -7,6 +7,11 @@ module Erector
       @_erbout = doc.string
     end
 
+    def fake_erbout
+      warn "fake_erbout is deprecated. You don't need to use it anymore."
+      yield
+    end
+
     # helpers returning raw text
     [
         :image_tag,
@@ -71,9 +76,7 @@ module Erector
     ].each do |method_to_proxy_with_block|
       method_def =<<-METHOD_DEF
       def #{method_to_proxy_with_block}(*args, &block)
-        fake_erbout do
-          helpers.#{method_to_proxy_with_block}(*args, &block)
-        end
+        helpers.#{method_to_proxy_with_block}(*args, &block)
       end
       METHOD_DEF
       eval(method_def)

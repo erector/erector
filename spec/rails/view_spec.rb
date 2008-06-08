@@ -17,17 +17,3 @@ describe "a view" do
   end
 
 end
-
-describe "the case which fake_erbout handles" do
-  it "works" do
-    @view = ActionView::Base.new
-    Erector::Widget.new(@view) do
-      foo = capture() do
-        fake_erbout do
-          helpers.concat('foo')
-        end
-      end
-      foo.should == 'foo'
-    end.to_s.should == ""
-  end
-end
