@@ -1,6 +1,11 @@
 module Erector
   Widget.class_eval do
     include ActionController::UrlWriter
+    attr_reader :_erbout
+
+    after_initialize do
+      @_erbout = doc.string
+    end
 
     # helpers returning raw text
     [

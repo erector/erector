@@ -12,7 +12,8 @@ module BaseSpec
     end
 
     def index_with_render_colon_widget
-      render :widget => TestWidget, :foobar => "foobar"
+      @foobar = "foobar"
+      render :widget => TestWidget
     end
   end
 
@@ -31,17 +32,11 @@ module BaseSpec
         @controller.send(:initialize_template_class, @response)
         @controller.send(:assign_shortcuts, @request, @response)
         class << @controller
-          public :rendered_widget, :render
+          public :render
         end
       end
 
       describe "#render_widget" do
-        it "assigns to @rendered_widget" do
-          @controller.rendered_widget.should be_nil
-          @controller.render_widget TestWidget
-          @controller.rendered_widget.should be_instance_of(TestWidget)
-        end
-
         it "instantiates a widget with implicit assigns" do
           @controller.index_with_implicit_assigns
           @response.body.should == "foobar"
@@ -54,24 +49,12 @@ module BaseSpec
       end
 
       describe "#render :widget" do
-        it "assigns to @rendered_widget" do
-          @controller.rendered_widget.should be_nil
-          @controller.render :widget => TestWidget
-          @controller.rendered_widget.should be_instance_of(TestWidget)
-        end
-
         it "instantiates a widget with implicit assigns" do
           @controller.index_with_implicit_assigns
           @response.body.should == "foobar"
         end
 
         describe "#render :widget" do
-          it "assigns to @rendered_widget" do
-            @controller.rendered_widget.should be_nil
-            @controller.render :widget => TestWidget
-            @controller.rendered_widget.should be_instance_of(TestWidget)
-          end
-
           it "instantiates a widget with explicit assigns" do
             @controller.index_with_render_colon_widget
             @response.body.should == "foobar"

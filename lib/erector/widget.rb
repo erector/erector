@@ -43,6 +43,14 @@ module Erector
         ]
       end
 
+      def after_initialize(&blk)
+        after_initialize_parts << blk
+      end
+
+      def after_initialize_parts
+        @after_initialize_parts ||= []
+      end
+
     end
 
     attr_reader :helpers
@@ -58,6 +66,9 @@ module Erector
       @parent = block ? eval("self", block.binding) : nil
       @doc = Doc.new(io)
       @block = block
+      self.class.after_initialize_parts.each do |part|
+        instance_eval(&part)
+      end
     end
 
 #-- methods for other classes to call, left public for ease of testing and documentation

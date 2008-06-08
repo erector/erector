@@ -14,7 +14,7 @@ module TemplateHandlerSpec
       @controller.send(:initialize_template_class, @response)
       @controller.send(:assign_shortcuts, @request, @response)
       class << @controller
-        public :rendered_widget, :render
+        public :render
       end
       @controller.append_view_path("#{RAILS_ROOT}/app/views")
       controller.instance_variable_set('@foo', "foo")

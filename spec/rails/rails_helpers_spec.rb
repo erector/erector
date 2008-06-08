@@ -15,7 +15,7 @@ module RailsHelpersSpec
       @controller.send(:assign_shortcuts, @request, @response)
       @controller.send(:initialize_current_url)
       class << @controller
-        public :rendered_widget, :render
+        public :render
         
         attr_accessor :user # dummy instance variable for assigns testing
       end
@@ -131,14 +131,22 @@ module RailsHelpersSpec
         pending("error_messages_for is broken")
         widget_class = Class.new(Erector::Widget) do
           def render
-            error_messages_for 'user'
+            rawtext error_messages_for('user')
           end
         end
-        errors = ActiveRecord::Errors.new(nil)
+
+        user_class = Class.new
+        stub(user_class).human_attribute_name {'User'}
+        user = user_class.new
+        stub(user).name {'bob'}
+        errors = ActiveRecord::Errors.new(user)
         errors.add("name", "must be unpronounceable")
-        @controller.user = OpenStruct.new({:name => 'bob', :errors => errors})
+        stub(user).errors {errors}
+        
+        @controller.user = user
+        
         @controller.render :widget => widget_class
-        @response.body.should == "<a href=\"#\" onclick=\"alert('hi'); return false;\">hi</a>"
+        @response.body.should == "<div class=\"errorExplanation\" id=\"errorExplanation\"><h2>1 error prohibited this user from being saved</h2><p>There were problems with the following fields:</p><ul><li>User must be unpronounceable</li></ul></div>"
       end
     end
 
