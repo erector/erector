@@ -4,6 +4,7 @@
 * Better compatibility with standard Rails rendering because ActionController::Base#render and #render_widget now have the Widget write directly to _erbout.
 * ActionView::Base objects run with Erector now receive all of the instance variables
 * Erector works with erb layouts
+* Deprecate fake_erbout
 
 === 0.3.110 / 2008-05-29
 
