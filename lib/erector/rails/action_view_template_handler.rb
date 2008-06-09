@@ -11,19 +11,11 @@ module ActionView #:nodoc:
       end
 
       def compile(template)
-        render_path = view.first_render
-        paths = render_path.split('/')
-        dot_rb = /\.rb$/
-        file_path = "#{RAILS_ROOT}/app/views/#{render_path}.rb"
-        if view.is_partial_template?
-          partial_file_path = file_path.gsub(/\/([^\/]*)$/, '/_\1')
-          require_dependency partial_file_path
-        else
-          require_dependency file_path
-        end
+        relative_path_parts = view.first_render.split('/')
+        require_dependency view.template_file_path
 
         dot_rb = /\.rb$/
-        widget_class_parts = paths.inject(['Views']) do |class_parts, node|
+        widget_class_parts = relative_path_parts.inject(['Views']) do |class_parts, node|
           class_parts << node.gsub(dot_rb, '').camelize
           class_parts
         end

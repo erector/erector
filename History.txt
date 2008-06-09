@@ -5,6 +5,7 @@
 * ActionView::Base objects run with Erector now receive all of the instance variables
 * Erector works with erb layouts
 * Deprecate fake_erbout
+* Better handling for file with .html.rb extension.
 
 === 0.3.110 / 2008-05-29
 
