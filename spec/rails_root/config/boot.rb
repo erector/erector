@@ -21,7 +21,7 @@ unless defined?(Rails::Initializer)
   end
   system("rm -rf #{RAILS_ROOT}/vendor/plugins/erector")
   erector_root_dir = nil
-  Dir.chdir("#{RAILS_ROOT}/../../..") do
+  Dir.chdir("#{RAILS_ROOT}/../../") do
     erector_root_dir = Dir.pwd
   end
   system("ln -s #{erector_root_dir} #{RAILS_ROOT}/vendor/plugins/erector")

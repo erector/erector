@@ -60,8 +60,8 @@ end
 desc "Install dependencies to run the build. This task uses Git."
 task(:install_dependencies) do
   require "lib/erector/rails/supported_rails_versions"
-  system("git clone git://github.com/rails/rails.git spec/rails/rails_root/vendor/rails_versions/edge")
-  Dir.chdir("spec/rails/rails_root/vendor/rails_versions/edge") do
+  system("git clone git://github.com/rails/rails.git spec/rails_root/vendor/rails_versions/edge")
+  Dir.chdir("spec/rails_root/vendor/rails_versions/edge") do
     begin
       Erector::Rails::SUPPORTED_RAILS_VERSIONS.each do |version, data|
         unless version == 'edge'
@@ -77,5 +77,5 @@ end
 
 desc "Updates the dependencies to run the build. This task uses Git."
 task(:update_dependencies) do
-  system "cd spec/rails/rails_root/vendor/rails_versions/edge; git pull origin"
+  system "cd spec/rails_root/vendor/rails_versions/edge; git pull origin"
 end

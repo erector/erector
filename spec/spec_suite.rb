@@ -17,7 +17,7 @@ class SpecSuite
     end
 
     def rails
-      Dir.chdir("#{dir}/rails/rails_root") do
+      Dir.chdir("#{dir}/rails_root") do
         run Dir["spec/**/*_spec.rb"]
       end
     end
