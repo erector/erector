@@ -5,3 +5,6 @@
 pkg/*.gem
 spec/rails/rails_root/log
 spec/rails/rails_root/tmp
+spec/rails/rails_root/vendor/rails_versions
+spec/rails/rails_root/vendor/rails
+spec/rails/rails_root/vendor/plugins/erector

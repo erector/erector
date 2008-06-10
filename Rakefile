@@ -56,3 +56,26 @@ task :docs do
   options << '-d' if RUBY_PLATFORM !~ /win32/ and `which dot` =~ /\/dot/ and not ENV['NODOT']
   system "rdoc #{options.join(" ")} lib bin README.txt"
 end
+
+desc "Install dependencies to run the build. This task uses Git."
+task(:install_dependencies) do
+  require "lib/erector/rails/supported_rails_versions"
+  system("git clone git://github.com/rails/rails.git spec/rails/rails_root/vendor/rails_versions/edge")
+  Dir.chdir("spec/rails/rails_root/vendor/rails_versions/edge") do
+    begin
+      Erector::Rails::SUPPORTED_RAILS_VERSIONS.each do |version, data|
+        unless version == 'edge'
+          system("git checkout #{data['git_tag']}")
+          system("cp -R ../edge ../#{version}")
+        end
+      end
+    ensure
+      system("git checkout master")
+    end
+  end
+end
+
+desc "Updates the dependencies to run the build. This task uses Git."
+task(:update_dependencies) do
+  system "cd spec/rails/rails_root/vendor/rails_versions/edge; git pull origin"
+end

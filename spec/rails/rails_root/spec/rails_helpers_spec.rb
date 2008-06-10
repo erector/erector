@@ -29,7 +29,7 @@ module RailsHelpersSpec
           end
         end
         @controller.render :widget => widget_class
-        @response.body.should =~ Regexp.new('<img alt="Rails" src="/images/rails.png\?[0-9]+" />')
+        @response.body.should =~ Regexp.new('<img alt="Rails" src="/images/rails.png\??[0-9]*" />')
       end
     end
 
