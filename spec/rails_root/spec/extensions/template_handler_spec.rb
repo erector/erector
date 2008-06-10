@@ -16,7 +16,6 @@ module TemplateHandlerSpec
       class << @controller
         public :render
       end
-      @controller.append_view_path("#{RAILS_ROOT}/app/views")
       controller.instance_variable_set('@foo', "foo")
       @view = @response.template
     end

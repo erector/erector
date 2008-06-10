@@ -10,7 +10,6 @@
       <excludeFolder url="file://$MODULE_DIR$/spec/rails_root/tmp" />
       <excludeFolder url="file://$MODULE_DIR$/spec/rails_root/vendor/plugins" />
       <excludeFolder url="file://$MODULE_DIR$/spec/rails_root/vendor/rails" />
-      <excludeFolder url="file://$MODULE_DIR$/spec/rails_root/vendor/rails_versions/1.99.0" />
       <excludeFolder url="file://$MODULE_DIR$/spec/rails_root/vendor/rails_versions/2.0.2" />
       <excludeFolder url="file://$MODULE_DIR$/spec/rails_root/vendor/rails_versions/2.1.0" />
       <excludeFolder url="file://$MODULE_DIR$/spec/rails_root/vendor/rails_versions/edge" />

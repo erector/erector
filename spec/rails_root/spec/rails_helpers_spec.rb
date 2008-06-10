@@ -18,7 +18,6 @@ module RailsHelpersSpec
         
         attr_accessor :user # dummy instance variable for assigns testing
       end
-      @controller.append_view_path("#{RAILS_ROOT}/app/views")
     end
 
     describe "#image_tag" do
