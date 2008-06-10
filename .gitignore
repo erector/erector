@@ -3,3 +3,5 @@
 *.ipr
 *~
 pkg/*.gem
+spec/rails/rails_root/log
+spec/rails/rails_root/tmp
