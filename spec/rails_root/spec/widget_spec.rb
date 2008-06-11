@@ -1,6 +1,10 @@
 require File.expand_path("#{File.dirname(__FILE__)}/rails_spec_helper")
 
 describe Erector::Widget do
+  class RailsSpecWidget < Erector::Widget
+
+  end
+
   before(:each) do
     @view = ActionView::Base.new
     # hook in model and add error messages
@@ -47,7 +51,7 @@ describe Erector::Widget do
 
   describe "#link_to" do
     it "renders the link" do
-      Erector::Widget.new(@view) do
+      RailsSpecWidget.new(@view) do
         link_to 'This&that', '/foo?this=1&amp;that=1'
       end.to_s.should == "<a href=\"/foo?this=1&amp;that=1\">This&amp;that</a>"
     end
@@ -55,14 +59,14 @@ describe Erector::Widget do
 
   describe "#image_tag" do
     it "renders" do
-      Erector::Widget.new(@view) do
+      RailsSpecWidget.new(@view) do
         image_tag("/foo")
       end.to_s.should == %{<img alt="Foo" src="/foo" />}
     end
 
     context "with parameters" do
       it "renders" do
-        Erector::Widget.new(@view) do
+        RailsSpecWidget.new(@view) do
           image_tag("/foo", :id => "photo_foo", :class => "a_photo_class")
         end.to_s.should == %{<img alt="Foo" class="a_photo_class" id="photo_foo" src="/foo" />}
       end
@@ -77,7 +81,7 @@ describe Erector::Widget do
         end
       end
 
-      Erector::Widget.new(@view) do
+      RailsSpecWidget.new(@view) do
         form_tag("/foo") do
           p "I'm in a form"
         end
@@ -101,7 +105,7 @@ describe Erector::Widget do
         end
       end
 
-      Erector::Widget.new(@view) do
+      RailsSpecWidget.new(@view) do
         form_tag("/foo") do
           p "I'm in a form"
         end

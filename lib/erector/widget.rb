@@ -43,14 +43,25 @@ module Erector
         ]
       end
 
-      def after_initialize(&blk)
-        after_initialize_parts << blk
+      def after_initialize(instance=nil, &blk)
+        if blk
+          after_initialize_parts << blk
+        elsif instance
+          if superclass.respond_to?(:after_initialize)
+            superclass.after_initialize instance
+          end
+          after_initialize_parts.each do |part|
+            instance.instance_eval &part
+          end
+        else
+          raise ArgumentError, "You must provide either an instance or a block"
+        end
       end
 
+      protected
       def after_initialize_parts
         @after_initialize_parts ||= []
       end
-
     end
 
     attr_reader :helpers
@@ -66,9 +77,7 @@ module Erector
       @parent = block ? eval("self", block.binding) : nil
       @doc = Doc.new(io)
       @block = block
-      self.class.after_initialize_parts.each do |part|
-        instance_eval(&part)
-      end
+      self.class.after_initialize self
     end
 
 #-- methods for other classes to call, left public for ease of testing and documentation
