@@ -12,7 +12,10 @@
       <excludeFolder url="file://$MODULE_DIR$/spec/rails_root/vendor/rails" />
       <excludeFolder url="file://$MODULE_DIR$/spec/rails_root/vendor/rails_versions/1.99.0" />
       <excludeFolder url="file://$MODULE_DIR$/spec/rails_root/vendor/rails_versions/2.0.2" />
+<<<<<<< HEAD:erector.iml
       <excludeFolder url="file://$MODULE_DIR$/spec/rails_root/vendor/rails_versions/2.1.0" />
+=======
+>>>>>>> 17354a46cf4f23da392dea3a56b7bdd0e8686570:erector.iml
       <excludeFolder url="file://$MODULE_DIR$/spec/rails_root/vendor/rails_versions/edge" />
     </content>
     <orderEntry type="jdk" jdkName="Ruby SDK 1.8.6" jdkType="RUBY_SDK" />
