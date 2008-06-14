@@ -37,6 +37,11 @@ end
 
 desc "Run the specs for the erector plugin"
 task :spec do
+  rails_root = "#{File.dirname(__FILE__)}/spec/rails_root"
+  unless File.exists?("#{rails_root}/vendor/rails/railties/lib/initializer.rb")
+    warn "Rails not cloned into #{rails_root}. Installing dependencies."
+    Rake.application[:install_dependencies].invoke
+  end
   require "spec/spec_suite"
   SpecSuite.all
 end
