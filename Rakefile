@@ -65,7 +65,7 @@ end
 desc "Install dependencies to run the build. This task uses Git."
 task(:install_dependencies) do
   require "lib/erector/rails/supported_rails_versions"
-  system("git clone git://github.com/rails/rails.git spec/rails_root/vendor/rails_versions/edge")
+  system("git clone git://github.com/rails/rails.git spec/rails_root/vendor/rails_versions/edge") || raise("Git clone of Rails failed")
   require "fileutils"
   edge_path = "spec/rails_root/vendor/rails_versions/edge"
   FileUtils.mkdir_p(edge_path)
