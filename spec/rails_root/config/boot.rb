@@ -24,7 +24,7 @@ unless defined?(Rails::Initializer)
   Dir.chdir("#{RAILS_ROOT}/../../") do
     erector_root_dir = Dir.pwd
   end
-  system("rm #{RAILS_ROOT}/vendor/plugins/erector")
+  system("rm -rf #{RAILS_ROOT}/vendor/plugins/erector")
   system("ln -s #{erector_root_dir} #{RAILS_ROOT}/vendor/plugins/erector")
 
   Dir["#{rails_dir}/*"].each do |path|
