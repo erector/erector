@@ -3,7 +3,8 @@ require File.expand_path("#{File.dirname(__FILE__)}/../spec_helper")
 describe "indentation" do
 
   it "can detect newliney tags" do
-    doc = Erector::Doc.new(StringIO.new(""), :add_newlines => true)
+    doc = Erector::Doc.new(StringIO.new(""))
+    doc.enable_prettyprint = true
     doc.newliney("i").should == false
     doc.newliney("table").should == true
   end
@@ -12,21 +13,21 @@ describe "indentation" do
     Erector::Widget.new() do
       text "Hello, "
       b "World"
-    end.add_newlines(true).to_s.should == "Hello, <b>World</b>"
+    end.enable_prettyprint(true).to_s.should == "Hello, <b>World</b>"
   end
   
   it "should add newlines before open newliney tags" do
     Erector::Widget.new() do
       p "foo"
       p "bar"
-    end.add_newlines(true).to_s.should == "<p>foo</p>\n<p>bar</p>\n"
+    end.enable_prettyprint(true).to_s.should == "<p>foo</p>\n<p>bar</p>\n"
   end
   
   it "should add newlines between text and open newliney tag" do
     Erector::Widget.new() do
       text "One"
       p "Two"
-    end.add_newlines(true).to_s.should == "One\n<p>Two</p>\n"
+    end.enable_prettyprint(true).to_s.should == "One\n<p>Two</p>\n"
   end
   
   it "should add newlines after end newliney tags" do
@@ -34,7 +35,7 @@ describe "indentation" do
       tr do
         td "cell"
       end
-    end.add_newlines(true).to_s.should == "<tr>\n  <td>cell</td>\n</tr>\n"
+    end.enable_prettyprint(true).to_s.should == "<tr>\n  <td>cell</td>\n</tr>\n"
   end
   
   it "should treat empty elements as start and end" do
@@ -42,7 +43,7 @@ describe "indentation" do
       p "before"
       br
       p "after"
-    end.add_newlines(true).to_s.should == "<p>before</p>\n<br />\n<p>after</p>\n"
+    end.enable_prettyprint(true).to_s.should == "<p>before</p>\n<br />\n<p>after</p>\n"
   end
   
   it "empty elements sets at_start_of_line" do
@@ -50,7 +51,7 @@ describe "indentation" do
       text "before"
       br
       p "after"
-    end.add_newlines(true).to_s.should == "before\n<br />\n<p>after</p>\n"
+    end.enable_prettyprint(true).to_s.should == "before\n<br />\n<p>after</p>\n"
   end
 
   it "will not insert extra space before/after input element" do
@@ -60,7 +61,7 @@ describe "indentation" do
       text 'Name'
       input :type => 'text'
       text 'after'
-    end.add_newlines(true).to_s.should == 'Name<input type="text" />after'
+    end.enable_prettyprint(true).to_s.should == 'Name<input type="text" />after'
   end
   
   it "will indent" do
@@ -75,7 +76,7 @@ describe "indentation" do
           end
         end
       end
-    end.add_newlines(true).to_s.should == <<END
+    end.enable_prettyprint(true).to_s.should == <<END
 <html>
   <head>
     <title>hi</title>
@@ -90,10 +91,36 @@ END
   end
   
   it "can turn off newlines" do
-    Erector::Widget.new(:add_newlines => false) do
+    Erector::Widget.new() do
       text "One"
       p "Two"
-    end.add_newlines(false).to_s.should == "One<p>Two</p>"
+    end.enable_prettyprint(false).to_s.should == "One<p>Two</p>"
+  end
+  
+  it "cannot turn newlines on and off, because the output is cached" do
+    widget = Erector::Widget.new() do
+      text "One"
+      p "Two"
+    end.enable_prettyprint(false)
+    widget.to_s.should == "One<p>Two</p>"
+    widget.enable_prettyprint(true)
+    widget.to_s.should == "One<p>Two</p>"
+    widget.enable_prettyprint(false)
+    widget.to_s.should == "One<p>Two</p>"
+  end
+  
+  it "can turn on newlines via to_pretty" do
+    widget = Erector::Widget.new() do
+      text "One"
+      p "Two"
+    end.enable_prettyprint(false).to_pretty.should == "One\n<p>Two</p>\n"
+  end
+  
+  it "to_pretty will leave newlines on if they already were" do
+    widget = Erector::Widget.new() do
+      text "One"
+      p "Two"
+    end.enable_prettyprint(true).to_pretty.should == "One\n<p>Two</p>\n"
   end
   
 end

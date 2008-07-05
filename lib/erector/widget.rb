@@ -92,13 +92,20 @@ module Erector
       end
     end
     
-    # Set whether Erector should add newlines and indentation.
+    # Set whether Erector should add newlines and indentation in to_s.
     # This is an experimental feature and is subject to change
     # (either in terms of how it is enabled, or in terms of
     # what decisions Erector makes about where to add whitespace).
-    def add_newlines(enable)
-      @doc.add_newlines = enable
+    # This flag should be set prior to any rendering being done
+    # (for example, calls to to_s or to_pretty).
+    def enable_prettyprint(enable)
+      @doc.enable_prettyprint = enable
       self
+    end
+
+    # Render (like to_s) but adding newlines and indentation.
+    def to_pretty
+      enable_prettyprint(true).to_s
     end
 
     # Entry point for rendering a widget (and all its children). This method creates a new Doc doc stream,
@@ -115,7 +122,7 @@ module Erector
       send(render_method_name, &blk)
       @__to_s = @doc.to_s
     end
-
+    
     alias_method :inspect, :to_s
 
     # Template method which must be overridden by all widget subclasses. Inside this method you call the magic
@@ -199,7 +206,11 @@ module Erector
       @doc.open_tag tag_name, attributes
     end
 
-    # Emits text which will be HTML-escaped.
+    # Emits text.  If a string is passed in, it will be HTML-escaped.
+    # If a widget or the result of calling methods such as raw
+    # is passed in, the HTML will not be HTML-escaped again.
+    # If another kind of object is passed in, the result of calling
+    # its to_s method will be treated as a string would be.
     def text(value)
       @doc.text value
     end
@@ -209,7 +220,7 @@ module Erector
       RawString.new(value.to_s)
     end
 
-    # Returns text which will *not* be HTML-escaped. Same effect as text(raw(s))
+    # Emits text which will *not* be HTML-escaped. Same effect as text(raw(s))
     def rawtext(value)
       text raw(value)
     end

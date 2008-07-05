@@ -10,17 +10,16 @@ module Erector
     SPACES_PER_INDENT = 2
 
     attr_reader :output
-    attr_accessor :add_newlines
+    attr_accessor :enable_prettyprint
 
     def initialize(output, options = {})
       @output = output
       @at_start_of_line = true
       @indent = 0
-      @add_newlines = options[:add_newlines]
     end
 
     def newliney(tag_name)
-      if @add_newlines
+      if @enable_prettyprint
         !NON_NEWLINEY.include?(tag_name)
       else
         false
