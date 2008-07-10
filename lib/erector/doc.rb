@@ -9,13 +9,19 @@ module Erector
 
     SPACES_PER_INDENT = 2
 
-    attr_reader :output
     attr_accessor :enable_prettyprint
 
     def initialize(output, options = {})
       @output = output
       @at_start_of_line = true
       @indent = 0
+    end
+
+    def output
+      unless @output.eof?
+        @output.seek(0, IO::SEEK_END)
+      end
+      @output
     end
 
     def newliney(tag_name)

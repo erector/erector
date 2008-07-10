@@ -2,6 +2,19 @@ require File.expand_path("#{File.dirname(__FILE__)}/../spec_helper")
 
 module Erector
   describe Doc do
+    describe "#output" do
+      it "seeks to the end of the buffer" do
+        string = "Hello"
+        io = StringIO.new(string)
+        doc = Doc.new(io)
+
+        string.concat(" World")
+        doc.text " Again"
+
+        string.should == "Hello World Again"
+      end
+    end
+
     describe "#method_missing" do
       context "when passed in io object raises a NoMethodError" do
         context "when the passed in io object respond_to? method is false" do
