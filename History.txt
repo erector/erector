@@ -6,6 +6,7 @@
 * Erector works with erb layouts
 * Deprecate fake_erbout
 * Better handling for file with .html.rb extension.
+* Fix overwriting issue when using Rails helpers
 
 === 0.3.110 / 2008-05-29
 
