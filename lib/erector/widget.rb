@@ -226,10 +226,26 @@ module Erector
     end
 
     # Returns a copy of value with spaces replaced by non-breaking space characters.
+    # With no arguments, return a single non-breaking space.
     # The output uses the escaping format '&#160;' since that works
     # in both HTML and XML (as opposed to '&nbsp;' which only works in HTML).
-    def nbsp(value)
+    def nbsp(value = " ")
       raw(value.html_escape.gsub(/ /,'&#160;'))
+    end
+    
+    # Return a character given its unicode code point or unicode name.
+    def character(code_point_or_name)
+      if code_point_or_name.is_a?(Symbol)
+        found = Erector::CHARACTERS[code_point_or_name]
+        if found.nil?
+          raise "Unrecognized character #{code_point_or_name}"
+        end
+        raw("&#x#{sprintf '%x', found};")
+      elsif code_point_or_name.is_a?(Integer)
+        raw("&#x#{sprintf '%x', code_point_or_name};")
+      else
+        raise "Unrecognized argument to character: #{code_point_or_name}"
+      end
     end
 
     # Emits a close tag, consisting of '<', tag name, and '>'

@@ -83,6 +83,9 @@ a(:href => 'q?a&b')      # <a href=\"q?a&amp;b\"></a>  (quotes as for text)
 a(:href => raw('&amp;')) # <a href=\"&amp;\"></a>
 a 'foo', :href => "bar"  # <a href=\"bar\">foo</a>
 text nbsp('Save Doc')    # Save&#160;Doc (turns spaces into non-breaking spaces)
+text nbsp()              # &#160; (a single non-breaking space)
+text character(160)      # &#xa0; (output a character given its unicode code point)
+text character(:right-arrow)    # &#x2192; (output a character given its unicode name)
 instruct                 # <?xml version=\"1.0\" encoding=\"UTF-8\"?>
 
 javascript('if (x < y && x > z) alert("don\\\'t stop");') #=>

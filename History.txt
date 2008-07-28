@@ -7,6 +7,8 @@
 * Deprecate fake_erbout
 * Better handling for file with .html.rb extension.
 * Fix overwriting issue when using Rails helpers
+* New method Widget#character
+* Widget#nbsp without arguments now outputs a single non-breaking space.
 
 === 0.3.110 / 2008-05-29
 

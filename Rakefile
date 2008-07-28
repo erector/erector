@@ -87,3 +87,14 @@ desc "Updates the dependencies to run the build. This task uses Git."
 task(:update_dependencies) do
   system "cd spec/rails_root/vendor/rails_versions/edge; git pull origin"
 end
+
+desc "Regenerate unicode.rb from UnicodeData.txt from unicode.org.  Only needs to be run when there is a new version of the Unicode specification"
+task(:build_unicode) do
+  require 'lib/erector/unicode_builder'
+  builder = Erector::UnicodeBuilder.new(
+    File.open("/usr/lib/perl5/5.8.8/unicore/UnicodeData.txt"), 
+    File.open("lib/erector/unicode.rb", "w")
+  )
+  builder.generate
+end
+

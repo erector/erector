@@ -334,7 +334,7 @@ module WidgetSpec
       end
     end
 
-    describe "nbsp" do
+    describe "#nbsp" do
       it "turns consecutive spaces into consecutive non-breaking spaces" do
         Erector::Widget.new do
           text nbsp("a  b")
@@ -354,7 +354,51 @@ module WidgetSpec
           element 'a', :href => nbsp("&<> foo")
         end.to_s.should == "<a href=\"&amp;&lt;&gt;&#160;foo\"></a>"
       end
+      
+      it "defaults to a single non-breaking space if given no argument" do
+        Erector::Widget.new do
+          text nbsp
+        end.to_s.should == "&#160;"
+      end
 
+    end
+
+    describe "#character" do
+      it "renders a character given the codepoint number" do
+        Erector::Widget.new do
+          text character(160)
+        end.to_s.should == "&#xa0;"
+      end
+      
+      it "renders a character given the unicode name" do
+        Erector::Widget.new do
+          text character(:right_arrow)
+        end.to_s.should == "&#x2192;"
+      end
+
+      it "renders a character above 0xffff" do
+        Erector::Widget.new do
+          text character(:old_persian_sign_ka)
+        end.to_s.should == "&#x103a3;"
+      end
+
+      it "throws an exception if a name is not recognized" do
+        lambda {
+          Erector::Widget.new do
+            text character(:no_such_character_name)
+          end.to_s
+        }.should raise_error("Unrecognized character no_such_character_name")
+      end
+
+      it "throws an exception if passed something besides a symbol or integer" do
+        # Perhaps calling to_s would be more ruby-esque, but that seems like it might
+        # be pretty confusing when this method can already take either a name or number
+        lambda {
+          Erector::Widget.new do
+            text character([])
+          end.to_s
+        }.should raise_error("Unrecognized argument to character: ")
+      end
     end
 
     describe '#h' do
