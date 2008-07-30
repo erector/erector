@@ -569,6 +569,7 @@ class Hoe
       end
 
       rf = RubyForge.new
+      rf.configure
       puts "Logging in"
       rf.login
 
