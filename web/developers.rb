@@ -52,6 +52,11 @@ class Developers < Page
       li "Run 'rake release VERSION=1.2.3'. (The parameter is to confirm you're releasing the version you intend to.)"
       li "Run 'rake publish_docs web publish_web' cause the docs and site need to be updated, at least with the new version number."
       li %q{Immediately go into History.txt and make a new section at the top. Since we won't yet know what the next version will be called, the new section will be noted by a single "==" at the top of the file.}
+      li do
+        text "Send email to "
+        a("erector-devel mailing list", :href => "mailto:erector-devel@rubyforge.org")
+        text " announcing the new release."
+      end
     end
   end
 
