@@ -1,4 +1,4 @@
-===
+=== 0.4.191 / 2008-07-29
 * Renamed HtmlParts to Doc
 * Widget#doc is now a HtmlParts which proxies to the passed in IO stream
 * Better compatibility with standard Rails rendering because ActionController::Base#render and #render_widget now have the Widget write directly to _erbout.

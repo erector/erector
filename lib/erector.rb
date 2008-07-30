@@ -15,5 +15,5 @@ end
 ##
 # Erector view framework
 module Erector
-  VERSION = "0.3.110"
+  VERSION = "0.4.191"
 end
