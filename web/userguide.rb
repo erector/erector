@@ -98,6 +98,16 @@ DONE
       i "TODO: document more obscure features like capture, Table, :class => ['one', 'two']"
     end,
 
+    Section.new("Pretty-printing") do
+      p "Erector has the ability to insert newlines and indentation to make the generated HTML more readable.  Newlines are inserted before and after certain tags."
+      p "To enable pretty-printing (insertion of newlines and indentation) of Erector's output, do one of the following:"
+      ul do
+        li "call to_pretty instead of to_s on your Erector::Widget"
+        li "call enable_prettyprint(true) on your Erector::Widget.  Then subsequent calls to to_s will prettyprint"
+        li "call Erector::Doc.prettyprint_default = true (for example, in environments/development.rb in a rails application, or anywhere which is convenient)"
+      end
+    end,
+
     Section.new("Using Erector from Ruby on Rails") do
 
       p do

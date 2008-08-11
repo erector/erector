@@ -2,6 +2,8 @@ module Erector
   # A proxy to an IO object that adds methods to add xml.
   class Doc
 
+    cattr_accessor :prettyprint_default
+
     NON_NEWLINEY = {'i' => true, 'b' => true, 'small' => true,
       'img' => true, 'span' => true, 'a' => true,
       'input' => true, 'textarea' => true, 'button' => true, 'select' => true
@@ -15,6 +17,7 @@ module Erector
       @output = output
       @at_start_of_line = true
       @indent = 0
+      @enable_prettyprint = prettyprint_default
     end
 
     def output

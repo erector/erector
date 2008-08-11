@@ -123,5 +123,13 @@ END
     end.enable_prettyprint(true).to_pretty.should == "One\n<p>Two</p>\n"
   end
   
+  it "can turn newlines on/off via global variable" do
+    Erector::Widget.new { br }.to_s.should == "<br />"
+    Erector::Doc.prettyprint_default = true
+    Erector::Widget.new { br }.to_s.should == "<br />\n"
+    Erector::Doc.prettyprint_default = false
+    Erector::Widget.new { br }.to_s.should == "<br />"
+  end
+  
 end
 
