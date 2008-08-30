@@ -95,6 +95,19 @@ if (x < y && x > z) alert("don't stop");
 // ]]>
 </script>
 DONE
+      table do
+        tr do
+          td do
+            code "join ["
+            i "widgets"
+            code "], "
+            i "separator"
+          end
+          td do
+            i "See examples/join.rb for more explanation"
+          end
+        end
+      end
       i "TODO: document more obscure features like capture, Table, :class => ['one', 'two']"
     end,
 

@@ -252,6 +252,20 @@ module Erector
     def close_tag(tag_name)
       @doc.close_tag tag_name
     end
+    
+    # Emits the result of joining the elements in array with the separator.
+    # The array elements and separator can be Erector::Widget objects,
+    # which are rendered, or strings, which are quoted and output.
+    def join(array, separator)
+      first = true
+      array.each do |widget_or_text|
+        if !first
+          text separator
+        end
+        first = false
+        text widget_or_text
+      end
+    end
 
     # Emits an XML instruction, which looks like this: <?xml version=\"1.0\" encoding=\"UTF-8\"?>
     def instruct(attributes={:version => "1.0", :encoding => "UTF-8"})

@@ -401,6 +401,50 @@ module WidgetSpec
       end
     end
 
+    describe "#join" do
+
+      it "empty array means nothing to join" do
+        Erector::Widget.new do
+          join [], Erector::Widget.new { text "x" }
+        end.to_s.should == ""
+      end
+      
+      it "larger example with two tabs" do
+        Erector::Widget.new do
+          tab1 = 
+            Erector::Widget.new do
+              a "Upload document", :href => "/upload"
+            end
+          tab2 =
+            Erector::Widget.new do
+              a "Logout", :href => "/logout"
+            end
+          join [tab1, tab2],
+            Erector::Widget.new { text nbsp(" |"); text " " }
+        end.to_s.should == 
+          '<a href="/upload">Upload document</a>&#160;| <a href="/logout">Logout</a>'
+      end
+      
+      it "plain string as join separator means pass it to text" do
+        Erector::Widget.new do
+          join [
+            Erector::Widget.new { text "x" },
+            Erector::Widget.new { text "y" }
+          ], "<>"
+        end.to_s.should == "x&lt;&gt;y"
+      end
+
+      it "plain string as item to join means pass it to text" do
+        Erector::Widget.new do
+          join [
+            "<",
+            "&"
+          ], Erector::Widget.new { text " + " }
+        end.to_s.should == "&lt; + &amp;"
+      end
+
+    end
+
     describe '#h' do
       before do
         @widget = Erector::Widget.new

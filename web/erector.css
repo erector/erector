@@ -24,7 +24,7 @@ h2 {
   margin-top: 2em;
 }
 
-pre {
+pre, table {
   background-color: lemonchiffon;
   border: 1px solid gray;
   padding: .5em;

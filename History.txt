@@ -1,5 +1,6 @@
 ===
 * Erector can now pretty-print the generated HTML to make it easier to read.
+* Add join method to Erector::Widget.
 
 === 0.4.191 / 2008-07-29
 * Renamed HtmlParts to Doc
