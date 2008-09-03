@@ -7,9 +7,7 @@
 # more straightforward solution, but which may or may not be applicable
 # to more complicated situations).
 
-dir = File.expand_path(File.dirname(__FILE__))
-$LOAD_PATH.unshift("#{dir}/../lib")
-require 'erector'
+require "#{File.dirname(__FILE__)}/../lib/erector"
 
 class Blocks < Erector::Widget
   def render

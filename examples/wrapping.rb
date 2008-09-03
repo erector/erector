@@ -1,5 +1,4 @@
-$: << "../lib"
-require 'erector'
+require "#{File.dirname(__FILE__)}/../lib/erector"
 
 x = Erector::Widget.new do
   p "foo"

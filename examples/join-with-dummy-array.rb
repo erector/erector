@@ -3,9 +3,7 @@
 # rendered this time) and then renders the appropriate items
 # with separators.
 
-dir = File.expand_path(File.dirname(__FILE__))
-$LOAD_PATH.unshift("#{dir}/../lib")
-require 'erector'
+require "#{File.dirname(__FILE__)}/../lib/erector"
 
 class Tabs < Erector::Widget
 

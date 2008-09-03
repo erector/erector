@@ -17,9 +17,7 @@
 # is an alternate solution which requires no special erector feature, 
 # but builds an array to keep track of which tabs will be rendered.
 
-dir = File.expand_path(File.dirname(__FILE__))
-$LOAD_PATH.unshift("#{dir}/../lib")
-require 'erector'
+require "#{File.dirname(__FILE__)}/../lib/erector"
 
 class Tabs < Erector::Widget
 

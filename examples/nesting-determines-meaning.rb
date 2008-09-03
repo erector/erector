@@ -5,9 +5,7 @@
 # One thing motivating this example is to make it possible to 
 # have custom "tags" that look identical to built-in tags.
 
-dir = File.expand_path(File.dirname(__FILE__))
-$LOAD_PATH.unshift("#{dir}/../lib")
-require 'erector'
+require "#{File.dirname(__FILE__)}/../lib/erector"
 
 class Blocks < Erector::Widget
   def render

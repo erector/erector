@@ -1,5 +1,4 @@
-$: << "../lib"
-require 'erector'
+require "#{File.dirname(__FILE__)}/../lib/erector"
 
 class Head < Erector::Widget
   attr_reader :elements
