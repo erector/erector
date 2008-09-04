@@ -32,7 +32,8 @@ task :test => :spec
 task :cruise => [:geminstaller, :test]
 
 task :geminstaller do
-  system "geminstaller --sudo"
+  require 'geminstaller'
+  GemInstaller.run('--sudo --exceptions') || raise("GemInstaller failed")
 end
 
 desc "Run the specs for the erector plugin"
