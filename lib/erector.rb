@@ -8,12 +8,8 @@ require "#{dir}/erector/raw_string"
 require "#{dir}/erector/widget"
 require "#{dir}/erector/unicode"
 require "#{dir}/erector/widgets"
+require "#{dir}/erector/version"
 if Object.const_defined?(:RAILS_ROOT)
   require "#{dir}/erector/rails"
 end
 
-##
-# Erector view framework
-module Erector
-  VERSION = "0.4.191"
-end

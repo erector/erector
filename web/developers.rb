@@ -44,11 +44,11 @@ class Developers < Page
     ol do
       li "Pick a version number. For the build number run 'svn info | grep Revision'"
       li %q{Look at History.txt and make sure the release notes are up to date. Put the version number on the top line (after the "==").}
-      li "Put the version number in erector.rb as Erector::VERSION."
+      li "Put the version number in lib/erector/version.rb as Erector::VERSION."
       li %q{Check in with a comment, e.g. 'svn ci -m "release 1.2.3"'}
       li %q{Run 'rm -rf spec/rails_root' so that you don't include 3 versions of rails in the erector gem (TODO: there must be a better way to exclude these from the gem)}
       li %q{Run 'rake package' so that you can see whether the gem generation seems to work locally before proceeding to try to upload it to rubyforge (if you skip this step, the package will be generated when you run rake release)}
-      li "If you haven't done so before, run 'rubyforge setup' and 'rubyforge config' (for more details on these steps, see README.txt in the rubyforge gem"
+      li "If you haven't done so before, run 'rubyforge setup' and 'rubyforge config' (for more details on these steps, see README.txt in the rubyforge gem)"
       li "Run 'rake release VERSION=1.2.3'. (The parameter is to confirm you're releasing the version you intend to.)"
       li "Run 'rake publish_docs web publish_web' cause the docs and site need to be updated, at least with the new version number."
       li %q{Immediately go into History.txt and make a new section at the top. Since we won't yet know what the next version will be called, the new section will be noted by a single "==" at the top of the file.}

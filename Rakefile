@@ -8,10 +8,9 @@ require './tasks/hoex.rb'  # Alex's patched version of Hoe
 
 dir = File.dirname(__FILE__)
 $: << "#{dir}/lib"
-require "erector"
-require "erector/erect"
+require "erector/version"
 
-GEM_VERSION = Erector::VERSION # defined in lib/erector.rb
+GEM_VERSION = Erector::VERSION # defined in lib/erector/version.rb
 GEM_NAME = "erector"
 
 Hoe.new(GEM_NAME, GEM_VERSION) do |hoe|
