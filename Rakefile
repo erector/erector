@@ -18,7 +18,9 @@ Hoe.new(GEM_NAME, GEM_VERSION) do |hoe|
   hoe.developer("Pivotal Labs", "alex@pivotallabs.com")
   hoe.rdoc_dir = "rdoc"
   hoe.remote_rdoc_dir = "rdoc"
-  hoe.files = ["{spec,lib}/**/*", "README.txt", "bin/erect"]
+
+  specs = Dir.glob("spec/**/*").reject{|file| file =~ %r{^spec/rails_root}}
+  hoe.files = [specs, "lib/**/*", "README.txt", "bin/erect"]
   hoe.extra_deps = [['treetop', ">= 1.2.3"], "rake"]
 end
 Hoe::remove_tasks("audit", "check_manifest", "post_blog", "multi", "test", "test_deps", "docs")
