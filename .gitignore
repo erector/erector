@@ -3,6 +3,7 @@
 *.ipr
 *~
 pkg
+rdoc
 spec/rails_root/log
 spec/rails_root/tmp
 spec/rails_root/vendor/rails_versions
