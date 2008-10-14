@@ -52,6 +52,8 @@ desc "Build the web site from the .rb files in web/"
 task :web do
   dir = File.dirname(__FILE__)
   files = Dir["web/*.rb"] - ["web/page.rb", "web/sidebar.rb"]
+  require 'erector'
+  require 'erector/erect'
   Erector::Erect.new(["--to-html", *files]).run
 end
 
