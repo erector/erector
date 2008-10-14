@@ -11,8 +11,8 @@ class Object
     CGI.unescapeHTML(to_s)
   end
 
-  # OMGWTF :-)
   def escape_single_quotes
     self.gsub(/[']/, '\\\\\'')
   end
 end
+
