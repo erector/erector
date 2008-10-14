@@ -1,6 +1,8 @@
 ##
 # Erector view framework
 module Erector
-  VERSION = "0.4.200"
+  if !Erector.const_defined?(:VERSION)
+    VERSION = "0.4.200"
+  end
 end
 
