@@ -95,7 +95,7 @@ if (x < y && x > z) alert("don't stop");
 // ]]>
 </script>
 DONE
-      table do
+      table :class => 'cheatsheet' do
         tr do
           td do
             code "join ["
@@ -115,9 +115,23 @@ DONE
       p "Erector has the ability to insert newlines and indentation to make the generated HTML more readable.  Newlines are inserted before and after certain tags."
       p "To enable pretty-printing (insertion of newlines and indentation) of Erector's output, do one of the following:"
       ul do
-        li "call to_pretty instead of to_s on your Erector::Widget"
-        li "call enable_prettyprint(true) on your Erector::Widget.  Then subsequent calls to to_s will prettyprint"
-        li "call Erector::Doc.prettyprint_default = true (for example, in environments/development.rb in a rails application, or anywhere which is convenient)"
+        li do
+          text "call "
+          code "to_pretty"
+          text " instead of "
+          code "to_s"
+          text " on your Erector::Widget"
+        end
+        li do
+          text "call "
+          code "enable_prettyprint(true)"
+          text " on your Erector::Widget.  Then subsequent calls to to_s will prettyprint"
+        end
+        li do
+          text "call "
+          code "Erector::Doc.prettyprint_default = true"
+          text " (for example, in environments/development.rb in a rails application, or anywhere which is convenient)"
+        end
       end
     end,
 
