@@ -49,23 +49,20 @@ class Developers < Page
     p "First, install git and git-svn.  Then:"
     pre "git svn clone svn+ssh://developername@rubyforge.org/var/svn/erector/trunk erector"
     p "This will take a while as it checks out the old revisions from subversion."
-    p "Then, add the following lines to .git/config:"
-    pre <<END
-[remote "origin"]
-url = git@github.com:pivotal/erector.git
-fetch = +refs/heads/*:refs/remotes/origin/*
-END
 
-    p "Because the master repository is still subversion instead of git, do the following steps after changing files you want to make available to everyone:"
+    p "When you are ready to make your changes part of the master repository (which is still subversion instead of git), do the following:"
     pre <<END
 git commit -a
-git push    # Is this a mistake?
 git svn dcommit
-git pull    # Or git svn rebase?
 END
     p "When someone makes a change to the subversion tree, run:"
-    pre "git svn rebase    # This doesn't yet work smoothly for me (jkingdon)"
-
+    pre "git svn rebase"
+    
+    p %Q{These instructions do not cover pushing your git revisions 
+    to the github pivotal erector repository, or pulling from there.  
+    If someone has successfully done this, please let us know via 
+    the mailing list, or update these instructions.}
+    
     h2 "Versioning and Release Policy"
     ul do
       li "Versions are of the form major.minor.tiny"
