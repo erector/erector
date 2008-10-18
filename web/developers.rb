@@ -9,6 +9,7 @@ class Developers < Page
     p "Want to help develop Erector? Here's what to do."
 
     h2 "Check out project from rubyforge:"
+    p "If you prefer to use git instead of svn, see below."
     pre "svn co svn+ssh://developername@rubyforge.org/var/svn/erector/trunk erector"
 
     h2 "Install gems:"
@@ -27,6 +28,43 @@ class Developers < Page
     url "mailto:erector-devel@rubyforge.org"
     text " with your Lighthouse account name, then visit "
     url "http://erector.lighthouseapp.com"
+    
+    h2 "Read-only access using git"
+    p "First, install git.  Then download erector using git:"
+    pre "git clone git://github.com/pivotal/erector.git"
+    p "Generate a diff between what you have edited and what you have run git add on:"
+    pre "git diff"
+    p "Generate a diff between what you have run git add on and locally committed:"
+    pre "git diff --cached"
+    p "Commit locally (into your .git directory):"
+    pre "git commit -a"
+    p "You can update from the erector repository at github with:"
+    pre "git pull"
+    p "However, since you have checked out git read-only, you cannot push back your changes with:"
+    pre "git push"
+    p "Instead, mail a diff to the mailing list."
+
+    h2 "Read/write access using git-svn"
+    p "The following instructions assume you have been listed as a collaborator on the github pivotal erector project."
+    p "First, install git and git-svn.  Then:"
+    pre "git svn clone svn+ssh://developername@rubyforge.org/var/svn/erector/trunk erector"
+    p "This will take a while as it checks out the old revisions from subversion."
+    p "Then, add the following lines to .git/config:"
+    pre <<END
+[remote "origin"]
+url = git@github.com:pivotal/erector.git
+fetch = +refs/heads/*:refs/remotes/origin/*
+END
+
+    p "Because the master repository is still subversion instead of git, do the following steps after changing files you want to make available to everyone:"
+    pre <<END
+git commit -a
+git push    # Is this a mistake?
+git svn dcommit
+git pull    # Or git svn rebase?
+END
+    p "When someone makes a change to the subversion tree, run:"
+    pre "git svn rebase    # This doesn't yet work smoothly for me (jkingdon)"
 
     h2 "Versioning and Release Policy"
     ul do
