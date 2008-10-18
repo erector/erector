@@ -1,8 +1,116 @@
-<html><head><title>Erector - Developers</title><link href="erector.css" rel="stylesheet" type="text/css" /></head><body><table><tr><td valign="top"><div class="sidebar"><a href="index.html"><img align="left" src="erector.jpg" /></a><br clear="all" /><h3>On This Site:</h3><ul><li class="clickable" onclick="document.location='index.html'"><a href="index.html">Readme</a></li><li class="clickable" onclick="document.location='userguide.html'"><a href="userguide.html">User Guide</a></li><li class="clickable" onclick="document.location='faq.html'"><a href="faq.html">FAQ</a></li><li class="clickable" onclick="document.location='developers.html'"><a href="developers.html">For Developers</a></li></ul><hr /><h3>External Links:</h3><ul><li class="clickable" onclick="document.location='http://rubyforge.org/frs/?group_id=4797'"><a href="http://rubyforge.org/frs/?group_id=4797">Download</a><br /><span> (current version: 0.4.200)</span></li><li class="clickable" onclick="document.location='http://erector.rubyforge.org/svn/trunk/History.txt'"><a href="http://erector.rubyforge.org/svn/trunk/History.txt">Version History</a></li><li class="clickable" onclick="document.location='rdoc'"><a href="rdoc">RDoc Documentation</a></li><li class="clickable" onclick="document.location='http://rubyforge.org/projects/erector/'"><a href="http://rubyforge.org/projects/erector/">RubyForge Project</a></li><li class="clickable" onclick="document.location='http://erector.lighthouseapp.com'"><a href="http://erector.lighthouseapp.com">Lighthouse Project</a></li><li class="clickable" onclick="document.location='http://rubyforge.org/scm/?group_id=4797'"><a href="http://rubyforge.org/scm/?group_id=4797">Subversion Repository</a></li><li class="clickable" onclick="document.location='http://rubyforge.org/mailman/listinfo/erector-devel'"><a href="http://rubyforge.org/mailman/listinfo/erector-devel">erector-devel mailing list</a></li></ul><hr /><h3>Supported by:</h3><center><a href="http://www.pivotallabs.com"><img alt="Pivotal Labs" height="57" src="pivotal.gif" width="158" /></a></center></div></td><td valign="top"><h1 class="title">Erector - Developers</h1><hr /><div class="body"><p>Want to help develop Erector? Here's what to do.</p><h2>Check out project from rubyforge:</h2><p>If you prefer to use git instead of svn, see below.</p><pre>svn co svn+ssh://developername@rubyforge.org/var/svn/erector/trunk erector</pre><h2>Install gems:</h2><pre>sudo gem install rake rails rspec rubyforge hpricot treetop</pre><h2>Run specs:</h2><pre>rake</pre><h2>Check out the available rake tasks:</h2><pre>rake -T</pre><h2>Sign up for the erector-devel mailing list:</h2><a href="http://rubyforge.org/mailman/listinfo/erector-devel">erector-devel mailing list</a><h2>Join the Lighthouse project:</h2><a href="mailto:erector-devel@rubyforge.org">mailto:erector-devel@rubyforge.org</a> with your Lighthouse account name, then visit <a href="http://erector.lighthouseapp.com">http://erector.lighthouseapp.com</a><h2>Read-only access using git</h2><p>First, install git.  Then download erector using git:</p><pre>git clone git://github.com/pivotal/erector.git</pre><p>Generate a diff between what you have edited and what you have run git add on:</p><pre>git diff</pre><p>Generate a diff between what you have run git add on and locally committed:</p><pre>git diff --cached</pre><p>Commit locally (into your .git directory):</p><pre>git commit -a</pre><p>You can update from the erector repository at github with:</p><pre>git pull</pre><p>However, since you have checked out git read-only, you cannot push back your changes with:</p><pre>git push</pre><p>Instead, mail a diff to the mailing list.</p><h2>Read/write access using git-svn</h2><p>The following instructions assume you have been listed as a collaborator on the github pivotal erector project.</p><p>First, install git and git-svn.  Then:</p><pre>git svn clone svn+ssh://developername@rubyforge.org/var/svn/erector/trunk erector</pre><p>This will take a while as it checks out the old revisions from subversion.</p><p>Then, add the following lines to .git/config:</p><pre>[remote &quot;origin&quot;]
+<html>
+  <head>
+    <title>Erector - Developers</title>
+    <link href="erector.css" rel="stylesheet" type="text/css" />
+  </head>
+  <body>
+    <table>
+      <tr>
+        <td valign="top">
+          <div class="sidebar"><a href="index.html"><img align="left" src="erector.jpg" /></a>
+            <br clear="all" />
+            <h3>On This Site:</h3>
+            <ul>
+              <li class="clickable" onclick="document.location='index.html'"><a href="index.html">Readme</a></li>
+              <li class="clickable" onclick="document.location='userguide.html'"><a href="userguide.html">User Guide</a></li>
+              <li class="clickable" onclick="document.location='faq.html'"><a href="faq.html">FAQ</a></li>
+              <li class="clickable" onclick="document.location='developers.html'"><a href="developers.html">For Developers</a></li>
+            </ul>
+            <hr />
+            <h3>External Links:</h3>
+            <ul>
+              <li class="clickable" onclick="document.location='http://rubyforge.org/frs/?group_id=4797'"><a href="http://rubyforge.org/frs/?group_id=4797">Download</a>
+                <br />
+                <span> (current version: 0.4.200)</span></li>
+              <li class="clickable" onclick="document.location='http://erector.rubyforge.org/svn/trunk/History.txt'"><a href="http://erector.rubyforge.org/svn/trunk/History.txt">Version History</a></li>
+              <li class="clickable" onclick="document.location='rdoc'"><a href="rdoc">RDoc Documentation</a></li>
+              <li class="clickable" onclick="document.location='http://rubyforge.org/projects/erector/'"><a href="http://rubyforge.org/projects/erector/">RubyForge Project</a></li>
+              <li class="clickable" onclick="document.location='http://erector.lighthouseapp.com'"><a href="http://erector.lighthouseapp.com">Lighthouse Project</a></li>
+              <li class="clickable" onclick="document.location='http://rubyforge.org/scm/?group_id=4797'"><a href="http://rubyforge.org/scm/?group_id=4797">Subversion Repository</a></li>
+              <li class="clickable" onclick="document.location='http://rubyforge.org/mailman/listinfo/erector-devel'"><a href="http://rubyforge.org/mailman/listinfo/erector-devel">erector-devel mailing list</a></li>
+            </ul>
+            <hr />
+            <h3>Supported by:</h3>
+            <center><a href="http://www.pivotallabs.com"><img alt="Pivotal Labs" height="57" src="pivotal.gif" width="158" /></a></center>
+          </div>
+        </td>
+        <td valign="top">
+          <h1 class="title">Erector - Developers</h1>
+          <hr />
+          <div class="body">
+            <p>Want to help develop Erector? Here's what to do.</p>
+            <h2>Check out project from rubyforge:</h2>
+            <p>If you prefer to use git instead of svn, see below.</p>
+            <pre>svn co svn+ssh://developername@rubyforge.org/var/svn/erector/trunk erector</pre>
+            <h2>Install gems:</h2>
+            <pre>sudo gem install rake rails rspec rubyforge hpricot treetop</pre>
+            <h2>Run specs:</h2>
+            <pre>rake</pre>
+            <h2>Check out the available rake tasks:</h2>
+            <pre>rake -T</pre>
+            <h2>Sign up for the erector-devel mailing list:</h2>
+            <a href="http://rubyforge.org/mailman/listinfo/erector-devel">erector-devel mailing list</a>
+            <h2>Join the Lighthouse project:</h2>
+            <a href="mailto:erector-devel@rubyforge.org">mailto:erector-devel@rubyforge.org</a> with your Lighthouse account name, then visit <a href="http://erector.lighthouseapp.com">http://erector.lighthouseapp.com</a>
+            <h2>Read-only access using git</h2>
+            <p>First, install git.  Then download erector using git:</p>
+            <pre>git clone git://github.com/pivotal/erector.git</pre>
+            <p>Generate a diff between what you have edited and what you have run git add on:</p>
+            <pre>git diff</pre>
+            <p>Generate a diff between what you have run git add on and locally committed:</p>
+            <pre>git diff --cached</pre>
+            <p>Commit locally (into your .git directory):</p>
+            <pre>git commit -a</pre>
+            <p>You can update from the erector repository at github with:</p>
+            <pre>git pull</pre>
+            <p>However, since you have checked out git read-only, you cannot push back your changes with:</p>
+            <pre>git push</pre>
+            <p>Instead, mail a diff to the mailing list.</p>
+            <h2>Read/write access using git-svn</h2>
+            <p>The following instructions assume you have been listed as a collaborator on the github pivotal erector project.</p>
+            <p>First, install git and git-svn.  Then:</p>
+            <pre>git svn clone svn+ssh://developername@rubyforge.org/var/svn/erector/trunk erector</pre>
+            <p>This will take a while as it checks out the old revisions from subversion.</p>
+            <p>Then, add the following lines to .git/config:</p>
+            <pre>[remote &quot;origin&quot;]
 url = git@github.com:pivotal/erector.git
 fetch = +refs/heads/*:refs/remotes/origin/*
-</pre><p>Because the master repository is still subversion instead of git, do the following steps after changing files you want to make available to everyone:</p><pre>git commit -a
+</pre>
+            <p>Because the master repository is still subversion instead of git, do the following steps after changing files you want to make available to everyone:</p>
+            <pre>git commit -a
 git push    # Is this a mistake?
 git svn dcommit
 git pull    # Or git svn rebase?
-</pre><p>When someone makes a change to the subversion tree, run:</p><pre>git svn rebase    # This doesn't yet work smoothly for me (jkingdon)</pre><h2>Versioning and Release Policy</h2><ul><li>Versions are of the form major.minor.tiny</li><li>Tiny revisions fix bugs or documentation</li><li>Tiny revisions are roughly equal to the svn revision number when they were made</li><li>Minor revisions add API calls, or change behavior</li><li>Minor revisions may also remove API calls, but these must be clearly announced in History.txt, with instructions on how to migrate </li><li>Major revisions are about marketing more than technical needs. We will stay in major version 0 until we're happy taking the &quot;alpha&quot; label off it. And if we ever do a major overhaul of the API, especially one that breaks backwards compatibility, we will probably want to increment the major version.</li><li>We will not be shy about incrementing version numbers -- if we end up going to version 0.943.67454 then so be it.</li><li>Developers should attempt to add lines in History.txt to reflect their checkins. These should reflect feature-level changes, not just one line per checkin. The top section of History.txt is used as the Release Notes by the &quot;rake publish&quot; task and will appear on the RubyForge file page.</li></ul><h2>How to push a release</h2><ol><li>Pick a version number. For the build number run 'svn info | grep Revision'</li><li>Look at History.txt and make sure the release notes are up to date. Put the version number on the top line (after the &quot;==&quot;).</li><li>Put the version number in lib/erector/version.rb as Erector::VERSION.</li><li>Check in with a comment, e.g. 'svn ci -m &quot;release 1.2.3&quot;'</li><li>Run 'rake package' so that you can see whether the gem generation seems to work locally before proceeding to try to upload it to rubyforge (if you skip this step, the package will be generated when you run rake release)</li><li>If you haven't done so before, run 'rubyforge setup' and 'rubyforge config' (for more details on these steps, see README.txt in the rubyforge gem)</li><li>Run 'rake release VERSION=1.2.3'. (The parameter is to confirm you're releasing the version you intend to.)</li><li>Run 'rake publish_docs web publish_web' cause the docs and site need to be updated, at least with the new version number.</li><li>Immediately go into History.txt and make a new section at the top. Since we won't yet know what the next version will be called, the new section will be noted by a single &quot;==&quot; at the top of the file.</li><li>Send email to <a href="mailto:erector-devel@rubyforge.org">erector-devel mailing list</a> announcing the new release.</li></ol></div></td></tr></table></body></html>
+</pre>
+            <p>When someone makes a change to the subversion tree, run:</p>
+            <pre>git svn rebase    # This doesn't yet work smoothly for me (jkingdon)</pre>
+            <h2>Versioning and Release Policy</h2>
+            <ul>
+              <li>Versions are of the form major.minor.tiny</li>
+              <li>Tiny revisions fix bugs or documentation</li>
+              <li>Tiny revisions are roughly equal to the svn revision number when they were made</li>
+              <li>Minor revisions add API calls, or change behavior</li>
+              <li>Minor revisions may also remove API calls, but these must be clearly announced in History.txt, with instructions on how to migrate </li>
+              <li>Major revisions are about marketing more than technical needs. We will stay in major version 0 until we're happy taking the &quot;alpha&quot; label off it. And if we ever do a major overhaul of the API, especially one that breaks backwards compatibility, we will probably want to increment the major version.</li>
+              <li>We will not be shy about incrementing version numbers -- if we end up going to version 0.943.67454 then so be it.</li>
+              <li>Developers should attempt to add lines in History.txt to reflect their checkins. These should reflect feature-level changes, not just one line per checkin. The top section of History.txt is used as the Release Notes by the &quot;rake publish&quot; task and will appear on the RubyForge file page.</li>
+            </ul>
+            <h2>How to push a release</h2>
+            <ol>
+              <li>Pick a version number. For the build number run 'svn info | grep Revision'</li>
+              <li>Look at History.txt and make sure the release notes are up to date. Put the version number on the top line (after the &quot;==&quot;).</li>
+              <li>Put the version number in lib/erector/version.rb as Erector::VERSION.</li>
+              <li>Check in with a comment, e.g. 'svn ci -m &quot;release 1.2.3&quot;'</li>
+              <li>Run 'rake package' so that you can see whether the gem generation seems to work locally before proceeding to try to upload it to rubyforge (if you skip this step, the package will be generated when you run rake release)</li>
+              <li>If you haven't done so before, run 'rubyforge setup' and 'rubyforge config' (for more details on these steps, see README.txt in the rubyforge gem)</li>
+              <li>Run 'rake release VERSION=1.2.3'. (The parameter is to confirm you're releasing the version you intend to.)</li>
+              <li>Run 'rake publish_docs web publish_web' cause the docs and site need to be updated, at least with the new version number.</li>
+              <li>Immediately go into History.txt and make a new section at the top. Since we won't yet know what the next version will be called, the new section will be noted by a single &quot;==&quot; at the top of the file.</li>
+              <li>Send email to <a href="mailto:erector-devel@rubyforge.org">erector-devel mailing list</a> announcing the new release.</li>
+            </ol>
+          </div>
+        </td>
+      </tr>
+    </table>
+  </body>
+</html>
