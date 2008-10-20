@@ -272,9 +272,6 @@ module Erector
       @doc.instruct attributes
     end
 
-    # Deprecated synonym of instruct
-    alias_method :instruct!, :instruct
-
     # Creates a whole new doc stream, executes the block, then converts the doc stream to a string and 
     # emits it as raw text. If at all possible you should avoid this method since it hurts performance,
     # and use #render_to instead.

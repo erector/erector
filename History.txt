@@ -1,4 +1,6 @@
 == 
+* The method instruct!, which was a deprecated synonym for instruct,
+has been removed.
 
 === 0.4.200 / 2008-10-11
 * Erector can now pretty-print the generated HTML to make it easier to read.
