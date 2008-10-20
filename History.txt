@@ -1,4 +1,9 @@
 == 
+* Added methods to easily render additional HTML elements (col,
+object, and about a dozen others).  There are now methods for all 
+non-deprecated elements from the HTML 4.0.1 spec.  As before, if 
+erector doesn't have a method built-in, you can still call the element 
+or empty_element method to output any tag.
 * The method instruct!, which was a deprecated synonym for instruct,
 has been removed.
 

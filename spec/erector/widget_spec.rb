@@ -319,7 +319,7 @@ module WidgetSpec
       end
 
       it "renders the proper empty-element tags" do
-        ['area', 'base', 'br', 'hr', 'img', 'input', 'link', 'meta'].each do |tag_name|
+        Erector::Widget.empty_tags.each do |tag_name|
           expected = "<#{tag_name} />"
           actual = Erector::Widget.new do
             send(tag_name)
