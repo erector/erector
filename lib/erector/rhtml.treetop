@@ -150,7 +150,7 @@ grammar Rhtml
   end
 
   rule space
-    ' '*
+    [ \n\t]*
   end
 
 end
