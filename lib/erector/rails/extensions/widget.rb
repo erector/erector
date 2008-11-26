@@ -1,17 +1,11 @@
 module Erector
   Widget.class_eval do
     include ActionController::UrlWriter
-    attr_reader :_erbout
-
-    after_initialize do
-      @_erbout = doc.string
-    end
 
     # helpers returning raw text
     [
       :image_tag,
       :javascript_include_tag,
-      :define_javascript_functions,
       :stylesheet_link_tag,
       :sortable_element,
       :sortable_element_js,
@@ -113,4 +107,11 @@ module Erector
       helpers.pluralize(*args)
     end    
   end
+end
+
+dir = File.dirname(__FILE__)
+if ActionView::Base.instance_methods.include?("define_javascript_functions")
+  require "#{dir}/widget/1.2.5/widget"
+else
+  require "#{dir}/widget/2.2.0/widget"
 end

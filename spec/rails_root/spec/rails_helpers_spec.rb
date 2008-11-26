@@ -44,15 +44,17 @@ module RailsHelpersSpec
       end
     end
 
-    describe "#define_javascript_functions" do
-      it "renders javascript tag" do
-        widget_class = Class.new(Erector::Widget) do
-          def render
-            define_javascript_functions
+    if ::RAILS_VERSION.to_s < "2.2.0"
+      describe "#define_javascript_functions" do
+        it "renders javascript tag" do
+          widget_class = Class.new(Erector::Widget) do
+            def render
+              define_javascript_functions
+            end
           end
+          @controller.render :widget => widget_class
+          @response.body.should =~ /^<script type=\"text\/javascript\">\n/
         end
-        @controller.render :widget => widget_class
-        @response.body.should =~ /^<script type=\"text\/javascript\">\n/
       end
     end
 
@@ -126,7 +128,6 @@ module RailsHelpersSpec
           widget_class = Class.new(Erector::Widget) do
             def render
               link_to_function("Show me more", nil, :id => "more_link") do |page|
-                puts page.inspect
                 page[:details].visual_effect  :toggle_blind
                 page[:more_link].replace_html "Show me less"
               end

@@ -12,12 +12,13 @@ describe Erector::Widget do
 
   describe "#capture" do
     it "captures with an erector block" do
+      captured = nil
       message = Erector::Widget.new(@view) do
         captured = @helpers.capture do
           h1 'capture me!'
         end
-        captured.should == "<h1>capture me!</h1>"
       end.to_s.should == ""
+      captured.should == "<h1>capture me!</h1>"
     end
   end
 
