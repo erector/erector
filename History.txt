@@ -1,4 +1,5 @@
-== 
+==
+* install_dependencies refreshes the rails_versions directory
 
 === 0.4.200 / 2008-10-11
 * Erector can now pretty-print the generated HTML to make it easier to read.
