@@ -82,6 +82,7 @@ desc "Refreshes the Rails versions from edge git repo"
 task(:refresh_rails_versions) do
   require "lib/erector/rails/supported_rails_versions"
   Dir.chdir(EDGE_PATH) do
+    system("git pull origin master")
     begin
       Erector::Rails::SUPPORTED_RAILS_VERSIONS.each do |version, data|
         unless version == 'edge'
