@@ -5,7 +5,8 @@ module Erector
     describe "#output" do
       it "seeks to the end of the buffer" do
         string = "Hello"
-        doc = Doc.new(string)
+        widget = Widget.new(nil, {}, string)
+        doc = Doc.new(widget)
 
         string.concat(" World")
         doc.text " Again"
@@ -25,6 +26,8 @@ module Erector
           end
 
           it "raises a NoMethodError that originates from within Doc#method_missing" do
+            widget = Widget.new
+            string = widget.output
             doc = Doc.new(string)
             lambda do
               doc.foo
@@ -42,6 +45,8 @@ module Erector
           end
 
           it "raises a NoMethodError that originates from within Doc#method_missing" do
+            widget = Widget.new
+            string = widget.output
             doc = Doc.new(string)
             lambda do
               doc.foo

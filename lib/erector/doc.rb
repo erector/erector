@@ -11,14 +11,18 @@ module Erector
 
     SPACES_PER_INDENT = 2
 
-    attr_reader :output
+    attr_reader :widget
     attr_accessor :enable_prettyprint
 
-    def initialize(output, options = {})
-      @output = output
+    def initialize(widget, options = {})
+      @widget = widget
       @at_start_of_line = true
       @indent = 0
       @enable_prettyprint = prettyprint_default
+    end
+
+    def output
+      widget.output
     end
 
     def newliney(tag_name)

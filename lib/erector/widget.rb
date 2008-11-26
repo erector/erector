@@ -69,13 +69,15 @@ module Erector
     attr_reader :doc
     attr_reader :block
     attr_reader :parent
+    attr_reader :output
 
     def initialize(helpers=nil, assigns={}, output = "", &block)
       @assigns = assigns
       assign_locals(assigns)
       @helpers = helpers
       @parent = block ? eval("self", block.binding) : nil
-      @doc = Doc.new(output)
+      @output = output
+      @doc = Doc.new(self)
       @block = block
       self.class.after_initialize self
     end
@@ -280,12 +282,12 @@ module Erector
     # and use #render_to instead.
     def capture(&block)
       begin
-        original_doc = @doc
-        @doc = Doc.new("")
+        original_output = output
+        @output = ""
         yield
         raw(@doc.to_s)
       ensure
-        @doc = original_doc
+        @output = original_output
       end
     end
 
