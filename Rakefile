@@ -32,7 +32,7 @@ task :default => :spec
 
 task :test => :spec
 
-task :cruise => [:geminstaller, :test]
+task :cruise => [:geminstaller, :refresh_rails_versions, :test]
 
 task :geminstaller do
   require 'geminstaller'
