@@ -25,6 +25,8 @@ Hoe.new(GEM_NAME, GEM_VERSION) do |hoe|
 end
 Hoe::remove_tasks("audit", "check_manifest", "post_blog", "multi", "test", "test_deps", "docs")
 
+EDGE_PATH = "spec/rails_root/vendor/rails_versions/edge"
+
 desc "Default: run tests"
 task :default => :spec
 
@@ -69,16 +71,22 @@ end
 desc "Install dependencies to run the build. This task uses Git."
 task(:install_dependencies) do
   require "lib/erector/rails/supported_rails_versions"
+  FileUtils.rm_rf("spec/rails_root/vendor/rails_versions")
+  FileUtils.mkdir_p("spec/rails_root/vendor/rails_versions")
   system("git clone git://github.com/rails/rails.git spec/rails_root/vendor/rails_versions/edge") || raise("Git clone of Rails failed")
-  require "fileutils"
-  edge_path = "spec/rails_root/vendor/rails_versions/edge"
-  FileUtils.mkdir_p(edge_path)
-  Dir.chdir(edge_path) do
+  FileUtils.mkdir_p(EDGE_PATH)
+  Rake.application[:refresh_rails_versions].invoke
+end
+
+desc "Refreshes the Rails versions from edge git repo"
+task(:refresh_rails_versions) do
+  require "lib/erector/rails/supported_rails_versions"
+  Dir.chdir(EDGE_PATH) do
     begin
       Erector::Rails::SUPPORTED_RAILS_VERSIONS.each do |version, data|
         unless version == 'edge'
           system("git checkout #{data['git_tag']}")
-          system("cp -R ../edge ../#{version}")
+          system("cp -Rf ../edge ../#{version}")
         end
       end
     ensure
@@ -96,9 +104,8 @@ desc "Regenerate unicode.rb from UnicodeData.txt from unicode.org.  Only needs t
 task(:build_unicode) do
   require 'lib/erector/unicode_builder'
   builder = Erector::UnicodeBuilder.new(
-    File.open("/usr/lib/perl5/5.8.8/unicore/UnicodeData.txt"), 
+    File.open("/usr/lib/perl5/5.8.8/unicore/UnicodeData.txt"),
     File.open("lib/erector/unicode.rb", "w")
   )
   builder.generate
 end
-
