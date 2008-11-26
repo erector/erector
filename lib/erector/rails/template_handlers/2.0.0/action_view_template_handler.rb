@@ -33,7 +33,7 @@ module ActionView #:nodoc:
         widget_class_name = widget_class_parts.join("::")
         render_method = template.is_a?(ActionView::PartialTemplate) ? 'render_partial' : 'render'
 
-        erb_template = "<% #{widget_class_name}.new(self, controller.assigns, StringIO.new(_erbout)).#{render_method} %>"
+        erb_template = "<% #{widget_class_name}.new(self, controller.assigns, _erbout).#{render_method} %>"
         ::ERB.new(erb_template, nil, @view.erb_trim_mode).src
       end
       alias_method :compile, :compile_template

@@ -32,7 +32,7 @@ task :default => :spec
 
 task :test => :spec
 
-task :cruise => [:geminstaller, :test]
+task :cruise => [:geminstaller, :refresh_rails_versions, :test]
 
 task :geminstaller do
   require 'geminstaller'
@@ -82,6 +82,7 @@ desc "Refreshes the Rails versions from edge git repo"
 task(:refresh_rails_versions) do
   require "lib/erector/rails/supported_rails_versions"
   Dir.chdir(EDGE_PATH) do
+    system("git pull origin master")
     begin
       Erector::Rails::SUPPORTED_RAILS_VERSIONS.each do |version, data|
         unless version == 'edge'
@@ -104,7 +105,7 @@ desc "Regenerate unicode.rb from UnicodeData.txt from unicode.org.  Only needs t
 task(:build_unicode) do
   require 'lib/erector/unicode_builder'
   builder = Erector::UnicodeBuilder.new(
-    File.open("/usr/lib/perl5/5.8.8/unicore/UnicodeData.txt"), 
+    File.open("/usr/lib/perl5/5.8.8/unicore/UnicodeData.txt"),
     File.open("lib/erector/unicode.rb", "w")
   )
   builder.generate

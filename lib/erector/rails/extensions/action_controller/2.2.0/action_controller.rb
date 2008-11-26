@@ -2,7 +2,7 @@ ActionController::Base.class_eval do
   def render_widget(widget_class, assigns=@assigns)
     @__widget_class = widget_class
     response.template.send(:_evaluate_assigns_and_ivars)
-    render :inline => "<% @__widget_class.new(self, @assigns, StringIO.new(output_buffer)).render %>"
+    render :inline => "<% @__widget_class.new(self, @assigns, output_buffer).render %>"
   end
 
   def render_with_erector_widget(*options, &block)
