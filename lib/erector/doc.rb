@@ -11,6 +11,7 @@ module Erector
 
     SPACES_PER_INDENT = 2
 
+    attr_reader :output
     attr_accessor :enable_prettyprint
 
     def initialize(output, options = {})
@@ -18,13 +19,6 @@ module Erector
       @at_start_of_line = true
       @indent = 0
       @enable_prettyprint = prettyprint_default
-    end
-
-    def output
-      unless @output.eof?
-        @output.seek(0, IO::SEEK_END)
-      end
-      @output
     end
 
     def newliney(tag_name)
@@ -39,12 +33,12 @@ module Erector
       indent_for_open_tag(tag_name)
       @indent += SPACES_PER_INDENT
 
-      output.print "<#{tag_name}#{format_attributes(attributes)}>"
+      output.concat "<#{tag_name}#{format_attributes(attributes)}>"
       @at_start_of_line = false
     end
 
     def text(value)
-      output.print(value.html_escape)
+      output.concat(value.html_escape)
       @at_start_of_line = false
       nil
     end
@@ -53,17 +47,17 @@ module Erector
       @indent -= SPACES_PER_INDENT
       indent()
 
-      output.print("</#{tag_name}>")
+      output.concat("</#{tag_name}>")
 
       if newliney(tag_name)
-        output.print "\n"
+        output.concat "\n"
         @at_start_of_line = true
       end
     end
 
     def indent_for_open_tag(tag_name)
       if !@at_start_of_line && newliney(tag_name)
-        output.print "\n"
+        output.concat "\n"
         @at_start_of_line = true
       end
 
@@ -72,27 +66,27 @@ module Erector
 
     def indent()
       if @at_start_of_line
-        output.print " " * @indent
+        output.concat " " * @indent
       end
     end
 
     def empty_element(tag_name, attributes={})
       indent_for_open_tag(tag_name)
 
-      output.print "<#{tag_name}#{format_attributes(attributes)} />"
+      output.concat "<#{tag_name}#{format_attributes(attributes)} />"
 
       if newliney(tag_name)
-        output.print "\n"
+        output.concat "\n"
         @at_start_of_line = true
       end
     end
 
     def instruct(attributes={:version => "1.0", :encoding => "UTF-8"})
-      output.print "<?xml#{format_sorted(sort_for_xml_declaration(attributes))}?>"
+      output.concat "<?xml#{format_sorted(sort_for_xml_declaration(attributes))}?>"
     end
 
     def to_s
-      output.string
+      output.to_s
     end
 
     protected

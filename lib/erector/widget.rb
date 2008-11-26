@@ -70,12 +70,12 @@ module Erector
     attr_reader :block
     attr_reader :parent
 
-    def initialize(helpers=nil, assigns={}, io = StringIO.new(""), &block)
+    def initialize(helpers=nil, assigns={}, output = "", &block)
       @assigns = assigns
       assign_locals(assigns)
       @helpers = helpers
       @parent = block ? eval("self", block.binding) : nil
-      @doc = Doc.new(io)
+      @doc = Doc.new(output)
       @block = block
       self.class.after_initialize self
     end
@@ -281,7 +281,7 @@ module Erector
     def capture(&block)
       begin
         original_doc = @doc
-        @doc = Doc.new(StringIO.new)
+        @doc = Doc.new("")
         yield
         raw(@doc.to_s)
       ensure

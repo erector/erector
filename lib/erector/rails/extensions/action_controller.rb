@@ -3,7 +3,7 @@ ActionController::Base.class_eval do
     @__widget_class = widget_class
     @__widget_assigns = assigns
     add_variables_to_assigns
-    render :inline => "<% @__widget_class.new(self, @__widget_assigns, StringIO.new(_erbout)).render %>"
+    render :inline => "<% @__widget_class.new(self, @__widget_assigns, _erbout).render %>"
   end
 
   def render_with_erector_widget(*options, &block)

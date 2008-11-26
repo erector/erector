@@ -4,7 +4,7 @@ module Erector
     attr_reader :_erbout
 
     after_initialize do
-      @_erbout = doc.string
+      @_erbout = doc.output
     end
 
     # helpers returning raw text
