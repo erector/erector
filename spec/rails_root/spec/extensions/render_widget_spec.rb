@@ -27,10 +27,7 @@ module BaseSpec
     context "rendering widgets" do
       before do
         @controller = BaseSpec::TestWidgetController.new
-        @request = ActionController::TestRequest.new
         @response = ActionController::TestResponse.new
-        @controller.send(:initialize_template_class, @response)
-        @controller.send(:assign_shortcuts, @request, @response)
         class << @controller
           public :render
         end
@@ -38,25 +35,29 @@ module BaseSpec
 
       describe "#render_widget" do
         it "instantiates a widget with implicit assigns" do
-          @controller.index_with_implicit_assigns
+          @request = ActionController::TestRequest.new({:action => "index_with_implicit_assigns"})
+          @controller.process(@request, @response)
           @response.body.should == "foobar"
         end
 
         it "instantiates a widget with explicit assigns" do
-          @controller.index_with_explicit_assigns
+          @request = ActionController::TestRequest.new({:action => "index_with_explicit_assigns"})
+          @controller.process(@request, @response)
           @response.body.should == "foobar"
         end
       end
 
       describe "#render :widget" do
         it "instantiates a widget with implicit assigns" do
-          @controller.index_with_implicit_assigns
+          @request = ActionController::TestRequest.new({:action => "index_with_implicit_assigns"})
+          @controller.process(@request, @response)
           @response.body.should == "foobar"
         end
 
         describe "#render :widget" do
           it "instantiates a widget with explicit assigns" do
-            @controller.index_with_render_colon_widget
+            @request = ActionController::TestRequest.new(:action => "index_with_render_colon_widget")
+            @controller.process(@request, @response)
             @response.body.should == "foobar"
           end
         end

@@ -13,17 +13,28 @@ module ActionView #:nodoc:
       def compile(template)
         relative_path_parts = template.path.split('/')
 
+        is_partial = template.name =~ /^_/
         require_dependency File.expand_path("#{RAILS_ROOT}/app/views/#{template.path}")
 
         widget_class_parts = relative_path_parts.inject(['Views']) do |class_parts, node|
-          class_parts << node.gsub(/\.rb$/, '').camelize
+          class_parts << node.gsub(/^_/, "").gsub(/(\.html)?\.rb$/, '').classify
           class_parts
         end
         widget_class_name = widget_class_parts.join("::")
-        render_method = template.is_a?(ActionView::Partials) ? 'render_partial' : 'render'
+        render_method = is_partial ? 'render_partial' : 'render'
 
-        erb_template = "<% #{widget_class_name}.new(self, controller.assigns, output_buffer).#{render_method} %>"
-        ::ERB.new(erb_template, nil, ::ActionView::TemplateHandlers::ERB.erb_trim_mode).src
+        erb_template = <<-ERB
+        <%
+          assigns = instance_variables.inject({}) do |hash, name|
+            hash[name.sub('@', "")] = instance_variable_get(name)
+            hash
+          end
+
+          widget = #{widget_class_name}.new(self, assigns, output_buffer)
+          widget.#{render_method}
+        %>
+        ERB
+        ::ERB.new(erb_template, nil, ::ActionView::TemplateHandlers::ERB.erb_trim_mode, "@output_buffer").src
       end
     end
   end

@@ -3,8 +3,12 @@ module Erector
     attr_reader :_erbout
 
     after_initialize do
-      @_erbout = doc.string
-    end    
+      @_erbout = doc.output
+    end
+
+    def output
+      _erbout
+    end
 
     def define_javascript_functions(*args)
       begin

@@ -7,6 +7,9 @@ describe Erector::Widget do
 
   before(:each) do
     @view = ActionView::Base.new
+    if @view.respond_to?(:output_buffer)
+      @view.output_buffer = ""
+    end
     # hook in model and add error messages
   end
 

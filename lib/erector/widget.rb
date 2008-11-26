@@ -64,12 +64,7 @@ module Erector
       end
     end
 
-    attr_reader :helpers
-    attr_reader :assigns
-    attr_reader :doc
-    attr_reader :block
-    attr_reader :parent
-    attr_reader :output
+    attr_reader :helpers, :assigns, :doc, :block, :parent, :output
 
     def initialize(helpers=nil, assigns={}, output = "", &block)
       @assigns = assigns
