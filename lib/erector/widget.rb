@@ -77,7 +77,7 @@ module Erector
       @helpers = helpers
       @parent = block ? eval("self", block.binding) : nil
       @output = output
-      @doc = Doc.new(self)
+      @doc = Doc.new(lambda {self.output})
       @block = block
       self.class.after_initialize self
     end

@@ -5,8 +5,7 @@ module Erector
     describe "#output" do
       it "seeks to the end of the buffer" do
         string = "Hello"
-        widget = Widget.new(nil, {}, string)
-        doc = Doc.new(widget)
+        doc = Doc.new(string)
 
         string.concat(" World")
         doc.text " Again"
