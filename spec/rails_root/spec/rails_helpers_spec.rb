@@ -126,6 +126,7 @@ module RailsHelpersSpec
           widget_class = Class.new(Erector::Widget) do
             def render
               link_to_function("Show me more", nil, :id => "more_link") do |page|
+                puts page.inspect
                 page[:details].visual_effect  :toggle_blind
                 page[:more_link].replace_html "Show me less"
               end

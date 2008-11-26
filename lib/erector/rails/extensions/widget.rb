@@ -7,20 +7,15 @@ module Erector
       @_erbout = doc.string
     end
 
-    def fake_erbout
-      warn "fake_erbout is deprecated. You don't need to use it anymore."
-      yield
-    end
-
     # helpers returning raw text
     [
-        :image_tag,
-        :javascript_include_tag,
-        :define_javascript_functions,
-        :stylesheet_link_tag,
-        :sortable_element,
-        :sortable_element_js,
-        :text_field_with_auto_complete,
+      :image_tag,
+      :javascript_include_tag,
+      :define_javascript_functions,
+      :stylesheet_link_tag,
+      :sortable_element,
+      :sortable_element_js,
+      :text_field_with_auto_complete,
     ].each do |helper_name|
       define_method helper_name do |*args|
         begin
@@ -34,11 +29,11 @@ module Erector
 
     # helpers returning raw text whose first parameter is HTML escaped
     [
-        :link_to,
-        :link_to_remote,
-        :mail_to,
-        :button_to,
-        :submit_tag,
+      :link_to,
+      :link_to_remote,
+      :mail_to,
+      :button_to,
+      :submit_tag,
     ].each do |helper_name|
 
       method_def =<<-METHOD_DEF
