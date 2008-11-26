@@ -3,7 +3,9 @@ require File.expand_path("#{File.dirname(__FILE__)}/../spec_helper")
 describe "indentation" do
 
   it "can detect newliney tags" do
-    doc = Erector::Doc.new(StringIO.new(""))
+    widget = ::Erector::Widget.new
+    string = widget.output
+    doc = Erector::Doc.new(string)
     doc.enable_prettyprint = true
     doc.newliney("i").should == false
     doc.newliney("table").should == true
