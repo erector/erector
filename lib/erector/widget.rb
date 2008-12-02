@@ -12,11 +12,11 @@ module Erector
   # To render a widget from the outside, instantiate it and call its +to_s+ method.
   # 
   # To call one widget from another, inside the parent widget's render method, instantiate the child widget and call 
-  # its +render_to+ method, passing in +self+ (or self.doc if you prefer). This assures that the same Doc stream
+  # its +render_to+ method, passing in +self+ (or self.output if you prefer). This assures that the same output
   # is used, which gives better performance than using +capture+ or +to_s+.
   # 
   # In this documentation we've tried to keep the distinction clear between methods that *emit* text and those that
-  # *return* text. "Emit" means that it writes Doc to the doc stream; "return" means that it returns a string
+  # *return* text. "Emit" means that it writes to the output stream; "return" means that it returns a string
   # like a normal method and leaves it up to the caller to emit that string if it wants.
   class Widget
     class << self
@@ -64,7 +64,17 @@ module Erector
       end
     end
 
-    attr_reader :helpers, :assigns, :doc, :block, :parent, :output
+    cattr_accessor :prettyprint_default
+
+    NON_NEWLINEY = {'i' => true, 'b' => true, 'small' => true,
+      'img' => true, 'span' => true, 'a' => true,
+      'input' => true, 'textarea' => true, 'button' => true, 'select' => true
+    }
+
+    SPACES_PER_INDENT = 2
+
+    attr_reader :helpers, :assigns, :block, :parent, :output
+    attr_accessor :enable_prettyprint
 
     def initialize(helpers=nil, assigns={}, output = "", &block)
       @assigns = assigns
@@ -72,8 +82,10 @@ module Erector
       @helpers = helpers
       @parent = block ? eval("self", block.binding) : nil
       @output = output
-      @doc = Doc.new(lambda {self.output})
       @block = block
+      @at_start_of_line = true
+      @indent = 0
+      @enable_prettyprint = prettyprint_default
       self.class.after_initialize self
     end
 
@@ -96,7 +108,7 @@ module Erector
     # This flag should be set prior to any rendering being done
     # (for example, calls to to_s or to_pretty).
     def enable_prettyprint(enable)
-      @doc.enable_prettyprint = enable
+      self.enable_prettyprint = enable
       self
     end
 
@@ -105,8 +117,8 @@ module Erector
       enable_prettyprint(true).to_s
     end
 
-    # Entry point for rendering a widget (and all its children). This method creates a new Doc doc stream,
-    # calls this widget's #render method, converts the Doc to a string, and returns the string.
+    # Entry point for rendering a widget (and all its children). This method creates a new output string,
+    # calls this widget's #render method and returns the string.
     #
     # If it's called again later 
     # then it returns the earlier rendered string, which leads to higher performance, but may have confusing
@@ -117,13 +129,13 @@ module Erector
       # If it's useful we should add a test for it.  -ac
       return @__to_s if @__to_s
       send(render_method_name, &blk)
-      @__to_s = @doc.to_s
+      @__to_s = output.to_s
     end
     
     alias_method :inspect, :to_s
 
     # Template method which must be overridden by all widget subclasses. Inside this method you call the magic
-    # #element methods which emit HTML and text to the Doc stream.
+    # #element methods which emit HTML and text to the output string.
     def render
       if @block
         instance_eval(&@block)
@@ -131,14 +143,14 @@ module Erector
     end
 
     # To call one widget from another, inside the parent widget's render method, instantiate the child widget and call 
-    # its +render_to+ method, passing in +self+ (or self.doc if you prefer). This assures that the same Doc stream
+    # its +render_to+ method, passing in +self+ (or self.output if you prefer). This assures that the same output string
     # is used, which gives better performance than using +capture+ or +to_s+.
-    def render_to(doc_or_widget)
-      if doc_or_widget.is_a?(Widget)
-        @parent = doc_or_widget
-        @doc = @parent.doc
+    def render_to(output_or_widget)
+      if output_or_widget.is_a?(Widget)
+        @parent = output_or_widget
+        @output = @parent.output
       else
-        @doc = doc_or_widget
+        @output = output_or_widget
       end
       render
     end
@@ -148,7 +160,7 @@ module Erector
     # This is an experimental erector feature which may disappear in future
     # versions of erector (see #widget in widget_spec in the Erector tests).
     def widget(widget_class, assigns={}, &block)
-      child = widget_class.new(helpers, assigns, doc.output, &block)
+      child = widget_class.new(helpers, assigns, output, &block)
       child.render
     end
 
@@ -171,7 +183,7 @@ module Erector
     # When calling one of these magic methods, put attributes in the default hash. If there is a string parameter,
     # then it is used as the contents. If there is a block, then it is executed (yielded), and the string parameter is ignored.
     # The block will usually be in the scope of the child widget, which means it has access to all the 
-    # methods of Widget, which will eventually end up appending text to the +doc+ Doc stream. See how
+    # methods of Widget, which will eventually end up appending text to the +output+ string. See how
     # elegant it is? Not confusing at all if you don't think about it.
     #
     def element(*args, &block)
@@ -190,7 +202,7 @@ module Erector
       __empty_element__(*args, &block)
     end
 
-    # Returns an HTML-escaped version of its parameter. Leaves the Doc stream untouched. Note that
+    # Returns an HTML-escaped version of its parameter. Leaves the output string untouched. Note that
     # the #text method automatically HTML-escapes its parameter, so be careful *not* to do something like
     # text(h("2<4")) since that will double-escape the less-than sign (you'll get "2&amp;lt;4" instead of
     # "2&lt;4").
@@ -200,7 +212,11 @@ module Erector
 
     # Emits an open tag, comprising '<', tag name, optional attributes, and '>'
     def open_tag(tag_name, attributes={})
-      @doc.open_tag tag_name, attributes
+      indent_for_open_tag(tag_name)
+      @indent += SPACES_PER_INDENT
+
+      output.concat "<#{tag_name}#{format_attributes(attributes)}>"
+      @at_start_of_line = false
     end
 
     # Emits text.  If a string is passed in, it will be HTML-escaped.
@@ -209,7 +225,9 @@ module Erector
     # If another kind of object is passed in, the result of calling
     # its to_s method will be treated as a string would be.
     def text(value)
-      @doc.text value
+      output.concat(value.html_escape)
+      @at_start_of_line = false
+      nil
     end
 
     # Returns text which will *not* be HTML-escaped.
@@ -247,7 +265,15 @@ module Erector
 
     # Emits a close tag, consisting of '<', tag name, and '>'
     def close_tag(tag_name)
-      @doc.close_tag tag_name
+      @indent -= SPACES_PER_INDENT
+      indent()
+
+      output.concat("</#{tag_name}>")
+
+      if newliney(tag_name)
+        output.concat "\n"
+        @at_start_of_line = true
+      end
     end
     
     # Emits the result of joining the elements in array with the separator.
@@ -266,13 +292,13 @@ module Erector
 
     # Emits an XML instruction, which looks like this: <?xml version=\"1.0\" encoding=\"UTF-8\"?>
     def instruct(attributes={:version => "1.0", :encoding => "UTF-8"})
-      @doc.instruct attributes
+      output.concat "<?xml#{format_sorted(sort_for_xml_declaration(attributes))}?>"
     end
 
     # Deprecated synonym of instruct
     alias_method :instruct!, :instruct
 
-    # Creates a whole new doc stream, executes the block, then converts the doc stream to a string and 
+    # Creates a whole new output string, executes the block, then converts the output string to a string and
     # emits it as raw text. If at all possible you should avoid this method since it hurts performance,
     # and use #render_to instead.
     def capture(&block)
@@ -280,7 +306,7 @@ module Erector
         original_output = output
         @output = ""
         yield
-        raw(@doc.to_s)
+        raw(output.to_s)
       ensure
         @output = original_output
       end
@@ -357,6 +383,14 @@ module Erector
     def url(href)
       a href, :href => href
     end
+
+    def newliney(tag_name)
+      if @enable_prettyprint
+        !NON_NEWLINEY.include?(tag_name)
+      else
+        false
+      end
+    end    
     
 ### internal utility methods
 
@@ -398,8 +432,68 @@ protected
     end
 
     def __empty_element__(tag_name, attributes={})
-      @doc.empty_element tag_name, attributes
+      indent_for_open_tag(tag_name)
+
+      output.concat "<#{tag_name}#{format_attributes(attributes)} />"
+
+      if newliney(tag_name)
+        output.concat "\n"
+        @at_start_of_line = true
+      end
     end
-    
+
+    def indent_for_open_tag(tag_name)
+      if !@at_start_of_line && newliney(tag_name)
+        output.concat "\n"
+        @at_start_of_line = true
+      end
+
+      indent()
+    end
+
+    def indent()
+      if @at_start_of_line
+        output.concat " " * @indent
+      end
+    end
+
+    def format_attributes(attributes)
+      if !attributes || attributes.empty?
+        ""
+      else
+        format_sorted(sorted(attributes))
+      end
+    end
+
+    def format_sorted(sorted)
+      results = ['']
+      sorted.each do |key, value|
+        if value
+          if value.is_a?(Array)
+            value = [value].flatten.join(' ')
+          end
+          results << "#{key}=\"#{value.html_escape}\""
+        end
+      end
+      return results.join(' ')
+    end
+
+    def sorted(attributes)
+      stringized = []
+      attributes.each do |key, value|
+        stringized << [key.to_s, value]
+      end
+      return stringized.sort
+    end
+
+    def sort_for_xml_declaration(attributes)
+      # correct order is "version, encoding, standalone" (XML 1.0 section 2.8).
+      # But we only try to put version before encoding for now.
+      stringized = []
+      attributes.each do |key, value|
+        stringized << [key.to_s, value]
+      end
+      return stringized.sort{|a, b| b <=> a}
+    end
   end
 end

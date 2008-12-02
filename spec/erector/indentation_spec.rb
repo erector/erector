@@ -5,10 +5,9 @@ describe "indentation" do
   it "can detect newliney tags" do
     widget = ::Erector::Widget.new
     string = widget.output
-    doc = Erector::Doc.new(string)
-    doc.enable_prettyprint = true
-    doc.newliney("i").should == false
-    doc.newliney("table").should == true
+    widget.enable_prettyprint = true
+    widget.newliney("i").should == false
+    widget.newliney("table").should == true
   end
 
   it "should not add newline for non-newliney tags" do
@@ -127,9 +126,9 @@ END
   
   it "can turn newlines on/off via global variable" do
     Erector::Widget.new { br }.to_s.should == "<br />"
-    Erector::Doc.prettyprint_default = true
+    Erector::Widget.prettyprint_default = true
     Erector::Widget.new { br }.to_s.should == "<br />\n"
-    Erector::Doc.prettyprint_default = false
+    Erector::Widget.prettyprint_default = false
     Erector::Widget.new { br }.to_s.should == "<br />"
   end
   

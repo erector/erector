@@ -622,13 +622,13 @@ module WidgetSpec
         class B < Erector::Widget
           def render
             text "B"
-            A.new.render_to(@doc)
+            A.new.render_to(@output)
             text "B"
           end
         end
         b = B.new
         b.to_s.should == "B<p>A</p>B"
-        b.doc.size.should == 10  # B, <p>, A, </p>, B
+        b.output.size.should == 10  # B, <p>, A, </p>, B
       end
 
       it "renders to a widget's doc" do
@@ -641,7 +641,7 @@ module WidgetSpec
         end
         b = B.new
         b.to_s.should == "B<p>A</p>B"
-        b.doc.size.should == 10  # B, <p>, A, </p>, B
+        b.output.size.should == 10  # B, <p>, A, </p>, B
       end
 
       it "passing a widget to text method renders it" do

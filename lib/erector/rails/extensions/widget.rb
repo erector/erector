@@ -110,8 +110,8 @@ module Erector
 end
 
 dir = File.dirname(__FILE__)
-if ActionView::Base.instance_methods.include?("define_javascript_functions")
-  require "#{dir}/widget/1.2.5/widget"
-else
+if ActionView::Base.instance_methods.include?("output_buffer")
   require "#{dir}/widget/2.2.0/widget"
+else
+  require "#{dir}/widget/1.2.5/widget"
 end
