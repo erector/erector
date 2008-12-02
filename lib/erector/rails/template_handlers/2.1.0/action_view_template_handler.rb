@@ -23,23 +23,8 @@ module ActionView #:nodoc:
         widget_class_name = widget_class_parts.join("::")
         render_method = is_partial ? 'render_partial' : 'render'
 
-        erb_template = <<-ERB
-        <%
-          assigns = instance_variables.inject({}) do |hash, name|
-            hash[name.sub('@', "")] = instance_variable_get(name)
-            hash
-          end
-
-          widget = #{widget_class_name}.new(self, assigns, output_buffer)
-          widget.#{render_method}
-        %>
-        ERB
-        ::ERB.new(
-          erb_template,
-          nil,
-          ::ActionView::TemplateHandlers::ERB.erb_trim_mode,
-          "@output_buffer"
-        ).src
+        erb_template = "<% #{widget_class_name}.new(self, controller.assigns, _erbout).#{render_method} %>"
+        ::ERB.new(erb_template, nil, ActionView::Base.erb_trim_mode).src
       end
     end
   end

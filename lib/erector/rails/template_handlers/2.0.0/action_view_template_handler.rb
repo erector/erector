@@ -19,7 +19,7 @@ module ActionView #:nodoc:
       end
 
       def compile_template(template)
-        relative_path_parts = view.first_render.split('/')
+        relative_path_parts = template.path.split('/')
         require_dependency view.finder.pick_template(
           template.path,
           view.finder.pick_template_extension(template.path)
@@ -39,7 +39,7 @@ module ActionView #:nodoc:
       alias_method :compile, :compile_template
 
       def render(template)
-        relative_path_parts = view.first_render.split('/')
+        relative_path_parts = template.path.split('/')
         require_dependency view.finder.pick_template(
           template.path,
           view.finder.pick_template_extension(template.path)
