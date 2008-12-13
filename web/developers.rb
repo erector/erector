@@ -40,10 +40,11 @@ class Developers < Page
 
     h2 "How to push a release"
     ol do
-      li "Pick a version number. For the build number run 'svn info | grep Revision'"
+      li "Pick a version number. Either increment the major, minor, or tiny version from the previous version."
       li %q{Look at History.txt and make sure the release notes are up to date. Put the version number on the top line (after the "==").}
       li "Put the version number in lib/erector/version.rb as Erector::VERSION."
-      li %q{Check in with a comment, e.g. 'svn ci -m "release 1.2.3"'}
+      li %q{Check in with a comment, e.g. 'git commit -m "release 1.2.3"'}
+      li %q{Create a tag, e.g. 'git tag REL-1.2.3; git push origin REL-1.2.3'}
       li %q{Run 'rake package' so that you can see whether the gem generation seems to work locally before proceeding to try to upload it to rubyforge (if you skip this step, the package will be generated when you run rake release)}
       li "If you haven't done so before, run 'rubyforge setup' and 'rubyforge config' (for more details on these steps, see README.txt in the rubyforge gem)"
       li "Run 'rake release VERSION=1.2.3'. (The parameter is to confirm you're releasing the version you intend to.)"
