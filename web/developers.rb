@@ -8,8 +8,8 @@ class Developers < Page
     
     p "Want to help develop Erector? Here's what to do."
 
-    h2 "Check out project from rubyforge:"
-    pre "svn co svn+ssh://developername@rubyforge.org/var/svn/erector/trunk erector"
+    h2 "Clone Erector from Github or create your own fork:"
+    pre "git clone git://github.com/pivotal/erector.git"
 
     h2 "Install gems:"
     pre "sudo gem install rake rails rspec rubyforge hpricot treetop"
@@ -32,11 +32,9 @@ class Developers < Page
     ul do
       li "Versions are of the form major.minor.tiny"
       li "Tiny revisions fix bugs or documentation"
-      li "Tiny revisions are roughly equal to the svn revision number when they were made"
       li "Minor revisions add API calls, or change behavior"
       li "Minor revisions may also remove API calls, but these must be clearly announced in History.txt, with instructions on how to migrate "
       li "Major revisions are about marketing more than technical needs. We will stay in major version 0 until we're happy taking the \"alpha\" label off it. And if we ever do a major overhaul of the API, especially one that breaks backwards compatibility, we will probably want to increment the major version."
-      li "We will not be shy about incrementing version numbers -- if we end up going to version 0.943.67454 then so be it."
       li "Developers should attempt to add lines in History.txt to reflect their checkins. These should reflect feature-level changes, not just one line per checkin. The top section of History.txt is used as the Release Notes by the \"rake publish\" task and will appear on the RubyForge file page."
     end
 

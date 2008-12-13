@@ -1,4 +1,4 @@
-==
+=== 0.5.0 / 2008-12-13
 * install_dependencies refreshes the rails_versions directory
 * Widget takes a string instead of an IO object to be more compatible with Rails.
 * Removed Doc
