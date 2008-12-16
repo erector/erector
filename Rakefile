@@ -19,6 +19,10 @@ Hoe.new(GEM_NAME, GEM_VERSION) do |hoe|
   hoe.rdoc_dir = "rdoc"
   hoe.remote_rdoc_dir = "rdoc"
 
+  # Many of these options are based on what will work with rubyforge and
+  # groups and permissions
+  hoe.rsync_args = "-rlpv --delete --inplace --exclude .svn"
+
   specs = Dir.glob("spec/**/*").reject{|file| file =~ %r{^spec/rails_root}}
   hoe.files = [specs, "lib/**/*", "README.txt", "bin/erect"]
   hoe.extra_deps = [['treetop', ">= 1.2.3"], "rake"]
