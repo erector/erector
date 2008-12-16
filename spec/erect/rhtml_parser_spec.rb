@@ -169,6 +169,14 @@ describe RhtmlParser do
     @parser.root = :attribute
     parse("a=\"don't worry\"").convert.should == ":a => 'don\\'t worry'"
   end
+
+  it "allows newlines where whitespace is allowed" do
+    parse("<img src='foo' \nalt='bar' />").convert.should == "img :src => 'foo', :alt => 'bar'\n"
+  end
+  
+  it "treats tab characters the same as spaces" do
+    parse("<div \t />").convert.should == "div\n"
+  end
   
   it "deals with HTML entities in text" do
     parse("&lt;").convert.should == "text '<'\n"

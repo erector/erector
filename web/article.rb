@@ -32,7 +32,7 @@ class Article < Erector::Widget
     sections.each do |section|
       a :name => section.href
       h2 section.title
-      section.render_to(doc)
+      section.render_to(output)
     end
   end
 end

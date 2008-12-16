@@ -56,6 +56,7 @@ task :web do
   files = Dir["web/*.rb"] - ["web/page.rb", "web/sidebar.rb"]
   require 'erector'
   require 'erector/erect'
+  Erector::Widget.prettyprint_default = true
   Erector::Erect.new(["--to-html", *files]).run
 end
 

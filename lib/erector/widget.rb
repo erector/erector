@@ -26,20 +26,27 @@ module Erector
 
       # tags which are always self-closing
       def empty_tags
-        ['area', 'base', 'br', 'hr', 'img', 'input', 'link', 'meta']
+        ['area', 'base', 'br', 'col', 'frame', 
+        'hr', 'img', 'input', 'link', 'meta']
       end
 
       # tags which can contain other stuff
       def full_tags
         [
-          'a', 'abbr', 'acronym', 'address', 'b', 'bdo', 'big', 'blockquote', 'body',
-          'button', 'caption', 'center', 'cite', 'code', 'col', 'colgroup',
-          'dd', 'del', 'div', 'dl', 'dt', 'em',
-          'fieldset', 'form', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'head', 'html', 'i',
+          'a', 'abbr', 'acronym', 'address', 
+          'b', 'bdo', 'big', 'blockquote', 'body', 'button', 
+          'caption', 'center', 'cite', 'code', 'colgroup',
+          'dd', 'del', 'dfn', 'div', 'dl', 'dt', 'em',
+          'fieldset', 'form', 'frameset',
+          'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'head', 'html', 'i',
           'iframe', 'ins', 'kbd', 'label', 'legend', 'li', 'map',
-          'noframes', 'noscript', 'ol', 'optgroup', 'option', 'p', 'param', 'pre',
-          'samp', 'script', 'select', 'small', 'span', 'strong', 'style', 'sub', 'sup',
-          'table', 'tbody', 'td', 'textarea', 'tfoot', 'th', 'thead', 'title', 'tr', 'tt', 'u', 'ul', 'var'
+          'noframes', 'noscript', 
+          'object', 'ol', 'optgroup', 'option', 'p', 'param', 'pre',
+          'q', 's',
+          'samp', 'script', 'select', 'small', 'span', 'strike',
+          'strong', 'style', 'sub', 'sup',
+          'table', 'tbody', 'td', 'textarea', 'tfoot', 
+          'th', 'thead', 'title', 'tr', 'tt', 'u', 'ul', 'var'
         ]
       end
 
@@ -121,7 +128,7 @@ module Erector
     # calls this widget's #render method and returns the string.
     #
     # If it's called again later 
-    # then it returns the earlier rendered string, which leads to higher performance, but may have confusing
+    # then it returns the earlier rendered string, which may lead to higher performance, but may have confusing
     # effects if some underlying state has changed. In general we recommend you create a new instance of every
     # widget for each render, unless you know what you're doing.
     def to_s(render_method_name=:render, &blk)
@@ -294,9 +301,6 @@ module Erector
     def instruct(attributes={:version => "1.0", :encoding => "UTF-8"})
       output.concat "<?xml#{format_sorted(sort_for_xml_declaration(attributes))}?>"
     end
-
-    # Deprecated synonym of instruct
-    alias_method :instruct!, :instruct
 
     # Creates a whole new output string, executes the block, then converts the output string to a string and
     # emits it as raw text. If at all possible you should avoid this method since it hurts performance,

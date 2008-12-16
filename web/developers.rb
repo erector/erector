@@ -27,7 +27,38 @@ class Developers < Page
     url "mailto:erector-devel@rubyforge.org"
     text " with your Lighthouse account name, then visit "
     url "http://erector.lighthouseapp.com"
+    
+    h2 "Basic read-only git usage"
+    p "First, install git.  Then download erector using git:"
+    pre "git clone git://github.com/pivotal/erector.git"
+    p "Generate a diff between what you have edited and what you have run git add on:"
+    pre "git diff"
+    p "Generate a diff between what you have run git add on and locally committed:"
+    pre "git diff --cached"
+    p "Commit locally (into your .git directory):"
+    pre "git commit -a"
+    p "You can update from the erector repository at github with:"
+    pre "git pull"
+    p "However, since you have checked out git read-only, you cannot push back your changes with:"
+    pre "git push"
+    p "Instead, mail a diff to the mailing list, or fork your own github repository and send a pull request."
 
+    h2 "Read/write access"
+    p "The following instructions assume you have been listed as a collaborator on the github pivotal erector project."
+    p "First, install git.  Then:"
+    pre "git clone git@github.com:pivotal/erector.git"
+
+    p "To push your changes back to the main git repository:"
+    pre <<END
+git commit -a
+git pull
+# Deal with merge issues if any. 
+git push
+END
+
+    p "To get other people's changes:"
+    pre "git pull"
+    
     h2 "Versioning and Release Policy"
     ul do
       li "Versions are of the form major.minor.tiny"
@@ -43,6 +74,7 @@ class Developers < Page
       li "Pick a version number. Either increment the major, minor, or tiny version from the previous version."
       li %q{Look at History.txt and make sure the release notes are up to date. Put the version number on the top line (after the "==").}
       li "Put the version number in lib/erector/version.rb as Erector::VERSION."
+      li %q{Commit these changes, e.g. 'git commit -a'}
       li %q{Create a tag, e.g. 'git tag REL-1-2-3; git push origin REL-1-2-3'}
       li %q{Run 'rake package' so that you can see whether the gem generation seems to work locally before proceeding to try to upload it to rubyforge (if you skip this step, the package will be generated when you run rake release)}
       li "If you haven't done so before, run 'rubyforge setup' and 'rubyforge config' (for more details on these steps, see README.txt in the rubyforge gem)"

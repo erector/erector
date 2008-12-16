@@ -15,7 +15,7 @@ class Page < Erector::Widget
         table do
           tr do
             td "valign" => "top" do
-              Sidebar.new(@selection).render_to(doc)
+              Sidebar.new(@selection).render_to(output)
             end
             td "valign" => "top" do
               h1 :class => "title" do
