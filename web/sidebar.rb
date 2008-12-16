@@ -41,7 +41,7 @@ class Sidebar < Erector::Widget
         clickable_li 'RDoc Documentation', 'rdoc'
         clickable_li 'RubyForge Project', 'http://rubyforge.org/projects/erector/'
         clickable_li 'Lighthouse Project', 'http://erector.lighthouseapp.com'
-        clickable_li 'Subversion Repository', 'http://rubyforge.org/scm/?group_id=4797'
+        clickable_li 'Github Repository', 'http://github.com/pivotal/erector'
         clickable_li "erector-devel mailing list", "http://rubyforge.org/mailman/listinfo/erector-devel"
       end
 
