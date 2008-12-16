@@ -6,6 +6,7 @@ erector doesn't have a method built-in, you can still call the element
 or empty_element method to output any tag.
 * The method instruct!, which was a deprecated synonym for instruct,
 has been removed.
+* Fixed bug in resolving view files for pluralized controllers
 
 === 0.5.0 / 2008-12-13
 * install_dependencies refreshes the rails_versions directory

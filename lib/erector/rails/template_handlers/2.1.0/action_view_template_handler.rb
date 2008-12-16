@@ -17,7 +17,7 @@ module ActionView #:nodoc:
         require_dependency File.expand_path(template.filename)
 
         widget_class_parts = relative_path_parts.inject(['Views']) do |class_parts, node|
-          class_parts << node.gsub(/^_/, "").gsub(/(\.html)?\.rb$/, '').classify
+          class_parts << node.gsub(/^_/, "").gsub(/(\.html)?\.rb$/, '').camelize
           class_parts
         end
         widget_class_name = widget_class_parts.join("::")

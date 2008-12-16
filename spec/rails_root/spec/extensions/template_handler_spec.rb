@@ -1,19 +1,19 @@
 require File.expand_path("#{File.dirname(__FILE__)}/../rails_spec_helper")
 require "action_controller/test_process"
 
-module TemplateHandlerSpec
+module TemplateHandlerSpecs
   
-  class TemplateHandlerSpecController < ActionController::Base
+  class TemplateHandlerSpecsController < ActionController::Base
     def index
       @foo = "foo"
-      render :template => "template_handler_spec/test_page.html.rb"
+      render :template => "template_handler_specs/test_page.html.rb"
     end
   end
   
   describe ActionView::TemplateHandlers::Erector do
     attr_reader :controller, :view, :request, :response
     before do
-      @controller = TemplateHandlerSpecController.new
+      @controller = TemplateHandlerSpecsController.new
 
       @request = ActionController::TestRequest.new({:action => "index"})
       @response = ActionController::TestResponse.new

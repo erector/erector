@@ -81,6 +81,7 @@ task(:install_dependencies) do
   system("git clone git://github.com/rails/rails.git spec/rails_root/vendor/rails_versions/edge") || raise("Git clone of Rails failed")
   FileUtils.mkdir_p(EDGE_PATH)
   Rake.application[:refresh_rails_versions].invoke
+  system("ln -s #{rails_root}/vendor/rails_versions/edge #{rails_root}/vendor/rails")
 end
 
 desc "Refreshes the Rails versions from edge git repo"
