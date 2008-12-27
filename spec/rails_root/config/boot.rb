@@ -20,12 +20,6 @@ unless defined?(Rails::Initializer)
     system("ln -s #{rails_versions_dir} #{rails_dir}")
   end
   system("rm -rf #{RAILS_ROOT}/vendor/plugins/erector")
-  erector_root_dir = nil
-  Dir.chdir("#{RAILS_ROOT}/../../") do
-    erector_root_dir = Dir.pwd
-  end
-  system("rm -rf #{RAILS_ROOT}/vendor/plugins/erector")
-  system("ln -s #{erector_root_dir} #{RAILS_ROOT}/vendor/plugins/erector")
 
   Dir["#{rails_dir}/*"].each do |path|
     $:.unshift("#{path}/lib") if File.directory?("#{path}/lib")
