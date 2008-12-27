@@ -8,21 +8,35 @@ module TemplateHandlerSpecs
       @foo = "foo"
       render :template => "template_handler_specs/test_page.html.rb"
     end
+
+    def action_with_instance_variables_being_passed_into_render_call
+      require "#{RAILS_ROOT}/app/views/template_handler_specs/action_with_instance_variables_being_passed_into_render_call.html"
+      render :widget => Views::TemplateHandlerSpecs::ActionWithInstanceVariablesBeingPassedIntoRenderCall, :foo => "foo"
+    end
   end
   
   describe ActionView::TemplateHandlers::Erector do
-    attr_reader :controller, :view, :request, :response
+    attr_reader :controller
     before do
       @controller = TemplateHandlerSpecsController.new
-
-      @request = ActionController::TestRequest.new({:action => "index"})
-      @response = ActionController::TestResponse.new
-      @controller.process(@request, @response)
-      @view = @response.template
     end
 
-    it "assigns locals" do
+    it "assigns instance variables, renders partials, and properly handles controllers with pluralized names" do
+      request = ActionController::TestRequest.new({:action => "index"})
+      response = ActionController::TestResponse.new
+      controller.process(request, response)
+      view = response.template
+      
       response.body.strip.gsub("  ", "").gsub("\n", "").should == '<div class="page"><div class="partial">foo</div></div>'
+    end
+
+    it "accepts instance variables being passed into render" do
+      request = ActionController::TestRequest.new({:action => "action_with_instance_variables_being_passed_into_render_call"})
+      response = ActionController::TestResponse.new
+      controller.process(request, response)
+      view = response.template
+
+      response.body.strip.gsub("  ", "").gsub("\n", "").should == '<div class="page">Value of @foo is </div>'
     end
   end
 
