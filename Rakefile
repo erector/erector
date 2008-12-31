@@ -40,7 +40,7 @@ task :default => :spec
 
 task :test => :spec
 
-task :cruise => [:geminstaller, :refresh_rails_versions, :test]
+task :cruise => [:geminstaller, :install_dependencies, :refresh_rails_versions, :test]
 
 task :geminstaller do
   require 'geminstaller'
