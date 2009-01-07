@@ -71,7 +71,14 @@ module Erector
       end
     end
 
-    cattr_accessor :prettyprint_default
+    @@prettyprint_default = false
+    def prettyprint_default
+      @@prettyprint_default
+    end
+
+    def self.prettyprint_default=(enabled)
+      @@prettyprint_default = enabled
+    end
 
     NON_NEWLINEY = {'i' => true, 'b' => true, 'small' => true,
       'img' => true, 'span' => true, 'a' => true,
