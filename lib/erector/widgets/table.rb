@@ -7,10 +7,10 @@ module Erector
     # Inflector#titleize method, this widget requires active_support to be loaded.
     #
     #   class UsersTable < Erector::Widgets::Table
-    #    column :first_name
-    #    column :last_name
-    #    column :email
-    #    row_classes :even, :odd
+    #     column :first_name
+    #     column :last_name
+    #     column :email
+    #     row_classes :even, :odd
     #   end
     #
     #   render_widget UsersTable, :row_objects => [user_1, user_2, user_3]
