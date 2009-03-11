@@ -59,18 +59,16 @@ class Faq < Page
           text "This very web site you're reading right now is built with Erector, using the "
           a "erect", :href => "userguide.html#erect"
           text " tool. See the "
-          a "svn repository", :href => "http://erector.rubyforge.org/svn/trunk/web/"
-          text " for source code."
+          a "repository", :href => "http://github.com/pivotal/erector"
+          text " (especially the web directory)."
         end
         
         p do
-          text "We also have several examples checked in to the repository at "
-          url "http://erector.rubyforge.org/svn/trunk/examples"
-          text "."
+          text "We also have several examples checked in to the repository in the examples directory."
         end
         
         p do
-          text "Currently there are no open-source projects built with Erector so we can't show you working source code for a full Erector webapp."
+          text "Currently we don't know of any open-source projects built with Erector so we can't show you working source code for a full Erector webapp."
         end
       end,
       
