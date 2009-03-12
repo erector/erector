@@ -2,6 +2,7 @@
 
 * http://erector.rubyforge.org
 * mailto:erector-devel@rubyforge.org
+* http://www.pivotaltracker.com/projects/482
 
 == DESCRIPTION
 
