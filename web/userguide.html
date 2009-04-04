@@ -208,7 +208,7 @@ open http://localhost:3000/posts
       layout? Just implement a layout superclass and inherit from it. Implement render in the superclass and implement template
       methods in its subclasses.</p>
 <p>For example:
-  <pre>class Page &lt; Erector::Widget
+  <pre>class Views::Layouts::Page &lt; Erector::Widget
   def initialize(title = self.class.name)
     super
     @title = title
@@ -247,7 +247,7 @@ open http://localhost:3000/posts
   end
 end
 </pre>
-  <pre>class Faq &lt; Page
+  <pre>class Views::Faq::Index &lt; Views::Layouts::Page
   def initialize
     super(&quot;FAQ&quot;)
   end

@@ -236,7 +236,7 @@ DONE
       p do
         text "For example:"
         pre <<-DONE
-class Page < Erector::Widget
+class Views::Layouts::Page < Erector::Widget
   def initialize(title = self.class.name)
     super
     @title = title
@@ -277,7 +277,7 @@ end
         DONE
 
         pre <<-DONE
-class Faq < Page
+class Views::Faq::Index < Views::Layouts::Page
   def initialize
     super("FAQ")
   end
