@@ -1,10 +1,15 @@
 gems:
 - name: treetop
-  version: '>= 1.2.3'
+  version: '>= 1.2.5'
 - name: hpricot
+  version: '>= 0.8.1'
 - name: rspec
-  version: '>= 1.1.4'
+  version: '>= 1.2.2'
+- name: rspec-rails
+  version: '>= 1.2.2'
 - name: rails
+  version: '>= 2.3.2'
 - name: rubyforge
+  version: '>= 1.0.3'
 - name: rr
-
+  version: '>= 0.8.1'
