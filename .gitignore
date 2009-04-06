@@ -2,6 +2,7 @@
 *.iws
 *.ipr
 *~
+*.gem
 .idea
 pkg
 rdoc

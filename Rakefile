@@ -30,6 +30,7 @@ begin
     ]
     specs = Dir.glob("spec/**/*").reject{|file| file =~ %r{^spec/rails_root}}
     s.files =  ["lib/**/*", "README.txt", "VERSION.yml", "bin/erect", specs]
+    s.test_files =  specs
     s.add_dependency 'treetop', ">= 1.2.3"
   end
 rescue LoadError
