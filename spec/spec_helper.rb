@@ -11,6 +11,7 @@ require 'treetop'
 require "erector/erect"
 require "erector/erected"
 require "spec"
+require "spec/autorun"
 
 Spec::Runner.configure do |config|
   config.mock_with :rr

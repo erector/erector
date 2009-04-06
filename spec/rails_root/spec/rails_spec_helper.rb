@@ -7,6 +7,7 @@ RAILS_VERSION = File.basename(`ls -l #{dir}/../vendor/rails`.split(" -> ").last)
 
 require "action_controller/test_process"
 require "spec"
+require "spec/autorun"
 require "hpricot"
 require "rr"
 require "rr/adapters/rspec"
