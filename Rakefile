@@ -14,24 +14,27 @@ dir = File.dirname(__FILE__)
 $: << "#{dir}/lib"
 require "erector/version"
 
-GEM_VERSION = Erector::VERSION # defined in lib/erector/version.rb
-GEM_NAME = "erector"
-
-Hoe.new(GEM_NAME, GEM_VERSION) do |hoe|
-  hoe.name = GEM_NAME
-  hoe.developer("Pivotal Labs", "alex@pivotallabs.com")
-  hoe.rdoc_dir = "rdoc"
-  hoe.remote_rdoc_dir = "rdoc"
-
-  # Many of these options are based on what will work with rubyforge and
-  # groups and permissions
-  hoe.rsync_args = "-rlpv --delete --inplace --exclude .svn"
-
-  specs = Dir.glob("spec/**/*").reject{|file| file =~ %r{^spec/rails_root}}
-  hoe.files = [specs, "lib/**/*", "README.txt", "bin/erect"]
-  hoe.extra_deps = [['treetop', ">= 1.2.3"], "rake"]
+begin
+  require 'jeweler'
+  Jeweler::Tasks.new do |s|
+    s.name = "erector"
+    s.summary = "Html Builder library."
+    s.email = "erector-devel@rubyforge.org"
+    s.homepage = "http://erector.rubyforge.org/"
+    s.description = "Html Builder library."
+    s.authors = [
+      "Alex Chaffee",
+      "Brian Takita",
+      "Jeff Dean",
+      "Jim Kingdon",
+    ]
+    specs = Dir.glob("spec/**/*").reject{|file| file =~ %r{^spec/rails_root}}
+    s.files =  ["lib/**/*", "README.txt", "VERSION.yml", "bin/erect", specs]
+    s.add_dependency 'treetop', ">= 1.2.3"
+  end
+rescue LoadError
+  puts "Jeweler, or one of its dependencies, is not available. Install it with: sudo gem install technicalpickles-jeweler -s http://gems.github.com"
 end
-Hoe::remove_tasks("audit", "check_manifest", "post_blog", "multi", "test", "test_deps", "docs")
 
 EDGE_PATH = "spec/rails_root/vendor/rails_versions/edge"
 

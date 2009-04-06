@@ -2,6 +2,7 @@
 *.iws
 *.ipr
 *~
+.idea
 pkg
 rdoc
 spec/rails_root/log
