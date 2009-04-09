@@ -1,7 +1,7 @@
 require File.expand_path("#{File.dirname(__FILE__)}/rails_spec_helper")
 
-describe Erector::Widget do
-  class RailsSpecWidget < Erector::Widget
+describe Erector::RailsWidget do
+  class RailsSpecWidget < Erector::RailsWidget
 
   end
 
@@ -16,7 +16,7 @@ describe Erector::Widget do
   describe "#capture" do
     it "captures with an erector block" do
       captured = nil
-      message = Erector::Widget.new(@view) do
+      message = Erector::RailsWidget.new(@view) do
         captured = @helpers.capture do
           h1 'capture me!'
         end

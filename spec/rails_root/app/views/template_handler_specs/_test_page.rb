@@ -1,4 +1,4 @@
-class Views::TemplateHandlerSpecs::TestPage < Erector::Widget
+class Views::TemplateHandlerSpecs::TestPage < Erector::RailsWidget
   def render_partial
     div :class => 'partial' do
       text @foo

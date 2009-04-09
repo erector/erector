@@ -1,5 +1,5 @@
 module Erector
-  Widget.class_eval do
+  RailsWidget.class_eval do
     attr_reader :_erbout
 
     after_initialize do

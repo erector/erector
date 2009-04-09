@@ -22,7 +22,7 @@ module RailsHelpersSpec
 
     describe "#image_tag" do
       it "renders img tag" do
-        widget_class = Class.new(Erector::Widget) do
+        widget_class = Class.new(Erector::RailsWidget) do
           def render
             image_tag("rails.png")
           end
@@ -34,7 +34,7 @@ module RailsHelpersSpec
 
     describe "#javascript_include_tag" do
       it "renders javascript script tag" do
-        widget_class = Class.new(Erector::Widget) do
+        widget_class = Class.new(Erector::RailsWidget) do
           def render
             javascript_include_tag("rails")
           end
@@ -47,7 +47,7 @@ module RailsHelpersSpec
     if ::RAILS_VERSION.to_s < "2.2.0"
       describe "#define_javascript_functions" do
         it "renders javascript tag" do
-          widget_class = Class.new(Erector::Widget) do
+          widget_class = Class.new(Erector::RailsWidget) do
             def render
               define_javascript_functions
             end
@@ -60,7 +60,7 @@ module RailsHelpersSpec
 
     describe "#stylesheet_link_tag" do
       it "renders link tag" do
-        widget_class = Class.new(Erector::Widget) do
+        widget_class = Class.new(Erector::RailsWidget) do
           def render
             stylesheet_link_tag("rails")
           end
@@ -76,7 +76,7 @@ module RailsHelpersSpec
 
     describe "#sortable_elemnt" do
       it "renders sortable helper js" do
-        widget_class = Class.new(Erector::Widget) do
+        widget_class = Class.new(Erector::RailsWidget) do
           def render
             sortable_element("rails", :url => "/foo")
           end
@@ -91,7 +91,7 @@ module RailsHelpersSpec
 
     describe "#sortable_element_js" do
       it "renders only the sortable javascript" do
-        widget_class = Class.new(Erector::Widget) do
+        widget_class = Class.new(Erector::RailsWidget) do
           def render
             sortable_element_js("rails", :url => "/foo")
           end
@@ -113,7 +113,7 @@ module RailsHelpersSpec
     describe "#link_to_function" do
       context "when passed a string for the js function" do
         it "renders a link with the name as the content and the onclick handler" do
-          widget_class = Class.new(Erector::Widget) do
+          widget_class = Class.new(Erector::RailsWidget) do
             def render
               link_to_function("hi", "alert('hi')")
             end
@@ -125,7 +125,7 @@ module RailsHelpersSpec
 
       context "when passed a block for the js function" do
         it "renders the name and the block rjs contents onto onclick" do
-          widget_class = Class.new(Erector::Widget) do
+          widget_class = Class.new(Erector::RailsWidget) do
             def render
               link_to_function("Show me more", nil, :id => "more_link") do |page|
                 page[:details].visual_effect  :toggle_blind
@@ -141,7 +141,7 @@ module RailsHelpersSpec
 
     describe "#error_messages_for" do
       it "renders the error message" do
-        widget_class = Class.new(Erector::Widget) do
+        widget_class = Class.new(Erector::RailsWidget) do
           def render
             rawtext error_messages_for('user')
           end

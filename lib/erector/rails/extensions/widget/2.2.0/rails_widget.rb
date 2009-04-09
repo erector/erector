@@ -1,5 +1,5 @@
 module Erector
-  Widget.class_eval do
+  RailsWidget.class_eval do
     def output
       process_output_buffer || @output
     end

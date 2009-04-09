@@ -23,13 +23,13 @@ module BaseSpec
     end
   end
 
-  class TestWidget < Erector::Widget
+  class TestWidget < Erector::RailsWidget
     def render
       text @foobar
     end
   end
   
-  class TestFormWidget < Erector::Widget
+  class TestFormWidget < Erector::RailsWidget
     def render
       form_tag('/') do
         h1 "Create a foo"

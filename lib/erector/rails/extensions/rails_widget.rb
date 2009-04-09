@@ -1,5 +1,7 @@
+dir = File.dirname(__FILE__)
+
 module Erector
-  Widget.class_eval do
+  class RailsWidget < Widget
     include ActionController::UrlWriter
 
     # helpers returning raw text
@@ -107,4 +109,10 @@ module Erector
       helpers.pluralize(*args)
     end
   end
+end
+
+if ActionView::Base.instance_methods.include?("output_buffer")
+  require "#{dir}/widget/2.2.0/rails_widget"
+else
+  require "#{dir}/widget/1.2.5/rails_widget"
 end
