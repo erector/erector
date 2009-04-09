@@ -7,7 +7,7 @@ module Erector
       "2.1.0" => {'version' => '2.1.0', 'git_tag' => 'v2.1.0'},
       "2.2.0" => {'version' => '2.2.0', 'git_tag' => 'v2.2.0'},
       "2.2.2" => {'version' => '2.2.2', 'git_tag' => 'v2.2.2'},
-      "2.3.2" => {'version' => '2.3.2', 'git_tag' => 'v2.3.2'},
+#      "2.3.2" => {'version' => '2.3.2', 'git_tag' => 'v2.3.2'},
 #      "edge" => {'version' => 'edge', 'git_tag' => 'master'}, #TODO: Readd edge support
     }
   end
