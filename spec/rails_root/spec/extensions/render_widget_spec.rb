@@ -79,20 +79,10 @@ module BaseSpec
       end
       
       describe "#render :update" do
-        # After 2.1.0, the generated JS for inserting DOM elements
-        # was upgraded to the newer Prototype API.
-        def generated_insertion_js
-          if Erector::Rails::RAILS_VERSION.to_f > 2.1
-            'Element.insert'
-          else
-            'new Insertion.Top'
-          end
-        end
-        
         it "overrides RJS output_buffer changes" do
           @request = ActionController::TestRequest.new(:action => "index_with_rjs_rendering_template")
           @controller.process(@request, @response)
-          @response.body.starts_with?(generated_insertion_js).should be_true
+          @response.body.should include("Element.insert")
         end
       end
     end

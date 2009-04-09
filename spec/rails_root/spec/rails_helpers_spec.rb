@@ -44,20 +44,6 @@ module RailsHelpersSpec
       end
     end
 
-    if ::RAILS_VERSION.to_s < "2.2.0"
-      describe "#define_javascript_functions" do
-        it "renders javascript tag" do
-          widget_class = Class.new(Erector::RailsWidget) do
-            def render
-              define_javascript_functions
-            end
-          end
-          @controller.render :widget => widget_class
-          @response.body.should =~ /^<script type=\"text\/javascript\">\n/
-        end
-      end
-    end
-
     describe "#stylesheet_link_tag" do
       it "renders link tag" do
         widget_class = Class.new(Erector::RailsWidget) do
