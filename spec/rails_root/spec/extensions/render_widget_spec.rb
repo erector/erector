@@ -82,7 +82,7 @@ module BaseSpec
         # After 2.1.0, the generated JS for inserting DOM elements
         # was upgraded to the newer Prototype API.
         def generated_insertion_js
-          if RAILS_VERSION.to_f > 2.1
+          if Erector::Rails::RAILS_VERSION.to_f > 2.1
             'Element.insert'
           else
             'new Insertion.Top'
