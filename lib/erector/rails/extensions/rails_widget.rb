@@ -1,12 +1,20 @@
 module Erector
   class RailsWidget < Widget
+    attr_reader :_erbout
+
+    after_initialize do
+      @_erbout = output
+    end
+
+    def define_javascript_functions(*args)
+      begin
+        text raw(helpers.define_javascript_functions(*args))
+      rescue => e
+        puts e.backtrace.join("\n\t")
+        raise e
+      end
+    end
   end
 end
 
-dir = File.dirname(__FILE__)
-require "#{dir}/rails_widget/helpers"
-if ActionView::Base.instance_methods.include?("output_buffer")
-  require "#{dir}/rails_widget/2.2.0/rails_widget"
-else
-  require "#{dir}/rails_widget/1.2.5/rails_widget"
-end
+require "#{File.dirname(__FILE__)}/rails_widget/helpers"
