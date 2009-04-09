@@ -37,14 +37,14 @@ rescue LoadError
   puts "Jeweler, or one of its dependencies, is not available. Install it with: sudo gem install technicalpickles-jeweler -s http://gems.github.com"
 end
 
-EDGE_PATH = "spec/rails_root/vendor/rails_versions/edge"
+RAILS_PATH = "spec/rails_root/vendor/rails"
 
 desc "Default: run tests"
 task :default => :spec
 
 task :test => :spec
 
-task :cruise => [:geminstaller, :install_dependencies, :refresh_rails_versions, :test]
+task :cruise => [:geminstaller, :install_dependencies, :switch_to_rails_version_tag, :test]
 
 task :geminstaller do
   require 'geminstaller'
@@ -82,36 +82,24 @@ end
 
 desc "Install dependencies to run the build. This task uses Git."
 task(:install_dependencies) do
-  require "lib/erector/rails/supported_rails_versions"
-  FileUtils.rm_rf("spec/rails_root/vendor/rails_versions")
-  FileUtils.mkdir_p("spec/rails_root/vendor/rails_versions")
-  system("git clone git://github.com/rails/rails.git spec/rails_root/vendor/rails_versions/edge") || raise("Git clone of Rails failed")
-  FileUtils.mkdir_p(EDGE_PATH)
-  Rake.application[:refresh_rails_versions].invoke
-  system("ln -s #{rails_root}/vendor/rails_versions/edge #{rails_root}/vendor/rails")
+  require "lib/erector/rails/rails_version"
+  FileUtils.rm_rf(RAILS_PATH)
+  system("git clone git://github.com/rails/rails.git #{RAILS_PATH}") || raise("Git clone of Rails failed")
+  Rake.application[:switch_to_rails_version_tag].invoke
 end
 
 desc "Refreshes the Rails versions from edge git repo"
-task(:refresh_rails_versions) do
-  require "lib/erector/rails/supported_rails_versions"
-  Dir.chdir(EDGE_PATH) do
-    system("git pull origin master")
-    begin
-      Erector::Rails::SUPPORTED_RAILS_VERSIONS.each do |version, data|
-        unless version == 'edge'
-          system("git checkout #{data['git_tag']}")
-          system("cp -Rf ../edge ../#{version}")
-        end
-      end
-    ensure
-      system("git checkout master")
-    end
+task(:switch_to_rails_version_tag) do
+  require "lib/erector/rails/rails_version"
+  Dir.chdir(RAILS_PATH) do
+    system("git fetch origin")
+    system("git checkout #{Erector::Rails::RAILS_VERSION_TAG}")
   end
 end
 
 desc "Updates the dependencies to run the build. This task uses Git."
 task(:update_dependencies) do
-  system "cd spec/rails_root/vendor/rails_versions/edge; git pull origin"
+  system "cd #{RAILS_PATH}; git fetch origin"
 end
 
 desc "Regenerate unicode.rb from UnicodeData.txt from unicode.org.  Only needs to be run when there is a new version of the Unicode specification"

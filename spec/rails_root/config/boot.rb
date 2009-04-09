@@ -13,12 +13,6 @@ end
 
 unless defined?(Rails::Initializer)
   rails_dir = "#{RAILS_ROOT}/vendor/rails"
-  if ENV['RAILS_VERSION']
-    rails_versions_dir = "#{RAILS_ROOT}/vendor/rails_versions/#{ENV['RAILS_VERSION'].downcase}"
-
-    system("rm -f #{rails_dir}")
-    system("ln -s #{rails_versions_dir} #{rails_dir}")
-  end
   system("rm -rf #{RAILS_ROOT}/vendor/plugins/erector")
 
   Dir["#{rails_dir}/*"].each do |path|
