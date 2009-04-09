@@ -15,6 +15,8 @@ unless defined?(Rails::Initializer)
   rails_dir = "#{RAILS_ROOT}/vendor/rails"
   system("rm -rf #{RAILS_ROOT}/vendor/plugins/erector")
 
+  system("cd #{RAILS_ROOT}/../.. && rake switch_to_rails_version_tag")
+
   Dir["#{rails_dir}/*"].each do |path|
     $:.unshift("#{path}/lib") if File.directory?("#{path}/lib")
   end
