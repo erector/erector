@@ -1,14 +1,32 @@
-dir = File.dirname(__FILE__)
-if ActionView.const_defined?(:TemplateHandlers)
-  if ::ActionView::TemplateHandlers::const_defined?(:Compilable)
-    if ActionView.const_defined?(:TemplateHandlers) && ::ActionView::TemplateHandlers::ERB.respond_to?(:erb_trim_mode)
-      require File.expand_path("#{dir}/2.2.0/action_view_template_handler")
-    else
-      require File.expand_path("#{dir}/2.1.0/action_view_template_handler")
+module ActionView #:nodoc:
+  module TemplateHandlers #:nodoc:
+    class Erector
+      def self.line_offset
+        2
+      end
+
+      attr_reader :view
+      def initialize(view)
+        @view = view
+      end
+
+      def compilable?
+        true
+      end
+
+      ActionView::Base.register_template_handler :rb, ActionView::TemplateHandlers::Erector
+
+      def render(template, local_assigns)
+        relative_path_parts = view.first_render.split('/')
+        require_dependency view.template_file_path
+
+        dot_rb = /\.rb$/
+        widget_class = relative_path_parts.inject(Views) do |mod, node|
+          mod.const_get(node.gsub(dot_rb, '').gsub(".html", "").camelize)
+        end
+        render_method = view.is_partial_template? ? 'render_partial' : 'render'
+        widget_class.new(view, view.assigns).to_s(render_method)
+      end
     end
-  else
-    require File.expand_path("#{dir}/2.0.0/action_view_template_handler")
   end
-else
-  require File.expand_path("#{dir}/1.2.5/action_view_template_handler")
 end

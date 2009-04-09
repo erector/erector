@@ -82,7 +82,7 @@ module BaseSpec
         it "overrides RJS output_buffer changes" do
           @request = ActionController::TestRequest.new(:action => "index_with_rjs_rendering_template")
           @controller.process(@request, @response)
-          @response.body.should include("Element.insert")
+          @response.body.should include("new Insertion.Top")
         end
       end
     end
