@@ -3,13 +3,13 @@ class SpecSuite
     def all
       system("ruby #{dir}/core_spec_suite.rb") || raise("Core Spec Suite failed")
       dir = File.dirname(__FILE__)
-      require "#{dir}/../lib/erector/rails/supported_rails_versions"
-      versions = Erector::Rails::SUPPORTED_RAILS_VERSIONS.keys.sort.reverse
-      versions.each do |rails_version|
-        puts "Running rails_spec_suite for Rails version #{rails_version}"
-          run_with_rails_version("#{dir}/rails_spec_suite.rb", rails_version) ||
-            "Suite failed for Rails version #{rails_version}"
-      end
+      require "#{dir}/../lib/erector/rails/rails_version"
+
+      rails_version = Erector::Rails::RAILS_VERSION
+      puts "Running rails_spec_suite for Rails version #{rails_version}"
+
+      system("export RAILS_VERSION=#{rails_version} && ruby #{dir}/rails_spec_suite.rb") ||
+        raise("Failed for version #{rails_version}")
     end
 
     def core
@@ -29,11 +29,6 @@ class SpecSuite
     end
 
     protected
-    def run_with_rails_version(suite_path, rails_version)
-      system("export RAILS_VERSION=#{rails_version} && ruby #{suite_path}") ||
-        raise("Failed for version #{rails_version}")
-    end
-
     def dir
       File.dirname(__FILE__)
     end
