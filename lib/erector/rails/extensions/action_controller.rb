@@ -1,26 +1,8 @@
-ActionController::Base.class_eval do
-  def render_widget(widget_class, assigns=nil)
-    @__widget_class = widget_class
-    if assigns
-      @__widget_assigns = assigns
-    else
-      @__widget_assigns = {}
-      variables = instance_variable_names
-      variables -= protected_instance_variables
-      variables.each do |name|
-        @__widget_assigns[name.sub('@', "")] = instance_variable_get(name)
-      end
-    end
-    response.template.send(:_evaluate_assigns_and_ivars)
-    render :inline => "<% @__widget_class.new(self, @__widget_assigns, output_buffer).render %>"
-  end
-
-  def render_with_erector_widget(*options, &block)
-    if options.first.is_a?(Hash) && widget = options.first.delete(:widget)
-      render_widget widget, @assigns, &block
-    else
-      render_without_erector_widget *options, &block
-    end
-  end
-  alias_method_chain :render, :erector_widget
+dir = File.dirname(__FILE__)
+if (
+  ActionController::Base.instance_methods + ActionController::Base.private_instance_methods).
+  include?("add_variables_to_assigns")
+  require File.expand_path("#{dir}/action_controller/1.2.5/action_controller")
+else
+  require File.expand_path("#{dir}/action_controller/2.2.0/action_controller")
 end

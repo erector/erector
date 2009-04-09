@@ -1,46 +1,14 @@
-module ActionView #:nodoc:
-  module TemplateHandlers #:nodoc:
-    class Erector < TemplateHandler
-      include Compilable
-      def self.line_offset
-        2
-      end
-
-      ActionView::Template.instance_eval do
-        register_template_handler :rb, ActionView::TemplateHandlers::Erector
-      end
-
-      def compile(template)
-        relative_path_parts = template.path.split('/')
-
-        is_partial = relative_path_parts.last =~ /^_/
-        require_dependency File.expand_path(template.filename)
-
-        widget_class_parts = relative_path_parts.inject(['Views']) do |class_parts, node|
-          class_parts << node.gsub(/^_/, "").gsub(/(\.html)?\.rb$/, '').camelize
-          class_parts
-        end
-        widget_class_name = widget_class_parts.join("::")
-        render_method = is_partial ? 'render_partial' : 'render'
-
-        erb_template = <<-ERB
-        <%
-          assigns = instance_variables.inject({}) do |hash, name|
-            hash[name.sub('@', "")] = instance_variable_get(name)
-            hash
-          end
-
-          widget = #{widget_class_name}.new(self, assigns, output_buffer)
-          widget.#{render_method}
-        %>
-        ERB
-        ::ERB.new(
-          erb_template,
-          nil,
-          ::ActionView::TemplateHandlers::ERB.erb_trim_mode,
-          "@output_buffer"
-        ).src
-      end
+dir = File.dirname(__FILE__)
+if ActionView.const_defined?(:TemplateHandlers)
+  if ::ActionView::TemplateHandlers::const_defined?(:Compilable)
+    if ActionView.const_defined?(:TemplateHandlers) && ::ActionView::TemplateHandlers::ERB.respond_to?(:erb_trim_mode)
+      require File.expand_path("#{dir}/2.2.0/action_view_template_handler")
+    else
+      require File.expand_path("#{dir}/2.1.0/action_view_template_handler")
     end
+  else
+    require File.expand_path("#{dir}/2.0.0/action_view_template_handler")
   end
+else
+  require File.expand_path("#{dir}/1.2.5/action_view_template_handler")
 end
