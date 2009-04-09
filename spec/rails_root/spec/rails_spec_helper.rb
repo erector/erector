@@ -11,6 +11,9 @@ require "spec/autorun"
 require "hpricot"
 require "rr"
 require "rr/adapters/rspec"
+require 'treetop'
+require "erector/erect"
+require "erector/erected"
 
 Spec::Runner.configure do |config|
   config.mock_with RR::Adapters::Rspec
