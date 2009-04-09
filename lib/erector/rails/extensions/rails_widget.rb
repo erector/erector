@@ -112,7 +112,7 @@ module Erector
 end
 
 if ActionView::Base.instance_methods.include?("output_buffer")
-  require "#{dir}/widget/2.2.0/rails_widget"
+  require "#{dir}/rails_widget/2.2.0/rails_widget"
 else
-  require "#{dir}/widget/1.2.5/rails_widget"
+  require "#{dir}/rails_widget/1.2.5/rails_widget"
 end
