@@ -4,14 +4,17 @@ $LOAD_PATH.unshift("#{dir}/../../../lib")
 require "#{dir}/../config/environment"
 
 require "action_controller/test_process"
+ARGV.push(*File.read("#{File.dirname(__FILE__)}/../../spec.opts").split("\n"))
 require "spec"
 require "spec/autorun"
 require "hpricot"
 require "rr"
 require "rr/adapters/rspec"
 require 'treetop'
+require "erector"
 require "erector/erect"
 require "erector/erected"
+system("cd #{RAILS_ROOT}/../.. && rake switch_to_rails_version_tag")
 
 Spec::Runner.configure do |config|
   config.mock_with RR::Adapters::Rspec
