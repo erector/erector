@@ -11,8 +11,10 @@ require "hpricot"
 require "rr"
 require "rr/adapters/rspec"
 require 'treetop'
+require "erector"
 require "erector/erect"
 require "erector/erected"
+system("cd #{RAILS_ROOT}/../.. && rake switch_to_rails_version_tag")
 
 Spec::Runner.configure do |config|
   config.mock_with RR::Adapters::Rspec
