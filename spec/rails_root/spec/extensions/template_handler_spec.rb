@@ -16,8 +16,9 @@ module TemplateHandlerSpecs
   end
   
   describe ActionView::TemplateHandlers::Erector do
-    attr_reader :controller
+    attr_reader :request, :controller
     before do
+      @request = ActionController::TestRequest.new
       @controller = TemplateHandlerSpecsController.new
     end
 
