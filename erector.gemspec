@@ -6,7 +6,7 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Alex Chaffee", "Brian Takita", "Jeff Dean", "Jim Kingdon"]
-  s.date = %q{2009-04-05}
+  s.date = %q{2009-04-12}
   s.default_executable = %q{erect}
   s.description = %q{Html Builder library.}
   s.email = %q{erector-devel@rubyforge.org}
@@ -31,6 +31,7 @@ Gem::Specification.new do |s|
     "lib/erector/rails/extensions/widget.rb",
     "lib/erector/rails/extensions/widget/1.2.5/widget.rb",
     "lib/erector/rails/extensions/widget/2.2.0/widget.rb",
+    "lib/erector/rails/extensions/widget/helpers.rb",
     "lib/erector/rails/supported_rails_versions.rb",
     "lib/erector/rails/template_handlers/1.2.5/action_view_template_handler.rb",
     "lib/erector/rails/template_handlers/2.0.0/action_view_template_handler.rb",
@@ -64,20 +65,20 @@ Gem::Specification.new do |s|
   s.rubygems_version = %q{1.3.1}
   s.summary = %q{Html Builder library.}
   s.test_files = [
-    "spec/erector",
-    "spec/erector/widgets",
-    "spec/erector/widgets/table_spec.rb",
-    "spec/erector/unicode_builder_spec.rb",
-    "spec/erector/widget_spec.rb",
-    "spec/erector/indentation_spec.rb",
     "spec/rails_spec_suite.rb",
     "spec/spec_suite.rb",
-    "spec/core_spec_suite.rb",
-    "spec/spec_helper.rb",
+    "spec/erector",
+    "spec/erector/indentation_spec.rb",
+    "spec/erector/unicode_builder_spec.rb",
+    "spec/erector/widgets",
+    "spec/erector/widgets/table_spec.rb",
+    "spec/erector/widget_spec.rb",
     "spec/erect",
     "spec/erect/erected_spec.rb",
+    "spec/erect/rhtml_parser_spec.rb",
     "spec/erect/erect_spec.rb",
-    "spec/erect/rhtml_parser_spec.rb"
+    "spec/spec_helper.rb",
+    "spec/core_spec_suite.rb"
   ]
 
   if s.respond_to? :specification_version then
