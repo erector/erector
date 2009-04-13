@@ -14,30 +14,48 @@ dir = File.dirname(__FILE__)
 $: << "#{dir}/lib"
 require "erector/version"
 
+gem_definition = lambda do |s|
+  s.name = "erector"
+  s.summary = "Html Builder library."
+  s.email = "erector-devel@rubyforge.org"
+  s.description = "Html Builder library."
+  specs = Dir.glob("spec/**/*").reject{|file| file =~ %r{^spec/rails_root}}
+  s.files =  ["lib/**/*", "README.txt", "VERSION.yml", "bin/erect", specs]
+  s.test_files =  specs
+end
+
 begin
   require 'jeweler'
   Jeweler::Tasks.new do |s|
-    s.name = "erector"
-    s.summary = "Html Builder library."
-    s.email = "erector-devel@rubyforge.org"
+    gem_definition.call(s)
     s.homepage = "http://erector.rubyforge.org/"
-    s.description = "Html Builder library."
     s.authors = [
       "Alex Chaffee",
       "Brian Takita",
       "Jeff Dean",
       "Jim Kingdon",
     ]
-    specs = Dir.glob("spec/**/*").reject{|file| file =~ %r{^spec/rails_root}}
-    s.files =  ["lib/**/*", "README.txt", "VERSION.yml", "bin/erect", specs]
-    s.test_files =  specs
     s.add_dependency 'treetop', ">= 1.2.3"
   end
 rescue LoadError
   puts "Jeweler, or one of its dependencies, is not available. Install it with: sudo gem install technicalpickles-jeweler -s http://gems.github.com"
 end
 
+
 RAILS_PATH = "spec/rails_root/vendor/rails"
+Hoe.new("erector", Erector::VERSION) do |hoe|
+  gem_definition.call(hoe)
+  hoe.developer("Pivotal Labs", "pivotallabsopensource@googlegroups.com")
+  hoe.rdoc_dir = "rdoc"
+  hoe.remote_rdoc_dir = "rdoc"
+
+  # Many of these options are based on what will work with rubyforge and
+  # groups and permissions
+  hoe.rsync_args = "-rlpv --delete --inplace --exclude .svn"
+end
+Hoe::remove_tasks("audit", "check_manifest", "post_blog", "multi", "test", "test_deps", "docs")
+
+EDGE_PATH = "spec/rails_root/vendor/rails_versions/edge"
 
 desc "Default: run tests"
 task :default => :spec
