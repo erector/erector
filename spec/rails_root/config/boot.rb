@@ -13,9 +13,6 @@ end
 
 unless defined?(Rails::Initializer)
   rails_dir = "#{RAILS_ROOT}/vendor/rails"
-  system("rm -rf #{RAILS_ROOT}/vendor/plugins/erector")
-
-  system("cd #{RAILS_ROOT}/../.. && rake switch_to_rails_version_tag")
 
   Dir["#{rails_dir}/*"].each do |path|
     $:.unshift("#{path}/lib") if File.directory?("#{path}/lib")
@@ -25,11 +22,7 @@ unless defined?(Rails::Initializer)
     raise "#{initializer_path} not in vendor. Run rake install_dependencies"
   end
 
-  if !ENV['RAILS_VERSION'] || ENV['RAILS_VERSION'] == "edge" || ENV['RAILS_VERSION'] >= "2.1.0"
-    require "#{rails_dir}/railties/environments/boot"
-  else
-    require "#{rails_dir}/railties/lib/initializer"
-  end
+  require "#{rails_dir}/railties/environments/boot"
 
   Rails::Initializer.run(:set_load_path)
 end
