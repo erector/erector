@@ -4,7 +4,6 @@ $LOAD_PATH.unshift("#{dir}/../../../lib")
 Dir.chdir("#{dir}/../../..") do
   system("rake switch_to_rails_version_tag")
 end
-
 require "#{dir}/../config/environment"
 
 require "action_controller/test_process"
