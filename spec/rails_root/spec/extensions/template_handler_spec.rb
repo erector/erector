@@ -16,13 +16,14 @@ module TemplateHandlerSpecs
   end
   
   describe ActionView::TemplateHandlers::Erector do
-    attr_reader :controller
+    attr_reader :request, :controller
     before do
+      @request = ActionController::TestRequest.new
       @controller = TemplateHandlerSpecsController.new
     end
 
     it "assigns instance variables, renders partials, and properly handles controllers with pluralized names" do
-      request = ActionController::TestRequest.new({:action => "index"})
+      request.action = "index"
       response = ActionController::TestResponse.new
       controller.process(request, response)
       view = response.template
@@ -31,7 +32,7 @@ module TemplateHandlerSpecs
     end
 
     it "accepts instance variables being passed into render" do
-      request = ActionController::TestRequest.new({:action => "action_with_instance_variables_being_passed_into_render_call"})
+      request.action = "action_with_instance_variables_being_passed_into_render_call"
       response = ActionController::TestResponse.new
       controller.process(request, response)
       view = response.template
