@@ -24,6 +24,8 @@ MISC
 indentation clarification (indent was a method and a variable)
   DONE
   
+rename/clarify enable_prettyprint to prettyprint
+  
 nested widgets
   
 __element__ 
@@ -35,6 +37,8 @@ join
 to_s
   # The @__to_s variable is used as a cache. 
   # If it's useful we should add a test for it.  -ac
+
+  to_s(write_method_name) is not tested
 
 after_initialize
   is anyone using this?

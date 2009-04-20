@@ -97,7 +97,6 @@ module Erector
     SPACES_PER_INDENT = 2
 
     attr_reader :helpers, :assigns, :block, :parent, :output, :prettyprint, :indentation
-    attr_accessor :enable_prettyprint
 
     def initialize(assigns={}, &block)
       @assigns = assigns
@@ -111,7 +110,7 @@ module Erector
 #-- methods for other classes to call, left public for ease of testing and documentation
 #++
 
-  #todo: protected
+    protected
     def prepare(output, indentation = 0, helpers = nil)
       @output = output
       @at_start_of_line = true
@@ -137,7 +136,7 @@ module Erector
     # This flag should be set prior to any rendering being done
     # (for example, calls to to_s or to_pretty).
     def enable_prettyprint(enable)
-      self.prettyprint = enable
+      @prettyprint = enable
       self
     end
 
@@ -163,6 +162,10 @@ module Erector
     end
     
     alias_method :inspect, :to_s
+    
+    def render
+      write
+    end
 
     # Template method which must be overridden by all widget subclasses. Inside this method you call the magic
     # #element methods which emit HTML and text to the output string.
@@ -410,7 +413,11 @@ module Erector
     end
 
     def newliney(tag_name)
-      @prettyprint and !NON_NEWLINEY.include?(tag_name)
+      if @prettyprint
+        !NON_NEWLINEY.include?(tag_name)
+      else
+        false
+      end
     end    
     
 ### internal utility methods
@@ -458,7 +465,7 @@ protected
       output.concat "<#{tag_name}#{format_attributes(attributes)} />"
 
       if newliney(tag_name)
-        newline
+        _newline
       end
     end
     

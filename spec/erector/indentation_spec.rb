@@ -5,7 +5,7 @@ describe "indentation" do
   it "can detect newliney tags" do
     widget = ::Erector::Widget.new
     string = widget.output
-    widget.enable_prettyprint = true
+    widget.enable_prettyprint(true)
     widget.newliney("i").should == false
     widget.newliney("table").should == true
   end
@@ -14,21 +14,21 @@ describe "indentation" do
     Erector::Widget.new() do
       text "Hello, "
       b "World"
-    end.enable_prettyprint(true).to_s.should == "Hello, <b>World</b>"
+    end.to_pretty.should == "Hello, <b>World</b>"
   end
   
   it "should add newlines before open newliney tags" do
     Erector::Widget.new() do
       p "foo"
       p "bar"
-    end.enable_prettyprint(true).to_s.should == "<p>foo</p>\n<p>bar</p>\n"
+    end.to_pretty.should == "<p>foo</p>\n<p>bar</p>\n"
   end
   
   it "should add newlines between text and open newliney tag" do
     Erector::Widget.new() do
       text "One"
       p "Two"
-    end.enable_prettyprint(true).to_s.should == "One\n<p>Two</p>\n"
+    end.to_pretty.should == "One\n<p>Two</p>\n"
   end
   
   it "should add newlines after end newliney tags" do
@@ -36,7 +36,7 @@ describe "indentation" do
       tr do
         td "cell"
       end
-    end.enable_prettyprint(true).to_s.should == "<tr>\n  <td>cell</td>\n</tr>\n"
+    end.to_pretty.should == "<tr>\n  <td>cell</td>\n</tr>\n"
   end
   
   it "should treat empty elements as start and end" do
@@ -44,7 +44,7 @@ describe "indentation" do
       p "before"
       br
       p "after"
-    end.enable_prettyprint(true).to_s.should == "<p>before</p>\n<br />\n<p>after</p>\n"
+    end.to_pretty.should == "<p>before</p>\n<br />\n<p>after</p>\n"
   end
   
   it "empty elements sets at_start_of_line" do
@@ -52,7 +52,7 @@ describe "indentation" do
       text "before"
       br
       p "after"
-    end.enable_prettyprint(true).to_s.should == "before\n<br />\n<p>after</p>\n"
+    end.to_pretty.should == "before\n<br />\n<p>after</p>\n"
   end
 
   it "will not insert extra space before/after input element" do
@@ -62,7 +62,7 @@ describe "indentation" do
       text 'Name'
       input :type => 'text'
       text 'after'
-    end.enable_prettyprint(true).to_s.should == 'Name<input type="text" />after'
+    end.to_pretty.should == 'Name<input type="text" />after'
   end
   
   it "will indent" do
@@ -77,7 +77,7 @@ describe "indentation" do
           end
         end
       end
-    end.enable_prettyprint(true).to_s.should == <<END
+    end.to_pretty.should == <<END
 <html>
   <head>
     <title>hi</title>
@@ -88,6 +88,29 @@ describe "indentation" do
     </div>
   </body>
 </html>
+END
+  end
+  
+  it "preserves indentation for sub-rendered widgets" do
+    tea = Erector::Widget.new do
+      div do
+        p "oolong"
+      end
+    end
+    cup = Erector::Widget.new do
+      div do
+        p "fine china"
+        tea.write_via(self)
+      end
+    end
+    
+    cup.to_pretty.should == <<END
+<div>
+  <p>fine china</p>
+  <div>
+    <p>oolong</p>
+  </div>
+</div>
 END
   end
   
