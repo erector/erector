@@ -1,0 +1,40 @@
+API
+
+write (emit?)
+  writes text
+
+write_via
+  takes a widget as parent
+  
+write_widget
+  inherits parent
+  inherits output, pretty, indent, helpers from parent
+
+inspect
+  renders the to_s
+  
+writing a tag
+  fails if output is nil, informing the developer to call write instead of render now
+
+prepare
+
+
+MISC
+
+indentation clarification (indent was a method and a variable)
+  DONE
+  
+nested widgets
+  
+__element__ 
+  complains if you pass both text and a block
+  
+join
+  "which are quoted and output" -- test this
+  
+to_s
+  # The @__to_s variable is used as a cache. 
+  # If it's useful we should add a test for it.  -ac
+
+after_initialize
+  is anyone using this?

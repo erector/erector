@@ -3,11 +3,11 @@ module Erector
   # A Widget is the center of the Erector universe. 
   #
   # To create a widget, extend Erector::Widget and implement 
-  # the +render+ method. Inside this method you may call any of the tag methods like +span+ or +p+ to emit HTML/XML
+  # the +write+ method. Inside this method you may call any of the tag methods like +span+ or +p+ to emit HTML/XML
   # tags. 
   # 
   # You can also define a widget on the fly by passing a block to +new+. This block will get executed when the widget's
-  # +render+ method is called.
+  # +write+ method is called.
   #
   # To render a widget from the outside, instantiate it and call its +to_s+ method.
   #
@@ -20,10 +20,9 @@ module Erector
   # This mechanism is meant to ameliorate development-time confusion about exactly what parameters are supported
   # by a given widget, avoiding confusing runtime NilClass errors.
   # 
-  # To call one widget from another, inside the parent widget's render method, instantiate the child widget and call 
-  # its +render_to+ method, passing in +self+ (or self.output if you prefer). This assures that the same output
-  # is used, which gives better performance than using +capture+ or +to_s+. TODO: move "render_to" functionality into
-  # self.render or self.write.
+  # To call one widget from another, inside the parent widget's write method, instantiate the child widget and call 
+  # its +write_via+ method, passing in +self+ (or self.output if you prefer). This assures that the same output
+  # is used, which gives better performance than using +capture+ or +to_s+.
   # 
   # In this documentation we've tried to keep the distinction clear between methods that *emit* text and those that
   # *return* text. "Emit" means that it writes to the output stream; "return" means that it returns a string
@@ -97,29 +96,28 @@ module Erector
 
     SPACES_PER_INDENT = 2
 
-    attr_reader :helpers, :assigns, :block, :parent, :output
+    attr_reader :helpers, :assigns, :block, :parent, :output, :prettyprint, :indentation
     attr_accessor :enable_prettyprint
 
-    def initialize(helpers=nil, assigns={}, output="", &block)
+    def initialize(assigns={}, &block)
       @assigns = assigns
       assign_locals(assigns)
-
       @parent = block ? eval("self", block.binding) : nil
       @block = block
-
-
       self.class.after_initialize self
+      @prettyprint = prettyprint_default
     end
 
 #-- methods for other classes to call, left public for ease of testing and documentation
 #++
+
   #todo: protected
-    def prepare(output, indent = 0, helpers = nil)
-      @helpers = helpers
+    def prepare(output, indentation = 0, helpers = nil)
       @output = output
       @at_start_of_line = true
-      @indent = indent
-      @enable_prettyprint = prettyprint_default
+      raise "indentation must be a number, not #{indentation.inspect}" unless indentation.is_a? Fixnum
+      @indentation = indentation
+      @helpers = helpers
     end
 
     public
@@ -139,7 +137,7 @@ module Erector
     # This flag should be set prior to any rendering being done
     # (for example, calls to to_s or to_pretty).
     def enable_prettyprint(enable)
-      self.enable_prettyprint = enable
+      self.prettyprint = enable
       self
     end
 
@@ -149,17 +147,18 @@ module Erector
     end
 
     # Entry point for rendering a widget (and all its children). This method creates a new output string,
-    # calls this widget's #render method and returns the string.
+    # calls this widget's #write method and returns the string.
     #
     # If it's called again later 
     # then it returns the earlier rendered string, which may lead to higher performance, but may have confusing
     # effects if some underlying state has changed. In general we recommend you create a new instance of every
-    # widget for each render, unless you know what you're doing.
-    def to_s(render_method_name=:render, &blk)
+    # widget for each write, unless you know what you're doing.
+    def to_s(write_method_name = :write, &blk)
       # The @__to_s variable is used as a cache. 
       # If it's useful we should add a test for it.  -ac
       return @__to_s if @__to_s
-      send(render_method_name, &blk)
+      prepare("")
+      send(write_method_name, &blk)
       @__to_s = output.to_s
     end
     
@@ -167,23 +166,20 @@ module Erector
 
     # Template method which must be overridden by all widget subclasses. Inside this method you call the magic
     # #element methods which emit HTML and text to the output string.
-    def render
+    def write
       if @block
         instance_eval(&@block)
       end
     end
 
-    # To call one widget from another, inside the parent widget's render method, instantiate the child widget and call 
-    # its +render_to+ method, passing in +self+ (or self.output if you prefer). This assures that the same output string
+    # To call one widget from another, inside the parent widget's write method, instantiate the child widget and call 
+    # its +write_via+ method, passing in +self+ (or self.output if you prefer). This assures that the same output string
     # is used, which gives better performance than using +capture+ or +to_s+.
-    def render_to(output_or_widget)
-      if output_or_widget.is_a?(Widget)
-        @parent = output_or_widget
-        @output = @parent.output
-      else
-        @output = output_or_widget
-      end
-      render
+    def write_via(widget)
+      @parent = widget
+      @prettyprint = widget.prettyprint
+      prepare(widget.output, widget.indentation, widget.helpers)
+      write
     end
 
     # TODO: deprecate?
@@ -192,8 +188,9 @@ module Erector
     # This is an experimental erector feature which may disappear in future
     # versions of erector (see #widget in widget_spec in the Erector tests).
     def widget(widget_class, assigns={}, &block)
-      child = widget_class.new(helpers, assigns, output, &block)
-      child.render
+      child = widget_class.new(assigns, &block)
+      child.prepare(output, @indentation, helpers)
+      child.write
     end
 
     # (Should we make this hidden?)
@@ -245,7 +242,7 @@ module Erector
     # Emits an open tag, comprising '<', tag name, optional attributes, and '>'
     def open_tag(tag_name, attributes={})
       indent_for_open_tag(tag_name)
-      @indent += SPACES_PER_INDENT
+      @indentation += SPACES_PER_INDENT
 
       output.concat "<#{tag_name}#{format_attributes(attributes)}>"
       @at_start_of_line = false
@@ -297,14 +294,13 @@ module Erector
 
     # Emits a close tag, consisting of '<', tag name, and '>'
     def close_tag(tag_name)
-      @indent -= SPACES_PER_INDENT
+      @indentation -= SPACES_PER_INDENT
       indent()
 
       output.concat("</#{tag_name}>")
 
       if newliney(tag_name)
-        output.concat "\n"
-        @at_start_of_line = true
+        _newline
       end
     end
     
@@ -329,7 +325,7 @@ module Erector
 
     # Creates a whole new output string, executes the block, then converts the output string to a string and
     # emits it as raw text. If at all possible you should avoid this method since it hurts performance,
-    # and use #render_to instead.
+    # and use #write_via instead.
     def capture(&block)
       begin
         original_output = output
@@ -414,11 +410,7 @@ module Erector
     end
 
     def newliney(tag_name)
-      if @enable_prettyprint
-        !NON_NEWLINEY.include?(tag_name)
-      else
-        false
-      end
+      @prettyprint and !NON_NEWLINEY.include?(tag_name)
     end    
     
 ### internal utility methods
@@ -466,23 +458,27 @@ protected
       output.concat "<#{tag_name}#{format_attributes(attributes)} />"
 
       if newliney(tag_name)
-        output.concat "\n"
-        @at_start_of_line = true
+        newline
       end
+    end
+    
+    def _newline
+      return unless @prettyprint      
+      output.concat "\n"
+      @at_start_of_line = true
     end
 
     def indent_for_open_tag(tag_name)
+      return unless @prettyprint      
       if !@at_start_of_line && newliney(tag_name)
-        output.concat "\n"
-        @at_start_of_line = true
+        _newline
       end
-
       indent()
     end
 
     def indent()
       if @at_start_of_line
-        output.concat " " * @indent
+        output.concat " " * @indentation
       end
     end
 
