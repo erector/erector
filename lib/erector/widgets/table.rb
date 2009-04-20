@@ -43,7 +43,7 @@ module Erector
       end
 
       # The standard erector render method.
-      def render
+      def write
         table do
           thead do
             tr do

@@ -99,6 +99,12 @@ module Erector
     attr_reader :helpers, :assigns, :block, :parent, :output, :prettyprint, :indentation
 
     def initialize(assigns={}, &block)
+      unless assigns.is_a? Hash
+        raise "Erector's API has changed. Only pass options into Widget.new; the rest come in by using write_via(self) or render_widget."
+      end
+      if respond_to? :render
+        raise "Erector's API has changed. You should rename #{self.class}#render to #write."
+      end
       @assigns = assigns
       assign_locals(assigns)
       @parent = block ? eval("self", block.binding) : nil
@@ -163,10 +169,6 @@ module Erector
     
     alias_method :inspect, :to_s
     
-    def render
-      write
-    end
-
     # Template method which must be overridden by all widget subclasses. Inside this method you call the magic
     # #element methods which emit HTML and text to the output string.
     def write

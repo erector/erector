@@ -23,7 +23,7 @@ module TableSpec
     describe "with custom heading" do
       attr_reader :html, :doc
       before do
-        widget = CustomHeadingTable.new(nil, :row_objects => [])
+        widget = CustomHeadingTable.new(:row_objects => [])
         @html = widget.to_s
         @doc = Hpricot(html)
       end
@@ -45,7 +45,7 @@ module TableSpec
       attr_reader :html, :doc
       before do
         @object1 = Struct.new(:first_name).new("Hello")
-        widget = CustomCellTable.new(nil, :row_objects => [@object1])
+        widget = CustomCellTable.new(:row_objects => [@object1])
         @html = widget.to_s
         @doc = Hpricot(html)
       end
@@ -63,7 +63,7 @@ module TableSpec
         @object1 = Struct.new(:first_name, :last_name, :email).new(1, 2, 3)
         @object2 = Struct.new(:first_name, :last_name, :email).new(4, 5, 6)
         @object3 = Struct.new(:first_name, :last_name, :email).new(7, 8, 9)
-        widget = DefaultsTestTable.new(nil, :row_objects => [@object1, @object2, @object3])
+        widget = DefaultsTestTable.new(:row_objects => [@object1, @object2, @object3])
         @html = widget.to_s
         @doc = Hpricot(html)
         @table = doc.at("table")
