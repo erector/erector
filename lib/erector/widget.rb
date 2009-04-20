@@ -10,10 +10,20 @@ module Erector
   # +render+ method is called.
   #
   # To render a widget from the outside, instantiate it and call its +to_s+ method.
+  #
+  # A widget's +new+ method optionally accepts an options hash. Entries in this hash are converted to instance
+  # variables, and +attr_reader+ accessors are defined for each.
+  #
+  # TODO: You can add runtime input checking via the +needs+ macro. If any of the variables named via 
+  # +needs+ are absent, an exception is thrown. Optional variables are specified with +wants+. If a variable appears
+  # in the options hash that is in neither the +needs+ nor +wants+ lists, then that too provokes an exception. 
+  # This mechanism is meant to ameliorate development-time confusion about exactly what parameters are supported
+  # by a given widget, avoiding confusing runtime NilClass errors.
   # 
   # To call one widget from another, inside the parent widget's render method, instantiate the child widget and call 
   # its +render_to+ method, passing in +self+ (or self.output if you prefer). This assures that the same output
-  # is used, which gives better performance than using +capture+ or +to_s+.
+  # is used, which gives better performance than using +capture+ or +to_s+. TODO: move "render_to" functionality into
+  # self.render or self.write.
   # 
   # In this documentation we've tried to keep the distinction clear between methods that *emit* text and those that
   # *return* text. "Emit" means that it writes to the output stream; "return" means that it returns a string
@@ -90,22 +100,29 @@ module Erector
     attr_reader :helpers, :assigns, :block, :parent, :output
     attr_accessor :enable_prettyprint
 
-    def initialize(helpers=nil, assigns={}, output = "", &block)
+    def initialize(helpers=nil, assigns={}, output="", &block)
       @assigns = assigns
       assign_locals(assigns)
-      @helpers = helpers
+
       @parent = block ? eval("self", block.binding) : nil
-      @output = output
       @block = block
-      @at_start_of_line = true
-      @indent = 0
-      @enable_prettyprint = prettyprint_default
+
+
       self.class.after_initialize self
     end
 
 #-- methods for other classes to call, left public for ease of testing and documentation
 #++
+  #todo: protected
+    def prepare(output, indent = 0, helpers = nil)
+      @helpers = helpers
+      @output = output
+      @at_start_of_line = true
+      @indent = indent
+      @enable_prettyprint = prettyprint_default
+    end
 
+    public
     def assign_locals(local_assigns)
       local_assigns.each do |name, value| 
         instance_variable_set("@#{name}", value)
@@ -169,6 +186,7 @@ module Erector
       render
     end
 
+    # TODO: deprecate?
     # Convenience method for on-the-fly widgets. This is a way of making
     # a sub-widget which still has access to the methods of the parent class.
     # This is an experimental erector feature which may disappear in future
