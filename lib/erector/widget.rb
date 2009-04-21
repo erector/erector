@@ -116,8 +116,8 @@ module Erector
 #++
 
     protected
-    #TODO: pass in options hash, maybe
-    def context(output, prettyprint = false, indentation = 0, helpers = nil, &implementation)
+    def context(output, prettyprint = false, indentation = 0, helpers = nil)
+      #TODO: pass in options hash, maybe, instead of parameters
       original_output = @output
       original_indendation = @indentation
       original_helpers = @helpers
@@ -128,7 +128,7 @@ module Erector
       @indentation = indentation
       @helpers = helpers
       @prettyprint = prettyprint
-      implementation.call
+      yield
     ensure
       @output = original_output
       @indentation = original_indendation
@@ -155,12 +155,6 @@ module Erector
 
     # Entry point for rendering a widget (and all its children). This method creates a new output string (if necessary),
     # calls this widget's #write method and returns the string.
-    #
-    # If it's called again later
-    # then it returns the earlier rendered string, which may lead to higher performance, but may have confusing
-    # effects if some underlying state has changed, or if you're passing in different options. 
-    # In general we recommend you create a new instance of every
-    # widget for each write, unless you know what you're doing.
     #
     # Options:
     # output:: the string to output to. Default: a new empty string
@@ -216,9 +210,6 @@ module Erector
     #
     # The sub-widget will have access to the methods of the parent class, via some method_missing
     # magic and a "parent" pointer.
-    #
-    # This is an experimental erector feature which may disappear in future
-    # versions of erector (see #widget in widget_spec in the Erector tests).
     def widget(target, assigns={}, &block)
       child = if target.is_a? Class
         target.new(assigns, &block)
@@ -292,7 +283,11 @@ module Erector
     # If another kind of object is passed in, the result of calling
     # its to_s method will be treated as a string would be.
     def text(value)
-      output.concat(value.html_escape)
+      if value.is_a? Widget
+        widget value
+      else
+        output.concat(value.html_escape)
+      end
       @at_start_of_line = false
       nil
     end
@@ -344,7 +339,7 @@ module Erector
     
     # Emits the result of joining the elements in array with the separator.
     # The array elements and separator can be Erector::Widget objects,
-    # which are rendered, or strings, which are quoted and output.
+    # which are rendered, or strings, which are html-escaped and output.
     def join(array, separator)
       first = true
       array.each do |widget_or_text|
@@ -434,7 +429,8 @@ module Erector
       rawtext "\n"
     end
     
-    # Convenience method to emit a css file link, which looks like this: <link href="erector.css" rel="stylesheet" type="text/css" />
+    # Convenience method to emit a css file link, which looks like this: 
+    # <link href="erector.css" rel="stylesheet" type="text/css" />
     # The parameter is the full contents of the href attribute, including any ".css" extension. 
     #
     # If you want to emit raw CSS inline, use the #script method instead.
