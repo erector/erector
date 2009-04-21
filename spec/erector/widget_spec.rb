@@ -60,7 +60,64 @@ module WidgetSpec
       end
     end
 
+    describe '#widget' do
+      context "basic nesting" do
+        before do
+          class Parent < Erector::Widget
+            def write
+              text 1
+              widget Child do
+                text 2
+                third
+              end
+            end
+
+            def third
+              text 3
+            end
+          end
+
+          class Child < Erector::Widget
+            def write
+              super
+            end
+          end
+        end
+
+        it "renders nested widgets in the correct order" do
+          Parent.new.to_s.should == '123'
+        end
+      end
+      
+    end
+
     describe "#widget" do
+      class Orphan < Erector::Widget
+        def write
+          p name
+        end
+      end
+      
+      context "when passed a class" do
+        it "renders it" do
+          Erector::Widget.new do
+            div do
+              widget Orphan, :name => "Annie"
+            end
+          end.to_s.should == "<div><p>Annie</p></div>"
+        end
+      end
+      
+      context "when passed an instance" do
+        it "renders it" do
+          Erector::Widget.new do
+            div do
+              widget Orphan.new(:name => "Oliver")
+            end
+          end.to_s.should == "<div><p>Oliver</p></div>"
+        end
+      end
+
       context "when nested" do
         it "renders the tag around the rest of the block" do
           parent_widget = Class.new(Erector::Widget) do
@@ -581,34 +638,6 @@ module WidgetSpec
         outer = Erector::Widget.new do
           div inner
         end.to_s.should == '<div><p>foo</p></div>'
-      end
-    end
-
-    describe '#widget' do
-      before do
-        class Parent < Erector::Widget
-          def write
-            text 1
-            widget Child do
-              text 2
-              third
-            end
-          end
-
-          def third
-            text 3
-          end
-        end
-
-        class Child < Erector::Widget
-          def write
-            super
-          end
-        end
-      end
-
-      it "renders nested widgets in the correct order" do
-        Parent.new.to_s.should == '123'
       end
     end
 

@@ -1,0 +1,66 @@
+Inspired by GoGaRuCo, I just took a shot at rewriting the API. The basic concept is 
+to clarify the lifecycle of a widget, so "new" accepts permanent state (like "assigns" 
+variables) and "to_s" accepts temporary, rendering state (output stream, helpers, 
+prettyprinting). This lets you do things like make collections of widgets in once place
+in your code and render them in another place, and basically establish a more coherent
+API than the 8 different ways I've seen people doing nested widgets (or, more likely, 
+avoiding nesting them cause it's too confusing.)
+
+I also renamed "render" to "write", which removes confusion/ambiguity 
+with Rails' "render" method and concept, and also allows "render :partial" to be made
+to work (though I haven't done that yet). Separating the two types of state also allowed
+me to unify a few concepts and remove some code, especially around prettyprinting.
+(I also fixed a couple of bugs along the way.)
+
+When we're outside a widget, the pattern is:
+
+  w = DateWidget.new(:when => Time.now, :title => "Nap Time") # assigns
+  puts w.to_s(:helpers => some_rails_view)
+
+When we're inside a widget we have a few more options. All of these ways inherit
+the rendering state from the parent widget if possible (like output, helpers, and
+indent level) and emit text onto the same stream for better performance.
+
+(1) 
+      w = DateWidget.new(:when => Time.now, :title => "Nap Time")
+      w.write_via(self)
+
+(2) 
+      widget DateWidget, :when => Time.now, :title => "Nap Time"
+
+(3)
+      w = DateWidget.new(:when => Time.now, :title => "Nap Time")
+      widget w
+
+(3b)
+      widget DateWidget.new(:when => Time.now, :title => "Nap Time")
+
+
+((3) and (3b) are the same but I thought I'd show how it looks when you inline it.)
+
+So what does everyone think? I think it might be too much to support both "widget" 
+and "write_via", but since one actually calls the other under the hood, it's not 
+too big a commitment to keep them both around in the public API. I'm not in love with
+the new names, either; other possibilites are "emit" instead of render and ""
+
+I've done these in a fork on GitHub (my first!). Please check it out and tell me what you think.
+
+Once we agree that it's a righteous change, I figure we will carefully pull it into 
+the main repo and increment the minor version number and make a good HOWTO so people
+aren't taken off guard when their code breaks. I've put in what I hope are good 
+deprecation warnings too (that actually give suggestions and say which class
+needs to be fixed).
+
+Brian, I got the Rails stuff working for 2.3.2 but I'll need your help getting it 
+into the various Rails branches. And I don't really understand the plan for render_partial.
+Shouldn't calling render_partial on a widget just call render (now "write") on that widget?
+Why do we need/want a separate method called render_partial on the widget?
+
+---
+
+Widget#inspect just calls to_s. Is this useful? Do we want some other debugging info to appear instead?
+  
+Widget#join -- is anyone using this? Also the rdoc says it works on "strings, which are quoted and output"
+-- but this is not really true, right? They're not quoted, just html-escaped like any text.
+
+Widget#after_initialize -- is anyone using this feature? It's not tested.

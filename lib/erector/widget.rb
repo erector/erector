@@ -193,23 +193,34 @@ module Erector
     end
 
     # To call one widget from another, inside the parent widget's write method, instantiate the child widget and call 
-    # its +write_via+ method, passing in +self+ (or self.output if you prefer). This assures that the same output string
+    # its +write_via+ method, passing in +self+. This assures that the same output string
     # is used, which gives better performance than using +capture+ or +to_s+.
-    def write_via(widget)
-      @parent = widget
-      prepare(widget.output, widget.prettyprint, widget.indentation, widget.helpers)
+    def write_via(parent)
+      @parent = parent
+      prepare(parent.output, parent.prettyprint, parent.indentation, parent.helpers)
       write
     end
 
-    # TODO: deprecate?
-    # Convenience method for on-the-fly widgets. This is a way of making
-    # a sub-widget which still has access to the methods of the parent class.
+    # Emits a (nested) widget onto the current widget's output stream. Accepts either
+    # a class or an instance. If the first argument is a class, then the second argument
+    # is a hash used to populate its instance variables. If the first argument is an 
+    # instance then the hash must be unspecified (or empty).
+    #
+    # The sub-widget will have access to the methods of the parent class, via some method_missing
+    # magic and a "parent" pointer.
+    #
     # This is an experimental erector feature which may disappear in future
     # versions of erector (see #widget in widget_spec in the Erector tests).
-    def widget(widget_class, assigns={}, &block)
-      child = widget_class.new(assigns, &block)
-      child.prepare(output, @prettyprint, @indentation, helpers)
-      child.write
+    def widget(target, assigns={}, &block)
+      child = if target.is_a? Class
+        target.new(assigns, &block)
+      else
+        unless assigns.empty?
+          raise "Unexpected second parameter. Did you mean to pass in variables when you instantiated the #{target.class.to_s}?"
+        end
+        target
+      end
+      child.write_via(self)
     end
 
     # (Should we make this hidden?)
@@ -467,6 +478,9 @@ protected
       end
       attributes ||= {}
       open_tag tag_name, attributes
+      if block && value
+        raise ArgumentError, "You can't pass both a block and a value to #{tag_name} -- please choose one."
+      end
       if block
         instance_eval(&block)
       else
