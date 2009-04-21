@@ -435,7 +435,7 @@ module Erector
     # <link href="erector.css" rel="stylesheet" type="text/css" />
     # The parameter is the full contents of the href attribute, including any ".css" extension. 
     #
-    # If you want to emit raw CSS inline, use the #script method instead.
+    # If you want to emit raw CSS inline, use the #style method instead.
     def css(href)
       link :rel => 'stylesheet', :type => 'text/css', :href => href
     end
