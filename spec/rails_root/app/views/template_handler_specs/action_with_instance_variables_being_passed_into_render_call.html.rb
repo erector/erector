@@ -1,5 +1,5 @@
 class Views::TemplateHandlerSpecs::ActionWithInstanceVariablesBeingPassedIntoRenderCall < Erector::RailsWidget
-  def render
+  def write
     div "Value of @foo is #{@foo}", :class => 'page'
   end
 end

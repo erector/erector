@@ -21,7 +21,7 @@ module ActionView #:nodoc:
           class_parts
         end
         widget_class_name = widget_class_parts.join("::")
-        render_method = is_partial ? 'render_partial' : 'render'
+        render_method = is_partial ? 'render_partial' : 'write'
 
         erb_template = <<-ERB
         <%
@@ -30,8 +30,8 @@ module ActionView #:nodoc:
             hash
           end
 
-          widget = #{widget_class_name}.new(self, assigns, output_buffer)
-          widget.#{render_method}
+          widget = #{widget_class_name}.new(assigns)
+          widget.to_s(:output => output_buffer, :helpers => self, :write_method_name => :#{render_method})
         %>
         ERB
         ::ERB.new(

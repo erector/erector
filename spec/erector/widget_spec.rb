@@ -41,12 +41,12 @@ module WidgetSpec
         end
 
         it "invokes the passed in method name and returns the string representation of the rendered widget" do
-          widget.to_s(:alternate_write).should == "<div>Hello from Alternate Write</div>"
+          widget.to_s(:write_method_name => :alternate_write).should == "<div>Hello from Alternate Write</div>"
         end
 
         it "does not invoke #write" do
           dont_allow(widget).write
-          widget.to_s(:alternate_write)
+          widget.to_s(:write_method_name => :alternate_write)
         end
       end
     end

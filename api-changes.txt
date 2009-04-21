@@ -18,6 +18,12 @@ writing a tag
 
 prepare
 
+ICKY
+
+action_view_template_handler.rb
+  render_method = is_partial ? 'render_partial' : 'write'
+  
+What's the deal with "def render_partial"?
 
 MISC
 
@@ -25,8 +31,11 @@ indentation clarification (indent was a method and a variable)
   DONE
   
 rename/clarify enable_prettyprint to prettyprint
+  DONE
   
 nested widgets
+  DONE
+  
   
 __element__ 
   complains if you pass both text and a block

@@ -18,19 +18,19 @@ module BaseSpec
     
     def index_with_rjs_rendering_template
       render :update do |page|
-        page.insert_html :top, 'foobar', TestFormWidget.new(self)
+        page.insert_html :top, 'foobar', TestFormWidget.new.to_s(:helpers => self)
       end
     end
   end
 
   class TestWidget < Erector::RailsWidget
-    def render
+    def write
       text @foobar
     end
   end
   
   class TestFormWidget < Erector::RailsWidget
-    def render
+    def write
       form_tag('/') do
         h1 "Create a foo"
         rawtext text_field_tag(:name)

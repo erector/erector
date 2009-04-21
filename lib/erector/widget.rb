@@ -100,7 +100,7 @@ module Erector
 
     def initialize(assigns={}, &block)
       unless assigns.is_a? Hash
-        raise "Erector's API has changed. Only pass options into Widget.new; the rest come in by using write_via(self) or render_widget."
+        raise "Erector's API has changed. Only pass options into Widget.new; the rest come in via to_s, or by using write_via(self) or render_widget."
       end
       if respond_to? :render
         raise "Erector's API has changed. You should rename #{self.class}#render to #write."
@@ -110,19 +110,20 @@ module Erector
       @parent = block ? eval("self", block.binding) : nil
       @block = block
       self.class.after_initialize self
-      @prettyprint = prettyprint_default
     end
 
 #-- methods for other classes to call, left public for ease of testing and documentation
 #++
 
     protected
-    def prepare(output, indentation = 0, helpers = nil)
+    #TODO: pass in options hash, maybe
+    def prepare(output, prettyprint = false, indentation = 0, helpers = nil)
       @output = output
       @at_start_of_line = true
       raise "indentation must be a number, not #{indentation.inspect}" unless indentation.is_a? Fixnum
       @indentation = indentation
       @helpers = helpers
+      @prettyprint = prettyprint
     end
 
     public
@@ -135,35 +136,49 @@ module Erector
       end
     end
     
-    # Set whether Erector should add newlines and indentation in to_s.
-    # This is an experimental feature and is subject to change
-    # (either in terms of how it is enabled, or in terms of
-    # what decisions Erector makes about where to add whitespace).
-    # This flag should be set prior to any rendering being done
-    # (for example, calls to to_s or to_pretty).
-    def enable_prettyprint(enable)
-      @prettyprint = enable
-      self
-    end
-
     # Render (like to_s) but adding newlines and indentation.
+    # This is a convenience method; you may just want to call to_s(:prettyprint => true)
+    # so you can pass in other rendering options as well.  
     def to_pretty
-      enable_prettyprint(true).to_s
+      to_s(:prettyprint => true)
     end
 
-    # Entry point for rendering a widget (and all its children). This method creates a new output string,
+    # Entry point for rendering a widget (and all its children). This method creates a new output string (if necessary),
     # calls this widget's #write method and returns the string.
     #
-    # If it's called again later 
+    # If it's called again later
     # then it returns the earlier rendered string, which may lead to higher performance, but may have confusing
-    # effects if some underlying state has changed. In general we recommend you create a new instance of every
+    # effects if some underlying state has changed, or if you're passing in different options. 
+    # In general we recommend you create a new instance of every
     # widget for each write, unless you know what you're doing.
-    def to_s(write_method_name = :write, &blk)
+    #
+    # Options:
+    # output:: the string to output to. Default: a new empty string
+    # prettyprint:: whether Erector should add newlines and indentation. Default: the value of prettyprint_default (which is false by default). 
+    # indentation:: the amount of spaces to indent. Ignored unless prettyprint is true.
+    # helpers:: a helpers object containing utility methods. Usually this is a Rails view object.
+    # write_method_name:: in case you want to call a method other than #write, pass its name in here.
+    #
+    # Note: Prettyprinting is an experimental feature and is subject to change
+    # (either in terms of how it is enabled, or in terms of
+    # what decisions Erector makes about where to add whitespace).
+    def to_s(options = {}, &blk)
+      
+      raise "Erector::Widget#to_s now takes an options hash, not a symbol. Try calling \"to_s(:write_method_name=> :#{options})\"" if options.is_a? Symbol
+      
       # The @__to_s variable is used as a cache. 
-      # If it's useful we should add a test for it.  -ac
+      # The only test for it is in indentation_spec, which is a little odd. -AC
       return @__to_s if @__to_s
-      prepare("")
-      send(write_method_name, &blk)
+      
+      options = {
+        :output => "",
+        :prettyprint => prettyprint_default,
+        :indentation => 0,
+        :helpers => nil,
+        :write_method_name => :write,
+      }.merge(options)
+      prepare(options[:output], options[:prettyprint], options[:indentation], options[:helpers])
+      send(options[:write_method_name], &blk)
       @__to_s = output.to_s
     end
     
@@ -182,8 +197,7 @@ module Erector
     # is used, which gives better performance than using +capture+ or +to_s+.
     def write_via(widget)
       @parent = widget
-      @prettyprint = widget.prettyprint
-      prepare(widget.output, widget.indentation, widget.helpers)
+      prepare(widget.output, widget.prettyprint, widget.indentation, widget.helpers)
       write
     end
 
@@ -194,7 +208,7 @@ module Erector
     # versions of erector (see #widget in widget_spec in the Erector tests).
     def widget(widget_class, assigns={}, &block)
       child = widget_class.new(assigns, &block)
-      child.prepare(output, @indentation, helpers)
+      child.prepare(output, @prettyprint, @indentation, helpers)
       child.write
     end
 

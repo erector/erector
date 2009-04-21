@@ -4,8 +4,9 @@ describe "indentation" do
 
   it "can detect newliney tags" do
     widget = ::Erector::Widget.new
-    string = widget.output
-    widget.enable_prettyprint(true)
+    widget.instance_eval do 
+      @prettyprint = true
+    end
     widget.newliney("i").should == false
     widget.newliney("table").should == true
   end
@@ -118,18 +119,16 @@ END
     Erector::Widget.new() do
       text "One"
       p "Two"
-    end.enable_prettyprint(false).to_s.should == "One<p>Two</p>"
+    end.to_s.should == "One<p>Two</p>"
   end
   
   it "cannot turn newlines on and off, because the output is cached" do
     widget = Erector::Widget.new() do
       text "One"
       p "Two"
-    end.enable_prettyprint(false)
+    end
     widget.to_s.should == "One<p>Two</p>"
-    widget.enable_prettyprint(true)
-    widget.to_s.should == "One<p>Two</p>"
-    widget.enable_prettyprint(false)
+    widget.to_pretty.should == "One<p>Two</p>"
     widget.to_s.should == "One<p>Two</p>"
   end
   
@@ -137,14 +136,7 @@ END
     widget = Erector::Widget.new() do
       text "One"
       p "Two"
-    end.enable_prettyprint(false).to_pretty.should == "One\n<p>Two</p>\n"
-  end
-  
-  it "to_pretty will leave newlines on if they already were" do
-    widget = Erector::Widget.new() do
-      text "One"
-      p "Two"
-    end.enable_prettyprint(true).to_pretty.should == "One\n<p>Two</p>\n"
+    end.to_pretty.should == "One\n<p>Two</p>\n"
   end
   
   it "can turn newlines on/off via global variable" do
