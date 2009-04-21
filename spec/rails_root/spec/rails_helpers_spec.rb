@@ -23,7 +23,7 @@ module RailsHelpersSpec
     describe "#image_tag" do
       it "renders img tag" do
         widget_class = Class.new(Erector::RailsWidget) do
-          def write
+          def content
             image_tag("rails.png")
           end
         end
@@ -35,7 +35,7 @@ module RailsHelpersSpec
     describe "#javascript_include_tag" do
       it "renders javascript script tag" do
         widget_class = Class.new(Erector::RailsWidget) do
-          def write
+          def content
             javascript_include_tag("rails")
           end
         end
@@ -47,7 +47,7 @@ module RailsHelpersSpec
     describe "#stylesheet_link_tag" do
       it "renders link tag" do
         widget_class = Class.new(Erector::RailsWidget) do
-          def write
+          def content
             stylesheet_link_tag("rails")
           end
         end
@@ -63,7 +63,7 @@ module RailsHelpersSpec
     describe "#sortable_elemnt" do
       it "renders sortable helper js" do
         widget_class = Class.new(Erector::RailsWidget) do
-          def write
+          def content
             sortable_element("rails", :url => "/foo")
           end
         end
@@ -78,7 +78,7 @@ module RailsHelpersSpec
     describe "#sortable_element_js" do
       it "renders only the sortable javascript" do
         widget_class = Class.new(Erector::RailsWidget) do
-          def write
+          def content
             sortable_element_js("rails", :url => "/foo")
           end
         end
@@ -100,7 +100,7 @@ module RailsHelpersSpec
       context "when passed a string for the js function" do
         it "renders a link with the name as the content and the onclick handler" do
           widget_class = Class.new(Erector::RailsWidget) do
-            def write
+            def content
               link_to_function("hi", "alert('hi')")
             end
           end
@@ -112,7 +112,7 @@ module RailsHelpersSpec
       context "when passed a block for the js function" do
         it "renders the name and the block rjs contents onto onclick" do
           widget_class = Class.new(Erector::RailsWidget) do
-            def write
+            def content
               link_to_function("Show me more", nil, :id => "more_link") do |page|
                 page[:details].visual_effect  :toggle_blind
                 page[:more_link].replace_html "Show me less"
@@ -128,7 +128,7 @@ module RailsHelpersSpec
     describe "#error_messages_for" do
       it "renders the error message" do
         widget_class = Class.new(Erector::RailsWidget) do
-          def write
+          def content
             rawtext error_messages_for('user')
           end
         end

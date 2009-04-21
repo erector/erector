@@ -11,42 +11,42 @@ module WidgetSpec
 
     describe "#to_s" do
       class << self
-        define_method("invokes #write and returns the string representation of the rendered widget") do
-          it "invokes #write and returns the string representation of the rendered widget" do
+        define_method("invokes #content and returns the string representation of the rendered widget") do
+          it "invokes #content and returns the string representation of the rendered widget" do
             widget = Erector::Widget.new do
               div "Hello"
             end
-            mock.proxy(widget).write
+            mock.proxy(widget).content
             widget.to_s.should == "<div>Hello</div>"
           end
         end
       end
 
       context "when passed no arguments" do
-        send "invokes #write and returns the string representation of the rendered widget"
+        send "invokes #content and returns the string representation of the rendered widget"
       end
 
-      context "when passed an argument that is #write" do
-        send "invokes #write and returns the string representation of the rendered widget"
+      context "when passed an argument that is #content" do
+        send "invokes #content and returns the string representation of the rendered widget"
       end
 
-      context "when passed an argument that is not #write" do
+      context "when passed an argument that is not #content" do
         attr_reader :widget
         before do
           @widget = Erector::Widget.new
-          def widget.alternate_write
+          def widget.alternate_content
             div "Hello from Alternate Write"
           end
-          mock.proxy(widget).alternate_write
+          mock.proxy(widget).alternate_content
         end
 
         it "invokes the passed in method name and returns the string representation of the rendered widget" do
-          widget.to_s(:write_method_name => :alternate_write).should == "<div>Hello from Alternate Write</div>"
+          widget.to_s(:content_method_name => :alternate_content).should == "<div>Hello from Alternate Write</div>"
         end
 
-        it "does not invoke #write" do
-          dont_allow(widget).write
-          widget.to_s(:write_method_name => :alternate_write)
+        it "does not invoke #content" do
+          dont_allow(widget).content
+          widget.to_s(:content_method_name => :alternate_content)
         end
       end
     end
@@ -64,7 +64,7 @@ module WidgetSpec
       context "basic nesting" do
         before do
           class Parent < Erector::Widget
-            def write
+            def content
               text 1
               widget Child do
                 text 2
@@ -78,7 +78,7 @@ module WidgetSpec
           end
 
           class Child < Erector::Widget
-            def write
+            def content
               super
             end
           end
@@ -93,7 +93,7 @@ module WidgetSpec
 
     describe "#widget" do
       class Orphan < Erector::Widget
-        def write
+        def content
           p name
         end
       end
@@ -121,7 +121,7 @@ module WidgetSpec
       context "when nested" do
         it "renders the tag around the rest of the block" do
           parent_widget = Class.new(Erector::Widget) do
-            def write
+            def content
               div :id => "parent_widget" do
                 super
               end
@@ -129,7 +129,7 @@ module WidgetSpec
           end
           
           child_widget = Class.new(Erector::Widget) do
-            def write
+            def content
               div :id => "child_widget" do
                 super
               end
@@ -137,7 +137,7 @@ module WidgetSpec
           end
     
           widget = Class.new(Erector::Widget) do
-            def write
+            def content
               widget(parent_widget) do
                 widget(child_widget) do
                   super
@@ -643,14 +643,14 @@ module WidgetSpec
 
     describe '#write_via' do
       class A < Erector::Widget
-        def write
+        def content
           p "A"
         end
       end
 
       it "renders to a widget's doc" do
         class B < Erector::Widget
-          def write
+          def content
             text "B"
             A.new.write_via(self)
             text "B"
@@ -666,19 +666,6 @@ module WidgetSpec
           text A.new()
           text "B"
         end.to_s.should == "B<p>A</p>B"
-      end
-
-      it "can be recursed" do
-        count = 0
-        Erector::Widget.new() do
-          original_count = count
-          count += 1
-          if count < 10
-            text count
-            text self
-            text original_count
-          end
-        end.to_s.should == "123456789876543210"
       end
 
     end

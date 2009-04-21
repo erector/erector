@@ -24,13 +24,13 @@ module BaseSpec
   end
 
   class TestWidget < Erector::RailsWidget
-    def write
+    def content
       text @foobar
     end
   end
   
   class TestFormWidget < Erector::RailsWidget
-    def write
+    def content
       form_tag('/') do
         h1 "Create a foo"
         rawtext text_field_tag(:name)

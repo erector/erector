@@ -82,7 +82,7 @@ module Erector
       create(fred_html)
       create(wilma_rhtml)
       create(barney_html_erb)
-      create(fred_rb, "class Fred < Erector::Widget\ndef write\ndiv 'dino'\nend\nend")
+      create(fred_rb, "class Fred < Erector::Widget\ndef content\ndiv 'dino'\nend\nend")
     end
     
     it "explodes dirs into .html etc. files when in to-rb mode" do
@@ -105,7 +105,7 @@ module Erector
     it "outputs .html files in the same directory as the input .rb files" do
       betty_rb = "#{dir}/betty.rb"
       betty_html = "#{dir}/betty.html"
-      create(betty_rb, "class Betty < Erector::Widget\ndef write\ndiv 'bam bam'\nend\nend")
+      create(betty_rb, "class Betty < Erector::Widget\ndef content\ndiv 'bam bam'\nend\nend")
 
       erect = Erect.new(["--to-html", "-q", betty_rb])
       erect.run
@@ -114,7 +114,7 @@ module Erector
     end
     
     it "outputs .html files in the given directory" do
-      create(fred_rb, "class Fred < Erector::Widget\ndef write\ndiv 'dino'\nend\nend")
+      create(fred_rb, "class Fred < Erector::Widget\ndef content\ndiv 'dino'\nend\nend")
       
       
       out_dir = "#{dir}/out"

@@ -3,11 +3,11 @@ module Erector
   # A Widget is the center of the Erector universe. 
   #
   # To create a widget, extend Erector::Widget and implement 
-  # the +write+ method. Inside this method you may call any of the tag methods like +span+ or +p+ to emit HTML/XML
+  # the +content+ method. Inside this method you may call any of the tag methods like +span+ or +p+ to emit HTML/XML
   # tags. 
   # 
   # You can also define a widget on the fly by passing a block to +new+. This block will get executed when the widget's
-  # +write+ method is called.
+  # +content+ method is called.
   #
   # To render a widget from the outside, instantiate it and call its +to_s+ method.
   #
@@ -20,9 +20,10 @@ module Erector
   # This mechanism is meant to ameliorate development-time confusion about exactly what parameters are supported
   # by a given widget, avoiding confusing runtime NilClass errors.
   # 
-  # To call one widget from another, inside the parent widget's write method, instantiate the child widget and call 
-  # its +write_via+ method, passing in +self+ (or self.output if you prefer). This assures that the same output
-  # is used, which gives better performance than using +capture+ or +to_s+.
+  # To call one widget from another, inside the parent widget's +content+ method, instantiate the child widget and call
+  # the +widget+ method. This assures that the same output stream
+  # is used, which gives better performance than using +capture+ or +to_s+. It also preserves the indentation and
+  # helpers of the enclosing class.
   # 
   # In this documentation we've tried to keep the distinction clear between methods that *emit* text and those that
   # *return* text. "Emit" means that it writes to the output stream; "return" means that it returns a string
@@ -103,7 +104,7 @@ module Erector
         raise "Erector's API has changed. Only pass options into Widget.new; the rest come in via to_s, or by using write_via(self) or render_widget."
       end
       if respond_to? :render
-        raise "Erector's API has changed. You should rename #{self.class}#render to #write."
+        raise "Erector's API has changed. You should rename #{self.class}#render to #content."
       end
       @assigns = assigns
       assign_locals(assigns)
@@ -154,31 +155,31 @@ module Erector
     end
 
     # Entry point for rendering a widget (and all its children). This method creates a new output string (if necessary),
-    # calls this widget's #write method and returns the string.
+    # calls this widget's #content method and returns the string.
     #
     # Options:
     # output:: the string to output to. Default: a new empty string
     # prettyprint:: whether Erector should add newlines and indentation. Default: the value of prettyprint_default (which is false by default). 
     # indentation:: the amount of spaces to indent. Ignored unless prettyprint is true.
     # helpers:: a helpers object containing utility methods. Usually this is a Rails view object.
-    # write_method_name:: in case you want to call a method other than #write, pass its name in here.
+    # content_method_name:: in case you want to call a method other than #content, pass its name in here.
     #
     # Note: Prettyprinting is an experimental feature and is subject to change
     # (either in terms of how it is enabled, or in terms of
     # what decisions Erector makes about where to add whitespace).
     def to_s(options = {}, &blk)
       
-      raise "Erector::Widget#to_s now takes an options hash, not a symbol. Try calling \"to_s(:write_method_name=> :#{options})\"" if options.is_a? Symbol
+      raise "Erector::Widget#to_s now takes an options hash, not a symbol. Try calling \"to_s(:content_method_name=> :#{options})\"" if options.is_a? Symbol
       
       options = {
         :output => "",
         :prettyprint => prettyprint_default,
         :indentation => 0,
         :helpers => nil,
-        :write_method_name => :write,
+        :content_method_name => :content,
       }.merge(options)
       context(options[:output], options[:prettyprint], options[:indentation], options[:helpers]) do
-        send(options[:write_method_name], &blk)
+        send(options[:content_method_name], &blk)
         output.to_s
       end
     end
@@ -187,19 +188,20 @@ module Erector
     
     # Template method which must be overridden by all widget subclasses. Inside this method you call the magic
     # #element methods which emit HTML and text to the output string.
-    def write
+    def content
       if @block
         instance_eval(&@block)
       end
     end
 
-    # To call one widget from another, inside the parent widget's write method, instantiate the child widget and call 
+    # To call one widget from another, inside the parent widget's +content+ method, instantiate the child widget and call 
     # its +write_via+ method, passing in +self+. This assures that the same output string
     # is used, which gives better performance than using +capture+ or +to_s+.
+    # You can also use the +widget+ method.
     def write_via(parent)
       @parent = parent
       context(parent.output, parent.prettyprint, parent.indentation, parent.helpers) do
-        write
+        content
       end
     end
 
@@ -358,7 +360,7 @@ module Erector
 
     # Creates a whole new output string, executes the block, then converts the output string to a string and
     # emits it as raw text. If at all possible you should avoid this method since it hurts performance,
-    # and use #write_via instead.
+    # and use +content+ or +write_via+ instead.
     def capture(&block)
       begin
         original_output = output
