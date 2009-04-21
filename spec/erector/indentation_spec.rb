@@ -122,13 +122,13 @@ END
     end.to_s.should == "One<p>Two</p>"
   end
   
-  it "cannot turn newlines on and off, because the output is cached" do
+  it "can turn newlines on and off" do
     widget = Erector::Widget.new() do
       text "One"
       p "Two"
     end
     widget.to_s.should == "One<p>Two</p>"
-    widget.to_pretty.should == "One<p>Two</p>"
+    widget.to_pretty.should == "One\n<p>Two</p>\n"
     widget.to_s.should == "One<p>Two</p>"
   end
   

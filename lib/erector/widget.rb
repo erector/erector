@@ -117,13 +117,23 @@ module Erector
 
     protected
     #TODO: pass in options hash, maybe
-    def prepare(output, prettyprint = false, indentation = 0, helpers = nil)
+    def context(output, prettyprint = false, indentation = 0, helpers = nil, &implementation)
+      original_output = @output
+      original_indendation = @indentation
+      original_helpers = @helpers
+      original_prettyprint = @prettyprint
       @output = output
       @at_start_of_line = true
       raise "indentation must be a number, not #{indentation.inspect}" unless indentation.is_a? Fixnum
       @indentation = indentation
       @helpers = helpers
       @prettyprint = prettyprint
+      implementation.call
+    ensure
+      @output = original_output
+      @indentation = original_indendation
+      @helpers = original_helpers
+      @prettyprint = original_prettyprint
     end
 
     public
@@ -166,10 +176,6 @@ module Erector
       
       raise "Erector::Widget#to_s now takes an options hash, not a symbol. Try calling \"to_s(:write_method_name=> :#{options})\"" if options.is_a? Symbol
       
-      # The @__to_s variable is used as a cache. 
-      # The only test for it is in indentation_spec, which is a little odd. -AC
-      return @__to_s if @__to_s
-      
       options = {
         :output => "",
         :prettyprint => prettyprint_default,
@@ -177,9 +183,10 @@ module Erector
         :helpers => nil,
         :write_method_name => :write,
       }.merge(options)
-      prepare(options[:output], options[:prettyprint], options[:indentation], options[:helpers])
-      send(options[:write_method_name], &blk)
-      @__to_s = output.to_s
+      context(options[:output], options[:prettyprint], options[:indentation], options[:helpers]) do
+        send(options[:write_method_name], &blk)
+        output.to_s
+      end
     end
     
     alias_method :inspect, :to_s
@@ -197,8 +204,9 @@ module Erector
     # is used, which gives better performance than using +capture+ or +to_s+.
     def write_via(parent)
       @parent = parent
-      prepare(parent.output, parent.prettyprint, parent.indentation, parent.helpers)
-      write
+      context(parent.output, parent.prettyprint, parent.indentation, parent.helpers) do
+        write
+      end
     end
 
     # Emits a (nested) widget onto the current widget's output stream. Accepts either

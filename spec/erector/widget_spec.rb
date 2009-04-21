@@ -658,7 +658,6 @@ module WidgetSpec
         end
         b = B.new
         b.to_s.should == "B<p>A</p>B"
-        b.output.size.should == 10  # B, <p>, A, </p>, B
       end
 
       it "passing a widget to text method renders it" do
@@ -667,6 +666,19 @@ module WidgetSpec
           text A.new()
           text "B"
         end.to_s.should == "B<p>A</p>B"
+      end
+
+      it "can be recursed" do
+        count = 0
+        Erector::Widget.new() do
+          original_count = count
+          count += 1
+          if count < 10
+            text count
+            text self
+            text original_count
+          end
+        end.to_s.should == "123456789876543210"
       end
 
     end
