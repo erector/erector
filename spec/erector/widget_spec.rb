@@ -669,5 +669,82 @@ module WidgetSpec
       end
 
     end
+    
+    describe "when declaring parameters with the 'needs' macro" do
+      it "doesn't complain if there aren't any needs declared" do
+        class Thing1 < Erector::Widget
+        end
+        Thing1.new
+      end
+      
+      it "allows you to say that you don't want any parameters" do
+        class Thing2 < Erector::Widget
+          needs nil
+        end
+        lambda { Thing2.new }.should_not raise_error
+        lambda { Thing2.new(:foo => 1) }.should raise_error
+      end
+            
+      it "doesn't complain if you pass it a declared parameter" do
+        class Thing2b < Erector::Widget
+          needs :foo
+        end
+        lambda { Thing2b.new(:foo => 1) }.should_not raise_error
+      end
+      
+      it "complains if you pass it an undeclared parameter" do
+        class Thing3 < Erector::Widget
+          needs :foo
+        end
+        lambda { Thing3.new(:bar => 1) }.should raise_error
+      end
+      
+      it "allows multiple declared parameters" do
+        class Thing4 < Erector::Widget
+          needs :foo, :bar
+        end
+        lambda { Thing4.new(:foo => 1, :bar => 2) }.should_not raise_error
+      end
+      
+      it "complains when passing in an extra parameter after declaring many parameters" do
+        class Thing5 < Erector::Widget
+          needs :foo, :bar
+        end
+        lambda { Thing5.new(:foo => 1, :bar => 2, :baz => 3) }.should raise_error
+      end
+      
+      it "complains when you forget to pass in a needed parameter" do
+        class Thing6 < Erector::Widget
+          needs :foo, :bar
+        end
+        lambda { Thing6.new(:foo => 1) }.should raise_error
+      end
+      
+      it "doesn't complain if you omit a parameter with a default value" do
+        class Thing7 < Erector::Widget
+          needs :foo
+          needs :bar => 7
+          needs :baz => 8
+        end
+        lambda { 
+          thing = Thing7.new(:foo => 1, :baz => 3) 
+          thing.bar.should equal(7)
+          thing.baz.should equal(3)
+        }.should_not raise_error
+      end
+      
+      it "allows multiple values on a line, including default values at the end of the line" do
+        class Thing8 < Erector::Widget
+          needs :foo, :bar => 7, :baz => 8
+        end
+        lambda { 
+          thing = Thing8.new(:foo => 1, :baz => 2)
+          thing.foo.should equal(1)
+          thing.bar.should equal(7)
+          thing.baz.should equal(2)
+        }.should_not raise_error
+      end
+      
+    end
   end
 end

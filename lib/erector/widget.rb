@@ -74,11 +74,21 @@ module Erector
           raise ArgumentError, "You must provide either an instance or a block"
         end
       end
-
+      
       protected
       def after_initialize_parts
         @after_initialize_parts ||= []
       end
+    end
+
+    def self.needs(*args)
+      args.each do |arg|
+        (@needs ||= []) << (arg.nil? ? nil : (arg.is_a? Hash) ? arg : arg.to_sym)
+      end
+    end
+
+    def self.get_needs
+      (@needs ||= [])
     end
 
     @@prettyprint_default = false
@@ -101,7 +111,7 @@ module Erector
 
     def initialize(assigns={}, &block)
       unless assigns.is_a? Hash
-        raise "Erector's API has changed. Only pass options into Widget.new; the rest come in via to_s, or by using write_via(self) or render_widget."
+        raise "Erector's API has changed. Now you should pass only an options hash into Widget.new; the rest come in via to_s, or by using #widget."
       end
       if respond_to? :render
         raise "Erector's API has changed. You should rename #{self.class}#render to #content."
@@ -139,14 +149,38 @@ module Erector
 
     public
     def assign_locals(local_assigns)
-      local_assigns.each do |name, value| 
-        instance_variable_set("@#{name}", value)
-        metaclass.module_eval do
-          attr_reader name
+      needed = self.class.get_needs.map{|need| need.is_a?(Hash) ? need.keys : need}.flatten
+      assigned = []
+      local_assigns.each do |name, value|
+        unless needed.empty? || needed.include?(name)
+          raise "Unknown parameter '#{name}'. #{self.class.name} only accepts #{needed.join(', ')}"
         end
+        assign_local(name, value)
+        assigned << name
+      end
+
+      # set variables with default values
+      self.class.get_needs.select{|var| var.is_a? Hash}.each do |hash|
+        hash.each_pair do |name, value|
+          unless assigned.include?(name)
+            assign_local(name, value)
+            assigned << name
+          end
+        end
+      end
+
+      missing = needed - assigned
+      unless missing.empty? || missing == [nil]
+        raise "Missing parameter#{missing.size == 1 ? '' : 's'}: #{missing.join(', ')}"
       end
     end
     
+    def assign_local(name, value)
+      instance_variable_set("@#{name}", value)
+      metaclass.module_eval do
+        attr_reader name
+      end
+    end
     # Render (like to_s) but adding newlines and indentation.
     # This is a convenience method; you may just want to call to_s(:prettyprint => true)
     # so you can pass in other rendering options as well.  
