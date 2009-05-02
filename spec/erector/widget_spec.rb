@@ -745,6 +745,16 @@ module WidgetSpec
         }.should_not raise_error
       end
       
+      it "allows nil to be a default value" do
+        class Thing9 < Erector::Widget
+          needs :foo => nil
+        end
+        lambda { 
+          thing = Thing9.new
+          thing.foo.should be_nil
+        }.should_not raise_error
+      end
+      
     end
   end
 end
