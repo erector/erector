@@ -37,7 +37,7 @@ module Erector
       else
         File.open(filename, "w") do |f|
           f.puts("class #{classname} < Erector::Widget")
-          f.puts("  def render")
+          f.puts("  def content")
           f.puts(parsed.set_indent(2).convert)
           f.puts("  end")
           f.puts("end")

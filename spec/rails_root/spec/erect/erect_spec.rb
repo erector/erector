@@ -115,10 +115,9 @@ module Erector
     
     it "outputs .html files in the given directory" do
       create(fred_rb, "class Fred < Erector::Widget\ndef content\ndiv 'dino'\nend\nend")
-      
-      
       out_dir = "#{dir}/out"
       out_file = "#{out_dir}/fred.html"
+
       Erect.new([]).output_dir.should be_nil
       erect = Erect.new(["--to-html", "-o", "#{out_dir}", "-q", fred_rb])
       erect.output_dir.should == out_dir
@@ -127,9 +126,6 @@ module Erector
       File.read(out_file).should == "<div>dino</div>\n"
     end
     
-    it "supports the --add-to-svn option"
-    it "supports the --delete-original option"
-
     it "skips rendering classes that aren't widgets" do
       mr_slate_rb = "#{dir}/mr_slate.rb"
       mr_slate_html = "#{dir}/mr_slate.html"
@@ -139,7 +135,7 @@ module Erector
       File.exist?(mr_slate_html).should be_false
     end
     
-    it "properly indents lines beginning with for, unless, etc."
-    it "escapes single quotes inside text strings"
+    # it "properly indents lines beginning with for, unless, etc."
+    # it "escapes single quotes inside text strings"
   end
 end

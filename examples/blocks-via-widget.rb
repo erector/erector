@@ -10,19 +10,19 @@
 require "#{File.dirname(__FILE__)}/../lib/erector"
 
 class Blocks < Erector::Widget
-  def render
+  def content
     ul :class => "blocks" do
-      super
+      super # the parent method will render the block you passed in to new
     end
   end
 end
 
 class Block < Erector::Widget
-  def render
+  def content
     li do
       h1 @title
       div :class => @behaviors do
-        super
+        super # the parent method will render the block you passed in to new
       end
     end
   end

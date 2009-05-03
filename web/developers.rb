@@ -23,10 +23,11 @@ class Developers < Page
     h2 "Sign up for the erector-devel mailing list:"
     a("erector-devel mailing list", :href => "http://rubyforge.org/mailman/listinfo/erector-devel")
 
-    h2 "Join the Lighthouse project:"
-    url "mailto:erector-devel@rubyforge.org"
-    text " with your Lighthouse account name, then visit "
-    url "http://erector.lighthouseapp.com"
+    h2 "Watch the github repo at "
+    url "http://github.com/pivotal/erector"
+
+    h2 "Join the Pivotal Tracker project at "
+    url "http://www.pivotaltracker.com/projects/482"
     
     h2 "Basic read-only git usage"
     p "First, install git.  Then download erector using git:"

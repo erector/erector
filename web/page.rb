@@ -1,25 +1,29 @@
 class Page < Erector::Widget
-  def initialize(title = self.class.name, selection = title.downcase)
-    super(nil)
-    @title = title
-    @selection = selection
+  needs :page_title => nil, :selection => nil
+  
+  def page_title
+    @title || self.class.name
   end
   
-  def render
+  def selection
+    @selection || page_title.downcase
+  end
+  
+  def content
     html do
       head do
-        title "Erector - #{@title}"
+        title "Erector - #{page_title}"
         css "erector.css"
       end
       body do
         table do
           tr do
             td "valign" => "top" do
-              Sidebar.new(@selection).render_to(output)
+              widget Sidebar.new(:current_page => selection)
             end
             td "valign" => "top" do
               h1 :class => "title" do
-                text "Erector - #{@title}"
+                text "Erector - #{page_title}"
               end
 
               hr
@@ -34,6 +38,7 @@ class Page < Erector::Widget
     end
   end
   
+  # override me
   def render_body
   end
 end

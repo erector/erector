@@ -8,7 +8,7 @@
 require "#{File.dirname(__FILE__)}/../lib/erector"
 
 class Blocks < Erector::Widget
-  def render
+  def content
     ul do
       super
     end
@@ -20,7 +20,7 @@ class Blocks < Erector::Widget
 end
 
 class ListItem < Erector::Widget
-  def render
+  def content
     li do
       super
     end
@@ -28,7 +28,7 @@ class ListItem < Erector::Widget
 end
 
 class Chips < Erector::Widget
-  def render
+  def content
     div do
       super
     end
@@ -40,7 +40,7 @@ class Chips < Erector::Widget
 end
 
 class NestedDiv < Erector::Widget
-  def render
+  def content
     div do
       super
     end

@@ -5,20 +5,21 @@ class Article < Erector::Widget
   attr_reader :sections
   
   def initialize(sections = [])
-    super
+    super({})
     @sections = sections
   end
   
   def <<(section)
     @sections << section
+    self
   end
   
-  def render
-    render_table_of_contents
+  def content
+    table_of_contents
     render_sections
   end
   
-  def render_table_of_contents
+  def table_of_contents
     ul do
       sections.each do |section|
         li do
@@ -32,7 +33,7 @@ class Article < Erector::Widget
     sections.each do |section|
       a :name => section.href
       h2 section.title
-      section.render_to(output)
+      widget section
     end
   end
 end

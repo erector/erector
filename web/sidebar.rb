@@ -1,16 +1,13 @@
 class Sidebar < Erector::Widget
-  def initialize(current_page = nil)
-    super
-    @current_page = current_page
-  end
-
+  needs :current_page => nil
+  
   def clickable_li(text, href)
     li :onclick => "document.location='#{href}'", :class => "clickable" do
       a text, :href => href
     end
   end
 
-  def render
+  def content
 
     div :class => "sidebar" do
       a :href => "index.html" do
@@ -40,8 +37,8 @@ class Sidebar < Erector::Widget
         clickable_li 'Version History', "http://erector.rubyforge.org/svn/trunk/History.txt"
         clickable_li 'RDoc Documentation', 'rdoc'
         clickable_li 'RubyForge Project', 'http://rubyforge.org/projects/erector/'
-        clickable_li 'Lighthouse Project', 'http://erector.lighthouseapp.com'
         clickable_li 'Github Repository', 'http://github.com/pivotal/erector'
+        clickable_li 'Tracker Project', 'http://www.pivotaltracker.com/projects/482'
         clickable_li "erector-devel mailing list", "http://rubyforge.org/mailman/listinfo/erector-devel"
       end
 

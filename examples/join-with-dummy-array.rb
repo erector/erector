@@ -7,20 +7,23 @@ require "#{File.dirname(__FILE__)}/../lib/erector"
 
 class Tabs < Erector::Widget
 
+  # note that we are replacing the default options hash with a
+  # normal unnamed parameter list. That means we have to call 
+  # super() so the parent gets initialized with no parameters
   def initialize(show_one, show_two)
     @show_one = show_one
     @show_two = show_two
     super()
   end
 
-  def render
+  def content
     tabs = []
     tabs << :one if @show_one
     tabs << :two if @show_two
 
     tabs.each_with_index do |tab, index|
       if index != 0
-        text nbsp(" |"); text " "
+        text nbsp(" |"); text " " # also demonstrating different ways to render whitespace
       end
       
       if tab == :one

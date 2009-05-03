@@ -45,7 +45,7 @@ module Erector
       convert(".",
         "<div>hello</div>",
         "class Dummy < Erector::Widget\n" +
-          "  def render\n" +
+          "  def content\n" +
           "    div do\n" +
           "      text 'hello'\n" +
           "    end\n" +
@@ -58,7 +58,7 @@ module Erector
       convert("app/views/foos",
         "<div>hello</div>",
         "class Views::Foos::Dummy < Erector::Widget\n" +
-          "  def render\n" +
+          "  def content\n" +
           "    div do\n" +
           "      text 'hello'\n" +
           "    end\n" +

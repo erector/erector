@@ -12,16 +12,8 @@ puts y.to_s
 
 z = Erector::Widget.new do
   div do
-    x.render_to(doc)
+    widget x
   end
 end
 
 puts z.to_s
-
-w = Erector::Widget.new do
-  div do
-    x.render_to(self)
-  end
-end
-
-puts w.to_s

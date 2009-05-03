@@ -9,7 +9,7 @@ require 'rdoc/markup/simple_markup/to_html'
 
 class Index < Page
   def initialize
-    super("Home")
+    super(:page_title => "Home")
   end
 
   def render_body

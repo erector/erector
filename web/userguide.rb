@@ -6,7 +6,7 @@ require "#{dir}/section"
 
 class Userguide < Page
   def initialize
-    super("User Guide")
+    super(:page_title => "User Guide")
   end
   
   def render_body
@@ -16,20 +16,20 @@ class Userguide < Page
       text " for more details on the API."
     end
 
-    text sections
+    widget article
   end
 
-  def sections
+  def article
     Article.new(
   [
     Section.new("The Basics") do
-      p "The basic way to construct some HTML/XML with erector is to subclass Erector::Widget and implement a render method:"
+      p "The basic way to construct some HTML/XML with erector is to subclass Erector::Widget and implement a content method:"
       table do
         tr do 
           td do
             pre <<DONE
 class Hello < Erector::Widget
-  def render
+  def content
     html do
       head do
         title "Hello"
@@ -140,7 +140,7 @@ DONE
       p do
         text "Your views are just ruby classes.  Your controller can either call Rails' "
         code "render :template"
-        text " method as usual, or directly instantiate the view class and call its render method."
+        text " method as usual, or directly instantiate the view class and call its content method."
       end
       
       p "For example:"
@@ -157,7 +157,7 @@ DONE
       code "app/views/welcome/show.rb:"
       pre <<DONE
 class Views::Welcome::Show < Erector::Widget
-  def render
+  def content
     html do
       head do
         title "Welcome page"
@@ -224,28 +224,32 @@ rake db:migrate
 script/server
 open http://localhost:3000/posts
 DONE
-        
+      p do
+        text "On the erector-to-html side, pass in the "
+        code "--to-html"
+        text "option and some file names and it will render the erector widgets to appropriately-named HTML files."
+        text " We're actually using "
+        code "erect"
+        text " to build this Erector documentation web site that you're reading "
+        b "right now."
+        text " Check out the 'web' directory and the 'web' task in the Rakefile to see how it's done."
+      end
     end,
 
 
     Section.new("Layout Inheritance") do
       p "Erector replaces the typical Rails layout mechanism with a more natural construct, the use of inheritance. Want a common
-      layout? Just implement a layout superclass and inherit from it. Implement render in the superclass and implement template
+      layout? Just implement a layout superclass and inherit from it. Implement content in the superclass and implement template
       methods in its subclasses."
       
       p do
         text "For example:"
         pre <<-DONE
 class Views::Layouts::Page < Erector::Widget
-  def initialize(title = self.class.name)
-    super
-    @title = title
-  end
-
-  def render
+  def content
     html do
       head do
-        title "MyApp - \#{@title}"
+        title "MyApp - \#{page_title}"
         css "myapp.css"
       end
       body do
@@ -279,7 +283,7 @@ end
         pre <<-DONE
 class Views::Faq::Index < Views::Layouts::Page
   def initialize
-    super("FAQ")
+    super(:page_title => "FAQ")
   end
 
   def render_body
@@ -323,7 +327,7 @@ end
 class Views::Layouts::Application < Erector::Widget
   attr_accessor :content
 
-  def render
+  def content
     html do
       head { } # head content here
       # body content here
@@ -377,6 +381,36 @@ DONE
       end
     end,
 
+    Section.new("Needs") do
+      p do
+        text "Named parameters are fun, but one frustrating aspect of the 'options hash' technique is that "
+        text "the code is less self-documenting and doesn't 'fail fast' if you pass in the wrong parameters, "
+        text "or fail to pass in the right ones. Even simple typos can lead to very annoying debugging problems."
+      end
+      
+      p do
+        text "To help this, we've added an optional feature by which your widget can declare that it "
+        text "needs a certain set of named parameters to be passed in. "
+        text "For example:"
+        pre <<-DONE
+class Car < Erector::Widget
+  needs :engine, :wheels => 4
+  def content
+    text "My \#{wheels} wheels go round and round; my \#{engine} goes vroom!"
+  end
+end
+        DONE
+        text "This widget will throw an exception if you fail to pass "
+        code ":engine => 'V-6'"
+        text " into its constructor."
+      end
+      
+      p do
+        text "See the "
+        a "rdoc for Widget#needs", :href => 'rdoc'
+        text " for more details."
+      end
+    end
     
     ])
   end

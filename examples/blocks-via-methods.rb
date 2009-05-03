@@ -28,7 +28,7 @@ class Overall < Erector::Widget
     end
   end
 
-  def render
+  def content
     blocks do
       block :title => "Block 1", :behaviors => 'buttons' do
         p "my crazy blocks example for #{username}"

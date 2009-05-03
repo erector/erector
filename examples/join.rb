@@ -21,13 +21,16 @@ require "#{File.dirname(__FILE__)}/../lib/erector"
 
 class Tabs < Erector::Widget
 
+  # note that we are replacing the default options hash with a
+  # normal unnamed parameter list. That means we have to call 
+  # super() so the parent gets initialized with no parameters
   def initialize(show_one, show_two)
     @show_one = show_one
     @show_two = show_two
     super()
   end
 
-  def render
+  def content
     tabs = []
     tabs << Erector::Widget.new { a "One", :href => "/one" } if @show_one
     tabs << Erector::Widget.new { a "Two", :href => "/two" } if @show_two

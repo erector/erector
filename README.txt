@@ -18,20 +18,20 @@ project site at http://erector.rubyforge.org for more documentation.
     require 'erector'
 
     class Hello < Erector::Widget
-      def render
+      def content
         html do
           head do
             title "Hello"
           end
           body do
             text "Hello, "
-            b "world!", :class => 'big'
+            b "#{target}!", :class => 'big'
           end
         end
       end
     end
 
-    Hello.new.to_s
+    Hello.new(:target => 'world').to_s
     => "<html><head><title>Hello</title></head><body>Hello, <b class=\"big\">world!</b></body></html>"
 
 == REQUIREMENTS

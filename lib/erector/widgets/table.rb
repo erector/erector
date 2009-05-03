@@ -13,7 +13,7 @@ module Erector
     #     row_classes :even, :odd
     #   end
     #
-    #   render_widget UsersTable, :row_objects => [user_1, user_2, user_3]
+    #   widget UsersTable, :row_objects => [user_1, user_2, user_3]
     class Table < Erector::Widget
       ColumnDefinition = Struct.new(:id, :name, :cell_proc)
       class << self
@@ -42,7 +42,7 @@ module Erector
         attr_reader :row_class_list
       end
 
-      # The standard erector render method.
+      # The standard erector content method.
       def content
         table do
           thead do
