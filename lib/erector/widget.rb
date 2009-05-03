@@ -145,7 +145,8 @@ module Erector
       unless assigns.is_a? Hash
         raise "Erector's API has changed. Now you should pass only an options hash into Widget.new; the rest come in via to_s, or by using #widget."
       end
-      if respond_to? :render
+      if respond_to? :render &&
+        self.method(:render).to_s != RailsWidget.new.method(:render).to_s
         raise "Erector's API has changed. You should rename #{self.class}#render to #content."
       end
       @assigns = assigns
