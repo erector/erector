@@ -755,6 +755,20 @@ module WidgetSpec
         }.should_not raise_error
       end
       
+      it "accumulates needs across the inheritance chain" do
+        class Vehicle < Erector::Widget
+          needs :wheels
+        end
+        
+        class Car < Erector::Widget
+          needs :engine
+        end
+        
+        lambda { Car.new(:engine => 'V-8', :wheels => 4) }.should_not raise_error
+        lambda { Car.new(:engine => 'V-8') }.should raise_error
+        lambda { Car.new(:wheels => 4) }.should raise_error
+      end
+      
     end
   end
 end
