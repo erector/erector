@@ -749,7 +749,7 @@ module WidgetSpec
         class Thing9 < Erector::Widget
           needs :foo => nil
         end
-        lambda { 
+        lambda {
           thing = Thing9.new
           thing.foo.should be_nil
         }.should_not raise_error
@@ -760,7 +760,7 @@ module WidgetSpec
           needs :wheels
         end
         
-        class Car < Erector::Widget
+        class Car < Vehicle
           needs :engine
         end
         

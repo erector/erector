@@ -119,7 +119,13 @@ module Erector
 
     protected
     def self.get_needs
-      (@needs ||= [])
+      @needs ||= []
+      parent = self.ancestors[1]
+      if parent.respond_to? :get_needs
+        parent.get_needs + @needs
+      else
+        @needs
+      end
     end
 
     public
