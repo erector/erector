@@ -1,8 +1,8 @@
 class Page < Erector::Widget
   needs :page_title => nil, :selection => nil
   
-  def page_title
-    @title || self.class.name
+  def real_page_title
+    self.class.name || @page_title
   end
   
   def selection
@@ -12,7 +12,7 @@ class Page < Erector::Widget
   def content
     html do
       head do
-        title "Erector - #{page_title}"
+        title "Erector - #{real_page_title}"
         css "erector.css"
       end
       body do

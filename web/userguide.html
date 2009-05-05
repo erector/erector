@@ -1,6 +1,6 @@
 <html>
   <head>
-    <title>Erector - User Guide</title>
+    <title>Erector - Userguide</title>
     <link href="erector.css" rel="stylesheet" type="text/css" />
   </head>
   <body>
@@ -20,13 +20,14 @@
             <ul>
               <li class="clickable" onclick="document.location='http://rubyforge.org/frs/?group_id=4797'"><a href="http://rubyforge.org/frs/?group_id=4797">Download</a>
                 <br />
-                <span> (current version: 0.5.1)</span></li>
+                <span> (current version: 0.6.0)</span></li>
               <li class="clickable" onclick="document.location='http://erector.rubyforge.org/svn/trunk/History.txt'"><a href="http://erector.rubyforge.org/svn/trunk/History.txt">Version History</a></li>
               <li class="clickable" onclick="document.location='rdoc'"><a href="rdoc">RDoc Documentation</a></li>
               <li class="clickable" onclick="document.location='http://rubyforge.org/projects/erector/'"><a href="http://rubyforge.org/projects/erector/">RubyForge Project</a></li>
-              <li class="clickable" onclick="document.location='http://erector.lighthouseapp.com'"><a href="http://erector.lighthouseapp.com">Lighthouse Project</a></li>
               <li class="clickable" onclick="document.location='http://github.com/pivotal/erector'"><a href="http://github.com/pivotal/erector">Github Repository</a></li>
-              <li class="clickable" onclick="document.location='http://rubyforge.org/mailman/listinfo/erector-devel'"><a href="http://rubyforge.org/mailman/listinfo/erector-devel">erector-devel mailing list</a></li>
+              <li class="clickable" onclick="document.location='http://www.pivotaltracker.com/projects/482'"><a href="http://www.pivotaltracker.com/projects/482">Tracker Project</a></li>
+              <li class="clickable" onclick="document.location=''"><a href="">Google Groups Mailing List</a></li>
+              <li class="clickable" onclick="document.location='http://rubyforge.org/pipermail/erector-devel/'"><a href="http://rubyforge.org/pipermail/erector-devel/">erector-devel Mailing List (archive)</a></li>
             </ul>
             <hr />
             <h3>Supported by:</h3>
@@ -181,18 +182,18 @@ end
             <a name="erect"></a>
             <h2>Erect: Command-line conversion to and from HTML</h2>
             <p>To make Rails integration as smooth as possible, we've written a little tool that will help you
-      erect your existing Rails app. The 'erect' tool will convert HTML or HTML/ERB into an Erector class.
+      erect your existing Rails app. The 'erector' tool will convert HTML or HTML/ERB into an Erector class.
       It ships as part of the Erector gem, so to try it out, install the gem, then run</p>
-            <pre>erect app/views/foos/*.html.erb</pre>
+            <pre>erector app/views/foos/*.html.erb</pre>
             <p>or just</p>
-            <pre>erect app/views</pre>
+            <pre>erector app/views</pre>
             <p>and then delete the original files when you're satisfied.</p>
             <p>Here's a little command-line howto for erecting a scaffold Rails app:</p>
             <pre>rails foo
 cd foo
 script/generate scaffold post title:string body:text published:boolean
 
-erect app/views/posts
+erector app/views/posts
 
 mate app/views/posts
 sleep 30 # this should be enough time for you to stop drooling
@@ -206,7 +207,7 @@ open http://localhost:3000/posts
             <p>On the erector-to-html side, pass in the 
               <code>--to-html</code>
 option and some file names and it will render the erector widgets to appropriately-named HTML files. We're actually using 
-              <code>erect</code>
+              <code>erector</code>
  to build this Erector documentation web site that you're reading <b>right now.</b> Check out the 'web' directory and the 'web' task in the Rakefile to see how it's done.</p>
             <a name="layoutinheritance"></a>
             <h2>Layout Inheritance</h2>

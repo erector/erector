@@ -20,13 +20,14 @@
             <ul>
               <li class="clickable" onclick="document.location='http://rubyforge.org/frs/?group_id=4797'"><a href="http://rubyforge.org/frs/?group_id=4797">Download</a>
                 <br />
-                <span> (current version: 0.5.1)</span></li>
+                <span> (current version: 0.6.0)</span></li>
               <li class="clickable" onclick="document.location='http://erector.rubyforge.org/svn/trunk/History.txt'"><a href="http://erector.rubyforge.org/svn/trunk/History.txt">Version History</a></li>
               <li class="clickable" onclick="document.location='rdoc'"><a href="rdoc">RDoc Documentation</a></li>
               <li class="clickable" onclick="document.location='http://rubyforge.org/projects/erector/'"><a href="http://rubyforge.org/projects/erector/">RubyForge Project</a></li>
-              <li class="clickable" onclick="document.location='http://erector.lighthouseapp.com'"><a href="http://erector.lighthouseapp.com">Lighthouse Project</a></li>
               <li class="clickable" onclick="document.location='http://github.com/pivotal/erector'"><a href="http://github.com/pivotal/erector">Github Repository</a></li>
-              <li class="clickable" onclick="document.location='http://rubyforge.org/mailman/listinfo/erector-devel'"><a href="http://rubyforge.org/mailman/listinfo/erector-devel">erector-devel mailing list</a></li>
+              <li class="clickable" onclick="document.location='http://www.pivotaltracker.com/projects/482'"><a href="http://www.pivotaltracker.com/projects/482">Tracker Project</a></li>
+              <li class="clickable" onclick="document.location=''"><a href="">Google Groups Mailing List</a></li>
+              <li class="clickable" onclick="document.location='http://rubyforge.org/pipermail/erector-devel/'"><a href="http://rubyforge.org/pipermail/erector-devel/">erector-devel Mailing List (archive)</a></li>
             </ul>
             <hr />
             <h3>Supported by:</h3>
@@ -34,7 +35,7 @@
           </div>
 </td>
         <td valign="top">
-          <h1 class="title">Erector - Developers</h1>
+          <h1 class="title">Erector - </h1>
           <hr />
           <div class="body">
             <p>Want to help develop Erector? Here's what to do.</p>
@@ -46,10 +47,13 @@
             <pre>rake</pre>
             <h2>Check out the available rake tasks:</h2>
             <pre>rake -T</pre>
-            <h2>Sign up for the erector-devel mailing list:</h2>
-            <a href="http://rubyforge.org/mailman/listinfo/erector-devel">erector-devel mailing list</a>
-            <h2>Join the Lighthouse project:</h2>
-            <a href="mailto:erector-devel@rubyforge.org">mailto:erector-devel@rubyforge.org</a> with your Lighthouse account name, then visit <a href="http://erector.lighthouseapp.com">http://erector.lighthouseapp.com</a>
+            <h2>Sign up for the mailing list:</h2>
+            <a href="http://groups.google.com/group/erector">'erector' Google Group</a>
+            <p>and check out the archives of the old <a href="http://rubyforge.org/mailman/listinfo/erector-devel">erector-devel mailing list</a></p>
+            <h2>Watch the github repo at </h2>
+            <a href="http://github.com/pivotal/erector">http://github.com/pivotal/erector</a>
+            <h2>Join the Pivotal Tracker project at </h2>
+            <a href="http://www.pivotaltracker.com/projects/482">http://www.pivotaltracker.com/projects/482</a>
             <h2>Basic read-only git usage</h2>
             <p>First, install git.  Then download erector using git:</p>
             <pre>git clone git://github.com/pivotal/erector.git</pre>
@@ -89,7 +93,7 @@ git push
             <ol>
               <li>Pick a version number. Either increment the major, minor, or tiny version from the previous version.</li>
               <li>Look at History.txt and make sure the release notes are up to date. Put the version number on the top line (after the &quot;==&quot;).</li>
-              <li>Put the version number in lib/erector/version.rb as Erector::VERSION.</li>
+              <li>Put the version number in VERSION.yml</li>
               <li>Commit these changes, e.g. 'git commit -a'</li>
               <li>Create a tag, e.g. 'git tag REL-1-2-3; git push origin REL-1-2-3'</li>
               <li>Run 'rake package' so that you can see whether the gem generation seems to work locally before proceeding to try to upload it to rubyforge (if you skip this step, the package will be generated when you run rake release)</li>

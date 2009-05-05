@@ -20,8 +20,12 @@ class Developers < Page
     h2 "Check out the available rake tasks:"
     pre "rake -T"
 
-    h2 "Sign up for the erector-devel mailing list:"
-    a("erector-devel mailing list", :href => "http://rubyforge.org/mailman/listinfo/erector-devel")
+    h2 "Sign up for the mailing list:"
+    a "'erector' Google Group", :href => "http://groups.google.com/group/erector"
+    p do
+      text "and check out the archives of the old "
+      a "erector-devel mailing list", :href=>"http://rubyforge.org/mailman/listinfo/erector-devel"
+    end
 
     h2 "Watch the github repo at "
     url "http://github.com/pivotal/erector"
