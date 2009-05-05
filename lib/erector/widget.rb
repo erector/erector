@@ -216,10 +216,17 @@ module Erector
     
     def assign_local(name, value)
       instance_variable_set("@#{name}", value)
-      metaclass.module_eval do
-        attr_reader name
+      if any_are_needed?
+        metaclass.module_eval do
+          attr_reader name
+        end
       end
     end
+    
+    def any_are_needed?
+      !self.class.get_needs.empty?
+    end
+    
     # Render (like to_s) but adding newlines and indentation.
     # This is a convenience method; you may just want to call to_s(:prettyprint => true)
     # so you can pass in other rendering options as well.  

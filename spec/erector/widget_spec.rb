@@ -94,7 +94,7 @@ module WidgetSpec
     describe "#widget" do
       class Orphan < Erector::Widget
         def content
-          p name
+          p @name
         end
       end
       
@@ -135,8 +135,9 @@ module WidgetSpec
               end
             end
           end
-    
+
           widget = Class.new(Erector::Widget) do
+            needs :parent_widget, :child_widget
             def content
               widget(parent_widget) do
                 widget(child_widget) do
@@ -145,7 +146,7 @@ module WidgetSpec
               end
             end
           end
-    
+
           widget.new(:parent_widget => parent_widget, :child_widget => child_widget) do
             div :id => "widget"
           end.to_s.should == '<div id="parent_widget"><div id="child_widget"><div id="widget"></div></div></div>'
@@ -767,6 +768,21 @@ module WidgetSpec
         lambda { Car.new(:engine => 'V-8', :wheels => 4) }.should_not raise_error
         lambda { Car.new(:engine => 'V-8') }.should raise_error
         lambda { Car.new(:wheels => 4) }.should raise_error
+      end
+      
+      it "defines accessors for each of the needed variables" do
+        class NeedfulThing < Erector::Widget
+          needs :love
+        end
+        thing = NeedfulThing.new(:love => "all we need")
+        thing.love.should == "all we need"
+      end
+      
+      it "doesnt define accessors for non-needed variables" do
+        class NeedlessThing < Erector::Widget
+        end
+        thing = NeedlessThing.new(:love => "all we need")
+        lambda {thing.love}.should raise_error
       end
       
     end
