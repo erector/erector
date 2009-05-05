@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
   s.date = %q{2009-04-12}
   s.default_executable = %q{erector}
   s.description = %q{Html Builder library.}
-  s.email = %q{erector-devel@rubyforge.org}
+  s.email = %q{erector@googlegroups.com}
   s.executables = ["erector"]
   s.extra_rdoc_files = [
     "README.txt"

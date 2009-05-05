@@ -85,13 +85,13 @@
                 <li>Its use of instance_eval and capture, as well as a view's functional-but-not-quite-an-object nature, led to too much magic and made it very difficult to debug</li>
               </ol>
             </p>
-            <p>Erector was conceived as a natural evolution of Markaby, but overcoming these two flaws. We think Erector can do pretty much everything Markaby can; if you find a counterexample, please let us know on the erector-devel mailing list.</p>
+            <p>Erector was conceived as a natural evolution of Markaby, but overcoming these two flaws. We think Erector can do pretty much everything Markaby can; if you find a counterexample, please let us know on the <a href="http://googlegroups.com/group/erector"> mailing list</a>.</p>
             <a name="howdoeserectorstackupagainsthaml"></a>
             <h2>How does Erector stack up against HAML?</h2>
             <p><a href="http://haml.hamptoncatlin.com/">HAML</a> is beautiful. But it suffers from the same design flaw (or, some would say, advantage) as every templating technology: views are not objects, and markup isn't code. But views want to do codey things like loops and variables and modular decomposition and inheritance, and every effort to wedge control logic into markup ends up smelling like a hack. There's always going to be some algorithmic idiom that's awkward in a template language. We figure, why deny it? Code is code. Embrace your true nature! Lick your screen and taste the code!</p>
             <a name="howdoiuselayouts"></a>
             <h2>How do I use layouts?</h2>
-            <p>Rails has a concept of layouts, which are essentially skeletons for a page, which get fleshed out by views. This is a powerful mechanism for rendering web pages; however, the mechanism Rails uses (via content_for and yield) is fundamentally incompatible with Erector's &quot;just call content&quot; design.</p>
+            <p>Rails has a concept of layouts, which are essentially skeletons for a page, which get fleshed out by views. This is a powerful mechanism for rendering web pages; however, the mechanism Rails uses (via content_for and yield) is fundamentally incompatible with Erector's &quot;just call the content method&quot; design.</p>
             <p>We recommend a slightly different approach, known officially as the <a href="http://en.wikipedia.org/wiki/Template_method_pattern">Template Method Design Pattern</a>: define a parent class (e.g. Page) and have your view widgets extend this class rather than directly extending Erector::Widget. The parent class implements content, and calls down to the child class to render sections or acquire information that's specific to that view.</p>
             <p>For an example with source code, see <a href="userguide.html#layoutinheritance">the user guide</a>. Also see Alex Chaffee's Page base class, at <a href="http://gist.github.com/103976"> this gist snippet</a> (which we may soon integrate into Erector proper).</p>
 </div>

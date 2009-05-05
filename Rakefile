@@ -17,7 +17,7 @@ require "erector/version"
 gem_definition = lambda do |s|
   s.name = "erector"
   s.summary = "Html Builder library."
-  s.email = "erector-devel@rubyforge.org"
+  s.email = "erector@googlegroups.com"
   s.description = "Html Builder library."
   specs = Dir.glob("spec/**/*").reject{|file| file =~ %r{^spec/rails_root}}
   s.files =  ["lib/**/*", "README.txt", "VERSION.yml", "bin/erector", specs]

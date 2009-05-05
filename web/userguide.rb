@@ -184,7 +184,7 @@ DONE
       
       p do
         text "Currently there is only partial support for some standard Rails features like partials, layouts, assigns, and helpers. Check the "
-        a "erector-devel mailing list", :href => "http://rubyforge.org/mailman/listinfo/erector-devel"
+        a "erector Google Groups mailing list", :href => "http://googlegroups.com/group/erector"
         text " for status updates on these features."
       end
 

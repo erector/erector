@@ -1,7 +1,7 @@
 = Erector
 
 * http://erector.rubyforge.org
-* mailto:erector-devel@rubyforge.org
+* mailto:erector@googlegroups.com
 * http://www.pivotaltracker.com/projects/482
 
 == DESCRIPTION

@@ -88,7 +88,7 @@ END
       li %q{Immediately go into History.txt and make a new section at the top. Since we won't yet know what the next version will be called, the new section will be noted by a single "==" at the top of the file.}
       li do
         text "Send email to "
-        a("erector-devel mailing list", :href => "mailto:erector-devel@rubyforge.org")
+        a("erector Google Groups mailing list", :href => "mailto:erector@googlegroups.com")
         text " announcing the new release."
       end
     end

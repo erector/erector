@@ -39,7 +39,7 @@ class Sidebar < Erector::Widget
         clickable_li 'RubyForge Project', 'http://rubyforge.org/projects/erector/'
         clickable_li 'Github Repository', 'http://github.com/pivotal/erector'
         clickable_li 'Tracker Project', 'http://www.pivotaltracker.com/projects/482'
-        clickable_li 'Google Groups Mailing List', ""
+        clickable_li 'Google Groups Mailing List', "http://googlegroups.com/group/erector"
         clickable_li "erector-devel Mailing List (archive)", "http://rubyforge.org/pipermail/erector-devel/"
       end
 
