@@ -59,7 +59,7 @@ When installing this way, erector is automatically available to your Rails code
 
 (The MIT License)
 
-Copyright (c) 2007-8 Pivotal Labs
+Copyright (c) 2007-2009 Pivotal Labs
 
 Permission is hereby granted, free of charge, to any person obtaining
 a copy of this software and associated documentation files (the
