@@ -1,4 +1,19 @@
-== 
+== 0.6.0
+* Major update to API. You *will* have to change your code. There are deprecation warnings/errors
+and there should be an upgrade guide up on the website soon.
+* 'render' renamed to 'content'
+* widget constructor only takes one parameter, an 'assigns' hash (plus the optional default block)
+* to render one widget from inside another, use the 'widget' method (not 'render_to'). This method 
+accepts either a widget instance, or a widget class and an assigns hash.
+* 'needs' macro to declare the variables your widget accepts via the 'assigns' constructor parameter
+* Removed Widget#to_s caching, which fixed indentation issues.
+* BUGFIX: Indentation level is now correctly propagated to nested widgets.
+* Erector's Rails support strategy has changed. The released version of Erector only supports the latest stable
+Rails version (currently 2.3.2). If you need support for earlier versions of Rails, there are separate
+Git branches for each one, but we will not be in the habit of keeping these up to date with the latest
+features and patches.
+
+== 0.5.1
 * Added methods to easily render additional HTML elements (col,
 object, and about a dozen others).  There are now methods for all 
 non-deprecated elements from the HTML 4.0.1 spec.  As before, if 

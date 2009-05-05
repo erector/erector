@@ -85,7 +85,8 @@ module Erector
     # If needed parameters are not passed in to #new, then an exception will be thrown
     # (with a hopefully useful message about which parameters are missing). This is intended
     # to catch silly bugs like passing in a parameter called 'name' to a widget that expects
-    # a parameter called 'title'. 
+    # a parameter called 'title'. Every variable declared in 'needs' will get an attr_reader
+    # accessor declared for it.
     #
     # You can also declare default values for parameters using hash syntax. You can put #needs
     # declarations on multiple lines or on the same line; the only caveat is that if there are
@@ -93,9 +94,11 @@ module Erector
     # hash parameter).
     #
     # If a widget has no #needs declaration then it will accept any combination of parameters
-    # (and make accessors for them) just like normal. If a widget wants to declare that it 
+    # (and make accessors for them) just like normal. In that case there will be no 'attr_reader's
+    # declared.
+    # If a widget wants to declare that it 
     # takes no parameters, use the special incantation "needs nil" (and don't declare any other
-    # needs, or kittens will cry).
+    # needs, or kittens will cry). 
     #
     # Usage:
     #    class FancyForm < Erector::Widget
