@@ -20,7 +20,7 @@ gem_definition = lambda do |s|
   s.email = "erector-devel@rubyforge.org"
   s.description = "Html Builder library."
   specs = Dir.glob("spec/**/*").reject{|file| file =~ %r{^spec/rails_root}}
-  s.files =  ["lib/**/*", "README.txt", "VERSION.yml", "bin/erect", specs]
+  s.files =  ["lib/**/*", "README.txt", "VERSION.yml", "bin/erector", specs]
   s.test_files =  specs
 end
 

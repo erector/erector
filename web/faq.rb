@@ -57,7 +57,7 @@ class Faq < Page
       Section.new("Where are some examples?") do
         p do
           text "This very web site you're reading right now is built with Erector, using the "
-          a "erect", :href => "userguide.html#erect"
+          a "erector", :href => "userguide.html#erector"
           text " tool. See the "
           a "repository", :href => "http://github.com/pivotal/erector"
           text " (especially the web directory)."

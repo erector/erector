@@ -194,15 +194,15 @@ DONE
 
       p """
       To make Rails integration as smooth as possible, we've written a little tool that will help you
-      erect your existing Rails app. The 'erect' tool will convert HTML or HTML/ERB into an Erector class.
+      erect your existing Rails app. The 'erector' tool will convert HTML or HTML/ERB into an Erector class.
       It ships as part of the Erector gem, so to try it out, install the gem, then run
       """.strip
       
-      pre "erect app/views/foos/*.html.erb"
+      pre "erector app/views/foos/*.html.erb"
 
       p "or just"
 
-      pre "erect app/views"
+      pre "erector app/views"
 
       p "and then delete the original files when you're satisfied."
 
@@ -213,7 +213,7 @@ rails foo
 cd foo
 script/generate scaffold post title:string body:text published:boolean
 
-erect app/views/posts
+erector app/views/posts
 
 mate app/views/posts
 sleep 30 # this should be enough time for you to stop drooling
@@ -229,7 +229,7 @@ DONE
         code "--to-html"
         text "option and some file names and it will render the erector widgets to appropriately-named HTML files."
         text " We're actually using "
-        code "erect"
+        code "erector"
         text " to build this Erector documentation web site that you're reading "
         b "right now."
         text " Check out the 'web' directory and the 'web' task in the Rakefile to see how it's done."

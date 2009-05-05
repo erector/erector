@@ -11,7 +11,7 @@ module Erector
       @output_dir = nil
       
       opts = OptionParser.new do |opts|
-        opts.banner = "Usage: erect [options] [file|dir]*"
+        opts.banner = "Usage: erector [options] [file|dir]*"
 
         opts.separator "Converts from html/rhtml files to erector widgets, or from erector widgets to html files"
         opts.separator ""

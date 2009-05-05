@@ -7,17 +7,17 @@ Gem::Specification.new do |s|
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Alex Chaffee", "Brian Takita", "Jeff Dean", "Jim Kingdon"]
   s.date = %q{2009-04-12}
-  s.default_executable = %q{erect}
+  s.default_executable = %q{erector}
   s.description = %q{Html Builder library.}
   s.email = %q{erector-devel@rubyforge.org}
-  s.executables = ["erect"]
+  s.executables = ["erector"]
   s.extra_rdoc_files = [
     "README.txt"
   ]
   s.files = [
     "README.txt",
     "VERSION.yml",
-    "bin/erect",
+    "bin/erector",
     "lib/erector.rb",
     "lib/erector/erect.rb",
     "lib/erector/erected.rb",
