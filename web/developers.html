@@ -20,13 +20,13 @@
             <ul>
               <li class="clickable" onclick="document.location='http://rubyforge.org/frs/?group_id=4797'"><a href="http://rubyforge.org/frs/?group_id=4797">Download</a>
                 <br />
-                <span> (current version: 0.6.0)</span></li>
+                <span> (current version: 0.6.3)</span></li>
               <li class="clickable" onclick="document.location='http://erector.rubyforge.org/svn/trunk/History.txt'"><a href="http://erector.rubyforge.org/svn/trunk/History.txt">Version History</a></li>
               <li class="clickable" onclick="document.location='rdoc'"><a href="rdoc">RDoc Documentation</a></li>
               <li class="clickable" onclick="document.location='http://rubyforge.org/projects/erector/'"><a href="http://rubyforge.org/projects/erector/">RubyForge Project</a></li>
               <li class="clickable" onclick="document.location='http://github.com/pivotal/erector'"><a href="http://github.com/pivotal/erector">Github Repository</a></li>
               <li class="clickable" onclick="document.location='http://www.pivotaltracker.com/projects/482'"><a href="http://www.pivotaltracker.com/projects/482">Tracker Project</a></li>
-              <li class="clickable" onclick="document.location=''"><a href="">Google Groups Mailing List</a></li>
+              <li class="clickable" onclick="document.location='http://googlegroups.com/group/erector'"><a href="http://googlegroups.com/group/erector">Google Groups Mailing List</a></li>
               <li class="clickable" onclick="document.location='http://rubyforge.org/pipermail/erector-devel/'"><a href="http://rubyforge.org/pipermail/erector-devel/">erector-devel Mailing List (archive)</a></li>
             </ul>
             <hr />
@@ -93,9 +93,8 @@ git push
             <ol>
               <li>Pick a version number. Either increment the major, minor, or tiny version from the previous version.</li>
               <li>Look at History.txt and make sure the release notes are up to date. Put the version number on the top line (after the &quot;==&quot;).</li>
-              <li>Put the version number in VERSION.yml</li>
+              <li>Put the version number in VERSION.yml and in erector.gemspec</li>
               <li>Commit these changes, e.g. 'git commit -a'</li>
-              <li>Create a tag, e.g. 'git tag REL-1-2-3; git push origin REL-1-2-3'</li>
               <li>Run 'rake package' so that you can see whether the gem generation seems to work locally before proceeding to try to upload it to rubyforge (if you skip this step, the package will be generated when you run rake release)</li>
               <li>If you haven't done so before, run 'rubyforge setup' and 'rubyforge config' (for more details on these steps, see README.txt in the rubyforge gem)</li>
               <li>Run 'rake release VERSION=1.2.3'. (The parameter is to confirm you're releasing the version you intend to.)</li>

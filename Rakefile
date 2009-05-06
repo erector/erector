@@ -51,7 +51,7 @@ Hoe.new("erector", Erector::VERSION) do |hoe|
 
   # Many of these options are based on what will work with rubyforge and
   # groups and permissions
-  hoe.rsync_args = "-rlpv --delete --inplace --exclude .svn"
+  hoe.rsync_args = "-rlv --delete --inplace --exclude .svn"
 end
 Hoe::remove_tasks("audit", "check_manifest", "post_blog", "multi", "test", "test_deps", "docs")
 
