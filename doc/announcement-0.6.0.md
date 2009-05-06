@@ -18,14 +18,14 @@ existing code. Sorry about that, but we promise it'll be cleaner afterwards.
   
         widget MyWidget.new(:foo => 2)
 
-* If you want your variables to have attr_readers, use 'needs'
+* If you want your variables to have attr\_readers, use 'needs'
 
 * If you want your widgets to be more self-documenting, use 'needs'
 
 ## Major API changes
 
 * "new" and "to\_s" have been changed to clarify the lifecycle of a widget,
-  so "new" accepts permanent state ("assigns" variables) and "to_s" accepts
+  so "new" accepts permanent state ("assigns" variables) and "to\_s" accepts
   temporary, rendering state (output stream, helpers, and prettyprinting).
   This lets you do things like make collections of widgets in once place in
   your code and render them in another place.
@@ -57,12 +57,12 @@ existing code. Sorry about that, but we promise it'll be cleaner afterwards.
           needs :love
         end
 
-* Formerly, every 'assigns' variable had an attr_reader defined for it. Now,
-  only variables declared with 'needs' get attr_readers.
+* Formerly, every 'assigns' variable had an attr\_reader defined for it. Now,
+  only variables declared with 'needs' get attr\_readers.
 
-* ## Other changes:
+## Other changes:
 
-* Removed Widget#to_s caching, which fixed indentation issues.
+* Removed Widget#to\_s caching, which fixed indentation issues.
 
 * BUGFIX: Indentation level is now correctly propagated to nested widgets.
 
