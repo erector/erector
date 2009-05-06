@@ -1,4 +1,4 @@
-== 0.6.2 / 2009-05-06
+== 0.6.3 / 2009-05-06
 * Major update to API. You *will* have to change your code. There are deprecation warnings/errors
 and there should be an upgrade guide up on the website soon.
 * 'render' renamed to 'content'
