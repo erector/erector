@@ -12,6 +12,7 @@ accepts either a widget instance, or a widget class and an assigns hash.
 Rails version (currently 2.3.2). If you need support for earlier versions of Rails, there are separate
 Git branches for each one, but we will not be in the habit of keeping these up to date with the latest
 features and patches.
+* Renamed the command line tool to 'erector'
 
 == 0.5.1
 * Added methods to easily render additional HTML elements (col,
