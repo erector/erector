@@ -59,6 +59,17 @@ module Erector
       erect.mode.should == :to_html
     end
 
+    it "changes to html output when passed a .rb file" do
+      erect = Erect.new(["foo.rb"])
+      erect.mode.should == :to_html
+    end
+
+    it "fails when given both .rb and .html files" do
+      lambda {
+        erect = Erect.new(["foo.rb", "bar.html"])
+      }.should raise_error
+    end
+    
   end
   
   describe "Erect functionally" do
