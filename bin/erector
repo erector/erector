@@ -4,4 +4,6 @@ $LOAD_PATH.unshift("#{dir}/../lib")
 require "erector"
 require "erector/erect"
 
-Erector::Erect.new(ARGV).run
+unless Erector::Erect.new(ARGV).run
+  exit 1
+end

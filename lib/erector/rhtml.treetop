@@ -77,7 +77,7 @@ grammar Rhtml
   rule self_closing_tag
     '<' tag_name:tagname attrs:attributes? space '/>' <Erector::Indenting> {
       def convert
-        line "#{tag_name.text_value}#{attrs.blank? ? "" : attrs.convert}"
+        line "#{tag_name.text_value}#{attrs.empty? ? "" : attrs.convert}"
       end
     }
   end
@@ -85,7 +85,7 @@ grammar Rhtml
   rule opentag
    '<' tag_name:tagname attrs:attributes? space '>' <Erector::Indenting> {
       def convert
-        line_in "#{tag_name.text_value}#{attrs.blank? ? "" : attrs.convert} do"
+        line_in "#{tag_name.text_value}#{attrs.empty? ? "" : attrs.convert} do"
       end
     }
   end
@@ -93,7 +93,7 @@ grammar Rhtml
   rule imgtag
    '<' tag_name:'img' attrs:attributes? space '>' <Erector::Indenting> {
       def convert
-        line "#{tag_name.text_value}#{attrs.blank? ? "" : attrs.convert}"
+        line "#{tag_name.text_value}#{attrs.empty? ? "" : attrs.convert}"
       end
     }
   end
@@ -110,7 +110,7 @@ grammar Rhtml
     (([<>] !(tagname / [/%!])) / [^<>])+ <Erector::Indenting> {
       def convert
         stripped = text_value.strip
-        if stripped.blank?
+        if stripped.empty?
           ""
         else
           line "text '#{text_value.strip.html_unescape}'"
@@ -123,7 +123,7 @@ grammar Rhtml
 		first:attribute rest:attributes* {
 			def convert
 				" " + first.convert + 
-					if rest.blank? 
+					if rest.empty? 
 						""
 					else
 					  ",#{rest.elements.first.convert}"  # this is hacky -- is there a better way?

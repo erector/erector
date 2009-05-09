@@ -78,7 +78,9 @@ module Erector
     end
     
     def run
+      @success = true
       self.send(mode)
+      @success
     end
     
     def to_erector
@@ -91,7 +93,7 @@ module Erector
         rescue => e
           puts e
           puts e.backtrace.join("\n\t")
-          puts
+          @success = false
         end
       end
     end
@@ -103,7 +105,6 @@ module Erector
         begin
           #todo: fail if file isn't a .rb file
           require file
-          #todo: understand modulized widgets (e.g. class Foo::Bar::Baz < Erector::Widget in baz.rb)
           filename = file.split('/').last.gsub(/\.rb$/, '')
           widget_name = camelize(filename)
           widget_class = constantize(widget_name)
@@ -124,6 +125,7 @@ module Erector
         rescue => e
           puts e
           puts e.backtrace.join("\n\t")
+          @success = false
         end
       end
     end

@@ -6,6 +6,7 @@ Treetop.load("#{dir}/rhtml.treetop")
 
 module Erector
   class Erected
+    
     def initialize(in_file)
       @in_file = in_file
     end
@@ -14,14 +15,23 @@ module Erector
       dir + basename + ".rb"
     end
 
-    def classname
+    def classnames
       base = classize(basename)
       parent = File.dirname(@in_file)
       grandparent = File.dirname(parent)
       if File.basename(grandparent) == "views"
-        base = "Views::" + classize(File.basename(parent)) + "::" + base
+        ["Views::" + classize(File.basename(parent)) + "::" + base, "Erector::RailsWidget"]
+      else
+        [base, "Erector::Widget"]
       end
-      base
+    end
+
+    def classname
+      classnames[0]
+    end
+    
+    def parent_class
+      classnames[1]
     end
 
     def text
@@ -36,7 +46,7 @@ module Erector
           parser.failure_reason
       else
         File.open(filename, "w") do |f|
-          f.puts("class #{classname} < Erector::Widget")
+          f.puts("class #{classname} < #{parent_class}")
           f.puts("  def content")
           f.puts(parsed.set_indent(2).convert)
           f.puts("  end")

@@ -60,14 +60,22 @@ module Erector
     end
 
     it "changes to html output when passed a .rb file" do
-      erect = Erect.new(["foo.rb"])
-      erect.mode.should == :to_html
+      pending do
+        erect = Erect.new(["foo.rb"])
+        erect.mode.should == :to_html
+      end
     end
 
     it "fails when given both .rb and .html files" do
-      lambda {
-        erect = Erect.new(["foo.rb", "bar.html"])
-      }.should raise_error
+      pending do
+        lambda {
+          erect = Erect.new(["foo.rb", "bar.html"])
+        }.should raise_error
+      end
+    end
+    
+    it "returns false when there's an error during run" do
+      Erect.new(["MISSINGFILE"]).run.should == false
     end
     
   end
@@ -149,4 +157,5 @@ module Erector
     # it "properly indents lines beginning with for, unless, etc."
     # it "escapes single quotes inside text strings"
   end
+
 end

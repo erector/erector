@@ -1,5 +1,7 @@
 ==
-
+* "erector" command-line tool improved:
+  * if converting an HTML/ERB file under a "views" directory, uses "Erector::RailsWidget" as parent class
+* require treetop 1.2.5
 
 == 0.6.3 / 2009-05-06
 * Major update to API. You *will* have to change your code. There are deprecation warnings/errors

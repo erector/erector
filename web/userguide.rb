@@ -190,7 +190,7 @@ DONE
 
     end,
 
-    Section.new("Erect: Command-line conversion to and from HTML") do
+    Section.new("Command-line conversion to and from HTML") do
 
       p """
       To make Rails integration as smooth as possible, we've written a little tool that will help you
