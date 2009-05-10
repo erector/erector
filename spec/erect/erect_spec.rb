@@ -1,4 +1,6 @@
-require File.expand_path("#{File.dirname(__FILE__)}/../rails_spec_helper")
+require File.expand_path("#{File.dirname(__FILE__)}/../spec_helper")
+
+require "erector/erect"
 
 module Erector
   describe Erect do
@@ -75,7 +77,14 @@ module Erector
     end
     
     it "returns false when there's an error during run" do
-      Erect.new(["MISSINGFILE"]).run.should == false
+      begin
+        require 'stringio'
+        $stdout = StringIO.new
+        Erect.new(["MISSINGFILE"]).run.should == false
+      ensure
+        $stdout = STDOUT
+      end
+        
     end
     
   end
