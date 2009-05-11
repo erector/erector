@@ -29,7 +29,7 @@ module Erector
       erect.files.should == ["foo.html", "bar/baz.html"]
     end
  
-    def capture
+    def capturing_output
       output = StringIO.new
       $stdout = output
       yield
@@ -39,7 +39,7 @@ module Erector
     end
     
     it "exits immediately from help" do
-      output = capture do
+      output = capturing_output do
         lambda {
           erect = Erect.new(["-h"])
         }.should raise_error(SystemExit)
@@ -48,7 +48,7 @@ module Erector
     end
     
     it "exits immediately from --version" do
-      output = capture do
+      output = capturing_output do
         lambda {
           erect = Erect.new(["--version"])
         }.should raise_error(SystemExit)
@@ -77,12 +77,8 @@ module Erector
     end
     
     it "returns false when there's an error during run" do
-      begin
-        require 'stringio'
-        $stdout = StringIO.new
+      capturing_output do
         Erect.new(["MISSINGFILE"]).run.should == false
-      ensure
-        $stdout = STDOUT
       end
         
     end
