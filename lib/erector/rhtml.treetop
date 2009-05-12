@@ -16,6 +16,16 @@ grammar Rhtml
     yield_with_name / yield / hprintlet / printlet / scriptlet / doctype / directive / self_closing_tag / imgtag / closetag / opentag / text
   end
 
+  # Argh. For some reason I can't get this to work, so I split it into two rules
+  # rule yield
+  #   '<%=' space 'yield' space (':' varname space)? '%>' <Erector::Indenting> {
+  #     def convert
+  #       var = "@content_for_" + varname.nil? ? "layout" : varname.text_value
+  #       line "rawtext #{var} # Note: you must define #{var} elsewhere"
+  #     end
+  #   }
+  # end
+
   rule yield_with_name
     '<%=' space 'yield' space ':' varname space '%>' <Erector::Indenting> {
       def convert
