@@ -13,7 +13,7 @@ grammar Rhtml
   end
 
   rule node
-    hprintlet / printlet / scriptlet / doctype / self_closing_tag / imgtag / closetag / opentag / text
+    hprintlet / printlet / scriptlet / doctype / directive / self_closing_tag / imgtag / closetag / opentag / text
   end
 
   rule scriptlet
@@ -64,6 +64,14 @@ grammar Rhtml
 
 	rule doctype
 		'<!DOCTYPE' [^>]* '>' <Erector::Indenting> {
+			def convert
+				line "rawtext '#{text_value}'"
+			end
+		}
+	end
+	
+	rule directive
+	  '<!' [^>]* '>' <Erector::Indenting> {
 			def convert
 				line "rawtext '#{text_value}'"
 			end

@@ -317,4 +317,33 @@ describe RhtmlParser do
     parse('<meta http-equiv="content-type" content="text/html;charset=UTF-8" />').convert.should ==
     "meta 'http-equiv' => 'content-type', :content => 'text/html;charset=UTF-8'\n"
   end
+  
+  it "parses JayTee's IE and DOCTYPE test file" do
+    x = parse <<-HTML
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<!--[if IE]><link href="custom.css" rel="stylesheet" type="text/css" /><![endif]-->
+<!--[if IE]><link href="custom.css" rel="stylesheet" type="text/css" /><![endif]-->
+<script language="javascript" type="text/javascript"> /* <![CDATA[ */
+var myJavascriptCode = 1; /*]]>*/ </script>
+</head>
+<body>
+</body>
+</html>
+    HTML
+    puts "<pre>"
+    puts x.convert.html_escape
+    puts "</pre>"
+    
+    class Eval < Erector::Widget
+      needs :stuff
+      def content
+        eval(stuff)
+      end
+    end
+    puts "<pre>"
+    puts Eval.new(:stuff => x.convert).to_pretty.html_escape
+    puts "</pre>"
+  end
 end
