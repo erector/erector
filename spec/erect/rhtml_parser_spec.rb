@@ -206,9 +206,15 @@ describe RhtmlParser do
   it "won't parenthesize expressions" do
     parse("<%= h foo / bar %>").convert.should == "text foo / bar\n"
   end
+
+  it "understands a varname" do
+    @parser.root = :varname
+    parse("head").text_value.should == "head"
+  end
   
   it "converts yield printlet into a use of @content_for_layout, commented for your edification" do
     parse("<%= yield  %>").convert.should == "rawtext @content_for_layout # Note: you must define @content_for_layout elsewhere\n"
+    parse("<%=  yield :head   %>").convert.should == "rawtext @content_for_head # Note: you must define @content_for_head elsewhere\n"
     parse("<%= \"yield\" %>").convert.should == "rawtext \"yield\"\n"
     parse("<%= \"the yield is good\" %>").convert.should == "rawtext \"the yield is good\"\n"
   end

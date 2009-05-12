@@ -13,7 +13,25 @@ grammar Rhtml
   end
 
   rule node
-    hprintlet / printlet / scriptlet / doctype / directive / self_closing_tag / imgtag / closetag / opentag / text
+    yield_with_name / yield / hprintlet / printlet / scriptlet / doctype / directive / self_closing_tag / imgtag / closetag / opentag / text
+  end
+
+  rule yield_with_name
+    '<%=' space 'yield' space ':' varname space '%>' <Erector::Indenting> {
+      def convert
+        var = "@content_for_" + varname.text_value
+        line "rawtext #{var} # Note: you must define #{var} elsewhere"
+      end
+    }
+  end
+
+  rule yield
+    '<%=' space 'yield' space '%>' <Erector::Indenting> {
+      def convert
+        var = "@content_for_layout"
+        line "rawtext #{var} # Note: you must define #{var} elsewhere"
+      end
+    }
   end
 
   rule scriptlet
@@ -53,9 +71,6 @@ grammar Rhtml
         code = text_value.strip
         # matches a word, followed by either a word, a string, or a symbol
         result = code.gsub(/^(\w+) ([\w:"'].*)$/, '\1(\2)')
-        
-        result.gsub!(/^yield$/, '@content_for_layout # Note: you must define @content_for_layout elsewhere')
-        
         result
       end
     }
@@ -79,6 +94,10 @@ grammar Rhtml
 
   rule tagname
     [A-Za-z0-9_:-]+
+  end
+  
+  rule varname
+    [A-Za-z0-9_]+
   end
 
   rule self_closing_tag
