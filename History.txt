@@ -1,6 +1,8 @@
-==
+== 0.6.4
 * "erector" command-line tool improved:
   * if converting an HTML/ERB file under a "views" directory, uses "Erector::RailsWidget" as parent class
+  * no longer chokes on "if IE" directives
+  * changes 'yield' in a scriptlet to use a missing "@content_for_layout"  
 * require treetop 1.2.5
 
 == 0.6.3 / 2009-05-06

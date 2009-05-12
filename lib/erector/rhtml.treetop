@@ -54,7 +54,7 @@ grammar Rhtml
         # matches a word, followed by either a word, a string, or a symbol
         result = code.gsub(/^(\w+) ([\w:"'].*)$/, '\1(\2)')
         
-        result.gsub!(/^yield$/, 'content_for_layout # you must define content_for_layout elsewhere')
+        result.gsub!(/^yield$/, '@content_for_layout # Note: you must define @content_for_layout elsewhere')
         
         result
       end

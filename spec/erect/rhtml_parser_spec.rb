@@ -207,8 +207,8 @@ describe RhtmlParser do
     parse("<%= h foo / bar %>").convert.should == "text foo / bar\n"
   end
   
-  it "converts yield into an instruction to call a new content_for_layout method" do
-    parse("<%= yield  %>").convert.should == "rawtext content_for_layout # you must define content_for_layout elsewhere\n"
+  it "converts yield printlet into a use of @content_for_layout, commented for your edification" do
+    parse("<%= yield  %>").convert.should == "rawtext @content_for_layout # Note: you must define @content_for_layout elsewhere\n"
     parse("<%= \"yield\" %>").convert.should == "rawtext \"yield\"\n"
     parse("<%= \"the yield is good\" %>").convert.should == "rawtext \"the yield is good\"\n"
   end
