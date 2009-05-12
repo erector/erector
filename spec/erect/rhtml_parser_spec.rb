@@ -207,9 +207,8 @@ describe RhtmlParser do
     parse("<%= h foo / bar %>").convert.should == "text foo / bar\n"
   end
   
-  it "converts yield so layouts work" do
-    pending("easy enough to make this pass, but the result doesn't seem to work as a layout")
-    parse("<%= yield  %>").convert.should == "rawtext @content\n"
+  it "converts yield into an instruction to call a new content_for_layout method" do
+    parse("<%= yield  %>").convert.should == "rawtext content_for_layout # you must define content_for_layout elsewhere\n"
     parse("<%= \"yield\" %>").convert.should == "rawtext \"yield\"\n"
     parse("<%= \"the yield is good\" %>").convert.should == "rawtext \"the yield is good\"\n"
   end
@@ -248,6 +247,12 @@ describe RhtmlParser do
     parse(html).convert.should == "rawtext '#{html}'\n"
   end
   
+  ["<!--[if IE]>", "<![endif]-->", "<![if !IE]>", "<![endif]>", "<!--[if IE 5.5000]>", "<!--[if IE 6]>"].each do |html|
+    it "converts IE directive '#{html}'" do
+      parse(html).convert.should == "rawtext '#{html}'\n"
+    end
+  end
+
   ## More functional-type specs below here
 
   it "ignores spaces, tabs and newlines" do
@@ -319,7 +324,7 @@ describe RhtmlParser do
   end
   
   it "parses JayTee's IE and DOCTYPE test file" do
-    x = parse <<-HTML
+    parse <<-HTML
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -332,18 +337,5 @@ var myJavascriptCode = 1; /*]]>*/ </script>
 </body>
 </html>
     HTML
-    puts "<pre>"
-    puts x.convert.html_escape
-    puts "</pre>"
-    
-    class Eval < Erector::Widget
-      needs :stuff
-      def content
-        eval(stuff)
-      end
-    end
-    puts "<pre>"
-    puts Eval.new(:stuff => x.convert).to_pretty.html_escape
-    puts "</pre>"
   end
 end
