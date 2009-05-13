@@ -4,6 +4,10 @@ require "#{dir}/sidebar"
 
 class Faq < Page
 
+  def initialize
+    super(:page_title => "FAQ")
+  end
+
   def render_body
     text article
   end

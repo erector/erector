@@ -2,7 +2,7 @@ class Page < Erector::Widget
   needs :page_title => nil, :selection => nil
   
   def real_page_title
-    self.class.name || @page_title
+    @page_title || self.class.name
   end
   
   def selection
@@ -23,7 +23,7 @@ class Page < Erector::Widget
             end
             td "valign" => "top" do
               h1 :class => "title" do
-                text "Erector - #{page_title}"
+                text "Erector - #{real_page_title}"
               end
 
               hr

@@ -4,6 +4,10 @@ require "#{dir}/sidebar"
 
 class Developers < Page
 
+  def initialize
+    super(:page_title => "For Developers")
+  end
+
   def render_body
     
     p "Want to help develop Erector? Here's what to do."
