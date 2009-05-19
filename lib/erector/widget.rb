@@ -362,7 +362,7 @@ module Erector
       indent_for_open_tag(tag_name)
       @indentation += SPACES_PER_INDENT
 
-      output.concat "<#{tag_name}#{format_attributes(attributes)}>"
+      output << "<#{tag_name}#{format_attributes(attributes)}>"
       @at_start_of_line = false
     end
 
@@ -375,7 +375,7 @@ module Erector
       if value.is_a? Widget
         widget value
       else
-        output.concat(value.html_escape)
+        output <<(value.html_escape)
       end
       @at_start_of_line = false
       nil
@@ -419,7 +419,7 @@ module Erector
       @indentation -= SPACES_PER_INDENT
       indent()
 
-      output.concat("</#{tag_name}>")
+      output <<("</#{tag_name}>")
 
       if newliney(tag_name)
         _newline
@@ -442,7 +442,7 @@ module Erector
 
     # Emits an XML instruction, which looks like this: <?xml version=\"1.0\" encoding=\"UTF-8\"?>
     def instruct(attributes={:version => "1.0", :encoding => "UTF-8"})
-      output.concat "<?xml#{format_sorted(sort_for_xml_declaration(attributes))}?>"
+      output << "<?xml#{format_sorted(sort_for_xml_declaration(attributes))}?>"
     end
 
     # Creates a whole new output string, executes the block, then converts the output string to a string and
@@ -585,7 +585,7 @@ protected
     def __empty_element__(tag_name, attributes={})
       indent_for_open_tag(tag_name)
 
-      output.concat "<#{tag_name}#{format_attributes(attributes)} />"
+      output << "<#{tag_name}#{format_attributes(attributes)} />"
 
       if newliney(tag_name)
         _newline
@@ -594,7 +594,7 @@ protected
     
     def _newline
       return unless @prettyprint      
-      output.concat "\n"
+      output << "\n"
       @at_start_of_line = true
     end
 
@@ -608,7 +608,7 @@ protected
 
     def indent()
       if @at_start_of_line
-        output.concat " " * @indentation
+        output << " " * @indentation
       end
     end
 
