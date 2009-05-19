@@ -85,36 +85,37 @@ module Erector
       end
     end
 
-    # Class method by which widget classes can declare that they need certain parameters.
-    # If needed parameters are not passed in to #new, then an exception will be thrown
-    # (with a hopefully useful message about which parameters are missing). This is intended
-    # to catch silly bugs like passing in a parameter called 'name' to a widget that expects
-    # a parameter called 'title'. Every variable declared in 'needs' will get an attr_reader
-    # accessor declared for it.
+    # Class method by which widget classes can declare that they need certain
+    # parameters. If needed parameters are not passed in to #new, then an
+    # exception will be thrown (with a hopefully useful message about which
+    # parameters are missing). This is intended to catch silly bugs like
+    # passing in a parameter called 'name' to a widget that expects a
+    # parameter called 'title'. Every variable declared in 'needs' will get an
+    # attr_reader accessor declared for it.
     #
-    # You can also declare default values for parameters using hash syntax. You can put #needs
-    # declarations on multiple lines or on the same line; the only caveat is that if there are
-    # default values, they all have to be at the end of the line (so they go into the magic
-    # hash parameter).
+    # You can also declare default values for parameters using hash syntax.
+    # You can put #needs declarations on multiple lines or on the same line;
+    # the only caveat is that if there are default values, they all have to be
+    # at the end of the line (so they go into the magic hash parameter).
     #
-    # If a widget has no #needs declaration then it will accept any combination of parameters
-    # (and make accessors for them) just like normal. In that case there will be no 'attr_reader's
-    # declared.
-    # If a widget wants to declare that it 
-    # takes no parameters, use the special incantation "needs nil" (and don't declare any other
-    # needs, or kittens will cry). 
+    # If a widget has no #needs declaration then it will accept any
+    # combination of parameters (and make accessors for them) just like
+    # normal. In that case there will be no 'attr_reader's declared. If a
+    # widget wants to declare that it takes no parameters, use the special
+    # incantation "needs nil" (and don't declare any other needs, or kittens
+    # will cry).
     #
     # Usage:
     #    class FancyForm < Erector::Widget
     #      needs :title, :show_okay => true, :show_cancel => false
     #      ...
     #    end
-    # 
-    # That means that 
+    #  
+    # That means that
     #   FancyForm.new(:title => 'Login')
-    # will succeed, as will 
+    # will succeed, as will
     #   FancyForm.new(:title => 'Login', :show_cancel => true)
-    # but 
+    # but
     #   FancyForm.new(:name => 'Login')
     # will fail.
     #
@@ -241,25 +242,42 @@ module Erector
       to_s(:prettyprint => true)
     end
 
-    # Entry point for rendering a widget (and all its children). This method creates a new output string (if necessary),
-    # calls this widget's #content method and returns the string.
+    # Entry point for rendering a widget (and all its children). This method
+    # creates a new output string (if necessary), calls this widget's #content
+    # method and returns the string.
     #
     # Options:
     # output:: the string to output to. Default: a new empty string
-    # prettyprint:: whether Erector should add newlines and indentation. Default: the value of prettyprint_default (which is false by default). 
-    # indentation:: the amount of spaces to indent. Ignored unless prettyprint is true.
-    # helpers:: a helpers object containing utility methods. Usually this is a Rails view object.
-    # content_method_name:: in case you want to call a method other than #content, pass its name in here.
+    # prettyprint:: whether Erector should add newlines and indentation.
+    #               Default: the value of prettyprint_default (which is false
+    #               by default). 
+    # indentation:: the amount of spaces to indent. Ignored unless prettyprint
+    #               is true.
+    # helpers:: a helpers object containing utility methods. Usually this is a
+    #           Rails view object.
+    # content_method_name:: in case you want to call a method other than
+    #                       #content, pass its name in here.
     #
     # Note: Prettyprinting is an experimental feature and is subject to change
-    # (either in terms of how it is enabled, or in terms of
-    # what decisions Erector makes about where to add whitespace).
+    # (either in terms of how it is enabled, or in terms of what decisions
+    # Erector makes about where to add whitespace).
     def to_s(options = {}, &blk)
-      
       raise "Erector::Widget#to_s now takes an options hash, not a symbol. Try calling \"to_s(:content_method_name=> :#{options})\"" if options.is_a? Symbol
-      
+      _render(options, &blk).to_s
+    end
+    
+    # Entry point for rendering a widget (and all its children). Same as #to_s
+    # only returns an array, for minor performance improvements when using a
+    # Rack server (like Sinatra or Rails Metal).
+    #
+    # # Options: see #to_s
+    def to_a(options = {}, &blk)
+      _render(options, &blk).to_a
+    end
+    
+    def _render(options = {}, &blk)
       options = {
-        :output => "",
+        :output => [],
         :prettyprint => prettyprint_default,
         :indentation => 0,
         :helpers => nil,
@@ -267,7 +285,7 @@ module Erector
       }.merge(options)
       context(options[:output], options[:prettyprint], options[:indentation], options[:helpers]) do
         send(options[:content_method_name], &blk)
-        output.to_s
+        output
       end
     end
     
@@ -281,10 +299,11 @@ module Erector
       end
     end
 
-    # To call one widget from another, inside the parent widget's +content+ method, instantiate the child widget and call 
-    # its +write_via+ method, passing in +self+. This assures that the same output string
-    # is used, which gives better performance than using +capture+ or +to_s+.
-    # You can also use the +widget+ method.
+    # To call one widget from another, inside the parent widget's +content+
+    # method, instantiate the child widget and call its +write_via+ method,
+    # passing in +self+. This assures that the same output string is used,
+    # which gives better performance than using +capture+ or +to_s+. You can
+    # also use the +widget+ method.
     def write_via(parent)
       @parent = parent
       context(parent.output, parent.prettyprint, parent.indentation, parent.helpers) do
@@ -292,13 +311,14 @@ module Erector
       end
     end
 
-    # Emits a (nested) widget onto the current widget's output stream. Accepts either
-    # a class or an instance. If the first argument is a class, then the second argument
-    # is a hash used to populate its instance variables. If the first argument is an 
-    # instance then the hash must be unspecified (or empty).
+    # Emits a (nested) widget onto the current widget's output stream. Accepts
+    # either a class or an instance. If the first argument is a class, then
+    # the second argument is a hash used to populate its instance variables.
+    # If the first argument is an instance then the hash must be unspecified
+    # (or empty).
     #
-    # The sub-widget will have access to the methods of the parent class, via some method_missing
-    # magic and a "parent" pointer.
+    # The sub-widget will have access to the methods of the parent class, via
+    # some method_missing magic and a "parent" pointer.
     def widget(target, assigns={}, &block)
       child = if target.is_a? Class
         target.new(assigns, &block)
@@ -319,40 +339,46 @@ module Erector
 #-- methods for subclasses to call
 #++
 
-    # Internal method used to emit an HTML/XML element, including an open tag, attributes (optional, via the default hash), 
-    # contents (also optional), and close tag. 
+    # Internal method used to emit an HTML/XML element, including an open tag,
+    # attributes (optional, via the default hash), contents (also optional),
+    # and close tag.
     #
-    # Using the arcane powers of Ruby, there are magic methods that call +element+ for all the standard
-    # HTML tags, like +a+, +body+, +p+, and so forth. Look at the source of #full_tags for the full list.
-    # Unfortunately, this big mojo confuses rdoc, so we can't see each method in this rdoc page, but trust
-    # us, they're there.
+    # Using the arcane powers of Ruby, there are magic methods that call
+    # +element+ for all the standard HTML tags, like +a+, +body+, +p+, and so
+    # forth. Look at the source of #full_tags for the full list.
+    # Unfortunately, this big mojo confuses rdoc, so we can't see each method
+    # in this rdoc page, but trust us, they're there.
     #
-    # When calling one of these magic methods, put attributes in the default hash. If there is a string parameter,
-    # then it is used as the contents. If there is a block, then it is executed (yielded), and the string parameter is ignored.
-    # The block will usually be in the scope of the child widget, which means it has access to all the 
-    # methods of Widget, which will eventually end up appending text to the +output+ string. See how
-    # elegant it is? Not confusing at all if you don't think about it.
+    # When calling one of these magic methods, put attributes in the default
+    # hash. If there is a string parameter, then it is used as the contents.
+    # If there is a block, then it is executed (yielded), and the string
+    # parameter is ignored. The block will usually be in the scope of the
+    # child widget, which means it has access to all the methods of Widget,
+    # which will eventually end up appending text to the +output+ string. See
+    # how elegant it is? Not confusing at all if you don't think about it.
     #
     def element(*args, &block)
       __element__(*args, &block)
     end
   
-    # Internal method used to emit a self-closing HTML/XML element, including a tag name and optional attributes
-    # (passed in via the default hash).
-    # 
-    # Using the arcane powers of Ruby, there are magic methods that call +empty_element+ for all the standard
-    # HTML tags, like +img+, +br+, and so forth. Look at the source of #empty_tags for the full list.
-    # Unfortunately, this big mojo confuses rdoc, so we can't see each method in this rdoc page, but trust
-    # us, they're there.
+    # Internal method used to emit a self-closing HTML/XML element, including
+    # a tag name and optional attributes (passed in via the default hash).
+    #
+    # Using the arcane powers of Ruby, there are magic methods that call
+    # +empty_element+ for all the standard HTML tags, like +img+, +br+, and so
+    # forth. Look at the source of #empty_tags for the full list.
+    # Unfortunately, this big mojo confuses rdoc, so we can't see each method
+    # in this rdoc page, but trust us, they're there.
     #
     def empty_element(*args, &block)
       __empty_element__(*args, &block)
     end
 
-    # Returns an HTML-escaped version of its parameter. Leaves the output string untouched. Note that
-    # the #text method automatically HTML-escapes its parameter, so be careful *not* to do something like
-    # text(h("2<4")) since that will double-escape the less-than sign (you'll get "2&amp;lt;4" instead of
-    # "2&lt;4").
+    # Returns an HTML-escaped version of its parameter. Leaves the output
+    # string untouched. Note that the #text method automatically HTML-escapes
+    # its parameter, so be careful *not* to do something like text(h("2<4"))
+    # since that will double-escape the less-than sign (you'll get
+    # "2&amp;lt;4" instead of "2&lt;4").
     def h(content)
       content.html_escape
     end
@@ -366,11 +392,11 @@ module Erector
       @at_start_of_line = false
     end
 
-    # Emits text.  If a string is passed in, it will be HTML-escaped.
-    # If a widget or the result of calling methods such as raw
-    # is passed in, the HTML will not be HTML-escaped again.
-    # If another kind of object is passed in, the result of calling
-    # its to_s method will be treated as a string would be.
+    # Emits text.  If a string is passed in, it will be HTML-escaped. If a
+    # widget or the result of calling methods such as raw is passed in, the
+    # HTML will not be HTML-escaped again. If another kind of object is passed
+    # in, the result of calling its to_s method will be treated as a string
+    # would be.
     def text(value)
       if value.is_a? Widget
         widget value
@@ -445,9 +471,10 @@ module Erector
       output << "<?xml#{format_sorted(sort_for_xml_declaration(attributes))}?>"
     end
 
-    # Creates a whole new output string, executes the block, then converts the output string to a string and
-    # emits it as raw text. If at all possible you should avoid this method since it hurts performance,
-    # and use +content+ or +write_via+ instead.
+    # Creates a whole new output string, executes the block, then converts the
+    # output string to a string and emits it as raw text. If at all possible
+    # you should avoid this method since it hurts performance, and use
+    # +widget+ or +write_via+ instead.
     def capture(&block)
       begin
         original_output = output
@@ -479,7 +506,8 @@ module Erector
       )
     end
 
-    # Emits a javascript block inside a +script+ tag, wrapped in CDATA doohickeys like all the cool JS kids do.
+    # Emits a javascript block inside a +script+ tag, wrapped in CDATA
+    # doohickeys like all the cool JS kids do.
     def javascript(*args, &block)
       if args.length > 2
         raise ArgumentError, "Cannot accept more than two arguments"
@@ -518,16 +546,17 @@ module Erector
       rawtext "\n"
     end
     
-    # Convenience method to emit a css file link, which looks like this: 
+    # Convenience method to emit a css file link, which looks like this:
     # <link href="erector.css" rel="stylesheet" type="text/css" />
-    # The parameter is the full contents of the href attribute, including any ".css" extension. 
+    # The parameter is the full contents of the href attribute, including any ".css" extension.
     #
     # If you want to emit raw CSS inline, use the #style method instead.
     def css(href)
       link :rel => 'stylesheet', :type => 'text/css', :href => href
     end
     
-    # Convenience method to emit an anchor tag whose href and text are the same, e.g. <a href="http://example.com">http://example.com</a>
+    # Convenience method to emit an anchor tag whose href and text are the same,
+    # e.g. <a href="http://example.com">http://example.com</a>
     def url(href)
       a href, :href => href
     end

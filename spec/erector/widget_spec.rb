@@ -1,4 +1,5 @@
 require File.expand_path("#{File.dirname(__FILE__)}/../spec_helper")
+require 'benchmark'
 
 module WidgetSpec
   describe Erector::Widget do
@@ -48,6 +49,34 @@ module WidgetSpec
           dont_allow(widget).content
           widget.to_s(:content_method_name => :alternate_content)
         end
+      end
+    end
+
+    describe "#to_a" do
+      it "returns an array" do
+        widget = Erector::Widget.new do
+          div "Hello"
+        end
+        widget.to_a.should == ["<div>", "Hello", "</div>"]
+      end
+      
+      it "runs faster than using a string as the output" do
+        widget = Erector::Widget.new do
+          1000.times do |i|
+            div "Lorem ipsum dolor sit amet #{i}, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est #{i} laborum."
+          end
+        end
+
+        times = 20
+        time_for_to_a = Benchmark.measure { times.times { widget.to_a } }.total
+        # puts "to_a: #{time_for_to_a}"
+        time_for_string = Benchmark.measure { times.times { widget.to_s(:output => "") } }.total
+        # puts "to_s(''): #{time_for_string}"
+        
+        percent_faster = (((time_for_string - time_for_to_a) / time_for_string)*100)
+        # puts ("%.1f%%" % percent_faster)
+
+        (time_for_to_a <= time_for_string).should be_true
       end
     end
 
