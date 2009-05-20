@@ -149,7 +149,8 @@ grammar Rhtml
         if stripped.empty?
           ""
         else
-          line "text '#{text_value.strip.html_unescape}'"
+          line "text '#{stripped.html_unescape.gsub(/\'/, "\\\\'")
+          }'"
         end
       end
     }

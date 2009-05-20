@@ -160,7 +160,6 @@ module Erector
     end
     
     # it "properly indents lines beginning with for, unless, etc."
-    # it "escapes single quotes inside text strings"
   end
 
 end
