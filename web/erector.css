@@ -1,5 +1,5 @@
 body, td, a, p {
-  font-family: arial,sans-serif;
+  font-family: verdana,arial,sans-serif;
 }
 
 img {
@@ -40,6 +40,7 @@ code {
 .separator {
   margin-right: 6em;
 }
+
 /* sidebar */
 
 div.sidebar {

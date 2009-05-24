@@ -20,7 +20,7 @@
             <ul>
               <li class="clickable" onclick="document.location='http://rubyforge.org/frs/?group_id=4797'"><a href="http://rubyforge.org/frs/?group_id=4797">Download</a>
                 <br />
-                <span> (current version: 0.6.3)</span></li>
+                <span> (current version: 0.6.4)</span></li>
               <li class="clickable" onclick="document.location='http://erector.rubyforge.org/svn/trunk/History.txt'"><a href="http://erector.rubyforge.org/svn/trunk/History.txt">Version History</a></li>
               <li class="clickable" onclick="document.location='rdoc'"><a href="rdoc">RDoc Documentation</a></li>
               <li class="clickable" onclick="document.location='http://rubyforge.org/projects/erector/'"><a href="http://rubyforge.org/projects/erector/">RubyForge Project</a></li>
@@ -80,6 +80,10 @@ documentation.
 
     Hello.new(:target =&gt; 'world').to_s
     =&gt; &quot;&lt;html&gt;&lt;head&gt;&lt;title&gt;Hello&lt;/title&gt;&lt;/head&gt;&lt;body&gt;Hello, &lt;b class=\&quot;big\&quot;&gt;world!&lt;/b&gt;&lt;/body&gt;&lt;/html&gt;&quot;
+
+    include Erector::Mixin
+    erector { div &quot;love&quot;, :class =&gt; &quot;big&quot; }
+    =&gt; &quot;&lt;div class=\&quot;big\&quot;&gt;love&lt;/div&gt;&quot;
 </pre>
 <h2>REQUIREMENTS</h2>
 <p>
@@ -143,6 +147,12 @@ OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
 USE OR OTHER DEALINGS IN THE SOFTWARE.
 </p>
 </div>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2">
+          <hr />
+          <center>Erector is an open source project released under the MIT license. Its initial development was sponsored by <a href="http://pivotallabs.com">Pivotal Labs</a>.</center>
         </td>
       </tr>
     </table>

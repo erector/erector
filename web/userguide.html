@@ -20,7 +20,7 @@
             <ul>
               <li class="clickable" onclick="document.location='http://rubyforge.org/frs/?group_id=4797'"><a href="http://rubyforge.org/frs/?group_id=4797">Download</a>
                 <br />
-                <span> (current version: 0.6.3)</span></li>
+                <span> (current version: 0.6.4)</span></li>
               <li class="clickable" onclick="document.location='http://erector.rubyforge.org/svn/trunk/History.txt'"><a href="http://erector.rubyforge.org/svn/trunk/History.txt">Version History</a></li>
               <li class="clickable" onclick="document.location='rdoc'"><a href="rdoc">RDoc Documentation</a></li>
               <li class="clickable" onclick="document.location='http://rubyforge.org/projects/erector/'"><a href="http://rubyforge.org/projects/erector/">RubyForge Project</a></li>
@@ -42,11 +42,12 @@
             <ul>
               <li><a href="#thebasics">The Basics</a></li>
               <li><a href="#apicheatsheet">API Cheatsheet</a></li>
+              <li><a href="#mixin">Mixin</a></li>
               <li><a href="#prettyprinting">Pretty-printing</a></li>
-              <li><a href="#usingerectorfromrubyonrails">Using Erector from Ruby on Rails</a></li>
-              <li><a href="#commandlineconversiontoandfromhtml">Command-line conversion to and from HTML</a></li>
+              <li><a href="#rails">Using Erector from Ruby on Rails</a></li>
+              <li><a href="#tool">Erector tool: Command-line conversion to and from HTML</a></li>
               <li><a href="#layoutinheritance">Layout Inheritance</a></li>
-              <li><a href="#inlinewidgets">Inline Widgets</a></li>
+              <li><a href="#inline">Inline Widgets</a></li>
               <li><a href="#needs">Needs</a></li>
             </ul>
             <a name="thebasics"></a>
@@ -125,7 +126,35 @@ if (x &lt; y &amp;&amp; x &gt; z) alert(&quot;don't stop&quot;);
                 <td><i>See examples/join.rb for more explanation</i></td>
               </tr>
             </table>
-            <i>TODO: document more obscure features like capture, Table, :class =&gt; ['one', 'two']</i>            <a name="prettyprinting"></a>
+            <i>TODO: document more obscure features like capture, Table, :class =&gt; ['one', 'two']</i>            <a name="mixin"></a>
+            <h2>Mixin</h2>
+            <p>If all this widget stuff is too complicated, just do </p>
+            <pre>include Erector::Widget</pre>
+            <p>and then call 
+              <code>erector { }</code>
+ from anywhere in your code. It will make an <a href="#inline">inline widget</a> for you, pass in the block, and call 
+              <code>to_s</code>
+ on it. And if you pass any options to 
+              <code>erector</code>
+, like 
+              <code>:prettyprint =&gt; true</code>
+, it'll pass them along to 
+              <code>to_s</code>
+!</p>
+            <h3>Examples:</h3>
+            <pre>erector { a &quot;lols&quot;, :href =&gt; &quot;http://icanhascheezburger.com/&quot; }
+=&gt; &quot;&lt;a href=\&quot;http://icanhascheezburger.com/\&quot;&gt;lols&lt;/a&gt;&quot;
+ 
+erector(:prettyprint =&gt; true) do
+  ol do
+    li &quot;bacon&quot;
+    li &quot;lettuce&quot;
+    li &quot;tomato&quot;
+  end
+end
+=&gt; &quot;&lt;ol&gt;\n  &lt;li&gt;bacon&lt;/li&gt;\n  &lt;li&gt;lettuce&lt;/li&gt;\n  &lt;li&gt;tomato&lt;/li&gt;\n&lt;/ol&gt;\n&quot; 
+</pre>
+            <a name="prettyprinting"></a>
             <h2>Pretty-printing</h2>
             <p>Erector has the ability to insert newlines and indentation to make the generated HTML more readable.  Newlines are inserted before and after certain tags.</p>
             <p>To enable pretty-printing (insertion of newlines and indentation) of Erector's output, do one of the following:</p>
@@ -142,7 +171,7 @@ if (x &lt; y &amp;&amp; x &gt; z) alert(&quot;don't stop&quot;);
                 <code>Erector::Doc.prettyprint_default = true</code>
  (for example, in environments/development.rb in a rails application, or anywhere which is convenient)</li>
             </ul>
-            <a name="usingerectorfromrubyonrails"></a>
+            <a name="rails"></a>
             <h2>Using Erector from Ruby on Rails</h2>
             <p>Your views are just ruby classes.  Your controller can either call Rails' 
               <code>render :template</code>
@@ -179,8 +208,8 @@ end
               <code>config/environment.rb</code>
 . You also should delete (or rename) any other view files with the same base name that might be getting in the way.</p>
             <p>Currently there is only partial support for some standard Rails features like partials, layouts, assigns, and helpers. Check the <a href="http://googlegroups.com/group/erector">erector Google Groups mailing list</a> for status updates on these features.</p>
-            <a name="commandlineconversiontoandfromhtml"></a>
-            <h2>Command-line conversion to and from HTML</h2>
+            <a name="tool"></a>
+            <h2>Erector tool: Command-line conversion to and from HTML</h2>
             <p>To make Rails integration as smooth as possible, we've written a little tool that will help you
       erect your existing Rails app. The 'erector' tool will convert HTML or HTML/ERB into an Erector class.
       It ships as part of the Erector gem, so to try it out, install the gem, then run</p>
@@ -315,7 +344,7 @@ self &lt;&lt; widget.to_s
  method would be implemented by subclassing widgets, but the layout template sets it directly and then calls 
               <code>to_s</code>
  on the layout widget. This allows the same layout to be shared in a backward compatible way.</p>
-            <a name="inlinewidgets"></a>
+            <a name="inline"></a>
             <h2>Inline Widgets</h2>
             <p>Instead of subclassing 
               <code>Erector::Widget</code>
@@ -345,6 +374,12 @@ This widget will throw an exception if you fail to pass
  into its constructor.</p>
             <p>See the <a href="rdoc">rdoc for Widget#needs</a> for more details.</p>
           </div>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2">
+          <hr />
+          <center>Erector is an open source project released under the MIT license. Its initial development was sponsored by <a href="http://pivotallabs.com">Pivotal Labs</a>.</center>
         </td>
       </tr>
     </table>

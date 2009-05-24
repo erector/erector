@@ -110,6 +110,41 @@ DONE
       end
       i "TODO: document more obscure features like capture, Table, :class => ['one', 'two']"
     end,
+    
+    Section.new("Mixin") do
+      p "If all this widget stuff is too complicated, just do "
+      pre "include Erector::Widget"
+      p do
+        text "and then call "
+        code "erector { }"
+        text " from anywhere in your code. It will make an "
+        a "inline widget", :href => "#inline"
+        text " for you, pass in the block, and call "
+        code "to_s"
+        text " on it. And if you pass any options to "
+        code "erector"
+        text ", like "
+        code ":prettyprint => true"
+        text ", it'll pass them along to "
+        code "to_s"
+        text "!"
+      end
+      h3 "Examples:"
+      pre <<-PRE
+erector { a "lols", :href => "http://icanhascheezburger.com/" }
+=> "<a href=\\"http://icanhascheezburger.com/\\">lols</a>"
+ 
+erector(:prettyprint => true) do
+  ol do
+    li "bacon"
+    li "lettuce"
+    li "tomato"
+  end
+end
+=> "<ol>\\n  <li>bacon</li>\\n  <li>lettuce</li>\\n  <li>tomato</li>\\n</ol>\\n" 
+      PRE
+        
+    end,
 
     Section.new("Pretty-printing") do
       p "Erector has the ability to insert newlines and indentation to make the generated HTML more readable.  Newlines are inserted before and after certain tags."
@@ -135,7 +170,7 @@ DONE
       end
     end,
 
-    Section.new("Using Erector from Ruby on Rails") do
+    Section.new("Using Erector from Ruby on Rails", "rails") do
 
       p do
         text "Your views are just ruby classes.  Your controller can either call Rails' "
@@ -190,7 +225,7 @@ DONE
 
     end,
 
-    Section.new("Command-line conversion to and from HTML") do
+    Section.new("Erector tool: Command-line conversion to and from HTML", "tool") do
 
       p """
       To make Rails integration as smooth as possible, we've written a little tool that will help you
@@ -359,12 +394,13 @@ DONE
       end
     end,
 
-
-    Section.new("Inline Widgets") do
+    Section.new("Inline Widgets", "inline") do
       p do
         text "Instead of subclassing "
         code "Erector::Widget"
-        text " and implementing a render method, you can pass a block to "
+        text " and implementing a "
+        code "content"
+        text " method, you can pass a block to "
         code "Erector::Widget.new"
         text ".  For example:"
         pre <<DONE

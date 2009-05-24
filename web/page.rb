@@ -33,6 +33,16 @@ class Page < Erector::Widget
               end
             end
           end
+          tr do
+            td :colspan=>2 do
+              hr
+              center do
+                text "Erector is an open source project released under the MIT license. Its initial development was sponsored by "
+                a "Pivotal Labs", :href => "http://pivotallabs.com"
+                text "."
+              end
+            end
+          end
         end
       end
     end

@@ -25,14 +25,19 @@ project site at http://erector.rubyforge.org for more documentation.
           end
           body do
             text "Hello, "
-            b "#{target}!", :class => 'big'
+            b target, :class => 'big'
+            text "!"
           end
         end
       end
     end
 
     Hello.new(:target => 'world').to_s
-    => "<html><head><title>Hello</title></head><body>Hello, <b class=\"big\">world!</b></body></html>"
+    => "<html><head><title>Hello</title></head><body>Hello, <b class=\"big\">world</b>!</body></html>"
+
+    include Erector::Mixin
+    erector { div "love", :class => "big" }
+    => "<div class=\"big\">love</div>"
 
 == REQUIREMENTS
 

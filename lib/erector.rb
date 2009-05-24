@@ -10,6 +10,7 @@ require "#{dir}/erector/widget"
 require "#{dir}/erector/unicode"
 require "#{dir}/erector/widgets"
 require "#{dir}/erector/version"
+require "#{dir}/erector/mixin"
 if Object.const_defined?(:RAILS_ROOT)
   require "#{dir}/erector/rails"
 end

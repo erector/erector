@@ -1,9 +1,12 @@
 == 0.6.4
+* mixin: do "include Erector::Mixin" and now "erector { }" will instantiate and to_s a widget for you
 * "erector" command-line tool improved:
   * if converting an HTML/ERB file under a "views" directory, uses "Erector::RailsWidget" as parent class
   * no longer chokes on "if IE" directives
   * changes 'yield' in a scriptlet to use a missing "@content_for_layout"
-* require treetop 1.2.5
+  * escapes single quotes inside text strings
+* requires treetop 1.2.5
+
 
 == 0.6.3 / 2009-05-06
 * Major update to API. You *will* have to change your code. There are deprecation warnings/errors

@@ -20,7 +20,7 @@
             <ul>
               <li class="clickable" onclick="document.location='http://rubyforge.org/frs/?group_id=4797'"><a href="http://rubyforge.org/frs/?group_id=4797">Download</a>
                 <br />
-                <span> (current version: 0.6.3)</span></li>
+                <span> (current version: 0.6.4)</span></li>
               <li class="clickable" onclick="document.location='http://erector.rubyforge.org/svn/trunk/History.txt'"><a href="http://erector.rubyforge.org/svn/trunk/History.txt">Version History</a></li>
               <li class="clickable" onclick="document.location='rdoc'"><a href="rdoc">RDoc Documentation</a></li>
               <li class="clickable" onclick="document.location='http://rubyforge.org/projects/erector/'"><a href="http://rubyforge.org/projects/erector/">RubyForge Project</a></li>
@@ -45,6 +45,7 @@
               <li><a href="#howdoeserectorstackupagainstmarkaby">How does Erector stack up against Markaby?</a></li>
               <li><a href="#howdoeserectorstackupagainsthaml">How does Erector stack up against HAML?</a></li>
               <li><a href="#howdoiuselayouts">How do I use layouts?</a></li>
+              <li><a href="#howfastiserectorcomparedtoerbhamletc">How fast is Erector compared to ERB, HAML, etc.?</a></li>
             </ul>
             <a name="whatiserector"></a>
             <h2>What is Erector?</h2>
@@ -74,9 +75,10 @@
             </ul>
             <a name="wherearesomeexamples"></a>
             <h2>Where are some examples?</h2>
-            <p>This very web site you're reading right now is built with Erector, using the <a href="userguide.html#erector">erector</a> tool. See the <a href="http://github.com/pivotal/erector">repository</a> (especially the web directory).</p>
+            <p>This very web site you're reading right now is built with Erector, using the <a href="userguide.html#tool">erector</a> command-line tool. See the <a href="http://github.com/pivotal/erector">repository</a> (especially the web directory).</p>
             <p>We also have several examples checked in to the repository in the examples directory.</p>
-            <p>Currently we don't know of any open-source projects built with Erector so we can't show you working source code for a full Erector webapp.</p>
+            <p>At RailsConf 2009 Alex whipped up a simple Sinatra + Erector + ActiveRecord webapp called <a href="http://github.com/alexch/vegas">Vegas</a>. Caveat lector.</p>
+            <p>Currently we don't know of any open-source projects built with Erector so we can't show you working source code for a full Erector webapp. And client confidentiality keeps us from saying which of the <a href="http://pivotallabs.com/clients">Pivotal Labs</a> project were built with Erector. But trust us, they're out there.</p>
             <a name="howdoeserectorstackupagainstmarkaby"></a>
             <h2>How does Erector stack up against Markaby?</h2>
             <p>We loved <a href="http://code.whytheluckystiff.net/markaby/">Markaby</a> when we first saw it, since it transformed the gnarliness of Rails' ERB views into a clean, functional programming lanugage where views are primarily code with ways to emit HTML, rather than HTML with ways to hack in code. However, we soon realized Markaby had two main flaws:
@@ -94,7 +96,26 @@
             <p>Rails has a concept of layouts, which are essentially skeletons for a page, which get fleshed out by views. This is a powerful mechanism for rendering web pages; however, the mechanism Rails uses (via content_for and yield) is fundamentally incompatible with Erector's &quot;just call the content method&quot; design.</p>
             <p>We recommend a slightly different approach, known officially as the <a href="http://en.wikipedia.org/wiki/Template_method_pattern">Template Method Design Pattern</a>: define a parent class (e.g. Page) and have your view widgets extend this class rather than directly extending Erector::Widget. The parent class implements content, and calls down to the child class to render sections or acquire information that's specific to that view.</p>
             <p>For an example with source code, see <a href="userguide.html#layoutinheritance">the user guide</a>. Also see Alex Chaffee's Page base class, at <a href="http://gist.github.com/103976"> this gist snippet</a> (which we may soon integrate into Erector proper).</p>
+            <a name="howfastiserectorcomparedtoerbhamletc"></a>
+            <h2>How fast is Erector compared to ERB, HAML, etc.?</h2>
+            <p><a href="http://github.com/alexch/erector-benchmark">Initial benchmarking tests</a> show that Erector is about 2x as fast as ERB and 4x as fast as HAML under typical conditions.
+              <p>The main architectural benefits of Erector from a performance standpoint are:</p>
+              <p><b>Parsed by Ruby.</b> Since Erector widgets are Ruby classes, the native-code Ruby interpreter compiles them during classload time, not a parser written <b>in</b> Ruby at runtime.</p>
+              <p><b>Append &gt; Copy. </b> Many templating systems are casual about whether a particular operation <b>returns</b> a string, or <b>appends</b> to an output stream. This can lead to wasteful copying and reallocation. In Erector, all operations concatenate their result to a single output buffer, even when calling nested widgets (via the
+                <code>widget</code>
+ method). If you choose to, you can use Erector's 
+                <code>capture</code>
+ method for explicit string conversion, but by default we use the faster way.</p>
+              <p><b>Methods, not Partials.</b> In ERB and HAML, modular decomposition is accomplished by separating reused code into separate template files. In addition to being aesthetically problematic, encouraging you to move related code into separate places, it also introduces a performance problem, since every partial may be rendered into a string. (Although sometimes it's not, which is just weird.)</p>
+            </p>
+            <p>We should point out, of course, that the choice of templating engines by itself is not what will make your application scalable. The effectiveness of your caching policy will dwarf that of your rendering engine in nearly all cases. But it's fun to know we've got a pretty fast horse in this particular race...</p>
 </div>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2">
+          <hr />
+          <center>Erector is an open source project released under the MIT license. Its initial development was sponsored by <a href="http://pivotallabs.com">Pivotal Labs</a>.</center>
         </td>
       </tr>
     </table>
