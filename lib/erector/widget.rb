@@ -38,13 +38,13 @@ module Erector
         Erector::Widget.full_tags + Erector::Widget.empty_tags
       end
 
-      # tags which are always self-closing
+      # Tags which are always self-closing. Click "[Source]" to see the full list.
       def empty_tags
         ['area', 'base', 'br', 'col', 'frame', 
         'hr', 'img', 'input', 'link', 'meta']
       end
 
-      # tags which can contain other stuff
+      # Tags which can contain other stuff. Click "[Source]" to see the full list.
       def full_tags
         [
           'a', 'abbr', 'acronym', 'address', 
@@ -257,17 +257,13 @@ module Erector
     #           Rails view object.
     # content_method_name:: in case you want to call a method other than
     #                       #content, pass its name in here.
-    #
-    # Note: Prettyprinting is an experimental feature and is subject to change
-    # (either in terms of how it is enabled, or in terms of what decisions
-    # Erector makes about where to add whitespace).
     def to_s(options = {}, &blk)
       raise "Erector::Widget#to_s now takes an options hash, not a symbol. Try calling \"to_s(:content_method_name=> :#{options})\"" if options.is_a? Symbol
       _render(options, &blk).to_s
     end
     
     # Entry point for rendering a widget (and all its children). Same as #to_s
-    # only returns an array, for minor performance improvements when using a
+    # only it returns an array, for theoretical performance improvements when using a
     # Rack server (like Sinatra or Rails Metal).
     #
     # # Options: see #to_s
@@ -277,7 +273,7 @@ module Erector
     
     def _render(options = {}, &blk)
       options = {
-        :output => [],
+        :output => "",  # "" is apparently faster than [] in a long-running process
         :prettyprint => prettyprint_default,
         :indentation => 0,
         :helpers => nil,
@@ -291,8 +287,12 @@ module Erector
     
     alias_method :inspect, :to_s
     
-    # Template method which must be overridden by all widget subclasses. Inside this method you call the magic
-    # #element methods which emit HTML and text to the output string.
+    # Template method which must be overridden by all widget subclasses.
+    # Inside this method you call the magic #element methods which emit HTML
+    # and text to the output string. If you call "super" (or don't override
+    # +content+) then your widget will render any block that was passed into
+    # its constructor (in the current instance context so it can get access
+    # to parent widget methods via method_missing).
     def content
       if @block
         instance_eval(&@block)
@@ -440,7 +440,7 @@ module Erector
       end
     end
 
-    # Emits a close tag, consisting of '<', tag name, and '>'
+    # Emits a close tag, consisting of '<', '/', tag name, and '>'
     def close_tag(tag_name)
       @indentation -= SPACES_PER_INDENT
       indent()
@@ -637,7 +637,7 @@ protected
 
     def indent()
       if @at_start_of_line
-        output << " " * @indentation
+        output << " " * [@indentation, 0].max
       end
     end
 

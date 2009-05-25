@@ -1,9 +1,21 @@
 body, td, a, p {
-  font-family: verdana,arial,sans-serif;
+  font-family: Lucida Sans, arial,sans-serif;
 }
 
 img {
   margin-right: 3em;
+  border: none;
+}
+
+img.logo {
+}
+
+.clear {
+  clear: both;
+}
+
+ul {
+  	list-style-position: inside;
 }
 
 li {
@@ -16,16 +28,48 @@ li.clickable:hover {
   cursor: pointer; cursor: hand;
 }
 
+ul.clickable {
+  list-style-type: none;
+  list-style-position: outside;
+  -webkit-padding-start: 0px;
+}
+
+li.clickable {
+  color: #ccdcea;
+  background-color: #3470a2;
+  list-style-type: none;
+  text-align: right;
+  margin-left: 0em;
+  padding: .2em;
+  padding-right: 1em;
+  padding-left: 1em;
+/*  font-variant: small-caps;*/
+  margin-bottom: 2px;
+}
+
+li.clickable a, li.clickable a:visited {
+  text-decoration: none;
+  font-weight: bold;
+  color: white;
+}
+
 h1 {
-  font-variant: small-caps;
+/*  font-variant: small-caps;*/
+  border-bottom: 1px solid gray;
+/*  background: #EEE; */
+  padding: .25em;
+  padding-left: 0px;
+  margin-left: 0px;
 }
 
 h2 {
   margin-top: 2em;
+  background: #EEE;
+  padding: .25em;
 }
 
-pre, table.cheatsheet {
-  background-color: lemonchiffon;
+pre {
+  background-color: #EEEEFF;
   border: 1px solid gray;
   padding: .5em;
   padding-left: 2em;
@@ -33,36 +77,111 @@ pre, table.cheatsheet {
   overflow: auto;
 }
 
+table.cheatsheet {
+  border-style: outset;
+  border-collapse: collapse;
+  font-size: 10pt;
+}
+
+table.cheatsheet code {
+  background-color: #EEEEFF;
+}
+
+table.cheatsheet i {
+  font-size: 11pt;
+}
+
+table.cheatsheet th {
+  background-color: #EDEDED;
+}
+
+table.cheatsheet tr {
+}
+
+table.cheatsheet td, table.cheatsheet th {
+  border-width: 1px;
+  border-style: solid;
+  border-color: lightgray;
+  padding: .5em;
+  font-size: 10pt;
+}
+
+table.cheatsheet td {
+  vertical-align: top;
+}
+
 code {
   font-size: 12pt;
 }
 
+pre {
+  font-size: 12pt;
+  font-family: Inconsolata,
+               Consolas,
+               "Andale Mono",
+               "Lucida Console",
+               "Lucida Sans Typewriter",
+               "DejaVu Sans Mono",
+               "Bitstream Vera Sans Mono",
+               "Liberation Mono",
+               "Nimbus Mono L",
+               Monaco,
+               "Courier New",
+               Courier,
+               monospace;
+
+}
+
 .separator {
-  margin-right: 6em;
+  margin-right: 10px;
+  font-size: 36pt;
+}
+
+/* top */
+
+div.top {
+  
+}
+
+div.top ul {
+  list-style-type: none;
+  display: inline;
+  margin: 0px;
+  padding: 0px;
+  
+}
+
+div.top li {
+  display: inline;
+  padding: .5em;
 }
 
 /* sidebar */
 
 div.sidebar {
   float: left;
+  position: fixed;
+  max-width: 240px;
+  float: right;
   margin-right: 1em;
+  margin-bottom: 4em;
+  overflow-vertical: auto;
 }
 
 .sidebar ul {
 }
 
-.sidebar li {
-  background-color: cadetblue;
-  list-style-type: none;
-  text-align: right;
-  padding: .2em;
-  padding-right: 1em;
-  font-variant: small-caps;
-  margin-bottom: 2px;
+.main {
+  margin-left: 260px;
 }
 
-.sidebar a, .sidebar a:visited {
-  text-decoration: none;
-  font-weight: bold;
-  color: white;
+.footer {
+  font-size: 10pt;
+  border-top: 1px solid black;
+  padding: 1em;
 }
+
+.body {
+  margin-left: 1em;
+}
+

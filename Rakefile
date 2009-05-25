@@ -82,7 +82,7 @@ end
 desc "Build the web site from the .rb files in web/"
 task :web do
   dir = File.dirname(__FILE__)
-  files = Dir["web/*.rb"] - ["web/page.rb", "web/sidebar.rb"]
+  files = Dir["web/*.rb"] - ["web/page.rb", "web/sidebar.rb", "web/clickable_li.rb"]
   require 'erector'
   require 'erector/erect'
   Erector::Widget.prettyprint_default = true

@@ -1,3 +1,7 @@
+dir = File.dirname(__FILE__)
+require "#{dir}/sidebar"
+require "#{dir}/clickable_li"
+
 class Page < Erector::Widget
   needs :page_title => nil, :selection => nil
   
@@ -9,6 +13,10 @@ class Page < Erector::Widget
     @selection || page_title.downcase
   end
   
+  def clickable_li(item, href)
+    widget ClickableLi, :item => item, :href => href
+  end
+  
   def content
     html do
       head do
@@ -16,32 +24,32 @@ class Page < Erector::Widget
         css "erector.css"
       end
       body do
-        table do
-          tr do
-            td "valign" => "top" do
-              widget Sidebar.new(:current_page => selection)
-            end
-            td "valign" => "top" do
-              h1 :class => "title" do
-                text "Erector - #{real_page_title}"
-              end
+        
+        widget Sidebar.new(:current_page => selection)
 
-              hr
+        div :class => "main" do
 
-              div :class => "body" do
-                render_body
-              end
-            end
+          h1 :class => "title" do
+            text "Erector - #{real_page_title}"
           end
-          tr do
-            td :colspan=>2 do
-              hr
-              center do
-                text "Erector is an open source project released under the MIT license. Its initial development was sponsored by "
-                a "Pivotal Labs", :href => "http://pivotallabs.com"
-                text "."
+
+          div :class => "body" do
+            render_body
+          end
+        end
+        
+        div :class => "footer" do
+          center do
+            text "Erector is an open source project released under the MIT license. Its initial development was sponsored by "
+            a "Pivotal Labs", :href => "http://pivotallabs.com"
+            text "."
+            br
+            center do
+              a :href => "http://www.pivotallabs.com" do
+                img :src => "pivotal.gif", :width => 158, :height => 57, :alt => "Pivotal Labs"
               end
             end
+
           end
         end
       end

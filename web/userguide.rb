@@ -45,7 +45,7 @@ DONE
           end
           td do
             span :class => "separator" do
-              text "=>"
+              text character(:rightwards_arrow)
             end
           end
           td do
@@ -62,55 +62,30 @@ DONE
           end
         end
       end
-    end,
-
-    Section.new("API Cheatsheet") do
-      pre <<DONE
-element('foo')           # <foo></foo>
-empty_element('foo')     # <foo />
-html                     # <html></html> (likewise for other common html tags)
-b 'foo'                  # <b>foo</b>
-text 'foo'               # foo
-text '&<>'               # &amp;&lt;&gt; (what you generally want, especially
-                         # if the text came from the user or a database)
-text raw('&<>')          # &<> (back door for raw html)
-rawtext('&<>')           # &<> (alias for text(raw()))
-html { text 'foo' }      # <html>foo</html>
-html 'foo'               # <html>foo</html>
-html foo                 # <html>bar</html> (if the method foo returns the string \"bar\")
-a(:href => 'foo.html')   # <a href=\"foo.html\"></a>
-a(:href => 'q?a&b')      # <a href=\"q?a&amp;b\"></a>  (quotes as for text)
-a(:href => raw('&amp;')) # <a href=\"&amp;\"></a>
-a 'foo', :href => "bar"  # <a href=\"bar\">foo</a>
-text nbsp('Save Doc')    # Save&#160;Doc (turns spaces into non-breaking spaces)
-text nbsp()              # &#160; (a single non-breaking space)
-text character(160)      # &#xa0; (output a character given its unicode code point)
-text character(:right-arrow)    # &#x2192; (output a character given its unicode name)
-instruct                 # <?xml version=\"1.0\" encoding=\"UTF-8\"?>
-
-javascript('if (x < y && x > z) alert("don\\\'t stop");') #=>
-<script type="text/javascript">
-// <![CDATA[
-if (x < y && x > z) alert("don't stop");
-// ]]>
-</script>
-DONE
-      table :class => 'cheatsheet' do
-        tr do
-          td do
-            code "join ["
-            i "widgets"
-            code "], "
-            i "separator"
-          end
-          td do
-            i "See examples/join.rb for more explanation"
-          end
-        end
+      
+      p do
+        text "Once you have a widget class, you can instantiate it and then call its "
+        code "to_s"
+        text " method."
+        text " If you want to pass in 'locals' (aka 'assigns'), then do so in the constructor's default hash. This will make instance variables of the same name, with Ruby's '@' sign."
       end
-      i "TODO: document more obscure features like capture, Table, :class => ['one', 'two']"
+      pre <<-PRE
+class Email < Erector::Widget
+  def content
+    a @address, :href => "mailto:#{@address}"
+  end
+end
+
+>> Email.new(:address => "foo@example.com").to_s
+=> "<a href=\"mailto:foo@example.com\">foo@example.com</a>"
+      PRE
+      p do
+        text "(If you want accessor methods to be declared for you, use the "
+        a "needs", :href => "#needs"
+        text " macro.)"
+      end
     end,
-    
+
     Section.new("Mixin") do
       p "If all this widget stuff is too complicated, just do "
       pre "include Erector::Widget"
@@ -133,7 +108,7 @@ DONE
       pre <<-PRE
 erector { a "lols", :href => "http://icanhascheezburger.com/" }
 => "<a href=\\"http://icanhascheezburger.com/\\">lols</a>"
- 
+
 erector(:prettyprint => true) do
   ol do
     li "bacon"
@@ -143,9 +118,91 @@ erector(:prettyprint => true) do
 end
 => "<ol>\\n  <li>bacon</li>\\n  <li>lettuce</li>\\n  <li>tomato</li>\\n</ol>\\n" 
       PRE
-        
+
     end,
 
+    Section.new("API Cheatsheet") do
+      cheats = [
+        ["element('foo')",             "<foo></foo>"],
+        ["empty_element('foo')",       "<foo />"],
+        ["html",                       "<html></html>", "and likewise for all non-deprecated elements from the HTML 4.0.1 spec"],
+        ["b 'foo'",                    "<b>foo</b>"],
+        ["div { b 'foo' }",            "<div><b>foo</b></div>"],
+
+        ["text 'foo'",                 "foo"],
+        ["text '&<>'",                 "&amp;&lt;&gt;", "all normal text is HTML escaped, which is what you generally want, especially if the text came from the user or a database"],
+        ["text raw('&<>')",            "&<>", "raw text escapes being escaped"],
+        ["rawtext('&<>')",             "&<>", "alias for text(raw())"],
+
+        ["div { text 'foo' }",        "<div>foo</div>"],
+        ["div 'foo'",                 "<div>foo</div>"],
+        ["foo = 'bar'\ndiv foo",      "<div>bar</div>"],
+        ["a(:href => 'foo.div')",     "<a href=\"foo.div\"></a>"],
+        ["a(:href => 'q?a&b')",        "<a href=\"q?a&amp;b\"></a>", "attributes are escaped like text is"],
+        ["a(:href => raw('&amp;'))",   "<a href=\"&amp;\"></a>", "raw strings are never escaped, even in attributes"],
+        ["a 'foo', :href => \"bar\"",    "<a href=\"bar\">foo</a>"],
+
+        ["text nbsp('Save Doc')",      "Save&#160;Doc", "turns spaces into non-breaking spaces"],
+        ["text nbsp",                  "&#160;", "a single non-breaking space"],
+        ["text character(160)",        "&#xa0;", "output a character given its unicode code point"],
+        ["text character(:right-arrow)",      "&#x2192;", "output a character given its unicode name"],
+
+        ["instruct",                   "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"],
+        ["url 'http://example.com'",   "<a href=\"http://example.com\">http://example.com</a>"],
+        
+        ["capture { div }", "<div></div>", "returns the block as a string, doesn't add it to the current output stream"],
+        ["div :class => ['a', 'b']", "<div class=\"a b\"></div>"],
+      ]
+      cheats << [
+        "javascript(\n'if (x < y && x > z) \nalert(\"don\\\'t stop\");')",
+<<-DONE
+<script type="text/javascript">
+// <![CDATA[
+if (x < y && x > z) alert("don't stop");
+// ]]>
+</script>
+DONE
+      ];
+      
+      cheats << ["join([widget1, widget2],\n separator)", "", "See examples/join.rb for more explanation"]
+      
+      table :class => 'cheatsheet' do
+        tr do
+          th "code"
+          th "output"
+        end
+        cheats.each do |cheat|
+          tr do
+            td :width=>"30%" do
+              code do
+                join cheat[0].split("\n"), raw("<br/>")
+              end
+            end
+            td do
+              if cheat[1]
+                code do
+                  join cheat[1].split("\n"), raw("<br/>")
+                end
+              end
+              if cheat[2]
+                text nbsp("  ")
+                text character(:horizontal_ellipsis)
+                i cheat[2] 
+              end
+            end
+          end
+        end
+      end
+      
+      p do
+        text "Lots more documentation is at the "
+        a "RDoc API pages", :href => "rdoc/index.html"
+        text " especially for "
+        a "Erector::Widget", :href => "rdoc/classes/Erector/Widget.html"
+        text " so don't go saying we never wrote you nothin'."
+      end
+    end,
+    
     Section.new("Pretty-printing") do
       p "Erector has the ability to insert newlines and indentation to make the generated HTML more readable.  Newlines are inserted before and after certain tags."
       p "To enable pretty-printing (insertion of newlines and indentation) of Erector's output, do one of the following:"
@@ -156,6 +213,12 @@ end
           text " instead of "
           code "to_s"
           text " on your Erector::Widget"
+        end
+        li do
+          text "pass "
+          code ":prettyprint => true"
+          text " to "
+          code "to_s"
         end
         li do
           text "call "
@@ -443,7 +506,7 @@ end
       
       p do
         text "See the "
-        a "rdoc for Widget#needs", :href => 'rdoc'
+        a "rdoc for Widget#needs", :href => 'rdoc/classes/Erector/Widget.html#M000053'
         text " for more details."
       end
     end

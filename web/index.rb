@@ -14,14 +14,16 @@ class Index < Page
 
   def render_body
 
-    h1 "Readme"
-
     readme = File.read("#{File.dirname(__FILE__)}/../README.txt")
     readme.gsub!(/^\= Erector/, '')
     p = SM::SimpleMarkup.new
     h = SM::ToHtml.new
-
-    rawtext p.convert(readme, h)
+    readme = p.convert(readme, h)
+    readme.gsub!(/Erector::Widget/, capture{a "Erector::Widget", :href=> "rdoc/classes/Erector/Widget.html"}.strip)
+    readme.gsub!(/\b(http:\/\/|mailto:)([\w\.\/@])*\b/) do |match|
+      capture{ url match }
+    end
+    rawtext readme 
 
   end
 end

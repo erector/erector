@@ -41,9 +41,9 @@ project site at http://erector.rubyforge.org for more documentation.
 
 == REQUIREMENTS
 
-The gem depends on rake and treetop, although this is just for using the "erect" tool, 
-so deployed applications won't need these. Currently it also requires rails, although
-we plan to separate the rails-dependent code so you can use Erector cleanly in a non-Rails app.
+The gem depends on rake and treetop, although this is just for using the command-line tool, 
+so deployed applications won't need these. The Rails-dependent code is now separated so 
+you can use Erector cleanly in a non-Rails app.
 
 == INSTALL
 

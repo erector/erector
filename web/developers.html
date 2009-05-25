@@ -3,114 +3,101 @@
     <title>Erector - For Developers</title>
     <link href="erector.css" rel="stylesheet" type="text/css" />
   </head>
-  <body>
-    <table>
-      <tr>
-        <td valign="top">          <div class="sidebar"><a href="index.html"><img align="left" src="erector.jpg" /></a>
-            <br clear="all" />
-            <h3>On This Site:</h3>
-            <ul>
-              <li class="clickable" onclick="document.location='index.html'"><a href="index.html">Readme</a></li>
-              <li class="clickable" onclick="document.location='userguide.html'"><a href="userguide.html">User Guide</a></li>
-              <li class="clickable" onclick="document.location='faq.html'"><a href="faq.html">FAQ</a></li>
-              <li class="clickable" onclick="document.location='developers.html'"><a href="developers.html">For Developers</a></li>
-            </ul>
-            <hr />
-            <h3>External Links:</h3>
-            <ul>
-              <li class="clickable" onclick="document.location='http://rubyforge.org/frs/?group_id=4797'"><a href="http://rubyforge.org/frs/?group_id=4797">Download</a>
-                <br />
-                <span> (current version: 0.6.4)</span></li>
-              <li class="clickable" onclick="document.location='http://erector.rubyforge.org/svn/trunk/History.txt'"><a href="http://erector.rubyforge.org/svn/trunk/History.txt">Version History</a></li>
-              <li class="clickable" onclick="document.location='rdoc'"><a href="rdoc">RDoc Documentation</a></li>
-              <li class="clickable" onclick="document.location='http://rubyforge.org/projects/erector/'"><a href="http://rubyforge.org/projects/erector/">RubyForge Project</a></li>
-              <li class="clickable" onclick="document.location='http://github.com/pivotal/erector'"><a href="http://github.com/pivotal/erector">Github Repository</a></li>
-              <li class="clickable" onclick="document.location='http://www.pivotaltracker.com/projects/482'"><a href="http://www.pivotaltracker.com/projects/482">Tracker Project</a></li>
-              <li class="clickable" onclick="document.location='http://googlegroups.com/group/erector'"><a href="http://googlegroups.com/group/erector">Google Groups Mailing List</a></li>
-              <li class="clickable" onclick="document.location='http://rubyforge.org/pipermail/erector-devel/'"><a href="http://rubyforge.org/pipermail/erector-devel/">erector-devel Mailing List (archive)</a></li>
-            </ul>
-            <hr />
-            <h3>Supported by:</h3>
-            <center><a href="http://www.pivotallabs.com"><img alt="Pivotal Labs" height="57" src="pivotal.gif" width="158" /></a></center>
-          </div>
-</td>
-        <td valign="top">
-          <h1 class="title">Erector - For Developers</h1>
-          <hr />
-          <div class="body">
-            <p>Want to help develop Erector? Here's what to do.</p>
-            <h2>Clone Erector from Github or create your own fork:</h2>
-            <pre>git clone git://github.com/pivotal/erector.git</pre>
-            <h2>Install gems:</h2>
-            <pre>sudo gem install rake rails rspec rubyforge hpricot treetop</pre>
-            <h2>Run specs:</h2>
-            <pre>rake</pre>
-            <h2>Check out the available rake tasks:</h2>
-            <pre>rake -T</pre>
-            <h2>Sign up for the mailing list:</h2>
-            <a href="http://groups.google.com/group/erector">'erector' Google Group</a>
-            <p>and check out the archives of the old <a href="http://rubyforge.org/mailman/listinfo/erector-devel">erector-devel mailing list</a></p>
-            <h2>Watch the github repo at </h2>
-            <a href="http://github.com/pivotal/erector">http://github.com/pivotal/erector</a>
-            <h2>Join the Pivotal Tracker project at </h2>
-            <a href="http://www.pivotaltracker.com/projects/482">http://www.pivotaltracker.com/projects/482</a>
-            <h2>Basic read-only git usage</h2>
-            <p>First, install git.  Then download erector using git:</p>
-            <pre>git clone git://github.com/pivotal/erector.git</pre>
-            <p>Generate a diff between what you have edited and what you have run git add on:</p>
-            <pre>git diff</pre>
-            <p>Generate a diff between what you have run git add on and locally committed:</p>
-            <pre>git diff --cached</pre>
-            <p>Commit locally (into your .git directory):</p>
-            <pre>git commit -a</pre>
-            <p>You can update from the erector repository at github with:</p>
-            <pre>git pull</pre>
-            <p>However, since you have checked out git read-only, you cannot push back your changes with:</p>
-            <pre>git push</pre>
-            <p>Instead, mail a diff to the mailing list, or fork your own github repository and send a pull request.</p>
-            <h2>Read/write access</h2>
-            <p>The following instructions assume you have been listed as a collaborator on the github pivotal erector project.</p>
-            <p>First, install git.  Then:</p>
-            <pre>git clone git@github.com:pivotal/erector.git</pre>
-            <p>To push your changes back to the main git repository:</p>
-            <pre>git commit -a
+  <body>    <div class="sidebar"><a href="index.html"><img class="logo" height="161" src="erector.jpg" width="143" /></a>
+      <ul class="clickable">        <li class="clickable" onclick="document.location='index.html'"><a href="index.html">Home (readme)</a></li>
+        <li class="clickable" onclick="document.location='userguide.html'"><a href="userguide.html">User Guide</a></li>
+        <li class="clickable" onclick="document.location='faq.html'"><a href="faq.html">FAQ</a></li>
+        <li class="clickable" onclick="document.location='developers.html'"><a href="developers.html">For Developers</a></li>
+        <li class="clickable" onclick="document.location='release_notes.html'"><a href="release_notes.html">Release Notes</a></li>
+</ul>
+      <h3>External Links:</h3>
+      <ul class="clickable">
+        <li class="clickable" onclick="document.location='http://rubyforge.org/frs/?group_id=4797'"><a href="http://rubyforge.org/frs/?group_id=4797">Download</a>
+          <br />
+          <span> (current version: 0.6.4)</span></li>
+        <li class="clickable" onclick="document.location='rdoc'"><a href="rdoc">RDoc Documentation</a></li>
+        <li class="clickable" onclick="document.location='http://rubyforge.org/projects/erector/'"><a href="http://rubyforge.org/projects/erector/">RubyForge Project</a></li>
+        <li class="clickable" onclick="document.location='http://github.com/pivotal/erector'"><a href="http://github.com/pivotal/erector">Github Repository</a></li>
+        <li class="clickable" onclick="document.location='http://www.pivotaltracker.com/projects/482'"><a href="http://www.pivotaltracker.com/projects/482">Tracker Project</a></li>
+        <li class="clickable" onclick="document.location='http://googlegroups.com/group/erector'"><a href="http://googlegroups.com/group/erector">Erector Mailing List</a></li>
+        <li class="clickable" onclick="document.location='http://rubyforge.org/pipermail/erector-devel/'"><a href="http://rubyforge.org/pipermail/erector-devel/">erector-devel archive</a></li>
+      </ul>
+    </div>
+
+    <div class="main">
+      <h1 class="title">Erector - For Developers</h1>
+      <div class="body">
+        <p>Want to help develop Erector? Here's what to do.</p>
+        <h2>Clone Erector from Github or create your own fork:</h2>
+        <pre>git clone git://github.com/pivotal/erector.git</pre>
+        <h2>Install gems:</h2>
+        <pre>sudo gem install rake rails rspec rubyforge hpricot treetop</pre>
+        <h2>Run specs:</h2>
+        <pre>rake</pre>
+        <h2>Check out the available rake tasks:</h2>
+        <pre>rake -T</pre>
+        <h2>Sign up for the mailing list:</h2>
+        <a href="http://groups.google.com/group/erector">'erector' Google Group</a>
+        <p>and check out the archives of the old <a href="http://rubyforge.org/mailman/listinfo/erector-devel">erector-devel mailing list</a></p>
+        <h2>Watch the github repo at </h2>
+        <a href="http://github.com/pivotal/erector">http://github.com/pivotal/erector</a>
+        <h2>Join the Pivotal Tracker project at </h2>
+        <a href="http://www.pivotaltracker.com/projects/482">http://www.pivotaltracker.com/projects/482</a>
+        <h2>Basic read-only git usage</h2>
+        <p>First, install git.  Then download erector using git:</p>
+        <pre>git clone git://github.com/pivotal/erector.git</pre>
+        <p>Generate a diff between what you have edited and what you have run git add on:</p>
+        <pre>git diff</pre>
+        <p>Generate a diff between what you have run git add on and locally committed:</p>
+        <pre>git diff --cached</pre>
+        <p>Commit locally (into your .git directory):</p>
+        <pre>git commit -a</pre>
+        <p>You can update from the erector repository at github with:</p>
+        <pre>git pull</pre>
+        <p>However, since you have checked out git read-only, you cannot push back your changes with:</p>
+        <pre>git push</pre>
+        <p>Instead, mail a diff to the mailing list, or fork your own github repository and send a pull request.</p>
+        <h2>Read/write access</h2>
+        <p>The following instructions assume you have been listed as a collaborator on the github pivotal erector project.</p>
+        <p>First, install git.  Then:</p>
+        <pre>git clone git@github.com:pivotal/erector.git</pre>
+        <p>To push your changes back to the main git repository:</p>
+        <pre>git commit -a
 git pull
 # Deal with merge issues if any. 
 git push
 </pre>
-            <p>To get other people's changes:</p>
-            <pre>git pull</pre>
-            <h2>Versioning and Release Policy</h2>
-            <ul>
-              <li>Versions are of the form major.minor.tiny</li>
-              <li>Tiny revisions fix bugs or documentation</li>
-              <li>Minor revisions add API calls, or change behavior</li>
-              <li>Minor revisions may also remove API calls, but these must be clearly announced in History.txt, with instructions on how to migrate </li>
-              <li>Major revisions are about marketing more than technical needs. We will stay in major version 0 until we're happy taking the &quot;alpha&quot; label off it. And if we ever do a major overhaul of the API, especially one that breaks backwards compatibility, we will probably want to increment the major version.</li>
-              <li>Developers should attempt to add lines in History.txt to reflect their checkins. These should reflect feature-level changes, not just one line per checkin. The top section of History.txt is used as the Release Notes by the &quot;rake publish&quot; task and will appear on the RubyForge file page.</li>
-            </ul>
-            <h2>How to push a release</h2>
-            <ol>
-              <li>Pick a version number. Either increment the major, minor, or tiny version from the previous version.</li>
-              <li>Look at History.txt and make sure the release notes are up to date. Put the version number on the top line (after the &quot;==&quot;).</li>
-              <li>Put the version number in VERSION.yml and in erector.gemspec</li>
-              <li>Commit these changes, e.g. 'git commit -a'</li>
-              <li>Run 'rake package' so that you can see whether the gem generation seems to work locally before proceeding to try to upload it to rubyforge (if you skip this step, the package will be generated when you run rake release)</li>
-              <li>If you haven't done so before, run 'rubyforge setup' and 'rubyforge config' (for more details on these steps, see README.txt in the rubyforge gem)</li>
-              <li>Run 'rake release VERSION=1.2.3'. (The parameter is to confirm you're releasing the version you intend to.)</li>
-              <li>Run 'rake publish_docs web publish_web' cause the docs and site need to be updated, at least with the new version number.</li>
-              <li>Immediately go into History.txt and make a new section at the top. Since we won't yet know what the next version will be called, the new section will be noted by a single &quot;==&quot; at the top of the file.</li>
-              <li>Send email to <a href="mailto:erector@googlegroups.com">erector Google Groups mailing list</a> announcing the new release.</li>
-            </ol>
-          </div>
-        </td>
-      </tr>
-      <tr>
-        <td colspan="2">
-          <hr />
-          <center>Erector is an open source project released under the MIT license. Its initial development was sponsored by <a href="http://pivotallabs.com">Pivotal Labs</a>.</center>
-        </td>
-      </tr>
-    </table>
+        <p>To get other people's changes:</p>
+        <pre>git pull</pre>
+        <h2>Versioning and Release Policy</h2>
+        <ul>
+          <li>Versions are of the form major.minor.tiny</li>
+          <li>Tiny revisions fix bugs or documentation</li>
+          <li>Minor revisions add API calls, or change behavior</li>
+          <li>Minor revisions may also remove API calls, but these must be clearly announced in History.txt, with instructions on how to migrate </li>
+          <li>Major revisions are about marketing more than technical needs. We will stay in major version 0 until we're happy taking the &quot;alpha&quot; label off it. And if we ever do a major overhaul of the API, especially one that breaks backwards compatibility, we will probably want to increment the major version.</li>
+          <li>Developers should attempt to add lines in History.txt to reflect their checkins. These should reflect feature-level changes, not just one line per checkin. The top section of History.txt is used as the Release Notes by the &quot;rake publish&quot; task and will appear on the RubyForge file page.</li>
+        </ul>
+        <h2>How to push a release</h2>
+        <ol>
+          <li>Pick a version number. Either increment the major, minor, or tiny version from the previous version.</li>
+          <li>Look at History.txt and make sure the release notes are up to date. Put the version number on the top line (after the &quot;==&quot;).</li>
+          <li>Put the version number in VERSION.yml and in erector.gemspec</li>
+          <li>Commit these changes, e.g. 'git commit -a'</li>
+          <li>Run 'rake package' so that you can see whether the gem generation seems to work locally before proceeding to try to upload it to rubyforge (if you skip this step, the package will be generated when you run rake release)</li>
+          <li>If you haven't done so before, run 'rubyforge setup' and 'rubyforge config' (for more details on these steps, see README.txt in the rubyforge gem)</li>
+          <li>Run 'rake release VERSION=1.2.3'. (The parameter is to confirm you're releasing the version you intend to.)</li>
+          <li>Run 'rake publish_docs web publish_web' cause the docs and site need to be updated, at least with the new version number.</li>
+          <li>Immediately go into History.txt and make a new section at the top. Since we won't yet know what the next version will be called, the new section will be noted by a single &quot;==&quot; at the top of the file.</li>
+          <li>Send email to <a href="mailto:erector@googlegroups.com">erector Google Groups mailing list</a> announcing the new release.</li>
+        </ol>
+      </div>
+    </div>
+    <div class="footer">
+      <center>Erector is an open source project released under the MIT license. Its initial development was sponsored by <a href="http://pivotallabs.com">Pivotal Labs</a>.
+        <br />
+        <center><a href="http://www.pivotallabs.com"><img alt="Pivotal Labs" height="57" src="pivotal.gif" width="158" /></a></center>
+      </center>
+    </div>
   </body>
 </html>
