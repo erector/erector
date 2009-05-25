@@ -1,4 +1,4 @@
-== 0.6.5 / 2009-05-25
+== 0.6.6 / 2009-05-25
 * fix to_a bug that slipped in yesterday when I wasn't looking
 * attempting to assign a local variable that overlaps with an internal one raises error
 * attempting to 'needs' a variable that overlaps with an existing method raises error
