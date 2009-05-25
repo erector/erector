@@ -1,4 +1,6 @@
-== 0.6.4
+==
+
+== 0.6.4 / 2009-05-24
 * mixin: do "include Erector::Mixin" and now "erector { }" will instantiate and to_s a widget for you
 * "erector" command-line tool improved:
   * if converting an HTML/ERB file under a "views" directory, uses "Erector::RailsWidget" as parent class

@@ -14,6 +14,7 @@ class ReleaseNotes < Page
   
   def render_body
     notes = File.read("#{File.dirname(__FILE__)}/../History.txt")
+    notes.gsub!(/^== *$/, '')
     p = SM::SimpleMarkup.new
     h = SM::ToHtml.new
     notes = p.convert(notes, h)

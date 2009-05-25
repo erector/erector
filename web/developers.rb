@@ -81,8 +81,8 @@ END
     h2 "How to push a release"
     ol do
       li "Pick a version number. Either increment the major, minor, or tiny version from the previous version."
-      li %q{Look at History.txt and make sure the release notes are up to date. Put the version number on the top line (after the "==").}
-      li "Put the version number in VERSION.yml and in erector.gemspec"
+      li %q{Look at History.txt and make sure the release notes are up to date. Put the version number and today's date on the top line (after the "==").}
+      li "Put the new version number in VERSION.yml (not in erector.gemspec; that'll get changed on its own)"
       li %q{Commit these changes, e.g. 'git commit -a'}
       li %q{Run 'rake package' so that you can see whether the gem generation seems to work locally before proceeding to try to upload it to rubyforge (if you skip this step, the package will be generated when you run rake release)}
       li "If you haven't done so before, run 'rubyforge setup' and 'rubyforge config' (for more details on these steps, see README.txt in the rubyforge gem)"
