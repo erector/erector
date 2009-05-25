@@ -153,8 +153,10 @@ module Erector
 
     SPACES_PER_INDENT = 2
 
-    attr_reader :helpers, :assigns, :block, :parent, :output, :prettyprint, :indentation
+    RESERVED_INSTANCE_VARS = [:helpers, :assigns, :block, :parent, :output, :prettyprint, :indentation, :at_start_of_line]
 
+    attr_reader *RESERVED_INSTANCE_VARS
+    
     def initialize(assigns={}, &block)
       unless assigns.is_a? Hash
         raise "Erector's API has changed. Now you should pass only an options hash into Widget.new; the rest come in via to_s, or by using #widget."
@@ -223,8 +225,10 @@ module Erector
     end
     
     def assign_local(name, value)
+      raise ArgumentError, "Sorry, #{name} is a reserved variable name for Erector. Please choose a different name." if RESERVED_INSTANCE_VARS.include?(name)
       instance_variable_set("@#{name}", value)
       if any_are_needed?
+        raise ArgumentError, "Sorry, #{name} is a reserved method name for Erector. Please choose a different name." if respond_to?(name)
         metaclass.module_eval do
           attr_reader name
         end

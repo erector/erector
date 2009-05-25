@@ -702,6 +702,15 @@ module WidgetSpec
 
     end
     
+    describe "assigning local variables" do
+      it "attempting to overwrite a reserved instance variable raises error" do
+        lambda {
+          Erector::Widget.new(:output => "foo")
+        }.should raise_error(ArgumentError)
+      end
+    end
+      
+    
     describe "when declaring parameters with the 'needs' macro" do
       it "doesn't complain if there aren't any needs declared" do
         class Thing1 < Erector::Widget
@@ -814,6 +823,13 @@ module WidgetSpec
         end
         thing = NeedlessThing.new(:love => "all we need")
         lambda {thing.love}.should raise_error
+      end
+
+      it "complains if you attempt to 'need' a variable whose name overlaps with an existing method" do
+        class ThingWithOverlap < Erector::Widget
+          needs :text
+        end
+        lambda { ThingWithOverlap.new(:text => "alas") }.should raise_error(ArgumentError)
       end
       
     end

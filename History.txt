@@ -1,6 +1,7 @@
 == 0.6.5 / 2009-05-25
-* fixing to_a bug that slipped in yesterday when I wasn't looking
-
+* fix to_a bug that slipped in yesterday when I wasn't looking
+* attempting to assign a local variable that overlaps with an internal one raises error
+* attempting to 'needs' a variable that overlaps with an existing method raises error
 
 == 0.6.4 / 2009-05-24
 * mixin: do "include Erector::Mixin" and now "erector { }" will instantiate and to_s a widget for you
@@ -10,6 +11,7 @@
   * changes 'yield' in a scriptlet to use a missing "@content_for_layout"
   * escapes single quotes inside text strings
 * requires treetop 1.2.5
+* documentation overhaul, web site arguably prettier
 
 == 0.6.3 / 2009-05-06
 * Major update to API. You *will* have to change your code. There are deprecation warnings/errors
@@ -28,13 +30,8 @@ features and patches.
 * Renamed the command line tool to 'erector'
 
 == 0.5.1
-* Added methods to easily render additional HTML elements (col,
-object, and about a dozen others).  There are now methods for all 
-non-deprecated elements from the HTML 4.0.1 spec.  As before, if 
-erector doesn't have a method built-in, you can still call the element 
-or empty_element method to output any tag.
-* The method instruct!, which was a deprecated synonym for instruct,
-has been removed.
+* Added methods to easily render additional HTML elements (col, object, and about a dozen others).  There are now methods for all non-deprecated elements from the HTML 4.0.1 spec.  As before, if erector doesn't have a method built-in, you can still call the element or empty_element method to output any tag.
+* The method instruct!, which was a deprecated synonym for instruct, has been removed.
 * Fixed bug in resolving view files for pluralized controllers
 
 === 0.5.0 / 2008-12-13
