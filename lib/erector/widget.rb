@@ -268,7 +268,7 @@ module Erector
     #
     # # Options: see #to_s
     def to_a(options = {}, &blk)
-      _render(options, &blk).to_a
+      _render({:output => []}.merge(options), &blk).to_a
     end
     
     def _render(options = {}, &blk)

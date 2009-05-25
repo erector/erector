@@ -80,7 +80,7 @@ module WidgetSpec
     # 
     #     (time_for_to_a <= time_for_string).should be_true
     #   end
-    # end
+    end
 
     describe "#instruct" do
       it "when passed no arguments; returns an XML declaration with version 1 and utf-8" do

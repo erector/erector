@@ -1,4 +1,6 @@
-==
+== 0.6.5 / 2009-05-25
+* fixing to_a bug that slipped in yesterday when I wasn't looking
+
 
 == 0.6.4 / 2009-05-24
 * mixin: do "include Erector::Mixin" and now "erector { }" will instantiate and to_s a widget for you
