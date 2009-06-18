@@ -1,3 +1,4 @@
+== 0.6.7 / 2009-06-17
 * Fixed bug where needs did not get propagated when including modules.
 
 == 0.6.6 / 2009-05-25
