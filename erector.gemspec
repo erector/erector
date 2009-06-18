@@ -58,6 +58,7 @@ Gem::Specification.new do |s|
   s.homepage = %q{http://erector.rubyforge.org/}
   s.rdoc_options = ["--charset=UTF-8"]
   s.require_paths = ["lib"]
+  s.rubyforge_project = %q{erector}
   s.rubygems_version = %q{1.3.1}
   s.summary = %q{Html Builder library.}
   s.test_files = [

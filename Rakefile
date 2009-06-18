@@ -36,6 +36,7 @@ begin
       "Jim Kingdon",
     ]
     s.add_dependency 'treetop', ">= 1.2.3"
+    s.rubyforge_project = "erector"
   end
 rescue LoadError
   puts "Jeweler, or one of its dependencies, is not available. Install it with: sudo gem install technicalpickles-jeweler -s http://gems.github.com"
