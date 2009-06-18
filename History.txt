@@ -1,3 +1,5 @@
+* Fixed bug where needs did not get propagated when including modules.
+
 == 0.6.6 / 2009-05-25
 * fix to_a bug that slipped in yesterday when I wasn't looking
 * attempting to assign a local variable that overlaps with an internal one raises error

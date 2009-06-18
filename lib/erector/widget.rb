@@ -128,11 +128,10 @@ module Erector
     protected
     def self.get_needs
       @needs ||= []
-      parent = self.ancestors[1]
-      if parent.respond_to? :get_needs
-        parent.get_needs + @needs
-      else
-        @needs
+
+      ancestors[1..-1].inject(@needs.dup) do |needs, ancestor|
+        needs.push(*ancestor.get_needs) if ancestor.respond_to?(:get_needs)
+        needs
       end
     end
 

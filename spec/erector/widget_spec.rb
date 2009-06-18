@@ -711,7 +711,7 @@ module WidgetSpec
     end
       
     
-    describe "when declaring parameters with the 'needs' macro" do
+    context "when declaring parameters with the 'needs' macro" do
       it "doesn't complain if there aren't any needs declared" do
         class Thing1 < Erector::Widget
         end
@@ -796,12 +796,16 @@ module WidgetSpec
         }.should_not raise_error
       end
       
-      it "accumulates needs across the inheritance chain" do
+      it "accumulates needs across the inheritance chain even with modules mixed in" do
+        module Something
+        end
+
         class Vehicle < Erector::Widget
           needs :wheels
         end
         
         class Car < Vehicle
+          include Something
           needs :engine
         end
         
