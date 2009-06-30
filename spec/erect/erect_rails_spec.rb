@@ -50,7 +50,7 @@ module Erector
         run "#{erector_bin}/erector app/views/posts"
         FileUtils.rm_f("app/views/posts/*.erb")
         run "(echo ''; echo \"require 'erector'\") >> config/environment.rb"
-        run "rake db:migrate"
+        run "rake --trace db:migrate"
         # run "script/server" # todo: launch in background; use mechanize or something to crawl it; then kill it
         # perhaps use open4?
         # open http://localhost:3000/posts
