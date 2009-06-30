@@ -1,6 +1,6 @@
 require File.expand_path("#{File.dirname(__FILE__)}/../spec_helper")
-
 require "erector/rails"
+
 
 # Note: this is *not* inside the rails_root since we're not testing 
 # Erector inside a rails app. We're testing that we can use the command-line
@@ -21,13 +21,20 @@ module Erector
   describe "Erect in a Rails app" do
     
     def run(cmd)
-      puts cmd
-      stdout = `#{cmd}`
-      if $? != 0
-        raise "Command #{cmd} failed, returning '#{stdout}', current dir '#{Dir.getwd}'"
+      puts "Running #{cmd}"
+      stdout = IO.popen(cmd + " 2>stderr.txt") do |pipe|
+        pipe.read
+      end
+      if $?.exitstatus != 0
+        stderr = File.open("stderr.txt") {|f| f.read}
+        raise "Command #{cmd} failed\nDIR:\n  #{Dir.getwd}\nSTDOUT:\n#{indent stdout}\nSTDERR:\n#{indent stderr}"
       else
         return stdout
       end
+    end
+    
+    def indent(s)
+      s.gsub(/^/, '  ')
     end
     
     def run_rails(app_dir)
