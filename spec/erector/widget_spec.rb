@@ -2,12 +2,6 @@ require File.expand_path("#{File.dirname(__FILE__)}/../spec_helper")
 require 'benchmark'
 
 module WidgetSpec
-  describe "dogs" do
-    it "say 'meow'" do
-      true.should be_false
-    end
-  end
-  
   describe Erector::Widget do
     describe ".all_tags" do
       it "returns set of full and empty tags" do
