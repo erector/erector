@@ -2,8 +2,8 @@ require File.expand_path("#{File.dirname(__FILE__)}/../spec_helper")
 require 'benchmark'
 
 module WidgetSpec
-  describe "pigs" do
-    it "can fly" do
+  describe "dogs" do
+    it "say 'meow'" do
       true.should be_false
     end
   end
