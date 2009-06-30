@@ -22,11 +22,13 @@ module Erector
     
     def run(cmd)
       puts "Running #{cmd}"
-      stdout = IO.popen(cmd + " 2>stderr.txt") do |pipe|
+      stderr_file = Dir.tmpdir + "/stderr.txt"
+      stdout = IO.popen(cmd + " 2>#{stderr_file}") do |pipe|
         pipe.read
       end
+      stderr = File.open(stderr_file) {|f| f.read}
+      FileUtils.rm_f(stderr_file)
       if $?.exitstatus != 0
-        stderr = File.open("stderr.txt") {|f| f.read}
         raise "Command #{cmd} failed\nDIR:\n  #{Dir.getwd}\nSTDOUT:\n#{indent stdout}\nSTDERR:\n#{indent stderr}"
       else
         return stdout
@@ -42,7 +44,7 @@ module Erector
       # in a "ruby -e" command line invocation of the rails executable to generate an
       # app called explode.
       #
-      puts "Generating fresh rails #{Erector::Rails::RAILS_VERSION} app"
+      puts "Generating fresh rails #{Erector::Rails::RAILS_VERSION} app in #{app_dir}"
       run "ruby -e \"require 'rubygems'; gem 'rails', '#{Erector::Rails::RAILS_VERSION}'; load 'rails'\" #{app_dir}"
     end
       
@@ -52,11 +54,15 @@ module Erector
       
       FileUtils.mkdir_p(app_dir)
       run_rails app_dir
-      FileUtils.cd(app_dir, :verbose => true) do
+      
+      FileUtils.mkdir_p(app_dir + "/vendor/gems")
+      FileUtils.cp_r("#{File.dirname __FILE__}/../..", "#{app_dir}/vendor/gems/erector")
+      
+      FileUtils.cd(app_dir) do
         run "script/generate scaffold post title:string body:text published:boolean"
         run "#{erector_bin}/erector app/views/posts"
         FileUtils.rm_f("app/views/posts/*.erb")
-        run "(echo ''; echo \"require 'erector'\") >> config/environment.rb"
+#        run "(echo ''; echo \"require 'erector'\") >> config/environment.rb"
         run "rake --trace db:migrate"
         # run "script/server" # todo: launch in background; use mechanize or something to crawl it; then kill it
         # perhaps use open4?
