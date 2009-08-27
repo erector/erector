@@ -294,11 +294,11 @@ module Erector
     # Inside this method you call the magic #element methods which emit HTML
     # and text to the output string. If you call "super" (or don't override
     # +content+) then your widget will render any block that was passed into
-    # its constructor (in the current instance context so it can get access
-    # to parent widget methods via method_missing).
+    # its constructor. If you want this block to have access to Erector methods
+    # then see Erector::Inline#content.
     def content
       if @block
-        instance_eval(&@block)
+        @block.call
       end
     end
 
@@ -575,16 +575,6 @@ module Erector
 ### internal utility methods
 
 protected
-
-    # This is part of the sub-widget/parent feature (see #widget method).
-    def method_missing(name, *args, &block)
-      block ||= lambda {} # captures self HERE
-      if @parent
-        @parent.send(name, *args, &block)
-      else
-        super
-      end
-    end
 
     def __element__(tag_name, *args, &block)
       if args.length > 2

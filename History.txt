@@ -1,3 +1,7 @@
+== 0.7.0
+* Changed behavior of inline blocks. See Widget#new documentation.
+* Introduced "Erector::Inline" so people using the old inline semantics can upgrade.
+
 == 0.6.7 / 2009-06-17
 * Fixed bug where needs did not get propagated when including modules.
 

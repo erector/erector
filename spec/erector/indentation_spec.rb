@@ -3,7 +3,7 @@ require File.expand_path("#{File.dirname(__FILE__)}/../spec_helper")
 describe "indentation" do
 
   it "can detect newliney tags" do
-    widget = ::Erector::Widget.new
+    widget = ::Erector::Inline.new
     widget.instance_eval do 
       @prettyprint = true
     end
@@ -12,28 +12,28 @@ describe "indentation" do
   end
 
   it "should not add newline for non-newliney tags" do
-    Erector::Widget.new() do
+    Erector::Inline.new do
       text "Hello, "
       b "World"
     end.to_pretty.should == "Hello, <b>World</b>"
   end
   
   it "should add newlines before open newliney tags" do
-    Erector::Widget.new() do
+    Erector::Inline.new do
       p "foo"
       p "bar"
     end.to_pretty.should == "<p>foo</p>\n<p>bar</p>\n"
   end
   
   it "should add newlines between text and open newliney tag" do
-    Erector::Widget.new() do
+    Erector::Inline.new do
       text "One"
       p "Two"
     end.to_pretty.should == "One\n<p>Two</p>\n"
   end
   
   it "should add newlines after end newliney tags" do
-    Erector::Widget.new() do
+    Erector::Inline.new do
       tr do
         td "cell"
       end
@@ -41,7 +41,7 @@ describe "indentation" do
   end
   
   it "should treat empty elements as start and end" do
-    Erector::Widget.new() do
+    Erector::Inline.new do
       p "before"
       br
       p "after"
@@ -49,7 +49,7 @@ describe "indentation" do
   end
   
   it "empty elements sets at_start_of_line" do
-    Erector::Widget.new() do
+    Erector::Inline.new do
       text "before"
       br
       p "after"
@@ -59,7 +59,7 @@ describe "indentation" do
   it "will not insert extra space before/after input element" do
     # If dim memory serves, the reason for not adding spaces here is
     # because it affects/affected the rendering in browsers.
-    Erector::Widget.new() do
+    Erector::Inline.new do
       text 'Name'
       input :type => 'text'
       text 'after'
@@ -67,7 +67,7 @@ describe "indentation" do
   end
   
   it "will indent" do
-    Erector::Widget.new() do
+    Erector::Inline.new do
       html do
         head do
           title "hi"
@@ -93,12 +93,12 @@ END
   end
   
   it "preserves indentation for sub-rendered widgets" do
-    tea = Erector::Widget.new do
+    tea = Erector::Inline.new do
       div do
         p "oolong"
       end
     end
-    cup = Erector::Widget.new do
+    cup = Erector::Inline.new do
       div do
         p "fine china"
         tea.write_via(self)
@@ -116,14 +116,14 @@ END
   end
   
   it "can turn off newlines" do
-    Erector::Widget.new() do
+    Erector::Inline.new do
       text "One"
       p "Two"
     end.to_s.should == "One<p>Two</p>"
   end
   
   it "can turn newlines on and off" do
-    widget = Erector::Widget.new() do
+    widget = Erector::Inline.new do
       text "One"
       p "Two"
     end
@@ -133,18 +133,18 @@ END
   end
   
   it "can turn on newlines via to_pretty" do
-    widget = Erector::Widget.new() do
+    widget = Erector::Inline.new do
       text "One"
       p "Two"
     end.to_pretty.should == "One\n<p>Two</p>\n"
   end
   
   it "can turn newlines on/off via global variable" do
-    Erector::Widget.new { br }.to_s.should == "<br />"
+    Erector::Inline.new { br }.to_s.should == "<br />"
     Erector::Widget.prettyprint_default = true
-    Erector::Widget.new { br }.to_s.should == "<br />\n"
+    Erector::Inline.new { br }.to_s.should == "<br />\n"
     Erector::Widget.prettyprint_default = false
-    Erector::Widget.new { br }.to_s.should == "<br />"
+    Erector::Inline.new { br }.to_s.should == "<br />"
   end
   
 end
