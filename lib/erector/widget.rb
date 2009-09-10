@@ -51,6 +51,7 @@ module Erector
           'b', 'bdo', 'big', 'blockquote', 'body', 'button', 
           'caption', 'center', 'cite', 'code', 'colgroup',
           'dd', 'del', 'dfn', 'div', 'dl', 'dt', 'em',
+          'embed',
           'fieldset', 'form', 'frameset',
           'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'head', 'html', 'i',
           'iframe', 'ins', 'kbd', 'label', 'legend', 'li', 'map',
