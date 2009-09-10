@@ -1,0 +1,3 @@
+"This is so much better than having pseudo-HTML pages with little snippets of scriptlets scattered amongst them, is it not?" - Steve Renaker
+
+"I had a look at Erector. The effect was not unlike some of the best 20th century marketing. It's a product that really you hadn't seen the need for before, but now it's been pointed out it seems rather perverse and antiquated to implement views in any other way. It's almost like taking the separation of style from structure that started with CSS and bringing it to its logical conclusion." - Stuart Blair

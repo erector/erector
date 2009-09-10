@@ -500,8 +500,8 @@ class Car < Erector::Widget
 end
         DONE
         text "This widget will throw an exception if you fail to pass "
-        code ":engine => 'V-6'"
-        text " into its constructor."
+        code ":engine => 'V-8'"
+        text " into its constructor. (Actually, it will work with any engine, but a V-8 is the baddest.)"
       end
       
       p do

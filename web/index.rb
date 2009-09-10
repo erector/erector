@@ -23,8 +23,14 @@ class Index < Page
     readme.gsub!(/\b(http:\/\/|mailto:)([\w\.\/@])*\b/) do |match|
       capture{ url match }
     end
-    rawtext readme 
-
+    rawtext readme
+    hr
+    p do
+      text "Don't forget to read the "
+      a "User Guide", :href => "userguide.html"
+      text " and "
+      a "FAQ", :href => "faq.html"
+    end
   end
 end
 
