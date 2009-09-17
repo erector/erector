@@ -170,8 +170,8 @@ module WidgetSpec
           grandchild = Class.new(Erector::Inline) do
             needs :parent_widget, :child_widget
             def content
-              widget(parent_widget) do
-                widget(child_widget) do
+              widget(@parent_widget) do
+                widget(@child_widget) do
                   div :id => "grandchild"
                 end
               end
@@ -766,8 +766,8 @@ module WidgetSpec
         end
         lambda { 
           thing = Thing7.new(:foo => 1, :baz => 3) 
-          thing.bar.should equal(7)
-          thing.baz.should equal(3)
+          thing.instance_variable_get(:@bar).should equal(7)
+          thing.instance_variable_get(:@baz).should equal(3)
         }.should_not raise_error
       end
       
@@ -777,9 +777,9 @@ module WidgetSpec
         end
         lambda { 
           thing = Thing8.new(:foo => 1, :baz => 2)
-          thing.foo.should equal(1)
-          thing.bar.should equal(7)
-          thing.baz.should equal(2)
+          thing.instance_variable_get(:@foo).should equal(1)
+          thing.instance_variable_get(:@bar).should equal(7)
+          thing.instance_variable_get(:@baz).should equal(2)
         }.should_not raise_error
       end
       
@@ -789,7 +789,7 @@ module WidgetSpec
         end
         lambda {
           thing = Thing9.new
-          thing.foo.should be_nil
+          thing.instance_variable_get(:@foo).should be_nil
         }.should_not raise_error
       end
       
@@ -811,28 +811,21 @@ module WidgetSpec
         lambda { Car.new(:wheels => 4) }.should raise_error
       end
       
-      it "defines accessors for each of the needed variables" do
+      it "no longer defines accessors for each of the needed variables" do
         class NeedfulThing < Erector::Widget
           needs :love
         end
         thing = NeedfulThing.new(:love => "all we need")
-        thing.love.should == "all we need"
+        lambda {thing.love}.should raise_error(NoMethodError)
       end
       
-      it "doesnt define accessors for non-needed variables" do
-        class NeedlessThing < Erector::Widget
-        end
-        thing = NeedlessThing.new(:love => "all we need")
-        lambda {thing.love}.should raise_error
-      end
-
-      it "complains if you attempt to 'need' a variable whose name overlaps with an existing method" do
+      it "no longer complains if you attempt to 'need' a variable whose name overlaps with an existing method" do
         class ThingWithOverlap < Erector::Widget
           needs :text
         end
-        lambda { ThingWithOverlap.new(:text => "alas") }.should raise_error(ArgumentError)
+        lambda { ThingWithOverlap.new(:text => "alas") }.should_not raise_error(ArgumentError)
       end
-      
+           
     end
     
     describe "#close_tag" do

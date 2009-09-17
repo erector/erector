@@ -80,7 +80,7 @@ end
 => "<a href=\"mailto:foo@example.com\">foo@example.com</a>"
       PRE
       p do
-        text "(If you want accessor methods to be declared for you, use the "
+        text "(If you want control over which locals are valid to be passed in to a widget, use the "
         a "needs", :href => "#needs"
         text " macro.)"
       end
@@ -495,7 +495,7 @@ DONE
 class Car < Erector::Widget
   needs :engine, :wheels => 4
   def content
-    text "My \#{wheels} wheels go round and round; my \#{engine} goes vroom!"
+    text "My \#{@wheels} wheels go round and round; my \#{@engine} goes vroom!"
   end
 end
         DONE
@@ -507,7 +507,9 @@ end
       p do
         text "See the "
         a "rdoc for Widget#needs", :href => 'rdoc/classes/Erector/Widget.html#M000053'
-        text " for more details."
+        text " for more details. Note that as of version 0.7.0, using "
+        code "needs"
+        text " no longer automatically declares accessor methods."
       end
     end
     

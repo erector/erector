@@ -227,16 +227,6 @@ module Erector
     def assign_local(name, value)
       raise ArgumentError, "Sorry, #{name} is a reserved variable name for Erector. Please choose a different name." if RESERVED_INSTANCE_VARS.include?(name)
       instance_variable_set("@#{name}", value)
-      if any_are_needed?
-        raise ArgumentError, "Sorry, #{name} is a reserved method name for Erector. Please choose a different name." if respond_to?(name)
-        metaclass.module_eval do
-          attr_reader name
-        end
-      end
-    end
-    
-    def any_are_needed?
-      !self.class.get_needs.empty?
     end
     
     # Render (like to_s) but adding newlines and indentation.

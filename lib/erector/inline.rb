@@ -23,7 +23,5 @@ module Erector
         super
       end
     end
-
-    
   end
 end

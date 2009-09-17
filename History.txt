@@ -1,6 +1,7 @@
 == 0.7.0
 * Changed behavior of inline blocks. See Widget#new documentation.
 * Introduced "Erector::Inline" and "Erector.inline" so people using the old inline semantics can upgrade more easily.
+* Due to popular demand, parameters no longer automatically create accessor methods, even if you declare them with 'needs'. You'll have to type out "attr\_accessor :underpants" yourself.
 
 == 0.6.8 / 2009-09
 * Added missing tag 'embed'
