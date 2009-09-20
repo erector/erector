@@ -18,11 +18,11 @@ describe "passing in a block" do
   end
 
   describe Erector::Inline do
-    it "'s block is evaluated in the parent widget's context" do
+    it "'s block is evaluated in the widget's context" do
       
       @sample_instance_variable = "yum"
       sample_bound_variable = "yay"
-      Erector::Inline.new do
+      Erector.inline do
         @sample_instance_variable.should be_nil
         sample_bound_variable.should == "yay"
         text "you can call Erector methods from in here"

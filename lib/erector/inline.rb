@@ -1,5 +1,9 @@
 module Erector
-  class Inline < Erector::Widget
+  def self.inline(*args, &block)
+    InlineWidget.new(*args, &block)
+  end
+  
+  module Inline
     # Evaluates its block (the one that was passed in the constructor) as a new widget's
     # content method.
     # Since "self" is pointing to the new widget, it can get access
@@ -24,4 +28,9 @@ module Erector
       end
     end
   end
+  
+  class InlineWidget < Erector::Widget
+    include Inline
+  end
+
 end

@@ -14,7 +14,7 @@ module WidgetSpec
       class << self
         define_method("invokes #content and returns the string representation of the rendered widget") do
           it "invokes #content and returns the string representation of the rendered widget" do
-            widget = Erector::Inline.new do
+            widget = Erector.inline do
               div "Hello"
             end
             mock.proxy(widget).content
@@ -54,7 +54,7 @@ module WidgetSpec
 
     describe "#to_a" do
       it "returns an array" do
-        widget = Erector::Inline.new do
+        widget = Erector.inline do
           div "Hello"
         end
         widget.to_a.should == ["<div>", "Hello", "</div>"]
@@ -63,7 +63,7 @@ module WidgetSpec
     # removing this, since oddly, when i run this test solo it works, but when
     # i run it as part of a rake suite, i get the opposite result -Alex
     #   it "runs faster than using a string as the output" do
-    #     widget = Erector::Inline.new do
+    #     widget = Erector.inline do
     #       1000.times do |i|
     #         div "Lorem ipsum dolor sit amet #{i}, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est #{i} laborum."
     #       end
@@ -84,7 +84,7 @@ module WidgetSpec
 
     describe "#instruct" do
       it "when passed no arguments; returns an XML declaration with version 1 and utf-8" do
-        html = Erector::Inline.new do
+        html = Erector.inline do
           instruct
           # version must precede encoding, per XML 1.0 4th edition (section 2.8)
         end.to_s.should == "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
@@ -131,7 +131,7 @@ module WidgetSpec
       
       context "when passed a class" do
         it "renders it" do
-          Erector::Inline.new do
+          Erector.inline do
             div do
               widget Orphan, :name => "Annie"
             end
@@ -141,7 +141,7 @@ module WidgetSpec
       
       context "when passed an instance" do
         it "renders it" do
-          Erector::Inline.new do
+          Erector.inline do
             div do
               widget Orphan.new(:name => "Oliver")
             end
@@ -167,7 +167,7 @@ module WidgetSpec
             end
           end
 
-          grandchild = Class.new(Erector::Inline) do
+          grandchild = Class.new(Erector::InlineWidget) do
             needs :parent_widget, :child_widget
             def content
               widget(@parent_widget) do
@@ -179,6 +179,16 @@ module WidgetSpec
           end
 
           grandchild.new(:parent_widget => parent_widget, :child_widget => child_widget).to_s.should == '<div id="parent_widget"><div id="child_widget"><div id="grandchild"></div></div></div>'
+
+          pending "pretty-print indentation is messed up with nesting" do
+          grandchild.new(:parent_widget => parent_widget, :child_widget => child_widget).to_pretty.should == 
+          "<div id=\"parent_widget\">\n" + 
+          "  <div id=\"child_widget\">\n" + 
+          "    <div id=\"grandchild\"></div>\n" + 
+          "  </div>\n" +
+          "</div>"
+          end
+
         end
       end
     end
@@ -186,7 +196,7 @@ module WidgetSpec
     describe "#element" do
       context "when receiving one argument" do
         it "returns an empty element" do
-          Erector::Inline.new do
+          Erector.inline do
             element('div')
           end.to_s.should == "<div></div>"
         end
@@ -194,7 +204,7 @@ module WidgetSpec
 
       context "with a attribute hash" do
         it "returns an empty element with the attributes" do
-          html = Erector::Inline.new do
+          html = Erector.inline do
             element(
               'div',
               :class => "foo bar",
@@ -212,7 +222,7 @@ module WidgetSpec
 
       context "with an array of CSS classes" do
         it "returns a tag with the classes separated" do
-          Erector::Inline.new do
+          Erector.inline do
             element('div', :class => [:foo, :bar])
           end.to_s.should == "<div class=\"foo bar\"></div>";
         end
@@ -220,7 +230,7 @@ module WidgetSpec
 
       context "with an array of CSS classes as strings" do
         it "returns a tag with the classes separated" do
-          Erector::Inline.new do
+          Erector.inline do
             element('div', :class => ['foo', 'bar'])
           end.to_s.should == "<div class=\"foo bar\"></div>";
         end
@@ -228,7 +238,7 @@ module WidgetSpec
 
       context "with a CSS class which is a string" do
         it "just use that as the attribute value" do
-          Erector::Inline.new do
+          Erector.inline do
             element('div', :class => "foo bar")
           end.to_s.should == "<div class=\"foo bar\"></div>";
         end
@@ -236,7 +246,7 @@ module WidgetSpec
 
       context "with many attributes" do
         it "alphabetize them" do
-            Erector::Inline.new do
+            Erector.inline do
               empty_element('foo', :alpha => "", :betty => "5", :aardvark => "tough",
                 :carol => "", :demon => "", :erector => "", :pi => "3.14", :omicron => "", :zebra => "", :brain => "")
             end.to_s.should == "<foo aardvark=\"tough\" alpha=\"\" betty=\"5\" brain=\"\" carol=\"\" demon=\"\" " \
@@ -246,7 +256,7 @@ module WidgetSpec
 
       context "with inner tags" do
         it "returns nested tags" do
-          widget = Erector::Inline.new do
+          widget = Erector.inline do
             element 'div' do
               element 'div'
             end
@@ -257,7 +267,7 @@ module WidgetSpec
 
       context "with text" do
         it "returns element with inner text" do
-          Erector::Inline.new do
+          Erector.inline do
             element 'div', 'test text'
           end.to_s.should == "<div>test text</div>"
         end
@@ -266,7 +276,7 @@ module WidgetSpec
       context "with object other than hash" do
         it "returns element with inner text == object.to_s" do
           object = ['a', 'b']
-          Erector::Inline.new do
+          Erector.inline do
             element 'div', object
           end.to_s.should == "<div>#{object.to_s}</div>"
         end
@@ -274,7 +284,7 @@ module WidgetSpec
 
       context "with parameters and block" do
         it "returns element with inner html and attributes" do
-          Erector::Inline.new do
+          Erector.inline do
             element 'div', 'class' => "foobar" do
               element 'span', 'style' => 'display: none;'
             end
@@ -284,7 +294,7 @@ module WidgetSpec
 
       context "with content and parameters" do
         it "returns element with content as inner html and attributes" do
-          Erector::Inline.new do
+          Erector.inline do
             element 'div', 'test text', :style => "display: none;"
           end.to_s.should == '<div style="display: none;">test text</div>'
         end
@@ -293,7 +303,7 @@ module WidgetSpec
       context "with more than three arguments" do
         it "raises ArgumentError" do
           proc do
-            Erector::Inline.new do
+            Erector.inline do
               element 'div', 'foobar', {}, 'fourth'
             end.to_s
           end.should raise_error(ArgumentError)
@@ -303,7 +313,7 @@ module WidgetSpec
       it "renders the proper full tags" do
         Erector::Widget.full_tags.each do |tag_name|
           expected = "<#{tag_name}></#{tag_name}>"
-          actual = Erector::Inline.new do
+          actual = Erector.inline do
             send(tag_name)
           end.to_s
           begin
@@ -318,7 +328,7 @@ module WidgetSpec
       describe "quoting" do
         context "when outputting text" do
           it "quotes it" do
-            Erector::Inline.new do
+            Erector.inline do
               element 'div', 'test &<>text'
             end.to_s.should == "<div>test &amp;&lt;&gt;text</div>"
           end
@@ -326,7 +336,7 @@ module WidgetSpec
 
         context "when outputting text via text" do
           it "quotes it" do
-            Erector::Inline.new do
+            Erector.inline do
               element 'div' do
                 text "test &<>text"
               end
@@ -336,7 +346,7 @@ module WidgetSpec
 
         context "when outputting attribute value" do
           it "quotes it" do
-            Erector::Inline.new do
+            Erector.inline do
               element 'a', :href => "foo.cgi?a&b"
             end.to_s.should == "<a href=\"foo.cgi?a&amp;b\"></a>"
           end
@@ -344,7 +354,7 @@ module WidgetSpec
 
         context "with raw text" do
           it "does not quote it" do
-            Erector::Inline.new do
+            Erector.inline do
               element 'div' do
                 text raw("<b>bold</b>")
               end
@@ -354,7 +364,7 @@ module WidgetSpec
 
         context "with raw text and no block" do
           it "does not quote it" do
-            Erector::Inline.new do
+            Erector.inline do
               element 'div', raw("<b>bold</b>")
             end.to_s.should == "<div><b>bold</b></div>"
           end
@@ -362,7 +372,7 @@ module WidgetSpec
 
         context "with raw attribute" do
           it "does not quote it" do
-            Erector::Inline.new do
+            Erector.inline do
               element 'a', :href => raw("foo?x=&nbsp;")
             end.to_s.should == "<a href=\"foo?x=&nbsp;\"></a>"
           end
@@ -370,7 +380,7 @@ module WidgetSpec
 
         context "with quote in attribute" do
           it "quotes it" do
-            Erector::Inline.new do
+            Erector.inline do
               element 'a', :onload => "alert(\"foo\")"
             end.to_s.should == "<a onload=\"alert(&quot;foo&quot;)\"></a>"
           end
@@ -379,7 +389,7 @@ module WidgetSpec
 
       context "with a non-string, non-raw" do
         it "calls to_s and quotes" do
-          Erector::Inline.new do
+          Erector.inline do
             element 'a' do
               text [7, "foo&bar"]
             end
@@ -391,7 +401,7 @@ module WidgetSpec
     describe "#empty_element" do
       context "when receiving attributes" do
         it "renders an empty element with the attributes" do
-          Erector::Inline.new do
+          Erector.inline do
             empty_element 'input', :name => 'foo[bar]'
           end.to_s.should == '<input name="foo[bar]" />'
         end
@@ -399,7 +409,7 @@ module WidgetSpec
 
       context "when not receiving attributes" do
         it "renders an empty element without attributes" do
-          Erector::Inline.new do
+          Erector.inline do
             empty_element 'br'
           end.to_s.should == '<br />'
         end
@@ -408,7 +418,7 @@ module WidgetSpec
       it "renders the proper empty-element tags" do
         Erector::Widget.empty_tags.each do |tag_name|
           expected = "<#{tag_name} />"
-          actual = Erector::Inline.new do
+          actual = Erector.inline do
             send(tag_name)
           end.to_s
           begin
@@ -423,13 +433,13 @@ module WidgetSpec
 
     describe "#nbsp" do
       it "turns consecutive spaces into consecutive non-breaking spaces" do
-        Erector::Inline.new do
+        Erector.inline do
           text nbsp("a  b")
         end.to_s.should == "a&#160;&#160;b"
       end
 
       it "works in text context" do
-        Erector::Inline.new do
+        Erector.inline do
           element 'a' do
             text nbsp("&<> foo")
           end
@@ -437,13 +447,13 @@ module WidgetSpec
       end
 
       it "works in attribute value context" do
-        Erector::Inline.new do
+        Erector.inline do
           element 'a', :href => nbsp("&<> foo")
         end.to_s.should == "<a href=\"&amp;&lt;&gt;&#160;foo\"></a>"
       end
       
       it "defaults to a single non-breaking space if given no argument" do
-        Erector::Inline.new do
+        Erector.inline do
           text nbsp
         end.to_s.should == "&#160;"
       end
@@ -452,26 +462,26 @@ module WidgetSpec
 
     describe "#character" do
       it "renders a character given the codepoint number" do
-        Erector::Inline.new do
+        Erector.inline do
           text character(160)
         end.to_s.should == "&#xa0;"
       end
       
       it "renders a character given the unicode name" do
-        Erector::Inline.new do
+        Erector.inline do
           text character(:right_arrow)
         end.to_s.should == "&#x2192;"
       end
 
       it "renders a character above 0xffff" do
-        Erector::Inline.new do
+        Erector.inline do
           text character(:old_persian_sign_ka)
         end.to_s.should == "&#x103a3;"
       end
 
       it "throws an exception if a name is not recognized" do
         lambda {
-          Erector::Inline.new do
+          Erector.inline do
             text character(:no_such_character_name)
           end.to_s
         }.should raise_error("Unrecognized character no_such_character_name")
@@ -481,7 +491,7 @@ module WidgetSpec
         # Perhaps calling to_s would be more ruby-esque, but that seems like it might
         # be pretty confusing when this method can already take either a name or number
         lambda {
-          Erector::Inline.new do
+          Erector.inline do
             text character([])
           end.to_s
         }.should raise_error("Unrecognized argument to character: ")
@@ -491,19 +501,19 @@ module WidgetSpec
     describe "#join" do
 
       it "empty array means nothing to join" do
-        Erector::Inline.new do
+        Erector.inline do
           join [], Erector::Widget.new { text "x" }
         end.to_s.should == ""
       end
       
       it "larger example with two tabs" do
-        Erector::Inline.new do
+        Erector.inline do
           tab1 = 
-            Erector::Inline.new do
+            Erector.inline do
               a "Upload document", :href => "/upload"
             end
           tab2 =
-            Erector::Inline.new do
+            Erector.inline do
               a "Logout", :href => "/logout"
             end
           join [tab1, tab2],
@@ -513,7 +523,7 @@ module WidgetSpec
       end
       
       it "plain string as join separator means pass it to text" do
-        Erector::Inline.new do
+        Erector.inline do
           join [
             Erector::Widget.new { text "x" },
             Erector::Widget.new { text "y" }
@@ -522,7 +532,7 @@ module WidgetSpec
       end
 
       it "plain string as item to join means pass it to text" do
-        Erector::Inline.new do
+        Erector.inline do
           join [
             "<",
             "&"
@@ -557,7 +567,7 @@ module WidgetSpec
             </script>
           EXPECTED
           expected.gsub!(/^            /, '')
-          Erector::Inline.new do
+          Erector.inline do
             javascript do
               rawtext 'if (x < y && x > z) alert("don\'t stop");'
             end
@@ -574,14 +584,14 @@ module WidgetSpec
           </script>
         EXPECTED
         expected.gsub!(/^          /, '')
-        Erector::Inline.new do
+        Erector.inline do
           javascript('alert("&<>\'hello");')
         end.to_s.should == expected
       end
 
       context "when receiving a params hash" do
         it "renders a source file" do
-          html = Erector::Inline.new do
+          html = Erector.inline do
             javascript(:src => "/my/js/file.js")
           end.to_s
           doc = Hpricot(html)
@@ -591,7 +601,7 @@ module WidgetSpec
 
       context "when receiving text and a params hash" do
         it "renders a source file" do
-          html = Erector::Inline.new do
+          html = Erector.inline do
             javascript('alert("&<>\'hello");', :src => "/my/js/file.js")
           end.to_s
           doc = Hpricot(html)
@@ -604,7 +614,7 @@ module WidgetSpec
       context "with too many arguments" do
         it "raises ArgumentError" do
           proc do
-            Erector::Inline.new do
+            Erector.inline do
               javascript 'foobar', {}, 'fourth'
             end.to_s
           end.should raise_error(ArgumentError)
@@ -614,7 +624,7 @@ module WidgetSpec
 
     describe "#css" do
       it "makes a link when passed a string" do
-        Erector::Inline.new do
+        Erector.inline do
           css "erector.css"
         end.to_s.should == "<link href=\"erector.css\" rel=\"stylesheet\" type=\"text/css\" />"
       end
@@ -622,7 +632,7 @@ module WidgetSpec
 
     describe "#url" do
       it "renders an anchor tag with the same href and text" do
-        Erector::Inline.new do
+        Erector.inline do
           url "http://example.com"
         end.to_s.should == "<a href=\"http://example.com\">http://example.com</a>"
       end
@@ -630,7 +640,7 @@ module WidgetSpec
 
     describe '#capture' do
       it "should return content rather than write it to the buffer" do
-        widget = Erector::Inline.new do
+        widget = Erector.inline do
           captured = capture do
             p 'Captured Content'
           end
@@ -642,7 +652,7 @@ module WidgetSpec
       end
 
       it "works with nested captures" do
-        widget = Erector::Inline.new do
+        widget = Erector.inline do
           captured = capture do
             captured = capture do
               p 'Nested Capture'
@@ -660,11 +670,11 @@ module WidgetSpec
 
     describe 'nested' do
       it "can insert another widget without raw" do
-        inner = Erector::Inline.new do
+        inner = Erector.inline do
           p "foo"
         end
 
-        outer = Erector::Inline.new do
+        outer = Erector.inline do
           div inner
         end.to_s.should == '<div><p>foo</p></div>'
       end
@@ -690,7 +700,7 @@ module WidgetSpec
       end
 
       it "passing a widget to text method renders it" do
-        Erector::Inline.new do
+        Erector.inline do
           text "B"
           text A.new()
           text "B"
@@ -830,8 +840,8 @@ module WidgetSpec
     
     describe "#close_tag" do
       it "works when it's all alone, even though it messes with the indent level" do
-        Erector::Inline.new { close_tag :foo }.to_s.should == "</foo>"
-        Erector::Inline.new { close_tag :foo; close_tag :bar }.to_s.should == "</foo></bar>"
+        Erector.inline { close_tag :foo }.to_s.should == "</foo>"
+        Erector.inline { close_tag :foo; close_tag :bar }.to_s.should == "</foo></bar>"
       end
     end
   end

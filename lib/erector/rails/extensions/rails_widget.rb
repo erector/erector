@@ -1,5 +1,9 @@
 module Erector
   class RailsWidget < Widget
+    def self.inline(*args, &block)
+      InlineRailsWidget.new(*args, &block)
+    end
+
     def output
       process_output_buffer || @output
     end
@@ -33,6 +37,11 @@ module Erector
       end
     end
   end
+  
+  class InlineRailsWidget < RailsWidget
+    include Inline
+  end
+  
 end
 
 require "#{File.dirname(__FILE__)}/rails_widget/helpers"

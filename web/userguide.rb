@@ -464,25 +464,35 @@ DONE
         text " and implementing a "
         code "content"
         text " method, you can pass a block to "
-        code "Erector::Widget.new"
-        text ".  For example:"
-        pre <<DONE
-html = Erector::Widget.new do
+        code "Erector.inline"
+        text " and get back a widget instance you can call to_s on.  For example:"
+        pre <<-DONE
+html = Erector.inline do
   p "Hello, world!"
 end
 html.to_s          #=> <p>Hello, world!</p>
-DONE
+        DONE
         text "This lets you define mini-widgets on the fly."
       end
       
+      p do 
+        text "If you're in Rails, and want access to the Rails helpers in your inline block, you use slightly different syntax:"
+        pre <<-DONE
+html = Erector::RailsWidget.inline do
+  image_tag("/foo")
+end
+html.to_s(:helpers => controller)          #=> <img alt="Foo" src="/foo" />
+      DONE
+    end
+      
       p do
-        text "One extra bonus feature of inline widgets is that they can call methods defined on the parent class, even though they're out of scope. How do they do this? Through method_missing magic. (But isn't method_missing magic against the design goals of Erector? Yes, some would say so, and we're probably going to discuss this feature on the mailing list before long.)"
+        text "One extra bonus feature of inline widgets is that they can call methods defined on the parent class, even though they're out of scope. How do they do this? Through method_missing magic. (But isn't method_missing magic against the design goals of Erector? Yes, some would say so, and that's why we're reserving it for a special subclass and method. For Erector::Widget and subclasses, if you pass in a block, it's a plain old block with normal semantics.) But they can't directly access instance variables on the parent, so watch it."
       end
     end,
 
     Section.new("Needs") do
       p do
-        text "Named parameters are fun, but one frustrating aspect of the 'options hash' technique is that "
+        text "Named parameters in Ruby are fun, but one frustrating aspect of the 'options hash' technique is that "
         text "the code is less self-documenting and doesn't 'fail fast' if you pass in the wrong parameters, "
         text "or fail to pass in the right ones. Even simple typos can lead to very annoying debugging problems."
       end

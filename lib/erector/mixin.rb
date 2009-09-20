@@ -5,7 +5,7 @@ module Erector
     # have access to instance variables of the caller, although it does
     # have access to bound variables. 
     def erector(options = {}, &block)
-      Erector::Inline.new(&block).to_s(options)
+      Erector.inline(&block).to_s(options)
     end
   end
 end
