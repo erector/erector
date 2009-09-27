@@ -166,7 +166,7 @@ module Erector
         raise "Erector's API has changed. You should rename #{self.class}#render to #content."
       end
       @assigns = assigns
-      assign_locals(assigns)
+      assign_instance_variables(assigns)
       @parent = block ? eval("self", block.binding) : nil
       @block = block
       self.class.after_initialize self
@@ -197,10 +197,10 @@ module Erector
     end
 
     public
-    def assign_locals(local_assigns)
+    def assign_instance_variables (instance_variables)
       needed = self.class.get_needs.map{|need| need.is_a?(Hash) ? need.keys : need}.flatten
       assigned = []
-      local_assigns.each do |name, value|
+      instance_variables.each do |name, value|
         unless needed.empty? || needed.include?(name)
           raise "Unknown parameter '#{name}'. #{self.class.name} only accepts #{needed.join(', ')}"
         end
