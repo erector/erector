@@ -25,7 +25,7 @@ module TableSpec
       before do
         widget = CustomHeadingTable.new(:row_objects => [])
         @html = widget.to_s
-        @doc = Hpricot(html)
+        @doc = Nokogiri::HTML(html)
       end
 
       it "renders a custom heading text and procs" do
@@ -47,7 +47,7 @@ module TableSpec
         @object1 = Struct.new(:first_name).new("Hello")
         widget = CustomCellTable.new(:row_objects => [@object1])
         @html = widget.to_s
-        @doc = Hpricot(html)
+        @doc = Nokogiri::HTML(html)
       end
 
       it "renders custom cell html" do
@@ -65,7 +65,7 @@ module TableSpec
         @object3 = Struct.new(:first_name, :last_name, :email).new(7, 8, 9)
         widget = DefaultsTestTable.new(:row_objects => [@object1, @object2, @object3])
         @html = widget.to_s
-        @doc = Hpricot(html)
+        @doc = Nokogiri::HTML(html)
         @table = doc.at("table")
       end
 

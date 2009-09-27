@@ -226,7 +226,9 @@ module Erector
     
     def assign_instance_variable (name, value)
       raise ArgumentError, "Sorry, #{name} is a reserved variable name for Erector. Please choose a different name." if RESERVED_INSTANCE_VARS.include?(name)
-      instance_variable_set("@#{name}", value)
+      name = name.to_s
+      ivar_name = (name[0..0] == '@' ? name : "@#{name}")
+      instance_variable_set(ivar_name, value)
     end
     
     # Render (like to_s) but adding newlines and indentation.
