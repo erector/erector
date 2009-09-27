@@ -204,7 +204,7 @@ module Erector
         unless needed.empty? || needed.include?(name)
           raise "Unknown parameter '#{name}'. #{self.class.name} only accepts #{needed.join(', ')}"
         end
-        assign_local(name, value)
+        assign_instance_variable(name, value)
         assigned << name
       end
 
@@ -212,7 +212,7 @@ module Erector
       self.class.get_needs.select{|var| var.is_a? Hash}.each do |hash|
         hash.each_pair do |name, value|
           unless assigned.include?(name)
-            assign_local(name, value)
+            assign_instance_variable(name, value)
             assigned << name
           end
         end
@@ -224,7 +224,7 @@ module Erector
       end
     end
     
-    def assign_local(name, value)
+    def assign_instance_variable (name, value)
       raise ArgumentError, "Sorry, #{name} is a reserved variable name for Erector. Please choose a different name." if RESERVED_INSTANCE_VARS.include?(name)
       instance_variable_set("@#{name}", value)
     end
