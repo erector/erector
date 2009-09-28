@@ -10,7 +10,7 @@ class Page < Erector::Widget
   end
   
   def selection
-    @selection || page_title.downcase
+    @selection || @page_title.downcase
   end
   
   def clickable_li(item, href)

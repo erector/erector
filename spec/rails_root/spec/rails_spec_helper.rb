@@ -10,7 +10,7 @@ require "action_controller/test_process"
 ARGV.push(*File.read("#{File.dirname(__FILE__)}/../../spec.opts").split("\n"))
 require "spec"
 require "spec/autorun"
-require "hpricot"
+require "nokogiri"
 require "rr"
 require "rr/adapters/rspec"
 require 'treetop'

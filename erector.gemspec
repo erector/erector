@@ -2,11 +2,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{erector}
-  s.version = "0.6.7"
+  s.version = "0.7.0"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Alex Chaffee", "Brian Takita", "Jeff Dean", "Jim Kingdon"]
-  s.date = %q{2009-06-17}
+  s.date = %q{2009-09-27}
   s.default_executable = %q{erector}
   s.description = %q{Html Builder library.}
   s.email = %q{erector@googlegroups.com}
@@ -23,6 +23,7 @@ Gem::Specification.new do |s|
     "lib/erector/erected.rb",
     "lib/erector/extensions/object.rb",
     "lib/erector/indenting.rb",
+    "lib/erector/inline.rb",
     "lib/erector/mixin.rb",
     "lib/erector/rails.rb",
     "lib/erector/rails/extensions/action_controller.rb",
@@ -45,6 +46,7 @@ Gem::Specification.new do |s|
     "spec/erect/erected_spec.rb",
     "spec/erect/rhtml_parser_spec.rb",
     "spec/erector/indentation_spec.rb",
+    "spec/erector/inline_spec.rb",
     "spec/erector/mixin_spec.rb",
     "spec/erector/unicode_builder_spec.rb",
     "spec/erector/widget_spec.rb",
@@ -54,36 +56,36 @@ Gem::Specification.new do |s|
     "spec/spec_helper.rb",
     "spec/spec_suite.rb"
   ]
-  s.has_rdoc = true
   s.homepage = %q{http://erector.rubyforge.org/}
   s.rdoc_options = ["--charset=UTF-8"]
   s.require_paths = ["lib"]
   s.rubyforge_project = %q{erector}
-  s.rubygems_version = %q{1.3.1}
+  s.rubygems_version = %q{1.3.5}
   s.summary = %q{Html Builder library.}
   s.test_files = [
-    "spec/rails_spec_suite.rb",
-    "spec/spec_suite.rb",
+    "spec/core_spec_suite.rb",
+    "spec/erect",
+    "spec/erect/erect_rails_spec.rb",
+    "spec/erect/erect_spec.rb",
+    "spec/erect/erected_spec.rb",
+    "spec/erect/rhtml_parser_spec.rb",
     "spec/erector",
     "spec/erector/indentation_spec.rb",
+    "spec/erector/inline_spec.rb",
+    "spec/erector/mixin_spec.rb",
     "spec/erector/unicode_builder_spec.rb",
+    "spec/erector/widget_spec.rb",
     "spec/erector/widgets",
     "spec/erector/widgets/table_spec.rb",
-    "spec/erector/mixin_spec.rb",
-    "spec/erector/widget_spec.rb",
-    "spec/erect",
-    "spec/erect/erected_spec.rb",
-    "spec/erect/erect_rails_spec.rb",
-    "spec/erect/rhtml_parser_spec.rb",
-    "spec/erect/erect_spec.rb",
+    "spec/rails_spec_suite.rb",
     "spec/spec.opts",
     "spec/spec_helper.rb",
-    "spec/core_spec_suite.rb"
+    "spec/spec_suite.rb"
   ]
 
   if s.respond_to? :specification_version then
     current_version = Gem::Specification::CURRENT_SPECIFICATION_VERSION
-    s.specification_version = 2
+    s.specification_version = 3
 
     if Gem::Version.new(Gem::RubyGemsVersion) >= Gem::Version.new('1.2.0') then
       s.add_runtime_dependency(%q<treetop>, [">= 1.2.3"])

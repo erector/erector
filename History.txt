@@ -1,4 +1,6 @@
-== 0.7.0 / 2009-09
+==
+
+== 0.7.0 / 2009-09-27
 * Changed behavior of inline blocks. See Widget#new documentation.
 * Introduced "Erector::Inline" and "Erector.inline" so people using the old inline semantics can upgrade more easily.
 * Likewise for "Erector::InlineRailsWidget" and "Erector::RailsWidget.inline".
