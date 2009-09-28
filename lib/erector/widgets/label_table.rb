@@ -45,7 +45,7 @@ class LabelTable < Erector::Widget
   
   def content
     super
-    fieldset do
+    fieldset :class => "label_table" do
       legend @title
       table :width => '100%' do
         @fields.each do |f|

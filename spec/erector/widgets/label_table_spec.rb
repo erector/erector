@@ -2,42 +2,35 @@ require File.expand_path("#{File.dirname(__FILE__)}/../../spec_helper")
 
 describe LabelTable do
 
-  class PasswordForm < Erector::Widget
-    needs :username => nil
-    
-    attr_reader :username
-    
-    def submit_button_name
-      @username ? "Change Password" : "Sign Up"
-    end
-    
-    def content
-      form :action => "/user", :method => "post" do
-        widget(LabelTable.new(:title => submit_button_name) do
-          field("Name") do
-            input(:name => "name", :type => "text", :size => "30", :value => username)
-          end
-          field("Password") do
-            input(:name => "password", :type => "password", :size => "30")
-          end
-          field("Password Again", 
-            "Yes, we really want you to type your new password twice. Sorry about that.") do
-            input(:name => "password_verify", :type => "password", :size => "30")
-          end
-          button do
-            input(:name => "", :type => "submit", :value => submit_button_name)
-          end
-        end)
+  describe "a basic, brittle characterization test, just to get up and running" do
+
+    class PasswordForm < Erector::Widget
+      def content
+        form :action => "/user", :method => "post" do
+          widget(LabelTable.new(:title => "Sign Up") do
+            field("Name") do
+              input(:name => "name", :type => "text", :size => "30", :value => @username)
+            end
+            field("Password") do
+              input(:name => "password", :type => "password", :size => "30")
+            end
+            field("Password Again", 
+            "Yes, we really want you to type your new password twice, for some reason.") do
+              input(:name => "password_verify", :type => "password", :size => "30")
+            end
+            button do
+              input(:name => "signup", :type => "submit", :value => "Sign Up")
+            end
+          end)
+        end
       end
     end
-  end
 
-  # this is a brittle characterization test, just to get up and running
-  it "renders the CreateUser form" do
-    PasswordForm.new(:username => "bobdole").to_s.should == "<form action=\"/user\" method=\"post\">" + 
-      "<fieldset>" + 
-      "<legend>" + 
-      "Sign Up</legend>" + 
+    it "renders the CreateUser form" do
+      PasswordForm.new(:username => "bobdole").to_s.should == 
+      "<form action=\"/user\" method=\"post\">" + 
+      "<fieldset class=\"label_table\">" + 
+      "<legend>Sign Up</legend>" +
       "<table width=\"100%\">" + 
       "<tr>" + 
       "<th>" + 
@@ -60,7 +53,7 @@ describe LabelTable do
       "<input name=\"password_verify\" size=\"30\" type=\"password\" />" + 
       "</td>" + 
       "<td>" + 
-      "Yes, we really want you to type your new password twice. Sorry about that.</td>" + 
+      "Yes, we really want you to type your new password twice, for some reason.</td>" + 
       "</tr>" + 
       "<tr>" + 
       "<td align=\"right\" colspan=\"2\">" + 
@@ -76,6 +69,18 @@ describe LabelTable do
       "</table>" + 
       "</fieldset>" + 
       "</form>"
+
+    end
+  end
+  
+  describe "using the classic API from outside" do
+    
+    it "renders an empty form" do
+      table = LabelTable.new(:title => "Meals")
+      doc = Nokogiri::HTML(table.to_s)
+      doc.css("fieldset legend").text.should == "Meals"
+      doc.at("fieldset")["class"].should == "label_table"
+    end
     
   end
 end
