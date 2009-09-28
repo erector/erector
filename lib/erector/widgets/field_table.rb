@@ -1,22 +1,35 @@
 # A simple HTML table with three columns: label, contents, and (optionally) note.
 # Each row is called a field.
+# The last row can optionally contain "buttons" (actually any widget will do)
+# that are all shown in the 2nd column.
+# It's all surrounded with a fieldset element for a title.
+# 
+# In ASCII art, it looks something like this:
 #
-# There are two ways to create a LabelTable.
+# /-Meals----------------------------------------\
+# | Breakfast | eggs              |              |
+# | Lunch     | sandwich          |              |
+# | Dinner    | lo mein           | with shrimp! | 
+# |           | [Save] [Cancel]   |              |
+# \----------------------------------------------/
+#
+# There are two ways to create a FieldTable.
 # 1. Pass a block in to the constructor.
 # 2. Make a subclass.
 # In both cases you'll want to call the "field" and "button" methods on the table. 
-# This sets up the contents which will be rendered later during LabelTable#content.
-# If you make a subclass #2 you can do this either in the constructor or in the content method *before* you call super.
+# This sets up the contents which will be rendered later during FieldTable#content.
+# If you make a subclass (#2) you can do this either in the constructor or in
+# the content method *before* you call super.
 #
-# The LabelTable makes a fieldset whose legend is the "title" instance variable.
-# Inside this fieldset is a table.
+# The FieldTable is surrounded by a fieldset element whose legend is the "title" instance variable.
+# Inside this fieldset is a table element.
 # Each field (row of the table) has a label (th), a content cell (td), and an optional note (td).
 #
 # If you call "button" you can pass in a block that'll get rendered inside the 2nd column of the last row. The idea here is that you might want to make an HTML form that has a bunch of buttons at the bottom (Save, Cancel, Clear) and these all go in the same cell, with no label for the row.
 #
 # TODO: error messages?
 # @author Alex Chaffee
-class LabelTable < Erector::Widget
+class FieldTable < Erector::Widget
 
   include Erector::Inline
   
@@ -24,7 +37,7 @@ class LabelTable < Erector::Widget
     needs :label, :note => nil
     
     def content
-      tr :class => "label_table_field" do
+      tr :class => "field_table_field" do
         th do
           text @label
           text ":" unless @label.nil?
@@ -41,10 +54,18 @@ class LabelTable < Erector::Widget
     end
   end
 
+  # Define a field, containing a label, optional note, and block for the contents
+  #
+  # TODO: allow passing in a widget instead of a block
   def field(label = nil, note = nil, &contents)
     @fields << Field.new(:label => label, :note => note, &contents)
   end
   
+  # If you call "button" you can pass in a block that'll get rendered inside the 2nd column of the
+  # last row. The idea here is that you might want to make an HTML form that has a bunch of buttons at
+  # the bottom (Save, Cancel, Clear) and these all go in the same cell, with no label for the row.
+  #
+  # TODO: allow passing in a widget instead of a block
   def button(&button_proc)
     @buttons << button_proc
   end
@@ -61,19 +82,19 @@ class LabelTable < Erector::Widget
   end
   
   def content
-    fieldset :class => "label_table" do
+    fieldset :class => "field_table" do
       legend @title
       table :width => '100%' do
         @fields.each do |f|
           widget f
         end
         unless @buttons.empty?
-          tr :class => "label_table_buttons" do
+          tr :class => "field_table_buttons" do
             td :colspan => 2, :align => "right" do          
               table :class => 'layout' do
                 tr do
                   @buttons.each do |button|
-                    td :class => "label_table_button" do
+                    td :class => "field_table_button" do
                       button.call
                     end
                   end

@@ -1,13 +1,13 @@
 require File.expand_path("#{File.dirname(__FILE__)}/../../spec_helper")
 
-describe LabelTable do
+describe FieldTable do
 
   describe "a basic, brittle characterization test, just to get up and running" do
 
     class PasswordForm < Erector::Widget
       def content
         form :action => "/user", :method => "post" do
-          widget(LabelTable.new(:title => "Sign Up") do |t|
+          widget(FieldTable.new(:title => "Sign Up") do |t|
             t.field("Name") do
               input(:name => "name", :type => "text", :size => "30", :value => @username)
             end
@@ -29,24 +29,24 @@ describe LabelTable do
     it "renders the CreateUser form" do
       PasswordForm.new(:username => "bobdole").to_s.should == 
       "<form action=\"/user\" method=\"post\">" + 
-      "<fieldset class=\"label_table\">" + 
+      "<fieldset class=\"field_table\">" + 
       "<legend>Sign Up</legend>" +
       "<table width=\"100%\">" + 
-      "<tr class=\"label_table_field\">" + 
+      "<tr class=\"field_table_field\">" + 
       "<th>" + 
       "Name:</th>" + 
       "<td>" + 
       "<input name=\"name\" size=\"30\" type=\"text\" value=\"bobdole\" />" + 
       "</td>" + 
       "</tr>" + 
-      "<tr class=\"label_table_field\">" + 
+      "<tr class=\"field_table_field\">" + 
       "<th>" + 
       "Password:</th>" + 
       "<td>" + 
       "<input name=\"password\" size=\"30\" type=\"password\" />" + 
       "</td>" + 
       "</tr>" + 
-      "<tr class=\"label_table_field\">" + 
+      "<tr class=\"field_table_field\">" + 
       "<th>" + 
       "Password Again:</th>" + 
       "<td>" + 
@@ -55,11 +55,11 @@ describe LabelTable do
       "<td>" + 
       "Yes, we really want you to type your new password twice, for some reason.</td>" + 
       "</tr>" + 
-      "<tr class=\"label_table_buttons\">" + 
+      "<tr class=\"field_table_buttons\">" + 
       "<td align=\"right\" colspan=\"2\">" + 
       "<table class=\"layout\">" + 
       "<tr>" + 
-      "<td class=\"label_table_button\">" + 
+      "<td class=\"field_table_button\">" + 
       "<input name=\"signup\" type=\"submit\" value=\"Sign Up\" />" + 
       "</td>" + 
       "</tr>" + 
@@ -76,47 +76,47 @@ describe LabelTable do
   describe "using the configuration API to construct it on the fly" do
     
     it "renders a table with no fields and no buttons" do
-      table = LabelTable.new(:title => "Meals")
+      table = FieldTable.new(:title => "Meals")
       doc = Nokogiri::HTML(table.to_s)
       doc.css("fieldset legend").text.should == "Meals"
-      doc.at("fieldset")["class"].should == "label_table"
+      doc.at("fieldset")["class"].should == "field_table"
       doc.css("fieldset > table > tr").size.should == 0
     end
 
     it "renders a table with no fields and one button" do
-      table = LabelTable.new(:title => "Meals") do |t|
+      table = FieldTable.new(:title => "Meals") do |t|
         t.button { t.input :type => "button", :value => "cancel" }
       end
       doc = Nokogiri::HTML(table.to_s)
       doc.css("fieldset > table > tr").size.should == 1
-      doc.at("fieldset table tr")["class"].should == "label_table_buttons"
-      doc.at("td.label_table_button input")["value"].should == "cancel"
+      doc.at("fieldset table tr")["class"].should == "field_table_buttons"
+      doc.at("td.field_table_button input")["value"].should == "cancel"
     end
 
     it "renders a table with a field and no buttons" do
-      table = LabelTable.new(:title => "Meals") do |t|
+      table = FieldTable.new(:title => "Meals") do |t|
         t.field("Breakfast") { t.text "scrambled eggs" }
       end
       doc = Nokogiri::HTML(table.to_s)
       doc.css("fieldset > table > tr").size.should == 1
-      doc.at("fieldset table tr")["class"].should == "label_table_field"
+      doc.at("fieldset table tr")["class"].should == "field_table_field"
       doc.at("fieldset table tr th").text.should == "Breakfast:"
       doc.at("fieldset table tr td").text.should == "scrambled eggs"
     end
     
     it "renders a table with a field with no label" do
-      table = LabelTable.new(:title => "Meals") do |t|
+      table = FieldTable.new(:title => "Meals") do |t|
         t.field { t.text "yum yum" }
       end
       doc = Nokogiri::HTML(table.to_s)
       doc.css("fieldset > table > tr").size.should == 1
-      doc.at("fieldset table tr")["class"].should == "label_table_field"
+      doc.at("fieldset table tr")["class"].should == "field_table_field"
       doc.at("fieldset table tr th").text.should == ""
       doc.at("fieldset table tr td").text.should == "yum yum"
     end
     
     it 'puts in an extra cell if you pass in a note' do
-      table = LabelTable.new(:title => "Meals") do |t|
+      table = FieldTable.new(:title => "Meals") do |t|
         t.field("Breakfast", "the most important meal of the day") { t.text "eggs" }
         t.field("Lunch") { t.text "hot dogs" }
       end
