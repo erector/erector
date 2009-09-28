@@ -14,7 +14,7 @@
       <ul class="clickable">
         <li class="clickable" onclick="document.location='http://rubyforge.org/frs/?group_id=4797'"><a href="http://rubyforge.org/frs/?group_id=4797">Download</a>
           <br />
-          <span> (current version: 0.6.4)</span></li>
+          <span> (current version: 0.7.0)</span></li>
         <li class="clickable" onclick="document.location='rdoc'"><a href="rdoc">RDoc Documentation</a></li>
         <li class="clickable" onclick="document.location='http://rubyforge.org/projects/erector/'"><a href="http://rubyforge.org/projects/erector/">RubyForge Project</a></li>
         <li class="clickable" onclick="document.location='http://github.com/pivotal/erector'"><a href="http://github.com/pivotal/erector">Github Repository</a></li>
@@ -86,7 +86,7 @@ end
 &gt;&gt; Email.new(:address =&gt; &quot;foo@example.com&quot;).to_s
 =&gt; &quot;&lt;a href=&quot;mailto:foo@example.com&quot;&gt;foo@example.com&lt;/a&gt;&quot;
 </pre>
-        <p>(If you want accessor methods to be declared for you, use the <a href="#needs">needs</a> macro.)</p>
+        <p>(If you want control over which locals are valid to be passed in to a widget, use the <a href="#needs">needs</a> macro.)</p>
         <a name="mixin"></a>
         <h2>Mixin</h2>
         <p>If all this widget stuff is too complicated, just do </p>
@@ -534,30 +534,39 @@ self &lt;&lt; widget.to_s
  and implementing a 
           <code>content</code>
  method, you can pass a block to 
-          <code>Erector::Widget.new</code>
-.  For example:
-          <pre>html = Erector::Widget.new do
+          <code>Erector.inline</code>
+ and get back a widget instance you can call to_s on.  For example:
+          <pre>html = Erector.inline do
   p &quot;Hello, world!&quot;
 end
 html.to_s          #=&gt; &lt;p&gt;Hello, world!&lt;/p&gt;
 </pre>
 This lets you define mini-widgets on the fly.</p>
-        <p>One extra bonus feature of inline widgets is that they can call methods defined on the parent class, even though they're out of scope. How do they do this? Through method_missing magic. (But isn't method_missing magic against the design goals of Erector? Yes, some would say so, and we're probably going to discuss this feature on the mailing list before long.)</p>
+        <p>If you're in Rails, and want access to the Rails helpers in your inline block, you use slightly different syntax:
+          <pre>html = Erector::RailsWidget.inline do
+  image_tag(&quot;/foo&quot;)
+end
+html.to_s(:helpers =&gt; controller)          #=&gt; &lt;img alt=&quot;Foo&quot; src=&quot;/foo&quot; /&gt;
+</pre>
+        </p>
+        <p>One extra bonus feature of inline widgets is that they can call methods defined on the parent class, even though they're out of scope. How do they do this? Through method_missing magic. (But isn't method_missing magic against the design goals of Erector? Yes, some would say so, and that's why we're reserving it for a special subclass and method. For Erector::Widget and subclasses, if you pass in a block, it's a plain old block with normal semantics.) But they can't directly access instance variables on the parent, so watch it.</p>
         <a name="needs"></a>
         <h2>Needs</h2>
-        <p>Named parameters are fun, but one frustrating aspect of the 'options hash' technique is that the code is less self-documenting and doesn't 'fail fast' if you pass in the wrong parameters, or fail to pass in the right ones. Even simple typos can lead to very annoying debugging problems.</p>
+        <p>Named parameters in Ruby are fun, but one frustrating aspect of the 'options hash' technique is that the code is less self-documenting and doesn't 'fail fast' if you pass in the wrong parameters, or fail to pass in the right ones. Even simple typos can lead to very annoying debugging problems.</p>
         <p>To help this, we've added an optional feature by which your widget can declare that it needs a certain set of named parameters to be passed in. For example:
           <pre>class Car &lt; Erector::Widget
   needs :engine, :wheels =&gt; 4
   def content
-    text &quot;My #{wheels} wheels go round and round; my #{engine} goes vroom!&quot;
+    text &quot;My #{@wheels} wheels go round and round; my #{@engine} goes vroom!&quot;
   end
 end
 </pre>
 This widget will throw an exception if you fail to pass 
-          <code>:engine =&gt; 'V-6'</code>
- into its constructor.</p>
-        <p>See the <a href="rdoc/classes/Erector/Widget.html#M000053">rdoc for Widget#needs</a> for more details.</p>
+          <code>:engine =&gt; 'V-8'</code>
+ into its constructor. (Actually, it will work with any engine, but a V-8 is the baddest.)</p>
+        <p>See the <a href="rdoc/classes/Erector/Widget.html#M000053">rdoc for Widget#needs</a> for more details. Note that as of version 0.7.0, using 
+          <code>needs</code>
+ no longer automatically declares accessor methods.</p>
       </div>
     </div>
     <div class="footer">
