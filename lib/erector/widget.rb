@@ -80,10 +80,34 @@ module Erector
         end
       end
       
+      def externals(type, klass = nil)
+        assure_externals_declared(type, klass)
+        x = @@externals[type].dup
+        if klass
+          x.select{|value| @@externals[klass].include?(value)}
+        else
+          x
+        end
+      end
+
       protected
       def after_initialize_parts
         @after_initialize_parts ||= []
       end
+      
+      def assure_externals_declared(type, klass)
+        @@externals ||= {}
+        @@externals[type] ||= []
+        @@externals[klass] ||= [] if klass
+      end
+      
+      def external(type, value)
+        klass = self # since it's a class method, self should be the class itself
+        assure_externals_declared(type, klass)
+        @@externals[type] << value unless @@externals[type].include?(value)
+        @@externals[klass] << value unless @@externals[klass].include?(value)
+      end
+      
     end
 
     # Class method by which widget classes can declare that they need certain
