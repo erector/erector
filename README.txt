@@ -13,6 +13,8 @@ modular decomposition, encapsulation) in views. See the rdoc for the
 Erector::Widget class to learn how to make your own widgets, and visit the
 project site at http://erector.rubyforge.org for more documentation.
 
+No, seriously, we've got hella docs at http://erector.rubyforge.org
+
 == SYNOPSIS
 
     require 'erector'
@@ -25,7 +27,7 @@ project site at http://erector.rubyforge.org for more documentation.
           end
           body do
             text "Hello, "
-            b target, :class => 'big'
+            b @target, :class => 'big'
             text "!"
           end
         end
