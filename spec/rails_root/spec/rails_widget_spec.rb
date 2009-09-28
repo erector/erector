@@ -28,7 +28,7 @@ describe Erector::RailsWidget do
         attr_accessor :model
       end
 
-      class DummyModel
+      class DummyModel < BaseDummyModel # fix for Rails 2.3.4
         # not sure what the best way is to mock out a model without
         # needing a database.  But here's my attempt.
         attr_accessor :errors
@@ -110,7 +110,8 @@ describe Erector::RailsWidget do
         form_tag("/foo") do
           p "I'm in a form"
         end
-      end.to_s(:helpers => @view).should == "<form action=\"/foo\" method=\"post\"><div style=\"margin:0;padding:0\"><input name=\"\" type=\"hidden\" value=\"token\" /></div><p>I'm in a form</p></form>"
+      end.to_s(:helpers => @view).should == "<form action=\"/foo\" method=\"post\"><div style=\"margin:0;padding:0;display:inline\"><input name=\"\" type=\"hidden\" value=\"token\" /></div><p>I'm in a form</p></form>"
     end
   end
 end
+

@@ -133,7 +133,7 @@ module RailsHelpersSpec
           end
         end
 
-        user_class = Class.new
+        user_class = BaseDummyModel
         stub(user_class).human_attribute_name {'User'}
         user = user_class.new
         stub(user).name {'bob'}
