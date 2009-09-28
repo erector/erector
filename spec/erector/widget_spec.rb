@@ -212,7 +212,7 @@ module WidgetSpec
               :nil_attribute => nil
             )
           end.to_s
-          doc = Hpricot(html)
+          doc = Nokogiri::HTML(html)
           div = doc.at('div')
           div[:class].should == "foo bar"
           div[:style].should == "display: none; color: white; float: left;"
@@ -594,8 +594,8 @@ module WidgetSpec
           html = Erector.inline do
             javascript(:src => "/my/js/file.js")
           end.to_s
-          doc = Hpricot(html)
-          doc.at('/')[:src].should == "/my/js/file.js"
+          doc = Nokogiri::HTML(html)
+          doc.at("script")[:src].should == "/my/js/file.js"
         end
       end
 
@@ -604,7 +604,7 @@ module WidgetSpec
           html = Erector.inline do
             javascript('alert("&<>\'hello");', :src => "/my/js/file.js")
           end.to_s
-          doc = Hpricot(html)
+          doc = Nokogiri::HTML(html)
           script_tag = doc.at('script')
           script_tag[:src].should == "/my/js/file.js"
           script_tag.inner_html.should include('alert("&<>\'hello");')
@@ -709,15 +709,25 @@ module WidgetSpec
 
     end
     
-    describe "assigning local variables" do
+    describe "assigning instance variables" do
       it "attempting to overwrite a reserved instance variable raises error" do
         lambda {
           Erector::Widget.new(:output => "foo")
         }.should raise_error(ArgumentError)
       end
+
+      it "handles instance variable names with and without '@' in the beginning" do
+        html = Erector.inline(:foo => "bar", '@baz' => 'quux') do
+          div do
+            p @foo
+            p @baz
+          end
+        end.to_s
+        doc = Nokogiri::HTML(html)
+        doc.css("p").map {|p| p.inner_html}.should == ["bar", "quux"]
+      end
     end
       
-    
     context "when declaring parameters with the 'needs' macro" do
       it "doesn't complain if there aren't any needs declared" do
         class Thing1 < Erector::Widget

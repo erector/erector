@@ -166,7 +166,7 @@ module Erector
         raise "Erector's API has changed. You should rename #{self.class}#render to #content."
       end
       @assigns = assigns
-      assign_locals(assigns)
+      assign_instance_variables(assigns)
       @parent = block ? eval("self", block.binding) : nil
       @block = block
       self.class.after_initialize self
@@ -197,14 +197,14 @@ module Erector
     end
 
     public
-    def assign_locals(local_assigns)
+    def assign_instance_variables (instance_variables)
       needed = self.class.get_needs.map{|need| need.is_a?(Hash) ? need.keys : need}.flatten
       assigned = []
-      local_assigns.each do |name, value|
+      instance_variables.each do |name, value|
         unless needed.empty? || needed.include?(name)
           raise "Unknown parameter '#{name}'. #{self.class.name} only accepts #{needed.join(', ')}"
         end
-        assign_local(name, value)
+        assign_instance_variable(name, value)
         assigned << name
       end
 
@@ -212,7 +212,7 @@ module Erector
       self.class.get_needs.select{|var| var.is_a? Hash}.each do |hash|
         hash.each_pair do |name, value|
           unless assigned.include?(name)
-            assign_local(name, value)
+            assign_instance_variable(name, value)
             assigned << name
           end
         end
@@ -224,9 +224,11 @@ module Erector
       end
     end
     
-    def assign_local(name, value)
+    def assign_instance_variable (name, value)
       raise ArgumentError, "Sorry, #{name} is a reserved variable name for Erector. Please choose a different name." if RESERVED_INSTANCE_VARS.include?(name)
-      instance_variable_set("@#{name}", value)
+      name = name.to_s
+      ivar_name = (name[0..0] == '@' ? name : "@#{name}")
+      instance_variable_set(ivar_name, value)
     end
     
     # Render (like to_s) but adding newlines and indentation.
