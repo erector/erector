@@ -81,6 +81,7 @@ module Erector
       end
       
       def externals(type, klass = nil)
+        type = type.to_sym
         assure_externals_declared(type, klass)
         x = @@externals[type].dup
         if klass
@@ -102,6 +103,7 @@ module Erector
       end
       
       def external(type, value)
+        type = type.to_sym
         klass = self # since it's a class method, self should be the class itself
         assure_externals_declared(type, klass)
         @@externals[type] << value unless @@externals[type].include?(value)
