@@ -227,7 +227,7 @@ DONE
         end
         li do
           text "call "
-          code "Erector::Doc.prettyprint_default = true"
+          code "Erector::Widget.prettyprint_default = true"
           text " (for example, in environments/development.rb in a rails application, or anywhere which is convenient)"
         end
       end
