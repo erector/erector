@@ -590,6 +590,21 @@ module Erector
         false
       end
     end    
+
+    # emits a jQuery script that is to be run on document ready
+    def jquery(txt)
+      javascript do
+        jquery_ready txt
+      end
+    end
+
+    protected
+    def jquery_ready(txt)
+      rawtext "\n"
+      rawtext "$(document).ready(function(){\n"
+      rawtext txt
+      rawtext "\n});"
+    end
     
 ### internal utility methods
 

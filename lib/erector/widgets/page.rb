@@ -14,8 +14,8 @@
 # Unfortunately, this means that every page in the application will share the same headers,
 # which may lead to conflicts. 
 #
-# If you want something to show up in the headers
-# for just one page, override #head_content, call super, and then emit it yourself.
+# If you want something to show up in the headers for just one page type (subclass), 
+# then override #head_content, call super, and then emit it yourself.
 #
 # Author::   Alex Chaffee, alex@stinky.com 
 #
@@ -54,6 +54,14 @@
 #
 class Page < Erector::Widget
 
+  # some *very* basic styles, hopefully not too controversial
+  external :style, <<-STYLE
+    img {border: none}
+    .right {float: right;}
+    .left {float: left;}
+    .clear {background: none;border: 0;clear: both;display: block;float: none;font-size: 0;margin: 0;padding: 0;position: static;overflow: hidden;visibility: hidden;width: 0;height: 0;}
+  STYLE
+  
   # Emit the Transitional doctype.
   # TODO: allow selection from among different standard doctypes
   def doctype
@@ -88,29 +96,29 @@ class Page < Erector::Widget
   def head_content
     meta 'http-equiv' => 'content-type', :content => 'text/html;charset=UTF-8'
     title page_title
-    included_scripts
     included_stylesheets
+    included_scripts
     inline_styles
     inline_scripts
   end
   
   def included_scripts
-    externals(:js).each do |file|
-      script :type=>"text/javascript", :src => file
+    self.class.externals(:js).each do |file|
+      script :type => "text/javascript", :src => file
     end
   end
   
   def included_stylesheets
-    externals(:css).each do |file|
+    self.class.externals(:css).each do |file|
       # todo: allow different media
       link :rel => "stylesheet", :href => file, :type => "text/css", :media => "all"
     end
   end
 
   def inline_styles
-    style :type=>"text/css", 'xml:space' => 'preserve' do
+    style :type => "text/css", 'xml:space' => 'preserve' do
       rawtext "\n"
-      externals(:style).each do |txt|
+      self.class.externals(:style).each do |txt|
         rawtext "\n"
         rawtext txt
       end
@@ -119,39 +127,14 @@ class Page < Erector::Widget
   
   def inline_scripts
     javascript do
-      externals(:script).each do |txt|
+      self.class.externals(:script).each do |txt|
         rawtext "\n"
         rawtext txt
       end
-      externals(:jquery).each do |txt|
+      self.class.externals(:jquery).each do |txt|
         jquery_ready txt
       end
     end
   end
 
-  # some *very* basic styles, hopefully not too controversial
-  external :style, <<-STYLE
-    img {border: none}
-    .right {float: right;}
-    .left {float: left;}
-    .clear {background: none;border: 0;clear: both;display: block;float: none;font-size: 0;margin: 0;padding: 0;position: static;overflow: hidden;visibility: hidden;width: 0;height: 0;}
-  STYLE
-  
-end
-
-class Erector::Widget
-  # declares a jQuery script that is to be run on document ready
-  def jquery(txt)
-    javascript do
-      jquery_ready txt
-    end
-  end
-
-  protected
-  def jquery_ready(txt)
-    rawtext "\n"
-    rawtext "$(document).ready(function(){\n"
-    rawtext txt
-    rawtext "\n});"
-  end
 end

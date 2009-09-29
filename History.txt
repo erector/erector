@@ -1,4 +1,8 @@
-==
+== 0.7.1
+* externals mechanism
+* Page widget
+* FieldTable widget
+* added 'jquery' method to perform a script on $(document).ready
 
 == 0.7.0 / 2009-09-27
 * Changed behavior of inline blocks. See Widget#new documentation.

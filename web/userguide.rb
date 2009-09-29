@@ -162,7 +162,18 @@ if (x < y && x > z) alert("don't stop");
 // ]]>
 </script>
 DONE
-      ];
+,
+        "jquery '$("p").wrap("<div></div>");'",
+<<-DONE
+<script type="text/javascript">
+// <![CDATA[
+$(document).ready(function(){
+  $("p").wrap("<div></div>");
+});
+// ]]>
+</script>
+DONE
+        ]
       
       cheats << ["join([widget1, widget2],\n separator)", "", "See examples/join.rb for more explanation"]
       
