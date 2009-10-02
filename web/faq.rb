@@ -61,8 +61,8 @@ class Faq < Page
       Section.new("Where are some examples?") do
         p do
           text "This very web site you're reading right now is built with Erector, using the "
-          a "erector", :href => "userguide.html#erector"
-          text " tool. See the "
+          a "erector", :href => "userguide.html#tool"
+          text " command-line tool. See the "
           a "repository", :href => "http://github.com/pivotal/erector"
           text " (especially the web directory)."
         end
@@ -72,7 +72,15 @@ class Faq < Page
         end
         
         p do
-          text "Currently we don't know of any open-source projects built with Erector so we can't show you working source code for a full Erector webapp."
+          text "At RailsConf 2009 Alex whipped up a simple Sinatra + Erector + ActiveRecord webapp called "
+          a "Vegas", :href=>"http://github.com/alexch/vegas"
+          text ". Caveat lector."
+        end
+        
+        p do
+          text "Currently we don't know of any open-source projects built with Erector so we can't show you working source code for a full Erector webapp. And client confidentiality keeps us from saying which of the "
+          a "Pivotal Labs", :href=>"http://pivotallabs.com/clients"
+          text " project were built with Erector. But trust us, they're out there."
         end
       end,
       
@@ -114,7 +122,40 @@ class Faq < Page
           a " this gist snippet", :href=> 'http://gist.github.com/103976'
           text " (which we may soon integrate into Erector proper)."
         end
-      end
+      end,
+      
+      Section.new("How fast is Erector compared to ERB, HAML, etc.?") do
+        p do
+          a "Initial benchmarking tests", :href => "http://github.com/alexch/erector-benchmark"
+          text " show that Erector is about 2x as fast as ERB and 4x as fast as HAML under typical conditions."
+          p "The main architectural benefits of Erector from a performance standpoint are:"
+          p do
+            b "Parsed by Ruby."
+            text " Since Erector widgets are Ruby classes, the native-code Ruby interpreter compiles them during classload time, not a parser written "
+            b "in"
+            text " Ruby at runtime."
+          end
+          p do
+            b "Append > Copy. "
+            text " Many templating systems are casual about whether a particular operation "
+            b "returns"
+            text " a string, or "
+            b "appends"
+            text " to an output stream. This can lead to wasteful copying and reallocation. In Erector, all operations concatenate their result to a single output buffer, even when calling nested widgets (via the"
+            code "widget"
+            text " method). If you choose to, you can use Erector's "
+            code "capture"
+            text " method for explicit string conversion, but by default we use the faster way."
+          end
+          p do
+            b "Methods, not Partials."
+            text " In ERB and HAML, modular decomposition is accomplished by separating reused code into separate template files. In addition to being aesthetically problematic, encouraging you to move related code into separate places, it also introduces a performance problem, since every partial may be rendered into a string. (Although sometimes it's not, which is just weird.)"
+          end
+        end
+        p do
+          text "We should point out, of course, that the choice of templating engines by itself is not what will make your application scalable. The effectiveness of your caching policy will dwarf that of your rendering engine in nearly all cases. But it's fun to know we've got a pretty fast horse in this particular race..."
+        end
+      end,
       
     ])
   end

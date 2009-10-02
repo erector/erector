@@ -13,6 +13,8 @@ modular decomposition, encapsulation) in views. See the rdoc for the
 Erector::Widget class to learn how to make your own widgets, and visit the
 project site at http://erector.rubyforge.org for more documentation.
 
+No, seriously, we've got hella docs at http://erector.rubyforge.org
+
 == SYNOPSIS
 
     require 'erector'
@@ -25,20 +27,25 @@ project site at http://erector.rubyforge.org for more documentation.
           end
           body do
             text "Hello, "
-            b "#{target}!", :class => 'big'
+            b @target, :class => 'big'
+            text "!"
           end
         end
       end
     end
 
     Hello.new(:target => 'world').to_s
-    => "<html><head><title>Hello</title></head><body>Hello, <b class=\"big\">world!</b></body></html>"
+    => "<html><head><title>Hello</title></head><body>Hello, <b class=\"big\">world</b>!</body></html>"
+
+    include Erector::Mixin
+    erector { div "love", :class => "big" }
+    => "<div class=\"big\">love</div>"
 
 == REQUIREMENTS
 
-The gem depends on rake and treetop, although this is just for using the "erect" tool, 
-so deployed applications won't need these. Currently it also requires rails, although
-we plan to separate the rails-dependent code so you can use Erector cleanly in a non-Rails app.
+The gem depends on rake and treetop, although this is just for using the command-line tool, 
+so deployed applications won't need these. The Rails-dependent code is now separated so 
+you can use Erector cleanly in a non-Rails app.
 
 == INSTALL
 

@@ -1,9 +1,6 @@
 require File.expand_path("#{File.dirname(__FILE__)}/rails_spec_helper")
 
 describe Erector::RailsWidget do
-  class RailsSpecWidget < Erector::RailsWidget
-
-  end
 
   before(:each) do
     @view = ActionView::Base.new
@@ -16,7 +13,7 @@ describe Erector::RailsWidget do
   describe "#capture" do
     it "captures with an erector block" do
       captured = nil
-      message = Erector::RailsWidget.new do
+      message = Erector::RailsWidget.inline do
         captured = @helpers.capture do
           h1 'capture me!'
         end
@@ -31,7 +28,7 @@ describe Erector::RailsWidget do
         attr_accessor :model
       end
 
-      class DummyModel
+      class DummyModel < BaseDummyModel # fix for Rails 2.3.4
         # not sure what the best way is to mock out a model without
         # needing a database.  But here's my attempt.
         attr_accessor :errors
@@ -55,7 +52,7 @@ describe Erector::RailsWidget do
 
   describe "#link_to" do
     it "renders the link" do
-      RailsSpecWidget.new do
+      Erector::RailsWidget.inline do
         link_to 'This&that', '/foo?this=1&amp;that=1'
       end.to_s(:helpers => @view).should == "<a href=\"/foo?this=1&amp;that=1\">This&amp;that</a>"
     end
@@ -63,14 +60,14 @@ describe Erector::RailsWidget do
 
   describe "#image_tag" do
     it "renders" do
-      RailsSpecWidget.new do
+      Erector::RailsWidget.inline do
         image_tag("/foo")
       end.to_s(:helpers => @view).should == %{<img alt="Foo" src="/foo" />}
     end
 
     context "with parameters" do
       it "renders" do
-        RailsSpecWidget.new do
+        Erector::RailsWidget.inline do
           image_tag("/foo", :id => "photo_foo", :class => "a_photo_class")
         end.to_s(:helpers => @view).should == %{<img alt="Foo" class="a_photo_class" id="photo_foo" src="/foo" />}
       end
@@ -85,7 +82,7 @@ describe Erector::RailsWidget do
         end
       end
 
-      RailsSpecWidget.new do
+      Erector::RailsWidget.inline do
         form_tag("/foo") do
           p "I'm in a form"
         end
@@ -109,11 +106,12 @@ describe Erector::RailsWidget do
         end
       end
 
-      RailsSpecWidget.new do
+      Erector::RailsWidget.inline do
         form_tag("/foo") do
           p "I'm in a form"
         end
-      end.to_s(:helpers => @view).should == "<form action=\"/foo\" method=\"post\"><div style=\"margin:0;padding:0\"><input name=\"\" type=\"hidden\" value=\"token\" /></div><p>I'm in a form</p></form>"
+      end.to_s(:helpers => @view).should == "<form action=\"/foo\" method=\"post\"><div style=\"margin:0;padding:0;display:inline\"><input name=\"\" type=\"hidden\" value=\"token\" /></div><p>I'm in a form</p></form>"
     end
   end
 end
+

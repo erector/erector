@@ -45,7 +45,7 @@ DONE
           end
           td do
             span :class => "separator" do
-              text "=>"
+              text character(:rightwards_arrow)
             end
           end
           td do
@@ -62,55 +62,158 @@ DONE
           end
         end
       end
+      
+      p do
+        text "Once you have a widget class, you can instantiate it and then call its "
+        code "to_s"
+        text " method."
+        text " If you want to pass in 'locals' (aka 'assigns'), then do so in the constructor's default hash. This will make instance variables of the same name, with Ruby's '@' sign."
+      end
+      pre <<-PRE
+class Email < Erector::Widget
+  def content
+    a @address, :href => "mailto:#{@address}"
+  end
+end
+
+>> Email.new(:address => "foo@example.com").to_s
+=> "<a href=\"mailto:foo@example.com\">foo@example.com</a>"
+      PRE
+      p do
+        text "(If you want control over which locals are valid to be passed in to a widget, use the "
+        a "needs", :href => "#needs"
+        text " macro.)"
+      end
+    end,
+
+    Section.new("Mixin") do
+      p "If all this widget stuff is too complicated, just do "
+      pre "include Erector::Widget"
+      p do
+        text "and then call "
+        code "erector { }"
+        text " from anywhere in your code. It will make an "
+        a "inline widget", :href => "#inline"
+        text " for you, pass in the block, and call "
+        code "to_s"
+        text " on it. And if you pass any options to "
+        code "erector"
+        text ", like "
+        code ":prettyprint => true"
+        text ", it'll pass them along to "
+        code "to_s"
+        text "!"
+      end
+      h3 "Examples:"
+      pre <<-PRE
+erector { a "lols", :href => "http://icanhascheezburger.com/" }
+=> "<a href=\\"http://icanhascheezburger.com/\\">lols</a>"
+
+erector(:prettyprint => true) do
+  ol do
+    li "bacon"
+    li "lettuce"
+    li "tomato"
+  end
+end
+=> "<ol>\\n  <li>bacon</li>\\n  <li>lettuce</li>\\n  <li>tomato</li>\\n</ol>\\n" 
+      PRE
+
     end,
 
     Section.new("API Cheatsheet") do
-      pre <<DONE
-element('foo')           # <foo></foo>
-empty_element('foo')     # <foo />
-html                     # <html></html> (likewise for other common html tags)
-b 'foo'                  # <b>foo</b>
-text 'foo'               # foo
-text '&<>'               # &amp;&lt;&gt; (what you generally want, especially
-                         # if the text came from the user or a database)
-text raw('&<>')          # &<> (back door for raw html)
-rawtext('&<>')           # &<> (alias for text(raw()))
-html { text 'foo' }      # <html>foo</html>
-html 'foo'               # <html>foo</html>
-html foo                 # <html>bar</html> (if the method foo returns the string \"bar\")
-a(:href => 'foo.html')   # <a href=\"foo.html\"></a>
-a(:href => 'q?a&b')      # <a href=\"q?a&amp;b\"></a>  (quotes as for text)
-a(:href => raw('&amp;')) # <a href=\"&amp;\"></a>
-a 'foo', :href => "bar"  # <a href=\"bar\">foo</a>
-text nbsp('Save Doc')    # Save&#160;Doc (turns spaces into non-breaking spaces)
-text nbsp()              # &#160; (a single non-breaking space)
-text character(160)      # &#xa0; (output a character given its unicode code point)
-text character(:right-arrow)    # &#x2192; (output a character given its unicode name)
-instruct                 # <?xml version=\"1.0\" encoding=\"UTF-8\"?>
+      cheats = [
+        ["element('foo')",             "<foo></foo>"],
+        ["empty_element('foo')",       "<foo />"],
+        ["html",                       "<html></html>", "and likewise for all non-deprecated elements from the HTML 4.0.1 spec"],
+        ["b 'foo'",                    "<b>foo</b>"],
+        ["div { b 'foo' }",            "<div><b>foo</b></div>"],
 
-javascript('if (x < y && x > z) alert("don\\\'t stop");') #=>
+        ["text 'foo'",                 "foo"],
+        ["text '&<>'",                 "&amp;&lt;&gt;", "all normal text is HTML escaped, which is what you generally want, especially if the text came from the user or a database"],
+        ["text raw('&<>')",            "&<>", "raw text escapes being escaped"],
+        ["rawtext('&<>')",             "&<>", "alias for text(raw())"],
+
+        ["div { text 'foo' }",        "<div>foo</div>"],
+        ["div 'foo'",                 "<div>foo</div>"],
+        ["foo = 'bar'\ndiv foo",      "<div>bar</div>"],
+        ["a(:href => 'foo.div')",     "<a href=\"foo.div\"></a>"],
+        ["a(:href => 'q?a&b')",        "<a href=\"q?a&amp;b\"></a>", "attributes are escaped like text is"],
+        ["a(:href => raw('&amp;'))",   "<a href=\"&amp;\"></a>", "raw strings are never escaped, even in attributes"],
+        ["a 'foo', :href => \"bar\"",    "<a href=\"bar\">foo</a>"],
+
+        ["text nbsp('Save Doc')",      "Save&#160;Doc", "turns spaces into non-breaking spaces"],
+        ["text nbsp",                  "&#160;", "a single non-breaking space"],
+        ["text character(160)",        "&#xa0;", "output a character given its unicode code point"],
+        ["text character(:right-arrow)",      "&#x2192;", "output a character given its unicode name"],
+
+        ["instruct",                   "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"],
+        ["url 'http://example.com'",   "<a href=\"http://example.com\">http://example.com</a>"],
+        
+        ["capture { div }", "<div></div>", "returns the block as a string, doesn't add it to the current output stream"],
+        ["div :class => ['a', 'b']", "<div class=\"a b\"></div>"],
+      ]
+      cheats << [
+        "javascript(\n'if (x < y && x > z) \nalert(\"don\\\'t stop\");')",
+<<-DONE
 <script type="text/javascript">
 // <![CDATA[
 if (x < y && x > z) alert("don't stop");
 // ]]>
 </script>
 DONE
+,
+        "jquery '$("p").wrap("<div></div>");'",
+<<-DONE
+<script type="text/javascript">
+// <![CDATA[
+$(document).ready(function(){
+  $("p").wrap("<div></div>");
+});
+// ]]>
+</script>
+DONE
+        ]
+      
+      cheats << ["join([widget1, widget2],\n separator)", "", "See examples/join.rb for more explanation"]
+      
       table :class => 'cheatsheet' do
         tr do
-          td do
-            code "join ["
-            i "widgets"
-            code "], "
-            i "separator"
-          end
-          td do
-            i "See examples/join.rb for more explanation"
+          th "code"
+          th "output"
+        end
+        cheats.each do |cheat|
+          tr do
+            td :width=>"30%" do
+              code do
+                join cheat[0].split("\n"), raw("<br/>")
+              end
+            end
+            td do
+              if cheat[1]
+                code do
+                  join cheat[1].split("\n"), raw("<br/>")
+                end
+              end
+              if cheat[2]
+                text nbsp("  ")
+                text character(:horizontal_ellipsis)
+                i cheat[2] 
+              end
+            end
           end
         end
       end
-      i "TODO: document more obscure features like capture, Table, :class => ['one', 'two']"
+      
+      p do
+        text "Lots more documentation is at the "
+        a "RDoc API pages", :href => "rdoc/index.html"
+        text " especially for "
+        a "Erector::Widget", :href => "rdoc/classes/Erector/Widget.html"
+        text " so don't go saying we never wrote you nothin'."
+      end
     end,
-
+    
     Section.new("Pretty-printing") do
       p "Erector has the ability to insert newlines and indentation to make the generated HTML more readable.  Newlines are inserted before and after certain tags."
       p "To enable pretty-printing (insertion of newlines and indentation) of Erector's output, do one of the following:"
@@ -123,19 +226,25 @@ DONE
           text " on your Erector::Widget"
         end
         li do
+          text "pass "
+          code ":prettyprint => true"
+          text " to "
+          code "to_s"
+        end
+        li do
           text "call "
           code "enable_prettyprint(true)"
           text " on your Erector::Widget.  Then subsequent calls to to_s will prettyprint"
         end
         li do
           text "call "
-          code "Erector::Doc.prettyprint_default = true"
+          code "Erector::Widget.prettyprint_default = true"
           text " (for example, in environments/development.rb in a rails application, or anywhere which is convenient)"
         end
       end
     end,
 
-    Section.new("Using Erector from Ruby on Rails") do
+    Section.new("Using Erector from Ruby on Rails", "rails") do
 
       p do
         text "Your views are just ruby classes.  Your controller can either call Rails' "
@@ -190,7 +299,7 @@ DONE
 
     end,
 
-    Section.new("Command-line conversion to and from HTML") do
+    Section.new("Erector tool: Command-line conversion to and from HTML", "tool") do
 
       p """
       To make Rails integration as smooth as possible, we've written a little tool that will help you
@@ -359,31 +468,42 @@ DONE
       end
     end,
 
-
-    Section.new("Inline Widgets") do
+    Section.new("Inline Widgets", "inline") do
       p do
         text "Instead of subclassing "
         code "Erector::Widget"
-        text " and implementing a render method, you can pass a block to "
-        code "Erector::Widget.new"
-        text ".  For example:"
-        pre <<DONE
-html = Erector::Widget.new do
+        text " and implementing a "
+        code "content"
+        text " method, you can pass a block to "
+        code "Erector.inline"
+        text " and get back a widget instance you can call to_s on.  For example:"
+        pre <<-DONE
+html = Erector.inline do
   p "Hello, world!"
 end
 html.to_s          #=> <p>Hello, world!</p>
-DONE
+        DONE
         text "This lets you define mini-widgets on the fly."
       end
       
+      p do 
+        text "If you're in Rails, and want access to the Rails helpers in your inline block, you use slightly different syntax:"
+        pre <<-DONE
+html = Erector::RailsWidget.inline do
+  image_tag("/foo")
+end
+html.to_s(:helpers => controller)          #=> <img alt="Foo" src="/foo" />
+      DONE
+    end
+      
       p do
-        text "One extra bonus feature of inline widgets is that they can call methods defined on the parent class, even though they're out of scope. How do they do this? Through method_missing magic. (But isn't method_missing magic against the design goals of Erector? Yes, some would say so, and we're probably going to discuss this feature on the mailing list before long.)"
+        text "One extra bonus feature of inline widgets is that they can call methods defined on the parent class, even though they're out of scope. How do they do this? Through method_missing magic. (But isn't method_missing magic against the design goals of Erector? Yes, some would say so, and that's why we're reserving it for a special subclass and method. For Erector::Widget and subclasses, if you pass in a block, it's a plain old block with normal semantics.) But they can't directly access instance variables on the parent, so watch it."
       end
     end,
 
     Section.new("Needs") do
       p do
-        text "Named parameters are fun, but one frustrating aspect of the 'options hash' technique is that "
+        text "Named parameters in Ruby are fun, but one frustrating aspect of the 'options hash' technique is that "
         text "the code is less self-documenting and doesn't 'fail fast' if you pass in the wrong parameters, "
         text "or fail to pass in the right ones. Even simple typos can lead to very annoying debugging problems."
       end
@@ -396,19 +516,21 @@ DONE
 class Car < Erector::Widget
   needs :engine, :wheels => 4
   def content
-    text "My \#{wheels} wheels go round and round; my \#{engine} goes vroom!"
+    text "My \#{@wheels} wheels go round and round; my \#{@engine} goes vroom!"
   end
 end
         DONE
         text "This widget will throw an exception if you fail to pass "
-        code ":engine => 'V-6'"
-        text " into its constructor."
+        code ":engine => 'V-8'"
+        text " into its constructor. (Actually, it will work with any engine, but a V-8 is the baddest.)"
       end
       
       p do
         text "See the "
-        a "rdoc for Widget#needs", :href => 'rdoc'
-        text " for more details."
+        a "rdoc for Widget#needs", :href => 'rdoc/classes/Erector/Widget.html#M000053'
+        text " for more details. Note that as of version 0.7.0, using "
+        code "needs"
+        text " no longer automatically declares accessor methods."
       end
     end
     

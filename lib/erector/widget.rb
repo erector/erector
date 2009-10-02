@@ -38,19 +38,20 @@ module Erector
         Erector::Widget.full_tags + Erector::Widget.empty_tags
       end
 
-      # tags which are always self-closing
+      # Tags which are always self-closing. Click "[Source]" to see the full list.
       def empty_tags
         ['area', 'base', 'br', 'col', 'frame', 
         'hr', 'img', 'input', 'link', 'meta']
       end
 
-      # tags which can contain other stuff
+      # Tags which can contain other stuff. Click "[Source]" to see the full list.
       def full_tags
         [
           'a', 'abbr', 'acronym', 'address', 
           'b', 'bdo', 'big', 'blockquote', 'body', 'button', 
           'caption', 'center', 'cite', 'code', 'colgroup',
           'dd', 'del', 'dfn', 'div', 'dl', 'dt', 'em',
+          'embed',
           'fieldset', 'form', 'frameset',
           'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'head', 'html', 'i',
           'iframe', 'ins', 'kbd', 'label', 'legend', 'li', 'map',
@@ -79,10 +80,36 @@ module Erector
         end
       end
       
+      def externals(type, klass = nil)
+        type = type.to_sym
+        assure_externals_declared(type, klass)
+        x = @@externals[type].dup
+        if klass
+          x.select{|value| @@externals[klass].include?(value)}
+        else
+          x
+        end
+      end
+
       protected
       def after_initialize_parts
         @after_initialize_parts ||= []
       end
+      
+      def assure_externals_declared(type, klass)
+        @@externals ||= {}
+        @@externals[type] ||= []
+        @@externals[klass] ||= [] if klass
+      end
+      
+      def external(type, value)
+        type = type.to_sym
+        klass = self # since it's a class method, self should be the class itself
+        assure_externals_declared(type, klass)
+        @@externals[type] << value unless @@externals[type].include?(value)
+        @@externals[klass] << value unless @@externals[klass].include?(value)
+      end
+      
     end
 
     # Class method by which widget classes can declare that they need certain
@@ -128,11 +155,10 @@ module Erector
     protected
     def self.get_needs
       @needs ||= []
-      parent = self.ancestors[1]
-      if parent.respond_to? :get_needs
-        parent.get_needs + @needs
-      else
-        @needs
+
+      ancestors[1..-1].inject(@needs.dup) do |needs, ancestor|
+        needs.push(*ancestor.get_needs) if ancestor.respond_to?(:get_needs)
+        needs
       end
     end
 
@@ -153,8 +179,10 @@ module Erector
 
     SPACES_PER_INDENT = 2
 
-    attr_reader :helpers, :assigns, :block, :parent, :output, :prettyprint, :indentation
+    RESERVED_INSTANCE_VARS = [:helpers, :assigns, :block, :parent, :output, :prettyprint, :indentation, :at_start_of_line]
 
+    attr_reader *RESERVED_INSTANCE_VARS
+    
     def initialize(assigns={}, &block)
       unless assigns.is_a? Hash
         raise "Erector's API has changed. Now you should pass only an options hash into Widget.new; the rest come in via to_s, or by using #widget."
@@ -164,7 +192,7 @@ module Erector
         raise "Erector's API has changed. You should rename #{self.class}#render to #content."
       end
       @assigns = assigns
-      assign_locals(assigns)
+      assign_instance_variables(assigns)
       @parent = block ? eval("self", block.binding) : nil
       @block = block
       self.class.after_initialize self
@@ -195,14 +223,14 @@ module Erector
     end
 
     public
-    def assign_locals(local_assigns)
+    def assign_instance_variables (instance_variables)
       needed = self.class.get_needs.map{|need| need.is_a?(Hash) ? need.keys : need}.flatten
       assigned = []
-      local_assigns.each do |name, value|
+      instance_variables.each do |name, value|
         unless needed.empty? || needed.include?(name)
           raise "Unknown parameter '#{name}'. #{self.class.name} only accepts #{needed.join(', ')}"
         end
-        assign_local(name, value)
+        assign_instance_variable(name, value)
         assigned << name
       end
 
@@ -210,7 +238,7 @@ module Erector
       self.class.get_needs.select{|var| var.is_a? Hash}.each do |hash|
         hash.each_pair do |name, value|
           unless assigned.include?(name)
-            assign_local(name, value)
+            assign_instance_variable(name, value)
             assigned << name
           end
         end
@@ -222,17 +250,11 @@ module Erector
       end
     end
     
-    def assign_local(name, value)
-      instance_variable_set("@#{name}", value)
-      if any_are_needed?
-        metaclass.module_eval do
-          attr_reader name
-        end
-      end
-    end
-    
-    def any_are_needed?
-      !self.class.get_needs.empty?
+    def assign_instance_variable (name, value)
+      raise ArgumentError, "Sorry, #{name} is a reserved variable name for Erector. Please choose a different name." if RESERVED_INSTANCE_VARS.include?(name)
+      name = name.to_s
+      ivar_name = (name[0..0] == '@' ? name : "@#{name}")
+      instance_variable_set(ivar_name, value)
     end
     
     # Render (like to_s) but adding newlines and indentation.
@@ -257,27 +279,23 @@ module Erector
     #           Rails view object.
     # content_method_name:: in case you want to call a method other than
     #                       #content, pass its name in here.
-    #
-    # Note: Prettyprinting is an experimental feature and is subject to change
-    # (either in terms of how it is enabled, or in terms of what decisions
-    # Erector makes about where to add whitespace).
     def to_s(options = {}, &blk)
       raise "Erector::Widget#to_s now takes an options hash, not a symbol. Try calling \"to_s(:content_method_name=> :#{options})\"" if options.is_a? Symbol
       _render(options, &blk).to_s
     end
     
     # Entry point for rendering a widget (and all its children). Same as #to_s
-    # only returns an array, for minor performance improvements when using a
+    # only it returns an array, for theoretical performance improvements when using a
     # Rack server (like Sinatra or Rails Metal).
     #
     # # Options: see #to_s
     def to_a(options = {}, &blk)
-      _render(options, &blk).to_a
+      _render({:output => []}.merge(options), &blk).to_a
     end
     
     def _render(options = {}, &blk)
       options = {
-        :output => [],
+        :output => "",  # "" is apparently faster than [] in a long-running process
         :prettyprint => prettyprint_default,
         :indentation => 0,
         :helpers => nil,
@@ -291,11 +309,15 @@ module Erector
     
     alias_method :inspect, :to_s
     
-    # Template method which must be overridden by all widget subclasses. Inside this method you call the magic
-    # #element methods which emit HTML and text to the output string.
+    # Template method which must be overridden by all widget subclasses.
+    # Inside this method you call the magic #element methods which emit HTML
+    # and text to the output string. If you call "super" (or don't override
+    # +content+) then your widget will render any block that was passed into
+    # its constructor. If you want this block to have access to Erector methods
+    # then see Erector::Inline#content.
     def content
       if @block
-        instance_eval(&@block)
+        @block.call
       end
     end
 
@@ -440,7 +462,7 @@ module Erector
       end
     end
 
-    # Emits a close tag, consisting of '<', tag name, and '>'
+    # Emits a close tag, consisting of '<', '/', tag name, and '>'
     def close_tag(tag_name)
       @indentation -= SPACES_PER_INDENT
       indent()
@@ -568,20 +590,25 @@ module Erector
         false
       end
     end    
+
+    # emits a jQuery script that is to be run on document ready
+    def jquery(txt)
+      javascript do
+        jquery_ready txt
+      end
+    end
+
+    protected
+    def jquery_ready(txt)
+      rawtext "\n"
+      rawtext "$(document).ready(function(){\n"
+      rawtext txt
+      rawtext "\n});"
+    end
     
 ### internal utility methods
 
 protected
-
-    # This is part of the sub-widget/parent feature (see #widget method).
-    def method_missing(name, *args, &block)
-      block ||= lambda {} # captures self HERE
-      if @parent
-        @parent.send(name, *args, &block)
-      else
-        super
-      end
-    end
 
     def __element__(tag_name, *args, &block)
       if args.length > 2
@@ -637,7 +664,7 @@ protected
 
     def indent()
       if @at_start_of_line
-        output << " " * @indentation
+        output << " " * [@indentation, 0].max
       end
     end
 

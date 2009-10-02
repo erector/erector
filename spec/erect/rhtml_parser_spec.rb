@@ -172,6 +172,10 @@ describe RhtmlParser do
     parse("a=\"don't worry\"").convert.should == ":a => 'don\\'t worry'"
   end
 
+  it "escapes single quotes inside text strings" do
+    parse("isn't she lovely").convert.should == "text 'isn" + "\\" + "'t she lovely'\n"
+  end
+
   it "allows newlines where whitespace is allowed" do
     parse("<img src='foo' \nalt='bar' />").convert.should == "img :src => 'foo', :alt => 'bar'\n"
   end
