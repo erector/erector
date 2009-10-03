@@ -307,14 +307,12 @@ module Erector
       end
     end
     
-    alias_method :inspect, :to_s
-    
     # Template method which must be overridden by all widget subclasses.
     # Inside this method you call the magic #element methods which emit HTML
     # and text to the output string. If you call "super" (or don't override
     # +content+) then your widget will render any block that was passed into
     # its constructor. If you want this block to have access to Erector methods
-    # then see Erector::Inline#content.
+    # then see Erector::Inline#content or Erector#inline.
     def content
       if @block
         @block.call
