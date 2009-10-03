@@ -38,6 +38,7 @@
           <li><a href="#layoutinheritance">Layout Inheritance</a></li>
           <li><a href="#inline">Inline Widgets</a></li>
           <li><a href="#needs">Needs</a></li>
+          <li><a href="#externals">Externals</a></li>
         </ul>
         <a name="thebasics"></a>
         <h2>The Basics</h2>
@@ -316,10 +317,10 @@ end
           </tr>
           <tr>
             <td width="30%">
-              <code>javascript(<br/>'if (x &lt; y &amp;&amp; x &gt; z) <br/>alert(&quot;don\'t stop&quot;);')</code>
+              <code>javascript(<br/>'if (x &lt; y &amp;&amp; x &gt; z) <br/>alert(&quot;don't stop&quot;);)</code>
             </td>
             <td>
-              <code>&lt;script type=&quot;text/javascript&quot;&gt;<br/>// &lt;![CDATA[<br/>if (x &lt; y &amp;&amp; x &gt; z) alert(&quot;don't stop&quot;);<br/>// ]]&gt;<br/>&lt;/script&gt;</code>
+              <code>&lt;script type=&quot;text/javascript&quot;&gt;<br/>// &lt;![CDATA[<br/>if (x &lt; y &amp;&amp; x &gt; z) alert(&quot;don't stop&quot;);<br/>// ]]&gt;<br/>&lt;/script&gt;<br/>DONE,<br/>        &quot;jquery '$(&quot;p&quot;).wrap(&quot;&lt;div&gt;&lt;/div&gt;&quot;);'&quot;,<br/>&lt;&lt;-DONE<br/>&lt;script type=&quot;text/javascript&quot;&gt;<br/>// &lt;![CDATA[<br/>$(document).ready(function(){<br/>  $(&quot;p&quot;).wrap(&quot;&lt;div&gt;&lt;/div&gt;&quot;);<br/>});<br/>// ]]&gt;<br/>&lt;/script&gt;</code>
             </td>
           </tr>
           <tr>
@@ -549,6 +550,13 @@ end
 html.to_s(:helpers =&gt; controller)          #=&gt; &lt;img alt=&quot;Foo&quot; src=&quot;/foo&quot; /&gt;
 </pre>
         </p>
+        <p>Note that inline widgets are usually redundant if you're already inside an Erector content method. You can just use a normal 
+          <code>do</code>
+ block and the Erector methods will work as usual when called back from 
+          <code>yield</code>
+. Inline widgets get evaluated with 
+          <code>instance_eval</code>
+ which may or may not be what you want.</p>
         <p>One extra bonus feature of inline widgets is that they can call methods defined on the parent class, even though they're out of scope. How do they do this? Through method_missing magic. (But isn't method_missing magic against the design goals of Erector? Yes, some would say so, and that's why we're reserving it for a special subclass and method. For Erector::Widget and subclasses, if you pass in a block, it's a plain old block with normal semantics.) But they can't directly access instance variables on the parent, so watch it.</p>
         <a name="needs"></a>
         <h2>Needs</h2>
@@ -567,6 +575,69 @@ This widget will throw an exception if you fail to pass
         <p>See the <a href="rdoc/classes/Erector/Widget.html#M000053">rdoc for Widget#needs</a> for more details. Note that as of version 0.7.0, using 
           <code>needs</code>
  no longer automatically declares accessor methods.</p>
+        <a name="externals"></a>
+        <h2>Externals</h2>
+        <p>Erector's got some nice tags, like 
+          <code>script</code>
+ and 
+          <code>style</code>
+, that you can emit in the content method of your widget. But what if your widget needs something, say a JavaScript library, that should be included not in the main page, but inside the 
+          <code>head</code>
+ section?</p>
+        <p><a href="rdoc/classes/Erector/Externals.html">Externals</a> are a way for your widget to announce to the world that it has an external dependency. It's then up to <a href="rdoc/classes/Erector/Widgets/Page.html">another widget</a> to emit that dependency while it's rendering the 
+          <code>head</code>
+.</p>
+        <p>Here's an example:
+          <pre>class HotSauce &lt; Erector::Widget
+  external :css, &quot;/css/tapatio.css&quot;
+  external :css, &quot;/css/salsa_picante.css&quot;
+  external :js, &quot;/lib/jquery.js&quot;
+  external :js, &quot;/lib/picante.js&quot;
+
+  def content
+    p :class =&gt; &quot;tapatio&quot; do
+      text &quot;esta salsa es muy picante!&quot;
+    end
+  end
+end
+</pre>
+Then when 
+          <code>Page</code>
+ emits the 
+          <code>head</code>
+ it'll look like this:
+          <pre>&lt;head&gt;
+  &lt;meta content=&quot;text/html;charset=UTF-8&quot; http-equiv=&quot;content-type&quot; /&gt;
+  &lt;title&gt;HotPage&lt;/title&gt;
+  &lt;link href=&quot;/css/tapatio.css&quot; media=&quot;all&quot; rel=&quot;stylesheet&quot; type=&quot;text/css&quot; /&gt;
+  &lt;link href=&quot;/css/salsa_picante.css&quot; media=&quot;all&quot; rel=&quot;stylesheet&quot; type=&quot;text/css&quot; /&gt;
+  &lt;script src=&quot;/lib/jquery.js&quot; type=&quot;text/javascript&quot;&gt;&lt;/script&gt;
+  &lt;script src=&quot;/lib/picante.js&quot; type=&quot;text/javascript&quot;&gt;&lt;/script&gt;
+&lt;/head&gt;
+</pre>
+        </p>
+        <p>It also collapses redundant externals, so if lots of your widgets declare the same thing (say, 'jquery.js'), it'll only get included once.</p>
+        <p>There's one big drawback to this technique: since the externals get declared at class load time, then every external will be emitted on every page. This is not usually a problem, but it may lead to namespace collision, so be careful out there.</p>
+        <p><a href="rdoc/classes/Erector/Widgets/Page.html">Page</a> looks for the following externals:
+          <table>
+            <tr>
+              <th>:js</th>
+              <td>included JavaScript file</td>
+            </tr>
+            <tr>
+              <th>:css</th>
+              <td>included CSS stylesheet</td>
+            </tr>
+            <tr>
+              <th>:script</th>
+              <td>inline JavaScript</td>
+            </tr>
+            <tr>
+              <th>:style</th>
+              <td>inline CSS style</td>
+            </tr>
+          </table>
+It might be a little difficult to remember the difference between :js and :script, and between :css and :style, so I'm thinking of maybe unifying them and looking at the content to determine whether it's inline or not. (Something simple like, if it includes a space, then it's inline.) Good idea? Let us know on <a href="http://googlegroups.com/group/erector">the erector mailing list</a>!</p>
       </div>
     </div>
     <div class="footer">

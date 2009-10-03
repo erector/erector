@@ -52,7 +52,7 @@
 #  * It may be desirable to unify #js and #script, and #css and #style, and have the routine be
 #    smart enough to analyze its parameter to decide whether to make it a file or a script.
 #
-class Page < Erector::Widget
+class Erector::Widgets::Page < Erector::Widget
 
   # some *very* basic styles, hopefully not too controversial
   external :style, <<-STYLE

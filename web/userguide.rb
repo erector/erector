@@ -154,16 +154,17 @@ end
         ["div :class => ['a', 'b']", "<div class=\"a b\"></div>"],
       ]
       cheats << [
-        "javascript(\n'if (x < y && x > z) \nalert(\"don\\\'t stop\");')",
-<<-DONE
+        "javascript(\n" +
+        "'if (x < y && x > z) \n" +
+        'alert("don\'t stop");' +
+        ')', <<-DONE
 <script type="text/javascript">
 // <![CDATA[
 if (x < y && x > z) alert("don't stop");
 // ]]>
 </script>
-DONE
-,
-        "jquery '$("p").wrap("<div></div>");'",
+DONE,
+        "jquery '$(\"p\").wrap(\"<div></div>\");'",
 <<-DONE
 <script type="text/javascript">
 // <![CDATA[
@@ -495,6 +496,16 @@ end
 html.to_s(:helpers => controller)          #=> <img alt="Foo" src="/foo" />
       DONE
     end
+    
+      p do
+        text "Note that inline widgets are usually redundant if you're already inside an Erector content method. You can just use a normal "
+        code "do"
+        text " block and the Erector methods will work as usual when called back from "
+        code "yield"
+        text ". Inline widgets get evaluated with "
+        code "instance_eval" 
+        text " which may or may not be what you want."
+      end
       
       p do
         text "One extra bonus feature of inline widgets is that they can call methods defined on the parent class, even though they're out of scope. How do they do this? Through method_missing magic. (But isn't method_missing magic against the design goals of Erector? Yes, some would say so, and that's why we're reserving it for a special subclass and method. For Erector::Widget and subclasses, if you pass in a block, it's a plain old block with normal semantics.) But they can't directly access instance variables on the parent, so watch it."
@@ -532,8 +543,92 @@ end
         code "needs"
         text " no longer automatically declares accessor methods."
       end
-    end
+    end,
     
+    Section.new("Externals") do
+      p do
+        text "Erector's got some nice tags, like "
+        code "script"
+        text " and "
+        code "style"
+        text ", that you can emit in the content method of your widget. But what if your widget needs something, say a JavaScript library, that should be included not in the main page, but inside the "
+        code "head"
+        text " section?"
+      end
+      p do
+        a "Externals", :href => "rdoc/classes/Erector/Externals.html"
+        text " are a way for your widget to announce to the world that it has an external dependency. It's then up to "
+        a "another widget", :href => "rdoc/classes/Erector/Widgets/Page.html"
+        text " to emit that dependency while it's rendering the "
+        code "head"
+        text "."
+      end
+      p do
+        text "Here's an example:"
+        pre <<-DONE
+class HotSauce < Erector::Widget
+  external :css, "/css/tapatio.css"
+  external :css, "/css/salsa_picante.css"
+  external :js, "/lib/jquery.js"
+  external :js, "/lib/picante.js"
+
+  def content
+    p :class => "tapatio" do
+      text "esta salsa es muy picante!"
+    end
+  end
+end
+        DONE
+        text "Then when " 
+        code "Page"
+        text " emits the "
+        code "head"
+        text " it'll look like this:"
+        pre <<-DONE
+<head>
+  <meta content="text/html;charset=UTF-8" http-equiv="content-type" />
+  <title>HotPage</title>
+  <link href="/css/tapatio.css" media="all" rel="stylesheet" type="text/css" />
+  <link href="/css/salsa_picante.css" media="all" rel="stylesheet" type="text/css" />
+  <script src="/lib/jquery.js" type="text/javascript"></script>
+  <script src="/lib/picante.js" type="text/javascript"></script>
+</head>
+        DONE
+      end
+      p do
+        text "It also collapses redundant externals, so if lots of your widgets declare the same thing (say, 'jquery.js'), it'll only get included once."
+      end
+      
+      p do
+        text "There's at least one drawback to this technique: since the externals get declared at class load time, then every external will be emitted on every page, even if that widget isn't on the page at all. This is not usually a problem, but it may lead to namespace collision, so be careful out there."
+      end
+      
+      p do
+        a "Page", :href => "rdoc/classes/Erector/Widgets/Page.html"
+        text " looks for the following externals:"
+        table do
+          tr do
+            th ":js"
+            td "included JavaScript file"
+          end
+          tr do
+            th ":css"
+            td "included CSS stylesheet"
+          end
+          tr do
+            th ":script"
+            td "inline JavaScript"
+          end
+          tr do
+            th ":style"
+            td "inline CSS style"
+          end
+        end
+        text "It might be a little difficult to remember the difference between :js and :script, and between :css and :style, so I'm thinking of maybe unifying them and looking at the content to determine whether it's inline or not. (Something simple like, if it includes a space, then it's inline.) Good idea? Let us know on "
+        a "the erector mailing list", :href => "http://googlegroups.com/group/erector"
+        text "!"
+      end
+    end,
     ])
   end
 end

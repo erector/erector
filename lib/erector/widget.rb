@@ -33,7 +33,7 @@ module Erector
   # like a normal method and leaves it up to the caller to emit that string if
   # it wants.
   class Widget
-    include Erector::Externals
+    extend Erector::Externals # 'extend'ing since they're class methods, not instance methods
     
     class << self
       def all_tags
