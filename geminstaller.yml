@@ -13,3 +13,4 @@ gems:
   version: '>= 1.0.3'
 - name: rr
   version: '>= 0.8.1'
+- name: technicalpickles-jeweler
