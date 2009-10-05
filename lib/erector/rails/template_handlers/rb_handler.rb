@@ -1,13 +1,13 @@
 module ActionView #:nodoc:
   module TemplateHandlers #:nodoc:
-    class Erector < TemplateHandler
+    class RbHandler < TemplateHandler
       include Compilable
       def self.line_offset
         2
       end
 
       ActionView::Template.instance_eval do
-        register_template_handler :rb, ActionView::TemplateHandlers::Erector
+        register_template_handler :rb, ActionView::TemplateHandlers::RbHandler
       end
 
       def compile(template)

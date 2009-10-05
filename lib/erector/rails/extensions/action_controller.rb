@@ -12,7 +12,7 @@ ActionController::Base.class_eval do
       end
     end
     response.template.send(:_evaluate_assigns_and_ivars)
-    render :inline => "<% @__widget_class.new(@__widget_assigns).to_s(:output => output_buffer, :helpers => self) %>"
+    render :inline => "<% @__widget_class.new(@__widget_assigns.merge(:parent => self)).to_s %>"
   end
 
   def render_with_erector_widget(*options, &block)

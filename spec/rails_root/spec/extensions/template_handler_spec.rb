@@ -15,7 +15,7 @@ module TemplateHandlerSpecs
     end
   end
   
-  describe ActionView::TemplateHandlers::Erector do
+  describe ActionView::TemplateHandlers::RbHandler do
     attr_reader :request, :controller
     before do
       @request = ActionController::TestRequest.new({:action => "index"})

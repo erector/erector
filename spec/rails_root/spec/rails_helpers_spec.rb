@@ -129,7 +129,7 @@ module RailsHelpersSpec
       it "renders the error message" do
         widget_class = Class.new(Erector::RailsWidget) do
           def content
-            rawtext error_messages_for('user')
+            error_messages_for('user')
           end
         end
 
@@ -143,7 +143,7 @@ module RailsHelpersSpec
         
         @controller.user = user
         
-        @controller.render :widget => widget_class
+        @controller.render(:widget => widget_class)
         @response.body.should == "<div class=\"errorExplanation\" id=\"errorExplanation\"><h2>1 error prohibited this user from being saved</h2><p>There were problems with the following fields:</p><ul><li>User must be unpronounceable</li></ul></div>"
       end
     end

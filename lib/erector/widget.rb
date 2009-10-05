@@ -156,21 +156,20 @@ module Erector
 
     SPACES_PER_INDENT = 2
 
-    RESERVED_INSTANCE_VARS = [:helpers, :assigns, :block, :parent, :output, :prettyprint, :indentation, :at_start_of_line]
+    RESERVED_INSTANCE_VARS = [:helpers, :assigns, :block, :output, :prettyprint, :indentation, :at_start_of_line]
 
     attr_reader *RESERVED_INSTANCE_VARS
+    attr_reader :parent
     
     def initialize(assigns={}, &block)
       unless assigns.is_a? Hash
         raise "Erector's API has changed. Now you should pass only an options hash into Widget.new; the rest come in via to_s, or by using #widget."
       end
-      if (respond_to? :render) &&
-        !self.method(:render).to_s.include?("(RailsWidget)")
-        raise "Erector's API has changed. You should rename #{self.class}#render to #content."
-      end
       @assigns = assigns
       assign_instance_variables(assigns)
-      @parent = block ? eval("self", block.binding) : nil
+      unless @parent
+        @parent = block ? eval("self", block.binding) : nil
+      end
       @block = block
       self.class.after_initialize self
     end
