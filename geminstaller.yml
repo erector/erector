@@ -14,3 +14,5 @@ gems:
 - name: rr
   version: '>= 0.8.1'
 - name: jeweler
+  version: '= 0.11.0'
+
