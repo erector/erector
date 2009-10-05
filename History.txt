@@ -4,6 +4,7 @@
 * FieldTable widget
 * added 'jquery' method to perform a script on $(document).ready
 * removed the "alias\_method :inspect, :to\_s" since it made debugging inside widget constructors hard, and what was it for anyway?
+* Instance variables may begin with a '@'
 
 == 0.7.0 / 2009-09-27
 * Changed behavior of inline blocks. See Widget#new documentation.
