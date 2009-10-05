@@ -12,13 +12,15 @@ describe Erector::InlineRailsWidget do
   it "it's block is evaluated in the widget's context, including helpers" do      
     @sample_instance_variable = "yum"
     sample_bound_variable = "yay"
-    Erector::InlineRailsWidget.new do
-      @sample_instance_variable.should be_nil
-      sample_bound_variable.should == "yay"
-      image_tag "you can call helper methods from in here.gif"
-      # puts "uncomment this to prove this is being executed"
-    end.to_s(:helpers => @view).should == "<img alt=\"You can call helper methods from in here\" src=\"/images/you can call helper methods from in here.gif\" />"
-    
+    @view.instance_eval do
+      Erector::InlineRailsWidget.new do
+        @sample_instance_variable.should == nil
+        sample_bound_variable.should == "yay"
+        image_tag "you can call helper methods from in here.gif"
+        # puts "uncomment this to prove this is being executed"
+      end.to_s.should == "<img alt=\"You can call helper methods from in here\" src=\"/images/you can call helper methods from in here.gif\" />"
+    end
+
   end
   
   it "the 'inline' method returns an InlineRailsWidget" do

@@ -4,20 +4,17 @@ describe Erector::RailsWidget do
 
   before(:each) do
     @view = ActionView::Base.new
-    if @view.respond_to?(:output_buffer)
-      @view.output_buffer = ""
-    end
-    # hook in model and add error messages
+    @view.output_buffer = ""
   end
 
   describe "#capture" do
     it "captures with an erector block" do
       captured = nil
-      message = Erector::RailsWidget.inline do
-        captured = @helpers.capture do
+      Erector::RailsWidget.inline(:parent => @view) do
+        captured = parent.capture do
           h1 'capture me!'
         end
-      end.to_s(:helpers => @view).should == ""
+      end.to_s.should == ""
       captured.should == "<h1>capture me!</h1>"
     end
   end
@@ -52,24 +49,24 @@ describe Erector::RailsWidget do
 
   describe "#link_to" do
     it "renders the link" do
-      Erector::RailsWidget.inline do
+      Erector::RailsWidget.inline(:parent => @view) do
         link_to 'This&that', '/foo?this=1&amp;that=1'
-      end.to_s(:helpers => @view).should == "<a href=\"/foo?this=1&amp;that=1\">This&amp;that</a>"
+      end.to_s.should == "<a href=\"/foo?this=1&amp;that=1\">This&amp;that</a>"
     end
   end
 
   describe "#image_tag" do
     it "renders" do
-      Erector::RailsWidget.inline do
+      Erector::RailsWidget.inline(:parent => @view) do
         image_tag("/foo")
-      end.to_s(:helpers => @view).should == %{<img alt="Foo" src="/foo" />}
+      end.to_s.should == %{<img alt="Foo" src="/foo" />}
     end
 
     context "with parameters" do
       it "renders" do
-        Erector::RailsWidget.inline do
+        Erector::RailsWidget.inline(:parent => @view) do
           image_tag("/foo", :id => "photo_foo", :class => "a_photo_class")
-        end.to_s(:helpers => @view).should == %{<img alt="Foo" class="a_photo_class" id="photo_foo" src="/foo" />}
+        end.to_s.should == %{<img alt="Foo" class="a_photo_class" id="photo_foo" src="/foo" />}
       end
     end
   end
@@ -82,11 +79,11 @@ describe Erector::RailsWidget do
         end
       end
 
-      Erector::RailsWidget.inline do
+      Erector::RailsWidget.inline(:parent => @view) do
         form_tag("/foo") do
           p "I'm in a form"
         end
-      end.to_s(:helpers => @view).should == "<form action=\"/foo\" method=\"post\"><p>I'm in a form</p></form>"
+      end.to_s.should == "<form action=\"/foo\" method=\"post\"><p>I'm in a form</p></form>"
     end
   end
 
@@ -106,11 +103,11 @@ describe Erector::RailsWidget do
         end
       end
 
-      Erector::RailsWidget.inline do
+      Erector::RailsWidget.inline(:parent => @view) do
         form_tag("/foo") do
           p "I'm in a form"
         end
-      end.to_s(:helpers => @view).should == "<form action=\"/foo\" method=\"post\"><div style=\"margin:0;padding:0;display:inline\"><input name=\"\" type=\"hidden\" value=\"token\" /></div><p>I'm in a form</p></form>"
+      end.to_s.should == "<form action=\"/foo\" method=\"post\"><div style=\"margin:0;padding:0\"><input name=\"\" type=\"hidden\" value=\"token\" /></div><p>I'm in a form</p></form>"
     end
   end
 end

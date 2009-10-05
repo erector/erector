@@ -18,7 +18,7 @@ module BaseSpec
     
     def index_with_rjs_rendering_template
       render :update do |page|
-        page.insert_html :top, 'foobar', TestFormWidget.new.to_s(:helpers => self)
+        page.insert_html :top, 'foobar', TestFormWidget.new(:parent => self).to_s
       end
     end
   end

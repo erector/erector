@@ -8,40 +8,37 @@ module Erector
       process_output_buffer || @output
     end
 
-    def capture_with_helpers(&block)
-      helpers ? helpers.capture(&block) : capture_without_helpers(&block)
+    def capture_with_parent(&block)
+      parent ? parent.capture(&block) : capture_without_parent(&block)
     end
 
-    alias_method_chain :capture, :helpers
+    alias_method_chain :capture, :parent
 
-    # This is here to force #helpers.capture to return the output
+    # This is here to force #parent.capture to return the output
     def __in_erb_template; end
 
     private
 
     def process_output_buffer
-      if helpers.respond_to?(:output_buffer)
-        buffer = helpers.output_buffer
-        buffer.is_a?(String) ? buffer : handle_rjs_buffer
+      if parent.respond_to?(:output_buffer)
+        parent.output_buffer.is_a?(String) ? parent.output_buffer : handle_rjs_buffer
       else
         nil
       end
     end
 
     def handle_rjs_buffer
-      returning buffer = helpers.output_buffer.dup.to_s do
-        helpers.output_buffer.clear
-        helpers.with_output_buffer(buffer) do
-          buffer << helpers.output_buffer.to_s
+      returning buffer = parent.output_buffer.dup.to_s do
+        parent.output_buffer.clear
+        parent.with_output_buffer(buffer) do
+          buffer << parent.output_buffer.to_s
         end
       end
     end
   end
-  
+
   class InlineRailsWidget < RailsWidget
     include Inline
   end
-  
-end
 
-require "#{File.dirname(__FILE__)}/rails_widget/helpers"
+end
