@@ -1,16 +1,16 @@
 require "#{File.dirname(__FILE__)}/../lib/erector"
 
-x = Erector::Widget.new do
+x = Erector.inline do
   p "foo"
 end
 
-y = Erector::Widget.new do
+y = Erector.inline do
   div x
 end
 
 puts y.to_s
 
-z = Erector::Widget.new do
+z = Erector.inline do
   div do
     widget x
   end
