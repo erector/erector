@@ -1,3 +1,6 @@
+# This example illustrates basic erector features, including
+# rendering HTML and passing in instance variables to a widget.
+
 require "#{File.dirname(__FILE__)}/../lib/erector"
 
 class Hello < Erector::Widget
