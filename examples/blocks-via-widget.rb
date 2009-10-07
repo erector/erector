@@ -28,7 +28,7 @@ class Block < Erector::Widget
   end
 end
 
-overall = Erector::Widget.new do
+overall = Erector.inline do
 
   def username
     "bob"
