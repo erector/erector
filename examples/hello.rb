@@ -9,10 +9,11 @@ class Hello < Erector::Widget
       end
       body do
         text "Hello, "
-        b "#{friend}!", :class => :friend_name
+        b "#{@friend}!", :class => :friend_name
       end
     end
   end
 end
 
 puts Hello.new(:friend => "Barack")
+
