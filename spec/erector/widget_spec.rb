@@ -441,17 +441,34 @@ module WidgetSpec
     end
 
     describe "#comment" do
-      it "emits an HTML comment" do
+      it "emits a single line comment when receiving a string" do
         Erector.inline do
           comment "foo"
-        end.to_s.should == "<!--foo-->"
+        end.to_s.should == "<!--foo-->\n"
       end
-      
+
+      it "emits a multiline comment when receiving a block" do
+        Erector.inline do
+          comment do
+            text "Hello"
+            text " world!"
+          end
+        end.to_s.should == "<!--\nHello world!\n-->\n"
+      end
+
+      it "emits a multiline comment when receiving a string and a block" do
+        Erector.inline do
+          comment "Hello" do
+            text " world!"
+          end
+        end.to_s.should == "<!--Hello\n world!\n-->\n"
+      end
+
       # see http://www.w3.org/TR/html4/intro/sgmltut.html#h-3.2.4
       it "does not HTML-escape character references" do
         Erector.inline do
           comment "&nbsp;"
-        end.to_s.should == "<!--&nbsp;-->"
+        end.to_s.should == "<!--&nbsp;-->\n"
       end
       
       # see http://www.w3.org/TR/html4/intro/sgmltut.html#h-3.2.4
@@ -460,10 +477,18 @@ module WidgetSpec
         capturing_output do
           Erector.inline do
             comment "he was -- awesome!"
-          end.to_s.should == "<!--he was -- awesome!-->"
+          end.to_s.should == "<!--he was -- awesome!-->\n"
         end.should == "Warning: Authors should avoid putting two or more adjacent hyphens inside comments.\n"
-      end     
-    end  
+      end
+
+      it "renders an IE conditional comment with endif when receiving an if IE" do
+        Erector.inline do
+          comment "[if IE]" do
+            text "Hello IE!"
+          end
+        end.to_s.should == "<!--[if IE]>\nHello IE!\n<![endif]-->\n"
+      end
+    end
 
     describe "#nbsp" do
       it "turns consecutive spaces into consecutive non-breaking spaces" do

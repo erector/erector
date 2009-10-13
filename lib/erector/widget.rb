@@ -467,13 +467,31 @@ module Erector
       output << "<?xml#{format_sorted(sort_for_xml_declaration(attributes))}?>"
     end
 
-    # Emits an HTML comment, which looks like this: &lt;!--foo--&gt;
+    # Emits an HTML comment (&lt;!-- ... --&gt;) surrounding +text+ and/or the output of +block+.
     # see http://www.w3.org/TR/html4/intro/sgmltut.html#h-3.2.4
+    #
+    # If +text+ is an Internet Explorer conditional comment condition such as "[if IE]",
+    # the output includes the opening condition and closing "[endif]".
+    #
     # Since "Authors should avoid putting two or more adjacent hyphens inside comments,"
     # we emit a warning if you do that.
-    def comment(text)
+    def comment(text = '', &block)
       puts "Warning: Authors should avoid putting two or more adjacent hyphens inside comments." if text =~ /--/
-      output << "<!--#{text}-->"
+
+      conditional = text =~ /\[.*\]/
+
+      rawtext "<!--"
+      rawtext text
+      rawtext ">" if conditional
+
+      if block
+        rawtext "\n"
+        instance_eval(&block)
+        rawtext "\n"
+      end
+
+      rawtext "<![endif]" if conditional
+      rawtext "-->\n"
     end
 
     # Creates a whole new output string, executes the block, then converts the
