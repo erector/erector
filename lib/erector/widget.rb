@@ -584,7 +584,7 @@ module Erector
     protected
     def jquery_ready(txt)
       rawtext "\n"
-      rawtext "jQuery(document).ready(function(){\n"
+      rawtext "jQuery(document).ready(function($){\n"
       rawtext txt
       rawtext "\n});"
     end
