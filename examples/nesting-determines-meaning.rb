@@ -7,7 +7,7 @@
 
 require "#{File.dirname(__FILE__)}/../lib/erector"
 
-class Blocks < Erector::Widget
+class Blocks < Erector::InlineWidget
   def content
     ul do
       super
@@ -27,7 +27,7 @@ class ListItem < Erector::Widget
   end
 end
 
-class Chips < Erector::Widget
+class Chips < Erector::InlineWidget
   def content
     div do
       super
@@ -47,7 +47,7 @@ class NestedDiv < Erector::Widget
   end
 end
 
-overall = Erector::Widget.new do
+overall = Erector.inline do
 
   def blocks(*args, &block)
     widget Blocks, *args, &block
