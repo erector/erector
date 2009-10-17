@@ -2,6 +2,7 @@
 * externals mechanism
 * Page widget
 * FieldTable widget
+* EnvironmentBadge widget - inspired by http://blog.labnotes.org/2009/10/08/using-a-badge-to-distinguish-development-and-production-environments
 * added 'jquery' method to perform a script on $(document).ready
 * removed the "alias\_method :inspect, :to\_s" since it made debugging inside widget constructors hard, and what was it for anyway?
 * Instance variables may begin with a '@'
