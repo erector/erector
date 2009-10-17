@@ -1,7 +1,7 @@
 module Erector
   module Widgets #:nodoc:
 
-    # Displays a colored badge in the upper-right corner 
+    # Displays a colored badge in the upper-left corner 
     # signifying the environment the app is running in. 
     # Inspired by Assaf Arkin
     #  <http://blog.labnotes.org/2009/10/08/using-a-badge-to-distinguish-development-and-production-environments/>
