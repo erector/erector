@@ -467,6 +467,15 @@ module Erector
       output << "<?xml#{format_sorted(sort_for_xml_declaration(attributes))}?>"
     end
 
+    # Emits an HTML comment, which looks like this: &lt;!--foo--&gt;
+    # see http://www.w3.org/TR/html4/intro/sgmltut.html#h-3.2.4
+    # Since "Authors should avoid putting two or more adjacent hyphens inside comments,"
+    # we emit a warning if you do that.
+    def comment(text)
+      puts "Warning: Authors should avoid putting two or more adjacent hyphens inside comments." if text =~ /--/
+      output << "<!--#{text}-->"
+    end
+
     # Creates a whole new output string, executes the block, then converts the
     # output string to a string and emits it as raw text. If at all possible
     # you should avoid this method since it hurts performance, and use

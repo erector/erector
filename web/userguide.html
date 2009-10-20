@@ -293,6 +293,14 @@ end
           </tr>
           <tr>
             <td width="30%">
+              <code>comment 'foo'</code>
+            </td>
+            <td>
+              <code>&lt;!--foo--&gt;</code>
+            </td>
+          </tr>
+          <tr>
+            <td width="30%">
               <code>url 'http://example.com'</code>
             </td>
             <td>
@@ -617,7 +625,7 @@ Then when
 </pre>
         </p>
         <p>It also collapses redundant externals, so if lots of your widgets declare the same thing (say, 'jquery.js'), it'll only get included once.</p>
-        <p>There's one big drawback to this technique: since the externals get declared at class load time, then every external will be emitted on every page. This is not usually a problem, but it may lead to namespace collision, so be careful out there.</p>
+        <p>There's at least one drawback to this technique: since the externals get declared at class load time, then every external will be emitted on every page, even if that widget isn't on the page at all. This is not usually a problem, but it may lead to namespace collision, so be careful out there.</p>
         <p><a href="rdoc/classes/Erector/Widgets/Page.html">Page</a> looks for the following externals:
           <table>
             <tr>

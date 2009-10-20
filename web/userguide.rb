@@ -148,6 +148,7 @@ end
         ["text character(:right-arrow)",      "&#x2192;", "output a character given its unicode name"],
 
         ["instruct",                   "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"],
+        ["comment 'foo'",              "<!--foo-->"],
         ["url 'http://example.com'",   "<a href=\"http://example.com\">http://example.com</a>"],
         
         ["capture { div }", "<div></div>", "returns the block as a string, doesn't add it to the current output stream"],

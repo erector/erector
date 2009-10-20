@@ -430,6 +430,40 @@ module WidgetSpec
         end
       end
     end
+    
+    def capturing_output
+      output = StringIO.new
+      $stdout = output
+      yield
+      output.string
+    ensure
+      $stdout = STDOUT
+    end
+
+    describe "#comment" do
+      it "emits an HTML comment" do
+        Erector.inline do
+          comment "foo"
+        end.to_s.should == "<!--foo-->"
+      end
+      
+      # see http://www.w3.org/TR/html4/intro/sgmltut.html#h-3.2.4
+      it "does not HTML-escape character references" do
+        Erector.inline do
+          comment "&nbsp;"
+        end.to_s.should == "<!--&nbsp;-->"
+      end
+      
+      # see http://www.w3.org/TR/html4/intro/sgmltut.html#h-3.2.4
+      # "Authors should avoid putting two or more adjacent hyphens inside comments."
+      it "warns if there's two hyphens in a row" do
+        capturing_output do
+          Erector.inline do
+            comment "he was -- awesome!"
+          end.to_s.should == "<!--he was -- awesome!-->"
+        end.should == "Warning: Authors should avoid putting two or more adjacent hyphens inside comments.\n"
+      end     
+    end  
 
     describe "#nbsp" do
       it "turns consecutive spaces into consecutive non-breaking spaces" do
