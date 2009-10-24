@@ -1,22 +1,22 @@
 require File.expand_path("#{File.dirname(__FILE__)}/../rails_spec_helper")
 
-module BaseSpec
+describe ActionController::Base do
   class TestWidgetController < ActionController::Base
-    def index_with_implicit_assigns
+    def render_widget_with_implict_assigns
       @foobar = "foobar"
       render_widget TestWidget
     end
 
-    def index_with_explicit_assigns
+    def render_widget_with_explicit_assigns
       render_widget TestWidget, :foobar => "foobar"
     end
 
-    def index_with_render_colon_widget
+    def render_colon_widget_with_implict_assigns
       @foobar = "foobar"
       render :widget => TestWidget
     end
-    
-    def index_with_rjs_rendering_template
+
+    def render_rjs_with_widget
       render :update do |page|
         page.insert_html :top, 'foobar', TestFormWidget.new(:parent => self).to_s
       end
@@ -28,7 +28,7 @@ module BaseSpec
       text @foobar
     end
   end
-  
+
   class TestFormWidget < Erector::RailsWidget
     def content
       form_tag('/') do
@@ -38,54 +38,39 @@ module BaseSpec
     end
   end
 
-  describe TestWidgetController do
-    context "rendering widgets" do
-      before do
-        @controller = BaseSpec::TestWidgetController.new
-        @request = ActionController::TestRequest.new
-        @response = ActionController::TestResponse.new
-        class << @controller
-          public :render
-        end
-      end
+  before do
+    @controller = TestWidgetController.new
+    @request    = ActionController::TestRequest.new
+    @response   = ActionController::TestResponse.new
+  end
 
-      describe "#render_widget" do
-        it "instantiates a widget with implicit assigns" do
-          @request.action = "index_with_implicit_assigns"
-          @controller.process(@request, @response)
-          @response.body.should == "foobar"
-        end
+  describe "#render_widget" do
+    it "should render a widget with implicit assigns" do
+      @request.action = "render_widget_with_implict_assigns"
+      @controller.process(@request, @response)
+      @response.body.should == "foobar"
+    end
 
-        it "instantiates a widget with explicit assigns" do
-          @request.action = "index_with_explicit_assigns"
-          @controller.process(@request, @response)
-          @response.body.should == "foobar"
-        end
-      end
+    it "should render a widget with explicit assigns" do
+      @request.action = "render_widget_with_explicit_assigns"
+      @controller.process(@request, @response)
+      @response.body.should == "foobar"
+    end
+  end
 
-      describe "#render :widget" do
-        it "instantiates a widget with implicit assigns" do
-          @request.action = "index_with_implicit_assigns"
-          @controller.process(@request, @response)
-          @response.body.should == "foobar"
-        end
+  describe "#render :widget" do
+    it "should render a widget with implicit assigns" do
+      @request.action = "render_colon_widget_with_implict_assigns"
+      @controller.process(@request, @response)
+      @response.body.should == "foobar"
+    end
+  end
 
-        describe "#render :widget" do
-          it "instantiates a widget with explicit assigns" do
-            @request.action = "index_with_render_colon_widget"
-            @controller.process(@request, @response)
-            @response.body.should == "foobar"
-          end
-        end
-      end
-      
-      describe "#render :update" do
-        it "overrides RJS output_buffer changes" do
-          @request.action = "index_with_rjs_rendering_template"
-          @controller.process(@request, @response)
-          @response.body.should include("Element.insert")
-        end
-      end
+  describe "#render :update" do
+    it "should override RJS output_buffer changes" do
+      @request.action = "render_rjs_with_widget"
+      @controller.process(@request, @response)
+      @response.body.should include("Element.insert")
     end
   end
 end
