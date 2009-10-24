@@ -54,24 +54,13 @@
 #
 class Erector::Widgets::Page < Erector::Widget
 
-  # some *very* basic styles, hopefully not too controversial
-  external :style, <<-STYLE
-    img {border: none}
-    .right {float: right;}
-    .left {float: left;}
-    .clear {background: none;border: 0;clear: both;display: block;float: none;font-size: 0;margin: 0;padding: 0;position: static;overflow: hidden;visibility: hidden;width: 0;height: 0;}
-  STYLE
-  
+  needs :basic_styles => true
+
   # Emit the Transitional doctype.
   # TODO: allow selection from among different standard doctypes
   def doctype
     '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">'
-  end
-
-  # override me
-  def page_title
-    self.class.name
   end
 
   def content
@@ -81,10 +70,19 @@ class Erector::Widgets::Page < Erector::Widget
       head do
         head_content
       end
-      body do
+      body :class => body_class do
         body_content
       end
     end
+  end
+
+  # override me to provide a page title (default = name of the Page subclass)
+  def page_title
+    self.class.name
+  end
+  
+  # override me to add a css class to the body
+  def body_class
   end
 
   # override me (or instantiate Page with a block)
@@ -96,9 +94,12 @@ class Erector::Widgets::Page < Erector::Widget
   def head_content
     meta 'http-equiv' => 'content-type', :content => 'text/html;charset=UTF-8'
     title page_title
+
+    basic_styles if @basic_styles
     included_stylesheets
-    included_scripts
     inline_styles
+
+    included_scripts
     inline_scripts
   end
   
@@ -113,6 +114,23 @@ class Erector::Widgets::Page < Erector::Widget
       # todo: allow different media
       link :rel => "stylesheet", :href => file, :type => "text/css", :media => "all"
     end
+  end
+  
+  # Emit some *very* basic styles, hopefully not too controversial. Suppress
+  # them by setting :basic_styles => false when you construct your Page, or just 
+  # override the basic_styles method in your subclass and make it do nothing.
+  # You can also redefine them since they're defined above any other styles in the HEAD.
+  #
+  # Class "right" floats right, class "left" floats left, and class "clear" clears
+  # any floats on both sides while being as small as possible to minimize impact
+  # on your layout. And images have no border.
+  def basic_styles
+    style <<-STYLE
+      img {border: none}
+      .right {float: right;}
+      .left {float: left;}
+      .clear {background: none;border: 0;clear: both;display: block;float: none;font-size: 0;margin: 0;padding: 0;position: static;overflow: hidden;visibility: hidden;width: 0;height: 0;}
+    STYLE
   end
 
   def inline_styles
