@@ -2,7 +2,7 @@ class SpecSuite
   class << self
     def all
       system("ruby #{dir}/core_spec_suite.rb") || raise("Core Spec Suite failed")
-      dir = File.dirname(__FILE__)
+
       require "#{dir}/../lib/erector/rails/rails_version"
 
       rails_version = Erector::Rails::RAILS_VERSION
