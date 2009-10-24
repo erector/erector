@@ -1,30 +1,43 @@
 require File.expand_path("#{File.dirname(__FILE__)}/rails_spec_helper")
 
 describe Erector::InlineRailsWidget do
-  before(:each) do
-    @view = ActionView::Base.new
-    if @view.respond_to?(:output_buffer)
-      @view.output_buffer = ""
+  context "new" do
+    it "should accept a block" do
+      Erector::InlineRailsWidget.new do
+        text "inline"
+      end.to_s.should == "inline"
     end
-    # hook in model and add error messages
-  end
 
-  it "it's block is evaluated in the widget's context, including helpers" do      
-    @sample_instance_variable = "yum"
-    sample_bound_variable = "yay"
-    @view.instance_eval do
+    it "should evaluate the block in the widget's context" do
+      @sample_instance_variable = "yum"
+      sample_bound_variable = "yay"
       Erector::InlineRailsWidget.new do
         @sample_instance_variable.should == nil
         sample_bound_variable.should == "yay"
-        image_tag "you can call helper methods from in here.gif"
-        # puts "uncomment this to prove this is being executed"
-      end.to_s.should == "<img alt=\"You can call helper methods from in here\" src=\"/images/you can call helper methods from in here.gif\" />"
+        text "inline"
+      end.to_s.should == "inline"
     end
 
-  end
-  
-  it "the 'inline' method returns an InlineRailsWidget" do
-    Erector::RailsWidget.inline.should be_a Erector::InlineRailsWidget
+    it "should allow view helpers to be called" do
+      view = ActionView::Base.new
+      view.output_buffer = "" if view.respond_to?(:output_buffer)
+      view.instance_eval do
+        Erector::InlineRailsWidget.new do
+          image_tag "test.gif"
+        end.to_s.should == '<img alt="Test" src="/images/test.gif" />'
+      end
+    end
   end
 end
 
+describe "Erector::RailsWidget.inline" do
+  it "should return an InlineRailsWidget" do
+    Erector::RailsWidget.inline.should be_a Erector::InlineRailsWidget
+  end
+
+  it "should pass the block to the inline widget" do
+    Erector::RailsWidget.inline do
+      text "inline"
+    end.to_s.should == "inline"
+  end
+end
