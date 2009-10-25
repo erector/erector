@@ -662,6 +662,12 @@ module WidgetSpec
           css "erector.css"
         end.to_s.should == "<link href=\"erector.css\" rel=\"stylesheet\" type=\"text/css\" />"
       end
+
+      it "accepts a media attribute" do
+        Erector.inline do
+          css "print.css", :media => "print"
+        end.to_s.should == "<link href=\"print.css\" media=\"print\" rel=\"stylesheet\" type=\"text/css\" />"
+      end
     end
 
     describe "#url" do
@@ -669,6 +675,12 @@ module WidgetSpec
         Erector.inline do
           url "http://example.com"
         end.to_s.should == "<a href=\"http://example.com\">http://example.com</a>"
+      end
+
+      it "accepts extra attributes" do
+        Erector.inline do
+          url "http://example.com", :onclick=>"alert('foo')"
+        end.to_s.should == "<a href=\"http://example.com\" onclick=\"alert('foo')\">http://example.com</a>"
       end
     end
 

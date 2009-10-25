@@ -11,6 +11,7 @@
 * Instance variables may begin with a '@'
 * Fixed Rails integration regressions
 * Added *.ert templates (Erector Template, similar to Markaby)
+* #comment method to emit HTML comments (naturally)
 
 == 0.7.0 / 2009-09-27
 * Changed behavior of inline blocks. See Widget#new documentation.

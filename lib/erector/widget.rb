@@ -556,14 +556,14 @@ module Erector
     # The parameter is the full contents of the href attribute, including any ".css" extension.
     #
     # If you want to emit raw CSS inline, use the #style method instead.
-    def css(href)
-      link :rel => 'stylesheet', :type => 'text/css', :href => href
+    def css(href, options = {})
+      link({:rel => 'stylesheet', :type => 'text/css', :href => href}.merge(options))
     end
     
     # Convenience method to emit an anchor tag whose href and text are the same,
     # e.g. <a href="http://example.com">http://example.com</a>
-    def url(href)
-      a href, :href => href
+    def url(href, options = {})
+      a href, ({:href => href}.merge(options))
     end
 
     def newliney(tag_name)

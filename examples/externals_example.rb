@@ -20,4 +20,3 @@ class HotPage < Erector::Widgets::Page
 end
 
 puts HotPage.new.to_pretty
- 
