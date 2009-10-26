@@ -1,7 +1,7 @@
 require File.expand_path("#{File.dirname(__FILE__)}/rails_spec_helper")
 
 describe ActionController::Base do
-  class TestWidgetController < ActionController::Base
+  class TestController < ActionController::Base
     def render_widget_with_implicit_assigns
       @foobar = "foobar"
       render_widget TestWidget
@@ -20,9 +20,14 @@ describe ActionController::Base do
       render :widget => TestWidget, :foobar => "foobar"
     end
 
-    def render_colon_template
-      @foo = "foo"
-      render :template => "template_handler_specs/test_page.html.rb"
+    def render_template_with_implicit_assigns
+      @foobar = "foobar"
+      render :template => "test/implicit_assigns.html.rb"
+    end
+
+    def render_template_with_partial
+      @foobar = "foobar"
+      render :template => "test/render_partial.html.rb"
     end
 
     def render_rjs_with_widget
@@ -48,7 +53,7 @@ describe ActionController::Base do
   end
 
   before do
-    @controller = TestWidgetController.new
+    @controller = TestController.new
     @request    = ActionController::TestRequest.new
     @response   = ActionController::TestResponse.new
   end
@@ -74,7 +79,7 @@ describe ActionController::Base do
       @response.body.should == "foobar"
     end
 
-    it "should render a widget with explicit assigns" do
+    xit "should render a widget with explicit assigns" do
       @request.action = "render_colon_widget_with_explicit_assigns"
       @controller.process(@request, @response)
       @response.body.should == "foobar"
@@ -82,10 +87,16 @@ describe ActionController::Base do
   end
 
   describe "#render :template" do
-    it "assigns instance variables, renders partials, and properly handles controllers with pluralized names" do
-      @request.action = "render_colon_template"
+    it "should render a template with implicit assigns" do
+      @request.action = "render_template_with_implicit_assigns"
       @controller.process(@request, @response)
-      @response.body.strip.gsub("  ", "").gsub("\n", "").should == '<div class="page"><div class="partial">foo</div></div>'
+      @response.body.gsub(/[ \n]+/, '').should == "foobar"
+    end
+
+    it "should render a template which uses partials" do
+      @request.action = "render_template_with_partial"
+      @controller.process(@request, @response)
+      @response.body.gsub(/[ \n]+/, '').should == "foobar"
     end
   end
 
