@@ -4,6 +4,28 @@ module Erector
       InlineRailsWidget.new(*args, &block)
     end
 
+    def self.render(widget_class, controller, assigns = nil, is_partial = false)
+      unless assigns
+        assigns = {}
+        variables = controller.instance_variable_names
+        variables -= controller.protected_instance_variables
+        variables.each do |name|
+          assigns[name.sub('@', "")] = controller.instance_variable_get(name)
+        end
+      end
+
+      view = controller.response.template
+      widget = widget_class.new(assigns.merge(:parent => view))
+
+      view.send(:_evaluate_assigns_and_ivars)
+
+      view.with_output_buffer do
+        widget.to_s(:output => view.output_buffer,
+                    :helpers => view,
+                    :content_method_name => is_partial ? :render_partial : :content)
+      end
+    end
+
     def output
       process_output_buffer || @output
     end
@@ -40,5 +62,4 @@ module Erector
   class InlineRailsWidget < RailsWidget
     include Inline
   end
-
 end
