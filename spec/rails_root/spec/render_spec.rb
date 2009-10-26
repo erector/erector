@@ -14,9 +14,13 @@ describe ActionController::Base do
       render_widget TestWidget, :foobar => "foobar"
     end
 
-    def render_colon_widget_with_implicit_assigns
+    def render_widget_class
       @foobar = "foobar"
       render :widget => TestWidget
+    end
+
+    def render_widget_instance
+      render :widget => TestWidget.new(:foobar => "foobar")
     end
 
     def render_template_with_implicit_assigns
@@ -102,8 +106,12 @@ describe ActionController::Base do
   end
 
   describe "#render" do
-    it "should render a widget with implicit assigns" do
-      test_action(:render_colon_widget_with_implicit_assigns).should == "foobar"
+    it "should render a widget class with implicit assigns" do
+      test_action(:render_widget_class).should == "foobar"
+    end
+
+    it "should render a widget instance with explicit assigns" do
+      test_action(:render_widget_instance).should == "foobar"
     end
 
     it "should render a template with implicit assigns" do

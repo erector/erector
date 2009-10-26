@@ -4,19 +4,21 @@ module Erector
       InlineRailsWidget.new(*args, &block)
     end
 
-    def self.render(widget_class, controller, assigns = nil, is_partial = false)
-      unless assigns
-        assigns = {}
-        variables = controller.instance_variable_names
-        variables -= controller.protected_instance_variables
-        variables.each do |name|
-          assigns[name.sub('@', "").to_sym] = controller.instance_variable_get(name)
+    def self.render(widget, controller, assigns = nil, is_partial = false)
+      if widget.is_a?(Class)
+        unless assigns
+          assigns = {}
+          variables = controller.instance_variable_names
+          variables -= controller.protected_instance_variables
+          variables.each do |name|
+            assigns[name.sub('@', "").to_sym] = controller.instance_variable_get(name)
+          end
         end
+
+        widget = widget.new(assigns)
       end
 
       view = controller.response.template
-      widget = widget_class.new(assigns)
-
       view.send(:_evaluate_assigns_and_ivars)
 
       view.with_output_buffer do
