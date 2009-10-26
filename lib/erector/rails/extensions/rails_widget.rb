@@ -10,7 +10,7 @@ module Erector
         variables = controller.instance_variable_names
         variables -= controller.protected_instance_variables
         variables.each do |name|
-          assigns[name.sub('@', "")] = controller.instance_variable_get(name)
+          assigns[name.sub('@', "").to_sym] = controller.instance_variable_get(name)
         end
       end
 

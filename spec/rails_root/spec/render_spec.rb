@@ -2,6 +2,9 @@ require File.expand_path("#{File.dirname(__FILE__)}/rails_spec_helper")
 
 describe ActionController::Base do
   class TestController < ActionController::Base
+    # Let exceptions propagate rather than generating the usual error page.
+    include ActionController::TestCase::RaiseActionExceptions
+
     def render_widget_with_implicit_assigns
       @foobar = "foobar"
       render_widget TestWidget
@@ -36,6 +39,12 @@ describe ActionController::Base do
     def render_template_with_partial
       @foobar = "foobar"
       render :template => "test/render_partial.html.rb"
+    end
+
+    def render_reserved_variable
+      @foobar = "foobar"
+      @indentation = true
+      render :template => "test/implicit_assigns.html.rb"
     end
 
     def render_rjs_with_widget
@@ -105,6 +114,10 @@ describe ActionController::Base do
 
     it "should render a default template" do
       test_action(:render_default).should == "Default foobar"
+    end
+
+    it "should raise if a reserved variable is implicitly assigned" do
+      proc { test_action(:render_reserved_variable) }.should raise_error(ActionView::TemplateError, /indentation is a reserved variable name/)
     end
 
     it "should render updates while overriding RJS output_buffer changes" do
