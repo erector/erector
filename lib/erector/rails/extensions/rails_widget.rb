@@ -33,11 +33,9 @@ module Erector
       process_output_buffer || @output
     end
 
-    def capture_with_parent(&block)
-      parent ? parent.capture(&block) : capture_without_parent(&block)
+    def capture(&block)
+      parent ? parent.capture(&block) : super
     end
-
-    alias_method_chain :capture, :parent
 
     # This is here to force #parent.capture to return the output
     def __in_erb_template; end
