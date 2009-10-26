@@ -1,16 +1,12 @@
 module ActionView #:nodoc:
   module TemplateHandlers #:nodoc:
     class RbHandler < TemplateHandler
-      include Compilable
-      def self.line_offset
-        2
-      end
 
       ActionView::Template.instance_eval do
         register_template_handler :rb, ActionView::TemplateHandlers::RbHandler
       end
 
-      def compile(template)
+      def render(template, local_assigns)
         relative_path_parts = template.path.split('/')
 
         is_partial = relative_path_parts.last =~ /^_/
@@ -21,25 +17,20 @@ module ActionView #:nodoc:
           class_parts
         end
         widget_class_name = widget_class_parts.join("::")
-        render_method = is_partial ? 'render_partial' : 'content'
+        render_method = is_partial ? :render_partial : :content
 
-        erb_template = <<-ERB
-        <%
-          assigns = instance_variables.inject({}) do |hash, name|
-            hash[name.sub('@', "")] = instance_variable_get(name)
-            hash
-          end
+        assigns = @view.instance_variables.inject({}) do |hash, name|
+          hash[name.sub('@', "")] = @view.instance_variable_get(name)
+          hash
+        end
 
-          widget = #{widget_class_name}.new(assigns)
-          widget.to_s(:output => output_buffer, :helpers => self, :content_method_name => :#{render_method})
-        %>
-        ERB
-        ::ERB.new(
-          erb_template,
-          nil,
-          ::ActionView::TemplateHandlers::ERB.erb_trim_mode,
-          "@output_buffer"
-        ).src
+        widget = widget_class_name.constantize.new(assigns)
+
+        @view.with_output_buffer do
+          widget.to_s(:output => @view.output_buffer,
+                      :helpers => @view,
+                      :content_method_name => render_method)
+        end
       end
     end
   end

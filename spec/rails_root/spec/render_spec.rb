@@ -90,13 +90,13 @@ describe ActionController::Base do
     it "should render a template with implicit assigns" do
       @request.action = "render_template_with_implicit_assigns"
       @controller.process(@request, @response)
-      @response.body.gsub(/[ \n]+/, '').should == "foobar"
+      @response.body.should == "foobar"
     end
 
     it "should render a template which uses partials" do
       @request.action = "render_template_with_partial"
       @controller.process(@request, @response)
-      @response.body.gsub(/[ \n]+/, '').should == "foobar"
+      @response.body.should == "foobar"
     end
   end
 
