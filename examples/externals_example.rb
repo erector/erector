@@ -2,7 +2,7 @@ require "#{File.dirname(__FILE__)}/../lib/erector"
 
 class HotSauce < Erector::Widget
   external :css, "/css/tapatio.css"
-  external :css, "/css/salsa_picante.css"
+  external :css, "/css/salsa_picante.css", :media => "print"
   external :js, "/lib/jquery.js"
   external :js, "/lib/picante.js"
 
