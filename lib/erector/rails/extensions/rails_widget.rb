@@ -15,12 +15,13 @@ module Erector
       end
 
       view = controller.response.template
-      widget = widget_class.new(assigns.merge(:parent => view))
+      widget = widget_class.new(assigns)
 
       view.send(:_evaluate_assigns_and_ivars)
 
       view.with_output_buffer do
         widget.to_s(:output => view.output_buffer,
+                    :parent => view,
                     :helpers => view,
                     :content_method_name => is_partial ? :render_partial : :content)
       end

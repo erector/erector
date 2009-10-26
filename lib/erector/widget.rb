@@ -178,12 +178,14 @@ module Erector
 #++
 
     protected
-    def context(output, prettyprint = false, indentation = 0, helpers = nil)
+    def context(parent, output, prettyprint = false, indentation = 0, helpers = nil)
       #TODO: pass in options hash, maybe, instead of parameters
+      original_parent = @parent
       original_output = @output
       original_indendation = @indentation
       original_helpers = @helpers
       original_prettyprint = @prettyprint
+      @parent = parent
       @output = output
       @at_start_of_line = true
       raise "indentation must be a number, not #{indentation.inspect}" unless indentation.is_a? Fixnum
@@ -192,6 +194,7 @@ module Erector
       @prettyprint = prettyprint
       yield
     ensure
+      @parent = original_parent
       @output = original_output
       @indentation = original_indendation
       @helpers = original_helpers
@@ -275,9 +278,10 @@ module Erector
         :prettyprint => prettyprint_default,
         :indentation => 0,
         :helpers => nil,
+        :parent => @parent,
         :content_method_name => :content,
       }.merge(options)
-      context(options[:output], options[:prettyprint], options[:indentation], options[:helpers]) do
+      context(options[:parent], options[:output], options[:prettyprint], options[:indentation], options[:helpers]) do
         send(options[:content_method_name], &blk)
         output
       end
@@ -301,8 +305,7 @@ module Erector
     # which gives better performance than using +capture+ or +to_s+. You can
     # also use the +widget+ method.
     def write_via(parent)
-      @parent = parent
-      context(parent.output, parent.prettyprint, parent.indentation, parent.helpers) do
+      context(parent, parent.output, parent.prettyprint, parent.indentation, parent.helpers) do
         content
       end
     end
