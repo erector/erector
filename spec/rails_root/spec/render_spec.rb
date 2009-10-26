@@ -66,61 +66,49 @@ describe ActionController::Base do
     @response   = ActionController::TestResponse.new
   end
 
+  def test_action(action)
+    @request.action = action.to_s
+    @controller.process(@request, @response)
+    @response.body
+  end
+
   describe "#render_widget" do
     it "should render a widget with implicit assigns" do
-      @request.action = "render_widget_with_implicit_assigns"
-      @controller.process(@request, @response)
-      @response.body.should == "foobar"
+      test_action(:render_widget_with_implicit_assigns).should == "foobar"
     end
 
     it "should render a widget with explicit assigns" do
-      @request.action = "render_widget_with_explicit_assigns"
-      @controller.process(@request, @response)
-      @response.body.should == "foobar"
+      test_action(:render_widget_with_explicit_assigns).should == "foobar"
     end
   end
 
   describe "#render" do
     it "should render a widget with implicit assigns" do
-      @request.action = "render_colon_widget_with_implicit_assigns"
-      @controller.process(@request, @response)
-      @response.body.should == "foobar"
+      test_action(:render_colon_widget_with_implicit_assigns).should == "foobar"
     end
 
     it "should render a template with implicit assigns" do
-      @request.action = "render_template_with_implicit_assigns"
-      @controller.process(@request, @response)
-      @response.body.should == "foobar"
+      test_action(:render_template_with_implicit_assigns).should == "foobar"
     end
 
     it "should not include protected instance variables in assigns" do
-      @request.action = "render_template_with_protected_instance_variable"
-      @controller.process(@request, @response)
-      @response.body.should == ""
+      test_action(:render_template_with_protected_instance_variable).should == ""
     end
 
     it "should render a template without a .html format included" do
-      @request.action = "render_bare_rb"
-      @controller.process(@request, @response)
-      @response.body.should == "Bare"
+      test_action(:render_bare_rb).should == "Bare"
     end
 
     it "should render a template which uses partials" do
-      @request.action = "render_template_with_partial"
-      @controller.process(@request, @response)
-      @response.body.should == "Partial foobar"
+      test_action(:render_template_with_partial).should == "Partial foobar"
     end
 
     it "should render a default template" do
-      @request.action = "render_default"
-      @controller.process(@request, @response)
-      @response.body.should == "Default foobar"
+      test_action(:render_default).should == "Default foobar"
     end
 
     it "should render updates while overriding RJS output_buffer changes" do
-      @request.action = "render_rjs_with_widget"
-      @controller.process(@request, @response)
-      @response.body.should include("Element.insert")
+      test_action(:render_rjs_with_widget).should include("Element.insert")
     end
   end
 end
