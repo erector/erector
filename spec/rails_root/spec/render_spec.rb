@@ -16,10 +16,6 @@ describe ActionController::Base do
       render :widget => TestWidget
     end
 
-    def render_colon_widget_with_explicit_assigns
-      render :widget => TestWidget, :foobar => "foobar"
-    end
-
     def render_template_with_implicit_assigns
       @foobar = "foobar"
       render :template => "test/implicit_assigns.html.rb"
@@ -79,12 +75,6 @@ describe ActionController::Base do
   describe "#render :widget" do
     it "should render a widget with implicit assigns" do
       @request.action = "render_colon_widget_with_implicit_assigns"
-      @controller.process(@request, @response)
-      @response.body.should == "foobar"
-    end
-
-    xit "should render a widget with explicit assigns" do
-      @request.action = "render_colon_widget_with_explicit_assigns"
       @controller.process(@request, @response)
       @response.body.should == "foobar"
     end
