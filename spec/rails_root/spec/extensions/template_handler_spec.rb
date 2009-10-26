@@ -1,8 +1,7 @@
 require File.expand_path("#{File.dirname(__FILE__)}/../rails_spec_helper")
 require "action_controller/test_process"
 
-module TemplateHandlerSpecs
-  
+describe ActionView::TemplateHandlers::RbHandler do
   class TemplateHandlerSpecsController < ActionController::Base
     def index
       @foo = "foo"
@@ -14,31 +13,22 @@ module TemplateHandlerSpecs
       render :widget => Views::TemplateHandlerSpecs::ActionWithInstanceVariablesBeingPassedIntoRenderCall, :foo => "foo"
     end
   end
-  
-  describe ActionView::TemplateHandlers::RbHandler do
-    attr_reader :request, :controller
-    before do
-      @request = ActionController::TestRequest.new({:action => "index"})
-      @controller = TemplateHandlerSpecsController.new
-    end
 
-    it "assigns instance variables, renders partials, and properly handles controllers with pluralized names" do
-      request.action = "index"
-      response = ActionController::TestResponse.new
-      controller.process(request, response)
-      view = response.template
-      
-      response.body.strip.gsub("  ", "").gsub("\n", "").should == '<div class="page"><div class="partial">foo</div></div>'
-    end
-
-    it "accepts instance variables being passed into render" do
-      request.action = "action_with_instance_variables_being_passed_into_render_call"
-      response = ActionController::TestResponse.new
-      controller.process(request, response)
-      view = response.template
-
-      response.body.strip.gsub("  ", "").gsub("\n", "").should == '<div class="page">Value of @foo is </div>'
-    end
+  before do
+    @controller = TemplateHandlerSpecsController.new
+    @request    = ActionController::TestRequest.new
+    @response   = ActionController::TestResponse.new
   end
 
+  it "assigns instance variables, renders partials, and properly handles controllers with pluralized names" do
+    @request.action = "index"
+    @controller.process(@request, @response)
+    @response.body.strip.gsub("  ", "").gsub("\n", "").should == '<div class="page"><div class="partial">foo</div></div>'
+  end
+
+  it "accepts instance variables being passed into render" do
+    @request.action = "action_with_instance_variables_being_passed_into_render_call"
+    @controller.process(@request, @response)
+    @response.body.strip.gsub("  ", "").gsub("\n", "").should == '<div class="page">Value of @foo is </div>'
+  end
 end
