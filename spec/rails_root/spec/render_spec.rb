@@ -25,6 +25,10 @@ describe ActionController::Base do
       render :template => "test/implicit_assigns.html.rb"
     end
 
+    def render_template_with_protected_instance_variable
+      render :template => "test/protected_instance_variable.html.rb"
+    end
+
     def render_template_with_partial
       @foobar = "foobar"
       render :template => "test/render_partial.html.rb"
@@ -91,6 +95,12 @@ describe ActionController::Base do
       @request.action = "render_template_with_implicit_assigns"
       @controller.process(@request, @response)
       @response.body.should == "foobar"
+    end
+
+    it "should not include protected instance variables in assigns" do
+      @request.action = "render_template_with_protected_instance_variable"
+      @controller.process(@request, @response)
+      @response.body.should == ""
     end
 
     it "should render a template which uses partials" do
