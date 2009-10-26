@@ -1,18 +1,15 @@
 ActionController::Base.class_eval do
   def render_widget(widget_class, assigns=nil)
-    @__widget_class = widget_class
-    if assigns
-      @__widget_assigns = assigns
-    else
-      @__widget_assigns = {}
+    unless assigns
+      assigns = {}
       variables = instance_variable_names
       variables -= protected_instance_variables
       variables.each do |name|
-        @__widget_assigns[name.sub('@', "")] = instance_variable_get(name)
+        assigns[name.sub('@', "")] = instance_variable_get(name)
       end
     end
     response.template.send(:_evaluate_assigns_and_ivars)
-    render :inline => "<% @__widget_class.new(@__widget_assigns.merge(:parent => self)).to_s %>"
+    render :text => @template.with_output_buffer { widget_class.new(assigns.merge(:parent => @template)).to_s }
   end
 
   def render_with_erector_widget(*options, &block)
