@@ -41,6 +41,16 @@ describe ActionController::Base do
       render :template => "test/render_partial.html.rb"
     end
 
+    def render_erb_from_erector
+      @foobar = "foobar"
+      render :template => "test/erb_from_erector.html.rb"
+    end
+
+    def render_erector_from_erb
+      @foobar = "foobar"
+      render :template => "test/erector_from_erb.html.erb"
+    end
+
     def render_reserved_variable
       @foobar = "foobar"
       @indentation = true
@@ -110,6 +120,14 @@ describe ActionController::Base do
 
     it "should render a template which uses partials" do
       test_action(:render_template_with_partial).should == "Partial foobar"
+    end
+
+    it "should render an erector widget which uses an ERB partial'" do
+      test_action(:render_erb_from_erector).should == "Partial foobar"
+    end
+
+    it "should render an ERB template which uses an erector widget partial" do
+      test_action(:render_erector_from_erb).should == "Partial foobar"
     end
 
     it "should render a default template" do
