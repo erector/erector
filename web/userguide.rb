@@ -569,7 +569,7 @@ end
         pre <<-DONE
 class HotSauce < Erector::Widget
   external :css, "/css/tapatio.css"
-  external :css, "/css/salsa_picante.css"
+  external :css, "/css/salsa_picante.css", :media => "print"
   external :js, "/lib/jquery.js"
   external :js, "/lib/picante.js"
 
@@ -590,7 +590,7 @@ end
   <meta content="text/html;charset=UTF-8" http-equiv="content-type" />
   <title>HotPage</title>
   <link href="/css/tapatio.css" media="all" rel="stylesheet" type="text/css" />
-  <link href="/css/salsa_picante.css" media="all" rel="stylesheet" type="text/css" />
+  <link href="/css/salsa_picante.css" media="print" rel="stylesheet" type="text/css" />
   <script src="/lib/jquery.js" type="text/javascript"></script>
   <script src="/lib/picante.js" type="text/javascript"></script>
 </head>

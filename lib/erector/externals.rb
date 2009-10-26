@@ -1,28 +1,31 @@
 module Erector
+  class External < Struct.new(:type, :klass, :text, :options)
+    def initialize(type, klass, text, options = {})
+      super(type.to_sym, klass, text, options)
+    end
+    
+    def ==(other)
+      (self.type == other.type and
+      self.text == other.text and
+      self.options == other.options) ? true : false
+    end
+  end
+  
   module Externals
     def externals(type, klass = nil)
       type = type.to_sym
-      assure_externals_declared(type, klass)
-      x = @@externals[type].dup
-      if klass
-        x.select{|value| @@externals[klass].include?(value)}
-      else
-        x
+      (@@externals ||= []).select do |x| 
+        x.type == type && 
+        (klass.nil? || x.klass == klass)
       end
     end
 
-    def assure_externals_declared(type, klass)
-      @@externals ||= {}
-      @@externals[type] ||= []
-      @@externals[klass] ||= [] if klass
-    end
-
-    def external(type, value)
+    def external(type, value, options = {})
       type = type.to_sym
       klass = self # since it's a class method, self should be the class itself
-      assure_externals_declared(type, klass)
-      @@externals[type] << value unless @@externals[type].include?(value)
-      @@externals[klass] << value unless @@externals[klass].include?(value)
+      x = External.new(type, klass, value, options)
+      @@externals ||= []
+      @@externals << x unless @@externals.include?(x)
     end
   end
 

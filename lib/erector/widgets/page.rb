@@ -54,8 +54,6 @@
 #
 class Erector::Widgets::Page < Erector::Widget
 
-  needs :basic_styles => true
-
   # Emit the Transitional doctype.
   # TODO: allow selection from among different standard doctypes
   def doctype
@@ -65,12 +63,11 @@ class Erector::Widgets::Page < Erector::Widget
 
   def content
     rawtext doctype
-    # todo: allow customization of xmlns and xml:lang
-    html :xmlns => 'http://www.w3.org/1999/xhtml', 'xml:lang' => 'en', :lang => 'en' do
+    html(html_attributes) do
       head do
         head_content
       end
-      body :class => body_class do
+      body(body_attributes) do
         body_content
       end
     end
@@ -81,8 +78,14 @@ class Erector::Widgets::Page < Erector::Widget
     self.class.name
   end
   
-  # override me to add a css class to the body
-  def body_class
+  # override me to change the attributes of the HTML element
+  def html_attributes
+    {:xmlns => 'http://www.w3.org/1999/xhtml', 'xml:lang' => 'en', :lang => 'en'}
+  end
+  
+  # override me to add attributes (e.g. a css class) to the body
+  def body_attributes
+    {}
   end
 
   # override me (or instantiate Page with a block)
@@ -95,7 +98,7 @@ class Erector::Widgets::Page < Erector::Widget
     meta 'http-equiv' => 'content-type', :content => 'text/html;charset=UTF-8'
     title page_title
 
-    basic_styles if @basic_styles
+    basic_styles
     included_stylesheets
     inline_styles
 
@@ -104,21 +107,20 @@ class Erector::Widgets::Page < Erector::Widget
   end
   
   def included_scripts
-    self.class.externals(:js).each do |file|
-      script :type => "text/javascript", :src => file
+    self.class.externals(:js).each do |external|
+      script({:type => "text/javascript", :src => external.text}.merge(external.options))
     end
   end
   
   def included_stylesheets
-    self.class.externals(:css).each do |file|
-      # todo: allow different media
-      link :rel => "stylesheet", :href => file, :type => "text/css", :media => "all"
+    self.class.externals(:css).each do |external|
+      link({:rel => "stylesheet", :href => external.text, :type => "text/css", :media => "all"}.merge(external.options))
     end
   end
   
-  # Emit some *very* basic styles, hopefully not too controversial. Suppress
-  # them by setting :basic_styles => false when you construct your Page, or just 
-  # override the basic_styles method in your subclass and make it do nothing.
+  # Emit some *very* basic styles, hopefully not too controversial. 
+  # If you don't like them, suppress
+  # them by overriding the basic_styles method in your subclass and making it do nothing.
   # You can also redefine them since they're defined above any other styles in the HEAD.
   #
   # Class "right" floats right, class "left" floats left, and class "clear" clears
@@ -134,22 +136,21 @@ class Erector::Widgets::Page < Erector::Widget
   end
 
   def inline_styles
-    style :type => "text/css", 'xml:space' => 'preserve' do
-      rawtext "\n"
-      self.class.externals(:style).each do |txt|
-        rawtext "\n"
-        rawtext txt
+    self.class.externals(:style).each do |external|
+      style({:type => "text/css", 'xml:space' => 'preserve'}.merge(external.options)) do
+        rawtext external.text
       end
     end
   end
   
   def inline_scripts
-    javascript do
-      self.class.externals(:script).each do |txt|
-        rawtext "\n"
+    self.class.externals(:script).each do |external|
+      javascript external.options do
         rawtext txt
       end
-      self.class.externals(:jquery).each do |txt|
+    end
+    self.class.externals(:jquery).each do |external|
+      javascript external.options do
         jquery_ready txt
       end
     end
