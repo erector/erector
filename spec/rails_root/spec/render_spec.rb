@@ -2,7 +2,7 @@ require File.expand_path("#{File.dirname(__FILE__)}/rails_spec_helper")
 
 describe ActionController::Base do
   class TestWidgetController < ActionController::Base
-    def render_widget_with_implict_assigns
+    def render_widget_with_implicit_assigns
       @foobar = "foobar"
       render_widget TestWidget
     end
@@ -11,7 +11,7 @@ describe ActionController::Base do
       render_widget TestWidget, :foobar => "foobar"
     end
 
-    def render_colon_widget_with_implict_assigns
+    def render_colon_widget_with_implicit_assigns
       @foobar = "foobar"
       render :widget => TestWidget
     end
@@ -55,7 +55,7 @@ describe ActionController::Base do
 
   describe "#render_widget" do
     it "should render a widget with implicit assigns" do
-      @request.action = "render_widget_with_implict_assigns"
+      @request.action = "render_widget_with_implicit_assigns"
       @controller.process(@request, @response)
       @response.body.should == "foobar"
     end
@@ -69,7 +69,7 @@ describe ActionController::Base do
 
   describe "#render :widget" do
     it "should render a widget with implicit assigns" do
-      @request.action = "render_colon_widget_with_implict_assigns"
+      @request.action = "render_colon_widget_with_implicit_assigns"
       @controller.process(@request, @response)
       @response.body.should == "foobar"
     end
