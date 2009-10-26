@@ -1,4 +1,4 @@
-require File.expand_path("#{File.dirname(__FILE__)}/../rails_spec_helper")
+require File.expand_path("#{File.dirname(__FILE__)}/rails_spec_helper")
 
 describe ActionController::Base do
   class TestWidgetController < ActionController::Base
