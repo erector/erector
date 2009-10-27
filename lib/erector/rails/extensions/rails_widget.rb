@@ -34,7 +34,7 @@ module Erector
     end
 
     def capture(&block)
-      parent ? parent.capture(&block) : super
+      parent ? raw(parent.capture(&block).to_s) : super
     end
 
     # This is here to force #parent.capture to return the output
