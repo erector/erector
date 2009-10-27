@@ -9,7 +9,7 @@ describe Erector::Rails::WidgetExtensions do
   describe "#capture" do
     it "returns a RawString" do
       captured = nil
-      Erector::RailsWidget.inline do
+      Erector.inline do
         captured = capture {}
       end.to_s(:parent => @view).should == ""
       captured.should be_a_kind_of Erector::RawString
@@ -17,7 +17,7 @@ describe Erector::Rails::WidgetExtensions do
 
     it "captures helper output" do
       captured = nil
-      Erector::RailsWidget.inline do
+      Erector.inline do
         captured = capture do
           helpers.concat "capture me!"
         end
@@ -27,7 +27,7 @@ describe Erector::Rails::WidgetExtensions do
 
     it "captures with an erector block" do
       captured = nil
-      Erector::RailsWidget.inline do
+      Erector.inline do
         captured = capture do
           text 'capture me!'
         end

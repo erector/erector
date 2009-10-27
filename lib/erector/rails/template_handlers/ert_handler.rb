@@ -18,7 +18,7 @@ module ActionView #:nodoc:
           "  all[instance_variable] = instance_variable_get(instance_variable)",
           "  all",
           "end",
-          "r =::Erector::RailsWidget.inline do",
+          "r =::Erector.inline do",
           "  memoized_instance_variables.each do |instance_variable, value|",
           "    instance_variable_set(instance_variable, value)",
           "  end",

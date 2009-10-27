@@ -32,9 +32,9 @@ module Erector
       Erected.new("stuff/foo_bar.html.erb").parent_class.should == "Erector::Widget"
     end
 
-    it "uses RailsWidget as the parent class if it's in a views dir" do
-      Erected.new("app/views/stuff/foo_bar.html.erb").parent_class.should == "Erector::RailsWidget"
-      Erected.new("views/stuff/foo_bar.html.erb").parent_class.should == "Erector::RailsWidget"
+    it "uses Widget as the parent class if it's in a views dir" do
+      Erected.new("app/views/stuff/foo_bar.html.erb").parent_class.should == "Erector::Widget"
+      Erected.new("views/stuff/foo_bar.html.erb").parent_class.should == "Erector::Widget"
     end
 
     def convert(dir, input, output)
@@ -70,7 +70,7 @@ module Erector
     it "converts a views file" do
       convert("app/views/foos",
         "<div>hello</div>",
-        "class Views::Foos::Dummy < Erector::RailsWidget\n" +
+        "class Views::Foos::Dummy < Erector::Widget\n" +
           "  def content\n" +
           "    div do\n" +
           "      text 'hello'\n" +

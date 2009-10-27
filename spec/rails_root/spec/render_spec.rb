@@ -68,13 +68,13 @@ describe ActionController::Base do
     end
   end
 
-  class TestWidget < Erector::RailsWidget
+  class TestWidget < Erector::Widget
     def content
       text @foobar
     end
   end
 
-  class TestFormWidget < Erector::RailsWidget
+  class TestFormWidget < Erector::Widget
     def content
       form_tag('/') do
         h1 "Create a foo"

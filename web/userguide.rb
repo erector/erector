@@ -489,9 +489,9 @@ html.to_s          #=> <p>Hello, world!</p>
       end
       
       p do 
-        text "If you're in Rails, and want access to the Rails helpers in your inline block, you use slightly different syntax:"
+        text "If you're in Rails, your inline block has access to Rails helpers if you pass a helpers object to to_s:"
         pre <<-DONE
-html = Erector::RailsWidget.inline do
+html = Erector.inline do
   image_tag("/foo")
 end
 html.to_s(:helpers => controller)          #=> <img alt="Foo" src="/foo" />

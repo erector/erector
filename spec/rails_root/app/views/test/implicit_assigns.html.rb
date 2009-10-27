@@ -1,4 +1,4 @@
-class Views::Test::ImplicitAssigns < Erector::RailsWidget
+class Views::Test::ImplicitAssigns < Erector::Widget
   def content
     text @foobar
   end

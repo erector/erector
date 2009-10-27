@@ -1,4 +1,4 @@
-class Views::Test::Bare < Erector::RailsWidget
+class Views::Test::Bare < Erector::Widget
   def content
     text "Bare"
   end

@@ -1,4 +1,4 @@
-class Views::Test::ProtectedInstanceVariable < Erector::RailsWidget
+class Views::Test::ProtectedInstanceVariable < Erector::Widget
   def content
     text @_response
   end

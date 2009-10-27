@@ -551,8 +551,8 @@ end
 html.to_s          #=&gt; &lt;p&gt;Hello, world!&lt;/p&gt;
 </pre>
 This lets you define mini-widgets on the fly.</p>
-        <p>If you're in Rails, and want access to the Rails helpers in your inline block, you use slightly different syntax:
-          <pre>html = Erector::RailsWidget.inline do
+        <p>If you're in Rails, your inline block has access to Rails helpers if you pass a helpers object to to_s:
+          <pre>html = Erector.inline do
   image_tag(&quot;/foo&quot;)
 end
 html.to_s(:helpers =&gt; controller)          #=&gt; &lt;img alt=&quot;Foo&quot; src=&quot;/foo&quot; /&gt;

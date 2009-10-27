@@ -1,4 +1,4 @@
-class Views::Test::Erector < Erector::RailsWidget
+class Views::Test::Erector < Erector::Widget
   def render_partial
     text "Partial #{@foobar}"
   end

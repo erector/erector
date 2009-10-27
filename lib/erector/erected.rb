@@ -20,7 +20,7 @@ module Erector
       parent = File.dirname(@in_file)
       grandparent = File.dirname(parent)
       if File.basename(grandparent) == "views"
-        ["Views::" + classize(File.basename(parent)) + "::" + base, "Erector::RailsWidget"]
+        ["Views::" + classize(File.basename(parent)) + "::" + base, "Erector::Widget"]
       else
         [base, "Erector::Widget"]
       end

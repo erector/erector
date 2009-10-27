@@ -22,7 +22,7 @@ describe Erector::Rails::Helpers do
 
   describe "#link_to" do
     it "renders the link" do
-      Erector::RailsWidget.inline(:parent => @view) do
+      Erector.inline(:parent => @view) do
         link_to 'This&that', '/foo?this=1&amp;that=1'
       end.to_s.should == "<a href=\"/foo?this=1&amp;that=1\">This&amp;that</a>"
     end
@@ -30,19 +30,19 @@ describe Erector::Rails::Helpers do
 
   describe "#image_tag" do
     it "renders" do
-      Erector::RailsWidget.inline(:parent => @view) do
+      Erector.inline(:parent => @view) do
         image_tag("/foo")
       end.to_s.should == %{<img alt="Foo" src="/foo" />}
     end
 
     it "renders with parameters" do
-      Erector::RailsWidget.inline(:parent => @view) do
+      Erector.inline(:parent => @view) do
         image_tag("/foo", :id => "photo_foo", :class => "a_photo_class")
       end.to_s.should == %{<img alt="Foo" class="a_photo_class" id="photo_foo" src="/foo" />}
     end
 
     it "renders via render :widget" do
-      widget_class = Class.new(Erector::RailsWidget) do
+      widget_class = Class.new(Erector::Widget) do
         def content
           image_tag("rails.png")
         end
@@ -54,7 +54,7 @@ describe Erector::Rails::Helpers do
 
   describe "#javascript_include_tag" do
     it "renders javascript script tag" do
-      widget_class = Class.new(Erector::RailsWidget) do
+      widget_class = Class.new(Erector::Widget) do
         def content
           javascript_include_tag("rails")
         end
@@ -66,7 +66,7 @@ describe Erector::Rails::Helpers do
 
   describe "#stylesheet_link_tag" do
     it "renders link tag" do
-      widget_class = Class.new(Erector::RailsWidget) do
+      widget_class = Class.new(Erector::Widget) do
         def content
           stylesheet_link_tag("rails")
         end
@@ -82,7 +82,7 @@ describe Erector::Rails::Helpers do
 
   describe "#sortable_elemnt" do
     it "renders sortable helper js" do
-      widget_class = Class.new(Erector::RailsWidget) do
+      widget_class = Class.new(Erector::Widget) do
         def content
           sortable_element("rails", :url => "/foo")
         end
@@ -97,7 +97,7 @@ describe Erector::Rails::Helpers do
 
   describe "#sortable_element_js" do
     it "renders only the sortable javascript" do
-      widget_class = Class.new(Erector::RailsWidget) do
+      widget_class = Class.new(Erector::Widget) do
         def content
           sortable_element_js("rails", :url => "/foo")
         end
@@ -119,7 +119,7 @@ describe Erector::Rails::Helpers do
   describe "#link_to_function" do
     context "when passed a string for the js function" do
       it "renders a link with the name as the content and the onclick handler" do
-        widget_class = Class.new(Erector::RailsWidget) do
+        widget_class = Class.new(Erector::Widget) do
           def content
             link_to_function("hi", "alert('hi')")
           end
@@ -131,7 +131,7 @@ describe Erector::Rails::Helpers do
 
     context "when passed a block for the js function" do
       it "renders the name and the block rjs contents onto onclick" do
-        widget_class = Class.new(Erector::RailsWidget) do
+        widget_class = Class.new(Erector::Widget) do
           def content
             link_to_function("Show me more", nil, :id => "more_link") do |page|
               page[:details].visual_effect  :toggle_blind
@@ -147,7 +147,7 @@ describe Erector::Rails::Helpers do
 
   describe "#error_messages_for" do
     it "renders the error message" do
-      widget_class = Class.new(Erector::RailsWidget) do
+      widget_class = Class.new(Erector::Widget) do
         def content
           error_messages_for('user')
         end
@@ -176,7 +176,7 @@ describe Erector::Rails::Helpers do
         end
       end
 
-      Erector::RailsWidget.inline(:parent => @view) do
+      Erector.inline(:parent => @view) do
         form_tag("/foo") do
           p "I'm in a form"
         end
@@ -198,7 +198,7 @@ describe Erector::Rails::Helpers do
         end
       end
 
-      Erector::RailsWidget.inline(:parent => @view) do
+      Erector.inline(:parent => @view) do
         form_tag("/foo") do
           p "I'm in a form"
         end
