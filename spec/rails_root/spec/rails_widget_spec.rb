@@ -19,34 +19,6 @@ describe Erector::RailsWidget do
     end
   end
 
-  context "with errors" do
-    before(:each) do
-      class DummyView < ActionView::Base
-        attr_accessor :model
-      end
-
-      class DummyModel < BaseDummyModel # fix for Rails 2.3.4
-        # not sure what the best way is to mock out a model without
-        # needing a database.  But here's my attempt.
-        attr_accessor :errors
-
-        def self.human_attribute_name(attribute)
-          attribute.to_s.capitalize
-        end
-      end
-      
-      @view = DummyView.new()
-      model = DummyModel.new()
-      model.errors = ActiveRecord::Errors.new(model)
-      model.errors.add(:field, 'too silly')
-      @view.model = model
-    end
-    
-    it "was set up correctly" do
-      @view.model.errors.full_messages.join(',').should == "Field too silly"
-    end
-  end
-
   describe "#link_to" do
     it "renders the link" do
       Erector::RailsWidget.inline(:parent => @view) do
