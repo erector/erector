@@ -315,7 +315,7 @@ module Erector
         :output => "",  # "" is apparently faster than [] in a long-running process
         :prettyprint => prettyprint_default,
         :indentation => 0,
-        :helpers => nil,
+        :helpers => @parent,
         :parent => @parent,
         :content_method_name => :content,
       }.merge(options)

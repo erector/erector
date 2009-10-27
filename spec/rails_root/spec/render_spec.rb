@@ -166,7 +166,7 @@ describe ActionController::Base do
 
     def render_rjs_with_widget
       render :update do |page|
-        page.insert_html :top, 'foobar', TestFormWidget.new(:parent => self).to_s
+        page.insert_html :top, 'foobar', TestFormWidget.new.to_s(:helpers => self)
       end
     end
 

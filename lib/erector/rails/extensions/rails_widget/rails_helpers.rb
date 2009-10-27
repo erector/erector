@@ -15,7 +15,7 @@ module Erector
         start_line = __LINE__ + 2
         method_def =<<-METHOD_DEF
           def #{method_name}(link_text, *args, &block)
-            rawtext(parent.#{method_name}(h(link_text), *args, &block))
+            rawtext(helpers.#{method_name}(h(link_text), *args, &block))
           end
         METHOD_DEF
         eval(method_def, binding, __FILE__, start_line)
@@ -41,7 +41,7 @@ module Erector
         start_line = __LINE__ + 2
         method_def =<<-METHOD_DEF
           def #{method_name}(*args, &block)
-            rawtext parent.#{method_name}(*args, &block)
+            rawtext helpers.#{method_name}(*args, &block)
           end
         METHOD_DEF
         eval(method_def, binding, __FILE__, start_line)
@@ -54,9 +54,9 @@ module Erector
         start_line = __LINE__ + 2
         method_def =<<-METHOD_DEF
           def #{method_name}(*args, &block)
-            captured = parent.capture do
-              parent.concat(parent.#{method_name}(*args, &block))
-              parent.output_buffer.to_s
+            captured = helpers.capture do
+              helpers.concat(helpers.#{method_name}(*args, &block))
+              helpers.output_buffer.to_s
             end
             rawtext(captured)
           end
@@ -71,9 +71,9 @@ module Erector
         start_line = __LINE__ + 2
         method_def =<<-METHOD_DEF
           def #{method_name}(*args, &block)
-            captured = parent.capture do
-              parent.#{method_name}(*args, &block)
-              parent.output_buffer.to_s
+            captured = helpers.capture do
+              helpers.#{method_name}(*args, &block)
+              helpers.output_buffer.to_s
             end
             rawtext(captured)
           end
@@ -85,14 +85,14 @@ module Erector
         options = args.extract_options!
         options[:builder] ||= ::Erector::RailsFormBuilder
         args.push(options)
-        parent.form_for(record_or_name_or_array, *args, &proc)
+        helpers.form_for(record_or_name_or_array, *args, &proc)
       end
 
       def fields_for(record_or_name_or_array, *args, &proc)
         options = args.extract_options!
         options[:builder] ||= ::Erector::RailsFormBuilder
         args.push(options)
-        parent.fields_for(record_or_name_or_array, *args, &proc)
+        helpers.fields_for(record_or_name_or_array, *args, &proc)
       end
       
       DIRECTLY_DELEGATED = [
@@ -110,18 +110,18 @@ module Erector
         start_line = __LINE__ + 2
         method_def =<<-METHOD_DEF
           def #{method_name}(*args, &block)
-            parent.#{method_name}(*args, &block)
+            helpers.#{method_name}(*args, &block)
           end
         METHOD_DEF
         eval(method_def, binding, __FILE__, start_line)
       end
       
       def flash
-        parent.controller.send(:flash)
+        helpers.controller.send(:flash)
       end
 
       def session
-        parent.controller.session
+        helpers.controller.session
       end
 
       def simple_format(string)

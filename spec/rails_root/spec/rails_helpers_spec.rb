@@ -23,9 +23,9 @@ describe Erector::Rails::Helpers do
 
   describe "#link_to" do
     it "renders the link" do
-      Erector.inline(:parent => @view) do
+      Erector.inline do
         link_to 'This&that', '/foo?this=1&amp;that=1'
-      end.to_s.should == "<a href=\"/foo?this=1&amp;that=1\">This&amp;that</a>"
+      end.to_s(:helpers => @view).should == "<a href=\"/foo?this=1&amp;that=1\">This&amp;that</a>"
     end
 
     it "supports path methods" do
@@ -33,7 +33,7 @@ describe Erector::Rails::Helpers do
         map.root :controller => "rails_helpers_spec"
       end
 
-      Erector.inline(:parent => @view) do
+      Erector.inline do
         link_to 'Link', helpers.root_path
       end.to_s(:helpers => @view).should == "<a href=\"/\">Link</a>"
     end
@@ -41,15 +41,15 @@ describe Erector::Rails::Helpers do
 
   describe "#image_tag" do
     it "renders" do
-      Erector.inline(:parent => @view) do
+      Erector.inline do
         image_tag("/foo")
-      end.to_s.should == %{<img alt="Foo" src="/foo" />}
+      end.to_s(:helpers => @view).should == %{<img alt="Foo" src="/foo" />}
     end
 
     it "renders with parameters" do
-      Erector.inline(:parent => @view) do
+      Erector.inline do
         image_tag("/foo", :id => "photo_foo", :class => "a_photo_class")
-      end.to_s.should == %{<img alt="Foo" class="a_photo_class" id="photo_foo" src="/foo" />}
+      end.to_s(:helpers => @view).should == %{<img alt="Foo" class="a_photo_class" id="photo_foo" src="/foo" />}
     end
 
     it "renders via render :widget" do
@@ -187,11 +187,11 @@ describe Erector::Rails::Helpers do
         end
       end
 
-      Erector.inline(:parent => @view) do
+      Erector.inline do
         form_tag("/foo") do
           p "I'm in a form"
         end
-      end.to_s.should == "<form action=\"/foo\" method=\"post\"><p>I'm in a form</p></form>"
+      end.to_s(:helpers => @view).should == "<form action=\"/foo\" method=\"post\"><p>I'm in a form</p></form>"
     end
 
     it "renders forgery-protected forms when forgery protection is turned on" do
@@ -209,11 +209,11 @@ describe Erector::Rails::Helpers do
         end
       end
 
-      Erector.inline(:parent => @view) do
+      Erector.inline do
         form_tag("/foo") do
           p "I'm in a form"
         end
-      end.to_s.should == "<form action=\"/foo\" method=\"post\"><div style=\"margin:0;padding:0;display:inline\"><input name=\"\" type=\"hidden\" value=\"token\" /></div><p>I'm in a form</p></form>"
+      end.to_s(:helpers => @view).should == "<form action=\"/foo\" method=\"post\"><div style=\"margin:0;padding:0;display:inline\"><input name=\"\" type=\"hidden\" value=\"token\" /></div><p>I'm in a form</p></form>"
     end
   end
 end

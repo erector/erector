@@ -46,11 +46,7 @@ module Erector
       view.send(:_evaluate_assigns_and_ivars)
 
       view.with_output_buffer do
-        widget.to_s(
-          :output => view.output_buffer,
-          :parent => view,
-          :helpers => view
-        )
+        widget.to_s(:output => view.output_buffer, :helpers => view)
       end
     end
 
@@ -107,20 +103,24 @@ module Erector
       
       def self.included(base)
         base.extend(ClassMethods)
-        base.alias_method_chain :output, :parent
-        base.alias_method_chain :capture, :parent
+        base.alias_method_chain :output, :helpers
+        base.alias_method_chain :capture, :helpers
       end
 
-      def output_with_parent
-        if parent.respond_to?(:output_buffer)
-          parent.output_buffer.is_a?(String) ? parent.output_buffer : handle_rjs_buffer
+      def output_with_helpers
+        if helpers.respond_to?(:output_buffer)
+          helpers.output_buffer.is_a?(String) ? helpers.output_buffer : handle_rjs_buffer
         else
-          output_without_parent
+          output_without_helpers
         end
       end
 
-      def capture_with_parent(&block)
-        (parent && parent.respond_to?(:capture)) ? raw(parent.capture(&block).to_s) : capture_without_parent(&block)
+      def capture_with_helpers(&block)
+        if helpers.respond_to?(:capture)
+          raw(helpers.capture(&block).to_s)
+        else
+          capture_without_helpers(&block)
+        end
       end
 
       # This is here to force #parent.capture to return the output
@@ -130,10 +130,10 @@ module Erector
       private
 
       def handle_rjs_buffer
-        returning buffer = parent.output_buffer.dup.to_s do
-          parent.output_buffer.clear
-          parent.with_output_buffer(buffer) do
-            buffer << parent.output_buffer.to_s
+        returning buffer = helpers.output_buffer.dup.to_s do
+          helpers.output_buffer.clear
+          helpers.with_output_buffer(buffer) do
+            buffer << helpers.output_buffer.to_s
           end
         end
       end
