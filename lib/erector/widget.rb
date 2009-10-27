@@ -498,7 +498,7 @@ module Erector
     end
 
     # Creates a whole new output string, executes the block, then converts the
-    # output string to a string and emits it as raw text. If at all possible
+    # output string to a string and returns it as raw text. If at all possible
     # you should avoid this method since it hurts performance, and use
     # +widget+ or +write_via+ instead.
     def capture(&block)

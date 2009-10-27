@@ -722,6 +722,14 @@ module WidgetSpec
         widget.to_s.should == '<div><p>Captured Content</p></div>'
       end
 
+      it "returns a RawString" do
+        captured = nil
+        Erector.inline do
+          captured = capture {}
+        end.to_s.should == ""
+        captured.should be_a_kind_of Erector::RawString
+      end
+
       it "works with nested captures" do
         widget = Erector.inline do
           captured = capture do
