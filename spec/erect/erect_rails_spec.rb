@@ -8,12 +8,9 @@ require "erector/rails"
 #
 module Erector
 
-  describe "the user running this spec" do
-    it "should have the correct Rails gem (version #{Erector::Rails::RAILS_VERSION}) installed" do
-      target_version = Gem::Version.new(Erector::Rails::RAILS_VERSION)
-      dep = Gem::Dependency.new "rails", target_version
-      specs = Gem.source_index.search dep
-      specs.size.should == 1
+  describe "the Rails version" do
+    it "should be #{Erector::Rails::RAILS_VERSION}" do
+      ::Rails::VERSION::STRING.should == Erector::Rails::RAILS_VERSION
     end
   end
 

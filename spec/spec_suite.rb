@@ -12,10 +12,11 @@ class SpecSuite
     end
 
     def core
-      run Dir["#{dir}/{erect,erector}/**/*_spec.rb"]
+      run Dir["#{dir}/{erect,erector}/**/*_spec.rb"] - ["#{dir}/erect/erect_rails_spec.rb"]
     end
 
     def rails
+      run ["#{dir}/erect/erect_rails_spec.rb"]
       Dir.chdir("#{dir}/rails_root") do
         run Dir["spec/**/*_spec.rb"]
       end
