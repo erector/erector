@@ -1,6 +1,6 @@
 ActionController::Base.class_eval do
   def render_widget(widget_class, assigns=nil)
-    render :text => Erector::RailsWidget.render(widget_class, self, assigns)
+    render :text => Erector::Rails.render(widget_class, self, assigns)
   end
 
   def render_with_erector_widget(*options, &block)

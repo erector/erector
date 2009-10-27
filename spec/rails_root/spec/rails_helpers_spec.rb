@@ -1,6 +1,6 @@
 require File.expand_path("#{File.dirname(__FILE__)}/rails_spec_helper")
 
-describe Erector::RailsWidget::RailsHelpers do
+describe Erector::Rails::Helpers do
   class RailsHelpersSpecController < ActionController::Base
   end
 

@@ -1,6 +1,6 @@
 module Erector
-  class RailsWidget < Widget
-    module RailsHelpers
+  module Rails
+    module Helpers
       include ActionController::UrlWriter
 
       # parent returning raw text whose first parameter is HTML escaped
@@ -131,6 +131,7 @@ module Erector
         parent.pluralize(*args)
       end
     end
-    include RailsHelpers
+
+    Erector::Widget.send :include, Helpers
   end
 end

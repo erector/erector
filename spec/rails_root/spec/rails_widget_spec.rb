@@ -1,6 +1,6 @@
 require File.expand_path("#{File.dirname(__FILE__)}/rails_spec_helper")
 
-describe Erector::RailsWidget do
+describe Erector::Rails::WidgetExtensions do
   before(:each) do
     @view = ActionView::Base.new
     @view.output_buffer = ""
