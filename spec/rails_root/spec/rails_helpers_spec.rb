@@ -1,151 +1,208 @@
 require File.expand_path("#{File.dirname(__FILE__)}/rails_spec_helper")
-  
-module RailsHelpersSpec
-  
+
+describe Erector::RailsWidget::RailsHelpers do
   class RailsHelpersSpecController < ActionController::Base
   end
-  
-  describe "Rails helpers" do
-    before do
-      @controller = RailsHelpersSpecController.new
-      @request = ActionController::TestRequest.new
-      @response = ActionController::TestResponse.new
-      @controller.send(:initialize_template_class, @response)
-      @controller.send(:assign_shortcuts, @request, @response)
-      @controller.send(:initialize_current_url)
-      class << @controller
-        public :render
-        
-        attr_accessor :user # dummy instance variable for assigns testing
-      end
+
+  before do
+    @controller = RailsHelpersSpecController.new
+    @request = ActionController::TestRequest.new
+    @response = ActionController::TestResponse.new
+    @controller.send(:initialize_template_class, @response)
+    @controller.send(:assign_shortcuts, @request, @response)
+    @controller.send(:initialize_current_url)
+    @view = ActionView::Base.new
+    @view.output_buffer = ""
+    class << @controller
+      public :render
+
+      attr_accessor :user # dummy instance variable for assigns testing
+    end
+  end
+
+  describe "#link_to" do
+    it "renders the link" do
+      Erector::RailsWidget.inline(:parent => @view) do
+        link_to 'This&that', '/foo?this=1&amp;that=1'
+      end.to_s.should == "<a href=\"/foo?this=1&amp;that=1\">This&amp;that</a>"
+    end
+  end
+
+  describe "#image_tag" do
+    it "renders" do
+      Erector::RailsWidget.inline(:parent => @view) do
+        image_tag("/foo")
+      end.to_s.should == %{<img alt="Foo" src="/foo" />}
     end
 
-    describe "#image_tag" do
-      it "renders img tag" do
-        widget_class = Class.new(Erector::RailsWidget) do
-          def content
-            image_tag("rails.png")
-          end
+    it "renders with parameters" do
+      Erector::RailsWidget.inline(:parent => @view) do
+        image_tag("/foo", :id => "photo_foo", :class => "a_photo_class")
+      end.to_s.should == %{<img alt="Foo" class="a_photo_class" id="photo_foo" src="/foo" />}
+    end
+
+    it "renders via render :widget" do
+      widget_class = Class.new(Erector::RailsWidget) do
+        def content
+          image_tag("rails.png")
         end
-        @controller.render :widget => widget_class
-        @response.body.should =~ Regexp.new('<img alt="Rails" src="/images/rails.png\??[0-9]*" />')
       end
+      @controller.render :widget => widget_class
+      @response.body.should =~ Regexp.new('<img alt="Rails" src="/images/rails.png\??[0-9]*" />')
     end
+  end
 
-    describe "#javascript_include_tag" do
-      it "renders javascript script tag" do
-        widget_class = Class.new(Erector::RailsWidget) do
-          def content
-            javascript_include_tag("rails")
-          end
+  describe "#javascript_include_tag" do
+    it "renders javascript script tag" do
+      widget_class = Class.new(Erector::RailsWidget) do
+        def content
+          javascript_include_tag("rails")
         end
-        @controller.render :widget => widget_class
-        @response.body.should == "<script src=\"/javascripts/rails.js\" type=\"text/javascript\"></script>"
       end
+      @controller.render :widget => widget_class
+      @response.body.should == "<script src=\"/javascripts/rails.js\" type=\"text/javascript\"></script>"
     end
+  end
 
-    describe "#stylesheet_link_tag" do
-      it "renders link tag" do
-        widget_class = Class.new(Erector::RailsWidget) do
-          def content
-            stylesheet_link_tag("rails")
-          end
+  describe "#stylesheet_link_tag" do
+    it "renders link tag" do
+      widget_class = Class.new(Erector::RailsWidget) do
+        def content
+          stylesheet_link_tag("rails")
         end
-        @controller.render :widget => widget_class
-        @response.body.should == "<link href=\"/stylesheets/rails.css\" media=\"screen\" rel=\"stylesheet\" type=\"text/css\" />"
       end
+      @controller.render :widget => widget_class
+      @response.body.should == "<link href=\"/stylesheets/rails.css\" media=\"screen\" rel=\"stylesheet\" type=\"text/css\" />"
     end
+  end
 
-    def sortable_js_for(element_id, url)
-      "Sortable.create(\"#{element_id}\", {onUpdate:function(){new Ajax.Request('#{url}', {asynchronous:true, evalScripts:true, parameters:Sortable.serialize(\"#{element_id}\")})}})"
-    end
+  def sortable_js_for(element_id, url)
+    "Sortable.create(\"#{element_id}\", {onUpdate:function(){new Ajax.Request('#{url}', {asynchronous:true, evalScripts:true, parameters:Sortable.serialize(\"#{element_id}\")})}})"
+  end
 
-    describe "#sortable_elemnt" do
-      it "renders sortable helper js" do
-        widget_class = Class.new(Erector::RailsWidget) do
-          def content
-            sortable_element("rails", :url => "/foo")
-          end
+  describe "#sortable_elemnt" do
+    it "renders sortable helper js" do
+      widget_class = Class.new(Erector::RailsWidget) do
+        def content
+          sortable_element("rails", :url => "/foo")
         end
-        @controller.render :widget => widget_class
-        @response.body.should ==
+      end
+      @controller.render :widget => widget_class
+      @response.body.should ==
         "<script type=\"text/javascript\">\n//<![CDATA[\n" +
-        sortable_js_for("rails", "/foo") +
-        "\n//]]>\n</script>"
-      end
+          sortable_js_for("rails", "/foo") +
+          "\n//]]>\n</script>"
     end
+  end
 
-    describe "#sortable_element_js" do
-      it "renders only the sortable javascript" do
+  describe "#sortable_element_js" do
+    it "renders only the sortable javascript" do
+      widget_class = Class.new(Erector::RailsWidget) do
+        def content
+          sortable_element_js("rails", :url => "/foo")
+        end
+      end
+      @controller.render :widget => widget_class
+      @response.body.should == sortable_js_for("rails", "/foo") + ";"
+    end
+  end
+
+  #Note: "text_field_with_auto_complete" is now a plugin, which makes it difficult to test inside the Erector project
+
+  # :link_to_function,
+  # :link_to,
+  # :link_to_remote,
+  # :mail_to,
+  # :button_to,
+  # :submit_tag,
+
+  describe "#link_to_function" do
+    context "when passed a string for the js function" do
+      it "renders a link with the name as the content and the onclick handler" do
         widget_class = Class.new(Erector::RailsWidget) do
           def content
-            sortable_element_js("rails", :url => "/foo")
+            link_to_function("hi", "alert('hi')")
           end
         end
         @controller.render :widget => widget_class
-        @response.body.should == sortable_js_for("rails", "/foo") + ";"
+        @response.body.should == "<a href=\"#\" onclick=\"alert('hi'); return false;\">hi</a>"
       end
     end
 
-    #Note: "text_field_with_auto_complete" is now a plugin, which makes it difficult to test inside the Erector project
-
-    # :link_to_function,
-    # :link_to,
-    # :link_to_remote,
-    # :mail_to,
-    # :button_to,
-    # :submit_tag,
-
-    describe "#link_to_function" do
-      context "when passed a string for the js function" do
-        it "renders a link with the name as the content and the onclick handler" do
-          widget_class = Class.new(Erector::RailsWidget) do
-            def content
-              link_to_function("hi", "alert('hi')")
-            end
-          end
-          @controller.render :widget => widget_class
-          @response.body.should == "<a href=\"#\" onclick=\"alert('hi'); return false;\">hi</a>"
-        end
-      end
-
-      context "when passed a block for the js function" do
-        it "renders the name and the block rjs contents onto onclick" do
-          widget_class = Class.new(Erector::RailsWidget) do
-            def content
-              link_to_function("Show me more", nil, :id => "more_link") do |page|
-                page[:details].visual_effect  :toggle_blind
-                page[:more_link].replace_html "Show me less"
-              end
-            end
-          end
-          @controller.render :widget => widget_class
-          @response.body.should == "<a href=\"#\" id=\"more_link\" onclick=\"$(&quot;details&quot;).visualEffect(&quot;toggle_blind&quot;);\n$(&quot;more_link&quot;).update(&quot;Show me less&quot;);; return false;\">Show me more</a>"
-        end
-      end
-    end
-
-    describe "#error_messages_for" do
-      it "renders the error message" do
+    context "when passed a block for the js function" do
+      it "renders the name and the block rjs contents onto onclick" do
         widget_class = Class.new(Erector::RailsWidget) do
           def content
-            error_messages_for('user')
+            link_to_function("Show me more", nil, :id => "more_link") do |page|
+              page[:details].visual_effect  :toggle_blind
+              page[:more_link].replace_html "Show me less"
+            end
           end
         end
-
-        user_class = BaseDummyModel
-        stub(user_class).human_attribute_name {'User'}
-        user = user_class.new
-        stub(user).name {'bob'}
-        errors = ActiveRecord::Errors.new(user)
-        errors.add("name", "must be unpronounceable")
-        stub(user).errors {errors}
-        
-        @controller.user = user
-        
-        @controller.render(:widget => widget_class)
-        @response.body.should == "<div class=\"errorExplanation\" id=\"errorExplanation\"><h2>1 error prohibited this user from being saved</h2><p>There were problems with the following fields:</p><ul><li>User must be unpronounceable</li></ul></div>"
+        @controller.render :widget => widget_class
+        @response.body.should == "<a href=\"#\" id=\"more_link\" onclick=\"$(&quot;details&quot;).visualEffect(&quot;toggle_blind&quot;);\n$(&quot;more_link&quot;).update(&quot;Show me less&quot;);; return false;\">Show me more</a>"
       end
+    end
+  end
+
+  describe "#error_messages_for" do
+    it "renders the error message" do
+      widget_class = Class.new(Erector::RailsWidget) do
+        def content
+          error_messages_for('user')
+        end
+      end
+
+      user_class = BaseDummyModel
+      stub(user_class).human_attribute_name {'User'}
+      user = user_class.new
+      stub(user).name {'bob'}
+      errors = ActiveRecord::Errors.new(user)
+      errors.add("name", "must be unpronounceable")
+      stub(user).errors {errors}
+
+      @controller.user = user
+
+      @controller.render(:widget => widget_class)
+      @response.body.should == "<div class=\"errorExplanation\" id=\"errorExplanation\"><h2>1 error prohibited this user from being saved</h2><p>There were problems with the following fields:</p><ul><li>User must be unpronounceable</li></ul></div>"
+    end
+  end
+
+  describe "#form_tag" do
+    it "renders non-forgery-protected forms when forgery protection is turned off" do
+      class << @view
+        def protect_against_forgery?
+          false
+        end
+      end
+
+      Erector::RailsWidget.inline(:parent => @view) do
+        form_tag("/foo") do
+          p "I'm in a form"
+        end
+      end.to_s.should == "<form action=\"/foo\" method=\"post\"><p>I'm in a form</p></form>"
+    end
+
+    it "renders forgery-protected forms when forgery protection is turned on" do
+      class << @view
+        def protect_against_forgery?
+          true
+        end
+
+        def request_forgery_protection_token
+
+        end
+
+        def form_authenticity_token
+          "token"
+        end
+      end
+
+      Erector::RailsWidget.inline(:parent => @view) do
+        form_tag("/foo") do
+          p "I'm in a form"
+        end
+      end.to_s.should == "<form action=\"/foo\" method=\"post\"><div style=\"margin:0;padding:0;display:inline\"><input name=\"\" type=\"hidden\" value=\"token\" /></div><p>I'm in a form</p></form>"
     end
   end
 end
