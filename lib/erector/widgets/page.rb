@@ -98,7 +98,6 @@ class Erector::Widgets::Page < Erector::Widget
     meta 'http-equiv' => 'content-type', :content => 'text/html;charset=UTF-8'
     title page_title
 
-    basic_styles
     included_stylesheets
     inline_styles
 
@@ -116,23 +115,6 @@ class Erector::Widgets::Page < Erector::Widget
     self.class.externals(:css).each do |external|
       link({:rel => "stylesheet", :href => external.text, :type => "text/css", :media => "all"}.merge(external.options))
     end
-  end
-  
-  # Emit some *very* basic styles, hopefully not too controversial. 
-  # If you don't like them, suppress
-  # them by overriding the basic_styles method in your subclass and making it do nothing.
-  # You can also redefine them since they're defined above any other styles in the HEAD.
-  #
-  # Class "right" floats right, class "left" floats left, and class "clear" clears
-  # any floats on both sides while being as small as possible to minimize impact
-  # on your layout. And images have no border.
-  def basic_styles
-    style <<-STYLE
-      img {border: none}
-      .right {float: right;}
-      .left {float: left;}
-      .clear {background: none;border: 0;clear: both;display: block;float: none;font-size: 0;margin: 0;padding: 0;position: static;overflow: hidden;visibility: hidden;width: 0;height: 0;}
-    STYLE
   end
 
   def inline_styles

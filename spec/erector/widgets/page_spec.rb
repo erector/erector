@@ -7,10 +7,6 @@ module Erector
         Page.new.to_s
       end
       
-      it "contains basic_styles by default" do
-        Page.new.to_s.should =~ /\.right \{float: right;\}/
-      end
-      
       class FunkyPage < Page
         def body_attributes
           {:class => "funky"}
