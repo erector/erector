@@ -62,6 +62,19 @@ To install as a Rails plugin:
 When installing this way, erector is automatically available to your Rails code
 (no require directive is needed).
 
+== CREDITS:
+
+Core Team:
+* Alex Chaffee
+* Brian Takita
+
+Special Thanks To:
+* Abby (Chaffee's muse & Best friend)
+* Jeff Dean
+* John Firebaugh
+* Nathan Sobo
+* Nick Kallen
+
 == LICENSE:
 
 (The MIT License)
