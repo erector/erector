@@ -18,10 +18,12 @@ module Erector
       view.send(:_evaluate_assigns_and_ivars)
 
       view.with_output_buffer do
-        widget.to_s(:output => view.output_buffer,
-                    :parent => view,
-                    :helpers => view,
-                    :content_method_name => is_partial ? :render_partial : :content)
+        widget.to_s(
+          :output => view.output_buffer,
+          :parent => view,
+          :helpers => view,
+          :content_method_name => is_partial ? :render_partial : :content
+        )
       end
     end
 
@@ -44,7 +46,8 @@ module Erector
       end
 
       # This is here to force #parent.capture to return the output
-      def __in_erb_template; end
+      def __in_erb_template;
+      end
 
       private
 

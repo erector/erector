@@ -80,7 +80,7 @@ describe Erector::Rails::Helpers do
     "Sortable.create(\"#{element_id}\", {onUpdate:function(){new Ajax.Request('#{url}', {asynchronous:true, evalScripts:true, parameters:Sortable.serialize(\"#{element_id}\")})}})"
   end
 
-  describe "#sortable_elemnt" do
+  describe "#sortable_element" do
     it "renders sortable helper js" do
       widget_class = Class.new(Erector::Widget) do
         def content
