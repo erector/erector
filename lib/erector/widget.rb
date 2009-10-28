@@ -685,7 +685,9 @@ protected
       sorted.each do |key, value|
         if value
           if value.is_a?(Array)
-            value = [value].flatten.join(' ')
+            value = value.flatten
+            next if value.empty?
+            value = value.join(' ')
           end
           results << "#{key}=\"#{value.html_escape}\""
         end
