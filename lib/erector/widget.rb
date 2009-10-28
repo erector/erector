@@ -365,9 +365,14 @@ module Erector
     # how elegant it is? Not confusing at all if you don't think about it.
     #
     def element(*args, &block)
-      __element__(*args, &block)
+      __element__(false, *args, &block)
     end
-  
+
+    # Like +element+, but string parameters are not escaped.
+    def element!(*args, &block)
+      __element__(true, *args, &block)
+    end
+
     # Internal method used to emit a self-closing HTML/XML element, including
     # a tag name and optional attributes (passed in via the default hash).
     #
@@ -420,9 +425,11 @@ module Erector
     end
 
     # Emits text which will *not* be HTML-escaped. Same effect as text(raw(s))
-    def rawtext(value)
+    def text!(value)
       text raw(value)
     end
+
+    alias rawtext text!
 
     # Returns a copy of value with spaces replaced by non-breaking space characters.
     # With no arguments, return a single non-breaking space.
@@ -523,7 +530,10 @@ module Erector
     full_tags.each do |tag_name|
       self.class_eval(
         "def #{tag_name}(*args, &block)\n" <<
-        "  __element__('#{tag_name}', *args, &block)\n" <<
+        "  __element__(false, '#{tag_name}', *args, &block)\n" <<
+        "end\n" <<
+        "def #{tag_name}!(*args, &block)\n" <<
+        "  __element__(true, '#{tag_name}', *args, &block)\n" <<
         "end",
         __FILE__,
         __LINE__ - 4
@@ -621,10 +631,9 @@ module Erector
 ### internal utility methods
 
 protected
-
-    def __element__(tag_name, *args, &block)
+    def __element__(raw, tag_name, *args, &block)
       if args.length > 2
-        raise ArgumentError, "Cannot accept more than three arguments"
+        raise ArgumentError, "Cannot accept more than four arguments"
       end
       attributes, value = nil, nil
       arg0 = args[0]
@@ -644,6 +653,8 @@ protected
       end
       if block
         instance_eval(&block)
+      elsif raw
+        text! value
       else
         text value
       end
