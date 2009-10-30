@@ -1,3 +1,4 @@
-# Include hook code here
 require "erector"
 require "erector/rails"
+
+Erector.init_rails(binding)
