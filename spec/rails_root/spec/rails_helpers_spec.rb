@@ -13,6 +13,7 @@ describe Erector::Rails::Helpers do
     @controller.send(:initialize_current_url)
     @view = ActionView::Base.new
     @view.output_buffer = ""
+    @view.controller = @controller
     class << @controller
       public :render
 
@@ -25,6 +26,16 @@ describe Erector::Rails::Helpers do
       Erector.inline(:parent => @view) do
         link_to 'This&that', '/foo?this=1&amp;that=1'
       end.to_s.should == "<a href=\"/foo?this=1&amp;that=1\">This&amp;that</a>"
+    end
+
+    it "supports path methods" do
+      ActionController::Routing::Routes.draw do |map|
+        map.root :controller => "rails_helpers_spec"
+      end
+
+      Erector.inline(:parent => @view) do
+        link_to 'Link', helpers.root_path
+      end.to_s(:helpers => @view).should == "<a href=\"/\">Link</a>"
     end
   end
 
