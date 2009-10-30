@@ -45,19 +45,18 @@ module Erector
     end
       
     it "works like we say it does in the user guide" do
-      erector_bin = File.expand_path("#{File.dirname(__FILE__)}/../../bin")
+      erector_dir = File.expand_path("#{File.dirname(__FILE__)}/../..")
 
       Dir.mktmpdir do |app_dir|
         run_rails app_dir
 
         FileUtils.mkdir_p(app_dir + "/vendor/gems")
-        FileUtils.cp_r("#{File.dirname __FILE__}/../..", "#{app_dir}/vendor/gems/erector")
+        FileUtils.cp_r(erector_dir, "#{app_dir}/vendor/gems/erector")
 
         FileUtils.cd(app_dir) do
           run "script/generate scaffold post title:string body:text published:boolean"
-          run "#{erector_bin}/erector app/views/posts"
+          run "ruby -I#{erector_dir}/lib #{erector_dir}/bin/erector app/views/posts"
           FileUtils.rm_f("app/views/posts/*.erb")
-#          run "(echo ''; echo \"require 'erector'\") >> config/environment.rb"
           run "rake --trace db:migrate"
           # run "script/server" # todo: launch in background; use mechanize or something to crawl it; then kill it
           # perhaps use open4?
