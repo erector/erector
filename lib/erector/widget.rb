@@ -67,6 +67,26 @@ module Erector
         ]
       end
 
+      def def_empty_tag_method(tag_name)
+        self.class_eval(<<-SRC, __FILE__, __LINE__)
+          def #{tag_name}(*args, &block)
+            __empty_element__('#{tag_name}', *args, &block)
+          end
+        SRC
+      end
+
+      def def_full_tag_method(tag_name)
+        self.class_eval(<<-SRC, __FILE__, __LINE__)
+          def #{tag_name}(*args, &block)
+              __element__(false, '#{tag_name}', *args, &block)
+          end
+
+          def #{tag_name}!(*args, &block)
+            __element__(true, '#{tag_name}', *args, &block)
+          end
+        SRC
+      end
+
       def after_initialize(instance=nil, &blk)
         if blk
           after_initialize_parts << blk
@@ -528,26 +548,11 @@ module Erector
     end
 
     full_tags.each do |tag_name|
-      self.class_eval(
-        "def #{tag_name}(*args, &block)\n" <<
-        "  __element__(false, '#{tag_name}', *args, &block)\n" <<
-        "end\n" <<
-        "def #{tag_name}!(*args, &block)\n" <<
-        "  __element__(true, '#{tag_name}', *args, &block)\n" <<
-        "end",
-        __FILE__,
-        __LINE__ - 4
-      )
+      def_full_tag_method(tag_name)
     end
 
     empty_tags.each do |tag_name|
-      self.class_eval(
-        "def #{tag_name}(*args, &block)\n" <<
-        "  __empty_element__('#{tag_name}', *args, &block)\n" <<
-        "end",
-        __FILE__,
-        __LINE__ - 4
-      )
+      def_empty_tag_method(tag_name)
     end
 
     # Emits a javascript block inside a +script+ tag, wrapped in CDATA
