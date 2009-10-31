@@ -70,6 +70,7 @@ Core Team:
 
 Special Thanks To:
 * Abby (Chaffee's muse & Best friend)
+* Jim Kingdon
 * Jeff Dean
 * John Firebaugh
 * Nathan Sobo
