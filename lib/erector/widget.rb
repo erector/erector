@@ -139,6 +139,14 @@ module Erector
       end
     end
 
+    def self.get_needed_variables
+      get_needs.map{|need| need.is_a?(Hash) ? need.keys : need}.flatten
+    end
+
+    def self.get_needed_defaults
+      get_needs.select{|need| need.is_a? Hash}
+    end
+
     public
     @@prettyprint_default = false
     def prettyprint_default
@@ -203,7 +211,7 @@ module Erector
 
     public
     def assign_instance_variables (instance_variables)
-      needed = self.class.get_needs.map{|need| need.is_a?(Hash) ? need.keys : need}.flatten
+      needed = self.class.get_needed_variables
       assigned = []
       instance_variables.each do |name, value|
         unless needed.empty? || needed.include?(name)
@@ -214,7 +222,7 @@ module Erector
       end
 
       # set variables with default values
-      self.class.get_needs.select{|var| var.is_a? Hash}.each do |hash|
+      self.class.get_needed_defaults.each do |hash|
         hash.each_pair do |name, value|
           unless assigned.include?(name)
             assign_instance_variable(name, value)
