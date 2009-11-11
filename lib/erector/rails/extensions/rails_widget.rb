@@ -4,7 +4,7 @@ module Erector
     # widget if it does not +need+ them.
     NON_NEEDED_CONTROLLER_INSTANCE_VARIABLES = [:@template, :@_request]
     
-    def self.render(widget, controller, assigns = nil, is_partial = false)
+    def self.render(widget, controller, assigns = nil)
       if widget.is_a?(Class)
         unless assigns
           needs = widget.get_needed_variables
@@ -28,8 +28,7 @@ module Erector
         widget.to_s(
           :output => view.output_buffer,
           :parent => view,
-          :helpers => view,
-          :content_method_name => is_partial ? :render_partial : :content
+          :helpers => view
         )
       end
     end
