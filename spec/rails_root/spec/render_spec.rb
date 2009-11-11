@@ -41,6 +41,10 @@ describe ActionController::Base do
       render :widget => TestWidget.new(:foobar => "foobar")
     end
 
+    def render_with_content_method
+      render :widget => TestWidget, :content_method_name => :content_method
+    end
+
     def render_template_with_implicit_assigns
       @foobar = "foobar"
       render :template => "test/implicit_assigns.html.rb"
@@ -181,6 +185,10 @@ describe ActionController::Base do
     def content
       text @foobar
     end
+
+    def content_method
+      text "content_method"
+    end
   end
   
   class TestFormWidget < Erector::Widget
@@ -237,6 +245,10 @@ describe ActionController::Base do
     
     it "should raise when rendering a widget class with implicit assigns and too many variables" do
       proc { test_action(:render_widget_with_extra_controller_variables) }.should raise_error(RuntimeError, /Unknown parameter.*baz/)
+    end
+
+    it "should render a specific content method" do
+      test_action(:render_with_content_method).should == "content_method"
     end
 
     it "should render a template with implicit assigns" do

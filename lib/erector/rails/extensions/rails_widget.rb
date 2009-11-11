@@ -35,7 +35,7 @@ module Erector
       end
     end
     
-    def self.render(widget, controller, assigns = nil)
+    def self.render(widget, controller, assigns = nil, options = {})
       view = controller.response.template
       
       if widget.is_a?(Class)
@@ -46,7 +46,7 @@ module Erector
       view.send(:_evaluate_assigns_and_ivars)
 
       view.with_output_buffer do
-        widget.to_s(:output => view.output_buffer, :helpers => view)
+        widget.to_s({:output => view.output_buffer, :helpers => view}.merge(options))
       end
     end
 
