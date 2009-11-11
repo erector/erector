@@ -51,23 +51,22 @@ module Erector
         [
           'a', 'abbr', 'acronym', 'address', 'article', 'aside', 'audio',
           'b', 'bdo', 'big', 'blockquote', 'body', 'button', 
-          'canvas', 'caption', 'center', 'cite', 'code', 'colgroup', 'color', 'command',
-          'datalist', 'date', 'datetime', 'dd', 'del',
-          'details', 'dfn', 'dialog', 'div', 'dl', 'dt',
-          'em', 'email', 'embed',
+          'canvas', 'caption', 'center', 'cite', 'code', 'colgroup', 'command',
+          'datalist', 'dd', 'del', 'details', 'dfn', 'dialog', 'div', 'dl', 'dt',
+          'em', 'embed',
           'fieldset', 'figure', 'footer', 'form', 'frameset',
           'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'head', 'header', 'hgroup', 'html', 'i',
           'iframe', 'ins', 'keygen', 'kbd', 'label', 'legend', 'li',
-          'map', 'mark', 'meter', 'month',
-          'nav', 'noframes', 'noscript', 'number',
+          'map', 'mark', 'meter',
+          'nav', 'noframes', 'noscript',
           'object', 'ol', 'optgroup', 'option',
           'p', 'param', 'pre', 'progress',
-          'q', 'range', 'ruby', 'rt', 'rp', 's',
-          'samp', 'script', 'search', 'section', 'select', 'small', 'source', 'span', 'strike',
+          'q', 'ruby', 'rt', 'rp', 's',
+          'samp', 'script', 'section', 'select', 'small', 'source', 'span', 'strike',
           'strong', 'style', 'sub', 'sup',
-          'table', 'tbody', 'td', 'tel', 'textarea', 'tfoot', 
+          'table', 'tbody', 'td', 'textarea', 'tfoot',
           'th', 'thead', 'time', 'title', 'tr', 'tt', 'u', 'ul',
-          'var', 'video', 'week'
+          'var', 'video'
         ]
       end
 
