@@ -49,21 +49,25 @@ module Erector
       # Tags which can contain other stuff. Click "[Source]" to see the full list.
       def full_tags
         [
-          'a', 'abbr', 'acronym', 'address', 
+          'a', 'abbr', 'acronym', 'address', 'article', 'aside', 'audio',
           'b', 'bdo', 'big', 'blockquote', 'body', 'button', 
-          'caption', 'center', 'cite', 'code', 'colgroup',
-          'dd', 'del', 'dfn', 'div', 'dl', 'dt', 'em',
-          'embed',
-          'fieldset', 'form', 'frameset',
-          'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'head', 'html', 'i',
-          'iframe', 'ins', 'kbd', 'label', 'legend', 'li', 'map',
-          'noframes', 'noscript', 
-          'object', 'ol', 'optgroup', 'option', 'p', 'param', 'pre',
-          'q', 's',
-          'samp', 'script', 'select', 'small', 'span', 'strike',
+          'canvas', 'caption', 'center', 'cite', 'code', 'colgroup', 'color', 'command',
+          'datalist', 'date', 'datetime', 'dd', 'del',
+          'details', 'dfn', 'dialog', 'div', 'dl', 'dt',
+          'em', 'email', 'embed',
+          'fieldset', 'figure', 'footer', 'form', 'frameset',
+          'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'head', 'header', 'hgroup', 'html', 'i',
+          'iframe', 'ins', 'keygen', 'kbd', 'label', 'legend', 'li',
+          'map', 'mark', 'meter', 'month',
+          'nav', 'noframes', 'noscript', 'number',
+          'object', 'ol', 'optgroup', 'option',
+          'p', 'param', 'pre', 'progress',
+          'q', 'range', 'ruby', 'rt', 'rp', 's',
+          'samp', 'script', 'search', 'section', 'select', 'small', 'source', 'span', 'strike',
           'strong', 'style', 'sub', 'sup',
-          'table', 'tbody', 'td', 'textarea', 'tfoot', 
-          'th', 'thead', 'title', 'tr', 'tt', 'u', 'ul', 'var'
+          'table', 'tbody', 'td', 'tel', 'textarea', 'tfoot', 
+          'th', 'thead', 'time', 'title', 'tr', 'tt', 'u', 'ul',
+          'var', 'video', 'week'
         ]
       end
 
