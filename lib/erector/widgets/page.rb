@@ -128,12 +128,12 @@ class Erector::Widgets::Page < Erector::Widget
   def inline_scripts
     self.class.externals(:script).each do |external|
       javascript external.options do
-        rawtext txt
+        rawtext external.text
       end
     end
     self.class.externals(:jquery).each do |external|
       javascript external.options do
-        jquery_ready txt
+        jquery_ready external.text
       end
     end
   end
