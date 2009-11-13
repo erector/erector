@@ -5,17 +5,40 @@
 # a js script in all widgets that use it, so you don't accidentally lose the script if you remove 
 # the one widget that happened to declare it.
 #
-# At minimum, child classes must override #body_content. You can also get a "quick and dirty"
-# page by passing a block to Page.new but that doesn't really buy you much.
-#
 # The script and style declarations are accumulated at class load time, as 'externals'.
 # This technique allows all widgets to add their own requirements to the page header
 # without extra logic for declaring which pages include which nested widgets.
 # Unfortunately, this means that every page in the application will share the same headers,
-# which may lead to conflicts. 
+# which may lead to conflicts.
 #
-# If you want something to show up in the headers for just one page type (subclass), 
+# If you want something to show up in the headers for just one page type (subclass),
 # then override #head_content, call super, and then emit it yourself.
+#
+# Body content can be supplied in several ways:
+#
+#   * In a Page subclass, by overriding the #body_content method:
+#
+#      class MyPage < Erector::Widgets::Page
+#        def body_content
+#          text "body content"
+#        end
+#      end
+#
+#   * Or by overriding #content and passing a block to super:
+#
+#      class MyPage < Erector::Widgets::Page
+#        def content
+#          super do
+#            text "body content"
+#          end
+#        end
+#      end
+#
+#   * Or by passing a block to Page.new:
+#
+#      Erector::Widgets::Page.new do
+#        text "body content"
+#      end
 #
 # Author::   Alex Chaffee, alex@stinky.com 
 #
@@ -68,7 +91,13 @@ class Erector::Widgets::Page < Erector::Widget
         head_content
       end
       body(body_attributes) do
-        body_content
+        if block_given?
+          yield
+        elsif @block
+          instance_eval(&@block)
+        else
+          body_content
+        end
       end
     end
   end
@@ -90,7 +119,6 @@ class Erector::Widgets::Page < Erector::Widget
 
   # override me (or instantiate Page with a block)
   def body_content
-    instance_eval(&@block) if @block
   end
 
   # emit the contents of the head element. Override and call super if you want to put more stuff in there.
