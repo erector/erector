@@ -45,6 +45,10 @@ describe ActionController::Base do
       render :widget => TestWidget, :content_method_name => :content_method
     end
 
+    def render_with_rails_options
+      render :widget => TestWidget, :status => 500, :content_type => "application/json"
+    end
+
     def render_template_with_implicit_assigns
       @foobar = "foobar"
       render :template => "test/implicit_assigns.html.rb"
@@ -249,6 +253,12 @@ describe ActionController::Base do
 
     it "should render a specific content method" do
       test_action(:render_with_content_method).should == "content_method"
+    end
+
+    it "should pass rails options to base render method" do
+      test_action(:render_with_rails_options)
+      @response.response_code.should == 500
+      @response.content_type.should == "application/json"
     end
 
     it "should render a template with implicit assigns" do
