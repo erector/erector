@@ -88,7 +88,7 @@ end
 
     Section.new("Mixin") do
       p "If all this widget stuff is too complicated, just do "
-      pre "include Erector::Widget"
+      pre "include Erector::Mixin"
       p do
         text "and then call "
         code "erector { }"
