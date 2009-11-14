@@ -321,13 +321,27 @@ module Erector
     # Template method which must be overridden by all widget subclasses.
     # Inside this method you call the magic #element methods which emit HTML
     # and text to the output string. If you call "super" (or don't override
-    # +content+) then your widget will render any block that was passed into
-    # its constructor. If you want this block to have access to Erector methods
-    # then see Erector::Inline#content or Erector#inline.
+    # +content+, or explicitly call "yield_block") then your widget will
+    # execute the block that was passed into its constructor. The semantics of
+    # this block are confusing; make sure to read the rdoc for Erector#yield_block
     def content
-      if @block
-        @block.call
-      end
+      yield_block
+    end
+    
+    # When this method is executed, the default block that was passed in to 
+    # the widget's constructor will be executed. The semantics of this 
+    # block -- that is, what "self" is, and whether it has access to
+    # Erector methods like "div" and "text", and the widget's instance
+    # variables -- can be quite confusing. The rule is, most of the time the
+    # block is evaluated using "call" or "yield", which means that its scope
+    # is that of the caller. So if that caller is not an Erector widget, it
+    # will *not* have access to the Erector methods, but it *will* have access 
+    # to instance variables and methods of the calling object.
+    #   
+    # If you want this block to have access to Erector methods then use 
+    # Erector::Inline#content or Erector#inline.
+    def yield_block
+      @block.call if @block
     end
 
     # To call one widget from another, inside the parent widget's +content+

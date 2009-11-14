@@ -4,17 +4,17 @@ module Erector
   end
   
   module Inline
-    # Evaluates its block (the one that was passed in the constructor) as a new widget's
-    # content method.
-    # Since "self" is pointing to the new widget, it can get access
-    # to parent widget methods via method_missing. Since it executes inside the 
-    # widget it does not
-    # have access to instance variables of the caller, although it does
-    # have access to bound variables.
+    # Executes the widget's default block (the one that was passed in the
+    # constructor). Since "self" is pointing to the new widget, the block does
+    # not naturally have access to parent method methods, so an
+    # Erector::Inline widget uses some method_missing black magic to propagate
+    # messages to the parent object. Since it executes inside the *called*
+    # widget's context, when the block refers to instance variables, it's
+    # talking about those of this widget, not the caller. It does, of course,
+    # have access to bound local variables of the caller, so you can use those
+    # to smuggle in instance variables.
     def content
-      if @block
-        instance_eval(&@block)
-      end
+      instance_eval(&@block) if @block
     end
     
     private

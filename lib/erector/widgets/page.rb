@@ -40,6 +40,20 @@
 #        text "body content"
 #      end
 #
+# This last trick (passing a block to Page.new) works because Page is an InlineWidget 
+# so its block is evaluated in the context of the newly instantiated widget object, 
+# and not in the context of its caller. But this means you can't access instance variables
+# of the caller, e.g.
+# 
+#      @name = "fred"
+#      Erector::Widgets::Page.new do
+#        text "my name is #{@name}"
+#      end
+#
+# will emit "my name is " because @name is nil inside the new Page. However, you *can* 
+# call methods in the parent class, thanks to some method_missing magic. Confused? You 
+# should be. See Erector::Inline#content for more documentation.
+#
 # Author::   Alex Chaffee, alex@stinky.com 
 #
 # = Example Usage: 
@@ -75,7 +89,7 @@
 #  * It may be desirable to unify #js and #script, and #css and #style, and have the routine be
 #    smart enough to analyze its parameter to decide whether to make it a file or a script.
 #
-class Erector::Widgets::Page < Erector::Widget
+class Erector::Widgets::Page < Erector::InlineWidget
 
   # Emit the Transitional doctype.
   # TODO: allow selection from among different standard doctypes
@@ -94,7 +108,7 @@ class Erector::Widgets::Page < Erector::Widget
         if block_given?
           yield
         elsif @block
-          instance_eval(&@block)
+          super
         else
           body_content
         end
