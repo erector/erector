@@ -1,8 +1,13 @@
 #!/usr/bin/env ruby
-dir = File.expand_path(File.dirname(__FILE__))
-$LOAD_PATH.unshift("#{dir}/../lib")
-require "erector"
-require "erector/erect"
+
+begin
+  require 'erector'
+rescue LoadError
+  require 'rubygems'
+  require 'erector'
+end
+
+require 'erector/erect'
 
 unless Erector::Erect.new(ARGV).run
   exit 1

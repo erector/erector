@@ -12,7 +12,7 @@ require File.join(File.dirname(__FILE__), 'boot')
 
 erector_path = File.expand_path("#{RAILS_ROOT}/../..")
 $LOAD_PATH.unshift("#{erector_path}/lib")
-load "#{erector_path}/init.rb"
+load "#{erector_path}/rails/init.rb"
 
 Rails::Initializer.run do |config|
   # Settings in config/environments/* take precedence over those specified here.

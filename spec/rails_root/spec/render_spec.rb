@@ -66,6 +66,12 @@ describe ActionController::Base do
         page.insert_html :top, 'foobar', TestFormWidget.new(:parent => self).to_s
       end
     end
+
+    def render_with_needs
+      @foo = "foo"
+      @bar = "bar"
+      render :widget => NeedsWidget
+    end
   end
 
   class TestWidget < Erector::Widget
@@ -81,6 +87,10 @@ describe ActionController::Base do
         rawtext text_field_tag(:name)
       end
     end
+  end
+
+  class NeedsWidget < Erector::Widget
+    needs :foo, :bar => true
   end
 
   before do
@@ -148,6 +158,10 @@ describe ActionController::Base do
 
     it "should render updates while overriding RJS output_buffer changes" do
       test_action(:render_rjs_with_widget).should include("Element.insert")
+    end
+
+    it "should allow rendering widget with needs" do
+      proc { test_action(:render_with_needs) }.should_not raise_error
     end
   end
 end

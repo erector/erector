@@ -244,6 +244,14 @@ module WidgetSpec
         end
       end
 
+      context "with an empty array of CSS classes" do
+        it "does not emit a class attribute" do
+          Erector.inline do
+            element('div', :class => [])
+          end.to_s.should == "<div></div>"
+        end
+      end
+
       context "with many attributes" do
         it "alphabetize them" do
             Erector.inline do

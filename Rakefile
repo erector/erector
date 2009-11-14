@@ -20,7 +20,7 @@ gem_definition = lambda do |s|
   s.email = "erector@googlegroups.com"
   s.description = "Html Builder library."
   specs = Dir.glob("spec/**/*").reject{|file| file =~ %r{^spec/rails_root}}
-  s.files =  ["lib/**/*", "README.txt", "VERSION.yml", "bin/erector", specs]
+  s.files =  ["lib/**/*", "rails/init.rb", "README.txt", "VERSION.yml", "bin/erector", specs]
   s.test_files =  specs
 end
 
@@ -35,7 +35,7 @@ begin
       "Jeff Dean",
       "Jim Kingdon",
     ]
-    s.add_dependency 'treetop', ">= 1.2.3"
+    s.add_development_dependency 'treetop', ">= 1.2.3"
     s.rubyforge_project = "erector"
   end
 rescue LoadError

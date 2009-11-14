@@ -49,22 +49,45 @@ module Erector
       # Tags which can contain other stuff. Click "[Source]" to see the full list.
       def full_tags
         [
-          'a', 'abbr', 'acronym', 'address', 
+          'a', 'abbr', 'acronym', 'address', 'article', 'aside', 'audio',
           'b', 'bdo', 'big', 'blockquote', 'body', 'button', 
-          'caption', 'center', 'cite', 'code', 'colgroup',
-          'dd', 'del', 'dfn', 'div', 'dl', 'dt', 'em',
-          'embed',
-          'fieldset', 'form', 'frameset',
-          'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'head', 'html', 'i',
-          'iframe', 'ins', 'kbd', 'label', 'legend', 'li', 'map',
-          'noframes', 'noscript', 
-          'object', 'ol', 'optgroup', 'option', 'p', 'param', 'pre',
-          'q', 's',
-          'samp', 'script', 'select', 'small', 'span', 'strike',
+          'canvas', 'caption', 'center', 'cite', 'code', 'colgroup', 'command',
+          'datalist', 'dd', 'del', 'details', 'dfn', 'dialog', 'div', 'dl', 'dt',
+          'em', 'embed',
+          'fieldset', 'figure', 'footer', 'form', 'frameset',
+          'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'head', 'header', 'hgroup', 'html', 'i',
+          'iframe', 'ins', 'keygen', 'kbd', 'label', 'legend', 'li',
+          'map', 'mark', 'meter',
+          'nav', 'noframes', 'noscript',
+          'object', 'ol', 'optgroup', 'option',
+          'p', 'param', 'pre', 'progress',
+          'q', 'ruby', 'rt', 'rp', 's',
+          'samp', 'script', 'section', 'select', 'small', 'source', 'span', 'strike',
           'strong', 'style', 'sub', 'sup',
-          'table', 'tbody', 'td', 'textarea', 'tfoot', 
-          'th', 'thead', 'title', 'tr', 'tt', 'u', 'ul', 'var'
+          'table', 'tbody', 'td', 'textarea', 'tfoot',
+          'th', 'thead', 'time', 'title', 'tr', 'tt', 'u', 'ul',
+          'var', 'video'
         ]
+      end
+
+      def def_empty_tag_method(tag_name)
+        self.class_eval(<<-SRC, __FILE__, __LINE__)
+          def #{tag_name}(*args, &block)
+            __empty_element__('#{tag_name}', *args, &block)
+          end
+        SRC
+      end
+
+      def def_full_tag_method(tag_name)
+        self.class_eval(<<-SRC, __FILE__, __LINE__)
+          def #{tag_name}(*args, &block)
+              __element__(false, '#{tag_name}', *args, &block)
+          end
+
+          def #{tag_name}!(*args, &block)
+            __element__(true, '#{tag_name}', *args, &block)
+          end
+        SRC
       end
 
       def after_initialize(instance=nil, &blk)
@@ -139,6 +162,14 @@ module Erector
       end
     end
 
+    def self.get_needed_variables
+      get_needs.map{|need| need.is_a?(Hash) ? need.keys : need}.flatten
+    end
+
+    def self.get_needed_defaults
+      get_needs.select{|need| need.is_a? Hash}
+    end
+
     public
     @@prettyprint_default = false
     def prettyprint_default
@@ -203,7 +234,7 @@ module Erector
 
     public
     def assign_instance_variables (instance_variables)
-      needed = self.class.get_needs.map{|need| need.is_a?(Hash) ? need.keys : need}.flatten
+      needed = self.class.get_needed_variables
       assigned = []
       instance_variables.each do |name, value|
         unless needed.empty? || needed.include?(name)
@@ -214,7 +245,7 @@ module Erector
       end
 
       # set variables with default values
-      self.class.get_needs.select{|var| var.is_a? Hash}.each do |hash|
+      self.class.get_needed_defaults.each do |hash|
         hash.each_pair do |name, value|
           unless assigned.include?(name)
             assign_instance_variable(name, value)
@@ -357,9 +388,14 @@ module Erector
     # how elegant it is? Not confusing at all if you don't think about it.
     #
     def element(*args, &block)
-      __element__(*args, &block)
+      __element__(false, *args, &block)
     end
-  
+
+    # Like +element+, but string parameters are not escaped.
+    def element!(*args, &block)
+      __element__(true, *args, &block)
+    end
+
     # Internal method used to emit a self-closing HTML/XML element, including
     # a tag name and optional attributes (passed in via the default hash).
     #
@@ -412,9 +448,11 @@ module Erector
     end
 
     # Emits text which will *not* be HTML-escaped. Same effect as text(raw(s))
-    def rawtext(value)
+    def text!(value)
       text raw(value)
     end
+
+    alias rawtext text!
 
     # Returns a copy of value with spaces replaced by non-breaking space characters.
     # With no arguments, return a single non-breaking space.
@@ -513,23 +551,11 @@ module Erector
     end
 
     full_tags.each do |tag_name|
-      self.class_eval(
-        "def #{tag_name}(*args, &block)\n" <<
-        "  __element__('#{tag_name}', *args, &block)\n" <<
-        "end",
-        __FILE__,
-        __LINE__ - 4
-      )
+      def_full_tag_method(tag_name)
     end
 
     empty_tags.each do |tag_name|
-      self.class_eval(
-        "def #{tag_name}(*args, &block)\n" <<
-        "  __empty_element__('#{tag_name}', *args, &block)\n" <<
-        "end",
-        __FILE__,
-        __LINE__ - 4
-      )
+      def_empty_tag_method(tag_name)
     end
 
     # Emits a javascript block inside a +script+ tag, wrapped in CDATA
@@ -613,10 +639,9 @@ module Erector
 ### internal utility methods
 
 protected
-
-    def __element__(tag_name, *args, &block)
+    def __element__(raw, tag_name, *args, &block)
       if args.length > 2
-        raise ArgumentError, "Cannot accept more than three arguments"
+        raise ArgumentError, "Cannot accept more than four arguments"
       end
       attributes, value = nil, nil
       arg0 = args[0]
@@ -636,6 +661,8 @@ protected
       end
       if block
         instance_eval(&block)
+      elsif raw
+        text! value
       else
         text value
       end
@@ -685,7 +712,9 @@ protected
       sorted.each do |key, value|
         if value
           if value.is_a?(Array)
-            value = [value].flatten.join(' ')
+            value = value.flatten
+            next if value.empty?
+            value = value.join(' ')
           end
           results << "#{key}=\"#{value.html_escape}\""
         end

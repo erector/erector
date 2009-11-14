@@ -1,13 +1,20 @@
 module Erector
   module Rails
-    def self.render(widget, controller, assigns = nil, is_partial = false)
+    # These controller instance variables should not be passed to the
+    # widget if it does not +need+ them.
+    NON_NEEDED_CONTROLLER_INSTANCE_VARIABLES = [:@template, :@_request]
+    
+    def self.render(widget, controller, assigns = nil)
       if widget.is_a?(Class)
         unless assigns
+          needs = widget.get_needed_variables
           assigns = {}
           variables = controller.instance_variable_names
           variables -= controller.protected_instance_variables
           variables.each do |name|
-            assigns[name.sub('@', "").to_sym] = controller.instance_variable_get(name)
+            assign = name.sub('@', '').to_sym
+            next if !needs.empty? && !needs.include?(assign) && NON_NEEDED_CONTROLLER_INSTANCE_VARIABLES.include?(name.to_sym)
+            assigns[assign] = controller.instance_variable_get(name)
           end
         end
 
@@ -21,8 +28,7 @@ module Erector
         widget.to_s(
           :output => view.output_buffer,
           :parent => view,
-          :helpers => view,
-          :content_method_name => is_partial ? :render_partial : :content
+          :helpers => view
         )
       end
     end
