@@ -741,6 +741,39 @@ module WidgetSpec
       end
     end
 
+    describe "#to_text" do
+      it "strips tags" do
+        Erector.inline do
+          div "foo"
+        end.to_text.should == "foo"
+      end
+
+      it "unescapes named entities" do
+        s = "my \"dog\" has fleas & <ticks>"
+        Erector.inline do
+          text s
+        end.to_text.should == s
+      end
+
+      it "ignores >s inside attribute strings" do
+        Erector.inline do
+          a "foo", :href => "http://example.com/x>y"
+        end.to_text.should == "foo"
+      end
+
+      it "doesn't inherit unwanted pretty-printed whitespace (i.e. it turns off prettyprinting)" do
+        old_default = Erector::Widget.new.prettyprint_default
+        begin
+          Erector::Widget.prettyprint_default = true
+          Erector.inline do
+            div { div { div "foo" } }
+          end.to_text.should == "foo"
+        ensure
+          Erector::Widget.prettyprint_default = old_default
+        end
+      end
+    end
+
     describe "#url" do
       it "renders an anchor tag with the same href and text" do
         Erector.inline do

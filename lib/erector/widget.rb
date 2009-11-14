@@ -273,6 +273,11 @@ module Erector
     def to_pretty
       to_s(:prettyprint => true)
     end
+    
+    # Render (like to_s) but stripping all tags.
+    def to_text
+      CGI.unescapeHTML(to_s(:prettyprint => false).gsub(/<[^>]*>/, ''))
+    end
 
     # Entry point for rendering a widget (and all its children). This method
     # creates a new output string (if necessary), calls this widget's #content
