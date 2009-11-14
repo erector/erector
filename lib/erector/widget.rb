@@ -526,14 +526,15 @@ module Erector
     # see http://www.w3.org/TR/html4/intro/sgmltut.html#h-3.2.4
     #
     # If +text+ is an Internet Explorer conditional comment condition such as "[if IE]",
-    # the output includes the opening condition and closing "[endif]".
+    # the output includes the opening condition and closing "[endif]". See
+    # http://www.quirksmode.org/css/condcom.html
     #
     # Since "Authors should avoid putting two or more adjacent hyphens inside comments,"
     # we emit a warning if you do that.
     def comment(text = '', &block)
       puts "Warning: Authors should avoid putting two or more adjacent hyphens inside comments." if text =~ /--/
 
-      conditional = text =~ /\[.*\]/
+      conditional = text =~ /\[if .*\]/
 
       rawtext "<!--"
       rawtext text
@@ -541,7 +542,7 @@ module Erector
 
       if block
         rawtext "\n"
-        instance_eval(&block)
+        block.call
         rawtext "\n"
       end
 
@@ -674,7 +675,7 @@ protected
         raise ArgumentError, "You can't pass both a block and a value to #{tag_name} -- please choose one."
       end
       if block
-        instance_eval(&block)
+        block.call
       elsif raw
         text! value
       else

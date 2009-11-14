@@ -496,6 +496,13 @@ module WidgetSpec
           end
         end.to_s.should == "<!--[if IE]>\nHello IE!\n<![endif]-->\n"
       end
+
+      it "doesn't render an IE conditional comment if there's just some text in brackets" do
+        Erector.inline do
+          comment "[puppies are cute]"
+        end.to_s.should == "<!--[puppies are cute]-->\n"
+      end
+
     end
 
     describe "#nbsp" do
@@ -620,6 +627,37 @@ module WidgetSpec
 
       it "does not escape raw strings" do
         @widget.h(@widget.raw("&")).should == "&"
+      end
+    end
+
+    describe 'escaping' do
+      plain = 'if (x < y && x > z) alert("don\'t stop");'
+      escaped = "if (x &lt; y &amp;&amp; x &gt; z) alert(&quot;don't stop&quot;);"
+
+      describe "#text" do
+        it "does HTML escape its param" do
+          Erector.inline { text plain }.to_s.should == escaped
+        end
+      end
+      describe "#rawtext" do
+        it "doesn't HTML escape its param" do
+          Erector.inline { rawtext plain }.to_s.should == plain
+        end
+      end
+      describe "#text!" do
+        it "doesn't HTML escape its param" do
+          Erector.inline { text! plain }.to_s.should == plain
+        end
+      end
+      describe "#element" do
+        it "does HTML escape its param" do
+          Erector.inline { element "foo", plain }.to_s.should == "<foo>#{escaped}</foo>"
+        end
+      end
+      describe "#element!" do
+        it "doesn't HTML escape its param" do
+          Erector.inline { element! "foo", plain }.to_s.should == "<foo>#{plain}</foo>"
+        end
       end
     end
 

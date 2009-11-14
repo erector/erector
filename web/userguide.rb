@@ -133,6 +133,7 @@ end
         ["text '&<>'",                 "&amp;&lt;&gt;", "all normal text is HTML escaped, which is what you generally want, especially if the text came from the user or a database"],
         ["text raw('&<>')",            "&<>", "raw text escapes being escaped"],
         ["rawtext('&<>')",             "&<>", "alias for text(raw())"],
+        ["text!('&<>')",               "&<>", "another alias for text(raw())"],
 
         ["div { text 'foo' }",        "<div>foo</div>"],
         ["div 'foo'",                 "<div>foo</div>"],
