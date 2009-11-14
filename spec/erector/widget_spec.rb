@@ -1012,5 +1012,24 @@ module WidgetSpec
         Erector.inline { close_tag :foo; close_tag :bar }.to_s.should == "</foo></bar>"
       end
     end
+    
+    describe "#dom_id" do
+      class NiceWidget < Erector::Widget
+        def content
+          div :id => dom_id
+        end
+      end
+
+      it "makes a unique id based on the widget's class name and object id" do
+        widget = NiceWidget.new
+        widget.dom_id.should include("#{widget.object_id}")
+        widget.dom_id.should include("NiceWidget")
+      end
+      
+      it "can be used as an HTML id" do
+        widget = NiceWidget.new
+        widget.to_s.should == "<div id=\"#{widget.dom_id}\"></div>"
+      end
+    end
   end
 end

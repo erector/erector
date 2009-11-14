@@ -503,7 +503,7 @@ module Erector
 
       output <<("</#{tag_name}>")
 
-      if newliney(tag_name)
+      if newliney?(tag_name)
         _newline
       end
     end
@@ -633,13 +633,11 @@ module Erector
       a href, ({:href => href}.merge(options))
     end
 
-    def newliney(tag_name)
-      if @prettyprint
-        !NON_NEWLINEY.include?(tag_name)
-      else
-        false
-      end
-    end    
+    # makes a unique id based on the widget's class name and object id
+    # that you can use as the HTML id of an emitted element
+    def dom_id
+      "#{self.class.name.gsub(/:+/,"_")}_#{self.object_id}"
+    end
 
     # emits a jQuery script that is to be run on document ready
     def jquery(txt)
@@ -694,7 +692,7 @@ protected
 
       output << "<#{tag_name}#{format_attributes(attributes)} />"
 
-      if newliney(tag_name)
+      if newliney?(tag_name)
         _newline
       end
     end
@@ -707,7 +705,7 @@ protected
 
     def indent_for_open_tag(tag_name)
       return unless @prettyprint      
-      if !@at_start_of_line && newliney(tag_name)
+      if !@at_start_of_line && newliney?(tag_name)
         _newline
       end
       indent()
@@ -759,5 +757,14 @@ protected
       end
       return stringized.sort{|a, b| b <=> a}
     end
+
+    def newliney?(tag_name)
+      if @prettyprint
+        !NON_NEWLINEY.include?(tag_name)
+      else
+        false
+      end
+    end
+
   end
 end
