@@ -1,9 +1,9 @@
 # One can use methods to create custom view components, in this
-# example Blocks and Block.  Blocks for us are essentially Unordered list wrappers
-# with custom styling.  A Block is a container that has a few
+# example Chunks and Chunk.  Chunks for us are essentially Unordered list wrappers
+# with custom styling.  A Chunk is a container that has a few
 # sections like a Title, and Behaviors plus the body etc.
 
-# Compare with blocks-via-widget.rb.
+# Compare with chunks-via-widget.rb.
 
 require "#{File.dirname(__FILE__)}/../lib/erector"
 
@@ -13,13 +13,13 @@ class Overall < Erector::Widget
     "bob"
   end
 
-  def blocks
-    ul :class => "blocks" do
+  def chunks
+    ul :class => "chunks" do
       yield
     end
   end
 
-  def block(args = {})
+  def chunk(args = {})
     li do
       h1 args[:title]
       div :class => args[:behaviors] do
@@ -29,14 +29,14 @@ class Overall < Erector::Widget
   end
 
   def content
-    blocks do
-      block :title => "Block 1", :behaviors => 'buttons' do
-        p "my crazy blocks example for #{username}"
+    chunks do
+      chunk :title => "Chunk 1", :behaviors => 'buttons' do
+        p "my crazy chunks example for #{username}"
       end
-      block :title => "Block 2", :behaviors => 'other_buttons' do
+      chunk :title => "Chunk 2", :behaviors => 'other_buttons' do
         div do
           text "and here is another"
-          span "crazy block"
+          span "crazy chunk"
         end
       end
     end
