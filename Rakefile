@@ -35,7 +35,7 @@ begin
       "Jeff Dean",
       "Jim Kingdon",
     ]
-    s.add_development_dependency 'treetop', ">= 1.2.3"
+    s.add_dependency 'treetop', ">= 1.2.3"
     s.rubyforge_project = "erector"
   end
 rescue LoadError
