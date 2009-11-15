@@ -44,6 +44,20 @@ describe Erector::Inline do
 
     Erector.inline { text helper }.to_s.should == "yay"
   end
+
+  describe "#call_block" do
+    it "calls the block with a pointer to self" do
+      x = Erector::InlineWidget.new do |y|
+        element "arg", y.object_id
+        element "self", self.object_id
+      end
+
+      # inside the block...
+      x.to_s.should == 
+        "<arg>#{x.object_id}</arg>" + # the argument is the child
+        "<self>#{x.object_id}</self>" # and self is also the child
+    end
+  end
 end
 
 describe Erector::Mixin do

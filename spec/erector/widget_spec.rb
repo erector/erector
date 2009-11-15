@@ -190,6 +190,40 @@ module WidgetSpec
           end
 
         end
+        
+        it "passes a pointer to the child object back into the parent object's block" do
+          child_widget = Erector::Widget.new
+          
+          class Parent < Erector::Widget 
+            needs :child_widget
+            def content
+              div do
+                widget @child_widget do |child|
+                  b child.dom_id
+                end
+              end
+            end
+          end
+          
+          Parent.new(:child_widget => child_widget).to_s.should == "<div><b>#{child_widget.dom_id}</b></div>"
+          
+        end
+        
+      end
+    end
+    
+    describe "#call_block" do
+      it "calls the block with a pointer to self" do
+        inside_arg = nil
+        inside_self = nil
+        x = Erector::Widget.new do |y|
+          inside_arg = y.object_id
+          inside_self = self.object_id
+        end
+        x.call_block
+        # inside the block...
+        inside_arg.should == x.object_id # the argument is the child
+        inside_self.should == self.object_id # and self is the parent
       end
     end
 

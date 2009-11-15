@@ -4,7 +4,7 @@ module Erector
   end
   
   module Inline
-    # Executes the widget's default block (the one that was passed in the
+    # Executes the widget's block (the one that was passed in the
     # constructor). Since "self" is pointing to the new widget, the block does
     # not naturally have access to parent method methods, so an
     # Erector::Inline widget uses some method_missing black magic to propagate
@@ -13,7 +13,8 @@ module Erector
     # talking about those of this widget, not the caller. It does, of course,
     # have access to bound local variables of the caller, so you can use those
     # to smuggle in instance variables.
-    def content
+    def call_block
+      # note that instance_eval seems to pass in self as a parameter to the block
       instance_eval(&@block) if @block
     end
     

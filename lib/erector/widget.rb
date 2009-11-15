@@ -191,6 +191,7 @@ module Erector
 
     attr_reader *RESERVED_INSTANCE_VARS
     attr_reader :parent
+    attr_writer :block
     
     def initialize(assigns={}, &block)
       unless assigns.is_a? Hash
@@ -326,11 +327,11 @@ module Erector
     # Template method which must be overridden by all widget subclasses.
     # Inside this method you call the magic #element methods which emit HTML
     # and text to the output string. If you call "super" (or don't override
-    # +content+, or explicitly call "yield_block") then your widget will
+    # +content+, or explicitly call "call_block") then your widget will
     # execute the block that was passed into its constructor. The semantics of
-    # this block are confusing; make sure to read the rdoc for Erector#yield_block
+    # this block are confusing; make sure to read the rdoc for Erector#call_block
     def content
-      yield_block
+      call_block
     end
     
     # When this method is executed, the default block that was passed in to 
@@ -345,8 +346,8 @@ module Erector
     #   
     # If you want this block to have access to Erector methods then use 
     # Erector::Inline#content or Erector#inline.
-    def yield_block
-      @block.call if @block
+    def call_block
+      @block.call(self) if @block
     end
 
     # To call one widget from another, inside the parent widget's +content+
@@ -364,10 +365,8 @@ module Erector
     # either a class or an instance. If the first argument is a class, then
     # the second argument is a hash used to populate its instance variables.
     # If the first argument is an instance then the hash must be unspecified
-    # (or empty).
-    #
-    # The sub-widget will have access to the methods of the parent class, via
-    # some method_missing magic and a "parent" pointer.
+    # (or empty). If a block is passed to this method, then it gets set as the
+    # rendered widget's block.
     def widget(target, assigns={}, &block)
       child = if target.is_a? Class
         target.new(assigns, &block)
@@ -375,6 +374,7 @@ module Erector
         unless assigns.empty?
           raise "Unexpected second parameter. Did you mean to pass in variables when you instantiated the #{target.class.to_s}?"
         end
+        target.block = block unless block.nil?
         target
       end
       child.write_via(self)

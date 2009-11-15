@@ -506,7 +506,9 @@ html.to_s(:helpers => controller)          #=> <img alt="Foo" src="/foo" />
         code "yield"
         text ". Inline widgets get evaluated with "
         code "instance_eval" 
-        text " which may or may not be what you want."
+        text " which may or may not be what you want. See the section on "
+        a "blocks", :href=>"#blocks"
+        text " in this user guide for more detail."
       end
       
       p do
@@ -631,7 +633,152 @@ end
         text "!"
       end
     end,
+    
+    Section.new("Blocks") do
+      p "Erector is all about blocks (otherwise known as closures). Unfortunately, there are some confusing aspects to working with blocks; this section aims to clarify the issues so if you find yourself stuck on an 'undefined method' or a nil instance variable, at least you'll have some context to help debug it."
+      p "There are basically three cases where you can pass a block to Erector:"
+      h3 "1. To an element method"
+      p "This is the normal case that provides the slick HTML DSL. In the following code:"
+      pre <<-DONE
+class Person < Erector::Widget
+  def content
+    div do
+      h3 @name
+      p do
+        b "Birthday: "
+        span @birthday
+      end
+    end
+  end
+end
+      DONE
+      p do
+        text "the blocks passed in to "
+        code "div"
+        text " and "
+        code "p"
+        text " are evaluated using normal " 
+        code "yield" 
+        text " semantics, and the "
+        code "@name"
+        text " and "
+        code "@birthday"
+        text " instance variables are evaluated in the context of the Person instance being rendered."
+      end
+      p "So far, so good."
+      
+      h3 "2. To the constructor of an Erector::Widget"
+      p do
+        text "In this case you can build a widget \"on the fly\" and have it render whatever it wants, then call your block. This is useful for widgets like "
+        code "Form"
+        text " which want to wrap your HTML in some of their own tags."
+      end
+      pre <<-DONE
+class PersonActions < Erector::Widget
+  needs :user
+  def content
+    div do
+      widget(Form.new(:action => "/person/\#{@user.id}", :method => "delete") do
+        input :type => "submit", :value => "Remove \#{@user.name}"
+      end)
+      widget(Form.new(:action => "/person/\#{@user.id}/email", :method => "post") do
+        b "Send message: "
+        input :type => "text", :name => "message"
+        input :type => "submit", :value => "Email \#{@user.name}"
+      end)
+    end
+  end
+end
+      DONE
+      p do
+        text "In this case, you will get two "
+        code "form"
+        text " elements, each of which has some boilerplate HTML for emitting the form element, emitting the hidden "
+        code "_method"
+        text " input tag in the case of the delete method, then calling back into your widget to emit the contents of the form. In this case, as above, the "
+        code "@user"
+        text " instance variable will be sought inside the "
+        b "calling"
+        text " widget"
+        code "(PersonActions)"
+        text ", not the "
+        b "called "
+        text " widget"
+        code "(Form)"
+        text "."
+      end
+      
+      p do
+        text "A quirk of this technique is that methods inside the block will be called on the calling widget, not the called widget. This doesn't cause any problems for element methods (" 
+        code "b"
+        text " and "
+        code "input"
+        text " above"
+        text "), but may be confusing if you want the block to be able to call methods on the target widget. In that case the caller can declare the block to take a parameter; this parameter will point to the nested widget instance."
+        pre <<-DONE
+widget(Form.new(:action => "/person/\#{@user.id}", :method => "delete") do |f|
+  span "This form's method is \#{f.method}"
+  input :type => "submit", :value => "Remove \#{@user.name}"
+end)
+        DONE
+      end
+      
+      p do
+        text "(As a variant of this case, note that the" 
+        code "widget"
+        text " method can accept a widget class, hash and block, instead of an instance; in this case it will set the widget's block and this code:"
+        pre <<-DONE
+widget Form, :action => "/person/\#{@user.id}", :method => "delete" do
+  input :type => "submit", :value => "Remove \#{@user.name}"
+end
+        DONE
+        text " will work the same as the version above.)"
+      end
+      
+      h3 "To the constructor of an Erector::InlineWidget"
+      p do
+        text "This is where things get hairy. Sometimes we want to construct a widget on the fly, but we're not inside a widget already. So any block we pass in will not have access to Erector methods. In this case we have a special subclass called "
+        code "Erector::InlineWidget"
+        text " which uses two magic tricks: "
+        code "instance_eval" 
+        text " and "
+        code "method_missing"
+        text " to accomplish the following:"
+        ul do
+          li do
+            text "inside the block, "
+            code "self"
+            text " points to the widget, not the caller."
+          end
+          li do
+            text "methods will be looked for first on the inline widget, and then on the caller."
+          end
+          li do
+            text "instance variables will be looked for on the inline widget "
+            b "only"
+            text ". This can be the source of many a nil! As a general rule, you should probably stay away from instance variables when using inline widgets. However..."
+          end
+          li do
+            b "Bound"
+            text " local variables will still be in scope. This means you can \"smuggle in\" instance variables via local variables. For example:"
+            pre <<-DONE
+local_name = @name
+Page.new do
+  div local_name
+end.to_s
+            DONE
+          end
+        end
+        hr
+        p do
+          text "One note for developers: when creating a widget like "
+        code "Form"
+        text " that needs to call back to its block, use the method "
+        code "call_block" 
+        text ", which calls the block and passes in self as appropriate for both inline and normal widgets."
+      end
+    end
+    end,
     ])
   end
 end
-

@@ -14,7 +14,7 @@
       <ul class="clickable">
         <li class="clickable" onclick="document.location='http://rubyforge.org/frs/?group_id=4797'"><a href="http://rubyforge.org/frs/?group_id=4797">Download</a>
           <br />
-          <span> (current version: 0.7.1)</span></li>
+          <span> (current version: 0.7.2)</span></li>
         <li class="clickable" onclick="document.location='rdoc'"><a href="rdoc">RDoc Documentation</a></li>
         <li class="clickable" onclick="document.location='http://rubyforge.org/projects/erector/'"><a href="http://rubyforge.org/projects/erector/">RubyForge Project</a></li>
         <li class="clickable" onclick="document.location='http://github.com/pivotal/erector'"><a href="http://github.com/pivotal/erector">Github Repository</a></li>
@@ -26,7 +26,23 @@
 
     <div class="main">
       <h1 class="title">Erector - Release Notes</h1>
-      <div class="body"><h2>0.7.1</h2>
+      <div class="body"><h2>0.7.2</h2>
+<ul>
+<li>Widget#url and #css accept optional extra attributes (e.g.
+&#8216;media&#8217;)
+
+</li>
+<li>Externals accept optional extra attributes (e.g. &#8216;media&#8217;)
+
+</li>
+<li>Page: body_attributes and html_attributes
+
+</li>
+<li>Page: allow suppressing of basic styles (right/left/clear)
+
+</li>
+</ul>
+<h2>0.7.1</h2>
 <ul>
 <li>externals mechanism
 
@@ -55,6 +71,9 @@ debugging inside widget constructors hard, and what was it for anyway?
 
 </li>
 <li>Added *.ert templates (Erector Template, similar to Markaby)
+
+</li>
+<li>#comment method to emit HTML comments (naturally)
 
 </li>
 </ul>
