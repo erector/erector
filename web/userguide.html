@@ -337,7 +337,15 @@ end
               <code>javascript(<br/>'if (x &lt; y &amp;&amp; x &gt; z) <br/>alert(&quot;don't stop&quot;);)</code>
             </td>
             <td>
-              <code>&lt;script type=&quot;text/javascript&quot;&gt;<br/>// &lt;![CDATA[<br/>if (x &lt; y &amp;&amp; x &gt; z) alert(&quot;don't stop&quot;);<br/>// ]]&gt;<br/>&lt;/script&gt;<br/>DONE,<br/>        &quot;jquery '$(&quot;p&quot;).wrap(&quot;&lt;div&gt;&lt;/div&gt;&quot;);'&quot;,<br/>&lt;&lt;-DONE<br/>&lt;script type=&quot;text/javascript&quot;&gt;<br/>// &lt;![CDATA[<br/>$(document).ready(function(){<br/>  $(&quot;p&quot;).wrap(&quot;&lt;div&gt;&lt;/div&gt;&quot;);<br/>});<br/>// ]]&gt;<br/>&lt;/script&gt;</code>
+              <code>&lt;script type=&quot;text/javascript&quot;&gt;<br/>// &lt;![CDATA[<br/>if (x &lt; y &amp;&amp; x &gt; z) alert(&quot;don't stop&quot;);<br/>// ]]&gt;<br/>&lt;/script&gt;</code>
+            </td>
+          </tr>
+          <tr>
+            <td width="30%">
+              <code>jquery '$(&quot;p&quot;).wrap(&quot;&lt;div&gt;&lt;/div&gt;&quot;);'</code>
+            </td>
+            <td>
+              <code>&lt;script type=&quot;text/javascript&quot;&gt;<br/>// &lt;![CDATA[<br/>jQuery(document).ready(function($){<br/>  $(&quot;p&quot;).wrap(&quot;&lt;div&gt;&lt;/div&gt;&quot;);<br/>});<br/>// ]]&gt;<br/>&lt;/script&gt;</code>
             </td>
           </tr>
           <tr>
@@ -757,6 +765,7 @@ end.to_s
 </pre>
             </li>
           </ul>
+          <p>When using the <a href="#mixin">mixin</a>, you get an inline widget, so the above list of tricks applies.</p>
           <hr />
           <p>One note for developers: when creating a widget like 
             <code>Form</code>

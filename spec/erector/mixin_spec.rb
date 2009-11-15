@@ -2,15 +2,13 @@ require File.expand_path("#{File.dirname(__FILE__)}/../spec_helper")
 require 'benchmark'
 
 module MixinSpec
-  class Thing
-    include Erector::Mixin
-  end
   
   describe Erector::Mixin do
     describe "#erector" do
       it "renders its block to a string" do
         
-        class MixinSpec::Thing
+        class Thing
+          include Erector::Mixin
           def name
             erector do
               span :class => "name" do
@@ -26,7 +24,8 @@ module MixinSpec
       end
       
       it "passes its parameters to to_s" do
-        class MixinSpec::Thing
+        class Thing
+          include Erector::Mixin
           def pretty_name
             erector(:prettyprint => true) do
               div :class => "name" do
@@ -48,6 +47,18 @@ module MixinSpec
         "    <li>Marquez</li>\n" +
         "  </ul>\n" +
         "</div>\n"
+      end
+
+      it "passes its parameters to the widget too" do
+        class Thing
+          include Erector::Mixin
+          def foo
+            erector(:foo => "bar") do
+              div @foo
+            end
+          end
+        end
+        Thing.new.foo.should == "<div>bar</div>"
       end
     end
   end

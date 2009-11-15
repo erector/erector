@@ -165,12 +165,14 @@ end
 if (x < y && x > z) alert("don't stop");
 // ]]>
 </script>
-DONE,
+DONE
+        ]
+      cheats << [
         "jquery '$(\"p\").wrap(\"<div></div>\");'",
 <<-DONE
 <script type="text/javascript">
 // <![CDATA[
-$(document).ready(function(){
+jQuery(document).ready(function($){
   $("p").wrap("<div></div>");
 });
 // ]]>
@@ -735,7 +737,7 @@ end
         text " will work the same as the version above.)"
       end
       
-      h3 "To the constructor of an Erector::InlineWidget"
+      h3 "3. To the constructor of an Erector::InlineWidget"
       p do
         text "This is where things get hairy. Sometimes we want to construct a widget on the fly, but we're not inside a widget already. So any block we pass in will not have access to Erector methods. In this case we have a special subclass called "
         code "Erector::InlineWidget"
@@ -768,6 +770,11 @@ Page.new do
 end.to_s
             DONE
           end
+        end
+        p do
+          text "When using the "
+          a "mixin", :href => "#mixin"
+          text ", you get an inline widget, so the above list of tricks applies."
         end
         hr
         p do
