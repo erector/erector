@@ -1,4 +1,6 @@
-== 0.7.2
+==
+
+== 0.7.2 - 2009-11-16
 * Widget#url and #css accept optional extra attributes (e.g. 'media')
 * Externals accept optional extra attributes (e.g. 'media')
 * Page:
