@@ -26,7 +26,7 @@
 
     <div class="main">
       <h1 class="title">Erector - Release Notes</h1>
-      <div class="body"><h2>0.7.2</h2>
+      <div class="body"><h2>0.7.2 - 2009-11-16</h2>
 <ul>
 <li>Widget#url and #css accept optional extra attributes (e.g.
 &#8216;media&#8217;)
@@ -35,10 +35,46 @@
 <li>Externals accept optional extra attributes (e.g. &#8216;media&#8217;)
 
 </li>
-<li>Page: body_attributes and html_attributes
+<li>Page:
+
+<ul>
+<li>body_attributes and html_attributes
 
 </li>
-<li>Page: allow suppressing of basic styles (right/left/clear)
+<li>allow suppressing of basic styles (right/left/clear)
+
+</li>
+<li>now an InlineWidget
+
+</li>
+</ul>
+</li>
+<li>erector method passes in parameters to both to_s and the widget&#8217;s
+constructor
+
+</li>
+<li>Widget#dom_id method to generate a unique id
+
+</li>
+<li>Widget#to_text method to strip tags
+
+</li>
+<li>supports HTML5 element names
+
+</li>
+<li>Widget#text! and #element! which don&#8217;t escape their parameters
+
+</li>
+<li>Better Rails initialization
+
+</li>
+<li>Don&#8217;t emit an attribute with an empty array of values
+
+</li>
+<li>Enhanced support for comments, including IE conditional comments
+
+</li>
+<li>jQuery method now compatible with jQuery.noConflict()
 
 </li>
 </ul>
