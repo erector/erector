@@ -1,8 +1,19 @@
 == 0.7.2
 * Widget#url and #css accept optional extra attributes (e.g. 'media')
 * Externals accept optional extra attributes (e.g. 'media')
-* Page: body\_attributes and html\_attributes
-* Page: allow suppressing of basic styles (right/left/clear)
+* Page:
+  * body\_attributes and html\_attributes
+  * allow suppressing of basic styles (right/left/clear)
+  * now an InlineWidget
+* erector method passes in parameters to both to\_s and the widget's constructor
+* Widget#dom\_id method to generate a unique id
+* Widget#to\_text method to strip tags
+* supports HTML5 element names
+* Widget#text! and #element! which don't escape their parameters
+* Better Rails initialization
+* Don't emit an attribute with an empty array of values
+* Enhanced support for comments, including IE conditional comments
+* jQuery method now compatible with jQuery.noConflict()
 
 == 0.7.1
 * externals mechanism
