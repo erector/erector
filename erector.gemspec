@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{erector}
-  s.version = "0.7.1"
+  s.version = "0.7.2"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Alex Chaffee", "Brian Takita", "Jeff Dean", "Jim Kingdon"]
-  s.date = %q{2009-10-24}
+  s.date = %q{2009-11-16}
   s.default_executable = %q{erector}
   s.description = %q{Html Builder library.}
   s.email = %q{erector@googlegroups.com}
@@ -31,7 +31,6 @@ Gem::Specification.new do |s|
      "lib/erector/mixin.rb",
      "lib/erector/rails.rb",
      "lib/erector/rails/extensions/action_controller.rb",
-     "lib/erector/rails/extensions/action_view.rb",
      "lib/erector/rails/extensions/rails_widget.rb",
      "lib/erector/rails/extensions/rails_widget/rails_helpers.rb",
      "lib/erector/rails/rails_form_builder.rb",
@@ -47,8 +46,10 @@ Gem::Specification.new do |s|
      "lib/erector/widgets.rb",
      "lib/erector/widgets/environment_badge.rb",
      "lib/erector/widgets/field_table.rb",
+     "lib/erector/widgets/form.rb",
      "lib/erector/widgets/page.rb",
      "lib/erector/widgets/table.rb",
+     "rails/init.rb",
      "spec/core_spec_suite.rb",
      "spec/erect/erect_rails_spec.rb",
      "spec/erect/erect_spec.rb",
@@ -61,6 +62,7 @@ Gem::Specification.new do |s|
      "spec/erector/unicode_builder_spec.rb",
      "spec/erector/widget_spec.rb",
      "spec/erector/widgets/field_table_spec.rb",
+     "spec/erector/widgets/form_spec.rb",
      "spec/erector/widgets/page_spec.rb",
      "spec/erector/widgets/table_spec.rb",
      "spec/rails_spec_suite.rb",
@@ -90,6 +92,7 @@ Gem::Specification.new do |s|
      "spec/erector/widget_spec.rb",
      "spec/erector/widgets",
      "spec/erector/widgets/field_table_spec.rb",
+     "spec/erector/widgets/form_spec.rb",
      "spec/erector/widgets/page_spec.rb",
      "spec/erector/widgets/table_spec.rb",
      "spec/rails_spec_suite.rb",
