@@ -31,6 +31,32 @@ describe ActionController::Base do
     def render_template_with_protected_instance_variable
       render :template => "test/protected_instance_variable.html.rb"
     end
+    
+    def render_template_with_excess_variables
+      @foobar = "foobar"
+      @barfoo = "barfoo"
+      render :template => 'test/render_default.html.rb'
+    end
+    
+    def render_needs_template_with_excess_variables
+      @foobar = "foobar"
+      @barfoo = "barfoo"
+      render :template => 'test/needs.html.rb'
+    end
+    
+    def render_needs_template_with_excess_variables_and_ignoring_extras
+      Views::Test::Needs.ignore_extra_controller_assigns = true
+      @foobar = "foobar"
+      @barfoo = "barfoo"
+      render :template => 'test/needs.html.rb'
+    end
+    
+    def render_needs_subclass_template_with_excess_variables_and_ignoring_extras
+      Views::Test::Needs.ignore_extra_controller_assigns = true
+      @foobar = "foobar"
+      @barfoo = "barfoo"
+      render :template => 'test/needs_subclass.html.rb'
+    end
 
     def render_bare_rb
       render :template => "test/bare.rb"
@@ -131,9 +157,25 @@ describe ActionController::Base do
     it "should not include protected instance variables in assigns" do
       test_action(:render_template_with_protected_instance_variable).should == ""
     end
-
+    
     it "should render a template without a .html format included" do
       test_action(:render_bare_rb).should == "Bare"
+    end
+
+    it "should render a template with excess controller variables" do
+      test_action(:render_template_with_excess_variables).should == "Default foobar"
+    end
+    
+    it "should raise if rendering a #needs template with excess controller variables" do
+      proc { test_action(:render_needs_template_with_excess_variables) }.should raise_error(ActionView::TemplateError, /Unknown parameter.*barfoo/)
+    end
+    
+    it "should render a #needs template with excess controller variables and ignore_extra_controller_assigns" do
+      test_action(:render_needs_template_with_excess_variables_and_ignoring_extras).should == "Needs foobar"
+    end
+    
+    it "should respect ignore_extra_controller_assigns in subclasses" do
+      test_action(:render_needs_subclass_template_with_excess_variables_and_ignoring_extras).should == "NeedsSubclass foobar"
     end
 
     it "should render a template which uses partials" do

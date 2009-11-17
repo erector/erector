@@ -4,20 +4,57 @@ module Erector
     # widget if it does not +need+ them.
     NON_NEEDED_CONTROLLER_INSTANCE_VARIABLES = [:@template, :@_request]
     
+    def self.assigns_for(widget_class, controller, local_assigns, is_partial)
+      assigns = {}
+      
+      instance_variables = instance_variable_assigns(widget_class, controller)
+      if is_partial || widget_class.ignore_extra_controller_assigns
+        instance_variables = remove_unneeded_assigns(widget_class, instance_variables)
+      end
+
+      assigns.merge!(instance_variables)
+      
+      if is_partial
+        assigns.merge!(filter_local_assigns_for_partial(widget_class, local_assigns || { }))
+      end
+      
+      assigns
+    end
+    
+    def self.remove_unneeded_assigns(widget_class, assigns)
+      needs = widget_class.get_needed_variables
+      if needs.empty?
+        assigns
+      else
+        assigns.reject { |key, value| ! needs.include?(key) }
+      end
+    end
+    
+    def self.filter_local_assigns_for_partial(widget_class, local_assigns)
+      widget_class_variable_name = widget_class.name.underscore
+      widget_class_variable_name = $1 if widget_class_variable_name =~ %r{.*/(.*?)$}
+      
+      local_assigns.reject do |name, value|
+        name == :object || name == widget_class_variable_name.to_sym
+      end
+    end
+    
+    def self.instance_variable_assigns(widget_class, controller)
+      needs = widget_class.get_needed_variables
+      assigns = {}
+      variables = controller.instance_variable_names
+      variables -= controller.protected_instance_variables
+      variables.each do |name|
+        assign = name.sub('@', '').to_sym
+        next if !needs.empty? && !needs.include?(assign) && NON_NEEDED_CONTROLLER_INSTANCE_VARIABLES.include?(name.to_sym)
+        assigns[assign] = controller.instance_variable_get(name)
+      end
+      assigns
+    end
+    
     def self.render(widget, controller, assigns = nil)
       if widget.is_a?(Class)
-        unless assigns
-          needs = widget.get_needed_variables
-          assigns = {}
-          variables = controller.instance_variable_names
-          variables -= controller.protected_instance_variables
-          variables.each do |name|
-            assign = name.sub('@', '').to_sym
-            next if !needs.empty? && !needs.include?(assign) && NON_NEEDED_CONTROLLER_INSTANCE_VARIABLES.include?(name.to_sym)
-            assigns[assign] = controller.instance_variable_get(name)
-          end
-        end
-
+        assigns ||= assigns_for(widget, controller, nil, false)
         widget = widget.new(assigns)
       end
 
