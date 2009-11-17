@@ -37,7 +37,7 @@ module Erector
       Erected.new("views/stuff/foo_bar.html.erb").parent_class.should == "Erector::Widget"
     end
 
-    def convert(dir, input, output)
+    def convert(dir, input, output, superklass = nil)
       dir = Dir.tmpdir + "/#{Time.now.to_i}" + "/#{dir}"
 
       FileUtils.mkdir_p(dir)
@@ -48,7 +48,11 @@ module Erector
         f.puts(input)
       end
 
-      @e = Erected.new(html)
+      if superklass
+        @e = Erected.new(html, superklass)
+      else
+        @e = Erected.new(html)
+      end
       @e.convert
 
       File.read(rb).should == output
@@ -77,6 +81,20 @@ module Erector
           "    end\n" +
           "  end\n" +
           "end\n"
+      )
+    end
+    
+    it "converts a normal file with a different superclass" do
+      convert(".",
+        "<div>hello</div>",
+        "class Dummy < Foo::Bar\n" +
+          "  def content\n" +
+          "    div do\n" +
+          "      text 'hello'\n" +
+          "    end\n" +
+          "  end\n" +
+          "end\n",
+        "Foo::Bar"
       )
     end
     

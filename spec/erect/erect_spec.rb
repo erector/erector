@@ -23,6 +23,11 @@ module Erector
       Erect.new([]).verbose.should be_true
       Erect.new(["-q"]).verbose.should be_false
     end
+    
+    it "sets the superclass to what you tell it" do
+      Erect.new([]).superklass.should == 'Erector::Widget'
+      Erect.new(['--superclass', 'Foo::Bar']).superklass.should == 'Foo::Bar'
+    end
 
     it "parses a command line with several filenames and an option on it" do
       erect = Erect.new(["-q", "foo.html", "bar/baz.html"])

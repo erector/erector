@@ -4,11 +4,12 @@ require "erector/erected"  # pull this out so we don't recreate the grammar ever
 
 module Erector
   class Erect
-    attr_reader :files, :verbose, :mode, :output_dir
+    attr_reader :files, :verbose, :mode, :output_dir, :superklass
     def initialize(args)
       @verbose = true
       @mode = :to_erector
       @output_dir = nil
+      @superklass = 'Erector::Widget'
       
       opts = OptionParser.new do |opts|
         opts.banner = "Usage: erector [options] [file|dir]*"
@@ -28,6 +29,10 @@ module Erector
 
         opts.on("--to-html", "Convert from erector to html") do
           @mode = :to_html
+        end
+        
+        opts.on("--superclass SUPERCLASS", "Superclass for new widget (default Erector::Widget)") do |superklass|
+          @superklass = superklass
         end
         
         opts.on("-o", "--output-dir DIRECTORY", "Output files to DIRECTORY (default: output files go next to input files)") do |dir|
@@ -87,7 +92,7 @@ module Erector
       files.each do |file|
         say "Erecting #{file}... "
         begin
-          e = Erector::Erected.new(file)
+          e = Erector::Erected.new(file, @superklass)
           e.convert
           say " --> #{e.filename}\n"
         rescue => e
