@@ -47,7 +47,7 @@ grammar Rhtml
   rule scriptlet
     '<%' space code space '%>' <Erector::Indenting> {
       def convert
-        text = code.text_value.strip
+        text = code.text_value_removing_trims.strip
         if text =~ /\bdo( |.*|)?$/
           line_in text
         elsif text == "end"
@@ -62,7 +62,7 @@ grammar Rhtml
   rule printlet
     '<%=' space code space '%>' <Erector::Indenting> {
       def convert
-        line "rawtext #{code.convert}"
+        line "rawtext #{code.convert_removing_trims}"
       end
     }
   end
@@ -70,18 +70,25 @@ grammar Rhtml
   rule hprintlet
     '<%=' space 'h' ' '+ code space '%>' <Erector::Indenting> {
       def convert
-        line "text #{code.convert}"
+        line "text #{code.convert_removing_trims}"
       end
     }
   end
 
   rule code
     (('%' !'>') /  [^%])* <Erector::Indenting> {
+      def convert_removing_trims
+        convert.gsub(/\s*\-\s*$/, '')
+      end
+      
+      def text_value_removing_trims
+        text_value.gsub(/\s*\-\s*$/, '')
+      end
+      
       def convert
         code = text_value.strip
         # matches a word, followed by either a word, a string, or a symbol
         result = code.gsub(/^(\w+) ([\w:"'].*)$/, '\1(\2)')
-        result = code.gsub(/\s*\-\s*$/, '')
         result
       end
     }
@@ -181,6 +188,10 @@ grammar Rhtml
 
   rule quoted
     (('"' val:([^"]*) '"') / ('\'' val:([^']*) '\'')) {
+      def value
+        val.text_value
+      end
+    
       def convert
         extract_erb(val.text_value)
       end
