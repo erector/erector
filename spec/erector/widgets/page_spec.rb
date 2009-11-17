@@ -36,4 +36,17 @@ describe Erector::Widgets::Page do
       end
     end.new.to_s.should =~ /<body class=\"funky\">/
   end
+  
+  it "allows subclasses to be called with a block" do
+    fun_page_class = Class.new(Erector::Widgets::Page) do
+      def body_content
+        h3 "what's fun?"
+        call_block
+      end
+    end
+    fun_page_class.new do
+      text "soccer!"
+    end.to_s.should include "<h3>what's fun?</h3>soccer!"
+  end
+
 end

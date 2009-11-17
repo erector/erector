@@ -107,8 +107,6 @@ class Erector::Widgets::Page < Erector::InlineWidget
       body(body_attributes) do
         if block_given?
           yield
-        elsif @block
-          super
         else
           body_content
         end
@@ -133,6 +131,7 @@ class Erector::Widgets::Page < Erector::InlineWidget
 
   # override me (or instantiate Page with a block)
   def body_content
+    super
   end
 
   # emit the contents of the head element. Override and call super if you want to put more stuff in there.
