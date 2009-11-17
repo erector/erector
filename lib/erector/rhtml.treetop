@@ -173,15 +173,37 @@ grammar Rhtml
 		space n:(tagname) space '=' space v:quoted space {
       def convert
         attr_name = (n.text_value =~ /[-:]/) ? "'#{n.text_value}'" : ":#{n.text_value}"
-        "#{attr_name} => '#{v.value.html_unescape.escape_single_quotes}'"
+        "#{attr_name} => #{v.convert}"
       end
     }
   end
 
   rule quoted
     (('"' val:([^"]*) '"') / ('\'' val:([^']*) '\'')) {
-      def value
-        val.text_value
+      def convert
+        extract_erb(val.text_value)
+      end
+      
+      def parenthesize_if_necessary(s)
+        return s if s.strip =~ /^\(.*\)$/ || s =~ /^[A-Z0-9_]*$/i
+        "(" + s + ")"
+      end
+      
+      def extract_erb(s, parenthesize = true)
+        if s =~ /^(.*?)<%=(.*?)%>(.*?)$/
+          pre, code, post = $1.html_unescape.escape_single_quotes, $2, $3.html_unescape.escape_single_quotes
+          out = ""
+          out = "'#{pre}' + " unless pre.length == 0
+          out += parenthesize_if_necessary(code.strip)
+          post = extract_erb(post, false)
+          out += " + #{post}" unless post.length == 0
+          out = parenthesize_if_necessary(out) if parenthesize
+          out
+        elsif s.length > 0
+          "'" + s.html_unescape.escape_single_quotes + "'"
+        else
+          s
+        end
       end
     }
   end

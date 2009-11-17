@@ -79,6 +79,32 @@ module Erector
           "end\n"
       )
     end
+    
+    it "converts ERb escapes in attributes" do
+      convert(".",
+        "<div id=\"foo_<%= bar %>_baz_<%= quux %>_marph\">hello</div>",
+%{class Dummy < Erector::Widget
+  def content
+    div :id => ('foo_' + bar + '_baz_' + quux + '_marph') do
+      text 'hello'
+    end
+  end
+end
+})
+    end
+
+    it "only parenthesizes ERb escapes in attributes if necessary" do
+      convert(".",
+        "<div id=\'<%= bar %>\'>hello</div>",
+%{class Dummy < Erector::Widget
+  def content
+    div :id => bar do
+      text 'hello'
+    end
+  end
+end
+})
+    end
 
 # todo: figure out if there is any such thing as unparsable HTML anymore
 #    it "raises an exception if given unparsable HTML" do
