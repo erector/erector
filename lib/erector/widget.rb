@@ -128,6 +128,30 @@ module Erector
         @ignore_extra_controller_assigns = (new_value ? :true : :false)
       end
       
+      def controller_assigns_propagate_to_partials
+        out = @controller_assigns_propagate_to_partials
+        out ||= (superclass.controller_assigns_propagate_to_partials ? :true : :false) if superclass.respond_to?(:controller_assigns_propagate_to_partials)
+        out ||= :true
+        out == :true
+      end
+      
+      # In ERb templates, controller instance variables are available to any partial
+      # that gets rendered by the view, no matter how deeply-nested. This effectively
+      # makes controller instance variables "globals". In small view hierarchies this
+      # probably isn't an issue, but in large ones it can make debugging and
+      # reasoning about the code very difficult.
+      #
+      # If you set this to true (and it's inherited through to subclasses), then any
+      # widget that's getting rendered as a partial will only have access to locals
+      # explicitly passed to it (render :partial => ..., :locals => ...). (This
+      # doesn't change the behavior of widgets that are explicitly rendered, as they
+      # don't have this issue.) This can allow for cleaner encapsulation of partials,
+      # as they must be passed everything they use and can't rely on controller
+      # instance variables.
+      def controller_assigns_propagate_to_partials=(new_value)
+        @controller_assigns_propagate_to_partials = (new_value ? :true : :false)
+      end
+      
       protected
       def after_initialize_parts
         @after_initialize_parts ||= []

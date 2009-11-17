@@ -81,6 +81,42 @@ describe ActionController::Base do
       render :template => "test/erector_from_erb.html.erb"
     end
 
+    def render_erector_with_locals_from_erb
+      @local_foo = "hihi"
+      @local_bar = "byebye"
+      render :template => 'test/erector_with_locals_from_erb.html.erb'
+    end
+
+    def render_erector_with_locals_from_erb_defaulted
+      @local_foo = "hihi"
+      render :template => 'test/erector_with_locals_from_erb.html.erb'
+    end
+
+    def render_erector_with_locals_from_erb_override
+      @foo = "globalfoo"
+      @local_foo = "localfoo"
+      render :template => 'test/erector_with_locals_from_erb.html.erb'
+    end
+
+    def render_erector_with_locals_from_erb_not_needed
+      @local_foo = "localfoo"
+      @local_baz = "unneeded"
+      render :template => 'test/erector_with_locals_from_erb.html.erb'
+    end
+
+    def render_erector_partial_with_unneeded_controller_variables
+      @local_foo = "localfoo"
+      @baz = "unneeded"
+      render :template => 'test/erector_with_locals_from_erb.html.erb'
+    end
+
+    def render_erector_partial_without_controller_variables
+      Views::Test::PartialWithLocals.controller_assigns_propagate_to_partials = false
+      @local_foo = "localfoo"
+      @bar = "barbar"
+      render :template => 'test/erector_with_locals_from_erb.html.erb'
+    end
+
     def render_reserved_variable
       @foobar = "foobar"
       @indentation = true
@@ -188,6 +224,30 @@ describe ActionController::Base do
 
     it "should render an ERB template which uses an erector widget partial" do
       test_action(:render_erector_from_erb).should == "Partial foobar"
+    end
+    
+    it "should render an ERB template which uses an erector widget partial with locals" do
+      test_action(:render_erector_with_locals_from_erb).should == "Partial, foo hihi, bar byebye"
+    end
+    
+    it "should render an ERB template which uses an erector widget partial with a defaulted local" do
+      test_action(:render_erector_with_locals_from_erb_defaulted).should == "Partial, foo hihi, bar 12345"
+    end
+    
+    it "should override instance variables with local variables when rendering partials" do
+      test_action(:render_erector_with_locals_from_erb_override).should == "Partial, foo localfoo, bar 12345"
+    end
+    
+    it "should raise if passing a local that's not needed" do
+      proc { test_action(:render_erector_with_locals_from_erb_not_needed) }.should raise_error(ActionView::TemplateError, /Unknown parameter.*baz/)
+    end
+    
+    it "should not pass unneeded controller variables to a partial" do
+      test_action(:render_erector_partial_with_unneeded_controller_variables).should == "Partial, foo localfoo, bar 12345"
+    end
+    
+    it "should not pass controller variables to a partial at all, if requested" do
+      test_action(:render_erector_partial_without_controller_variables).should == "Partial, foo localfoo, bar 12345"
     end
 
     it "should render a default template" do

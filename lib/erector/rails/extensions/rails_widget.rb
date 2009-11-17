@@ -12,7 +12,7 @@ module Erector
         instance_variables = remove_unneeded_assigns(widget_class, instance_variables)
       end
 
-      assigns.merge!(instance_variables)
+      assigns.merge!(instance_variables) unless is_partial && (! widget_class.controller_assigns_propagate_to_partials)
       
       if is_partial
         assigns.merge!(filter_local_assigns_for_partial(widget_class, local_assigns || { }))
