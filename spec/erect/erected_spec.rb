@@ -80,6 +80,21 @@ module Erector
       )
     end
     
+    it "ignores ERb trim markers" do
+      convert(".",
+        %{<div>
+<%= 1 + 3 -%>
+</div>},
+%{class Dummy < Erector::Widget
+  def content
+    div do
+      rawtext 1 + 3
+    end
+  end
+end
+})
+    end
+
     it "converts ERb escapes in attributes" do
       convert(".",
         "<div id=\"foo_<%= bar %>_baz_<%= quux %>_marph\">hello</div>",
