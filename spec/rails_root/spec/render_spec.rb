@@ -18,6 +18,20 @@ describe ActionController::Base do
       @foobar = "foobar"
       render :widget => TestWidget
     end
+    
+    def render_widget_with_ignored_controller_variables
+      with_ignoring_extra_controller_assigns(NeedsWidget, true) do
+        @foo = "foo"
+        @baz = "baz"
+        render :widget => NeedsWidget
+      end
+    end
+    
+    def render_widget_with_extra_controller_variables
+      @foo = "foo"
+      @baz = "baz"
+      render :widget => NeedsWidget
+    end
 
     def render_widget_instance
       render :widget => TestWidget.new(:foobar => "foobar")
@@ -44,18 +58,30 @@ describe ActionController::Base do
       render :template => 'test/needs.html.rb'
     end
     
+    def with_ignoring_extra_controller_assigns(klass, value)
+      old_value = klass.ignore_extra_controller_assigns
+      begin
+        klass.ignore_extra_controller_assigns = value
+        yield
+      ensure
+        klass.ignore_extra_controller_assigns = old_value
+      end
+    end
+    
     def render_needs_template_with_excess_variables_and_ignoring_extras
-      Views::Test::Needs.ignore_extra_controller_assigns = true
-      @foobar = "foobar"
-      @barfoo = "barfoo"
-      render :template => 'test/needs.html.rb'
+      with_ignoring_extra_controller_assigns(Views::Test::Needs, true) do
+        @foobar = "foobar"
+        @barfoo = "barfoo"
+        render :template => 'test/needs.html.rb'
+      end
     end
     
     def render_needs_subclass_template_with_excess_variables_and_ignoring_extras
-      Views::Test::Needs.ignore_extra_controller_assigns = true
-      @foobar = "foobar"
-      @barfoo = "barfoo"
-      render :template => 'test/needs_subclass.html.rb'
+      with_ignoring_extra_controller_assigns(Views::Test::Needs, true) do
+        @foobar = "foobar"
+        @barfoo = "barfoo"
+        render :template => 'test/needs_subclass.html.rb'
+      end
     end
 
     def render_bare_rb
@@ -109,12 +135,23 @@ describe ActionController::Base do
       @baz = "unneeded"
       render :template => 'test/erector_with_locals_from_erb.html.erb'
     end
+    
+    def with_controller_assigns_propagate_to_partials(klass, value)
+      old_value = klass.controller_assigns_propagate_to_partials
+      begin
+        klass.controller_assigns_propagate_to_partials = value
+        yield
+      ensure
+        klass.controller_assigns_propagate_to_partials = old_value
+      end
+    end
 
     def render_erector_partial_without_controller_variables
-      Views::Test::PartialWithLocals.controller_assigns_propagate_to_partials = false
-      @local_foo = "localfoo"
-      @bar = "barbar"
-      render :template => 'test/erector_with_locals_from_erb.html.erb'
+      with_controller_assigns_propagate_to_partials(Views::Test::PartialWithLocals, false) do
+        @local_foo = "localfoo"
+        @bar = "barbar"
+        render :template => 'test/erector_with_locals_from_erb.html.erb'
+      end
     end
 
     def render_reserved_variable
@@ -141,7 +178,7 @@ describe ActionController::Base do
       text @foobar
     end
   end
-
+  
   class TestFormWidget < Erector::Widget
     def content
       form_tag('/') do
@@ -153,6 +190,10 @@ describe ActionController::Base do
 
   class NeedsWidget < Erector::Widget
     needs :foo, :bar => true
+    
+    def content
+      text "foo #{@foo} bar #{@bar}"
+    end
   end
 
   before do
@@ -184,6 +225,14 @@ describe ActionController::Base do
 
     it "should render a widget instance with explicit assigns" do
       test_action(:render_widget_instance).should == "foobar"
+    end
+    
+    it "should render a widget class with implicit assigns and ignoring extra variables" do
+      test_action(:render_widget_with_ignored_controller_variables).should == "foo foo bar true"
+    end
+    
+    it "should raise when rendering a widget class with implicit assigns and too many variables" do
+      proc { test_action(:render_widget_with_extra_controller_variables) }.should raise_error(RuntimeError, /Unknown parameter.*baz/)
     end
 
     it "should render a template with implicit assigns" do
