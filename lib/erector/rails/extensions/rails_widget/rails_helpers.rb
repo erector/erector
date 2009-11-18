@@ -94,15 +94,28 @@ module Erector
         args.push(options)
         parent.fields_for(record_or_name_or_array, *args, &proc)
       end
-
-      def javascript_include_merged(key)
-        parent.javascript_include_merged(key)
+      
+      DIRECTLY_DELEGATED = [
+        :url_for,
+        :javascript_include_merged,
+        :stylesheet_link_merged,
+        :controller,
+        :cycle,
+        :time_ago_in_words,
+        :pluralize,
+        :image_path
+      ]
+      
+      DIRECTLY_DELEGATED.each do |method_name|
+        start_line = __LINE__ + 2
+        method_def =<<-METHOD_DEF
+          def #{method_name}(*args, &block)
+            parent.#{method_name}(*args, &block)
+          end
+        METHOD_DEF
+        eval(method_def, binding, __FILE__, start_line)
       end
-
-      def stylesheet_link_merged(key)
-        parent.stylesheet_link_merged(key)
-      end
-
+      
       def flash
         parent.controller.send(:flash)
       end
@@ -111,24 +124,8 @@ module Erector
         parent.controller.session
       end
 
-      def controller
-        parent.controller
-      end
-
-      def cycle(*args)
-        parent.cycle(*args)
-      end
-
       def simple_format(string)
         p raw(string.to_s.html_escape.gsub(/\r\n?/, "\n").gsub(/\n/, "<br/>\n"))
-      end
-
-      def time_ago_in_words(*args)
-        parent.time_ago_in_words(*args)
-      end
-
-      def pluralize(*args)
-        parent.pluralize(*args)
       end
     end
 
