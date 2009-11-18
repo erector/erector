@@ -167,9 +167,9 @@ describe RhtmlParser do
     parse("<div id='foo'>bar</div>").convert.should == "div :id => 'foo' do\n  text 'bar'\nend\n"    
   end
   
-  it "processes ERb escapes in attributes" do
+  it "processes ERb escapes in attributes, and adds parentheses when required" do
     parse("<div id=\"<%= bar %>\" />").convert.should == "div :id => bar\n"
-    parse("<div id=\"foo_<%= bar %>_baz\" />").convert.should == "div :id => ('foo_' + bar + '_baz')\n"
+    parse("<div id=\"foo_<%= bar %>_baz\" />").convert.should == "div(:id => ('foo_' + bar + '_baz'))\n"
   end
   
   it "escapes single quotes inside attribute values" do

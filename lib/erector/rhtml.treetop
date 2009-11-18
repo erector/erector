@@ -166,13 +166,19 @@ grammar Rhtml
 
   rule attributes
 		first:attribute rest:attributes* {
-			def convert
-				" " + first.convert + 
-					if rest.empty? 
-						""
-					else
-					  ",#{rest.elements.first.convert}"  # this is hacky -- is there a better way?
-					end
+			def convert(internal = false)
+  			out = " " + first.convert +
+  				if rest.empty?
+  					""
+  				else
+  				  ",#{rest.elements.first.convert(true)}"  # this is hacky -- is there a better way?
+  				end
+
+  			if (! internal) && out =~ /[\(\)]/ && out =~ /^(\s*)(.*?)(\s*)$/
+    			out = "(#{$2})#{$3}"
+  			end
+
+  			out
 			end
 		}
 	end
