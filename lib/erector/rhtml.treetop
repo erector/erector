@@ -211,10 +211,8 @@ grammar Rhtml
           out += " + #{post}" unless post.length == 0
           out = parenthesize_if_necessary(out) if parenthesize
           out
-        elsif s.length > 0
-          "'" + s.html_unescape.escape_single_quotes + "'"
         else
-          s
+          "'" + s.html_unescape.escape_single_quotes + "'"
         end
       end
     }

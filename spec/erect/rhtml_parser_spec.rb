@@ -228,6 +228,11 @@ describe RhtmlParser do
     parse("'foo'").value.should == "foo"
     parse("\"foo\"").value.should == "foo"
   end
+  
+  it "quotes empty strings" do
+    @parser.root = :quoted
+    parse("''").convert.should == "''"
+  end
 
   it "converts attributes in isolation" do
     @parser.root = :attribute
