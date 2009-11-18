@@ -207,8 +207,10 @@ grammar Rhtml
           out = ""
           out = "'#{pre}' + " unless pre.length == 0
           out += parenthesize_if_necessary(code.strip)
-          post = extract_erb(post, false)
-          out += " + #{post}" unless post.length == 0
+          unless post.length == 0
+            post = extract_erb(post, false)
+            out += " + #{post}"
+          end
           out = parenthesize_if_necessary(out) if parenthesize
           out
         else
