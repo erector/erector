@@ -15,8 +15,8 @@ describe Erector::Widgets::Page do
 
   it "renders a block passed to new" do
     Erector::Widgets::Page.new do
-      text "body_content"
-    end.to_s.should =~ /body_content/
+      text "nice bod"
+    end.to_s.should =~ /nice bod/
   end
 
   it "renders a block passed to content" do

@@ -131,7 +131,7 @@ class Erector::Widgets::Page < Erector::InlineWidget
 
   # override me (or instantiate Page with a block)
   def body_content
-    super
+    call_block
   end
 
   # emit the contents of the head element. Override and call super if you want to put more stuff in there.

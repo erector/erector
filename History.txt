@@ -1,3 +1,7 @@
+== 0.7.3
+
+* fix bug in pass-block-to-new inline page rendering
+
 == 0.7.2
 * Widget#url and #css accept optional extra attributes (e.g. 'media')
 * Externals accept optional extra attributes (e.g. 'media')
