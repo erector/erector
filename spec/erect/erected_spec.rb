@@ -37,7 +37,7 @@ module Erector
       Erected.new("views/stuff/foo_bar.html.erb").parent_class.should == "Erector::Widget"
     end
 
-    def convert(dir, input, output, superklass = nil)
+    def convert(dir, input, output, superklass = nil, method_name = nil)
       dir = Dir.tmpdir + "/#{Time.now.to_i}" + "/#{dir}"
 
       FileUtils.mkdir_p(dir)
@@ -47,12 +47,9 @@ module Erector
       File.open(html, "w") do |f|
         f.puts(input)
       end
-
-      if superklass
-        @e = Erected.new(html, superklass)
-      else
-        @e = Erected.new(html)
-      end
+      
+      args = [ html, superklass || 'Erector::Widget', method_name || 'content' ]
+      @e = Erected.new(*args)
       @e.convert
 
       File.read(rb).should == output
@@ -98,6 +95,21 @@ module Erector
       )
     end
     
+    it "converts a normal file with a different superclass and method name" do
+      convert(".",
+        "<div>hello</div>",
+        "class Dummy < Foo::Bar\n" +
+          "  def my_content\n" +
+          "    div do\n" +
+          "      text 'hello'\n" +
+          "    end\n" +
+          "  end\n" +
+          "end\n",
+        "Foo::Bar",
+        'my_content'
+      )
+    end
+    
     it "ignores ERb trim markers" do
       convert(".",
         %{<div>
@@ -118,7 +130,7 @@ end
         "<div id=\"foo_<%= bar %>_baz_<%= quux %>_marph\">hello</div>",
 %{class Dummy < Erector::Widget
   def content
-    div :id => ('foo_' + bar + '_baz_' + quux + '_marph') do
+    div(:id => ('foo_' + bar + '_baz_' + quux + '_marph')) do
       text 'hello'
     end
   end
