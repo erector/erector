@@ -2,12 +2,12 @@ module Erector
   module Rails
     # These controller instance variables should not be passed to the
     # widget if it does not +need+ them.
-    NON_NEEDED_CONTROLLER_INSTANCE_VARIABLES = [:@template, :@_request]
+    NON_NEEDED_CONTROLLER_INSTANCE_VARIABLES = [:template, :_request]
     
-    def self.assigns_for(widget_class, controller, local_assigns, is_partial)
+    def self.assigns_for(widget_class, view, local_assigns, is_partial)
       assigns = {}
       
-      instance_variables = instance_variable_assigns(widget_class, controller)
+      instance_variables = instance_variable_assigns(widget_class, view)
       if is_partial || widget_class.ignore_extra_controller_assigns
         instance_variables = remove_unneeded_assigns(widget_class, instance_variables)
       end
@@ -39,26 +39,23 @@ module Erector
       end
     end
     
-    def self.instance_variable_assigns(widget_class, controller)
+    def self.instance_variable_assigns(widget_class, view)
       needs = widget_class.get_needed_variables
-      assigns = {}
-      variables = controller.instance_variable_names
-      variables -= controller.protected_instance_variables
-      variables.each do |name|
-        assign = name.sub('@', '').to_sym
-        next if !needs.empty? && !needs.include?(assign) && NON_NEEDED_CONTROLLER_INSTANCE_VARIABLES.include?(name.to_sym)
-        assigns[assign] = controller.instance_variable_get(name)
+      assigns = view.instance_variables_for_widget_assignment
+      assigns.delete_if do |name, value|
+        !needs.empty? && !needs.include?(name) && NON_NEEDED_CONTROLLER_INSTANCE_VARIABLES.include?(name.to_sym)
       end
       assigns
     end
     
     def self.render(widget, controller, assigns = nil)
+      view = controller.response.template
+      
       if widget.is_a?(Class)
-        assigns ||= assigns_for(widget, controller, nil, false)
+        assigns ||= assigns_for(widget, view, nil, false)
         widget = widget.new(assigns)
       end
 
-      view = controller.response.template
       view.send(:_evaluate_assigns_and_ivars)
 
       view.with_output_buffer do
