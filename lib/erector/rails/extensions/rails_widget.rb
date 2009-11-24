@@ -120,7 +120,7 @@ module Erector
       end
 
       def capture_with_parent(&block)
-        parent ? raw(parent.capture(&block).to_s) : capture_without_parent(&block)
+        (parent && parent.respond_to?(:capture)) ? raw(parent.capture(&block).to_s) : capture_without_parent(&block)
       end
 
       # This is here to force #parent.capture to return the output
