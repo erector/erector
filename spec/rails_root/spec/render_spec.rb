@@ -4,7 +4,11 @@ describe ActionController::Base do
   class TestController < ActionController::Base
     # Let exceptions propagate rather than generating the usual error page.
     include ActionController::TestCase::RaiseActionExceptions
-
+    
+    # We need this, because we reference Views::Test::Needs below, and it
+    # doesn't auto-load otherwise.
+    require 'views/test/needs.html.rb'
+    
     def render_widget_with_implicit_assigns
       @foobar = "foobar"
       render_widget TestWidget
@@ -20,17 +24,17 @@ describe ActionController::Base do
     end
     
     def render_widget_with_ignored_controller_variables
-      with_ignoring_extra_controller_assigns(NeedsWidget, true) do
+      @foo = "foo"
+      @baz = "baz"
+      render :widget => NeedsWidget
+    end
+    
+    def render_widget_with_extra_controller_variables
+      with_ignoring_extra_controller_assigns(NeedsWidget, false) do
         @foo = "foo"
         @baz = "baz"
         render :widget => NeedsWidget
       end
-    end
-    
-    def render_widget_with_extra_controller_variables
-      @foo = "foo"
-      @baz = "baz"
-      render :widget => NeedsWidget
     end
 
     def render_widget_instance
@@ -47,15 +51,19 @@ describe ActionController::Base do
     end
     
     def render_template_with_excess_variables
-      @foobar = "foobar"
-      @barfoo = "barfoo"
-      render :template => 'test/render_default.html.rb'
+      with_ignoring_extra_controller_assigns(Views::Test::Needs, false) do
+        @foobar = "foobar"
+        @barfoo = "barfoo"
+        render :template => 'test/render_default.html.rb'
+      end
     end
     
     def render_needs_template_with_excess_variables
-      @foobar = "foobar"
-      @barfoo = "barfoo"
-      render :template => 'test/needs.html.rb'
+      with_ignoring_extra_controller_assigns(Views::Test::Needs, false) do
+        @foobar = "foobar"
+        @barfoo = "barfoo"
+        render :template => 'test/needs.html.rb'
+      end
     end
     
     def with_ignoring_extra_controller_assigns(klass, value)
@@ -69,19 +77,15 @@ describe ActionController::Base do
     end
     
     def render_needs_template_with_excess_variables_and_ignoring_extras
-      with_ignoring_extra_controller_assigns(Views::Test::Needs, true) do
-        @foobar = "foobar"
-        @barfoo = "barfoo"
-        render :template => 'test/needs.html.rb'
-      end
+      @foobar = "foobar"
+      @barfoo = "barfoo"
+      render :template => 'test/needs.html.rb'
     end
     
     def render_needs_subclass_template_with_excess_variables_and_ignoring_extras
-      with_ignoring_extra_controller_assigns(Views::Test::Needs, true) do
-        @foobar = "foobar"
-        @barfoo = "barfoo"
-        render :template => 'test/needs_subclass.html.rb'
-      end
+      @foobar = "foobar"
+      @barfoo = "barfoo"
+      render :template => 'test/needs_subclass.html.rb'
     end
 
     def render_bare_rb
