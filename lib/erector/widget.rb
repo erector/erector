@@ -7,7 +7,9 @@ module Erector
   # or +p+ to emit HTML/XML tags. 
   #  
   # You can also define a widget on the fly by passing a block to +new+. This
-  # block will get executed when the widget's +content+ method is called.
+  # block will get executed when the widget's +content+ method is called. See
+  # the userguide for important details about the scope of this block when run --
+  # http://erector.rubyforge.org/userguide.html#blocks
   #
   # To render a widget from the outside, instantiate it and call its +to_s+
   # method.
@@ -32,6 +34,9 @@ module Erector
   # it writes to the output stream; "return" means that it returns a string
   # like a normal method and leaves it up to the caller to emit that string if
   # it wants.
+  #
+  # Now, seriously, after playing around a bit, go read the user guide. It's 
+  # fun!
   class Widget
     extend Erector::Externals # 'extend'ing since they're class methods, not instance methods
     

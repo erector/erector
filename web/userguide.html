@@ -743,7 +743,7 @@ end)
 end
 </pre>
  will work the same as the version above.)</p>
-        <h3>To the constructor of an Erector::InlineWidget</h3>
+        <h3>3. To the constructor of an Erector::InlineWidget</h3>
         <p>This is where things get hairy. Sometimes we want to construct a widget on the fly, but we're not inside a widget already. So any block we pass in will not have access to Erector methods. In this case we have a special subclass called 
           <code>Erector::InlineWidget</code>
  which uses two magic tricks: 
