@@ -639,7 +639,7 @@ end
         text "Instead of a string, you can also specify a File object; the file's contents get read and used as text. This allows you to inline files instead of referring to them, for potential performance benefits."
         text " Example:"
         pre <<-DONE
-    external :css, File.new("#{File.dirname(__FILE__)}/../public/sample.css")
+    external :style, File.new("#{File.dirname(__FILE__)}/../public/sample.css")
         DONE
       end
     end,

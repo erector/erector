@@ -19,7 +19,7 @@ describe Erector::External do
   it "can be constructed with a file" do
     file = File.new("#{File.dirname(__FILE__)}/sample-file.txt")
     x = Erector::External.new(:foo, Object, file)
-    x.text.should == "sample file contents\n"
+    x.text.should == "sample file contents, 2 + 2 = 4\n"
   end
 
   it "is equal to an identical external" do
@@ -119,7 +119,7 @@ describe "external declarations" do
 
   it "loads a file" do
     Erector::Widget.externals(:sample).map(&:text).should == [
-       "sample file contents\n"
+       "sample file contents, 2 + 2 = 4\n"
     ]
   end
 

@@ -1,1 +1,1 @@
-sample file contents
+sample file contents, 2 + 2 = #{2 + 2}

@@ -1,8 +1,12 @@
 module Erector
   class External < Struct.new(:type, :klass, :text, :options)
     def initialize(type, klass, text, options = {})
-      text = text.read if text.is_a? IO
+      text = External.interpolate(text.read) if text.is_a? IO
       super(type.to_sym, klass, text, options)
+    end
+    
+    def self.interpolate(s)
+      eval("<<INTERPOLATE\n" + s + "\nINTERPOLATE").chomp
     end
     
     def ==(other)
