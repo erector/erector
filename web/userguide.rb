@@ -634,6 +634,14 @@ end
         a "the erector mailing list", :href => "http://googlegroups.com/group/erector"
         text "!"
       end
+
+      p do
+        text "Instead of a string, you can also specify a File object; the file's contents get read and used as text. This allows you to inline files instead of referring to them, for potential performance benefits."
+        text " Example:"
+        pre <<-DONE
+    external :css, File.new("#{File.dirname(__FILE__)}/../public/sample.css")
+        DONE
+      end
     end,
     
     Section.new("Blocks") do

@@ -1,6 +1,6 @@
 == 0.7.3
-
 * fix bug in pass-block-to-new inline page rendering
+* externals can accept a File (or any IO, actually)
 
 == 0.7.2 - 2009-11-16
 * Widget#url and #css accept optional extra attributes (e.g. 'media')

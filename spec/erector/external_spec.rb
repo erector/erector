@@ -16,6 +16,12 @@ describe Erector::External do
     x.options.should == {:bar => 7}
   end
   
+  it "can be constructed with a file" do
+    file = File.new("#{File.dirname(__FILE__)}/sample-file.txt")
+    x = Erector::External.new(:foo, Object, file)
+    x.text.should == "sample file contents\n"
+  end
+
   it "is equal to an identical external" do
     x = Erector::External.new(:foo, Object, "abc", {:bar => 7})
     y = Erector::External.new(:foo, Object, "abc", {:bar => 7})
@@ -105,6 +111,16 @@ describe "external declarations" do
       "/lib/picante.js",
       "/lib/dairy.js",
       ]
+  end
+
+  class Enchilada < Erector::Widget
+    external :sample, File.new("#{File.dirname(__FILE__)}/sample-file.txt")
+  end
+
+  it "loads a file" do
+    Erector::Widget.externals(:sample).map(&:text).should == [
+       "sample file contents\n"
+    ]
   end
 
 end

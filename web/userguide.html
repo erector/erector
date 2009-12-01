@@ -14,7 +14,7 @@
       <ul class="clickable">
         <li class="clickable" onclick="document.location='http://rubyforge.org/frs/?group_id=4797'"><a href="http://rubyforge.org/frs/?group_id=4797">Download</a>
           <br />
-          <span> (current version: 0.7.2)</span></li>
+          <span> (current version: 0.7.3)</span></li>
         <li class="clickable" onclick="document.location='rdoc'"><a href="rdoc">RDoc Documentation</a></li>
         <li class="clickable" onclick="document.location='http://rubyforge.org/projects/erector/'"><a href="http://rubyforge.org/projects/erector/">RubyForge Project</a></li>
         <li class="clickable" onclick="document.location='http://github.com/pivotal/erector'"><a href="http://github.com/pivotal/erector">Github Repository</a></li>
@@ -663,6 +663,10 @@ Then when
             </tr>
           </table>
 It might be a little difficult to remember the difference between :js and :script, and between :css and :style, so I'm thinking of maybe unifying them and looking at the content to determine whether it's inline or not. (Something simple like, if it includes a space, then it's inline.) Good idea? Let us know on <a href="http://googlegroups.com/group/erector">the erector mailing list</a>!</p>
+        <p>Instead of a string, you can also specify a File object; the file's contents get read and used as text. This allows you to inline files instead of referring to them, for potential performance benefits. Example:
+          <pre>    external :css, File.new(&quot;./web/../public/sample.css&quot;)
+</pre>
+        </p>
         <a name="blocks"></a>
         <h2>Blocks</h2>
         <p>Erector is all about blocks (otherwise known as closures). Unfortunately, there are some confusing aspects to working with blocks; this section aims to clarify the issues so if you find yourself stuck on an 'undefined method' or a nil instance variable, at least you'll have some context to help debug it.</p>
