@@ -63,7 +63,7 @@ task :default => :spec
 
 task :test => :spec
 
-task :cruise => [:geminstaller, :install_dependencies, :switch_to_rails_version_tag, :test]
+task :cruise => [:geminstaller, :print_environment, :install_dependencies, :switch_to_rails_version_tag, :test]
 
 task :geminstaller do
   require 'geminstaller'
@@ -129,4 +129,16 @@ task(:build_unicode) do
     File.open("lib/erector/unicode.rb", "w")
   )
   builder.generate
+end
+
+task :print_environment do
+  puts <<-ENVIRONMENT
+Build environment:
+  #{`uname -a`.chomp}
+  #{`ruby -v`.chomp}
+  SQLite3: #{`sqlite3 -version`}
+#{`gem env`}
+Local gems:
+#{`gem list`.gsub(/^/, '  ')}
+  ENVIRONMENT
 end
