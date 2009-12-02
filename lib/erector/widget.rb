@@ -15,8 +15,7 @@ module Erector
   # method.
   #
   # A widget's +new+ method optionally accepts an options hash. Entries in
-  # this hash are converted to instance variables, and +attr_reader+ accessors
-  # are defined for each.
+  # this hash are converted to instance variables.
   #
   # You can add runtime input checking via the +needs+ macro. See #needs. 
   # This mechanism is meant to ameliorate development-time confusion about
@@ -122,8 +121,7 @@ module Erector
     # exception will be thrown (with a hopefully useful message about which
     # parameters are missing). This is intended to catch silly bugs like
     # passing in a parameter called 'name' to a widget that expects a
-    # parameter called 'title'. Every variable declared in 'needs' will get an
-    # attr_reader accessor declared for it.
+    # parameter called 'title'. 
     #
     # You can also declare default values for parameters using hash syntax.
     # You can put #needs declarations on multiple lines or on the same line;
@@ -131,11 +129,9 @@ module Erector
     # at the end of the line (so they go into the magic hash parameter).
     #
     # If a widget has no #needs declaration then it will accept any
-    # combination of parameters (and make accessors for them) just like
-    # normal. In that case there will be no 'attr_reader's declared. If a
-    # widget wants to declare that it takes no parameters, use the special
-    # incantation "needs nil" (and don't declare any other needs, or kittens
-    # will cry).
+    # combination of parameters just like normal. If a widget wants to declare
+    # that it takes no parameters, use the special incantation "needs nil"
+    # (and don't declare any other needs, or kittens will cry).
     #
     # Usage:
     #    class FancyForm < Erector::Widget

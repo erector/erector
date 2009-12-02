@@ -37,7 +37,7 @@ module Erector
       Erected.new("views/stuff/foo_bar.html.erb").parent_class.should == "Erector::Widget"
     end
 
-    def convert(dir, input, output)
+    def convert(dir, input, output, superklass = nil, method_name = nil)
       dir = Dir.tmpdir + "/#{Time.now.to_i}" + "/#{dir}"
 
       FileUtils.mkdir_p(dir)
@@ -47,8 +47,9 @@ module Erector
       File.open(html, "w") do |f|
         f.puts(input)
       end
-
-      @e = Erected.new(html)
+      
+      args = [ html, superklass || 'Erector::Widget', method_name || 'content' ]
+      @e = Erected.new(*args)
       @e.convert
 
       File.read(rb).should == output
@@ -78,6 +79,76 @@ module Erector
           "  end\n" +
           "end\n"
       )
+    end
+    
+    it "converts a normal file with a different superclass" do
+      convert(".",
+        "<div>hello</div>",
+        "class Dummy < Foo::Bar\n" +
+          "  def content\n" +
+          "    div do\n" +
+          "      text 'hello'\n" +
+          "    end\n" +
+          "  end\n" +
+          "end\n",
+        "Foo::Bar"
+      )
+    end
+    
+    it "converts a normal file with a different superclass and method name" do
+      convert(".",
+        "<div>hello</div>",
+        "class Dummy < Foo::Bar\n" +
+          "  def my_content\n" +
+          "    div do\n" +
+          "      text 'hello'\n" +
+          "    end\n" +
+          "  end\n" +
+          "end\n",
+        "Foo::Bar",
+        'my_content'
+      )
+    end
+    
+    it "ignores ERb trim markers" do
+      convert(".",
+        %{<div>
+<%= 1 + 3 -%>
+</div>},
+%{class Dummy < Erector::Widget
+  def content
+    div do
+      rawtext 1 + 3
+    end
+  end
+end
+})
+    end
+
+    it "converts ERb escapes in attributes" do
+      convert(".",
+        "<div id=\"foo_<%= bar %>_baz_<%= quux %>_marph\">hello</div>",
+%{class Dummy < Erector::Widget
+  def content
+    div(:id => ('foo_' + bar + '_baz_' + quux + '_marph')) do
+      text 'hello'
+    end
+  end
+end
+})
+    end
+
+    it "only parenthesizes ERb escapes in attributes if necessary" do
+      convert(".",
+        "<div id=\'<%= bar %>\'>hello</div>",
+%{class Dummy < Erector::Widget
+  def content
+    div :id => bar do
+      text 'hello'
+    end
+  end
+end
+})
     end
 
 # todo: figure out if there is any such thing as unparsable HTML anymore

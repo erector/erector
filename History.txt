@@ -2,6 +2,21 @@
 * fix bug in pass-block-to-new inline page rendering
 * externals can accept a File (or any IO, actually)
 
+Rails:
+ * Add Widget.controller_assigns_propagate_to_partials: lets you keep controller instance variables from propagating to partials, so that you don't have this giant "global" namespace that partials can pull from. Enforces encapsulation much better.
+ * Add Widget.ignore_extra_controller_assigns, which allows widgets to use #needs but silently ignore excess controller variables, rather than raising an exception instead. This can be very useful for transitioning large codebases to Erector.
+ * Factor out directly-delegated methods into an array; add url_for and image_path.
+ * Make Erector work with the Cells plugin for Rails (http://cells.rubyforge.org/).
+
+Erector tool:
+ * Make 'erector' ignore ERb trim markers ("-%>").
+ * Make 'erector' process ERb escapes in HTML attributes correctly.
+ * Make sure 'erector' adds parentheses to function calls when necessary.
+ * Don't add empty strings to the end of converted attributes.
+ * Don't omit empty attribute strings.
+ * Allow setting an alternate superclass for the new widget coming from the 'erector' tool.
+ * Add --method switch to 'erector', in case you don't want the base 'content' method overridden, but something it calls in your superclass, instead.
+
 == 0.7.2 - 2009-11-16
 * Widget#url and #css accept optional extra attributes (e.g. 'media')
 * Externals accept optional extra attributes (e.g. 'media')

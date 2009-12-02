@@ -7,8 +7,10 @@ Treetop.load("#{dir}/rhtml.treetop")
 module Erector
   class Erected
     
-    def initialize(in_file)
+    def initialize(in_file, superklass = 'Erector::Widget', method_name = 'content')
       @in_file = in_file
+      @superklass = superklass
+      @method_name = method_name
     end
 
     def filename
@@ -20,9 +22,9 @@ module Erector
       parent = File.dirname(@in_file)
       grandparent = File.dirname(parent)
       if File.basename(grandparent) == "views"
-        ["Views::" + classize(File.basename(parent)) + "::" + base, "Erector::Widget"]
+        ["Views::" + classize(File.basename(parent)) + "::" + base, @superklass]
       else
-        [base, "Erector::Widget"]
+        [base, @superklass]
       end
     end
 
@@ -47,7 +49,7 @@ module Erector
       else
         File.open(filename, "w") do |f|
           f.puts("class #{classname} < #{parent_class}")
-          f.puts("  def content")
+          f.puts("  def #{@method_name}")
           f.puts(parsed.set_indent(2).convert)
           f.puts("  end")
           f.puts("end")

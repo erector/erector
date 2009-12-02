@@ -47,7 +47,7 @@ grammar Rhtml
   rule scriptlet
     '<%' space code space '%>' <Erector::Indenting> {
       def convert
-        text = code.text_value.strip
+        text = code.text_value_removing_trims.strip
         if text =~ /\bdo( |.*|)?$/
           line_in text
         elsif text == "end"
@@ -62,7 +62,7 @@ grammar Rhtml
   rule printlet
     '<%=' space code space '%>' <Erector::Indenting> {
       def convert
-        line "rawtext #{code.convert}"
+        line "rawtext #{code.convert_removing_trims}"
       end
     }
   end
@@ -70,13 +70,21 @@ grammar Rhtml
   rule hprintlet
     '<%=' space 'h' ' '+ code space '%>' <Erector::Indenting> {
       def convert
-        line "text #{code.convert}"
+        line "text #{code.convert_removing_trims}"
       end
     }
   end
 
   rule code
     (('%' !'>') /  [^%])* <Erector::Indenting> {
+      def convert_removing_trims
+        convert.gsub(/\s*\-\s*$/, '')
+      end
+      
+      def text_value_removing_trims
+        text_value.gsub(/\s*\-\s*$/, '')
+      end
+      
       def convert
         code = text_value.strip
         # matches a word, followed by either a word, a string, or a symbol
@@ -158,13 +166,19 @@ grammar Rhtml
 
   rule attributes
 		first:attribute rest:attributes* {
-			def convert
-				" " + first.convert + 
-					if rest.empty? 
-						""
-					else
-					  ",#{rest.elements.first.convert}"  # this is hacky -- is there a better way?
-					end
+			def convert(internal = false)
+  			out = " " + first.convert +
+  				if rest.empty?
+  					""
+  				else
+  				  ",#{rest.elements.first.convert(true)}"  # this is hacky -- is there a better way?
+  				end
+
+  			if (! internal) && out =~ /[\(\)]/ && out =~ /^(\s*)(.*?)(\s*)$/
+    			out = "(#{$2})#{$3}"
+  			end
+
+  			out
 			end
 		}
 	end
@@ -173,7 +187,7 @@ grammar Rhtml
 		space n:(tagname) space '=' space v:quoted space {
       def convert
         attr_name = (n.text_value =~ /[-:]/) ? "'#{n.text_value}'" : ":#{n.text_value}"
-        "#{attr_name} => '#{v.value.html_unescape.escape_single_quotes}'"
+        "#{attr_name} => #{v.convert}"
       end
     }
   end
@@ -182,6 +196,32 @@ grammar Rhtml
     (('"' val:([^"]*) '"') / ('\'' val:([^']*) '\'')) {
       def value
         val.text_value
+      end
+    
+      def convert
+        extract_erb(val.text_value)
+      end
+      
+      def parenthesize_if_necessary(s)
+        return s if s.strip =~ /^\(.*\)$/ || s =~ /^[A-Z0-9_]*$/i
+        "(" + s + ")"
+      end
+      
+      def extract_erb(s, parenthesize = true)
+        if s =~ /^(.*?)<%=(.*?)%>(.*?)$/
+          pre, code, post = $1.html_unescape.escape_single_quotes, $2, $3.html_unescape.escape_single_quotes
+          out = ""
+          out = "'#{pre}' + " unless pre.length == 0
+          out += parenthesize_if_necessary(code.strip)
+          unless post.length == 0
+            post = extract_erb(post, false)
+            out += " + #{post}"
+          end
+          out = parenthesize_if_necessary(out) if parenthesize
+          out
+        else
+          "'" + s.html_unescape.escape_single_quotes + "'"
+        end
       end
     }
   end
