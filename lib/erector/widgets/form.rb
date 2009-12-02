@@ -1,13 +1,10 @@
 # todo: make more like http://github.com/justinfrench/formtastic
 
 class Form < Erector::Widget
-  needs :action, :method => "post", :onsubmit => nil, :data => nil
+  needs :action, :method => "post"
   
   def content
-    opts = {:method => form_method, :action => @action}
-    opts.merge!(:data => @data) if @data
-    opts.merge!(:onsubmit => @onsubmit) if @onsubmit
-    form opts do
+    form :method => form_method, :action => @action do
       unless rest_method == form_method
         input :type => "hidden", :name => "_method", :value => rest_method
       end
