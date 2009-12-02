@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{erector}
-  s.version = "0.7.2"
+  s.version = "0.7.3"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Alex Chaffee", "Brian Takita", "Jeff Dean", "Jim Kingdon"]
-  s.date = %q{2009-11-16}
+  s.date = %q{2009-12-01}
   s.default_executable = %q{erector}
   s.description = %q{Html Builder library.}
   s.email = %q{erector@googlegroups.com}
@@ -59,6 +59,7 @@ Gem::Specification.new do |s|
      "spec/erector/indentation_spec.rb",
      "spec/erector/inline_spec.rb",
      "spec/erector/mixin_spec.rb",
+     "spec/erector/sample-file.txt",
      "spec/erector/unicode_builder_spec.rb",
      "spec/erector/widget_spec.rb",
      "spec/erector/widgets/field_table_spec.rb",
@@ -88,6 +89,7 @@ Gem::Specification.new do |s|
      "spec/erector/indentation_spec.rb",
      "spec/erector/inline_spec.rb",
      "spec/erector/mixin_spec.rb",
+     "spec/erector/sample-file.txt",
      "spec/erector/unicode_builder_spec.rb",
      "spec/erector/widget_spec.rb",
      "spec/erector/widgets",
