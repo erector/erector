@@ -5,6 +5,7 @@ require 'rake/rdoctask'
 require 'rake/gempackagetask'
 require 'spec/rake/spectask'
 require './tasks/hoex.rb'  # Alex's patched version of Hoe
+require "lib/erector/rails/rails_version"
 
 def rails_root
   "#{File.dirname(__FILE__)}/spec/rails_root"
@@ -73,7 +74,6 @@ end
 desc "Run the specs for the erector plugin"
 task :spec do
   unless File.exists?("#{rails_root}/vendor/rails/railties/lib/initializer.rb")
-    warn "Rails not cloned into #{rails_root}. Installing dependencies."
     Rake.application[:install_dependencies].invoke
   end
   require "spec/spec_suite"
@@ -101,24 +101,19 @@ end
 
 desc "Install dependencies to run the build. This task uses Git."
 task(:install_dependencies) do
-  require "lib/erector/rails/rails_version"
+  puts "Cloning rails into #{RAILS_PATH}"
   FileUtils.rm_rf(RAILS_PATH)
   system("git clone git://github.com/rails/rails.git #{RAILS_PATH}") || raise("Git clone of Rails failed")
   Rake.application[:switch_to_rails_version_tag].invoke
 end
 
-desc "Refreshes the Rails versions from edge git repo"
+desc "Refreshes the Rails versions from github repo"
 task(:switch_to_rails_version_tag) do
-  require "lib/erector/rails/rails_version"
   Dir.chdir(RAILS_PATH) do
+    puts "Checking out rails #{Erector::Rails::RAILS_VERSION_TAG} into #{RAILS_PATH}"
     system("git fetch origin")
     system("git checkout #{Erector::Rails::RAILS_VERSION_TAG}")
   end
-end
-
-desc "Updates the dependencies to run the build. This task uses Git."
-task(:update_dependencies) do
-  system "cd #{RAILS_PATH}; git fetch origin"
 end
 
 desc "Regenerate unicode.rb from UnicodeData.txt from unicode.org.  Only needs to be run when there is a new version of the Unicode specification"

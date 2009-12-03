@@ -1,6 +1,6 @@
 require File.expand_path("#{File.dirname(__FILE__)}/../spec_helper")
 require 'benchmark'
-require 'active_support' # for Symbol#to_proc
+# require 'active_support' # for Symbol#to_proc
 
 describe Erector::External do
   it "can be constructed with type, klass, text" do
