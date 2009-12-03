@@ -4,11 +4,11 @@ gems:
 - name: nokogiri
   version: '>= 1.3.3'
 - name: rspec
-  version: '>= 1.2.2'
+  version: '>= 1.2.9'
 - name: rspec-rails
-  version: '>= 1.2.2'
+  version: '>= 1.2.9'
 - name: rails
-  version: '>= 2.3.2'
+  version: '>= 2.3.5'
 - name: rubyforge
   version: '>= 1.0.3'
 - name: rr
@@ -17,5 +17,3 @@ gems:
   version: '>= 1.3.0'
 - name: git
   version: '>= 1.2.5'
-- name: rails
-  version: '= 2.3.4'
