@@ -6,6 +6,7 @@ class SpecSuite
       require "#{dir}/../lib/erector/rails/rails_version"
 
       rails_version = Erector::Rails::RAILS_VERSION
+      puts ""
       puts "Running rails_spec_suite for Rails version #{rails_version}"
 
       system("ruby #{dir}/rails_spec_suite.rb") || raise("Failed for version #{rails_version}")
