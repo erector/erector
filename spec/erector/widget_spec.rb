@@ -840,7 +840,7 @@ module WidgetSpec
         Erector.inline do
           captured = capture {}
         end.to_s.should == ""
-        captured.should be_a_kind_of Erector::RawString
+        captured.should be_a_kind_of(Erector::RawString)
       end
 
       it "works with nested captures" do

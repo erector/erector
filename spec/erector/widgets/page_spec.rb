@@ -46,7 +46,7 @@ describe Erector::Widgets::Page do
     end
     fun_page_class.new do
       text "soccer!"
-    end.to_s.should include "<h3>what's fun?</h3>soccer!"
+    end.to_s.should include("<h3>what's fun?</h3>soccer!")
   end
 
 end
