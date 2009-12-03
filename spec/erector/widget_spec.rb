@@ -57,7 +57,7 @@ module WidgetSpec
         widget = Erector.inline do
           div "Hello"
         end
-        widget.to_a.should == ["<div>", "Hello", "</div>"]
+        widget.to_a.should == ["<div>Hello</div>"]
       end
 
     # removing this, since oddly, when i run this test solo it works, but when
@@ -149,52 +149,54 @@ module WidgetSpec
         end
       end
 
-      context "when nested" do
-        it "renders the tag around the rest of the block" do
-          parent_widget = Class.new(Erector::Widget) do
-            def content
-              div :id => "parent_widget" do
-                super
-              end
-            end
-          end
-          
-          child_widget = Class.new(Erector::Widget) do
-            def content
-              div :id => "child_widget" do
-                super
-              end
-            end
-          end
-
-          grandchild = Class.new(Erector::InlineWidget) do
-            needs :parent_widget, :child_widget
-            def content
-              widget(@parent_widget) do
-                widget(@child_widget) do
-                  div :id => "grandchild"
+        context "when nested" do
+          module WhenNested
+            class Parent < Erector::Widget
+              def content
+                div :id => "parent_widget" do
+                  super
                 end
               end
             end
+
+            class Child < Erector::Widget
+              def content
+                div :id => "child_widget" do
+                  super
+                end
+              end
+            end
+
+            class Grandchild < Erector::Widget
+              needs :parent_widget, :child_widget
+              def content
+                widget(@parent_widget) do
+                  widget(@child_widget) do
+                    div :id => "grandchild"
+                  end
+                end
+              end            
+            end
           end
-
-          grandchild.new(:parent_widget => parent_widget, :child_widget => child_widget).to_s.should == '<div id="parent_widget"><div id="child_widget"><div id="grandchild"></div></div></div>'
-
-          pending "pretty-print indentation is messed up with nesting" do
-          grandchild.new(:parent_widget => parent_widget, :child_widget => child_widget).to_pretty.should == 
-          "<div id=\"parent_widget\">\n" + 
-          "  <div id=\"child_widget\">\n" + 
-          "    <div id=\"grandchild\"></div>\n" + 
-          "  </div>\n" +
-          "</div>"
+          
+          it "renders the tag around the rest of the block" do
+            WhenNested::Grandchild.new(:parent_widget => WhenNested::Parent, 
+              :child_widget => WhenNested::Child).to_s.should == '<div id="parent_widget"><div id="child_widget"><div id="grandchild"></div></div></div>'
           end
-
-        end
+        
+          it "renders the tag around the rest of the block with proper indentation" do
+            WhenNested::Grandchild.new(:parent_widget => WhenNested::Parent, :child_widget => WhenNested::Child).to_pretty.should == 
+            "<div id=\"parent_widget\">\n" + 
+            "  <div id=\"child_widget\">\n" + 
+            "    <div id=\"grandchild\"></div>\n" + 
+            "  </div>\n" +
+            "</div>\n"
+          end
         
         it "passes a pointer to the child object back into the parent object's block" do
           child_widget = Erector::Widget.new
           
-          class Parent < Erector::Widget 
+          class Parent2 < Erector::Widget 
             needs :child_widget
             def content
               div do
@@ -205,7 +207,7 @@ module WidgetSpec
             end
           end
           
-          Parent.new(:child_widget => child_widget).to_s.should == "<div><b>#{child_widget.dom_id}</b></div>"
+          Parent2.new(:child_widget => child_widget).to_s.should == "<div><b>#{child_widget.dom_id}</b></div>"
           
         end
         
@@ -481,6 +483,16 @@ module WidgetSpec
     ensure
       $stdout = STDOUT
     end
+    
+    def with_prettyprint_default(value = true)
+      old_default = Erector::Widget.new.prettyprint_default
+      begin
+        Erector::Widget.prettyprint_default = value
+        yield
+      ensure
+        Erector::Widget.prettyprint_default = old_default
+      end
+    end      
 
     describe "#comment" do
       it "emits a single line comment when receiving a string" do
@@ -796,14 +808,10 @@ module WidgetSpec
       end
 
       it "doesn't inherit unwanted pretty-printed whitespace (i.e. it turns off prettyprinting)" do
-        old_default = Erector::Widget.new.prettyprint_default
-        begin
-          Erector::Widget.prettyprint_default = true
+        with_prettyprint_default(true) do
           Erector.inline do
             div { div { div "foo" } }
           end.to_text.should == "foo"
-        ensure
-          Erector::Widget.prettyprint_default = old_default
         end
       end
     end

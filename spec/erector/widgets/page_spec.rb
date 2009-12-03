@@ -48,5 +48,7 @@ describe Erector::Widgets::Page do
       text "soccer!"
     end.to_s.should include("<h3>what's fun?</h3>soccer!")
   end
+  
+  it "only puts into externals those from widgets rendered on it"    
 
 end
