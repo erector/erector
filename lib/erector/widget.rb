@@ -177,10 +177,6 @@ module Erector
       @@prettyprint_default
     end
 
-    def self.prettyprint_default
-      @@prettyprint_default
-    end
-
     def self.prettyprint_default=(enabled)
       @@prettyprint_default = enabled
     end
@@ -190,7 +186,9 @@ module Erector
       'input' => true, 'textarea' => true, 'button' => true, 'select' => true
     }
 
-    RESERVED_INSTANCE_VARS = [:helpers, :assigns, :block, :output, :prettyprint, :indentation]
+    SPACES_PER_INDENT = 2
+
+    RESERVED_INSTANCE_VARS = [:helpers, :assigns, :block, :output, :prettyprint, :indentation, :at_start_of_line]
 
     attr_reader *RESERVED_INSTANCE_VARS
     attr_reader :parent
@@ -211,6 +209,30 @@ module Erector
 
 #-- methods for other classes to call, left public for ease of testing and documentation
 #++
+
+    protected
+    def context(parent, output, prettyprint = false, indentation = 0, helpers = nil)
+      #TODO: pass in options hash, maybe, instead of parameters
+      original_parent = @parent
+      original_output = @output
+      original_indendation = @indentation
+      original_helpers = @helpers
+      original_prettyprint = @prettyprint
+      @parent = parent
+      @output = output
+      @at_start_of_line = true
+      raise "indentation must be a number, not #{indentation.inspect}" unless indentation.is_a? Fixnum
+      @indentation = indentation
+      @helpers = helpers
+      @prettyprint = prettyprint
+      yield
+    ensure
+      @parent = original_parent
+      @output = original_output
+      @indentation = original_indendation
+      @helpers = original_helpers
+      @prettyprint = original_prettyprint
+    end
 
     public
     def assign_instance_variables (instance_variables)
@@ -285,23 +307,19 @@ module Erector
     #
     # # Options: see #to_s
     def to_a(options = {}, &blk)
-      _render(options, &blk).to_a
+      _render({:output => []}.merge(options), &blk).to_a
     end
     
     def _render(options = {}, &blk)
       options = {
+        :output => "",  # "" is apparently faster than [] in a long-running process
+        :prettyprint => prettyprint_default,
+        :indentation => 0,
         :helpers => nil,
         :parent => @parent,
         :content_method_name => :content,
       }.merge(options)
-
-      output_options = {}
-      [:prettyprint, :indentation].each do |opt|
-        output_options[opt] = options[opt] unless options[opt].nil?
-      end
-      output = Output.new(output_options)
-      
-      context(options[:parent], output, options[:helpers]) do
+      context(options[:parent], options[:output], options[:prettyprint], options[:indentation], options[:helpers]) do
         send(options[:content_method_name], &blk)
         output
       end
@@ -339,7 +357,7 @@ module Erector
     # which gives better performance than using +capture+ or +to_s+. You can
     # also use the +widget+ method.
     def write_via(parent)
-      context(parent, parent.output, parent.helpers) do
+      context(parent, parent.output, parent.prettyprint, parent.indentation, parent.helpers) do
         content
       end
     end
@@ -422,18 +440,11 @@ module Erector
 
     # Emits an open tag, comprising '<', tag name, optional attributes, and '>'
     def open_tag(tag_name, attributes={})
-      output.newline if newliney?(tag_name) && !output.at_line_start?
-      output << "<#{tag_name}#{format_attributes(attributes)}>"
-      output.indent
-    end
+      indent_for_open_tag(tag_name)
+      @indentation += SPACES_PER_INDENT
 
-    # Emits a close tag, consisting of '<', '/', tag name, and '>'
-    def close_tag(tag_name)
-      output.undent
-      output <<("</#{tag_name}>")
-      if newliney?(tag_name)
-        output.newline
-      end
+      output << "<#{tag_name}#{format_attributes(attributes)}>"
+      @at_start_of_line = false
     end
 
     # Emits text.  If a string is passed in, it will be HTML-escaped. If a
@@ -447,6 +458,7 @@ module Erector
       else
         output <<(value.html_escape)
       end
+      @at_start_of_line = false
       nil
     end
 
@@ -485,6 +497,17 @@ module Erector
       end
     end
 
+    # Emits a close tag, consisting of '<', '/', tag name, and '>'
+    def close_tag(tag_name)
+      @indentation -= SPACES_PER_INDENT
+      indent()
+
+      output <<("</#{tag_name}>")
+
+      if newliney?(tag_name)
+        _newline
+      end
+    end
     
     # Emits the result of joining the elements in array with the separator.
     # The array elements and separator can be Erector::Widget objects,
@@ -540,7 +563,7 @@ module Erector
     def capture(&block)
       begin
         original_output = output
-        @output = Output.new
+        @output = ""
         yield
         raw(output.to_s)
       ensure
@@ -635,21 +658,6 @@ module Erector
 ### internal utility methods
 
 protected
-    def context(parent, output, helpers = nil)
-      #TODO: pass in options hash, maybe, instead of parameters
-      original_parent = @parent
-      original_output = @output
-      original_helpers = @helpers
-      @parent = parent
-      @output = output
-      @helpers = helpers
-      yield
-    ensure
-      @parent = original_parent
-      @output = original_output
-      @helpers = original_helpers
-    end
-
     def __element__(raw, tag_name, *args, &block)
       if args.length > 2
         raise ArgumentError, "Cannot accept more than four arguments"
@@ -681,8 +689,33 @@ protected
     end
 
     def __empty_element__(tag_name, attributes={})
+      indent_for_open_tag(tag_name)
+
       output << "<#{tag_name}#{format_attributes(attributes)} />"
-      output.newline if newliney?(tag_name)
+
+      if newliney?(tag_name)
+        _newline
+      end
+    end
+    
+    def _newline
+      return unless @prettyprint      
+      output << "\n"
+      @at_start_of_line = true
+    end
+
+    def indent_for_open_tag(tag_name)
+      return unless @prettyprint      
+      if !@at_start_of_line && newliney?(tag_name)
+        _newline
+      end
+      indent()
+    end
+
+    def indent()
+      if @at_start_of_line
+        output << " " * [@indentation, 0].max
+      end
     end
 
     def format_attributes(attributes)
@@ -727,7 +760,11 @@ protected
     end
 
     def newliney?(tag_name)
-      !NON_NEWLINEY.include?(tag_name)
+      if @prettyprint
+        !NON_NEWLINEY.include?(tag_name)
+      else
+        false
+      end
     end
 
   end
