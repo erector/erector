@@ -50,6 +50,19 @@ module WidgetSpec
           widget.to_s(:content_method_name => :alternate_content)
         end
       end
+      
+      it "can accept an existing string as an output buffer" do
+        s = "foo"
+        Erector.inline { text "bar" }.to_s(:output => s)
+        s.should == "foobar"
+      end
+
+      it "can accept an existing Output as an output buffer" do
+        output = Erector::Output.new
+        output << "foo"
+        Erector.inline { text "bar" }.to_s(:output => output)
+        output.to_s.should == "foobar"
+      end
     end
 
     describe "#to_a" do

@@ -26,6 +26,14 @@ module Erector
       end
     end
     
+    it "can be initialized with an existing string buffer" do
+      s = "foo"
+      @output = Output.new(:output => s)
+      @output << "bar"
+      s.should == "foobar"
+      @output.to_s.should == "foobar"
+    end
+    
     it "accepts a prettyprint option" do
       Erector::Output.new(:prettyprint => true).prettyprint.should be_true
       Erector::Output.new(:prettyprint => false).prettyprint.should be_false

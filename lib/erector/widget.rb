@@ -294,13 +294,17 @@ module Erector
         :parent => @parent,
         :content_method_name => :content,
       }.merge(options)
-
-      output_options = {}
-      [:prettyprint, :indentation].each do |opt|
-        output_options[opt] = options[opt] unless options[opt].nil?
-      end
-      output = Output.new(output_options)
       
+      if options[:output] && (options[:output].is_a? Output)
+        output = options[:output]
+      else
+        output_options = {}
+        [:prettyprint, :indentation, :output].each do |opt|
+          output_options[opt] = options[opt] unless options[opt].nil?
+        end
+        output = Output.new(output_options)
+      end
+
       context(options[:parent], output, options[:helpers]) do
         send(options[:content_method_name], &blk)
         output
@@ -538,11 +542,23 @@ module Erector
     # you should avoid this method since it hurts performance, and use
     # +widget+ or +write_via+ instead.
     def capture(&block)
+      # todo: raw(with_output_buffer(&block))
       begin
-        original_output = output
+        original_output = @output
         @output = Output.new
         yield
-        raw(output.to_s)
+        raw(@output.to_s)
+      ensure
+        @output = original_output
+      end
+    end
+
+    def with_output_buffer(buffer='')
+      begin
+        original_output = @output
+        @output = Output.new(:output => buffer)
+        yield
+        buffer
       ensure
         @output = original_output
       end

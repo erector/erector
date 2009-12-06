@@ -41,7 +41,11 @@ module Erector
         start_line = __LINE__ + 2
         method_def =<<-METHOD_DEF
           def #{method_name}(*args, &block)
-            rawtext parent.#{method_name}(*args, &block)
+            s = parent.#{method_name}(*args, &block)
+            puts "hi: \#{s}"
+            puts output.inspect
+            puts @output.inspect
+            rawtext s
           end
         METHOD_DEF
         eval(method_def, binding, __FILE__, start_line)
@@ -71,10 +75,23 @@ module Erector
         start_line = __LINE__ + 2
         method_def =<<-METHOD_DEF
           def #{method_name}(*args, &block)
-            captured = parent.capture do
-              parent.#{method_name}(*args, &block)
+            wrapped_block = lambda do
+              # the block is going to do erector stuff, so capture it and return it
+              b = ''
+              with_output_buffer(b) do
+                block.call
+              end
+              puts "b=\#{b}"
+              return b
+            end
+            
+            captured = ''
+            captured = parent.with_output_buffer(captured) do
+              x = parent.#{method_name}(*args, &wrapped_block)
+              puts "x=\#{x}"
               parent.output_buffer.to_s
             end
+            puts "captured: \#{captured}"
             rawtext(captured)
           end
         METHOD_DEF

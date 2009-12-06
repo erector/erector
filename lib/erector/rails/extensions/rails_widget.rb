@@ -112,20 +112,31 @@ module Erector
       end
 
       def output_with_parent
-        if parent.respond_to?(:output_buffer)
-          parent.output_buffer.is_a?(String) ? parent.output_buffer : handle_rjs_buffer
-        else
-          output_without_parent
-        end
+        @output ||=
+          if parent.respond_to?(:output_buffer)
+            if parent.output_buffer.is_a?(String)
+              Output.new(:output => parent.output_buffer)
+            else
+              Output.new(:output => handle_rjs_buffer)
+            end
+          else
+            output_without_parent
+          end
       end
 
       def capture_with_parent(&block)
-        (parent && parent.respond_to?(:capture)) ? raw(parent.capture(&block).to_s) : capture_without_parent(&block)
+        # if parent && parent.respond_to?(:capture)
+        #   puts "passing to parent"
+        #   raw(parent.capture(&block).to_s)
+        # else
+        #   puts "passing to widget"
+          capture_without_parent(&block)
+        # end
       end
 
       # This is here to force #parent.capture to return the output
-      def __in_erb_template;
-      end
+      # def __in_erb_template;
+      # end
 
       private
 

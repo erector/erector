@@ -2,32 +2,32 @@ module Erector
   class Output
     SPACES_PER_INDENT = 2
 
-    attr_reader :prettyprint
+    attr_reader :prettyprint, :buffer
     
     def initialize(options = {})
       options = {:prettyprint => Widget.prettyprint_default}.merge(options)
       @prettyprint = options[:prettyprint]
       @indentation = options[:indentation] || 0
-      @s = ""
+      @buffer = options[:output] || ""
       @at_line_start = true
     end
     
     def <<(s)
       if prettyprint and at_line_start?
-        @s << " " * ([@indentation, 0].max * SPACES_PER_INDENT)
+        @buffer << " " * ([@indentation, 0].max * SPACES_PER_INDENT)
       end
-      @s << s
+      @buffer << s
       @at_line_start = false
-      # @at_line_start = @s[-1..-1] == "\n" # s[-1..-1] is a clever way to get the last char in a string
+      # @at_line_start = @buffer[-1..-1] == "\n" # s[-1..-1] is a clever way to get the last char in a string
       self
     end
     
     def to_s
-      @s
+      @buffer
     end
     
     def to_a
-      [@s]
+      [@buffer]
     end
     
     def newline
