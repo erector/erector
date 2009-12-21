@@ -146,7 +146,7 @@ class Erector::Widgets::Page < Erector::InlineWidget
   end
   
   def included_head_content
-    @included_widgets = output.widgets.to_a
+    @included_widgets = [self.class] + output.widgets.to_a
     capture do
       included_stylesheets
       inline_styles
@@ -156,7 +156,7 @@ class Erector::Widgets::Page < Erector::InlineWidget
   end
   
   def rendered_externals(type)
-    return self.class.externals(type, @included_widgets)
+    return Erector::Widget.externals(type, @included_widgets)
   end
   
   def included_scripts

@@ -62,6 +62,10 @@ describe "external declarations" do
     external :js, "/lib/dairy.js"
   end
   
+  class Tabasco < HotSauce
+    external :js, "tabasco.js"
+  end
+
   it "can be fetched via the type" do
     Erector::Widget.externals(:css).map(&:text).should == [
       "/css/tapatio.css",
@@ -88,6 +92,10 @@ describe "external declarations" do
       ]
   end
   
+  it "grabs externals from superclasses too" do
+    Erector::Widget.externals(:js, Tabasco).map(&:text).should == ["/lib/jquery.js", "/lib/picante.js", "tabasco.js"]
+  end
+
   it "retains the options" do
     Erector::Widget.externals(:css, HotSauce).map(&:options).should == [
       {:media => "print"}, 
@@ -100,6 +108,7 @@ describe "external declarations" do
       "/lib/jquery.js",
       "/lib/picante.js",
       "/lib/dairy.js",
+      "tabasco.js",
       ]
   end
 
@@ -118,6 +127,7 @@ describe "external declarations" do
       "/lib/jquery.js",
       "/lib/picante.js",
       "/lib/dairy.js",
+      "tabasco.js",
       ]
   end
 

@@ -22,6 +22,9 @@ module Erector
         classes = [classes] unless classes.is_a? Array
       end
       type = type.to_sym
+
+      classes = classes.map{|k| k.ancestors}.flatten unless classes.nil?
+
       (@@externals ||= []).select do |x| 
         x.type == type && 
         (classes.nil? || classes.include?(x.klass))
