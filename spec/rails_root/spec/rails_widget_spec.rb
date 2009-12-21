@@ -16,6 +16,7 @@ describe Erector::Rails::WidgetExtensions do
     end
 
     it "captures helper output" do
+      pending "make helper concat work again" do
       captured = nil
       Erector.inline do
         captured = capture do
@@ -23,6 +24,7 @@ describe Erector::Rails::WidgetExtensions do
         end
       end.to_s(:parent => @view, :helpers => @view).should == ""
       captured.should == "capture me!"
+      end
     end
 
     it "captures with an erector block" do

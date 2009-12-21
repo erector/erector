@@ -42,9 +42,6 @@ module Erector
         method_def =<<-METHOD_DEF
           def #{method_name}(*args, &block)
             s = parent.#{method_name}(*args, &block)
-            puts "hi: \#{s}"
-            puts output.inspect
-            puts @output.inspect
             rawtext s
           end
         METHOD_DEF
