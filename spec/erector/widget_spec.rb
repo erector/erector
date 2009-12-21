@@ -1089,8 +1089,10 @@ module WidgetSpec
     end
 
     describe 'caching' do
+      
       class Cash < Erector::Widget
         needs :name
+        cachable
         def content
           p do
             text @name
@@ -1100,9 +1102,16 @@ module WidgetSpec
       end
 
       class Family < Erector::Widget
+        cacheable
         def content
           widget Cash, :name => "Johnny"
           widget Cash, :name => "June"
+        end
+      end
+      
+      class NotCachable < Erector::Widget
+        def content
+          text "CONTENT"
         end
       end
 
@@ -1119,6 +1128,18 @@ module WidgetSpec
         Erector::Widget.cache.should == @cache
       end
 
+      it '-- a widget is not cachable by default' do
+        Erector::Widget.cachable?.should be_false
+      end
+      
+      it '-- a widget is cachable if you say so in the class definition' do
+        Cash.cachable?.should be_true
+      end
+
+      it '-- can be declared cachable using the alternate spelling "cacheable"' do
+        Family.cachable?.should be_true
+      end
+
       describe '#to_s' do
 
         it "caches a rendered widget" do
@@ -1129,6 +1150,16 @@ module WidgetSpec
         it "uses the cached value" do
           @cache[Cash, {:name => "Johnny"}] = "CACHED"
           Cash.new(:name => "Johnny").to_s.should == "CACHED"
+        end
+
+        it "doesn't use the cached value for widgets not declared cachable" do
+          @cache[NotCachable] = "CACHED"
+          NotCachable.new.to_s.should == "CONTENT"
+        end
+          
+        it "doesn't cache widgets not declared cachable" do
+          NotCachable.new.to_s
+          @cache[NotCachable].should be_nil
         end
 
         it "doesn't cache widgets initialized with a block (yet)" do

@@ -38,8 +38,28 @@ module Erector
   # fun!
   class Widget
     extend Erector::Externals # 'extend'ing since they're class methods, not instance methods
+
+    @cachable = false
+
+    def self.cacheable(value = true)
+      @cachable = value
+    end
     
+    def self.cachable(value = true)
+      @cachable = value
+    end
+    
+    def self.cachable?
+      if @cachable.nil?
+        ancestors[1].cachable?
+      else
+        @cachable
+      end
+    end
+    
+
     class << self
+      
       def all_tags
         Erector::Widget.full_tags + Erector::Widget.empty_tags
       end
@@ -334,7 +354,7 @@ module Erector
     end
     
     def should_cache?
-      cache && @block.nil?
+      cache && @block.nil? && self.class.cachable?
     end
 
     # Template method which must be overridden by all widget subclasses.
