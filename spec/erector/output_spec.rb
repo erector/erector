@@ -19,10 +19,19 @@ module Erector
       @output.to_s.should == "foobar"
     end
     
+    it "provides a placeholder string to be filled in later" do
+      @output << "foo"
+      placeholder = @output.placeholder
+      @output << "bar"
+      @output.to_s.should == "foobar"
+      placeholder << "baz"
+      @output.to_s.should == "foobazbar"      
+    end
+    
     describe '#to_a' do
       it "emits an array" do
         @output << "foo" << "bar"
-        @output.to_a.should == ["foobar"]
+        @output.to_a.join.should == "foobar"
       end
     end
     
@@ -127,6 +136,17 @@ module Erector
       end
 
     end
+    
+    class Puppy < Erector::Widget
+    end
+    class Kitten < Erector::Widget
+    end
 
+    it "can keep track of widget classes emitted to it" do
+      @output.widgets << Puppy
+      @output.widgets << Kitten
+      @output.widgets << Puppy
+      @output.widgets.to_a.should include_only [Puppy, Kitten]
+    end
   end
 end

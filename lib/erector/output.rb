@@ -1,14 +1,17 @@
+require 'set'
+
 module Erector
   class Output
     SPACES_PER_INDENT = 2
 
-    attr_reader :prettyprint, :buffer
+    attr_reader :prettyprint, :buffer, :widgets
     
     def initialize(options = {})
       options = {:prettyprint => Widget.prettyprint_default}.merge(options)
       @prettyprint = options[:prettyprint]
       @indentation = options[:indentation] || 0
-      @buffer = options[:output] || ""
+      @buffer = options[:output] || []
+      @widgets = Set.new
       @at_line_start = true
     end
     
@@ -22,12 +25,18 @@ module Erector
       self
     end
     
+    def placeholder
+      s = ""
+      @buffer << s
+      s
+    end
+    
     def to_s
-      @buffer
+      @buffer.to_s
     end
     
     def to_a
-      [@buffer]
+      @buffer.to_a
     end
     
     def newline

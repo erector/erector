@@ -17,11 +17,14 @@ module Erector
   end
   
   module Externals
-    def externals(type, klass = nil)
+    def externals(type, classes = nil)
+      unless classes.nil?
+        classes = [classes] unless classes.is_a? Array
+      end
       type = type.to_sym
       (@@externals ||= []).select do |x| 
         x.type == type && 
-        (klass.nil? || x.klass == klass)
+        (classes.nil? || classes.include?(x.klass))
       end
     end
 

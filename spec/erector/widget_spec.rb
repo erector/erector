@@ -70,7 +70,9 @@ module WidgetSpec
         widget = Erector.inline do
           div "Hello"
         end
-        widget.to_a.should == ["<div>Hello</div>"]
+        a = widget.to_a
+        a.is_a?(Array).should be_true
+        a.join.should == "<div>Hello</div>"
       end
 
     # removing this, since oddly, when i run this test solo it works, but when

@@ -80,6 +80,14 @@ describe "external declarations" do
       ]
   end
   
+  it "can be filtered via several classes" do
+    Erector::Widget.externals(:css, [HotSauce, SourCream]).map(&:text).should == [
+      "/css/tapatio.css",
+      "/css/salsa_picante.css",
+      "/css/sourcream.css",
+      ]
+  end
+  
   it "retains the options" do
     Erector::Widget.externals(:css, HotSauce).map(&:options).should == [
       {:media => "print"}, 

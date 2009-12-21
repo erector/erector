@@ -99,10 +99,12 @@ class Erector::Widgets::Page < Erector::InlineWidget
   end
 
   def content
+    extra_head_slot = nil
     rawtext doctype
     html(html_attributes) do
       head do
         head_content
+        extra_head_slot = @output.placeholder
       end
       body(body_attributes) do
         if block_given?
@@ -112,6 +114,9 @@ class Erector::Widgets::Page < Erector::InlineWidget
         end
       end
     end
+    # after everything's been rendered, use the placeholder to
+    # insert all the head's externals
+    extra_head_slot << included_head_content
   end
 
   # override me to provide a page title (default = name of the Page subclass)
@@ -138,28 +143,36 @@ class Erector::Widgets::Page < Erector::InlineWidget
   def head_content
     meta 'http-equiv' => 'content-type', :content => 'text/html;charset=UTF-8'
     title page_title
-
-    included_stylesheets
-    inline_styles
-
-    included_scripts
-    inline_scripts
+  end
+  
+  def included_head_content
+    @included_widgets = output.widgets.to_a
+    capture do
+      included_stylesheets
+      inline_styles
+      included_scripts
+      inline_scripts
+    end
+  end
+  
+  def rendered_externals(type)
+    return self.class.externals(type, @included_widgets)
   end
   
   def included_scripts
-    self.class.externals(:js).each do |external|
+    rendered_externals(:js).each do |external|
       script({:type => "text/javascript", :src => external.text}.merge(external.options))
     end
   end
   
   def included_stylesheets
-    self.class.externals(:css).each do |external|
+    rendered_externals(:css).each do |external|
       link({:rel => "stylesheet", :href => external.text, :type => "text/css", :media => "all"}.merge(external.options))
     end
   end
 
   def inline_styles
-    self.class.externals(:style).each do |external|
+    rendered_externals(:style).each do |external|
       style({:type => "text/css", 'xml:space' => 'preserve'}.merge(external.options)) do
         rawtext external.text
       end
@@ -167,12 +180,12 @@ class Erector::Widgets::Page < Erector::InlineWidget
   end
   
   def inline_scripts
-    self.class.externals(:script).each do |external|
+    rendered_externals(:script).each do |external|
       javascript external.options do
         rawtext external.text
       end
     end
-    self.class.externals(:jquery).each do |external|
+    rendered_externals(:jquery).each do |external|
       javascript external.options do
         jquery_ready external.text
       end

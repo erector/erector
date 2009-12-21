@@ -364,6 +364,7 @@ module Erector
         target.block = block unless block.nil?
         target
       end
+      output.widgets << child.class
       child.write_via(self)
     end
 
