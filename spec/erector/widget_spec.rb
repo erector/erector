@@ -3,6 +3,8 @@ require 'benchmark'
 
 module WidgetSpec
   describe Erector::Widget do
+    include Erector::Mixin
+
     describe ".all_tags" do
       it "returns set of full and empty tags" do
         Erector::Widget.all_tags.class.should == Array
@@ -135,9 +137,6 @@ module WidgetSpec
         end
       end
       
-    end
-
-    describe "#widget" do
       class Orphan < Erector::Widget
         def content
           p @name
@@ -1087,6 +1086,92 @@ module WidgetSpec
         widget = NiceWidget.new
         widget.to_s.should == "<div id=\"#{widget.dom_id}\"></div>"
       end
+    end
+
+    describe 'caching' do
+      class Cash < Erector::Widget
+        needs :name
+        def content
+          p do
+            text @name
+            text " Cash"
+          end
+        end
+      end
+
+      class Family < Erector::Widget
+        def content
+          widget Cash, :name => "Johnny"
+          widget Cash, :name => "June"
+        end
+      end
+
+      before do
+        @cache = Erector::Cache.new
+        Erector::Widget.cache = @cache
+      end
+
+      after do
+        Erector::Widget.cache = nil
+      end
+
+      it "has a global cache" do
+        Erector::Widget.cache.should == @cache
+      end
+
+      describe '#to_s' do
+
+        it "caches a rendered widget" do
+          Cash.new(:name => "Johnny").to_s
+          @cache[Cash, {:name => "Johnny"}].should == "<p>Johnny Cash</p>"
+        end
+
+        it "uses the cached value" do
+          @cache[Cash, {:name => "Johnny"}] = "CACHED"
+          Cash.new(:name => "Johnny").to_s.should == "CACHED"
+        end
+
+        it "doesn't cache widgets initialized with a block (yet)" do
+          Cash.new(:name => "June") do
+            text "whatever"
+          end.to_s
+          @cache[Cash, {:name => "June"}].should be_nil
+        end
+
+        it "works when passing an existing output as a parameter to to_s"
+      end
+
+      describe '#widget' do
+
+        it "caches rendered widgets" do
+          Family.new.to_s
+          @cache[Cash, {:name => "Johnny"}].should == "<p>Johnny Cash</p>"
+          @cache[Cash, {:name => "June"}].should == "<p>June Cash</p>"
+        end
+
+        it "uses the cached value" do
+          @cache[Cash, {:name => "Johnny"}] = "JOHNNY CACHED"
+          Family.new.to_s.should == "JOHNNY CACHED<p>June Cash</p>"
+        end
+
+        class WidgetWithBlock < Erector::Widget
+          def content
+            call_block
+          end
+        end
+
+        it "doesn't cache widgets initialized with a block (yet)" do
+          erector {
+            w = WidgetWithBlock.new do
+              text "in block"
+            end
+            widget w
+          }.should == "in block"
+          @cache[WidgetWithBlock].should be_nil
+        end
+
+      end
+
     end
   end
 end

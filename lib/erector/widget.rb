@@ -185,6 +185,19 @@ module Erector
       @@prettyprint_default = enabled
     end
 
+    @@cache = nil
+    def cache
+      self.class.cache
+    end
+
+    def self.cache
+      @@cache
+    end
+
+    def self.cache=(c)
+      @@cache = c
+    end
+
     NON_NEWLINEY = {'i' => true, 'b' => true, 'small' => true,
       'img' => true, 'span' => true, 'a' => true,
       'input' => true, 'textarea' => true, 'button' => true, 'select' => true
@@ -193,12 +206,12 @@ module Erector
     RESERVED_INSTANCE_VARS = [:helpers, :assigns, :block, :output, :prettyprint, :indentation]
 
     attr_reader *RESERVED_INSTANCE_VARS
-    attr_reader :parent
+    attr_reader :parent # making this reserved causes breakage
     attr_writer :block
     
     def initialize(assigns={}, &block)
       unless assigns.is_a? Hash
-        raise "Erector's API has changed. Now you should pass only an options hash into Widget.new; the rest come in via to_s, or by using #widget."
+        raise "Erector widgets are initialized with only a parameter hash. (Other parameters are passed to to_s, or the #widget method.)"
       end
       @assigns = assigns
       assign_instance_variables(assigns)
@@ -274,9 +287,9 @@ module Erector
     #           Rails view object.
     # content_method_name:: in case you want to call a method other than
     #                       #content, pass its name in here.
-    def to_s(options = {}, &blk)
+    def to_s(options = {})
       raise "Erector::Widget#to_s now takes an options hash, not a symbol. Try calling \"to_s(:content_method_name=> :#{options})\"" if options.is_a? Symbol
-      _render(options, &blk).to_s
+      _render(options).to_s
     end
     
     # Entry point for rendering a widget (and all its children). Same as #to_s
@@ -284,8 +297,8 @@ module Erector
     # Rack server (like Sinatra or Rails Metal).
     #
     # # Options: see #to_s
-    def to_a(options = {}, &blk)
-      _render(options, &blk).to_a
+    def to_a(options = {})
+      _render(options).to_a
     end
     
     def _render(options = {}, &blk)
@@ -306,11 +319,24 @@ module Erector
       end
 
       context(options[:parent], output, options[:helpers]) do
-        send(options[:content_method_name], &blk)
+        if should_cache?
+          if (cached_string = cache[self.class, @assigns])
+            output << cached_string
+          else
+            send(options[:content_method_name], &blk)
+            cache[self.class, @assigns] = output.to_s
+          end
+        else
+          send(options[:content_method_name], &blk)
+        end
         output
       end
     end
     
+    def should_cache?
+      cache && @block.nil?
+    end
+
     # Template method which must be overridden by all widget subclasses.
     # Inside this method you call the magic #element methods which emit HTML
     # and text to the output string. If you call "super" (or don't override
@@ -337,14 +363,18 @@ module Erector
       @block.call(self) if @block
     end
 
-    # To call one widget from another, inside the parent widget's +content+
-    # method, instantiate the child widget and call its +write_via+ method,
-    # passing in +self+. This assures that the same output string is used,
-    # which gives better performance than using +capture+ or +to_s+. You can
-    # also use the +widget+ method.
     def write_via(parent)
       context(parent, parent.output, parent.helpers) do
-        content
+        if should_cache?
+          cached_string = cache[self.class, @assigns]
+          if cached_string.nil?
+            cached_string = capture { content }
+            cache[self.class, @assigns] = cached_string
+          end
+          rawtext cached_string
+        else
+          content # call the subclass' content method
+        end
       end
     end
 
@@ -354,11 +384,15 @@ module Erector
     # If the first argument is an instance then the hash must be unspecified
     # (or empty). If a block is passed to this method, then it gets set as the
     # rendered widget's block.
-    def widget(target, assigns={}, &block)
+    #
+    # This is the preferred way to call one widget from inside another. This
+    # method assures that the same output string is used, which gives better
+    # performance than using +capture+ or +to_s+.
+        def widget(target, parameters={}, &block)
       child = if target.is_a? Class
-        target.new(assigns, &block)
+        target.new(parameters, &block)
       else
-        unless assigns.empty?
+        unless parameters.empty?
           raise "Unexpected second parameter. Did you mean to pass in variables when you instantiated the #{target.class.to_s}?"
         end
         target.block = block unless block.nil?
@@ -441,11 +475,14 @@ module Erector
       end
     end
 
-    # Emits text.  If a string is passed in, it will be HTML-escaped. If a
-    # widget or the result of calling methods such as raw is passed in, the
-    # HTML will not be HTML-escaped again. If another kind of object is passed
-    # in, the result of calling its to_s method will be treated as a string
-    # would be.
+    # Emits text.  If a string is passed in, it will be HTML-escaped. If the
+    # result of calling methods such as raw is passed in, the HTML will not be
+    # HTML-escaped again. If another kind of object is passed in, the result
+    # of calling its to_s method will be treated as a string would be.
+    #
+    # You shouldn't pass a widget in to this method, as that will cause
+    # performance problems (as well as being semantically goofy). Use the
+    # #widget method instead.
     def text(value)
       if value.is_a? Widget
         widget value
