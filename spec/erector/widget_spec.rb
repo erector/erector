@@ -672,6 +672,10 @@ module WidgetSpec
         it "does HTML escape its param" do
           Erector.inline { text plain }.to_s.should == escaped
         end
+
+        it "doesn't escape pre-escaped strings" do
+          Erector.inline { text h(plain) }.to_s.should == escaped
+        end
       end
       describe "#rawtext" do
         it "doesn't HTML escape its param" do

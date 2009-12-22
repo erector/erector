@@ -113,10 +113,6 @@ module Erector
       def session
         helpers.controller.session
       end
-
-      def simple_format(string)
-        p raw(string.to_s.html_escape.gsub(/\r\n?/, "\n").gsub(/\n/, "<br/>\n"))
-      end
     end
 
     Erector::Widget.send :include, Helpers
