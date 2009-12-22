@@ -12,13 +12,11 @@ module Erector
         :submit_tag,
       ]
       ESCAPED_HELPERS.each do |method_name|
-        start_line = __LINE__ + 2
-        method_def =<<-METHOD_DEF
+        module_eval(<<-METHOD_DEF, __FILE__, __LINE__)
           def #{method_name}(link_text, *args, &block)
             rawtext(helpers.#{method_name}(h(link_text), *args, &block))
           end
         METHOD_DEF
-        eval(method_def, binding, __FILE__, start_line)
       end
 
       # return text, take block
@@ -38,21 +36,18 @@ module Erector
         :text_field_with_auto_complete
       ]
       RAW_HELPERS.each do |method_name|
-        start_line = __LINE__ + 2
-        method_def =<<-METHOD_DEF
+        module_eval(<<-METHOD_DEF, __FILE__, __LINE__)
           def #{method_name}(*args, &block)
             rawtext helpers.#{method_name}(*args, &block)
           end
         METHOD_DEF
-        eval(method_def, binding, __FILE__, start_line)
       end
 
       CAPTURED_HELPERS_WITHOUT_CONCAT = [
         :render
       ]
       CAPTURED_HELPERS_WITHOUT_CONCAT.each do |method_name|
-        start_line = __LINE__ + 2
-        method_def =<<-METHOD_DEF
+        module_eval(<<-METHOD_DEF, __FILE__, __LINE__)
           def #{method_name}(*args, &block)
             captured = helpers.capture do
               helpers.concat(helpers.#{method_name}(*args, &block))
@@ -61,15 +56,13 @@ module Erector
             rawtext(captured)
           end
         METHOD_DEF
-        eval(method_def, binding, __FILE__, start_line)
       end
 
       CAPTURED_HELPERS_WITH_CONCAT = [
         :form_tag
       ]
       CAPTURED_HELPERS_WITH_CONCAT.each do |method_name|
-        start_line = __LINE__ + 2
-        method_def =<<-METHOD_DEF
+        module_eval(<<-METHOD_DEF, __FILE__, __LINE__)
           def #{method_name}(*args, &block)
             captured = helpers.capture do
               helpers.#{method_name}(*args, &block)
@@ -78,7 +71,6 @@ module Erector
             rawtext(captured)
           end
         METHOD_DEF
-        eval(method_def, binding, __FILE__, start_line)
       end
 
       def form_for(record_or_name_or_array, *args, &proc)
@@ -107,13 +99,11 @@ module Erector
       ]
       
       DIRECTLY_DELEGATED.each do |method_name|
-        start_line = __LINE__ + 2
-        method_def =<<-METHOD_DEF
+        module_eval(<<-METHOD_DEF, __FILE__, __LINE__)
           def #{method_name}(*args, &block)
             helpers.#{method_name}(*args, &block)
           end
         METHOD_DEF
-        eval(method_def, binding, __FILE__, start_line)
       end
       
       def flash
