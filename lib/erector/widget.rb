@@ -37,7 +37,38 @@ module Erector
   # Now, seriously, after playing around a bit, go read the user guide. It's 
   # fun!
   class Widget
-    extend Erector::Externals # 'extend'ing since they're class methods, not instance methods
+
+    # externals
+    
+    
+    
+    def self.external(type, value, options = {})
+      @externals ||= []
+      type = type.to_sym
+      x = External.new(type, value, options)
+      @externals << x unless @externals.include?(x)
+    end
+    
+    # returns all externals of the given type from this class and all its
+    # superclasses
+    def self.externals(type)
+      @externals ||= []
+      
+      type = type.to_sym
+      parent_externals = if superclass.respond_to?(:externals)
+        superclass.externals(type)
+      else
+        []
+      end
+
+      my_externals = @externals.select do |external|
+        external.type == type
+      end
+      
+      (parent_externals + my_externals).uniq
+    end
+
+    # caching
 
     @cachable = false
 
@@ -51,7 +82,7 @@ module Erector
     
     def self.cachable?
       if @cachable.nil?
-        ancestors[1].cachable?
+        superclass.respond_to?(:cachable?) && superclass.cachable?
       else
         @cachable
       end

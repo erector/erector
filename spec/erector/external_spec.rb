@@ -4,44 +4,33 @@ require 'active_support' # for Symbol#to_proc
 
 describe Erector::External do
   it "can be constructed with type, klass, text" do
-    x = Erector::External.new(:foo, Object, "abc")
+    x = Erector::External.new(:foo, "abc")
     x.type.should == :foo
-    x.klass.should == Object
     x.text.should == "abc"
     x.options.should == {}
   end
 
-  it "can be constructed with type, klass, text, and options" do
-    x = Erector::External.new(:foo, Object, "abc", {:bar => 7})
+  it "can be constructed with type, text, and options" do
+    x = Erector::External.new(:foo, "abc", {:bar => 7})
     x.options.should == {:bar => 7}
   end
   
   it "can be constructed with a file" do
     file = File.new("#{File.dirname(__FILE__)}/sample-file.txt")
-    x = Erector::External.new(:foo, Object, file)
+    x = Erector::External.new(:foo, file)
     x.text.should == "sample file contents, 2 + 2 = 4\n"
   end
 
   it "is equal to an identical external" do
-    x = Erector::External.new(:foo, Object, "abc", {:bar => 7})
-    y = Erector::External.new(:foo, Object, "abc", {:bar => 7})
+    x = Erector::External.new(:foo, "abc", {:bar => 7})
+    y = Erector::External.new(:foo, "abc", {:bar => 7})
     x.should == y
     [x].should include(y)
   end
   
-  it "is equal to an identical external with a different class" do
-    class_x = Class.new
-    class_y = Class.new
-    x = Erector::External.new(:foo, class_x, "abc", {:bar => 7})
-    y = Erector::External.new(:foo, class_y, "abc", {:bar => 7})
-    x.should == y
-    [x].should include(y)
-  end
-  
-  it "is not equal to an identical external with a different options" do
-    class_x = Class.new
-    x = Erector::External.new(:foo, class_x, "abc")
-    y = Erector::External.new(:foo, class_x, "abc", {:bar => 7})
+  it "is not equal to an otherwise identical external with different options" do
+    x = Erector::External.new(:foo, "abc")
+    y = Erector::External.new(:foo, "abc", {:bar => 7})
     x.should_not == y
     [x].should_not include(y)
   end
@@ -64,54 +53,46 @@ describe "external declarations" do
   
   class Tabasco < HotSauce
     external :js, "tabasco.js"
+    external :css, "/css/salsa_picante.css"
   end
 
   it "can be fetched via the type" do
-    Erector::Widget.externals(:css).map(&:text).should == [
+    HotSauce.externals(:css).map(&:text).should == [
       "/css/tapatio.css",
       "/css/salsa_picante.css",
-      "/css/sourcream.css",
       ]
   end
   
   it "can be filtered via the class" do
-    Erector::Widget.externals(:css, HotSauce).map(&:text).should == [
-      "/css/tapatio.css",
-      "/css/salsa_picante.css",
-      ]
-    Erector::Widget.externals(:css, SourCream).map(&:text).should == [
+    SourCream.externals(:css).map(&:text).should == [
       "/css/sourcream.css",
       ]
   end
-  
-  it "can be filtered via several classes" do
-    Erector::Widget.externals(:css, [HotSauce, SourCream]).map(&:text).should == [
-      "/css/tapatio.css",
-      "/css/salsa_picante.css",
-      "/css/sourcream.css",
-      ]
-  end
-  
+    
   it "grabs externals from superclasses too" do
-    Erector::Widget.externals(:js, Tabasco).map(&:text).should == ["/lib/jquery.js", "/lib/picante.js", "tabasco.js"]
+    Tabasco.externals(:js).map(&:text).should == ["/lib/jquery.js", "/lib/picante.js", "tabasco.js"]
   end
 
   it "retains the options" do
-    Erector::Widget.externals(:css, HotSauce).map(&:options).should == [
+    HotSauce.externals(:css).map(&:options).should == [
       {:media => "print"}, 
       {}
     ]
   end
   
   it "removes duplicates" do
-    Erector::Widget.externals(:js).map(&:text).should == [
-      "/lib/jquery.js",
-      "/lib/picante.js",
-      "/lib/dairy.js",
-      "tabasco.js",
+    Tabasco.externals(:css).map(&:text).should == [
+      "/css/tapatio.css",
+      "/css/salsa_picante.css",
       ]
   end
 
+  it "works with strings or symbols" do
+    HotSauce.externals("css").map(&:text).should == [
+      "/css/tapatio.css",
+      "/css/salsa_picante.css",
+      ]
+  end
 
   class Taco < Erector::Widget
     external :filling, "beef"
@@ -119,24 +100,15 @@ describe "external declarations" do
   end
     
   it "considers options when removing duplicates" do
-    Erector::Widget.externals(:filling).map(&:text).should == ["beef", "beef"]
+    Taco.externals(:filling).map(&:text).should == ["beef", "beef"]
   end
   
-  it "works with strings or symbols" do
-    Erector::Widget.externals("js").map(&:text).should == [
-      "/lib/jquery.js",
-      "/lib/picante.js",
-      "/lib/dairy.js",
-      "tabasco.js",
-      ]
-  end
-
   class Enchilada < Erector::Widget
     external :sample, File.new("#{File.dirname(__FILE__)}/sample-file.txt")
   end
 
   it "loads a file" do
-    Erector::Widget.externals(:sample).map(&:text).should == [
+    Enchilada.externals(:sample).map(&:text).should == [
        "sample file contents, 2 + 2 = 4\n"
     ]
   end

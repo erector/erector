@@ -146,6 +146,8 @@ class Erector::Widgets::Page < Erector::InlineWidget
   end
   
   def included_head_content
+    # now that we've rendered the whole page, it's the right time
+    # to ask what all widgets were rendered to the output stream
     @included_widgets = [self.class] + output.widgets.to_a
     capture do
       included_stylesheets
@@ -156,7 +158,9 @@ class Erector::Widgets::Page < Erector::InlineWidget
   end
   
   def rendered_externals(type)
-    return Erector::Widget.externals(type, @included_widgets)
+    @included_widgets.map do |klass|
+      klass.externals(type)
+    end.flatten.uniq
   end
   
   def included_scripts
