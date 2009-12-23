@@ -21,8 +21,8 @@ module Erector
     private
     # This is part of the sub-widget/parent feature (see #widget method).
     def method_missing(name, *args, &block)
-      block ||= lambda {} # captures self HERE
-      if @parent
+      if @parent && @parent.respond_to?(name)
+        block ||= lambda {} # captures self HERE
         @parent.send(name, *args, &block)
       else
         super

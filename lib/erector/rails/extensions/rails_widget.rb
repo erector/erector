@@ -105,6 +105,7 @@ module Erector
         base.extend(ClassMethods)
         base.alias_method_chain :output, :helpers
         base.alias_method_chain :capture, :helpers
+        base.alias_method_chain :method_missing, :helpers
       end
 
       def output_with_helpers
@@ -123,12 +124,19 @@ module Erector
         end
       end
 
+      def method_missing_with_helpers(name, *args, &block)
+        if helpers.respond_to?(name)
+          helpers.send(name, *args, &block)
+        else
+          method_missing_without_helpers(name, *args, &block)
+        end
+      end
+
       # This is here to force #parent.capture to return the output
       def __in_erb_template;
       end
 
       private
-
       def handle_rjs_buffer
         returning buffer = helpers.output_buffer.dup.to_s do
           helpers.output_buffer.clear

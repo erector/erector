@@ -3,74 +3,104 @@ module Erector
     module Helpers
       include ActionController::UrlWriter
 
-      # parent returning raw text whose first parameter is HTML escaped
-      ESCAPED_HELPERS = [
-        :link_to,
-        :link_to_remote,
-        :mail_to,
-        :button_to,
-        :submit_tag,
-      ]
-      ESCAPED_HELPERS.each do |method_name|
+      def self.def_simple_rails_helper(method_name)
         module_eval(<<-METHOD_DEF, __FILE__, __LINE__)
-          def #{method_name}(link_text, *args, &block)
-            rawtext(helpers.#{method_name}(h(link_text), *args, &block))
+          def #{method_name}(*args, &block)
+            text helpers.#{method_name}(*args, &block)
           end
         METHOD_DEF
       end
 
-      # return text, take block
-      RAW_HELPERS = [
+      [
+        # UrlHelper
+        :link_to,
+        :button_to,
+        :link_to_unless_current,
+        :link_to_unless,
+        :link_to_if,
+        :mail_to,
+
+        # JavaScriptHelper
         :link_to_function,
+        :button_to_function,
+
+        # FormTagHelper
+        :form_tag,
+        :select_tag,
         :text_field_tag,
+        :label_tag,
+        :hidden_field_tag,
+        :file_field_tag,
         :password_field_tag,
+        :text_area_tag,
         :check_box_tag,
-        :error_messages_for,
+        :radio_button_tag,
         :submit_tag,
+        :image_submit_tag,
+        :field_set_tag,
+
+        # FormHelper
+        :form_for,
+        :text_field,
+        :password_field,
+        :hidden_field,
         :file_field,
-        :image_tag,
+        :text_area,
+        :check_box,
+        :radio_button,
+
+        # ActiveRecordHelper
+        :error_message_on,
+        :error_messages_for,
+
+        # AssetTagHelper
+        :auto_discovery_link_tag,
         :javascript_include_tag,
         :stylesheet_link_tag,
+        :image_tag,
+
+        # ScriptaculousHelper
         :sortable_element,
-        :sortable_element_js,
-        :text_field_with_auto_complete
-      ]
-      RAW_HELPERS.each do |method_name|
-        module_eval(<<-METHOD_DEF, __FILE__, __LINE__)
-          def #{method_name}(*args, &block)
-            rawtext helpers.#{method_name}(*args, &block)
-          end
-        METHOD_DEF
+        :draggable_element,
+        :drop_receiving_element,
+
+        # PrototypeHelper
+        :link_to_remote,
+        :button_to_remote,
+        :periodically_call_remote,
+        :form_remote_tag,
+        :submit_to_remote,
+        :update_page_tag
+      ].each do |method_name|
+        def_simple_rails_helper(method_name)
       end
 
-      CAPTURED_HELPERS_WITHOUT_CONCAT = [
-        :render
-      ]
-      CAPTURED_HELPERS_WITHOUT_CONCAT.each do |method_name|
+      def self.def_block_rails_helper(method_name)
         module_eval(<<-METHOD_DEF, __FILE__, __LINE__)
           def #{method_name}(*args, &block)
-            captured = helpers.capture do
-              helpers.concat(helpers.#{method_name}(*args, &block))
-              helpers.output_buffer.to_s
-            end
-            rawtext(captured)
-          end
-        METHOD_DEF
-      end
-
-      CAPTURED_HELPERS_WITH_CONCAT = [
-        :form_tag
-      ]
-      CAPTURED_HELPERS_WITH_CONCAT.each do |method_name|
-        module_eval(<<-METHOD_DEF, __FILE__, __LINE__)
-          def #{method_name}(*args, &block)
-            captured = helpers.capture do
+            if block_given?
               helpers.#{method_name}(*args, &block)
-              helpers.output_buffer.to_s
+            else
+              text helpers.#{method_name}(*args, &block)
             end
-            rawtext(captured)
           end
         METHOD_DEF
+      end
+
+      [:link_to,
+       :form_tag,
+       :field_set_tag,
+       :form_remote_tag,
+       :javascript_tag].each do |method_name|
+        def_block_rails_helper(method_name)
+      end
+
+      def render(*args, &block)
+        captured = helpers.capture do
+          helpers.concat(helpers.render(*args, &block))
+          helpers.output_buffer.to_s
+        end
+        rawtext(captured)
       end
 
       def form_for(record_or_name_or_array, *args, &proc)
@@ -85,25 +115,6 @@ module Erector
         options[:builder] ||= ::Erector::RailsFormBuilder
         args.push(options)
         helpers.fields_for(record_or_name_or_array, *args, &proc)
-      end
-      
-      DIRECTLY_DELEGATED = [
-        :url_for,
-        :javascript_include_merged,
-        :stylesheet_link_merged,
-        :controller,
-        :cycle,
-        :time_ago_in_words,
-        :pluralize,
-        :image_path
-      ]
-      
-      DIRECTLY_DELEGATED.each do |method_name|
-        module_eval(<<-METHOD_DEF, __FILE__, __LINE__)
-          def #{method_name}(*args, &block)
-            helpers.#{method_name}(*args, &block)
-          end
-        METHOD_DEF
       end
       
       def flash
