@@ -370,6 +370,7 @@ module Erector
       end
 
       context(options[:parent], output, options[:helpers]) do
+        @output.widgets << self.class
         if should_cache?
           if (cached_string = cache[self.class, @assigns])
             output << cached_string
@@ -384,6 +385,22 @@ module Erector
       end
     end
     
+    def render_with_externals(options_to_external_renderer = {})
+      output = Erector::Output.new
+      self.to_s(:output => output)
+      nested_widgets = output.widgets.to_a
+      externals = ExternalRenderer.new({:classes => nested_widgets}.merge(options_to_external_renderer)).to_s(:output => output)
+      output.to_a
+    end
+
+    def render_externals(options_to_external_renderer = {})
+      output_for_externals = Erector::Output.new
+      nested_widgets = output.widgets
+      externalizer = ExternalRenderer.new({:classes => nested_widgets}.merge(options_to_external_renderer))
+      externalizer._render(:output => output_for_externals)
+      output_for_externals.to_a
+    end
+
     def should_cache?
       cache && @block.nil? && self.class.cachable?
     end
@@ -439,7 +456,7 @@ module Erector
     # This is the preferred way to call one widget from inside another. This
     # method assures that the same output string is used, which gives better
     # performance than using +capture+ or +to_s+.
-        def widget(target, parameters={}, &block)
+    def widget(target, parameters={}, &block)
       child = if target.is_a? Class
         target.new(parameters, &block)
       else
@@ -751,7 +768,7 @@ protected
       yield
     ensure
       @parent = original_parent
-      @output = original_output
+      @output = original_output unless original_output.nil? # retain output after rendering, to check externals
       @helpers = original_helpers
     end
 

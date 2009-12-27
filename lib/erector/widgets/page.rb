@@ -148,52 +148,11 @@ class Erector::Widgets::Page < Erector::InlineWidget
   def included_head_content
     # now that we've rendered the whole page, it's the right time
     # to ask what all widgets were rendered to the output stream
-    @included_widgets = [self.class] + output.widgets.to_a
-    capture do
-      included_stylesheets
-      inline_styles
-      included_scripts
-      inline_scripts
-    end
+    included_widgets = [self.class] + output.widgets.to_a + extra_widgets
+    ExternalRenderer.new(:classes => included_widgets).to_s
   end
   
-  def rendered_externals(type)
-    @included_widgets.map do |klass|
-      klass.externals(type)
-    end.flatten.uniq
+  def extra_widgets
+    []
   end
-  
-  def included_scripts
-    rendered_externals(:js).each do |external|
-      script({:type => "text/javascript", :src => external.text}.merge(external.options))
-    end
-  end
-  
-  def included_stylesheets
-    rendered_externals(:css).each do |external|
-      link({:rel => "stylesheet", :href => external.text, :type => "text/css", :media => "all"}.merge(external.options))
-    end
-  end
-
-  def inline_styles
-    rendered_externals(:style).each do |external|
-      style({:type => "text/css", 'xml:space' => 'preserve'}.merge(external.options)) do
-        rawtext external.text
-      end
-    end
-  end
-  
-  def inline_scripts
-    rendered_externals(:script).each do |external|
-      javascript external.options do
-        rawtext external.text
-      end
-    end
-    rendered_externals(:jquery).each do |external|
-      javascript external.options do
-        jquery_ready external.text
-      end
-    end
-  end
-
 end

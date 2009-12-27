@@ -1,5 +1,3 @@
-require 'set'
-
 module Erector
   class Output
     SPACES_PER_INDENT = 2
@@ -11,7 +9,7 @@ module Erector
       @prettyprint = options[:prettyprint]
       @indentation = options[:indentation] || 0
       @buffer = options[:output] || []
-      @widgets = Set.new
+      @widgets = []
       @at_line_start = true
     end
     
