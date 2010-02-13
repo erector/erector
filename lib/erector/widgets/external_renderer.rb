@@ -43,7 +43,7 @@ class ExternalRenderer < Erector::Widget
     end
     rendered_externals(:jquery).each do |external|
       javascript external.options do
-        jquery_ready external.text
+        jquery_load external.text
       end
     end
   end
