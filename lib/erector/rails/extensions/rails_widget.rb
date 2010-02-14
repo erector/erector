@@ -45,6 +45,7 @@ module Erector
 
       view.send(:_evaluate_assigns_and_ivars)
 
+      # todo: mesh the view's output buffer and the widget's output object?
       view.with_output_buffer do
         widget.to_s(
           :output => view.output_buffer,

@@ -1,4 +1,6 @@
 
+rename to_s to to_html
+
 rename "external" to "depends_on"
 
 variant syntaxes for "depends_on"
