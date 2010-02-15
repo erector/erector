@@ -3,6 +3,8 @@ require 'benchmark'
 
 module WidgetSpec
   describe Erector::Widget do
+    include Erector::Mixin
+
     describe ".all_tags" do
       it "returns set of full and empty tags" do
         Erector::Widget.all_tags.class.should == Array
@@ -50,6 +52,19 @@ module WidgetSpec
           widget.to_s(:content_method_name => :alternate_content)
         end
       end
+      
+      it "can accept an existing string as an output buffer" do
+        s = "foo"
+        Erector.inline { text "bar" }.to_s(:output => s)
+        s.should == "foobar"
+      end
+
+      it "can accept an existing Output as an output buffer" do
+        output = Erector::Output.new
+        output << "foo"
+        Erector.inline { text "bar" }.to_s(:output => output)
+        output.to_s.should == "foobar"
+      end
     end
 
     describe "#to_a" do
@@ -57,7 +72,9 @@ module WidgetSpec
         widget = Erector.inline do
           div "Hello"
         end
-        widget.to_a.should == ["<div>", "Hello", "</div>"]
+        a = widget.to_a
+        a.is_a?(Array).should be_true
+        a.join.should == "<div>Hello</div>"
       end
 
     # removing this, since oddly, when i run this test solo it works, but when
@@ -120,9 +137,6 @@ module WidgetSpec
         end
       end
       
-    end
-
-    describe "#widget" do
       class Orphan < Erector::Widget
         def content
           p @name
@@ -149,52 +163,54 @@ module WidgetSpec
         end
       end
 
-      context "when nested" do
-        it "renders the tag around the rest of the block" do
-          parent_widget = Class.new(Erector::Widget) do
-            def content
-              div :id => "parent_widget" do
-                super
-              end
-            end
-          end
-          
-          child_widget = Class.new(Erector::Widget) do
-            def content
-              div :id => "child_widget" do
-                super
-              end
-            end
-          end
-
-          grandchild = Class.new(Erector::InlineWidget) do
-            needs :parent_widget, :child_widget
-            def content
-              widget(@parent_widget) do
-                widget(@child_widget) do
-                  div :id => "grandchild"
+        context "when nested" do
+          module WhenNested
+            class Parent < Erector::Widget
+              def content
+                div :id => "parent_widget" do
+                  super
                 end
               end
             end
+
+            class Child < Erector::Widget
+              def content
+                div :id => "child_widget" do
+                  super
+                end
+              end
+            end
+
+            class Grandchild < Erector::Widget
+              needs :parent_widget, :child_widget
+              def content
+                widget(@parent_widget) do
+                  widget(@child_widget) do
+                    div :id => "grandchild"
+                  end
+                end
+              end            
+            end
           end
-
-          grandchild.new(:parent_widget => parent_widget, :child_widget => child_widget).to_s.should == '<div id="parent_widget"><div id="child_widget"><div id="grandchild"></div></div></div>'
-
-          pending "pretty-print indentation is messed up with nesting" do
-          grandchild.new(:parent_widget => parent_widget, :child_widget => child_widget).to_pretty.should == 
-          "<div id=\"parent_widget\">\n" + 
-          "  <div id=\"child_widget\">\n" + 
-          "    <div id=\"grandchild\"></div>\n" + 
-          "  </div>\n" +
-          "</div>"
+          
+          it "renders the tag around the rest of the block" do
+            WhenNested::Grandchild.new(:parent_widget => WhenNested::Parent, 
+              :child_widget => WhenNested::Child).to_s.should == '<div id="parent_widget"><div id="child_widget"><div id="grandchild"></div></div></div>'
           end
-
-        end
+        
+          it "renders the tag around the rest of the block with proper indentation" do
+            WhenNested::Grandchild.new(:parent_widget => WhenNested::Parent, :child_widget => WhenNested::Child).to_pretty.should == 
+            "<div id=\"parent_widget\">\n" + 
+            "  <div id=\"child_widget\">\n" + 
+            "    <div id=\"grandchild\"></div>\n" + 
+            "  </div>\n" +
+            "</div>\n"
+          end
         
         it "passes a pointer to the child object back into the parent object's block" do
           child_widget = Erector::Widget.new
           
-          class Parent < Erector::Widget 
+          class Parent2 < Erector::Widget 
             needs :child_widget
             def content
               div do
@@ -205,7 +221,7 @@ module WidgetSpec
             end
           end
           
-          Parent.new(:child_widget => child_widget).to_s.should == "<div><b>#{child_widget.dom_id}</b></div>"
+          Parent2.new(:child_widget => child_widget).to_s.should == "<div><b>#{child_widget.dom_id}</b></div>"
           
         end
         
@@ -481,6 +497,16 @@ module WidgetSpec
     ensure
       $stdout = STDOUT
     end
+    
+    def with_prettyprint_default(value = true)
+      old_default = Erector::Widget.new.prettyprint_default
+      begin
+        Erector::Widget.prettyprint_default = value
+        yield
+      ensure
+        Erector::Widget.prettyprint_default = old_default
+      end
+    end      
 
     describe "#comment" do
       it "emits a single line comment when receiving a string" do
@@ -796,14 +822,10 @@ module WidgetSpec
       end
 
       it "doesn't inherit unwanted pretty-printed whitespace (i.e. it turns off prettyprinting)" do
-        old_default = Erector::Widget.new.prettyprint_default
-        begin
-          Erector::Widget.prettyprint_default = true
+        with_prettyprint_default(true) do
           Erector.inline do
             div { div { div "foo" } }
           end.to_text.should == "foo"
-        ensure
-          Erector::Widget.prettyprint_default = old_default
         end
       end
     end
@@ -1065,5 +1087,160 @@ module WidgetSpec
         widget.to_s.should == "<div id=\"#{widget.dom_id}\"></div>"
       end
     end
+
+    describe 'caching' do
+      
+      class Cash < Erector::Widget
+        needs :name
+        cachable
+        def content
+          p do
+            text @name
+            text " Cash"
+          end
+        end
+      end
+
+      class Family < Erector::Widget
+        cacheable
+        def content
+          widget Cash, :name => "Johnny"
+          widget Cash, :name => "June"
+        end
+      end
+      
+      class NotCachable < Erector::Widget
+        def content
+          text "CONTENT"
+        end
+      end
+
+      before do
+        @cache = Erector::Cache.new
+        Erector::Widget.cache = @cache
+      end
+
+      after do
+        Erector::Widget.cache = nil
+      end
+
+      it "has a global cache" do
+        Erector::Widget.cache.should == @cache
+      end
+
+      it '-- a widget is not cachable by default' do
+        Erector::Widget.cachable?.should be_false
+      end
+      
+      it '-- a widget is cachable if you say so in the class definition' do
+        Cash.cachable?.should be_true
+      end
+
+      it '-- can be declared cachable using the alternate spelling "cacheable"' do
+        Family.cachable?.should be_true
+      end
+
+      describe '#to_s' do
+
+        it "caches a rendered widget" do
+          Cash.new(:name => "Johnny").to_s
+          @cache[Cash, {:name => "Johnny"}].should == "<p>Johnny Cash</p>"
+        end
+
+        it "uses the cached value" do
+          @cache[Cash, {:name => "Johnny"}] = "CACHED"
+          Cash.new(:name => "Johnny").to_s.should == "CACHED"
+        end
+
+        it "doesn't use the cached value for widgets not declared cachable" do
+          @cache[NotCachable] = "CACHED"
+          NotCachable.new.to_s.should == "CONTENT"
+        end
+          
+        it "doesn't cache widgets not declared cachable" do
+          NotCachable.new.to_s
+          @cache[NotCachable].should be_nil
+        end
+
+        it "doesn't cache widgets initialized with a block (yet)" do
+          Cash.new(:name => "June") do
+            text "whatever"
+          end.to_s
+          @cache[Cash, {:name => "June"}].should be_nil
+        end
+
+        it "works when passing an existing output as a parameter to to_s"
+      end
+
+      describe '#widget' do
+
+        it "caches rendered widgets" do
+          Family.new.to_s
+          @cache[Cash, {:name => "Johnny"}].should == "<p>Johnny Cash</p>"
+          @cache[Cash, {:name => "June"}].should == "<p>June Cash</p>"
+        end
+
+        it "uses the cached value" do
+          @cache[Cash, {:name => "Johnny"}] = "JOHNNY CACHED"
+          Family.new.to_s.should == "JOHNNY CACHED<p>June Cash</p>"
+        end
+
+        class WidgetWithBlock < Erector::Widget
+          def content
+            call_block
+          end
+        end
+
+        it "doesn't cache widgets initialized with a block (yet)" do
+          erector {
+            w = WidgetWithBlock.new do
+              text "in block"
+            end
+            widget w
+          }.should == "in block"
+          @cache[WidgetWithBlock].should be_nil
+        end
+
+      end
+    end
+
+    describe "rendering externals" do
+      class Dinner < Erector::Widget
+        external :js, "/dinner.js"
+        def content
+          span "dinner"
+          widget Dessert
+        end
+      end
+
+      class Dessert < Erector::Widget
+        external :js, "/dessert.js"
+        external :css, "/dessert.css"
+        def content
+          span "dessert"
+        end
+      end
+
+      it "#render_with_externals sticks the externals for all its rendered sub-widgets at the end of the output buffer" do
+        s = Dinner.new.render_with_externals
+        s.to_s.should ==
+          "<span>dinner</span>" +
+          "<span>dessert</span>" +
+          "<link href=\"/dessert.css\" media=\"all\" rel=\"stylesheet\" type=\"text/css\" />" +
+          "<script src=\"/dinner.js\" type=\"text/javascript\"></script>" +
+          "<script src=\"/dessert.js\" type=\"text/javascript\"></script>"
+      end
+
+      it "#render_externals returns externals for all rendered sub-widgets to an output buffer" do
+        widget = Dinner.new
+        widget.to_s
+        widget.render_externals.to_s.should ==
+          "<link href=\"/dessert.css\" media=\"all\" rel=\"stylesheet\" type=\"text/css\" />" +
+          "<script src=\"/dinner.js\" type=\"text/javascript\"></script>" +
+          "<script src=\"/dessert.js\" type=\"text/javascript\"></script>"
+      end
+
+    end
+
   end
 end

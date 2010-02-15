@@ -4,7 +4,7 @@ require "#{dir}/clickable_li"
 
 class Page < Erector::Widget
   needs :page_title => nil, :selection => nil
-  
+
   def real_page_title
     @page_title || self.class.name
   end

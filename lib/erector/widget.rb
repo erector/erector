@@ -37,9 +37,60 @@ module Erector
   # Now, seriously, after playing around a bit, go read the user guide. It's 
   # fun!
   class Widget
-    extend Erector::Externals # 'extend'ing since they're class methods, not instance methods
+
+    # externals
     
+    
+    
+    def self.external(type, value, options = {})
+      @externals ||= []
+      type = type.to_sym
+      x = External.new(type, value, options)
+      @externals << x unless @externals.include?(x)
+    end
+    
+    # returns all externals of the given type from this class and all its
+    # superclasses
+    def self.externals(type)
+      @externals ||= []
+      
+      type = type.to_sym
+      parent_externals = if superclass.respond_to?(:externals)
+        superclass.externals(type)
+      else
+        []
+      end
+
+      my_externals = @externals.select do |external|
+        external.type == type
+      end
+      
+      (parent_externals + my_externals).uniq
+    end
+
+    # caching
+
+    @cachable = false
+
+    def self.cacheable(value = true)
+      @cachable = value
+    end
+    
+    def self.cachable(value = true)
+      @cachable = value
+    end
+    
+    def self.cachable?
+      if @cachable.nil?
+        superclass.respond_to?(:cachable?) && superclass.cachable?
+      else
+        @cachable
+      end
+    end
+    
+
     class << self
+      
       def all_tags
         Erector::Widget.full_tags + Erector::Widget.empty_tags
       end
@@ -177,8 +228,25 @@ module Erector
       @@prettyprint_default
     end
 
+    def self.prettyprint_default
+      @@prettyprint_default
+    end
+
     def self.prettyprint_default=(enabled)
       @@prettyprint_default = enabled
+    end
+
+    @@cache = nil
+    def cache
+      self.class.cache
+    end
+
+    def self.cache
+      @@cache
+    end
+
+    def self.cache=(c)
+      @@cache = c
     end
 
     NON_NEWLINEY = {'i' => true, 'b' => true, 'small' => true,
@@ -186,17 +254,15 @@ module Erector
       'input' => true, 'textarea' => true, 'button' => true, 'select' => true
     }
 
-    SPACES_PER_INDENT = 2
-
-    RESERVED_INSTANCE_VARS = [:helpers, :assigns, :block, :output, :prettyprint, :indentation, :at_start_of_line]
+    RESERVED_INSTANCE_VARS = [:helpers, :assigns, :block, :output, :prettyprint, :indentation]
 
     attr_reader *RESERVED_INSTANCE_VARS
-    attr_reader :parent
+    attr_reader :parent # making this reserved causes breakage
     attr_writer :block
     
     def initialize(assigns={}, &block)
       unless assigns.is_a? Hash
-        raise "Erector's API has changed. Now you should pass only an options hash into Widget.new; the rest come in via to_s, or by using #widget."
+        raise "Erector widgets are initialized with only a parameter hash. (Other parameters are passed to to_s, or the #widget method.)"
       end
       @assigns = assigns
       assign_instance_variables(assigns)
@@ -209,30 +275,6 @@ module Erector
 
 #-- methods for other classes to call, left public for ease of testing and documentation
 #++
-
-    protected
-    def context(parent, output, prettyprint = false, indentation = 0, helpers = nil)
-      #TODO: pass in options hash, maybe, instead of parameters
-      original_parent = @parent
-      original_output = @output
-      original_indendation = @indentation
-      original_helpers = @helpers
-      original_prettyprint = @prettyprint
-      @parent = parent
-      @output = output
-      @at_start_of_line = true
-      raise "indentation must be a number, not #{indentation.inspect}" unless indentation.is_a? Fixnum
-      @indentation = indentation
-      @helpers = helpers
-      @prettyprint = prettyprint
-      yield
-    ensure
-      @parent = original_parent
-      @output = original_output
-      @indentation = original_indendation
-      @helpers = original_helpers
-      @prettyprint = original_prettyprint
-    end
 
     public
     def assign_instance_variables (instance_variables)
@@ -296,9 +338,9 @@ module Erector
     #           Rails view object.
     # content_method_name:: in case you want to call a method other than
     #                       #content, pass its name in here.
-    def to_s(options = {}, &blk)
+    def to_s(options = {})
       raise "Erector::Widget#to_s now takes an options hash, not a symbol. Try calling \"to_s(:content_method_name=> :#{options})\"" if options.is_a? Symbol
-      _render(options, &blk).to_s
+      _render(options).to_s
     end
     
     # Entry point for rendering a widget (and all its children). Same as #to_s
@@ -306,25 +348,63 @@ module Erector
     # Rack server (like Sinatra or Rails Metal).
     #
     # # Options: see #to_s
-    def to_a(options = {}, &blk)
-      _render({:output => []}.merge(options), &blk).to_a
+    def to_a(options = {})
+      _render(options).to_a
     end
     
     def _render(options = {}, &blk)
       options = {
-        :output => "",  # "" is apparently faster than [] in a long-running process
-        :prettyprint => prettyprint_default,
-        :indentation => 0,
         :helpers => nil,
         :parent => @parent,
         :content_method_name => :content,
       }.merge(options)
-      context(options[:parent], options[:output], options[:prettyprint], options[:indentation], options[:helpers]) do
-        send(options[:content_method_name], &blk)
+      
+      if options[:output] && (options[:output].is_a? Output)
+        output = options[:output]
+      else
+        output_options = {}
+        [:prettyprint, :indentation, :output].each do |opt|
+          output_options[opt] = options[opt] unless options[opt].nil?
+        end
+        output = Output.new(output_options)
+      end
+
+      context(options[:parent], output, options[:helpers]) do
+        @output.widgets << self.class
+        if should_cache?
+          if (cached_string = cache[self.class, @assigns])
+            output << cached_string
+          else
+            send(options[:content_method_name], &blk)
+            cache[self.class, @assigns] = output.to_s
+          end
+        else
+          send(options[:content_method_name], &blk)
+        end
         output
       end
     end
     
+    def render_with_externals(options_to_external_renderer = {})
+      output = Erector::Output.new
+      self.to_s(:output => output)
+      nested_widgets = output.widgets.to_a
+      externals = ExternalRenderer.new({:classes => nested_widgets}.merge(options_to_external_renderer)).to_s(:output => output)
+      output.to_a
+    end
+
+    def render_externals(options_to_external_renderer = {})
+      output_for_externals = Erector::Output.new
+      nested_widgets = output.widgets
+      externalizer = ExternalRenderer.new({:classes => nested_widgets}.merge(options_to_external_renderer))
+      externalizer._render(:output => output_for_externals)
+      output_for_externals.to_a
+    end
+
+    def should_cache?
+      cache && @block.nil? && self.class.cachable?
+    end
+
     # Template method which must be overridden by all widget subclasses.
     # Inside this method you call the magic #element methods which emit HTML
     # and text to the output string. If you call "super" (or don't override
@@ -351,14 +431,18 @@ module Erector
       @block.call(self) if @block
     end
 
-    # To call one widget from another, inside the parent widget's +content+
-    # method, instantiate the child widget and call its +write_via+ method,
-    # passing in +self+. This assures that the same output string is used,
-    # which gives better performance than using +capture+ or +to_s+. You can
-    # also use the +widget+ method.
     def write_via(parent)
-      context(parent, parent.output, parent.prettyprint, parent.indentation, parent.helpers) do
-        content
+      context(parent, parent.output, parent.helpers) do
+        if should_cache?
+          cached_string = cache[self.class, @assigns]
+          if cached_string.nil?
+            cached_string = capture { content }
+            cache[self.class, @assigns] = cached_string
+          end
+          rawtext cached_string
+        else
+          content # call the subclass' content method
+        end
       end
     end
 
@@ -368,16 +452,21 @@ module Erector
     # If the first argument is an instance then the hash must be unspecified
     # (or empty). If a block is passed to this method, then it gets set as the
     # rendered widget's block.
-    def widget(target, assigns={}, &block)
+    #
+    # This is the preferred way to call one widget from inside another. This
+    # method assures that the same output string is used, which gives better
+    # performance than using +capture+ or +to_s+.
+    def widget(target, parameters={}, &block)
       child = if target.is_a? Class
-        target.new(assigns, &block)
+        target.new(parameters, &block)
       else
-        unless assigns.empty?
+        unless parameters.empty?
           raise "Unexpected second parameter. Did you mean to pass in variables when you instantiated the #{target.class.to_s}?"
         end
         target.block = block unless block.nil?
         target
       end
+      output.widgets << child.class
       child.write_via(self)
     end
 
@@ -440,25 +529,34 @@ module Erector
 
     # Emits an open tag, comprising '<', tag name, optional attributes, and '>'
     def open_tag(tag_name, attributes={})
-      indent_for_open_tag(tag_name)
-      @indentation += SPACES_PER_INDENT
-
+      output.newline if newliney?(tag_name) && !output.at_line_start?
       output << "<#{tag_name}#{format_attributes(attributes)}>"
-      @at_start_of_line = false
+      output.indent
     end
 
-    # Emits text.  If a string is passed in, it will be HTML-escaped. If a
-    # widget or the result of calling methods such as raw is passed in, the
-    # HTML will not be HTML-escaped again. If another kind of object is passed
-    # in, the result of calling its to_s method will be treated as a string
-    # would be.
+    # Emits a close tag, consisting of '<', '/', tag name, and '>'
+    def close_tag(tag_name)
+      output.undent
+      output <<("</#{tag_name}>")
+      if newliney?(tag_name)
+        output.newline
+      end
+    end
+
+    # Emits text.  If a string is passed in, it will be HTML-escaped. If the
+    # result of calling methods such as raw is passed in, the HTML will not be
+    # HTML-escaped again. If another kind of object is passed in, the result
+    # of calling its to_s method will be treated as a string would be.
+    #
+    # You shouldn't pass a widget in to this method, as that will cause
+    # performance problems (as well as being semantically goofy). Use the
+    # #widget method instead.
     def text(value)
       if value.is_a? Widget
         widget value
       else
         output <<(value.html_escape)
       end
-      @at_start_of_line = false
       nil
     end
 
@@ -497,17 +595,6 @@ module Erector
       end
     end
 
-    # Emits a close tag, consisting of '<', '/', tag name, and '>'
-    def close_tag(tag_name)
-      @indentation -= SPACES_PER_INDENT
-      indent()
-
-      output <<("</#{tag_name}>")
-
-      if newliney?(tag_name)
-        _newline
-      end
-    end
     
     # Emits the result of joining the elements in array with the separator.
     # The array elements and separator can be Erector::Widget objects,
@@ -561,11 +648,23 @@ module Erector
     # you should avoid this method since it hurts performance, and use
     # +widget+ or +write_via+ instead.
     def capture(&block)
+      # todo: raw(with_output_buffer(&block))
       begin
-        original_output = output
-        @output = ""
+        original_output = @output
+        @output = Output.new
         yield
-        raw(output.to_s)
+        raw(@output.to_s)
+      ensure
+        @output = original_output
+      end
+    end
+
+    def with_output_buffer(buffer='')
+      begin
+        original_output = @output
+        @output = Output.new(:output => buffer)
+        yield
+        buffer
       ensure
         @output = original_output
       end
@@ -643,14 +742,14 @@ module Erector
     # emits a jQuery script that is to be run on document ready
     def jquery(txt)
       javascript do
-        jquery_ready txt
+        jquery_load txt
       end
     end
 
     protected
-    def jquery_ready(txt)
+    def jquery_load(txt)
       rawtext "\n"
-      rawtext "jQuery(document).ready(function($){\n"
+      rawtext "jQuery(document).load(function($){\n"
       rawtext txt
       rawtext "\n});"
     end
@@ -658,6 +757,21 @@ module Erector
 ### internal utility methods
 
 protected
+    def context(parent, output, helpers = nil)
+      #TODO: pass in options hash, maybe, instead of parameters
+      original_parent = @parent
+      original_output = @output
+      original_helpers = @helpers
+      @parent = parent
+      @output = output
+      @helpers = helpers
+      yield
+    ensure
+      @parent = original_parent
+      @output = original_output unless original_output.nil? # retain output after rendering, to check externals
+      @helpers = original_helpers
+    end
+
     def __element__(raw, tag_name, *args, &block)
       if args.length > 2
         raise ArgumentError, "Cannot accept more than four arguments"
@@ -689,33 +803,8 @@ protected
     end
 
     def __empty_element__(tag_name, attributes={})
-      indent_for_open_tag(tag_name)
-
       output << "<#{tag_name}#{format_attributes(attributes)} />"
-
-      if newliney?(tag_name)
-        _newline
-      end
-    end
-    
-    def _newline
-      return unless @prettyprint      
-      output << "\n"
-      @at_start_of_line = true
-    end
-
-    def indent_for_open_tag(tag_name)
-      return unless @prettyprint      
-      if !@at_start_of_line && newliney?(tag_name)
-        _newline
-      end
-      indent()
-    end
-
-    def indent()
-      if @at_start_of_line
-        output << " " * [@indentation, 0].max
-      end
+      output.newline if newliney?(tag_name)
     end
 
     def format_attributes(attributes)
@@ -760,11 +849,7 @@ protected
     end
 
     def newliney?(tag_name)
-      if @prettyprint
-        !NON_NEWLINEY.include?(tag_name)
-      else
-        false
-      end
+      !NON_NEWLINEY.include?(tag_name)
     end
 
   end

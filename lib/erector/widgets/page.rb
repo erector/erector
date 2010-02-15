@@ -1,18 +1,24 @@
 # Erector Page base class.
 #
-# Allows for accumulation of script and style tags (see example below) with either
-# external or inline content. External references are 'uniq'd, so it's a good idea to declare
-# a js script in all widgets that use it, so you don't accidentally lose the script if you remove 
-# the one widget that happened to declare it.
+# Allows for accumulation of script and style tags (see example below) with
+# either external or inline content. External references are 'uniq'd, so it's
+# a good idea to declare a js script in all widgets that use it, so you don't
+# accidentally lose the script if you remove the one widget that happened to
+# declare it.
 #
-# The script and style declarations are accumulated at class load time, as 'externals'.
-# This technique allows all widgets to add their own requirements to the page header
-# without extra logic for declaring which pages include which nested widgets.
-# Unfortunately, this means that every page in the application will share the same headers,
-# which may lead to conflicts.
+# The script and style declarations are accumulated at class load time, as
+# 'externals'. This technique allows all widgets to add their own requirements
+# to the page header without extra logic for declaring which pages include
+# which nested widgets. Fortunately, Page is now smart enough to figure out
+# which widgets were actually rendered during the body_content run, so it only
+# emits into its HEAD the externals that are relevant. If it misses some, or
+# if you want to add some extra externals -- for instance, styles that apply
+# to widgets that are rendered later via AJAX -- then return an array of those
+# widget classes in your subclass by overriding the #extra_widgets method.
 #
-# If you want something to show up in the headers for just one page type (subclass),
-# then override #head_content, call super, and then emit it yourself.
+# If you want something to show up in the headers for just one page type
+# (subclass), then override #head_content, call super, and then emit it
+# yourself.
 #
 # Body content can be supplied in several ways:
 #
@@ -40,19 +46,20 @@
 #        text "body content"
 #      end
 #
-# This last trick (passing a block to Page.new) works because Page is an InlineWidget 
-# so its block is evaluated in the context of the newly instantiated widget object, 
-# and not in the context of its caller. But this means you can't access instance variables
-# of the caller, e.g.
-# 
+# This last trick (passing a block to Page.new) works because Page is an
+# InlineWidget so its block is evaluated in the context of the newly
+# instantiated widget object, and not in the context of its caller. But this
+# means you can't access instance variables of the caller, e.g.
+#
 #      @name = "fred"
 #      Erector::Widgets::Page.new do
 #        text "my name is #{@name}"
 #      end
 #
-# will emit "my name is " because @name is nil inside the new Page. However, you *can* 
-# call methods in the parent class, thanks to some method_missing magic. Confused? You 
-# should be. See Erector::Inline#content for more documentation.
+# will emit "my name is " because @name is nil inside the new Page. However,
+# you *can* call methods in the parent class, thanks to some method_missing
+# magic. Confused? You should be. See Erector::Inline#content for more
+# documentation.
 #
 # Author::   Alex Chaffee, alex@stinky.com 
 #
@@ -63,21 +70,21 @@
 #     external :script, "$(document).ready(function(){...});"
 #     external :css, "stuff.css"
 #     external :style, "li.foo { color: red; }"
-#     
+#
 #     def page_title
 #       "my app"
 #     end
-#     
+#
 #     def body_content
 #       h1 "My App"
 #       p "welcome to my app"
 #       widget WidgetWithExternalStyle
 #     end
 #   end
-# 
+#
 #   class WidgetWithExternalStyle < Erector::Widget
 #     external :style, "div.custom { border: 2px solid green; }"
-#     
+#
 #     def content
 #       div :class => "custom" do
 #         text "green is good"
@@ -99,10 +106,12 @@ class Erector::Widgets::Page < Erector::InlineWidget
   end
 
   def content
+    extra_head_slot = nil
     rawtext doctype
     html(html_attributes) do
       head do
         head_content
+        extra_head_slot = @output.placeholder
       end
       body(body_attributes) do
         if block_given?
@@ -112,6 +121,9 @@ class Erector::Widgets::Page < Erector::InlineWidget
         end
       end
     end
+    # after everything's been rendered, use the placeholder to
+    # insert all the head's externals
+    extra_head_slot << included_head_content
   end
 
   # override me to provide a page title (default = name of the Page subclass)
@@ -138,45 +150,16 @@ class Erector::Widgets::Page < Erector::InlineWidget
   def head_content
     meta 'http-equiv' => 'content-type', :content => 'text/html;charset=UTF-8'
     title page_title
-
-    included_stylesheets
-    inline_styles
-
-    included_scripts
-    inline_scripts
   end
   
-  def included_scripts
-    self.class.externals(:js).each do |external|
-      script({:type => "text/javascript", :src => external.text}.merge(external.options))
-    end
+  def included_head_content
+    # now that we've rendered the whole page, it's the right time
+    # to ask what all widgets were rendered to the output stream
+    included_widgets = [self.class] + output.widgets.to_a + extra_widgets
+    ExternalRenderer.new(:classes => included_widgets).to_s
   end
   
-  def included_stylesheets
-    self.class.externals(:css).each do |external|
-      link({:rel => "stylesheet", :href => external.text, :type => "text/css", :media => "all"}.merge(external.options))
-    end
+  def extra_widgets
+    []
   end
-
-  def inline_styles
-    self.class.externals(:style).each do |external|
-      style({:type => "text/css", 'xml:space' => 'preserve'}.merge(external.options)) do
-        rawtext external.text
-      end
-    end
-  end
-  
-  def inline_scripts
-    self.class.externals(:script).each do |external|
-      javascript external.options do
-        rawtext external.text
-      end
-    end
-    self.class.externals(:jquery).each do |external|
-      javascript external.options do
-        jquery_ready external.text
-      end
-    end
-  end
-
 end

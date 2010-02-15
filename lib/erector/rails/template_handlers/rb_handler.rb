@@ -7,7 +7,7 @@ class ActionView::Base
     assigns = { }
     variables = target.instance_variable_names
     variables -= target.protected_instance_variables if target.respond_to?(:protected_instance_variables)
-    variables -= ["@real_format", "@_request"]
+    variables -= ["@real_format", "@_request", "@template"]
     variables.each do |name|
       assign = name.sub('@', '').to_sym
       assigns[assign] = target.instance_variable_get(name)

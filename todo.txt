@@ -1,0 +1,45 @@
+
+rename to_s to to_html
+
+rename "external" to "depends_on"
+
+variant syntaxes for "depends_on"
+   depends_on :script => ["foo.js", "bar.js"]
+  
+depends_on FooWidget, BarWidget
+  -- add all of these widgets' dependencies
+  
+cleverly figure out the external type
+  depends_on "foo.js"
+  depends_on "foo.css"
+  depends_on File.new("foo.js")
+  depends_on File.new("foo.css")
+
+unify :script and :js, :style and :css
+
+make render switch inside ExternalRenderer
+  class FooWidget < Widget
+    depends_on "jquery.js", :render => :link
+    depends_on "foo.js"
+    depends_on "bar.js"
+
+  end
+
+  ExternalRenderer.default_render = :embed
+
+
+pluggable renderer e.g.
+  class JavaScriptRenderer < Widget
+    def content
+      if @external.options[:render] == :embed
+        javascript @external.options do
+          rawtext @external.text
+        end
+      else
+        script({:type => "text/javascript", :src => @external.text}.merge(@external.options))
+      end
+    end
+  end
+  
+  ExternalRenderer.renderer_for(:js, JavaScriptRenderer)
+

@@ -36,7 +36,7 @@ describe Erector::Widgets::Page do
       end
     end.new.to_s.should =~ /<body class=\"funky\">/
   end
-  
+
   it "allows subclasses to be called with a block" do
     fun_page_class = Class.new(Erector::Widgets::Page) do
       def body_content
@@ -49,4 +49,37 @@ describe Erector::Widgets::Page do
     end.to_s.should include("<h3>what's fun?</h3>soccer!")
   end
 
+  class NiceWidget < Erector::Widget
+    external :style, ".nice {}"
+    def content
+      text "nice widget"
+    end
+  end
+  class MeanWidget < Erector::Widget
+    external :style, ".mean {}"
+  end
+
+  class NicePage < Erector::Widgets::Page
+    def body_content
+      text "nice page"
+      widget NiceWidget
+    end
+  end
+
+  class MeanPage < Erector::Widgets::Page
+    def body_content
+      widget MeanWidget
+    end
+  end
+
+  it "only puts into externals those from widgets rendered on it" do
+    s = NicePage.new.to_s
+    s.should include("nice page")
+    s.should include("nice widget")
+    s.should include(".nice {}")
+    s.should_not include(".mean {}")
+
+    MeanPage.new.to_s.should include(".mean {}")
+    MeanPage.new.to_s.should_not include(".nice {}")
+  end
 end

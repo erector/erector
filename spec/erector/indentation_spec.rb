@@ -53,7 +53,7 @@ describe "indentation" do
       text "before"
       br
       p "after"
-    end.to_pretty.should == "before\n<br />\n<p>after</p>\n"
+    end.to_pretty.should == "before<br />\n<p>after</p>\n"
   end
 
   it "will not insert extra space before/after input element" do
