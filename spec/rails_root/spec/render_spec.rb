@@ -41,6 +41,14 @@ describe ActionController::Base do
       render :widget => TestWidget.new(:foobar => "foobar")
     end
 
+    def render_with_content_method
+      render :widget => TestWidget, :content_method_name => :content_method
+    end
+
+    def render_with_rails_options
+      render :widget => TestWidget, :status => 500, :content_type => "application/json"
+    end
+
     def render_template_with_implicit_assigns
       @foobar = "foobar"
       render :template => "test/implicit_assigns.html.rb"
@@ -166,8 +174,7 @@ describe ActionController::Base do
 
     def render_rjs_with_widget
       render :update do |page|
-        w = TestFormWidget.new(:parent => self)
-        page.insert_html :top, 'foobar', w.to_s
+        page.insert_html :top, 'foobar', TestFormWidget.new.to_s(:helpers => self)
       end
     end
 
@@ -181,6 +188,10 @@ describe ActionController::Base do
   class TestWidget < Erector::Widget
     def content
       text @foobar
+    end
+
+    def content_method
+      text "content_method"
     end
   end
   
@@ -238,6 +249,16 @@ describe ActionController::Base do
     
     it "should raise when rendering a widget class with implicit assigns and too many variables" do
       proc { test_action(:render_widget_with_extra_controller_variables) }.should raise_error(RuntimeError, /Unknown parameter.*baz/)
+    end
+
+    it "should render a specific content method" do
+      test_action(:render_with_content_method).should == "content_method"
+    end
+
+    it "should pass rails options to base render method" do
+      test_action(:render_with_rails_options)
+      @response.response_code.should == 500
+      @response.content_type.should == "application/json"
     end
 
     it "should render a template with implicit assigns" do

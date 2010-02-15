@@ -338,9 +338,9 @@ module Erector
     #           Rails view object.
     # content_method_name:: in case you want to call a method other than
     #                       #content, pass its name in here.
-    def to_s(options = {})
+    def to_s(options = {}, &blk)
       raise "Erector::Widget#to_s now takes an options hash, not a symbol. Try calling \"to_s(:content_method_name=> :#{options})\"" if options.is_a? Symbol
-      _render(options).to_s
+      raw(_render(options, &blk).to_s)
     end
     
     # Entry point for rendering a widget (and all its children). Same as #to_s
@@ -348,13 +348,13 @@ module Erector
     # Rack server (like Sinatra or Rails Metal).
     #
     # # Options: see #to_s
-    def to_a(options = {})
-      _render(options).to_a
+    def to_a(options = {}, &blk)
+      _render(options, &blk).to_a
     end
-    
+
     def _render(options = {}, &blk)
       options = {
-        :helpers => nil,
+        :helpers => @parent,
         :parent => @parent,
         :content_method_name => :content,
       }.merge(options)
@@ -470,11 +470,6 @@ module Erector
       child.write_via(self)
     end
 
-    # (Should we make this hidden?)
-    def html_escape
-      return to_s
-    end
-
 #-- methods for subclasses to call
 #++
 
@@ -519,12 +514,15 @@ module Erector
     end
 
     # Returns an HTML-escaped version of its parameter. Leaves the output
-    # string untouched. Note that the #text method automatically HTML-escapes
-    # its parameter, so be careful *not* to do something like text(h("2<4"))
-    # since that will double-escape the less-than sign (you'll get
-    # "2&amp;lt;4" instead of "2&lt;4").
+    # string untouched. This method is idempotent: h(h(text)) will not
+    # double-escape text. This means that it is safe to do something like
+    # text(h("2<4")) -- it will produce "2&lt;4", not "2&amp;lt;4".
     def h(content)
-      content.html_escape
+      if content.respond_to?(:html_safe?) && content.html_safe?
+        content
+      else
+        raw(CGI.escapeHTML(content.to_s))
+      end
     end
 
     # Emits an open tag, comprising '<', tag name, optional attributes, and '>'
@@ -555,7 +553,7 @@ module Erector
       if value.is_a? Widget
         widget value
       else
-        output <<(value.html_escape)
+        output << h(value)
       end
       nil
     end
@@ -577,7 +575,7 @@ module Erector
     # The output uses the escaping format '&#160;' since that works
     # in both HTML and XML (as opposed to '&nbsp;' which only works in HTML).
     def nbsp(value = " ")
-      raw(value.html_escape.gsub(/ /,'&#160;'))
+      raw(h(value).gsub(/ /,'&#160;'))
     end
     
     # Return a character given its unicode code point or unicode name.
@@ -824,7 +822,7 @@ protected
             next if value.empty?
             value = value.join(' ')
           end
-          results << "#{key}=\"#{value.html_escape}\""
+          results << "#{key}=\"#{h(value)}\""
         end
       end
       return results.join(' ')

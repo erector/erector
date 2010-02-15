@@ -103,7 +103,27 @@ desc "Install dependencies to run the build. This task uses Git."
 task(:install_dependencies) do
   puts "Cloning rails into #{RAILS_PATH}"
   FileUtils.rm_rf(RAILS_PATH)
+  
+  # This is gross. The 'git' gem, which is invoked by Jeweler when we
+  # define the Jeweler::Tasks.new instance above, has a habit of
+  # setting GIT_DIRECTORY, etc.  environment variables, fixing git's
+  # idea of what the repository is at the root of the 'erector' repo,
+  # instead of using the target directory for the Rails clone. The
+  # end result is that you get this really inscrutable error message:
+  #
+  # Cloning rails into spec/rails_root/vendor/rails
+  # fatal: working tree '/Users/andrew/Documents/Active/Employment/Scribd/src.1/rails/vendor/plugins/ageweke-erector' already exists.
+  # rake aborted!
+  # Git clone of Rails failed
+  #
+  # So, we manually remove them from the environment just for this
+  # clone. If you know a cleaner/better way of doing this, by all
+  # means, change it here. Probably the 'git' gem shouldn't be
+  # setting such variables in the first place, but it does.
+  oldenv = ENV.dup
+  ENV.keys.select { |k| k =~ /^GIT_/ }.each { |k| ENV.delete(k) }
   system("git clone git://github.com/rails/rails.git #{RAILS_PATH}") || raise("Git clone of Rails failed")
+  ENV = oldenv
   Rake.application[:switch_to_rails_version_tag].invoke
 end
 
