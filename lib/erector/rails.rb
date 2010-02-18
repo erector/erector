@@ -1,10 +1,10 @@
 require "action_controller"
 require "erector/rails/rails_version"
 require "erector/rails/rails_form_builder"
-require "erector/rails/extensions/rails_widget"
 require "erector/rails/extensions/action_controller"
 require "erector/rails/extensions/action_view"
-require "erector/rails/extensions/rails_widget/rails_helpers"
+require "erector/rails/extensions/rails_helpers"
+require "erector/rails/extensions/rails_widget"
 require "erector/rails/template_handlers/rb_handler"
 require "erector/rails/template_handlers/ert_handler"
 
