@@ -6,8 +6,8 @@ describe Erector::Rails::WidgetExtensions do
     @view.output_buffer = ""
   end
 
-  describe "#capture" do
-    it "returns a RawString" do
+  describe "capturing" do
+    it "#capture returns a RawString" do
       captured = nil
       Erector.inline do
         captured = capture {}
@@ -15,7 +15,7 @@ describe Erector::Rails::WidgetExtensions do
       captured.should be_a_kind_of Erector::RawString
     end
 
-    it "captures helper output" do
+    it "#capture captures helper output" do
       captured = nil
       Erector.inline do
         captured = capture do
@@ -25,7 +25,7 @@ describe Erector::Rails::WidgetExtensions do
       captured.should == "capture me!"
     end
 
-    it "captures with an erector block" do
+    it "#capture captures with an erector block" do
       captured = nil
       Erector.inline do
         captured = capture do
@@ -33,6 +33,17 @@ describe Erector::Rails::WidgetExtensions do
         end
       end.to_s(:helpers => @view).should == ""
       captured.should == "capture me!"
+    end
+
+    it "#helpers.capture captures erector output" do
+      Erector.inline do
+        text "A"
+        c = helpers.capture do
+          text "C"
+        end
+        text "B"
+        text c
+      end.to_s(:helpers => @view).should == "ABC"
     end
   end
 
