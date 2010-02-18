@@ -45,10 +45,7 @@ module Erector
 
       view.send(:_evaluate_assigns_and_ivars)
 
-      # todo: mesh the view's output buffer and the widget's output object?
-      view.with_output_buffer do
-        widget.to_s({:output => view.output_buffer, :helpers => view}.merge(options))
-      end
+      widget.to_s({:helpers => view}.merge(options))
     end
 
     module WidgetExtensions
@@ -104,22 +101,28 @@ module Erector
       
       def self.included(base)
         base.extend(ClassMethods)
+        base.alias_method_chain :context, :helpers
         base.alias_method_chain :output, :helpers
         base.alias_method_chain :capture, :helpers
         base.alias_method_chain :method_missing, :helpers
       end
 
-      def output_with_helpers
-        @output ||=
-          if parent.respond_to?(:output_buffer)
-            if parent.output_buffer.is_a?(String)
-              Output.new(:output => parent.output_buffer)
-            else
-              Output.new(:output => handle_rjs_buffer)
-            end
-          else
-            output_without_helpers
+      def context_with_helpers(parent, output, helpers = nil, &blk)
+        if helpers.respond_to?(:with_output_buffer)
+          helpers.with_output_buffer(output) do
+            context_without_helpers(parent, output, helpers, &blk)
           end
+        else
+          context_without_helpers(parent, output, helpers, &blk)
+        end
+      end
+
+      def output_with_helpers
+        if helpers.respond_to?(:output_buffer)
+          helpers.output_buffer
+        else
+          output_without_helpers
+        end
       end
 
       def capture_with_helpers(&block)
@@ -138,9 +141,9 @@ module Erector
         end
       end
 
-      # This is here to force #parent.capture to return the output
-      # def __in_erb_template;
-      # end
+      # This is here to force #helpers.capture to return the output
+      def __in_erb_template;
+      end
 
       private
       def handle_rjs_buffer
