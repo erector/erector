@@ -107,6 +107,8 @@ module Erector
         base.alias_method_chain :method_missing, :helpers
       end
 
+      # When we set up the erector output, we need to make sure that
+      # Rails gets the same output buffer, via helpers.with_output_buffer.
       def context_with_helpers(parent, output, helpers = nil, &blk)
         if helpers.respond_to?(:with_output_buffer)
           helpers.with_output_buffer(output) do
@@ -117,6 +119,11 @@ module Erector
         end
       end
 
+      # We need to delegate #output to helpers.output_buffer, so that
+      # when Rails's #capture/#with_output_buffer executes a block,
+      # erector output done by the block goes to the appropriate output
+      # buffer (i.e., the one set up by our ActionView#with_output_buffer
+      # patch).
       def output_with_helpers
         if helpers.respond_to?(:output_buffer)
           helpers.output_buffer
@@ -125,6 +132,10 @@ module Erector
         end
       end
 
+      # We need to delegate #capture to helpers.capture, so that when
+      # the captured block is executed, any rails output done by the block
+      # goes to the appropriate output buffer (i.e., the one set up by our
+      # ActionView#with_output_buffer patch).
       def capture_with_helpers(&block)
         if helpers.respond_to?(:capture)
           raw(helpers.capture(&block).to_s)
