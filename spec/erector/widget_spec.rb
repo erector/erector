@@ -1092,6 +1092,12 @@ module WidgetSpec
       end
     end
 
+    describe "#jquery" do
+      it "outputs the appropriate script block" do
+        Erector.inline { jquery "alert('hello');" }.to_s.should =~ /#{Regexp.escape("jQuery(document).ready(function($){\nalert('hello');\n});")}/
+      end
+    end
+
     describe 'caching' do
       
       class Cash < Erector::Widget
