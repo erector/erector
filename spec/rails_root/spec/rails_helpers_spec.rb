@@ -49,15 +49,35 @@ describe Erector::Rails::Helpers do
         end.to_s(:helpers => @view).should == %{<a href="/foo?this=1&amp;that=1">This&amp;that</a>}
       end
     end
+  end
 
-    it "supports path methods" do
+  describe "a named route helper" do
+    before do
       ActionController::Routing::Routes.draw do |map|
         map.root :controller => "rails_helpers_spec"
       end
+    end
+
+    it "can be called directly" do
+      Erector.inline do
+        text root_path
+      end.to_s(:helpers => @view).should == "/"
+    end
+
+    it "can be called via helpers" do
+      Erector.inline do
+        text helpers.root_path
+      end.to_s(:helpers => @view).should == "/"
+    end
+
+    it "respects default_url_options defined by the controller" do
+      def @controller.default_url_options(options = nil)
+        { :host => "www.override.com" }
+      end
 
       Erector.inline do
-        link_to 'Link', helpers.root_path
-      end.to_s(:helpers => @view).should == %{<a href="/">Link</a>}
+        text root_url
+      end.to_s(:helpers => @view).should == "http://www.override.com/"
     end
   end
 

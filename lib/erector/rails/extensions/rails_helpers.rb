@@ -1,8 +1,15 @@
 module Erector
   module Rails
     module Helpers
+      # Set up URL helpers so that both helpers.users_url and users_url can be called.
       include ActionController::UrlWriter
 
+      def url_for(*args)
+        helpers.url_for(*args)
+      end
+
+      # Wrappers for rails helpers that would always be used in ERB via <%= %>.
+      # Erector needs to manually output their result.
       def self.def_simple_rails_helper(method_name)
         module_eval(<<-METHOD_DEF, __FILE__, __LINE__)
           def #{method_name}(*args, &block)
@@ -77,6 +84,9 @@ module Erector
         def_simple_rails_helper(method_name)
       end
 
+      # Wrappers for rails helpers that concat directly to the output
+      # buffer if given a block, and return a string otherwise. Erector
+      # needs to manually output their result in the latter case.
       def self.def_block_rails_helper(method_name)
         module_eval(<<-METHOD_DEF, __FILE__, __LINE__)
           def #{method_name}(*args, &block)
