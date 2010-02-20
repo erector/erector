@@ -646,15 +646,7 @@ module Erector
     # you should avoid this method since it hurts performance, and use
     # +widget+ or +write_via+ instead.
     def capture(&block)
-      # todo: raw(with_output_buffer(&block))
-      begin
-        original_output = @output
-        @output = Output.new
-        yield
-        raw(@output.to_s)
-      ensure
-        @output = original_output
-      end
+      raw(with_output_buffer(&block))
     end
 
     def with_output_buffer(buffer='')
