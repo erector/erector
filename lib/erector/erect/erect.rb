@@ -1,6 +1,6 @@
 require "optparse"
 require "rake"
-require "erector/erected"  # pull this out so we don't recreate the grammar every time
+require "erector/erect/erected"  # pull this out so we don't recreate the grammar every time
 
 module Erector
   class Erect

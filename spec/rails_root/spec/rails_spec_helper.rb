@@ -15,8 +15,8 @@ require "rr"
 require "rr/adapters/rspec"
 require 'treetop'
 require "erector"
-require "erector/erect"
-require "erector/erected"
+require "erector/erect/erect"
+require "erector/erect/erected"
 
 Spec::Runner.configure do |config|
   config.mock_with RR::Adapters::Rspec

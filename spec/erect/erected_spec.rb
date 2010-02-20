@@ -1,6 +1,6 @@
 require File.expand_path("#{File.dirname(__FILE__)}/../spec_helper")
 
-require "erector/erect"
+require "erector/erect/erect"
 
 module Erector
   describe Erected do
