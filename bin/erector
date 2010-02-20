@@ -7,7 +7,7 @@ rescue LoadError
   require 'erector'
 end
 
-require 'erector/erect'
+require 'erector/erect/erect'
 
 unless Erector::Erect.new(ARGV).run
   exit 1
