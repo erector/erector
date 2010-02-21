@@ -182,15 +182,11 @@ module Erector
     end
 
     def _render(options = {}, &blk)
-      options = {
-        :helpers => @parent,
-        :parent => @parent,
-        :content_method_name => :content,
-      }.merge(options)
+      parent  = options[:parent]  || @parent
+      helpers = options[:helpers] || @parent
+      output  = options[:output]
 
-      if options[:output] && (options[:output].is_a? Output)
-        output = options[:output]
-      else
+      unless output.is_a? Output
         output_options = {}
         [:prettyprint, :indentation, :output].each do |opt|
           output_options[opt] = options[opt] unless options[opt].nil?
@@ -198,9 +194,9 @@ module Erector
         output = Output.new(output_options)
       end
 
-      context(options[:parent], output, options[:helpers]) do
+      context(parent, output, helpers) do
         @output.widgets << self.class
-        _render_content_method(options[:content_method_name], &blk)
+        _render_content_method(options[:content_method_name] || :content, &blk)
         output
       end
     end
