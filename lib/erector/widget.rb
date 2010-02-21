@@ -37,29 +37,6 @@ module Erector
   # Now, seriously, after playing around a bit, go read the user guide. It's 
   # fun!
   class AbstractWidget
-    class << self
-      def after_initialize(instance=nil, &blk)
-        if blk
-          after_initialize_parts << blk
-        elsif instance
-          if superclass.respond_to?(:after_initialize)
-            superclass.after_initialize instance
-          end
-          after_initialize_parts.each do |part|
-            instance.instance_eval &part
-          end
-        else
-          raise ArgumentError, "You must provide either an instance or a block"
-        end
-      end
-      
-      protected
-      def after_initialize_parts
-        @after_initialize_parts ||= []
-      end
-      
-    end
-
 
     public
     @@prettyprint_default = false
@@ -91,7 +68,6 @@ module Erector
         @parent = block ? eval("self", block.binding) : nil
       end
       @block = block
-      self.class.after_initialize self
     end
 
 #-- methods for other classes to call, left public for ease of testing and documentation
@@ -290,5 +266,6 @@ protected
     include Erector::Externals
     include Erector::Convenience
     include Erector::JQuery
+    include Erector::AfterInitialize
   end
 end
