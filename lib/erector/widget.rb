@@ -36,7 +36,7 @@ module Erector
   #
   # Now, seriously, after playing around a bit, go read the user guide. It's 
   # fun!
-  class Widget
+  class AbstractWidget
 
     # externals
     
@@ -849,5 +849,8 @@ protected
       !NON_NEWLINEY.include?(tag_name)
     end
 
+  end
+
+  class Widget < AbstractWidget
   end
 end
