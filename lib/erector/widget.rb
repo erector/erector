@@ -68,19 +68,6 @@ module Erector
       @block = block
     end
 
-    def assign_instance_variables (instance_variables)
-      instance_variables.each do |name, value|
-        assign_instance_variable(name, value)
-      end
-    end
-    
-    def assign_instance_variable (name, value)
-      raise ArgumentError, "Sorry, #{name} is a reserved variable name for Erector. Please choose a different name." if RESERVED_INSTANCE_VARS.include?(name)
-      name = name.to_s
-      ivar_name = (name[0..0] == '@' ? name : "@#{name}")
-      instance_variable_set(ivar_name, value)
-    end
-    
     # Render (like to_s) but adding newlines and indentation.
     # This is a convenience method; you may just want to call to_s(:prettyprint => true)
     # so you can pass in other rendering options as well.  
@@ -117,35 +104,6 @@ module Erector
       _render(options, &blk).to_a
     end
 
-    def _render(options = {}, &blk)
-      options = {
-        :helpers => @parent,
-        :parent => @parent,
-        :content_method_name => :content,
-      }.merge(options)
-      
-      if options[:output] && (options[:output].is_a? Output)
-        output = options[:output]
-      else
-        output_options = {}
-        [:prettyprint, :indentation, :output].each do |opt|
-          output_options[opt] = options[opt] unless options[opt].nil?
-        end
-        output = Output.new(output_options)
-      end
-
-      context(options[:parent], output, options[:helpers]) do
-        @output.widgets << self.class
-        _render_content_method(options[:content_method_name], &blk)
-        output
-      end
-    end
-
-    # Overridden by Caching mixin.
-    def _render_content_method(content_method, &blk)
-      send(content_method, &blk)
-    end
-
     # Template method which must be overridden by all widget subclasses.
     # Inside this method you call the magic #element methods which emit HTML
     # and text to the output string. If you call "super" (or don't override
@@ -170,17 +128,6 @@ module Erector
     # Erector::Inline#content or Erector#inline.
     def call_block
       @block.call(self) if @block
-    end
-
-    def write_via(parent)
-      context(parent, parent.output, parent.helpers) do
-        _call_content
-      end
-    end
-
-    # Overridden by Caching mixin.
-    def _call_content
-      content
     end
 
     # Emits a (nested) widget onto the current widget's output stream. Accepts
@@ -220,6 +167,60 @@ module Erector
       raw(with_output_buffer(&block))
     end
 
+    protected
+    def assign_instance_variables (instance_variables)
+      instance_variables.each do |name, value|
+        assign_instance_variable(name, value)
+      end
+    end
+
+    def assign_instance_variable (name, value)
+      raise ArgumentError, "Sorry, #{name} is a reserved variable name for Erector. Please choose a different name." if RESERVED_INSTANCE_VARS.include?(name)
+      name = name.to_s
+      ivar_name = (name[0..0] == '@' ? name : "@#{name}")
+      instance_variable_set(ivar_name, value)
+    end
+
+    def _render(options = {}, &blk)
+      options = {
+        :helpers => @parent,
+        :parent => @parent,
+        :content_method_name => :content,
+      }.merge(options)
+
+      if options[:output] && (options[:output].is_a? Output)
+        output = options[:output]
+      else
+        output_options = {}
+        [:prettyprint, :indentation, :output].each do |opt|
+          output_options[opt] = options[opt] unless options[opt].nil?
+        end
+        output = Output.new(output_options)
+      end
+
+      context(options[:parent], output, options[:helpers]) do
+        @output.widgets << self.class
+        _render_content_method(options[:content_method_name], &blk)
+        output
+      end
+    end
+
+    # Overridden by Caching mixin.
+    def _render_content_method(content_method, &blk)
+      send(content_method, &blk)
+    end
+
+    def write_via(parent)
+      context(parent, parent.output, parent.helpers) do
+        _call_content
+      end
+    end
+
+    # Overridden by Caching mixin.
+    def _call_content
+      content
+    end
+
     def with_output_buffer(buffer='')
       begin
         original_output = @output
@@ -231,7 +232,6 @@ module Erector
       end
     end
 
-    protected
     def context(parent, output, helpers = nil)
       #TODO: pass in options hash, maybe, instead of parameters
       original_parent = @parent
