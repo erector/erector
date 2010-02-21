@@ -37,28 +37,6 @@ module Erector
   # Now, seriously, after playing around a bit, go read the user guide. It's 
   # fun!
   class AbstractWidget
-
-    # caching
-
-    @cachable = false
-
-    def self.cacheable(value = true)
-      @cachable = value
-    end
-    
-    def self.cachable(value = true)
-      @cachable = value
-    end
-    
-    def self.cachable?
-      if @cachable.nil?
-        superclass.respond_to?(:cachable?) && superclass.cachable?
-      else
-        @cachable
-      end
-    end
-    
-
     class << self
       def after_initialize(instance=nil, &blk)
         if blk
@@ -95,19 +73,6 @@ module Erector
 
     def self.prettyprint_default=(enabled)
       @@prettyprint_default = enabled
-    end
-
-    @@cache = nil
-    def cache
-      self.class.cache
-    end
-
-    def self.cache
-      @@cache
-    end
-
-    def self.cache=(c)
-      @@cache = c
     end
 
     RESERVED_INSTANCE_VARS = [:helpers, :assigns, :block, :output, :prettyprint, :indentation]
@@ -201,22 +166,14 @@ module Erector
 
       context(options[:parent], output, options[:helpers]) do
         @output.widgets << self.class
-        if should_cache?
-          if (cached_string = cache[self.class, @assigns])
-            output << cached_string
-          else
-            send(options[:content_method_name], &blk)
-            cache[self.class, @assigns] = output.to_s
-          end
-        else
-          send(options[:content_method_name], &blk)
-        end
+        _render_content_method(options[:content_method_name], &blk)
         output
       end
     end
 
-    def should_cache?
-      cache && @block.nil? && self.class.cachable?
+    # Overridden by Caching mixin.
+    def _render_content_method(content_method, &blk)
+      send(content_method, &blk)
     end
 
     # Template method which must be overridden by all widget subclasses.
@@ -247,17 +204,13 @@ module Erector
 
     def write_via(parent)
       context(parent, parent.output, parent.helpers) do
-        if should_cache?
-          cached_string = cache[self.class, @assigns]
-          if cached_string.nil?
-            cached_string = capture { content }
-            cache[self.class, @assigns] = cached_string
-          end
-          rawtext cached_string
-        else
-          content # call the subclass' content method
-        end
+        _call_content
       end
+    end
+
+    # Overridden by Caching mixin.
+    def _call_content
+      content
     end
 
     # Emits a (nested) widget onto the current widget's output stream. Accepts
@@ -333,6 +286,7 @@ protected
   class Widget < AbstractWidget
     include Erector::HTML
     include Erector::Needs
+    include Erector::Caching
     include Erector::Externals
     include Erector::Convenience
     include Erector::JQuery
