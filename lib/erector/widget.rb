@@ -37,8 +37,6 @@ module Erector
   # Now, seriously, after playing around a bit, go read the user guide. It's 
   # fun!
   class AbstractWidget
-
-    public
     @@prettyprint_default = false
     def prettyprint_default
       @@prettyprint_default
@@ -70,10 +68,6 @@ module Erector
       @block = block
     end
 
-#-- methods for other classes to call, left public for ease of testing and documentation
-#++
-
-    public
     def assign_instance_variables (instance_variables)
       instance_variables.each do |name, value|
         assign_instance_variable(name, value)
@@ -213,9 +207,6 @@ module Erector
       child.write_via(self)
     end
 
-#-- methods for subclasses to call
-#++
-
     # Returns text which will *not* be HTML-escaped.
     def raw(value)
       RawString.new(value.to_s)
@@ -239,10 +230,8 @@ module Erector
         @output = original_output
       end
     end
-    
-### internal utility methods
 
-protected
+    protected
     def context(parent, output, helpers = nil)
       #TODO: pass in options hash, maybe, instead of parameters
       original_parent = @parent
