@@ -39,9 +39,17 @@ module Erector
   class Widget
 
     # externals
-    
-    
-    
+    def self.depends_on(*args)
+      x = External.new(*args)
+      push_external(x)
+    end
+
+    def self.push_external(x)
+      @externals ||= []
+      @externals << x unless @externals.include?(x)
+    end
+
+    # deprecated in favor of #depends_on
     def self.external(type, value, options = {})
       @externals ||= []
       type = type.to_sym
