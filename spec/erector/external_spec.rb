@@ -21,6 +21,25 @@ describe Erector::External do
     x.text.should == "sample file contents, 2 + 2 = \#{2 + 2}\n"
   end
 
+  it "will infer that a .js extension is javascript" do
+    x = Erector::External.new('/path/to/a.js')
+    x.text.should == '/path/to/a.js'
+    x.type.should == :js
+  end
+
+  it "will infer that a .css extension is a stylesheet" do
+    x = Erector::External.new('/path/to/a.css')
+    x.text.should == '/path/to/a.css'
+    x.type.should == :css
+  end
+
+  it "will capture render options when just a file is mentioned" do
+    x = Erector::External.new('/path/to/a.css', :render=>:link)
+    x.text.should == '/path/to/a.css'
+    x.type.should == :css
+    x.options.should == {:render=>:link} # could also be "embed"
+  end
+
   it "is equal to an identical external" do
     x = Erector::External.new(:foo, "abc", {:bar => 7})
     y = Erector::External.new(:foo, "abc", {:bar => 7})
