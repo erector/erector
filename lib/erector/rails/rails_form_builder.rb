@@ -4,7 +4,7 @@ module Erector
 
     def initialize(object_name, object, template, options, proc)
       @template = template
-      @parent = ActionView::Helpers::FormBuilder.new(object_name, object, template, options, proc)
+      @parent = ActionView::Base.default_form_builder.new(object_name, object, template, options, proc)
     end
 
     def method_missing(method_name, *args, &block)

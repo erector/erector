@@ -101,21 +101,17 @@ module Erector
       
       def self.included(base)
         base.extend(ClassMethods)
-        base.alias_method_chain :context, :helpers
-        base.alias_method_chain :output, :helpers
-        base.alias_method_chain :capture, :helpers
-        base.alias_method_chain :method_missing, :helpers
       end
 
       # When we set up the erector output, we need to make sure that
       # Rails gets the same output buffer, via helpers.with_output_buffer.
-      def context_with_helpers(parent, output, helpers = nil, &blk)
+      def context(parent, output, helpers = nil, &blk)
         if helpers.respond_to?(:with_output_buffer)
           helpers.with_output_buffer(output) do
-            context_without_helpers(parent, output, helpers, &blk)
+            super
           end
         else
-          context_without_helpers(parent, output, helpers, &blk)
+          super
         end
       end
 
@@ -124,11 +120,11 @@ module Erector
       # erector output done by the block goes to the appropriate output
       # buffer (i.e., the one set up by our ActionView#with_output_buffer
       # patch).
-      def output_with_helpers
+      def output
         if helpers.respond_to?(:output_buffer)
           helpers.output_buffer
         else
-          output_without_helpers
+          super
         end
       end
 
@@ -136,34 +132,24 @@ module Erector
       # the captured block is executed, any rails output done by the block
       # goes to the appropriate output buffer (i.e., the one set up by our
       # ActionView#with_output_buffer patch).
-      def capture_with_helpers(&block)
+      def capture(&block)
         if helpers.respond_to?(:capture)
           raw(helpers.capture(&block).to_s)
         else
-          capture_without_helpers(&block)
+          super
         end
       end
 
-      def method_missing_with_helpers(name, *args, &block)
+      def method_missing(name, *args, &block)
         if helpers.respond_to?(name)
           helpers.send(name, *args, &block)
         else
-          method_missing_without_helpers(name, *args, &block)
+          super
         end
       end
 
       # This is here to force #helpers.capture to return the output
       def __in_erb_template;
-      end
-
-      private
-      def handle_rjs_buffer
-        returning buffer = helpers.output_buffer.dup.to_s do
-          helpers.output_buffer.clear
-          helpers.with_output_buffer(buffer) do
-            buffer << helpers.output_buffer.to_s
-          end
-        end
       end
     end
 
