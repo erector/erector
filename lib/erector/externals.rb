@@ -6,16 +6,32 @@ module Erector
 
     module ClassMethods
 
+      # Multiple forms:
+      #   #new(type, text, options = {})
+      #   #new(type, an_io, ... # file to be read
+      #   #new('blah.js' ... infer :js
+      #   #new('blah.css' ... infer :css
       def depends_on(*args)
-        x = Dependency.new(*args)
+        x = interpret_args(*args)
         push_dependency(x)
       end
 
-      def push_dependency(*args)
-        [*args].flatten.each do |x|
-          if x.is_a? Dependency
-            @externals ||= []
-            @externals << x unless @externals.include?(x)
+      def interpret_args(*args)
+        if args[0].class == Symbol
+          type = args.shift
+        else
+          type = /.+\.js/.match(args[0]) ? :js : :css
+        end
+        text = args[0]
+        options = args[1] || {}
+        Dependency.new(type, text, options)
+      end
+
+      def push_dependency(*dependecies)
+        @externals ||= []
+        [*dependecies].flatten.each do |dep|
+        if dep.is_a? Erector::Dependency
+            @externals << dep unless @externals.include?(dep)
           else
             raise "expected Dependency, got #{x.class}: #{x.inspect}"
           end
