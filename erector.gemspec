@@ -22,6 +22,7 @@ Gem::Specification.new do |s|
      "VERSION.yml",
      "bin/erector",
      "lib/erector.rb",
+     "lib/erector/dependency.rb",
      "lib/erector/erect.rb",
      "lib/erector/erected.rb",
      "lib/erector/extensions/object.rb",

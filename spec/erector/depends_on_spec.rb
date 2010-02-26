@@ -110,23 +110,23 @@ describe 'Widget#depends_on' do
   describe "collection of externals" do
     before do
       @args = [:what, :ever, :is, :passed]
-      @result = Erector::External.new("here.js")
-      @result2 = Erector::External.new("there.js")
+      @result = Erector::Dependency.new("here.js")
+      @result2 = Erector::Dependency.new("there.js")
     end
     
-    it "calls External.new with given arguments and passes them to #push_external" do
-      mock(Erector::External).new.with(*@args).returns(@result)
-      mock(Erector::Widget).push_external(@result)
+    it "calls Dependency.new with given arguments and passes them to #push_dependency" do
+      mock(Erector::Dependency).new.with(*@args).returns(@result)
+      mock(Erector::Widget).push_dependency(@result)
       Erector::Widget.depends_on *@args
     end
 
-    describe "#push_external" do
+    describe "#push_dependency" do
       class PushyWidget < Erector::Widget
       end
       
-      it "collects the result of External.new" do
-        PushyWidget.push_external @result
-        PushyWidget.push_external @result2
+      it "collects the result of Dependency.new" do
+        PushyWidget.push_dependency @result
+        PushyWidget.push_dependency @result2
         PushyWidget.instance_variable_get(:@externals).should == [@result, @result2]
       end
     end
