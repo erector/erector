@@ -2,6 +2,7 @@ require File.expand_path("#{File.dirname(__FILE__)}/../spec_helper")
 require 'benchmark'
 require 'active_support' # for Symbol#to_proc
 
+module DependsOnSpec
 describe 'Widget#depends_on' do
 
   class HotSauce < Erector::Widget
@@ -16,6 +17,7 @@ describe 'Widget#depends_on' do
     depends_on :js, "/lib/jquery.js"
     depends_on :js, "/lib/dairy.js"
   end
+  
   class Tabasco < HotSauce
     depends_on :js, "tabasco.js"
     depends_on :css, "/css/salsa_picante.css"
@@ -108,20 +110,24 @@ describe 'Widget#depends_on' do
   describe "collection of externals" do
     before do
       @args = [:what, :ever, :is, :passed]
-      @result = {:result=>:here}
-      @result2 = {:result=>:there}
+      @result = Erector::Dependency.new("here.js")
+      @result2 = Erector::Dependency.new("there.js")
     end
-    it "calls External.new with given arguments and passes them to #push_external" do
-      mock(Erector::External).new.with(*@args).returns(@result)
-      mock(Erector::Widget).push_external(@result)
+    
+    it "calls Dependency.new with given arguments and passes them to #push_dependency" do
+      mock(Erector::Dependency).new.with(*@args).returns(@result)
+      mock(Erector::Widget).push_dependency(@result)
       Erector::Widget.depends_on *@args
     end
 
-    describe "#push_external" do
-      it "collects the result of External.new" do
-        Erector::Widget.push_external @result
-        Erector::Widget.push_external @result2
-        Erector::Widget.instance_variable_get(:@externals).should == [@result, @result2]
+    describe "#push_dependency" do
+      class PushyWidget < Erector::Widget
+      end
+      
+      it "collects the result of Dependency.new" do
+        PushyWidget.push_dependency @result
+        PushyWidget.push_dependency @result2
+        PushyWidget.instance_variable_get(:@externals).should == [@result, @result2]
       end
     end
 
@@ -133,4 +139,5 @@ describe 'Widget#depends_on' do
 
   end
 
+end
 end
