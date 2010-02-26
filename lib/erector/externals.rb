@@ -6,31 +6,57 @@ module Erector
 
     module ClassMethods
 
+      # Express a dependency of this widget
       # Multiple forms:
-      #   #new(type, text, options = {})
-      #   #new(type, an_io, ... # file to be read
-      #   #new('blah.js' ... infer :js
-      #   #new('blah.css' ... infer :css
+      #   depends_on(type, text, options = {})
+      # for example
+      #   depends_on(:js, '/foo.js', :embed=>true)
+      #
+      # Other variants:
+      #   depends_on(type, an_io, ... # file to be read
+      #   depends_on('blah.js' ... infer :js
+      #   depends_on('blah.css' ... infer :css
+      #   depends on :js, 'file1.js', 'file2.js'... [options]
+      #   depends_on :js => ["foo.js", "bar.js"], :css=>['file.css']
+      #   depends_on :js => ["foo.js", "bar.js"], other_option=>:blah
       def depends_on(*args)
         x = interpret_args(*args)
         push_dependency(x)
       end
 
+      INFERABLE_TYPES = [:css, :js]
+
       def interpret_args(*args)
-        if args[0].class == Symbol
+        options =  {}
+        options = args.pop if args.last.is_a?(::Hash)
+        if args.empty? && options.any?
+          deps = []
+          texts_hash = {}
+          INFERABLE_TYPES.each do |t|
+            texts_hash[t] = options.delete(t) if options.has_key? t
+          end
+          texts_hash.each do |t, texts|
+            texts.each do |text|
+              deps << interpret_args(t, text, options) 
+            end
+          end
+          return deps
+        elsif args[0].class == Symbol
           type = args.shift
         else
           type = /.+\.js/.match(args[0]) ? :js : :css
         end
-        text = args[0]
-        options = args[1] || {}
-        Dependency.new(type, text, options)
+
+        deps = args.map do |text|
+          Dependency.new(type, text, options)
+        end
+        deps.size == 1 ? deps.first : deps
       end
 
       def push_dependency(*dependecies)
         @externals ||= []
         [*dependecies].flatten.each do |dep|
-        if dep.is_a? Erector::Dependency
+          if dep.is_a? Erector::Dependency
             @externals << dep unless @externals.include?(dep)
           else
             raise "expected Dependency, got #{x.class}: #{x.inspect}"

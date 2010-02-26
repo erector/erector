@@ -45,7 +45,7 @@ module ExternalsSpec
     end
 
 
-    describe 'Externals#interpret_args' do
+    describe '#interpret_args' do
 
       class Test
         include Erector::Externals
@@ -77,9 +77,61 @@ module ExternalsSpec
       end
 
       it "guesses Javascript type from .js" do
-        x = Test.interpret_args :js, "/script/foo.js"
+        x = Test.interpret_args "/script/foo.js"
         x.text.should == "/script/foo.js"
         x.type.should == :js
+      end
+
+      it "guesses CSS type from .css" do
+        x = Test.interpret_args "/script/foo.css"
+        x.text.should == "/script/foo.css"
+        x.type.should == :css
+      end
+
+      it "add multiple files without an options hash" do
+        x = Test.interpret_args :js, "/script/foo.js", "/script/bar.js"
+        x.size.should == 2
+        x[0].text.should == "/script/foo.js"
+        x[0].type.should == :js
+        x[1].text.should == "/script/bar.js"
+        x[1].type.should == :js
+      end
+
+      it "add multiple files with an options hash" do
+        x = Test.interpret_args :js, "/script/foo.js", "/script/bar.js", :embed=>true
+        x.size.should == 2
+        x[0].text.should == "/script/foo.js"
+        x[0].type.should == :js
+        x[0].options[:embed].should == true
+        x[1].text.should == "/script/bar.js"
+        x[1].type.should == :js
+        x[1].options[:embed].should == true
+      end
+
+      it "adds multiple files from hash" do
+        x = Test.interpret_args :js => ["foo.js", "bar.js"]
+        x.size.should == 2
+        x[0].text.should == "foo.js"
+        x[0].type.should == :js
+        x[1].text.should == "bar.js"
+        x[1].type.should == :js
+      end
+      it "adds multiple files from hash of different types" do
+        x = Test.interpret_args :js => ["foo.js", "bar.js"], :css=>'file.css'
+        x.size.should == 3
+        x.map(&:text).include?('foo.js')
+        x.map(&:text).include?('bar.js')
+        x.map(&:text).include?('file.css')
+      end
+      it "adds multiple files from hash and preserves the options" do
+        x = Test.interpret_args :js => ["foo.js", "bar.js"], :foo=>false
+        x.size.should == 2
+        x[0].text.should == "foo.js"
+        x[0].type.should == :js
+        x[0].options.should == {:foo=>false}
+        x[1].text.should == "bar.js"
+        x[1].type.should == :js
+        x[1].options.should == {:foo=>false}
       end
     end
 
