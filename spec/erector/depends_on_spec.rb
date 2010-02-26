@@ -129,6 +129,15 @@ describe 'Widget#depends_on' do
         PushyWidget.push_dependency @result2
         PushyWidget.instance_variable_get(:@externals).should == [@result, @result2]
       end
+      it "collects a list of dependencies" do
+        PushyWidget.push_dependency @result, @result2
+        PushyWidget.instance_variable_get(:@externals).should == [@result, @result2]
+      end
+
+      it "collects an array of dependencies" do
+        PushyWidget.push_dependency [@result, @result2]
+        PushyWidget.instance_variable_get(:@externals).should == [@result, @result2]
+      end
     end
 
     it "starts out with no items in @externals" do
