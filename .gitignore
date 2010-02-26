@@ -4,6 +4,7 @@
 *~
 *.gem
 .idea
+.rakeTasks
 pkg
 rdoc
 spec/rails_root/log
