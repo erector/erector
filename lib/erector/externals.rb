@@ -11,12 +11,14 @@ module Erector
         push_dependency(x)
       end
 
-      def push_dependency(x)
-        if x.is_a? Dependency
-          @externals ||= []
-          @externals << x unless @externals.include?(x)
-        else
-          raise "expected Dependency, got #{x.class}: #{x.inspect}"
+      def push_dependency(*args)
+        [*args].flatten.each do |x|
+          if x.is_a? Dependency
+            @externals ||= []
+            @externals << x unless @externals.include?(x)
+          else
+            raise "expected Dependency, got #{x.class}: #{x.inspect}"
+          end
         end
       end
 
