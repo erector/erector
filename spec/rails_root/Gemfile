@@ -1,0 +1,7 @@
+source 'http://rubygems.org'
+
+gem "rails", :path => "vendor/rails"
+
+group :test do
+  gem 'rspec'
+end
