@@ -4,7 +4,6 @@ gem "treetop"
 gem "rake"
 
 group :development do
-  gem "rack", "1.1.0"
   gem "activesupport"
   gem "rubyforge"
   gem "rspec"
@@ -15,4 +14,8 @@ group :development do
   gem "erubis"
   gem "rdoc", "~>2.3"
   gem "hanna", :git => "git://github.com/mislav/hanna.git"
+end
+
+group :rails do
+  gem "rails", "3.0.0.rc"
 end

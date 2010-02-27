@@ -47,7 +47,6 @@ Gem::Specification.new do |s|
      "lib/erector/rails/extensions/rails_helpers.rb",
      "lib/erector/rails/extensions/rails_widget.rb",
      "lib/erector/rails/rails_form_builder.rb",
-     "lib/erector/rails/rails_version.rb",
      "lib/erector/rails/template_handlers/ert_handler.rb",
      "lib/erector/rails/template_handlers/rb_handler.rb",
      "lib/erector/raw_string.rb",

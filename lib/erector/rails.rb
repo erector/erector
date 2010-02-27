@@ -1,5 +1,4 @@
 require "action_controller"
-require "erector/rails/rails_version"
 require "erector/rails/rails_form_builder"
 require "erector/rails/extensions/action_controller"
 require "erector/rails/extensions/rails_helpers"

@@ -1,6 +1,9 @@
 source 'http://rubygems.org'
 
-gem "rails", :path => "vendor/rails"
+gem 'rails', '3.0.0.rc'
+gem 'sqlite3-ruby', :require => 'sqlite3'
+gem "erector", :path => "../.."
+gem "i18n"
 
 group :test do
   gem 'rspec'
