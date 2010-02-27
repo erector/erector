@@ -6,7 +6,7 @@ require 'rake/gempackagetask'
 require 'spec/rake/spectask'
 require './tasks/hoex.rb'  # Alex's patched version of Hoe
 
-$LOAD_PATH << "#{File.dirname(__FILE__)}/lib"
+$LOAD_PATH.unshift("#{File.dirname(__FILE__)}/lib")
 
 require "erector/version"
 
@@ -55,20 +55,11 @@ task :default => :spec
 
 task :test => :spec
 
-task :cruise => [:geminstaller, :print_environment, :install_dependencies, :switch_to_rails_version_tag, :test]
+task :cruise => [:geminstaller, :print_environment, :test]
 
 task :geminstaller do
   require 'geminstaller'
   GemInstaller.run('--sudo --exceptions') || raise("GemInstaller failed")
-end
-
-desc "Run the specs for the erector plugin"
-task :spec do
-  unless File.exists?("#{rails_root}/vendor/rails/.git")
-    Rake.application[:install_dependencies].invoke
-  end
-  require "spec/spec_suite"
-  SpecSuite.all
 end
 
 desc "Build the web site from the .rb files in web/"
@@ -89,45 +80,41 @@ task :docs do
   system "rdoc #{options.join(" ")} lib bin README.txt"
 end
 
-def rails_root
-  "#{File.dirname(__FILE__)}/spec/rails_root"
-end
+desc "Clone the rails git repository and configure it for testing."
+task(:clone_rails) do
+  require "erector/rails/rails_version"
 
-RAILS_PATH = "spec/rails_root/vendor/rails"
+  rails_root = "#{File.dirname(__FILE__)}/spec/rails_root"
+  vendor_rails = "#{rails_root}/vendor/rails"
 
-desc "Install dependencies to run the build. This task uses Git."
-task(:install_dependencies) do
-  puts "Cloning rails into #{RAILS_PATH}"
-  FileUtils.rm_rf(RAILS_PATH)
-  
-  # This is gross. The 'git' gem, which is invoked by Jeweler when we
-  # define the Jeweler::Tasks.new instance above, has a habit of
-  # setting GIT_DIRECTORY, etc.  environment variables, fixing git's
-  # idea of what the repository is at the root of the 'erector' repo,
-  # instead of using the target directory for the Rails clone. The
-  # end result is that you get this really inscrutable error message:
-  #
-  # Cloning rails into spec/rails_root/vendor/rails
-  # fatal: working tree '/Users/andrew/Documents/Active/Employment/Scribd/src.1/rails/vendor/plugins/ageweke-erector' already exists.
-  # rake aborted!
-  # Git clone of Rails failed
-  #
-  # So, we manually remove them from the environment just for this
-  # clone. If you know a cleaner/better way of doing this, by all
-  # means, change it here. Probably the 'git' gem shouldn't be
-  # setting such variables in the first place, but it does.
-  oldenv = ENV.dup
-  ENV.keys.select { |k| k =~ /^GIT_/ }.each { |k| ENV.delete(k) }
-  system("git clone git://github.com/rails/rails.git #{RAILS_PATH}") || raise("Git clone of Rails failed")
-  ENV = oldenv
-  Rake.application[:switch_to_rails_version_tag].invoke
-end
+  unless File.exists?("#{rails_root}/vendor/rails/.git")
+    puts "Cloning rails into #{vendor_rails}"
+    FileUtils.rm_rf(vendor_rails)
 
-desc "Refreshes the Rails versions from github repo"
-task(:switch_to_rails_version_tag) do
-  require "lib/erector/rails/rails_version"
-  Dir.chdir(RAILS_PATH) do
-    puts "Checking out rails #{Erector::Rails::RAILS_VERSION_TAG} into #{RAILS_PATH}"
+    # This is gross. The 'git' gem, which is invoked by Jeweler when we
+    # define the Jeweler::Tasks.new instance above, has a habit of
+    # setting GIT_DIRECTORY, etc.  environment variables, fixing git's
+    # idea of what the repository is at the root of the 'erector' repo,
+    # instead of using the target directory for the Rails clone. The
+    # end result is that you get this really inscrutable error message:
+    #
+    # Cloning rails into spec/rails_root/vendor/rails
+    # fatal: working tree '/Users/andrew/Documents/Active/Employment/Scribd/src.1/rails/vendor/plugins/ageweke-erector' already exists.
+    # rake aborted!
+    # Git clone of Rails failed
+    #
+    # So, we manually remove them from the environment just for this
+    # clone. If you know a cleaner/better way of doing this, by all
+    # means, change it here. Probably the 'git' gem shouldn't be
+    # setting such variables in the first place, but it does.
+    oldenv = ENV.dup
+    ENV.keys.select { |k| k =~ /^GIT_/ }.each { |k| ENV.delete(k) }
+    system("git clone git://github.com/rails/rails.git #{vendor_rails}") || raise("Git clone of Rails failed")
+    ENV = oldenv
+  end
+
+  Dir.chdir(vendor_rails) do
+    puts "Checking out rails #{Erector::Rails::RAILS_VERSION_TAG} into #{vendor_rails}"
     system("git fetch origin")
     system("git checkout #{Erector::Rails::RAILS_VERSION_TAG}")
   end
@@ -154,3 +141,22 @@ Local gems:
 #{`gem list`.gsub(/^/, '  ')}
   ENVIRONMENT
 end
+
+namespace :spec do
+  Spec::Rake::SpecTask.new(:core) do |spec|
+    spec.spec_files = FileList['spec/erector/*_spec.rb']
+  end
+
+  Spec::Rake::SpecTask.new(:erect) do |spec|
+    spec.spec_files = FileList['spec/erect/*_spec.rb']
+  end
+  task :erect => :clone_rails
+
+  Spec::Rake::SpecTask.new(:rails) do |spec|
+    spec.spec_files = FileList['spec/rails_root/spec/*_spec.rb']
+  end
+  task :rails => :clone_rails
+end
+
+desc "Run the specs for the erector plugin"
+task :spec => ['spec:core', 'spec:erect', 'spec:rails']
