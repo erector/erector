@@ -5,14 +5,9 @@ require 'rake/rdoctask'
 require 'rake/gempackagetask'
 require 'spec/rake/spectask'
 require './tasks/hoex.rb'  # Alex's patched version of Hoe
-require "lib/erector/rails/rails_version"
 
-def rails_root
-  "#{File.dirname(__FILE__)}/spec/rails_root"
-end
+$LOAD_PATH << "#{File.dirname(__FILE__)}/lib"
 
-dir = File.dirname(__FILE__)
-$: << "#{dir}/lib"
 require "erector/version"
 
 gem_definition = lambda do |s|
@@ -43,8 +38,6 @@ rescue LoadError
   puts "Jeweler, or one of its dependencies, is not available. Install it with: sudo gem install technicalpickles-jeweler -s http://gems.github.com"
 end
 
-
-RAILS_PATH = "spec/rails_root/vendor/rails"
 Hoe.new("erector", Erector::VERSION) do |hoe|
   gem_definition.call(hoe)
   hoe.developer("Pivotal Labs", "pivotallabsopensource@googlegroups.com")
@@ -56,8 +49,6 @@ Hoe.new("erector", Erector::VERSION) do |hoe|
   hoe.rsync_args = "-rlv --delete --inplace --exclude .svn"
 end
 Hoe::remove_tasks("audit", "check_manifest", "post_blog", "multi", "test", "test_deps", "docs")
-
-EDGE_PATH = "spec/rails_root/vendor/rails_versions/edge"
 
 desc "Default: run tests"
 task :default => :spec
@@ -73,7 +64,7 @@ end
 
 desc "Run the specs for the erector plugin"
 task :spec do
-  unless File.exists?("#{rails_root}/vendor/rails/railties/lib/initializer.rb")
+  unless File.exists?("#{rails_root}/vendor/rails/.git")
     Rake.application[:install_dependencies].invoke
   end
   require "spec/spec_suite"
@@ -82,7 +73,6 @@ end
 
 desc "Build the web site from the .rb files in web/"
 task :web do
-  dir = File.dirname(__FILE__)
   files = Dir["web/*.rb"] - ["web/page.rb", "web/sidebar.rb", "web/clickable_li.rb"]
   require 'erector'
   require 'erector/erect'
@@ -98,6 +88,12 @@ task :docs do
   options << '-d' if RUBY_PLATFORM !~ /win32/ and `which dot` =~ /\/dot/ and not ENV['NODOT']
   system "rdoc #{options.join(" ")} lib bin README.txt"
 end
+
+def rails_root
+  "#{File.dirname(__FILE__)}/spec/rails_root"
+end
+
+RAILS_PATH = "spec/rails_root/vendor/rails"
 
 desc "Install dependencies to run the build. This task uses Git."
 task(:install_dependencies) do
@@ -129,6 +125,7 @@ end
 
 desc "Refreshes the Rails versions from github repo"
 task(:switch_to_rails_version_tag) do
+  require "lib/erector/rails/rails_version"
   Dir.chdir(RAILS_PATH) do
     puts "Checking out rails #{Erector::Rails::RAILS_VERSION_TAG} into #{RAILS_PATH}"
     system("git fetch origin")
