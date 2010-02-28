@@ -1,5 +1,6 @@
 require File.expand_path("#{File.dirname(__FILE__)}/../spec_helper")
 require "erector/rails"
+require "rails/version"
 
 # backport mktmpdir so this test will work on Ruby 1.8.6
 unless Dir.respond_to?(:mktmpdir)
@@ -49,7 +50,6 @@ end
 # user guide).
 #
 module Erector
-
   describe "the Rails version" do
     it "should be #{Erector::Rails::RAILS_VERSION}" do
       ::Rails::VERSION::STRING.should == Erector::Rails::RAILS_VERSION
@@ -57,9 +57,7 @@ module Erector
   end
 
   describe "Erect in a Rails app" do
-    
     def run(cmd)
-#      puts "Running #{cmd}"
       stderr_file = Dir.tmpdir + "/stderr.txt"
       stdout = IO.popen(cmd + " 2>#{stderr_file}") do |pipe|
         pipe.read
@@ -76,37 +74,41 @@ module Erector
     def indent(s)
       s.gsub(/^/, '  ')
     end
-    
-    def run_rails(app_dir)
-      # To ensure we're working with the right version of Rails we use "gem 'rails', 1.2.3"
-      # in a "ruby -e" command line invocation of the rails executable to generate an
-      # app called explode.
-      #
-#      puts "Generating fresh rails #{Erector::Rails::RAILS_VERSION} app in #{app_dir}"
-      run "ruby -e \"require 'rubygems'; gem 'rails', '#{Erector::Rails::RAILS_VERSION}'; load 'rails'\" #{app_dir}"
-    end
-      
+
     it "works like we say it does in the user guide" do
       erector_dir = File.expand_path("#{File.dirname(__FILE__)}/../..")
 
+      # We add the paths to our vendored copy of rails to the load paths, so
+      # that this spec can be run without having a version of Rails (which may
+      # not match the version we wish to test against) installed.
+      rails_libs_argument = "-I'#{RAILS_LOAD_PATHS.join("':'")}'"
+
       Dir.mktmpdir do |app_dir|
-        run_rails app_dir
+        run "ruby #{rails_libs_argument} '#{VENDOR_RAILS}/railties/bin/rails' '#{app_dir}'"
+
+        FileUtils.cp_r(VENDOR_RAILS, "#{app_dir}/vendor/rails")
 
         FileUtils.mkdir_p(app_dir + "/vendor/gems")
         FileUtils.cp_r(erector_dir, "#{app_dir}/vendor/gems/erector")
 
         FileUtils.cd(app_dir) do
           run "script/generate scaffold post title:string body:text published:boolean"
-          run "ruby -I#{erector_dir}/lib #{erector_dir}/bin/erector app/views/posts"
+
+          # The 'erector' binary would normally have been installed through rubygems,
+          # providing it with a wrapper script which requires rubygems. But here we
+          # run it directly, so we need to require rubygems explicitly before running
+          # the main script.
+          run "ruby #{rails_libs_argument} -I'#{erector_dir}/lib' " +
+            "-e \"require 'rubygems'; load '#{erector_dir}/bin/erector'\" app/views/posts"
+
           FileUtils.rm_f("app/views/posts/*.erb")
           run "rake --trace db:migrate"
+
           # run "script/server" # todo: launch in background; use mechanize or something to crawl it; then kill it
           # perhaps use open4?
           # open http://localhost:3000/posts
         end
       end
     end
-    
   end
-
 end
