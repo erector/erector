@@ -143,15 +143,18 @@ Local gems:
 end
 
 namespace :spec do
+  desc "Run core specs."
   Spec::Rake::SpecTask.new(:core) do |spec|
     spec.spec_files = FileList['spec/erector/*_spec.rb']
   end
 
+  desc "Run specs for the 'erector' command line tool."
   Spec::Rake::SpecTask.new(:erect) do |spec|
     spec.spec_files = FileList['spec/erect/*_spec.rb']
   end
   task :erect => :clone_rails
 
+  desc "Run specs for erector's Rails integration."
   Spec::Rake::SpecTask.new(:rails) do |spec|
     spec.spec_files = FileList['spec/rails_root/spec/*_spec.rb']
   end
