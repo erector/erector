@@ -1,9 +1,9 @@
-$LOAD_PATH.unshift File.dirname(__FILE__) + "/../lib"
+$LOAD_PATH.unshift File.expand_path("../../lib", __FILE__)
 
 VENDOR_RAILS = "#{File.dirname(__FILE__)}/rails_root/vendor/rails"
 RAILS_LOAD_PATHS = Dir["#{VENDOR_RAILS}/*/lib"]
 RAILS_LOAD_PATHS.each do |path|
-  $LOAD_PATH.unshift(path)
+  $LOAD_PATH.unshift(File.expand_path(path))
 end
 
 require "rubygems"
