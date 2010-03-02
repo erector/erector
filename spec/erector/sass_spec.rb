@@ -23,12 +23,11 @@ h1
   text-align: right
   SASS
 
-SAMPLE_CSS =<<-CSS
-h1 {
+SAMPLE_CSS ="""<style>h1 {
   height: 118px;
   margin-top: 1em; }
 
 .tagline {
   font-size: 26px;
   text-align: right; }
-  CSS
+</style>"""
