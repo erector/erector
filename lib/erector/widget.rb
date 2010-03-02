@@ -253,5 +253,6 @@ module Erector
     include Erector::Convenience
     include Erector::JQuery
     include Erector::AfterInitialize
+    include Erector::Sass if Object.const_defined?(:Sass)
   end
 end
