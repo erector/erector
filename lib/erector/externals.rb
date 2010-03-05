@@ -24,6 +24,25 @@ module Erector
         push_dependency(x)
       end
 
+      # deprecated in favor of #depends_on
+      def external(type, value, options = {})
+        @_dependencies ||= []
+        type = type.to_sym
+        x = Dependency.new(type, value, options)
+        @_dependencies << x unless @_dependencies.include?(x)
+      end
+
+      # returns all dependencies of the given type from this class and all its
+      # superclasses
+      def dependencies(type)
+        type = type.to_sym
+        deps = []
+        deps += superclass.dependencies(type) if superclass.respond_to?(:dependencies)
+        deps += @_dependencies.select { |x| x.type == type } if @_dependencies
+        deps.uniq
+      end
+
+      private
       INFERABLE_TYPES = [:css, :js]
 
       def interpret_args(*args)
@@ -37,7 +56,7 @@ module Erector
           end
           texts_hash.each do |t, texts|
             texts.each do |text|
-              deps << interpret_args(t, text, options) 
+              deps << interpret_args(t, text, options)
             end
           end
           return deps
@@ -54,42 +73,14 @@ module Erector
       end
 
       def push_dependency(*dependencies)
-        @externals ||= []
+        @_dependencies ||= []
         [*dependencies].flatten.each do |dep|
           if dep.is_a? Erector::Dependency
-            @externals << dep unless @externals.include?(dep)
+            @_dependencies << dep unless @_dependencies.include?(dep)
           else
             raise "expected Dependency, got #{x.class}: #{x.inspect}"
           end
         end
-      end
-
-      # deprecated in favor of #depends_on
-      def external(type, value, options = {})
-        @externals ||= []
-        type = type.to_sym
-        x = Dependency.new(type, value, options)
-        @externals << x unless @externals.include?(x)
-      end
-
-      # returns all externals of the given type from this class and all its
-      # superclasses
-      def externals(type)
-        @externals ||= []
-
-        type = type.to_sym
-        parent_externals =
-            if superclass.respond_to?(:externals)
-              superclass.externals(type)
-            else
-              []
-            end
-
-        my_externals = @externals.select do |external|
-          external.type == type
-        end
-
-        (parent_externals + my_externals).uniq
       end
     end
 

@@ -22,25 +22,25 @@ module ExternalsSpec
       end
 
       it "collects the result of Dependency.new" do
-        PushyWidget.push_dependency @result
-        PushyWidget.push_dependency @result2
-        PushyWidget.instance_variable_get(:@externals).should == [@result, @result2]
+        PushyWidget.send :push_dependency, @result
+        PushyWidget.send :push_dependency, @result2
+        PushyWidget.instance_variable_get(:@_dependencies).should == [@result, @result2]
       end
       it "collects a list of dependencies" do
-        PushyWidget.push_dependency @result, @result2
-        PushyWidget.instance_variable_get(:@externals).should == [@result, @result2]
+        PushyWidget.send :push_dependency, @result, @result2
+        PushyWidget.instance_variable_get(:@_dependencies).should == [@result, @result2]
       end
 
       it "collects an array of dependencies" do
-        PushyWidget.push_dependency [@result, @result2]
-        PushyWidget.instance_variable_get(:@externals).should == [@result, @result2]
+        PushyWidget.send :push_dependency, [@result, @result2]
+        PushyWidget.instance_variable_get(:@_dependencies).should == [@result, @result2]
       end
     end
 
-    it "starts out with no items in @externals" do
+    it "starts out with no items in @_dependencies" do
       class Quesadilla < Erector::Widget
       end
-      (Quesadilla.instance_variable_get(:@externals) || []).should == []
+      (Quesadilla.instance_variable_get(:@_dependencies) || []).should == []
     end
 
 
@@ -51,44 +51,44 @@ module ExternalsSpec
       end
 
       it "will infer that a .js extension is javascript" do
-        x = Test.interpret_args('/path/to/a.js')
+        x = Test.send :interpret_args,('/path/to/a.js')
         x.text.should == '/path/to/a.js'
         x.type.should == :js
       end
 
       it "will infer that a .css extension is a stylesheet" do
-        x = Test.interpret_args('/path/to/a.css')
+        x = Test.send :interpret_args,('/path/to/a.css')
         x.text.should == '/path/to/a.css'
         x.type.should == :css
       end
 
       it "will capture render options when just a file is mentioned" do
-        x = Test.interpret_args('/path/to/a.css', :render=>:link)
+        x = Test.send(:interpret_args, '/path/to/a.css', :render=>:link)
         x.text.should == '/path/to/a.css'
         x.type.should == :css
         x.options.should == {:render=>:link} # could also be "embed"
       end
 
       it "embeds javascript" do
-        x = Test.interpret_args :js, "alert('foo')"
+        x = Test.send :interpret_args, :js, "alert('foo')"
         x.text.should == "alert('foo')"
         x.type.should == :js
       end
 
       it "guesses Javascript type from .js" do
-        x = Test.interpret_args "/script/foo.js"
+        x = Test.send :interpret_args, "/script/foo.js"
         x.text.should == "/script/foo.js"
         x.type.should == :js
       end
 
       it "guesses CSS type from .css" do
-        x = Test.interpret_args "/script/foo.css"
+        x = Test.send :interpret_args, "/script/foo.css"
         x.text.should == "/script/foo.css"
         x.type.should == :css
       end
 
       it "add multiple files without an options hash" do
-        x = Test.interpret_args :js, "/script/foo.js", "/script/bar.js"
+        x = Test.send :interpret_args, :js, "/script/foo.js", "/script/bar.js"
         x.size.should == 2
         x[0].text.should == "/script/foo.js"
         x[0].type.should == :js
@@ -97,7 +97,7 @@ module ExternalsSpec
       end
 
       it "add multiple files with an options hash" do
-        x = Test.interpret_args :js, "/script/foo.js", "/script/bar.js", :embed=>true
+        x = Test.send :interpret_args, :js, "/script/foo.js", "/script/bar.js", :embed=>true
         x.size.should == 2
         x[0].text.should == "/script/foo.js"
         x[0].type.should == :js
@@ -108,7 +108,7 @@ module ExternalsSpec
       end
 
       it "adds multiple files from hash" do
-        x = Test.interpret_args :js => ["foo.js", "bar.js"]
+        x = Test.send :interpret_args, :js => ["foo.js", "bar.js"]
         x.size.should == 2
         x[0].text.should == "foo.js"
         x[0].type.should == :js
@@ -116,14 +116,14 @@ module ExternalsSpec
         x[1].type.should == :js
       end
       it "adds multiple files from hash of different types" do
-        x = Test.interpret_args :js => ["foo.js", "bar.js"], :css=>'file.css'
+        x = Test.send :interpret_args, :js => ["foo.js", "bar.js"], :css=>'file.css'
         x.size.should == 3
         x.map(&:text).include?('foo.js')
         x.map(&:text).include?('bar.js')
         x.map(&:text).include?('file.css')
       end
       it "adds multiple files from hash and preserves the options" do
-        x = Test.interpret_args :js => ["foo.js", "bar.js"], :foo=>false
+        x = Test.send :interpret_args, :js => ["foo.js", "bar.js"], :foo=>false
         x.size.should == 2
         x[0].text.should == "foo.js"
         x[0].type.should == :js
@@ -157,38 +157,38 @@ module ExternalsSpec
     end
 
     it "can be fetched via the type" do
-      HotSauce.externals(:css).map(&:text).should == [
+      HotSauce.dependencies(:css).map(&:text).should == [
           "/css/tapatio.css",
           "/css/salsa_picante.css",
       ]
     end
 
     it "can be filtered via the class" do
-      SourCream.externals(:css).map(&:text).should == [
+      SourCream.dependencies(:css).map(&:text).should == [
           "/css/sourcream.css",
       ]
     end
 
-    it "grabs externals from superclasses too" do
-      Tabasco.externals(:js).map(&:text).should == ["/lib/jquery.js", "/lib/picante.js", "tabasco.js"]
+    it "grabs dependencies from superclasses too" do
+      Tabasco.dependencies(:js).map(&:text).should == ["/lib/jquery.js", "/lib/picante.js", "tabasco.js"]
     end
 
     it "retains the options" do
-      HotSauce.externals(:css).map(&:options).should == [
+      HotSauce.dependencies(:css).map(&:options).should == [
           {:media => "print"},
           {}
       ]
     end
 
     it "removes duplicates" do
-      Tabasco.externals(:css).map(&:text).should == [
+      Tabasco.dependencies(:css).map(&:text).should == [
           "/css/tapatio.css",
           "/css/salsa_picante.css",
       ]
     end
 
     it "works with strings or symbols" do
-      HotSauce.externals("css").map(&:text).should == [
+      HotSauce.dependencies("css").map(&:text).should == [
           "/css/tapatio.css",
           "/css/salsa_picante.css",
       ]
@@ -200,7 +200,7 @@ module ExternalsSpec
     end
 
     it "considers options when removing duplicates" do
-      Taco.externals(:filling).map(&:text).should == ["beef", "beef"]
+      Taco.dependencies(:filling).map(&:text).should == ["beef", "beef"]
     end
 
 

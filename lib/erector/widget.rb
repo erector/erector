@@ -239,7 +239,7 @@ module Erector
       yield
     ensure
       @parent = original_parent
-      @output = original_output unless original_output.nil? # retain output after rendering, to check externals
+      @output = original_output unless original_output.nil? # retain output after rendering, to check dependencies
       @helpers = original_helpers
     end
   end
