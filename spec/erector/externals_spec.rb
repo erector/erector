@@ -4,7 +4,6 @@ require 'active_support' # for Symbol#to_proc
 
 module ExternalsSpec
 
-  # note, the specs above are duplicative of this + external_spec code
   describe "adding dependencies" do
     before do
       @args = [:what, :ever, :is, :passed]

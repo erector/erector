@@ -37,7 +37,6 @@ module Erector
   # Now, seriously, after playing around a bit, go read the user guide. It's 
   # fun!
   class AbstractWidget
-
     @@prettyprint_default = false
     def prettyprint_default
       @@prettyprint_default
@@ -253,5 +252,6 @@ module Erector
     include Erector::Convenience
     include Erector::JQuery
     include Erector::AfterInitialize
+    include Erector::Sass if Object.const_defined?(:Sass)
   end
 end

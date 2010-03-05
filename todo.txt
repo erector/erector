@@ -48,3 +48,4 @@ pluggable renderer e.g.
   
   ExternalRenderer.renderer_for(:js, JavaScriptRenderer)
 
+rename 'css' convenience method to 'css_link' method, or otherwise remove confusion between inline and linked css
