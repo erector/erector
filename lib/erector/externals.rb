@@ -53,9 +53,9 @@ module Erector
         deps.size == 1 ? deps.first : deps
       end
 
-      def push_dependency(*dependecies)
+      def push_dependency(*dependencies)
         @externals ||= []
-        [*dependecies].flatten.each do |dep|
+        [*dependencies].flatten.each do |dep|
           if dep.is_a? Erector::Dependency
             @externals << dep unless @externals.include?(dep)
           else
