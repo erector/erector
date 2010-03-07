@@ -1,6 +1,6 @@
 require "action_controller"
 require "erector/rails/rails_form_builder"
-require "erector/rails/extensions/action_controller"
+require "erector/rails/extensions/widget_renderer"
 require "erector/rails/extensions/rails_helpers"
 require "erector/rails/extensions/rails_widget"
 require "erector/rails/template_handlers/rb_handler"
