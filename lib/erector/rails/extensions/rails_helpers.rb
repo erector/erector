@@ -51,10 +51,6 @@ module Erector
         :check_box,
         :radio_button,
 
-        # ActiveRecordHelper
-        :error_message_on,
-        :error_messages_for,
-
         # AssetTagHelper
         :auto_discovery_link_tag,
         :javascript_include_tag,

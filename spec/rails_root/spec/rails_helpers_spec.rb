@@ -177,26 +177,6 @@ describe Erector::Rails::Helpers do
     end
   end
 
-  describe "#error_messages_for" do
-    it "renders the error message" do
-      pending "RR problem with Ruby 1.9" if RUBY_VERSION >= "1.9.0"
-      
-      user_class = BaseDummyModel
-      stub(user_class).human_attribute_name {'User'}
-      user = user_class.new
-      stub(user).name {'bob'}
-      errors = ActiveRecord::Errors.new(user)
-      errors.add("name", "must be unpronounceable")
-      stub(user).errors {errors}
-
-      @controller.user = user
-
-      test_render do
-        error_messages_for('user')
-      end.should == "<div class=\"errorExplanation\" id=\"errorExplanation\"><h2>1 error prohibited this user from being saved</h2><p>There were problems with the following fields:</p><ul><li>User must be unpronounceable</li></ul></div>"
-    end
-  end
-
   describe "#form_tag" do
     it "works without a block" do
       test_render do
