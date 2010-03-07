@@ -1,13 +1,6 @@
 module Erector
   module Rails
     module Helpers
-      # Set up URL helpers so that both helpers.users_url and users_url can be called.
-      include ActionController::UrlWriter
-
-      def url_for(*args)
-        parent.url_for(*args)
-      end
-
       # Wrappers for rails helpers that produce markup. Erector needs to
       # manually emit their result.
       def self.def_simple_rails_helper(method_name)

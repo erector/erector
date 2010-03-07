@@ -101,10 +101,6 @@ module Erector
           super
         end
       end
-
-      # This is here to force #parent.capture to return the output
-      def __in_erb_template;
-      end
     end
 
     Erector::Widget.send :include, WidgetExtensions

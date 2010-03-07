@@ -1,34 +1,20 @@
 require File.expand_path("#{File.dirname(__FILE__)}/rails_spec_helper")
 
 describe Erector::Rails::Helpers do
-  class RailsHelpersSpecController < ActionController::Base
-  end
-
   before do
-    @controller = RailsHelpersSpecController.new
-    @request = ActionController::TestRequest.new
-    @response = ActionController::TestResponse.new
-    @controller.send(:initialize_template_class, @response)
-    @controller.send(:assign_shortcuts, @request, @response)
-    @controller.send(:initialize_current_url)
+    @controller = ActionController::Base.new
+    @controller.request = ActionController::TestRequest.new
 
     @view = ActionView::Base.new
-    @view.output_buffer = ""
     @view.controller = @controller
 
     def @view.protect_against_forgery?
       false
     end
-
-    class << @controller
-      public :render
-
-      attr_accessor :user # dummy instance variable for assigns testing
-    end
   end
 
   def test_render(&block)
-    Erector::Rails.render(Erector.inline(&block), @view)
+    Erector::Rails.render(Erector.inline(&block), @controller.view_context)
   end
 
   describe "#link_to" do
@@ -48,7 +34,7 @@ describe Erector::Rails::Helpers do
 
     it "escapes input" do
       test_render do
-        link_to 'This&that', '/foo?this=1&amp;that=1'
+        link_to 'This&that', '/foo?this=1&that=1'
       end.should == %{<a href="/foo?this=1&amp;that=1">This&amp;that</a>}
     end
 
@@ -81,8 +67,8 @@ describe Erector::Rails::Helpers do
 
   describe "a named route helper" do
     before do
-      ActionController::Routing::Routes.draw do |map|
-        map.root :controller => "rails_helpers_spec"
+      Rails.application.routes.draw do
+        root :to => "rails_helpers_spec#index"
       end
     end
 
@@ -121,7 +107,7 @@ describe Erector::Rails::Helpers do
     it "renders tag" do
       test_render do
         javascript_include_tag("rails")
-      end.should == %{<script src="/javascripts/rails.js" type="text/javascript"></script>}
+      end.should =~ %r{<script src="/javascripts/rails.js(?:\?\d+)?" type="text/javascript"></script>}
     end
   end
 
@@ -163,7 +149,7 @@ describe Erector::Rails::Helpers do
     describe "##{helper}" do
       it "renders helper js" do
         test_render do
-           send(helper, "rails", :url => "/foo")
+          send(helper, "rails", :url => "/foo")
         end.should =~ %r{<script type="text/javascript">.*</script>}m
       end
     end
@@ -181,7 +167,7 @@ describe Erector::Rails::Helpers do
     it "works without a block" do
       test_render do
         form_tag("/posts")
-      end.should == %{<form action="/posts" method="post">}
+      end.should == %{<form accept-charset="UTF-8" action="/posts" method="post"><div style="margin:0;padding:0;display:inline"><input name="_snowman" type="hidden" value="&#9731;" /></div>}
     end
 
     it "can be mixed with erector and rails helpers" do
@@ -189,7 +175,7 @@ describe Erector::Rails::Helpers do
         form_tag("/posts") do
           div { submit_tag 'Save' }
         end
-      end.should == %{<form action="/posts" method="post"><div><input name="commit" type="submit" value="Save" /></div></form>}
+      end.should == %{<form accept-charset="UTF-8" action="/posts" method="post"><div style="margin:0;padding:0;display:inline"><input name="_snowman" type="hidden" value="&#9731;" /></div><div><input name="commit" type="submit" value="Save" /></div></form>}
     end
   end
 
@@ -200,7 +186,7 @@ describe Erector::Rails::Helpers do
           form.label :my_input, "My input"
           form.text_field :my_input
         end
-      end.should == %{<form action="/test" method="post"><label for="something_my_input">My input</label><input id="something_my_input" name="something[my_input]" size="30" type="text" /></form>}
+      end.should == %{<form accept-charset="UTF-8" action="/test" method="post"><div style="margin:0;padding:0;display:inline"><input name="_snowman" type="hidden" value="&#9731;" /></div><label for="something_my_input">My input</label><input id="something_my_input" name="something[my_input]" size="30" type="text" /></form>}
     end
 
     it "doesn't double render if 'text form.label' is used by mistake" do
@@ -208,7 +194,7 @@ describe Erector::Rails::Helpers do
         form_for(:something, :url => "/test") do |form|
           text form.label :my_input, "My input"
         end
-      end.should == %{<form action="/test" method="post"><label for="something_my_input">My input</label></form>}
+      end.should == %{<form accept-charset="UTF-8" action="/test" method="post"><div style="margin:0;padding:0;display:inline"><input name="_snowman" type="hidden" value="&#9731;" /></div><label for="something_my_input">My input</label></form>}
     end
   end
 end

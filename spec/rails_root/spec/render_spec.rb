@@ -191,15 +191,8 @@ describe ActionController::Base do
     end
   end
 
-  before do
-    @controller = TestController.new
-    @request    = ActionController::TestRequest.new
-    @response   = ActionController::TestResponse.new
-  end
-
   def test_action(action)
-    @request.action = action.to_s
-    @controller.process(@request, @response)
+    @response = TestController.action(action).call(Rack::MockRequest.env_for("/path"))[2]
     @response.body
   end
 
