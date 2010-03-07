@@ -123,14 +123,14 @@ module Erector
     # Emits an open tag, comprising '<', tag name, optional attributes, and '>'
     def open_tag(tag_name, attributes={})
       output.newline if newliney?(tag_name) && !output.at_line_start?
-      output << "<#{tag_name}#{format_attributes(attributes)}>"
+      output << raw("<#{tag_name}#{format_attributes(attributes)}>")
       output.indent
     end
 
     # Emits a close tag, consisting of '<', '/', tag name, and '>'
     def close_tag(tag_name)
       output.undent
-      output <<("</#{tag_name}>")
+      output << raw("</#{tag_name}>")
       if newliney?(tag_name)
         output.newline
       end
@@ -185,7 +185,7 @@ module Erector
 
     # Emits an XML instruction, which looks like this: <?xml version=\"1.0\" encoding=\"UTF-8\"?>
     def instruct(attributes={:version => "1.0", :encoding => "UTF-8"})
-      output << "<?xml#{format_sorted(sort_for_xml_declaration(attributes))}?>"
+      output << raw("<?xml#{format_sorted(sort_for_xml_declaration(attributes))}?>")
     end
 
     # Emits an HTML comment (&lt;!-- ... --&gt;) surrounding +text+ and/or the output of +block+.
@@ -288,7 +288,7 @@ module Erector
     end
 
     def __empty_element__(tag_name, attributes={})
-      output << "<#{tag_name}#{format_attributes(attributes)} />"
+      output << raw("<#{tag_name}#{format_attributes(attributes)} />")
       output.newline if newliney?(tag_name)
     end
 

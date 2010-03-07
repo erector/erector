@@ -3,5 +3,4 @@
   passed_locals[:foo] = @local_foo if @local_foo
   passed_locals[:bar] = @local_bar if @local_bar
   passed_locals[:baz] = @local_baz if @local_baz
--%>
-<%= render :partial => 'partial_with_locals', :locals => passed_locals %>
+%><%= render :partial => 'partial_with_locals', :locals => passed_locals %>
