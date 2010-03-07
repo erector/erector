@@ -12,7 +12,6 @@ require "nokogiri"
 require "rr"
 require 'tempfile'
 require 'ostruct'
-ARGV.push(*File.read("#{File.dirname(__FILE__)}/spec.opts").split("\n"))
 require "spec"
 require "spec/autorun"
 

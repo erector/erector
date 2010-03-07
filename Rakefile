@@ -146,17 +146,20 @@ namespace :spec do
   desc "Run core specs."
   Spec::Rake::SpecTask.new(:core) do |spec|
     spec.spec_files = FileList['spec/erector/*_spec.rb']
+    spec.spec_opts = ['--backtrace']
   end
 
   desc "Run specs for the 'erector' command line tool."
   Spec::Rake::SpecTask.new(:erect) do |spec|
     spec.spec_files = FileList['spec/erect/*_spec.rb']
+    spec.spec_opts = ['--backtrace']
   end
   task :erect => :clone_rails
 
   desc "Run specs for erector's Rails integration."
   Spec::Rake::SpecTask.new(:rails) do |spec|
     spec.spec_files = FileList['spec/rails_root/spec/*_spec.rb']
+    spec.spec_opts = ['--backtrace']
   end
   task :rails => :clone_rails
 end
