@@ -11,7 +11,7 @@ class ExternalRenderer < Erector::Widget
   
   def rendered_externals(type)
     @classes.map do |klass|
-      klass.externals(type)
+      klass.dependencies(type)
     end.flatten.uniq
   end
   

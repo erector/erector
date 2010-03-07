@@ -6,15 +6,15 @@ change instance vars to start with @_
 
 rename 'user guide' to 'documentation' or something more clear
 
-rename "external" to "depends_on"
+(DONE) rename "external" to "depends_on"
 
-variant syntaxes for "depends_on"
+(DONE) variant syntaxes for "depends_on"
    depends_on :js => ["foo.js", "bar.js"]
   
 depends_on FooWidget, BarWidget
   -- add all of these widgets' dependencies
   
-cleverly figure out the external type
+(DONE) cleverly figure out the external type
   depends_on "foo.js"
   depends_on "foo.css"
   depends_on File.new("foo.js")

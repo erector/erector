@@ -1,89 +1,92 @@
 module Erector
-  class External < Struct.new(:type, :text, :options)
-
-    # Multiple forms:
-    #   #new(type, text, options = {})
-    #   #new(type, an_io, ... # file to be read
-    #   #new('blah.js' ... infer :js
-    #   #new('blah.css' ... infer :css
-    def initialize(*args)
-      if args[0].class == Symbol
-        type = args.shift
-      else
-        type = /.+\.js/.match(args[0]) ? :js : :css
-      end
-      text = args[0]
-      options = args[1] || {}
-      text = text.read if text.is_a? IO
-      text = External.interpolate(text) if options[:interpolate] # todo: test
-      
-      super(type, text, options)
-    end
-
-    def self.interpolate(s)
-      eval("<<INTERPOLATE\n" + s + "\nINTERPOLATE").chomp
-    end
-
-    def ==(other)
-      (self.type == other.type and
-       self.text == other.text and
-       self.options == other.options) ? true : false
-    end
-  end
-
   module Externals
     def self.included(base)
       base.extend ClassMethods
     end
 
     module ClassMethods
-      
+
+      # Express a dependency of this widget
+      # Multiple forms:
+      #   depends_on(type, text, options = {})
+      # for example
+      #   depends_on(:js, '/foo.js', :embed=>true)
+      #
+      # Other variants:
+      #   depends_on(type, an_io, ... # file to be read
+      #   depends_on('blah.js' ... infer :js
+      #   depends_on('blah.css' ... infer :css
+      #   depends on :js, 'file1.js', 'file2.js'... [options]
+      #   depends_on :js => ["foo.js", "bar.js"], :css=>['file.css']
+      #   depends_on :js => ["foo.js", "bar.js"], other_option=>:blah
       def depends_on(*args)
-        x = External.new(*args)
-        push_external(x)
+        x = interpret_args(*args)
+        push_dependency(x)
       end
-      
-      def push_external(x)
-        if x.is_a? External
-          @externals ||= []
-          @externals << x unless @externals.include?(x)
-        else
-          raise "expected External, got #{x.class}: #{x.inspect}"
-        end
-      end
-      
+
       # deprecated in favor of #depends_on
-      
       def external(type, value, options = {})
-        @externals ||= []
+        @_dependencies ||= []
         type = type.to_sym
-        x = External.new(type, value, options)
-        @externals << x unless @externals.include?(x)
+        x = Dependency.new(type, value, options)
+        @_dependencies << x unless @_dependencies.include?(x)
       end
 
-      # returns all externals of the given type from this class and all its
+      # returns all dependencies of the given type from this class and all its
       # superclasses
-      def externals(type)
-        @externals ||= []
-
+      def dependencies(type)
         type = type.to_sym
-        parent_externals = if superclass.respond_to?(:externals)
-          superclass.externals(type)
+        deps = []
+        deps += superclass.dependencies(type) if superclass.respond_to?(:dependencies)
+        deps += @_dependencies.select { |x| x.type == type } if @_dependencies
+        deps.uniq
+      end
+
+      private
+      INFERABLE_TYPES = [:css, :js]
+
+      def interpret_args(*args)
+        options =  {}
+        options = args.pop if args.last.is_a?(::Hash)
+        if args.empty? && options.any?
+          deps = []
+          texts_hash = {}
+          INFERABLE_TYPES.each do |t|
+            texts_hash[t] = options.delete(t) if options.has_key? t
+          end
+          texts_hash.each do |t, texts|
+            texts.each do |text|
+              deps << interpret_args(t, text, options)
+            end
+          end
+          return deps
+        elsif args[0].class == Symbol
+          type = args.shift
         else
-          []
+          type = /.+\.js/.match(args[0]) ? :js : :css
         end
 
-        my_externals = @externals.select do |external|
-          external.type == type
+        deps = args.map do |text|
+          Dependency.new(type, text, options)
         end
+        deps.size == 1 ? deps.first : deps
+      end
 
-        (parent_externals + my_externals).uniq
+      def push_dependency(*dependencies)
+        @_dependencies ||= []
+        [*dependencies].flatten.each do |dep|
+          if dep.is_a? Erector::Dependency
+            @_dependencies << dep unless @_dependencies.include?(dep)
+          else
+            raise "expected Dependency, got #{x.class}: #{x.inspect}"
+          end
+        end
       end
     end
 
     def render_with_externals(options_to_external_renderer = {})
       output = Erector::Output.new
-      self.to_s(:output => output)
+      self.to_a(:output => output)
       nested_widgets = output.widgets.to_a
       externals = ExternalRenderer.new({:classes => nested_widgets}.merge(options_to_external_renderer)).to_s(:output => output)
       output.to_a

@@ -37,7 +37,6 @@ module Erector
   # Now, seriously, after playing around a bit, go read the user guide. It's 
   # fun!
   class AbstractWidget
-
     @@prettyprint_default = false
     def prettyprint_default
       @@prettyprint_default
@@ -240,7 +239,7 @@ module Erector
       yield
     ensure
       @parent = original_parent
-      @output = original_output unless original_output.nil? # retain output after rendering, to check externals
+      @output = original_output unless original_output.nil? # retain output after rendering, to check dependencies
       @helpers = original_helpers
     end
   end

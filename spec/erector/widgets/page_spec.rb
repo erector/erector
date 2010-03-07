@@ -72,7 +72,7 @@ describe Erector::Widgets::Page do
     end
   end
 
-  it "only puts into externals those from widgets rendered on it" do
+  it "only puts into dependencies those from widgets rendered on it" do
     s = NicePage.new.to_s
     s.should include("nice page")
     s.should include("nice widget")

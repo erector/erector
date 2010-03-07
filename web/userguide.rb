@@ -573,10 +573,10 @@ end
         text "Here's an example:"
         pre <<-DONE
 class HotSauce < Erector::Widget
-  external :css, "/css/tapatio.css"
-  external :css, "/css/salsa_picante.css", :media => "print"
-  external :js, "/lib/jquery.js"
-  external :js, "/lib/picante.js"
+  depends_on :css, "/css/tapatio.css"
+  depends_on :css, "/css/salsa_picante.css", :media => "print"
+  depends_on :js, "/lib/jquery.js"
+  depends_on :js, "/lib/picante.js"
 
   def content
     p :class => "tapatio" do
@@ -606,12 +606,8 @@ end
       end
       
       p do
-        text "There's at least one drawback to this technique: since the externals get declared at class load time, then every external will be emitted on every page, even if that widget isn't on the page at all. This is not usually a problem, but it may lead to namespace collision, so be careful out there."
-      end
-      
-      p do
         a "Page", :href => "rdoc/classes/Erector/Widgets/Page.html"
-        text " looks for the following externals:"
+        text " looks for the following depends on:"
         table do
           tr do
             th ":js"
@@ -639,7 +635,7 @@ end
         text "Instead of a string, you can also specify a File object; the file's contents get read and used as text. This allows you to inline files instead of referring to them, for potential performance benefits."
         text " Example:"
         pre <<-DONE
-    external :style, File.new("#{File.dirname(__FILE__)}/../public/sample.css")
+    depends_on :style, File.new("#{File.dirname(__FILE__)}/../public/sample.css")
         DONE
       end
     end,

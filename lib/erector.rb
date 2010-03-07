@@ -10,6 +10,7 @@ require "active_support/inflections"
 require "erector/extensions/object"
 
 require "erector/raw_string"
+require "erector/dependency"
 require "erector/externals"
 require "erector/output"
 require "erector/cache"
