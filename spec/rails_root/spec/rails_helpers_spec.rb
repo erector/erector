@@ -169,27 +169,6 @@ describe Erector::Rails::Helpers do
     end
   end
 
-  describe "#link_to_function" do
-    context "when passed a string for the js function" do
-      it "renders a link with the name as the content and the onclick handler" do
-        test_render do
-          link_to_function("hi", "alert('hi')")
-        end.should == "<a href=\"#\" onclick=\"alert('hi'); return false;\">hi</a>"
-      end
-    end
-
-    context "when passed a block for the js function" do
-      it "renders the name and the block rjs contents onto onclick" do
-        test_render do
-          link_to_function("Show me more", nil, :id => "more_link") do |page|
-            page[:details].visual_effect  :toggle_blind
-            page[:more_link].replace_html "Show me less"
-          end
-        end.should == "<a href=\"#\" id=\"more_link\" onclick=\"$(&quot;details&quot;).visualEffect(&quot;toggle_blind&quot;);\n$(&quot;more_link&quot;).update(&quot;Show me less&quot;);; return false;\">Show me more</a>"
-      end
-    end
-  end
-
   describe "#render" do
     it "renders text" do
       test_render do

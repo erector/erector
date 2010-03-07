@@ -27,10 +27,6 @@ module Erector
         :link_to_if,
         :mail_to,
 
-        # JavaScriptHelper
-        :link_to_function,
-        :button_to_function,
-
         # FormTagHelper
         :select_tag,
         :text_field_tag,
