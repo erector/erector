@@ -221,4 +221,23 @@ describe Erector::Rails::Helpers do
       end.to_s(:parent => @view).should == %{<form action="/posts" method="post"><div><input name="commit" type="submit" value="Save" /></div></form>}
     end
   end
+
+  describe "#form_for" do
+    it "produces expected output" do
+      Erector.inline do
+        form_for(:something, :url => "/test") do |form|
+          form.label :my_input, "My input"
+          form.text_field :my_input
+        end
+      end.to_s(:parent => @view).should == %{<form action="/test" method="post"><label for="something_my_input">My input</label><input id="something_my_input" name="something[my_input]" size="30" type="text" /></form>}
+    end
+
+    it "doesn't double render if 'text form.label' is used by mistake" do
+      Erector.inline do
+        form_for(:something, :url => "/test") do |form|
+          text form.label :my_input, "My input"
+        end
+      end.to_s(:parent => @view).should == %{<form action="/test" method="post"><label for="something_my_input">My input</label></form>}
+    end
+  end
 end

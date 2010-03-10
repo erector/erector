@@ -10,8 +10,12 @@ module Erector
     def method_missing(method_name, *args, &block)
       if parent.respond_to?(method_name)
         return_value = parent.send(method_name, *args, &block)
-        template.concat(return_value) if return_value.is_a?(String)
-        return_value
+        if return_value.is_a?(String)
+          template.concat(return_value)
+          nil
+        else
+          return_value
+        end
       else
         super
       end
