@@ -49,6 +49,12 @@ describe Erector::Rails::Helpers do
         end.to_s(:parent => @view).should == %{<a href="/foo?this=1&amp;that=1">This&amp;that</a>}
       end
     end
+
+    it "isn't double rendered when 'text link_to' is used by mistake" do
+      Erector.inline do
+        text link_to 'Test', '/foo'
+      end.to_s(:parent => @view).should == %{<a href="/foo">Test</a>}
+    end
   end
 
   describe "a named route helper" do
