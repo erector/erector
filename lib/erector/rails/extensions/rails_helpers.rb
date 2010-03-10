@@ -8,8 +8,8 @@ module Erector
         parent.url_for(*args)
       end
 
-      # Wrappers for rails helpers that would always be used in ERB via <%= %>.
-      # Erector needs to manually output their result.
+      # Wrappers for rails helpers that produce markup. Erector needs to
+      # manually emit their result.
       def self.def_simple_rails_helper(method_name)
         module_eval(<<-METHOD_DEF, __FILE__, __LINE__+1)
           def #{method_name}(*args, &block)
@@ -83,9 +83,10 @@ module Erector
         def_simple_rails_helper(method_name)
       end
 
-      # Wrappers for rails helpers that concat directly to the output
-      # buffer if given a block, and return a string otherwise. Erector
-      # needs to manually output their result in the latter case.
+      # Wrappers for rails helpers that produce markup, concatenating
+      # directly to the output buffer if given a block, returning a
+      # string otherwise. In the latter case, Erector needs to manually
+      # output their result.
       def self.def_block_rails_helper(method_name)
         module_eval(<<-METHOD_DEF, __FILE__, __LINE__+1)
           def #{method_name}(*args, &block)
@@ -104,6 +105,16 @@ module Erector
        :form_remote_tag,
        :javascript_tag].each do |method_name|
         def_block_rails_helper(method_name)
+      end
+
+      # Delegate to non-markup producing helpers via method_missing,
+      # returning their result directly.
+      def method_missing(name, *args, &block)
+        if parent.respond_to?(name)
+          parent.send(name, *args, &block)
+        else
+          super
+        end
       end
 
       def render(*args, &block)

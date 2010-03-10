@@ -130,14 +130,6 @@ module Erector
         end
       end
 
-      def method_missing(name, *args, &block)
-        if parent.respond_to?(name)
-          parent.send(name, *args, &block)
-        else
-          super
-        end
-      end
-
       # This is here to force #parent.capture to return the output
       def __in_erb_template;
       end
