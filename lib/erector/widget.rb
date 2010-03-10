@@ -50,6 +50,12 @@ module Erector
       @@prettyprint_default = enabled
     end
 
+    def self.inline(*args, &block)
+      Class.new(self) do
+        include Erector::Inline
+      end.new(*args, &block)
+    end
+
     RESERVED_INSTANCE_VARS = [:helpers, :assigns, :block, :output, :prettyprint, :indentation]
 
     attr_reader *RESERVED_INSTANCE_VARS

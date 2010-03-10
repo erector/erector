@@ -16,6 +16,17 @@ describe Erector::Widget do
   it "doesn't provide access to Erector methods" do
     Erector::Widget.new { lambda { text "yay" }.should raise_error(NoMethodError) }.to_s
   end
+
+  describe ".inline" do
+    it "returns an instance with Erector::Inline mixed in" do
+      widget_subclass = Class.new(Erector::Widget)
+      widget_subclass.ancestors.should_not include(Erector::Inline)
+
+      inlined_instance = widget_subclass.inline
+      inlined_instance.class.ancestors.should include(widget_subclass)
+      inlined_instance.class.ancestors.should include(Erector::Inline)
+    end
+  end
 end
 
 describe Erector::Inline do

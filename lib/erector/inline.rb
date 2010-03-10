@@ -29,7 +29,7 @@ module Erector
       end
     end
   end
-  
+
   class InlineWidget < Erector::Widget
     include Inline
   end

@@ -14,7 +14,9 @@ end
 
 describe "Erector::RailsWidget.inline" do
   it "should return an InlineRailsWidget" do
-    Erector::RailsWidget.inline.should be_a Erector::InlineRailsWidget
+    inline_widget = Erector::RailsWidget.inline
+    inline_widget.should be_a Erector::RailsWidget
+    inline_widget.should be_a Erector::Inline
   end
 
   it "should pass the block to the inline widget" do

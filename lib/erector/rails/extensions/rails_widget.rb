@@ -159,12 +159,5 @@ module Erector
   # RailsWidget and InlineRailsWidget are for backward compatibility.
   # New code should use Widget, InlineWidget, or Erector.inline.
   class RailsWidget < Widget
-    def self.inline(*args, &block)
-      InlineRailsWidget.new(*args, &block)
-    end
-  end
-
-  class InlineRailsWidget < RailsWidget
-    include Inline
   end
 end
