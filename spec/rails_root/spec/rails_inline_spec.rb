@@ -6,7 +6,7 @@ describe "Erector.inline" do
     view.output_buffer = ""
     view.instance_eval do
       Erector.inline do
-        image_tag! "test.gif"
+        image_tag "test.gif"
       end.to_s.should == '<img alt="Test" src="/images/test.gif" />'
     end
   end

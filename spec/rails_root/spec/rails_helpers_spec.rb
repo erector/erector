@@ -84,7 +84,7 @@ describe Erector::Rails::Helpers do
   describe "#auto_discovery_link_tag" do
     it "renders tag" do
       Erector.inline do
-        auto_discovery_link_tag!(:rss, "rails")
+        auto_discovery_link_tag(:rss, "rails")
       end.to_s(:helpers => @view).should == %{<link href="rails" rel="alternate" title="RSS" type="application/rss+xml" />}
     end
   end
@@ -92,7 +92,7 @@ describe Erector::Rails::Helpers do
   describe "#javascript_include_tag" do
     it "renders tag" do
       Erector.inline do
-        javascript_include_tag!("rails")
+        javascript_include_tag("rails")
       end.to_s(:helpers => @view).should == %{<script src="/javascripts/rails.js" type="text/javascript"></script>}
     end
   end
@@ -100,7 +100,7 @@ describe Erector::Rails::Helpers do
   describe "#stylesheet_link_tag" do
     it "renders tag" do
       Erector.inline do
-        stylesheet_link_tag!("rails")
+        stylesheet_link_tag("rails")
       end.to_s(:helpers => @view).should == %{<link href="/stylesheets/rails.css" media="screen" rel="stylesheet" type="text/css" />}
     end
   end
@@ -108,7 +108,7 @@ describe Erector::Rails::Helpers do
   describe "#image_tag" do
     it "renders tag" do
       Erector.inline do
-        image_tag!("/foo")
+        image_tag("/foo")
       end.to_s(:helpers => @view).should == %{<img alt="Foo" src="/foo" />}
     end
   end
@@ -134,7 +134,7 @@ describe Erector::Rails::Helpers do
    :drop_receiving_element].each do |helper|
     describe "##{helper}" do
       it "renders helper js" do
-        @controller.render :widget => Erector.inline { text! send(helper, "rails", :url => "/foo") }
+        @controller.render :widget => Erector.inline { send(helper, "rails", :url => "/foo") }
         @response.body.should =~ %r{<script type="text/javascript">.*</script>}m
       end
     end
@@ -145,7 +145,7 @@ describe Erector::Rails::Helpers do
       it "renders a link with the name as the content and the onclick handler" do
         widget_class = Class.new(Erector::Widget) do
           def content
-            link_to_function!("hi", "alert('hi')")
+            link_to_function("hi", "alert('hi')")
           end
         end
         @controller.render :widget => widget_class
@@ -157,7 +157,7 @@ describe Erector::Rails::Helpers do
       it "renders the name and the block rjs contents onto onclick" do
         widget_class = Class.new(Erector::Widget) do
           def content
-            link_to_function!("Show me more", nil, :id => "more_link") do |page|
+            link_to_function("Show me more", nil, :id => "more_link") do |page|
               page[:details].visual_effect  :toggle_blind
               page[:more_link].replace_html "Show me less"
             end
@@ -181,7 +181,7 @@ describe Erector::Rails::Helpers do
     it "renders the error message" do
       widget_class = Class.new(Erector::Widget) do
         def content
-          error_messages_for!('user')
+          error_messages_for('user')
         end
       end
 
@@ -210,7 +210,7 @@ describe Erector::Rails::Helpers do
     it "can be mixed with erector and rails helpers" do
       Erector.inline do
         form_tag("/posts") do
-          div { submit_tag! 'Save' }
+          div { submit_tag 'Save' }
         end
       end.to_s(:helpers => @view).should == %{<form action="/posts" method="post"><div><input name="commit" type="submit" value="Save" /></div></form>}
     end
