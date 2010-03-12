@@ -12,8 +12,12 @@ module Erector
       # Erector needs to manually output their result.
       def self.def_simple_rails_helper(method_name)
         module_eval(<<-METHOD_DEF, __FILE__, __LINE__)
+          def #{method_name}!(*args, &block)
+            text! #{method_name}(*args, &block)
+          end
+
           def #{method_name}(*args, &block)
-            text helpers.#{method_name}(*args, &block)
+            helpers.#{method_name}(*args, &block)
           end
         METHOD_DEF
       end
@@ -112,7 +116,7 @@ module Erector
           helpers.concat(helpers.render(*args, &block))
           helpers.output_buffer.to_s
         end
-        rawtext(captured)
+        text!(captured)
       end
 
       def form_for(record_or_name_or_array, *args, &proc)
