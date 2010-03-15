@@ -24,6 +24,8 @@ class SpecSuite
     end
 
     def run(files)
+      puts "Running specs."
+      p files.map {|file| file.gsub(File.dirname(__FILE__), "specs")}
       files.each do |file|
         require file
       end
