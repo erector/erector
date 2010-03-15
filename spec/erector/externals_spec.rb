@@ -205,7 +205,7 @@ module ExternalsSpec
 
 
   end
-  
+
   describe "rendering with externals" do
     class Dinner < Erector::Widget
       external :js, "/dinner.js"

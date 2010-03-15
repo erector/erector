@@ -31,7 +31,7 @@ describe Erector::Rails::Helpers do
     it "renders a link" do
       Erector.inline do
         link_to 'Test', '/foo'
-      end.to_s(:helpers => @view).should == %{<a href="/foo">Test</a>}
+      end.to_s(:parent => @view).should == %{<a href="/foo">Test</a>}
     end
 
     it "supports blocks" do
@@ -39,14 +39,14 @@ describe Erector::Rails::Helpers do
         link_to '/foo' do
           strong "Test"
         end
-      end.to_s(:helpers => @view).should == %{<a href="/foo"><strong>Test</strong></a>}
+      end.to_s(:parent => @view).should == %{<a href="/foo"><strong>Test</strong></a>}
     end
 
     it "escapes input" do
       pending "http://github.com/nzkoz/rails_xss/issues#issue/1" do
         Erector.inline do
           link_to 'This&that', '/foo?this=1&amp;that=1'
-        end.to_s(:helpers => @view).should == %{<a href="/foo?this=1&amp;that=1">This&amp;that</a>}
+        end.to_s(:parent => @view).should == %{<a href="/foo?this=1&amp;that=1">This&amp;that</a>}
       end
     end
   end
@@ -61,13 +61,13 @@ describe Erector::Rails::Helpers do
     it "can be called directly" do
       Erector.inline do
         text root_path
-      end.to_s(:helpers => @view).should == "/"
+      end.to_s(:parent => @view).should == "/"
     end
 
-    it "can be called via helpers" do
+    it "can be called via parent" do
       Erector.inline do
-        text helpers.root_path
-      end.to_s(:helpers => @view).should == "/"
+        text parent.root_path
+      end.to_s(:parent => @view).should == "/"
     end
 
     it "respects default_url_options defined by the controller" do
@@ -77,7 +77,7 @@ describe Erector::Rails::Helpers do
 
       Erector.inline do
         text root_url
-      end.to_s(:helpers => @view).should == "http://www.override.com/"
+      end.to_s(:parent => @view).should == "http://www.override.com/"
     end
   end
 
@@ -85,7 +85,7 @@ describe Erector::Rails::Helpers do
     it "renders tag" do
       Erector.inline do
         auto_discovery_link_tag(:rss, "rails")
-      end.to_s(:helpers => @view).should == %{<link href="rails" rel="alternate" title="RSS" type="application/rss+xml" />}
+      end.to_s(:parent => @view).should == %{<link href="rails" rel="alternate" title="RSS" type="application/rss+xml" />}
     end
   end
 
@@ -93,7 +93,7 @@ describe Erector::Rails::Helpers do
     it "renders tag" do
       Erector.inline do
         javascript_include_tag("rails")
-      end.to_s(:helpers => @view).should == %{<script src="/javascripts/rails.js" type="text/javascript"></script>}
+      end.to_s(:parent => @view).should == %{<script src="/javascripts/rails.js" type="text/javascript"></script>}
     end
   end
 
@@ -101,7 +101,7 @@ describe Erector::Rails::Helpers do
     it "renders tag" do
       Erector.inline do
         stylesheet_link_tag("rails")
-      end.to_s(:helpers => @view).should == %{<link href="/stylesheets/rails.css" media="screen" rel="stylesheet" type="text/css" />}
+      end.to_s(:parent => @view).should == %{<link href="/stylesheets/rails.css" media="screen" rel="stylesheet" type="text/css" />}
     end
   end
 
@@ -109,7 +109,7 @@ describe Erector::Rails::Helpers do
     it "renders tag" do
       Erector.inline do
         image_tag("/foo")
-      end.to_s(:helpers => @view).should == %{<img alt="Foo" src="/foo" />}
+      end.to_s(:parent => @view).should == %{<img alt="Foo" src="/foo" />}
     end
   end
 
@@ -117,7 +117,7 @@ describe Erector::Rails::Helpers do
     it "renders tag" do
       Erector.inline do
         javascript_tag "alert('All is good')"
-      end.to_s(:helpers => @view).should == %{<script type="text/javascript">\n//<![CDATA[\nalert('All is good')\n//]]>\n</script>}
+      end.to_s(:parent => @view).should == %{<script type="text/javascript">\n//<![CDATA[\nalert('All is good')\n//]]>\n</script>}
     end
 
     it "supports block syntax" do
@@ -125,7 +125,7 @@ describe Erector::Rails::Helpers do
         javascript_tag do
           text! "alert('All is good')"
         end
-      end.to_s(:helpers => @view).should == %{<script type="text/javascript">\n//<![CDATA[\nalert('All is good')\n//]]>\n</script>}
+      end.to_s(:parent => @view).should == %{<script type="text/javascript">\n//<![CDATA[\nalert('All is good')\n//]]>\n</script>}
     end
   end
 
@@ -173,7 +173,7 @@ describe Erector::Rails::Helpers do
     it "renders text" do
       Erector.inline do
         render :text => "Test"
-      end.to_s(:helpers => @view).should == "Test"
+      end.to_s(:parent => @view).should == "Test"
     end
   end
 
@@ -204,7 +204,7 @@ describe Erector::Rails::Helpers do
     it "works without a block" do
       Erector.inline do
         form_tag("/posts")
-      end.to_s(:helpers => @view).should == %{<form action="/posts" method="post">}
+      end.to_s(:parent => @view).should == %{<form action="/posts" method="post">}
     end
 
     it "can be mixed with erector and rails helpers" do
@@ -212,7 +212,7 @@ describe Erector::Rails::Helpers do
         form_tag("/posts") do
           div { submit_tag 'Save' }
         end
-      end.to_s(:helpers => @view).should == %{<form action="/posts" method="post"><div><input name="commit" type="submit" value="Save" /></div></form>}
+      end.to_s(:parent => @view).should == %{<form action="/posts" method="post"><div><input name="commit" type="submit" value="Save" /></div></form>}
     end
   end
 end

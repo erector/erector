@@ -10,17 +10,17 @@ describe Erector::Rails::WidgetExtensions do
       captured = nil
       Erector.inline do
         captured = capture {}
-      end.to_s(:helpers => @view).should == ""
+      end.to_s(:parent => @view).should == ""
       captured.should be_a_kind_of Erector::RawString
     end
 
-    it "#capture captures helper output" do
+    it "#capture captures parent output" do
       captured = nil
       Erector.inline do
         captured = capture do
-          helpers.concat "capture me!"
+          parent.concat "capture me!"
         end
-      end.to_s(:helpers => @view).should == ""
+      end.to_s(:parent => @view).should == ""
       captured.should == "capture me!"
     end
 
@@ -30,19 +30,19 @@ describe Erector::Rails::WidgetExtensions do
         captured = capture do
           text 'capture me!'
         end
-      end.to_s(:helpers => @view).should == ""
+      end.to_s(:parent => @view).should == ""
       captured.should == "capture me!"
     end
 
-    it "#helpers.capture captures erector output" do
+    it "#parent.capture captures erector output" do
       Erector.inline do
         text "A"
-        c = helpers.capture do
+        c = parent.capture do
           text "C"
         end
         text "B"
         text c
-      end.to_s(:helpers => @view).should == "ABC"
+      end.to_s(:parent => @view).should == "ABC"
     end
   end
 

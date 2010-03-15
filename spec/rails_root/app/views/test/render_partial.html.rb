@@ -1,5 +1,5 @@
 class Views::Test::RenderPartial < Erector::Widget
   def content
-    rawtext helpers.render(:partial => 'erector')
+    text! parent.render(:partial => 'erector')
   end
 end

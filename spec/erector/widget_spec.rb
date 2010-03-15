@@ -178,12 +178,17 @@ module WidgetSpec
           end
           
           it "renders the tag around the rest of the block" do
-            WhenNested::Grandchild.new(:parent_widget => WhenNested::Parent, 
-              :child_widget => WhenNested::Child).to_s.should == '<div id="parent_widget"><div id="child_widget"><div id="grandchild"></div></div></div>'
+            WhenNested::Grandchild.new(
+              :parent_widget => WhenNested::Parent,
+              :child_widget => WhenNested::Child
+            ).to_s.should == '<div id="parent_widget"><div id="child_widget"><div id="grandchild"></div></div></div>'
           end
         
           it "renders the tag around the rest of the block with proper indentation" do
-            WhenNested::Grandchild.new(:parent_widget => WhenNested::Parent, :child_widget => WhenNested::Child).to_pretty.should == 
+            WhenNested::Grandchild.new(
+              :parent_widget => WhenNested::Parent,
+              :child_widget => WhenNested::Child
+            ).to_pretty.should ==
             "<div id=\"parent_widget\">\n" + 
             "  <div id=\"child_widget\">\n" + 
             "    <div id=\"grandchild\"></div>\n" + 

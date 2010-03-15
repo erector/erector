@@ -2,21 +2,21 @@ module Erector
   module Rails
     def self.assigns_for(widget_class, view, local_assigns, is_partial)
       assigns = {}
-      
+
       instance_variables = view.instance_variables_for_widget_assignment
       if is_partial || widget_class.ignore_extra_controller_assigns
         instance_variables = remove_unneeded_assigns(widget_class, instance_variables)
       end
 
       assigns.merge!(instance_variables) unless is_partial && (! widget_class.controller_assigns_propagate_to_partials)
-      
+
       if is_partial
         assigns.merge!(filter_local_assigns_for_partial(widget_class, local_assigns || { }))
       end
-      
+
       assigns
     end
-    
+
     def self.remove_unneeded_assigns(widget_class, assigns)
       needs = widget_class.get_needed_variables
       if needs.empty?
@@ -25,19 +25,17 @@ module Erector
         assigns.reject { |key, value| ! needs.include?(key) }
       end
     end
-    
+
     def self.filter_local_assigns_for_partial(widget_class, local_assigns)
       widget_class_variable_name = widget_class.name.underscore
       widget_class_variable_name = $1 if widget_class_variable_name =~ %r{.*/(.*?)$}
-      
+
       local_assigns.reject do |name, value|
         name == :object || name == widget_class_variable_name.to_sym
       end
     end
-    
-    def self.render(widget, controller, assigns = nil, options = {})
-      view = controller.response.template
-      
+
+    def self.render(widget, view, assigns = nil, options = {})
       if widget.is_a?(Class)
         assigns ||= assigns_for(widget, view, nil, false)
         widget = widget.new(assigns)
@@ -45,7 +43,7 @@ module Erector
 
       view.send(:_evaluate_assigns_and_ivars)
 
-      widget.to_s({:helpers => view}.merge(options))
+      widget.to_s({:parent => view}.merge(options))
     end
 
     module WidgetExtensions
@@ -104,51 +102,43 @@ module Erector
       end
 
       # When we set up the erector output, we need to make sure that
-      # Rails gets the same output buffer, via helpers.with_output_buffer.
-      def context(parent, output, helpers = nil, &blk)
-        if helpers.respond_to?(:with_output_buffer)
-          helpers.with_output_buffer(output) do
-            super
+      # Rails gets the same output buffer, via parent.with_output_buffer.
+      def context(options)
+        if options[:parent].respond_to?(:output_buffer)
+          options[:output] = Output.new do
+            options[:parent].output_buffer ||= ""
           end
-        else
-          super
+        end
+        super(options) do
+          yield
         end
       end
 
-      # We need to delegate #output to helpers.output_buffer, so that
-      # when Rails's #capture/#with_output_buffer executes a block,
-      # erector output done by the block goes to the appropriate output
-      # buffer (i.e., the one set up by our ActionView#with_output_buffer
-      # patch).
-      def output
-        if helpers.respond_to?(:output_buffer)
-          helpers.output_buffer
-        else
-          super
-        end
+      def no_output_error
+        raise("No output to emit to. @output must be set or the @parent must have an :output or :output_buffer")
       end
 
-      # We need to delegate #capture to helpers.capture, so that when
+      # We need to delegate #capture to parent.capture, so that when
       # the captured block is executed, any rails output done by the block
       # goes to the appropriate output buffer (i.e., the one set up by our
       # ActionView#with_output_buffer patch).
       def capture(&block)
-        if helpers.respond_to?(:capture)
-          raw(helpers.capture(&block).to_s)
+        if parent.respond_to?(:capture)
+          raw(parent.capture(&block).to_s)
         else
           super
         end
       end
 
       def method_missing(name, *args, &block)
-        if helpers.respond_to?(name)
-          helpers.send(name, *args, &block)
+        if parent.respond_to?(name)
+          parent.send(name, *args, &block)
         else
           super
         end
       end
 
-      # This is here to force #helpers.capture to return the output
+      # This is here to force #parent.capture to return the output
       def __in_erb_template;
       end
     end

@@ -74,11 +74,25 @@ module Erector
       @block = block
     end
 
+    def output
+      @output ||
+        output_from_parent ||
+        no_output_error
+    end
+
+    def output_from_parent
+      parent.respond_to?(:output) && parent.output
+    end
+
+    def no_output_error
+      raise("No output to emit to. @output must be set or the @parent must respond to :output")
+    end
+
     # Render (like to_s) but adding newlines and indentation.
     # This is a convenience method; you may just want to call to_s(:prettyprint => true)
     # so you can pass in other rendering options as well.  
     def to_pretty
-      to_s(:prettyprint => true)
+      to_s(:output => Output.new(:prettyprint => true))
     end
 
     # Entry point for rendering a widget (and all its children). This method
@@ -98,6 +112,9 @@ module Erector
     #                       #content, pass its name in here.
     def to_s(options = {}, &blk)
       raise "Erector::Widget#to_s now takes an options hash, not a symbol. Try calling \"to_s(:content_method_name=> :#{options})\"" if options.is_a? Symbol
+      if !options[:output] && !options[:parent]
+        options[:output] = new_output_from_options(options)
+      end
       raw(_render(options, &blk).to_s)
     end
     
@@ -107,6 +124,9 @@ module Erector
     #
     # # Options: see #to_s
     def to_a(options = {}, &blk)
+      if !options[:output] && !options[:parent]
+        options[:output] = new_output_from_options(options)
+      end
       _render(options, &blk).to_a
     end
 
@@ -187,23 +207,38 @@ module Erector
       instance_variable_set(ivar_name, value)
     end
 
-    def _render(options = {}, &blk)
-      parent  = options[:parent]  || @parent
-      helpers = options[:helpers] || @parent
-      output  = options[:output]
-
-      unless output.is_a? Output
-        output_options = {}
-        [:prettyprint, :indentation, :output].each do |opt|
-          output_options[opt] = options[opt] unless options[opt].nil?
-        end
-        output = Output.new(output_options)
-      end
-
-      context(parent, output, helpers) do
-        @output.widgets << self.class
+    def _render(options, &blk)
+      context(prepare_options(options)) do
+        output.widgets << self.class
         _render_content_method(options[:content_method_name] || :content, &blk)
         output
+      end
+    end
+
+    def prepare_options(options={})
+      options[:parent] ||= @parent
+      options[:helpers] ||= @parent
+      new_output = if options[:output].is_a?(Output)
+        options[:output]
+      else
+        # Assuming options[:output] is a string (Output#buffer)
+        if options.include?(:prettyprint) || options.include?(:indentation) || options.include?(:output) || !options[:parent]
+          new_output_from_options(options)
+        else
+          nil
+        end
+      end
+      options.merge(:output => new_output)
+    end
+
+    def new_output_from_options(options)
+      output_options = {}
+      output_options[:prettyprint] = options[:prettyprint] if options.include?(:prettyprint)
+      output_options[:indentation] = options[:indentation] if options.include?(:indentation)
+      if options.include?(:output)
+        Output.new(output_options) {options[:output]}
+      else
+        Output.new(output_options)
       end
     end
 
@@ -213,7 +248,7 @@ module Erector
     end
 
     def write_via(parent)
-      context(parent, parent.output, parent.helpers) do
+      context(:parent => parent, :helpers => parent.helpers) do
         _call_content
       end
     end
@@ -226,7 +261,7 @@ module Erector
     def with_output_buffer(buffer='')
       begin
         original_output = @output
-        @output = Output.new(:output => buffer)
+        @output = Output.new {buffer}
         yield
         buffer
       ensure
@@ -234,18 +269,17 @@ module Erector
       end
     end
 
-    def context(parent, output, helpers = nil)
-      #TODO: pass in options hash, maybe, instead of parameters
+    def context(params={})
       original_parent = @parent
       original_output = @output
       original_helpers = @helpers
-      @parent = parent
-      @output = output
-      @helpers = helpers
+      params[:parent] && @parent = params[:parent]
+      params[:output] && @output = params[:output]
+      params[:helpers] && @helpers = params[:helpers]
       yield
     ensure
       @parent = original_parent
-      @output = original_output unless original_output.nil? # retain output after rendering, to check dependencies
+      @output = original_output if original_output # retain output after rendering, to check dependencies
       @helpers = original_helpers
     end
   end

@@ -2,7 +2,7 @@ ActionController::Base.class_eval do
   class_inheritable_accessor :ert_template_base_class
   
   def render_widget(widget_class, assigns=nil, options={})
-    render options.merge(:text => Erector::Rails.render(widget_class, self, assigns, options))
+    render options.merge(:text => Erector::Rails.render(widget_class, response.template, assigns, options))
   end
 
   def render_with_erector_widget(*options, &block)

@@ -37,7 +37,7 @@ module Erector
     
     it "can be initialized with an existing string buffer" do
       s = "foo"
-      @output = Output.new(:output => s)
+      @output = Output.new {s}
       @output << "bar"
       s.should == "foobar"
       @output.to_s.should == "foobar"

@@ -5,15 +5,15 @@ module Erector
       include ActionController::UrlWriter
 
       def url_for(*args)
-        helpers.url_for(*args)
+        parent.url_for(*args)
       end
 
       # Wrappers for rails helpers that would always be used in ERB via <%= %>.
       # Erector needs to manually output their result.
       def self.def_simple_rails_helper(method_name)
-        module_eval(<<-METHOD_DEF, __FILE__, __LINE__)
+        module_eval(<<-METHOD_DEF, __FILE__, __LINE__+1)
           def #{method_name}(*args, &block)
-            text helpers.#{method_name}(*args, &block)
+            text parent.#{method_name}(*args, &block)
           end
         METHOD_DEF
       end
@@ -32,7 +32,6 @@ module Erector
         :button_to_function,
 
         # FormTagHelper
-        :form_tag,
         :select_tag,
         :text_field_tag,
         :label_tag,
@@ -88,12 +87,12 @@ module Erector
       # buffer if given a block, and return a string otherwise. Erector
       # needs to manually output their result in the latter case.
       def self.def_block_rails_helper(method_name)
-        module_eval(<<-METHOD_DEF, __FILE__, __LINE__)
+        module_eval(<<-METHOD_DEF, __FILE__, __LINE__+1)
           def #{method_name}(*args, &block)
             if block_given?
-              helpers.#{method_name}(*args, &block)
+              parent.#{method_name}(*args, &block)
             else
-              text helpers.#{method_name}(*args, &block)
+              text parent.#{method_name}(*args, &block)
             end
           end
         METHOD_DEF
@@ -108,9 +107,9 @@ module Erector
       end
 
       def render(*args, &block)
-        captured = helpers.capture do
-          helpers.concat(helpers.render(*args, &block))
-          helpers.output_buffer.to_s
+        captured = parent.capture do
+          parent.concat(parent.render(*args, &block))
+          parent.output_buffer.to_s
         end
         rawtext(captured)
       end
@@ -119,22 +118,22 @@ module Erector
         options = args.extract_options!
         options[:builder] ||= ::Erector::RailsFormBuilder
         args.push(options)
-        helpers.form_for(record_or_name_or_array, *args, &proc)
+        parent.form_for(record_or_name_or_array, *args, &proc)
       end
 
       def fields_for(record_or_name_or_array, *args, &proc)
         options = args.extract_options!
         options[:builder] ||= ::Erector::RailsFormBuilder
         args.push(options)
-        helpers.fields_for(record_or_name_or_array, *args, &proc)
+        parent.fields_for(record_or_name_or_array, *args, &proc)
       end
       
       def flash
-        helpers.controller.send(:flash)
+        parent.controller.send(:flash)
       end
 
       def session
-        helpers.controller.session
+        parent.controller.session
       end
     end
 
