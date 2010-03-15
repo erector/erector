@@ -76,16 +76,8 @@ module Erector
 
     def output
       @output ||
-        output_from_parent ||
-        no_output_error
-    end
-
-    def output_from_parent
-      parent.respond_to?(:output) && parent.output
-    end
-
-    def no_output_error
-      raise("No output to emit to. @output must be set or the @parent must respond to :output")
+        parent.respond_to?(:output) && parent.output ||
+        raise("No output to emit to. @output must be set or the @parent must respond to :output")
     end
 
     # Render (like to_s) but adding newlines and indentation.
