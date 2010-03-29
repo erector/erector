@@ -1,6 +1,13 @@
 module Erector
   class Cache
+    def self.is_supported?
+      RUBY_VERSION >= "1.8.7"
+    end
+
     def initialize
+      unless self.class.is_supported?
+        raise Errors::RubyVersionNotSupported.new("< 1.8.7", "Erector::Cache uses Hashes with Hashes as keys.")
+      end
       @stores = {}
     end
 

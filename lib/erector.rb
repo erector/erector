@@ -1,3 +1,6 @@
+module Erector
+end
+
 require "cgi"
 require "yaml"
 begin
@@ -7,9 +10,12 @@ rescue LoadError => e
 end
 require "active_support/inflector"
 require "active_support/inflections"
-require "erector/extensions/object"
 
+require "erector/errors"
+require "erector/extensions/object"
+require "erector/extensions/hash"
 require "erector/raw_string"
+require "erector/dependencies"
 require "erector/dependency"
 require "erector/externals"
 require "erector/output"

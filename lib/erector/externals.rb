@@ -21,27 +21,30 @@ module Erector
       #   depends_on :js => ["foo.js", "bar.js"], other_option=>:blah
       def depends_on(*args)
         x = interpret_args(*args)
-        push_dependency(x)
+        my_dependencies.push(x)
       end
 
       # deprecated in favor of #depends_on
       def external(type, value, options = {})
-        @_dependencies ||= []
         type = type.to_sym
         x = Dependency.new(type, value, options)
-        @_dependencies << x unless @_dependencies.include?(x)
+        my_dependencies << x unless my_dependencies.include?(x)
       end
 
       # returns all dependencies of the given type from this class and all its
       # superclasses
       def dependencies(type)
         type = type.to_sym
-        deps = []
-        deps += superclass.dependencies(type) if superclass.respond_to?(:dependencies)
-        deps += @_dependencies.select { |x| x.type == type } if @_dependencies
+        deps = Dependencies.new
+        deps.push(*superclass.dependencies(type)) if superclass.respond_to?(:dependencies)
+        deps.push(*my_dependencies.select { |x| x.type == type })
         deps.uniq
       end
 
+      def my_dependencies
+        @my_dependencies ||= Dependencies.new
+      end
+      
       private
       INFERABLE_TYPES = [:css, :js]
 
@@ -70,17 +73,6 @@ module Erector
           Dependency.new(type, text, options)
         end
         deps.size == 1 ? deps.first : deps
-      end
-
-      def push_dependency(*dependencies)
-        @_dependencies ||= []
-        [*dependencies].flatten.each do |dep|
-          if dep.is_a? Erector::Dependency
-            @_dependencies << dep unless @_dependencies.include?(dep)
-          else
-            raise "expected Dependency, got #{x.class}: #{x.inspect}"
-          end
-        end
       end
     end
 
