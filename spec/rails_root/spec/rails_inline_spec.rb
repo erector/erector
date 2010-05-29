@@ -11,17 +11,3 @@ describe "Erector.inline" do
     end
   end
 end
-
-describe "Erector::RailsWidget.inline" do
-  it "should return an InlineRailsWidget" do
-    inline_widget = Erector::RailsWidget.inline
-    inline_widget.should be_a Erector::RailsWidget
-    inline_widget.should be_a Erector::Inline
-  end
-
-  it "should pass the block to the inline widget" do
-    Erector::RailsWidget.inline do
-      text "inline"
-    end.to_s.should == "inline"
-  end
-end

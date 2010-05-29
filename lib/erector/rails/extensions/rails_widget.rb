@@ -133,9 +133,4 @@ module Erector
 
     Erector::Widget.send :include, WidgetExtensions
   end
-
-  # RailsWidget and InlineRailsWidget are for backward compatibility.
-  # New code should use Widget, InlineWidget, or Erector.inline.
-  class RailsWidget < Widget
-  end
 end
