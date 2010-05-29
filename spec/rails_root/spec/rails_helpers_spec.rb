@@ -43,11 +43,9 @@ describe Erector::Rails::Helpers do
     end
 
     it "escapes input" do
-      pending "http://github.com/nzkoz/rails_xss/issues#issue/1" do
-        Erector.inline do
-          link_to 'This&that', '/foo?this=1&amp;that=1'
-        end.to_s(:parent => @view).should == %{<a href="/foo?this=1&amp;that=1">This&amp;that</a>}
-      end
+      Erector.inline do
+        link_to 'This&that', '/foo?this=1&amp;that=1'
+      end.to_s(:parent => @view).should == %{<a href="/foo?this=1&amp;that=1">This&amp;that</a>}
     end
 
     it "isn't double rendered when 'text link_to' is used by mistake" do
