@@ -69,7 +69,7 @@ spec:erect (the erector command line tool), and spec:rails (rails integration).
 You do not need to have Rails installed to run the latter two; they will clone
 the rails git repository and set it up for testing automatically. You can test
 against a different version of Rails by changing the constants in
-lib/rails/rails_version.rb
+lib/erector/rails/rails_version.rb
 
 'rake spec' will run the complete set of specs.
 

@@ -5,16 +5,14 @@ describe Erector::Rails::WidgetExtensions do
     @view = ActionView::Base.new
   end
 
-  describe "capturing" do
-    it "#capture returns a RawString" do
-      captured = nil
-      Erector.inline do
-        captured = capture {}
-      end.to_s(:parent => @view).should == ""
-      captured.should be_a_kind_of Erector::RawString
-    end
+  it "should be set up with the same output buffer as rails" do
+    Erector.inline do
+      output.buffer.should === parent.output_buffer
+    end.to_s(:parent => @view)
+  end
 
-    it "#capture captures parent output" do
+  describe "#capture" do
+    it "captures parent output" do
       captured = nil
       Erector.inline do
         captured = capture do
@@ -24,7 +22,7 @@ describe Erector::Rails::WidgetExtensions do
       captured.should == "capture me!"
     end
 
-    it "#capture captures with an erector block" do
+    it "captures with an erector block" do
       captured = nil
       Erector.inline do
         captured = capture do
@@ -34,7 +32,7 @@ describe Erector::Rails::WidgetExtensions do
       captured.should == "capture me!"
     end
 
-    it "#parent.capture captures erector output" do
+    it "captures erector output when called via parent" do
       Erector.inline do
         text "A"
         c = parent.capture do
@@ -44,6 +42,14 @@ describe Erector::Rails::WidgetExtensions do
         text c
       end.to_s(:parent => @view).should == "ABC"
     end
+
+    it "returns a safe string" do
+      captured = nil
+      Erector.inline do
+        captured = capture {}
+      end.to_s(:parent => @view).should == ""
+      captured.should be_html_safe
+    end
   end
 
   describe "escaping" do
@@ -52,11 +58,11 @@ describe Erector::Rails::WidgetExtensions do
     end
 
     it "does not escape safe strings" do
-      Erector.inline { text "<>&".html_safe! }.to_s.should == "<>&"
+      Erector.inline { text "<>&".html_safe }.to_s.should == "<>&"
     end
 
     it "returns safe strings from to_s" do
-      Erector.inline { text "foobar" }.to_s.html_safe?.should == true
+      Erector.inline { text "foobar" }.to_s.should be_html_safe
     end
 
     it "returns safe strings from capture" do
@@ -64,7 +70,7 @@ describe Erector::Rails::WidgetExtensions do
       Erector.inline do
         captured = capture {}
       end.to_s
-      captured.html_safe?.should == true
+      captured.should be_html_safe
     end
   end
 end
