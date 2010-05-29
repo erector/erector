@@ -114,10 +114,6 @@ module Erector
         end
       end
 
-      def no_output_error
-        raise("No output to emit to. @output must be set or the @parent must have an :output or :output_buffer")
-      end
-
       # We need to delegate #capture to parent.capture, so that when
       # the captured block is executed, any rails output done by the block
       # goes to the appropriate output buffer (i.e., the one set up by our
