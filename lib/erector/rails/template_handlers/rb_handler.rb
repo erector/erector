@@ -44,9 +44,7 @@ module Erector
       widget_class = "views/#{template.path_without_format_and_extension}".camelize.constantize
       is_partial = (File.basename(template.path_without_format_and_extension) =~ /^_/)
       assigns = Erector::Rails.assigns_for(widget_class, @view, local_assigns, is_partial)
-      @view.capture do
-        Erector::Rails.render(widget_class, @view, assigns)
-      end
+      Erector::Rails.render(widget_class, @view, assigns)
     end
   end
 end

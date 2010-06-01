@@ -11,6 +11,13 @@ describe Erector::Rails::WidgetExtensions do
     end.to_s(:parent => @view)
   end
 
+  it "should get a new output buffer every time" do
+    one = Erector::Rails.render(Erector.inline { text "foo" }, @view)
+    two = Erector::Rails.render(Erector.inline { text "foo" }, @view)
+    one.should == "foo"
+    two.should == "foo"
+  end
+
   describe "#capture" do
     it "captures parent output" do
       captured = nil

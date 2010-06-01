@@ -43,7 +43,9 @@ module Erector
 
       view.send(:_evaluate_assigns_and_ivars)
 
-      widget.to_s({:parent => view}.merge(options))
+      view.with_output_buffer do
+        widget.to_s({:parent => view}.merge(options))
+      end
     end
 
     module WidgetExtensions
