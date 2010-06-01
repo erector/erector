@@ -28,6 +28,7 @@ module Erector
         :mail_to,
 
         # FormTagHelper
+        :form_tag,
         :select_tag,
         :text_field_tag,
         :label_tag,
@@ -70,33 +71,12 @@ module Erector
         :periodically_call_remote,
         :form_remote_tag,
         :submit_to_remote,
-        :update_page_tag
+        :update_page_tag,
+
+        # JavaScriptHelper
+        :javascript_tag
       ].each do |method_name|
         def_simple_rails_helper(method_name)
-      end
-
-      # Wrappers for rails helpers that produce markup, concatenating
-      # directly to the output buffer if given a block, returning a
-      # string otherwise. In the latter case, Erector needs to manually
-      # output their result.
-      def self.def_block_rails_helper(method_name)
-        module_eval(<<-METHOD_DEF, __FILE__, __LINE__+1)
-          def #{method_name}(*args, &block)
-            if block_given?
-              parent.#{method_name}(*args, &block)
-            else
-              text parent.#{method_name}(*args, &block)
-            end
-          end
-        METHOD_DEF
-      end
-
-      [:link_to,
-       :form_tag,
-       :field_set_tag,
-       :form_remote_tag,
-       :javascript_tag].each do |method_name|
-        def_block_rails_helper(method_name)
       end
 
       # Delegate to non-markup producing helpers via method_missing,
@@ -127,14 +107,14 @@ module Erector
         options = args.extract_options!
         options[:builder] ||= ::Erector::RailsFormBuilder
         args.push(options)
-        parent.form_for(record_or_name_or_array, *args, &proc)
+        text parent.form_for(record_or_name_or_array, *args, &proc)
       end
 
       def fields_for(record_or_name_or_array, *args, &proc)
         options = args.extract_options!
         options[:builder] ||= ::Erector::RailsFormBuilder
         args.push(options)
-        parent.fields_for(record_or_name_or_array, *args, &proc)
+        text parent.fields_for(record_or_name_or_array, *args, &proc)
       end
       
       def flash
