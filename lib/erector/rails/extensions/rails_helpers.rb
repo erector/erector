@@ -117,6 +117,12 @@ module Erector
         end
       end
 
+      # Since we delegate method_missing to parent, we need to delegate
+      # respond_to? as well.
+      def respond_to?(name)
+        super || parent.respond_to?(name)
+      end
+
       def render(*args, &block)
         captured = parent.capture do
           parent.concat(parent.render(*args, &block))

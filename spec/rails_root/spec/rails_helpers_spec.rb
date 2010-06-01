@@ -55,6 +55,26 @@ describe Erector::Rails::Helpers do
     end
   end
 
+  describe "a regular helper" do
+    it "can be called directly" do
+      Erector.inline do
+        text truncate("foo")
+      end.to_s(:parent => @view).should == "foo"
+    end
+
+    it "can be called via capture" do
+      Erector.inline do
+        text capture { text truncate("foo") }
+      end.to_s(:parent => @view).should == "foo"
+    end
+
+    it "can be called via sub-widget" do
+      Erector.inline do
+        widget Erector.inline { text truncate("foo") }
+      end.to_s(:parent => @view).should == "foo"
+    end
+  end
+
   describe "a named route helper" do
     before do
       ActionController::Routing::Routes.draw do |map|
