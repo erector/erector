@@ -104,9 +104,6 @@ module Erector
     #                       #content, pass its name in here.
     def to_s(options = {}, &blk)
       raise "Erector::Widget#to_s now takes an options hash, not a symbol. Try calling \"to_s(:content_method_name=> :#{options})\"" if options.is_a? Symbol
-      if !options[:output] && !options[:parent]
-        options[:output] = new_output_from_options(options)
-      end
       raw(_render(options, &blk).to_s)
     end
     
@@ -116,9 +113,6 @@ module Erector
     #
     # # Options: see #to_s
     def to_a(options = {}, &blk)
-      if !options[:output] && !options[:parent]
-        options[:output] = new_output_from_options(options)
-      end
       _render(options, &blk).to_a
     end
 
@@ -200,6 +194,9 @@ module Erector
     end
 
     def _render(options, &blk)
+      if !options[:output] && !options[:parent]
+        options[:output] = new_output_from_options(options)
+      end
       context(prepare_options(options)) do
         output.widgets << self.class
         _render_content_method(options[:content_method_name] || :content, &blk)

@@ -111,9 +111,7 @@ module Erector
             options[:parent].output_buffer ||= ""
           end
         end
-        super(options) do
-          yield
-        end
+        super
       end
 
       # We need to delegate #capture to parent.capture, so that when
