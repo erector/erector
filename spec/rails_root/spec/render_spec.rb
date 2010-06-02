@@ -172,12 +172,6 @@ describe ActionController::Base do
       render :template => "test/implicit_assigns.html.rb"
     end
 
-    def render_rjs_with_widget
-      render :update do |page|
-        page.insert_html :top, 'foobar', render(:widget => TestFormWidget)
-      end
-    end
-
     def render_with_needs
       @foo = "foo"
       @bar = "bar"
@@ -331,10 +325,6 @@ describe ActionController::Base do
 
     it "should raise if a reserved variable is implicitly assigned" do
       proc { test_action(:render_reserved_variable) }.should raise_error(ActionView::TemplateError, /indentation is a reserved variable name/)
-    end
-
-    it "should render updates while overriding RJS output_buffer changes" do
-      test_action(:render_rjs_with_widget).should include("Element.insert")
     end
 
     it "should allow rendering widget with needs" do
