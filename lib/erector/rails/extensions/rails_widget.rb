@@ -1,29 +1,21 @@
 module Erector
   module Rails
+    def self.should_assign?(name, widget_class, is_partial)
+      (!widget_class.ignore_extra_controller_assigns || widget_class.needs?(name)) &&
+        (!is_partial || widget_class.controller_assigns_propagate_to_partials)
+    end
+
     def self.assigns_for(widget_class, view, local_assigns, is_partial)
       assigns = {}
 
-      instance_variables = view.instance_variables_for_widget_assignment
-      if is_partial || widget_class.ignore_extra_controller_assigns
-        instance_variables = remove_unneeded_assigns(widget_class, instance_variables)
+      view.assigns.each do |name, value|
+        name = name.to_sym
+        assigns[name] = value if should_assign?(name, widget_class, is_partial)
       end
 
-      assigns.merge!(instance_variables) unless is_partial && (! widget_class.controller_assigns_propagate_to_partials)
-
-      if is_partial
-        assigns.merge!(filter_local_assigns_for_partial(widget_class, local_assigns || { }))
-      end
+      assigns.merge!(filter_local_assigns_for_partial(widget_class, local_assigns)) if is_partial
 
       assigns
-    end
-
-    def self.remove_unneeded_assigns(widget_class, assigns)
-      needs = widget_class.needed_variables
-      if needs.empty?
-        assigns
-      else
-        assigns.reject { |key, value| ! needs.include?(key) }
-      end
     end
 
     def self.filter_local_assigns_for_partial(widget_class, local_assigns)
@@ -35,14 +27,8 @@ module Erector
       end
     end
 
-    def self.render(widget, view, assigns = nil, options = {})
-      if widget.is_a?(Class)
-        assigns ||= assigns_for(widget, view, nil, false)
-        widget = widget.new(assigns)
-      end
-
-      view.send(:_evaluate_assigns_and_ivars)
-
+    def self.render(widget, view, local_assigns = {}, is_partial = false, options = {})
+      widget = widget.new(assigns_for(widget, view, local_assigns, is_partial)) if widget.is_a?(Class)
       view.with_output_buffer do
         # Set parent to the view and use Rails's output buffer.
         widget.to_html(options.merge(:parent => view,
