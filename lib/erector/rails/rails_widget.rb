@@ -37,14 +37,9 @@ module Erector
     end
 
     module WidgetExtensions
-      module ClassMethods
-        def ignore_extra_controller_assigns
-          out = @ignore_extra_controller_assigns
-          out ||= (superclass.ignore_extra_controller_assigns ? :true : :false) if superclass.respond_to?(:ignore_extra_controller_assigns)
-          out ||= :true
-          out == :true
-        end
+      extend ActiveSupport::Concern
 
+      included do
         # Often, large Rails applications will assign many controller instance variables.
         # Sometimes these aren't used by a view: ApplicationController might assign
         # variables that are used by many, but not all, views; and various other things
@@ -58,16 +53,8 @@ module Erector
         # to be ignored -- they'll be unavailable to the widget (so 'needs' still means
         # something), but they won't cause widget instantiation to fail, either. This
         # can let a large Rails project transition to Erector more smoothly.
-        def ignore_extra_controller_assigns=(new_value)
-          @ignore_extra_controller_assigns = (new_value ? :true : :false)
-        end
-
-        def controller_assigns_propagate_to_partials
-          out = @controller_assigns_propagate_to_partials
-          out ||= (superclass.controller_assigns_propagate_to_partials ? :true : :false) if superclass.respond_to?(:controller_assigns_propagate_to_partials)
-          out ||= :true
-          out == :true
-        end
+        class_attribute :ignore_extra_controller_assigns
+        self.ignore_extra_controller_assigns = true
 
         # In ERb templates, controller instance variables are available to any partial
         # that gets rendered by the view, no matter how deeply-nested. This effectively
@@ -82,13 +69,8 @@ module Erector
         # don't have this issue.) This can allow for cleaner encapsulation of partials,
         # as they must be passed everything they use and can't rely on controller
         # instance variables.
-        def controller_assigns_propagate_to_partials=(new_value)
-          @controller_assigns_propagate_to_partials = (new_value ? :true : :false)
-        end
-      end
-      
-      def self.included(base)
-        base.extend(ClassMethods)
+        class_attribute :controller_assigns_propagate_to_partials
+        self.controller_assigns_propagate_to_partials = true
       end
 
       # We need to delegate #capture to parent.capture, so that when
