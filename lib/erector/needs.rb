@@ -51,32 +51,20 @@ module Erector
         end
       end
 
-      def get_needed_variables
-        get_needs.map{|need| need.is_a?(Hash) ? need.keys : need}.flatten
+      def needed_variables
+        @needed_variables ||= get_needs.map{|need| need.is_a?(Hash) ? need.keys : need}.flatten
       end
 
-      def get_needed_defaults
-        get_needs.inject({}) do |defaults, need|
+      def needed_defaults
+        @needed_defaults ||= get_needs.inject({}) do |defaults, need|
           defaults = need.merge(defaults) if need.is_a? Hash
           defaults
         end
       end
-    end
 
-    def needed
-      @needed ||= self.class.get_needed_variables
-    end
-
-    def needed_defaults
-      @needed_defaults ||= self.class.get_needed_defaults
-    end
-
-    def has_needs?
-      !needed.empty?
-    end
-
-    def unneeded?(name)
-      has_needs? && !needed.include?(name)
+      def needs?(name)
+        needed_variables.empty? || needed_variables.include?(name)
+      end
     end
 
     def assign_instance_variables(instance_variables)
@@ -85,25 +73,22 @@ module Erector
       assigned = instance_variables.keys
 
       # set variables with default values
-      needed_defaults.each do |name, value|
+      self.class.needed_defaults.each do |name, value|
         unless assigned.include?(name)
           assign_instance_variable(name, value)
           assigned << name
         end
       end
 
-      missing = needed - assigned
+      missing = self.class.needed_variables - assigned
       unless missing.empty? || missing == [nil]
         raise "Missing parameter#{missing.size == 1 ? '' : 's'}: #{missing.join(', ')}"
       end
-    end
 
-    def assign_instance_variable(name, value)
-      if unneeded?(name)
-        raise "Unknown parameter '#{name}'. #{self.class.name} accepts only #{needed.join(', ')}"
+      excess = assigned - self.class.needed_variables
+      unless self.class.needed_variables.empty? || excess.empty?
+        raise("Excess parameter#{excess.size == 1 ? '' : 's'}: #{excess.join(', ')}")
       end
-
-      super
     end
   end
 end

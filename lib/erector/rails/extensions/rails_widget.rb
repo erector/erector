@@ -18,7 +18,7 @@ module Erector
     end
 
     def self.remove_unneeded_assigns(widget_class, assigns)
-      needs = widget_class.get_needed_variables
+      needs = widget_class.needed_variables
       if needs.empty?
         assigns
       else
