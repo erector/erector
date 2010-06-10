@@ -41,7 +41,7 @@ module Erector
     end
     
     def to_s
-      buffer.to_s
+      RawString.new(buffer.to_s)
     end
     
     def to_a

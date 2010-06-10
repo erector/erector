@@ -104,7 +104,7 @@ module Erector
     #                       #content, pass its name in here.
     def to_s(options = {}, &blk)
       raise "Erector::Widget#to_s now takes an options hash, not a symbol. Try calling \"to_s(:content_method_name=> :#{options})\"" if options.is_a? Symbol
-      raw(_render(options, &blk).to_s)
+      _render(options, &blk).to_s
     end
     
     # Entry point for rendering a widget (and all its children). Same as #to_s
@@ -175,8 +175,13 @@ module Erector
     # output string to a string and returns it as raw text. If at all possible
     # you should avoid this method since it hurts performance, and use
     # +widget+ or +write_via+ instead.
-    def capture(&block)
-      raw(with_output_buffer(&block))
+    def capture
+      original_output = @output
+      @output = Output.new
+      yield
+      @output.to_s
+    ensure
+      @output = original_output
     end
 
     protected
@@ -239,17 +244,6 @@ module Erector
     def write_via(parent)
       context(:parent => parent, :helpers => parent.helpers) do
         _render_content_method(:content)
-      end
-    end
-
-    def with_output_buffer(buffer='')
-      begin
-        original_output = @output
-        @output = Output.new {buffer}
-        yield
-        buffer
-      ensure
-        @output = original_output
       end
     end
 
