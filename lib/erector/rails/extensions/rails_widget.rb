@@ -44,7 +44,9 @@ module Erector
       view.send(:_evaluate_assigns_and_ivars)
 
       view.with_output_buffer do
-        widget.to_s({:parent => view}.merge(options))
+        # Set parent to the view and use Rails's output buffer.
+        widget.to_s(options.merge(:parent => view,
+                                  :output => Output.new { view.output_buffer }))
       end
     end
 
@@ -103,21 +105,9 @@ module Erector
         base.extend(ClassMethods)
       end
 
-      # When we set up the erector output, we need to make sure that
-      # Rails gets the same output buffer, via parent.with_output_buffer.
-      def context(options)
-        if options[:parent].respond_to?(:output_buffer)
-          options[:output] = Output.new do
-            options[:parent].output_buffer ||= ""
-          end
-        end
-        super
-      end
-
       # We need to delegate #capture to parent.capture, so that when
-      # the captured block is executed, any rails output done by the block
-      # goes to the appropriate output buffer (i.e., the one set up by our
-      # ActionView#with_output_buffer patch).
+      # the captured block is executed, both erector and Rails output
+      # from within the block go to the appropriate buffer.
       def capture(&block)
         if parent.respond_to?(:capture)
           raw(parent.capture(&block).to_s)
