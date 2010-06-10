@@ -1,6 +1,8 @@
 require File.expand_path("#{File.dirname(__FILE__)}/rails_spec_helper")
 
 describe Erector::Rails::WidgetExtensions do
+  include Erector::Mixin
+
   before(:each) do
     @view = ActionView::Base.new
   end
@@ -63,22 +65,18 @@ describe Erector::Rails::WidgetExtensions do
 
   describe "escaping" do
     it "escapes non-safe strings" do
-      Erector.inline { text "<>&" }.to_s.should == "&lt;&gt;&amp;"
+      erector { text "<>&" }.should == "&lt;&gt;&amp;"
     end
 
     it "does not escape safe strings" do
-      Erector.inline { text "<>&".html_safe }.to_s.should == "<>&"
-    end
-
-    it "returns safe strings from to_s" do
-      Erector.inline { text "foobar" }.to_s.should be_html_safe
+      erector { text "<>&".html_safe }.should == "<>&"
     end
 
     it "returns safe strings from capture" do
       captured = nil
-      Erector.inline do
+      erector do
         captured = capture {}
-      end.to_s
+      end
       captured.should be_html_safe
     end
   end

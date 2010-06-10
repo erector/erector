@@ -1,6 +1,8 @@
 require File.expand_path("#{File.dirname(__FILE__)}/../spec_helper")
 
 describe Erector::Convenience do
+  include Erector::Mixin
+
   describe "#to_text" do
     it "strips tags" do
       Erector.inline do
@@ -42,13 +44,13 @@ describe Erector::Convenience do
 
   describe "#join" do
     it "empty array means nothing to join" do
-      Erector.inline do
+      erector do
         join [], Erector::Widget.new { text "x" }
-      end.to_s.should == ""
+      end.should == ""
     end
 
     it "larger example with two tabs" do
-      Erector.inline do
+      erector do
         tab1 =
           Erector.inline do
             a "Upload document", :href => "/upload"
@@ -59,54 +61,54 @@ describe Erector::Convenience do
           end
         join [tab1, tab2],
           Erector::Widget.new { text nbsp(" |"); text " " }
-      end.to_s.should ==
+      end.should ==
         '<a href="/upload">Upload document</a>&#160;| <a href="/logout">Logout</a>'
     end
 
     it "plain string as join separator means pass it to text" do
-      Erector.inline do
+      erector do
         join [
           Erector::Widget.new { text "x" },
           Erector::Widget.new { text "y" }
         ], "<>"
-      end.to_s.should == "x&lt;&gt;y"
+      end.should == "x&lt;&gt;y"
     end
 
     it "plain string as item to join means pass it to text" do
-      Erector.inline do
+      erector do
         join [
           "<",
           "&"
         ], Erector::Widget.new { text " + " }
-      end.to_s.should == "&lt; + &amp;"
+      end.should == "&lt; + &amp;"
     end
   end
 
   describe "#css" do
     it "makes a link when passed a string" do
-      Erector.inline do
+      erector do
         css "erector.css"
-      end.to_s.should == "<link href=\"erector.css\" rel=\"stylesheet\" type=\"text/css\" />"
+      end.should == "<link href=\"erector.css\" rel=\"stylesheet\" type=\"text/css\" />"
     end
 
     it "accepts a media attribute" do
-      Erector.inline do
+      erector do
         css "print.css", :media => "print"
-      end.to_s.should == "<link href=\"print.css\" media=\"print\" rel=\"stylesheet\" type=\"text/css\" />"
+      end.should == "<link href=\"print.css\" media=\"print\" rel=\"stylesheet\" type=\"text/css\" />"
     end
   end
 
   describe "#url" do
     it "renders an anchor tag with the same href and text" do
-      Erector.inline do
+      erector do
         url "http://example.com"
-      end.to_s.should == "<a href=\"http://example.com\">http://example.com</a>"
+      end.should == "<a href=\"http://example.com\">http://example.com</a>"
     end
 
     it "accepts extra attributes" do
-      Erector.inline do
+      erector do
         url "http://example.com", :onclick=>"alert('foo')"
-      end.to_s.should == "<a href=\"http://example.com\" onclick=\"alert('foo')\">http://example.com</a>"
+      end.should == "<a href=\"http://example.com\" onclick=\"alert('foo')\">http://example.com</a>"
     end
   end
 

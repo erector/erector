@@ -1,6 +1,7 @@
 require File.expand_path("#{File.dirname(__FILE__)}/../spec_helper")
 
 describe "indentation" do
+  include Erector::Mixin
 
   it "can detect newliney tags" do
     widget = ::Erector.inline
@@ -116,10 +117,10 @@ END
   end
   
   it "can turn off newlines" do
-    Erector.inline do
+    erector do
       text "One"
       p "Two"
-    end.to_s.should == "One<p>Two</p>"
+    end.should == "One<p>Two</p>"
   end
   
   it "can turn newlines on and off" do
@@ -140,11 +141,11 @@ END
   end
   
   it "can turn newlines on/off via global variable" do
-    Erector.inline { br }.to_s.should == "<br />"
+    erector { br }.should == "<br />"
     Erector::Widget.prettyprint_default = true
-    Erector.inline { br }.to_s.should == "<br />\n"
+    erector { br }.should == "<br />\n"
     Erector::Widget.prettyprint_default = false
-    Erector.inline { br }.to_s.should == "<br />"
+    erector { br }.should == "<br />"
   end
   
 end
