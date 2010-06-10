@@ -15,15 +15,15 @@ module Erector
     # to smuggle in instance variables.
     def call_block
       # note that instance_eval seems to pass in self as a parameter to the block
-      instance_eval(&@block) if @block
+      instance_eval(&block) if block
     end
     
     private
     # This is part of the sub-widget/parent feature (see #widget method).
     def method_missing(name, *args, &block)
-      if @parent && @parent.respond_to?(name)
+      if parent && parent.respond_to?(name)
         block ||= lambda {} # captures self HERE
-        @parent.send(name, *args, &block)
+        parent.send(name, *args, &block)
       else
         super
       end

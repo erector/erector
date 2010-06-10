@@ -166,12 +166,6 @@ describe ActionController::Base do
       end
     end
 
-    def render_reserved_variable
-      @foobar = "foobar"
-      @indentation = true
-      render :template => "test/implicit_assigns.html.rb"
-    end
-
     def render_with_needs
       @foo = "foo"
       @bar = "bar"
@@ -321,10 +315,6 @@ describe ActionController::Base do
 
     it "should render a default template" do
       test_action(:render_default).should == "Default foobar"
-    end
-
-    it "should raise if a reserved variable is implicitly assigned" do
-      proc { test_action(:render_reserved_variable) }.should raise_error(ActionView::TemplateError, /indentation is a reserved variable name/)
     end
 
     it "should allow rendering widget with needs" do

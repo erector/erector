@@ -235,12 +235,6 @@ module WidgetSpec
     end
 
     describe "assigning instance variables" do
-      it "attempting to overwrite a reserved instance variable raises error" do
-        lambda {
-          Erector::Widget.new(:output => "foo")
-        }.should raise_error(ArgumentError)
-      end
-
       it "handles instance variable names with and without '@' in the beginning" do
         html = Erector.inline(:foo => "bar", '@baz' => 'quux') do
           div do

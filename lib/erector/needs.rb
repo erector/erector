@@ -67,15 +67,15 @@ module Erector
       end
     end
 
-    def assign_instance_variables(instance_variables)
+    def initialize(assigns = {})
       super
 
-      assigned = instance_variables.keys
+      assigned = assigns.keys
 
       # set variables with default values
       self.class.needed_defaults.each do |name, value|
         unless assigned.include?(name)
-          assign_instance_variable(name, value)
+          instance_variable_set("@#{name}", value)
           assigned << name
         end
       end

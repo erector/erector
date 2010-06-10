@@ -111,7 +111,7 @@ class Erector::Widgets::Page < Erector::InlineWidget
     html(html_attributes) do
       head do
         head_content
-        extra_head_slot = @output.placeholder
+        extra_head_slot = output.placeholder
       end
       body(body_attributes) do
         if block_given?

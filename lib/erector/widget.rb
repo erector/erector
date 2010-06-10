@@ -56,22 +56,27 @@ module Erector
       end.new(*args, &block)
     end
 
-    RESERVED_INSTANCE_VARS = [:helpers, :assigns, :block, :output, :prettyprint, :indentation]
+    [:helpers, :assigns, :output, :parent, :block].each do |attr|
+      class_eval(<<-SRC, __FILE__, __LINE__ + 1)
+        def #{attr}
+          @_#{attr}
+        end
+      SRC
+    end
 
-    attr_reader *RESERVED_INSTANCE_VARS
-    attr_reader :parent # making this reserved causes breakage
-    attr_writer :block
-    
-    def initialize(assigns={}, &block)
+    def initialize(assigns = {}, &block)
       unless assigns.is_a? Hash
         raise "Erector widgets are initialized with only a parameter hash. (Other parameters are passed to to_s, or the #widget method.)"
       end
-      @assigns = assigns
-      assign_instance_variables(assigns)
-      unless @parent
-        @parent = block ? eval("self", block.binding) : nil
+
+      @_assigns = assigns
+
+      assigns.each do |name, value|
+        instance_variable_set(name.to_s[0..0] == '@' ? name : "@#{name}", value)
       end
-      @block = block
+
+      @_parent = eval("self", block.binding) if block
+      @_block = block
     end
 
     # Entry point for rendering a widget (and all its children). This method
@@ -126,7 +131,7 @@ module Erector
     # If you want this block to have access to Erector methods then use 
     # Erector::Inline#content or Erector#inline.
     def call_block
-      @block.call(self) if @block
+      @_block.call(self) if @_block
     end
 
     # Emits a (nested) widget onto the current widget's output stream. Accepts
@@ -155,34 +160,20 @@ module Erector
     # you should avoid this method since it hurts performance, and use +widget+
     # instead.
     def capture
-      original_output = @output
-      @output = Output.new
+      original, @_output = output, Output.new
       yield
-      @output.to_s
+      output.to_s
     ensure
-      @output = original_output
+      @_output = original
     end
 
     protected
-    def assign_instance_variables (instance_variables)
-      instance_variables.each do |name, value|
-        assign_instance_variable(name, value)
-      end
-    end
-
-    def assign_instance_variable (name, value)
-      raise ArgumentError, "Sorry, #{name} is a reserved variable name for Erector. Please choose a different name." if RESERVED_INSTANCE_VARS.include?(name)
-      name = name.to_s
-      ivar_name = (name[0..0] == '@' ? name : "@#{name}")
-      instance_variable_set(ivar_name, value)
-    end
-
     def _render(options = {}, &block)
-      @block   = block if block
-      @parent  = options[:parent]  || parent
-      @helpers = options[:helpers] || parent
-      @output  = options[:output]
-      @output  = Output.new(options) unless output.is_a?(Output)
+      @_block   = block if block
+      @_parent  = options[:parent]  || parent
+      @_helpers = options[:helpers] || parent
+      @_output  = options[:output]
+      @_output  = Output.new(options) unless output.is_a?(Output)
 
       output.widgets << self.class
       send(options[:content_method_name] || :content)

@@ -72,12 +72,12 @@ module Erector
     end
 
     def should_cache?
-      cache && @block.nil? && self.class.cachable?
+      cache && block.nil? && self.class.cachable?
     end
 
     def _render(options = {})
       if should_cache?
-        cache[self.class, @assigns, options[:content_method_name]] ||= super
+        cache[self.class, assigns, options[:content_method_name]] ||= super
       else
         super
       end
@@ -85,7 +85,7 @@ module Erector
 
     def _render_via(parent, options = {})
       if should_cache?
-        parent.output << cache[self.class, @assigns, options[:content_method_name]] ||= parent.capture { super }
+        parent.output << cache[self.class, assigns, options[:content_method_name]] ||= parent.capture { super }
       else
         super
       end
