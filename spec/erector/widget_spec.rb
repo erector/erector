@@ -78,6 +78,15 @@ module WidgetSpec
         outer.output.widgets.should include(inner)
       end
 
+      it "supports specifying content_method_name" do
+        inner = Class.new(Erector::Widget) do
+          def foo; text "foo"; end
+        end
+        erector do
+          widget inner, {}, :content_method_name => :foo
+        end.should == "foo"
+      end
+
       it "renders nested widgets in the correct order" do
         class Parent < Erector::Widget
           def content

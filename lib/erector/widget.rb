@@ -139,14 +139,14 @@ module Erector
     # This is the preferred way to call one widget from inside another. This
     # method assures that the same output string is used, which gives better
     # performance than using +capture+ or +to_s+.
-    def widget(target, parameters={}, &block)
+    def widget(target, assigns = {}, options = {}, &block)
       if target.is_a? Class
-        target.new(parameters, &block)._render_via(self)
+        target.new(assigns, &block)._render_via(self, options)
       else
-        unless parameters.empty?
-          raise "Unexpected second parameter. Did you mean to pass in variables when you instantiated the #{target.class.to_s}?"
+        unless assigns.empty?
+          raise "Unexpected second parameter. Did you mean to pass in assigns when you instantiated the #{target.class.to_s}?"
         end
-        target._render_via(self, &block)
+        target._render_via(self, options, &block)
       end
     end
 
