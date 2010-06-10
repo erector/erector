@@ -80,13 +80,6 @@ module Erector
         raise("No output to emit to. @output must be set or the @parent must respond to :output")
     end
 
-    # Render (like to_s) but adding newlines and indentation.
-    # This is a convenience method; you may just want to call to_s(:prettyprint => true)
-    # so you can pass in other rendering options as well.  
-    def to_pretty
-      to_s(:output => Output.new(:prettyprint => true))
-    end
-
     # Entry point for rendering a widget (and all its children). This method
     # creates a new output string (if necessary), calls this widget's #content
     # method and returns the string.
@@ -164,11 +157,6 @@ module Erector
       end
       output.widgets << child.class
       child.write_via(self)
-    end
-
-    # Returns text which will *not* be HTML-escaped.
-    def raw(value)
-      RawString.new(value.to_s)
     end
 
     # Creates a whole new output string, executes the block, then converts the

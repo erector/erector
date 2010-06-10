@@ -1,5 +1,12 @@
 module Erector
   module Convenience
+    # Render (like to_s) but adding newlines and indentation.
+    # You may just want to call to_s(:prettyprint => true)
+    # so you can pass in other rendering options as well.
+    def to_pretty
+      to_s(:prettyprint => true)
+    end
+
     # Render (like to_s) but stripping all tags.
     def to_text
       CGI.unescapeHTML(to_s(:prettyprint => false).gsub(/<[^>]*>/, ''))

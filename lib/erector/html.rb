@@ -136,6 +136,11 @@ module Erector
       end
     end
 
+    # Returns text which will *not* be HTML-escaped.
+    def raw(value)
+      RawString.new(value.to_s)
+    end
+
     # Emits text.  If a string is passed in, it will be HTML-escaped. If the
     # result of calling methods such as raw is passed in, the HTML will not be
     # HTML-escaped again. If another kind of object is passed in, the result
