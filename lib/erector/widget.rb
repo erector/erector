@@ -238,13 +238,8 @@ module Erector
 
     def write_via(parent)
       context(:parent => parent, :helpers => parent.helpers) do
-        _call_content
+        _render_content_method(:content)
       end
-    end
-
-    # Overridden by Caching mixin.
-    def _call_content
-      content
     end
 
     def with_output_buffer(buffer='')

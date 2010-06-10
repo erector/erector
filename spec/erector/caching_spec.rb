@@ -32,6 +32,14 @@ if Erector::Cache.is_supported?
       @cache[Johnny, {:working => "in a coal mine"}].should == "my daddy died young"
     end
 
+    it "stores different slots for the same class with same parameters and different content methods" do
+      @cache[Johnny, {}, :foo] = "ring of fire"
+      @cache[Johnny, {}, :bar] = "my daddy died young"
+
+      @cache[Johnny, {}, :foo].should == "ring of fire"
+      @cache[Johnny, {}, :bar].should == "my daddy died young"
+    end
+
     describe 'after storing a widget with one parameter' do
       before do
         @cache[Johnny, {:flames => "higher"}] = "ring of fire"
@@ -205,6 +213,23 @@ if Erector::Cache.is_supported?
           text "whatever"
         end.to_s
         @cache[Cash, {:name => "June"}].should be_nil
+      end
+
+      it "caches distinct values when using :content_method_name" do
+        widget = Class.new(Erector::Widget) do
+          cacheable
+
+          def foo
+            text "foo"
+          end
+
+          def bar
+            text "bar"
+          end
+        end
+
+        widget.new.to_s(:content_method_name => :foo).should == "foo"
+        widget.new.to_s(:content_method_name => :bar).should == "bar"
       end
 
       it "works when passing an existing output as a parameter to to_s"

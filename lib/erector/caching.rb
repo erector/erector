@@ -12,18 +12,19 @@ module Erector
     end
 
     def store_for(klass)
-      @stores[klass] ||= {}
+      @stores[klass] ||= Hash.new {|h,k| h[k] = {}}
     end
 
     def []=(*args)
       value = args.pop
       klass = args.shift
-      params = args.first || {}
-      store_for(klass)[params] = value
+      params = args.first.is_a?(Hash) ? args.first : {}
+      content_method = args.last.is_a?(Symbol) ? args.last : :content
+      store_for(klass)[params][content_method] = value
     end
 
-    def [](klass, params = {})
-      store_for(klass)[params]
+    def [](klass, params = {}, content_method = :content)
+      store_for(klass)[params][content_method]
     end
 
     def delete(klass, params = {})
@@ -74,27 +75,13 @@ module Erector
       cache && @block.nil? && self.class.cachable?
     end
 
-    def _render_content_method(content_method, &blk)
+    def _render_content_method(content_method)
       if should_cache?
-        if (cached_string = cache[self.class, @assigns])
-          output << cached_string
+        if cached = cache[self.class, @assigns, content_method]
+          output << cached
         else
-          super
-          cache[self.class, @assigns] = output.to_s
+          output << cache[self.class, @assigns, content_method] = capture { super }
         end
-      else
-        super
-      end
-    end
-
-    def _call_content
-      if should_cache?
-        cached_string = cache[self.class, @assigns]
-        if cached_string.nil?
-          cached_string = capture { super }
-          cache[self.class, @assigns] = cached_string
-        end
-        rawtext cached_string
       else
         super
       end
