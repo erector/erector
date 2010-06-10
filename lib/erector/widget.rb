@@ -102,9 +102,9 @@ module Erector
     #           Rails view object.
     # content_method_name:: in case you want to call a method other than
     #                       #content, pass its name in here.
-    def to_s(options = {}, &blk)
+    def to_s(options = {})
       raise "Erector::Widget#to_s now takes an options hash, not a symbol. Try calling \"to_s(:content_method_name=> :#{options})\"" if options.is_a? Symbol
-      _render(options, &blk).to_s
+      _render(options).to_s
     end
     
     # Entry point for rendering a widget (and all its children). Same as #to_s
@@ -112,8 +112,8 @@ module Erector
     # Rack server (like Sinatra or Rails Metal).
     #
     # # Options: see #to_s
-    def to_a(options = {}, &blk)
-      _render(options, &blk).to_a
+    def to_a(options = {})
+      _render(options).to_a
     end
 
     # Template method which must be overridden by all widget subclasses.
@@ -170,7 +170,7 @@ module Erector
     def raw(value)
       RawString.new(value.to_s)
     end
-    
+
     # Creates a whole new output string, executes the block, then converts the
     # output string to a string and returns it as raw text. If at all possible
     # you should avoid this method since it hurts performance, and use
@@ -198,13 +198,13 @@ module Erector
       instance_variable_set(ivar_name, value)
     end
 
-    def _render(options, &blk)
+    def _render(options)
       if !options[:output] && !options[:parent]
         options[:output] = new_output_from_options(options)
       end
       context(prepare_options(options)) do
         output.widgets << self.class
-        _render_content_method(options[:content_method_name] || :content, &blk)
+        _render_content_method(options[:content_method_name] || :content)
         output
       end
     end
@@ -237,8 +237,8 @@ module Erector
     end
 
     # Overridden by Caching mixin.
-    def _render_content_method(content_method, &blk)
-      send(content_method, &blk)
+    def _render_content_method(content_method)
+      send(content_method)
     end
 
     def write_via(parent)
