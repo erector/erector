@@ -74,12 +74,6 @@ module Erector
       @block = block
     end
 
-    def output
-      @output ||
-        parent.respond_to?(:output) && parent.output ||
-        raise("No output to emit to. @output must be set or the @parent must respond to :output")
-    end
-
     # Entry point for rendering a widget (and all its children). This method
     # creates a new output string (if necessary), calls this widget's #content
     # method and returns the string.
@@ -146,23 +140,20 @@ module Erector
     # method assures that the same output string is used, which gives better
     # performance than using +capture+ or +to_s+.
     def widget(target, parameters={}, &block)
-      child = if target.is_a? Class
-        target.new(parameters, &block)
+      if target.is_a? Class
+        target.new(parameters, &block)._render_via(self)
       else
         unless parameters.empty?
           raise "Unexpected second parameter. Did you mean to pass in variables when you instantiated the #{target.class.to_s}?"
         end
-        target.block = block unless block.nil?
-        target
+        target._render_via(self, &block)
       end
-      output.widgets << child.class
-      child.write_via(self)
     end
 
     # Creates a whole new output string, executes the block, then converts the
     # output string to a string and returns it as raw text. If at all possible
-    # you should avoid this method since it hurts performance, and use
-    # +widget+ or +write_via+ instead.
+    # you should avoid this method since it hurts performance, and use +widget+
+    # instead.
     def capture
       original_output = @output
       @output = Output.new
@@ -186,67 +177,22 @@ module Erector
       instance_variable_set(ivar_name, value)
     end
 
-    def _render(options)
-      if !options[:output] && !options[:parent]
-        options[:output] = new_output_from_options(options)
-      end
-      context(prepare_options(options)) do
-        output.widgets << self.class
-        _render_content_method(options[:content_method_name] || :content)
-        output
-      end
+    def _render(options = {}, &block)
+      @block   = block if block
+      @parent  = options[:parent]  || parent
+      @helpers = options[:helpers] || parent
+      @output  = options[:output]
+      @output  = Output.new(options) unless output.is_a?(Output)
+
+      output.widgets << self.class
+      send(options[:content_method_name] || :content)
+      output
     end
 
-    def prepare_options(options={})
-      options[:parent] ||= @parent
-      options[:helpers] ||= @parent
-      new_output = if options[:output].is_a?(Output)
-        options[:output]
-      else
-        # Assuming options[:output] is a string (Output#buffer)
-        if options.include?(:prettyprint) || options.include?(:indentation) || options.include?(:output) || !options[:parent]
-          new_output_from_options(options)
-        else
-          nil
-        end
-      end
-      options.merge(:output => new_output)
-    end
-
-    def new_output_from_options(options)
-      output_options = {}
-      output_options[:prettyprint] = options[:prettyprint] if options.include?(:prettyprint)
-      output_options[:indentation] = options[:indentation] if options.include?(:indentation)
-      if options.include?(:output)
-        Output.new(output_options) {options[:output]}
-      else
-        Output.new(output_options)
-      end
-    end
-
-    # Overridden by Caching mixin.
-    def _render_content_method(content_method)
-      send(content_method)
-    end
-
-    def write_via(parent)
-      context(:parent => parent, :helpers => parent.helpers) do
-        _render_content_method(:content)
-      end
-    end
-
-    def context(params={})
-      original_parent = @parent
-      original_output = @output
-      original_helpers = @helpers
-      params[:parent] && @parent = params[:parent]
-      params[:output] && @output = params[:output]
-      params[:helpers] && @helpers = params[:helpers]
-      yield
-    ensure
-      @parent = original_parent
-      @output = original_output if original_output # retain output after rendering, to check dependencies
-      @helpers = original_helpers
+    def _render_via(parent, options = {}, &block)
+      _render(options.merge(:parent  => parent,
+                            :output  => parent.output,
+                            :helpers => parent.helpers), &block)
     end
   end
 

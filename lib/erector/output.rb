@@ -5,18 +5,17 @@ module Erector
     attr_reader :prettyprint, :widgets, :indentation
     
     def initialize(options = {}, &get_buffer)
-      options = {:prettyprint => Widget.prettyprint_default}.merge(options)
-      @prettyprint = options[:prettyprint]
-      @indentation = options[:indentation] || 0
+      @prettyprint = options.fetch(:prettyprint, Widget.prettyprint_default)
+      @indentation = options.fetch(:indentation, 0)
       @widgets = []
       @at_line_start = true
       if get_buffer
         @get_buffer = get_buffer
+      elsif buffer = options[:output]
+        @get_buffer = lambda { buffer }
       else
         buffer = []
-        @get_buffer = get_buffer || lambda do
-          buffer
-        end
+        @get_buffer = lambda { buffer }
       end
     end
 

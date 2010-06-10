@@ -190,7 +190,7 @@ if Erector::Cache.is_supported?
 
       it "caches a rendered widget" do
         Cash.new(:name => "Johnny").to_s
-        @cache[Cash, {:name => "Johnny"}].should == "<p>Johnny Cash</p>"
+        @cache[Cash, {:name => "Johnny"}].to_s.should == "<p>Johnny Cash</p>"
       end
 
       it "uses the cached value" do
@@ -239,8 +239,8 @@ if Erector::Cache.is_supported?
 
       it "caches rendered widgets" do
         Family.new.to_s
-        @cache[Cash, {:name => "Johnny"}].should == "<p>Johnny Cash</p>"
-        @cache[Cash, {:name => "June"}].should == "<p>June Cash</p>"
+        @cache[Cash, {:name => "Johnny"}].to_s.should == "<p>Johnny Cash</p>"
+        @cache[Cash, {:name => "June"}].to_s.should == "<p>June Cash</p>"
       end
 
       it "uses the cached value" do

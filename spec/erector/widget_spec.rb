@@ -282,29 +282,11 @@ module WidgetSpec
       end
     end
 
-    describe '#write_via' do
-      class A < Erector::Widget
-        def content
-          p "A"
-        end
-      end
-
-      it "renders to a widget's doc" do
-        class B < Erector::Widget
-          def content
-            text "B"
-            A.new.write_via(self)
-            text "B"
-          end
-        end
-        b = B.new
-        b.to_s.should == "B<p>A</p>B"
-      end
-
-      it "passing a widget to text method renders it" do
+    describe '#text' do
+      it "renders a widget" do
         Erector.inline do
           text "B"
-          text A.new()
+          text Erector.inline { p "A" }
           text "B"
         end.to_s.should == "B<p>A</p>B"
       end

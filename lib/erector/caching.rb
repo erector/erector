@@ -19,11 +19,11 @@ module Erector
       value = args.pop
       klass = args.shift
       params = args.first.is_a?(Hash) ? args.first : {}
-      content_method = args.last.is_a?(Symbol) ? args.last : :content
+      content_method = args.last.is_a?(Symbol) ? args.last : nil
       store_for(klass)[params][content_method] = value
     end
 
-    def [](klass, params = {}, content_method = :content)
+    def [](klass, params = {}, content_method = nil)
       store_for(klass)[params][content_method]
     end
 
@@ -75,13 +75,17 @@ module Erector
       cache && @block.nil? && self.class.cachable?
     end
 
-    def _render_content_method(content_method)
+    def _render(options = {})
       if should_cache?
-        if cached = cache[self.class, @assigns, content_method]
-          output << cached
-        else
-          output << cache[self.class, @assigns, content_method] = capture { super }
-        end
+        cache[self.class, @assigns, options[:content_method_name]] ||= super
+      else
+        super
+      end
+    end
+
+    def _render_via(parent, options = {})
+      if should_cache?
+        parent.output << cache[self.class, @assigns, options[:content_method_name]] ||= parent.capture { super }
       else
         super
       end

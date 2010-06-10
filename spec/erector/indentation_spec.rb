@@ -101,7 +101,7 @@ END
     cup = Erector.inline do
       div do
         p "fine china"
-        tea.write_via(self)
+        widget tea
       end
     end
     
