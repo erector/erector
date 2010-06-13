@@ -4,8 +4,29 @@ describe Erector::Convenience do
   include Erector::Mixin
 
   describe "#to_pretty" do
-    it "calls to_s with :prettyprint => true"
-    it "passes extra attributes through to to_s"
+    it "calls to_s with :prettyprint => true" do
+      widget = Erector.inline do
+        div "foo"
+      end
+      mock(widget).to_s({:prettyprint => true})
+      widget.to_pretty
+    end
+
+    it "passes extra options through to to_s" do
+      widget = Erector.inline do
+        div "foo"
+      end
+      mock(widget).to_s({:prettyprint => true, :extra => "yay"})
+      widget.to_pretty(:extra => "yay")
+    end
+  end
+
+  describe "#to_s" do
+    it "returns html" do
+      Erector.inline do
+        div "foo"
+      end.to_s.should == "<div>foo</div>"
+    end
   end
 
   describe "#to_text" do
@@ -46,7 +67,18 @@ describe Erector::Convenience do
       end
     end
 
-    it "passes extra attributes through to to_s"
+    it "passes extra attributes through to to_s" do
+      class Funny < Erector::Widget
+        def content
+          div "foo"
+        end
+
+        def funny
+          div "haha"
+        end
+      end
+      Funny.new.to_text(:content_method_name => :funny).should == "haha"
+    end
   end
 
   describe "#join" do
@@ -59,24 +91,24 @@ describe Erector::Convenience do
     it "larger example with two tabs" do
       erector do
         tab1 =
-          Erector.inline do
-            a "Upload document", :href => "/upload"
-          end
+                Erector.inline do
+                  a "Upload document", :href => "/upload"
+                end
         tab2 =
-          Erector.inline do
-            a "Logout", :href => "/logout"
-          end
+                Erector.inline do
+                  a "Logout", :href => "/logout"
+                end
         join [tab1, tab2],
-          Erector::Widget.new { text nbsp(" |"); text " " }
+             Erector::Widget.new { text nbsp(" |"); text " " }
       end.should ==
-        '<a href="/upload">Upload document</a>&#160;| <a href="/logout">Logout</a>'
+              '<a href="/upload">Upload document</a>&#160;| <a href="/logout">Logout</a>'
     end
 
     it "plain string as join separator means pass it to text" do
       erector do
         join [
-          Erector::Widget.new { text "x" },
-          Erector::Widget.new { text "y" }
+                Erector::Widget.new { text "x" },
+                Erector::Widget.new { text "y" }
         ], "<>"
       end.should == "x&lt;&gt;y"
     end
@@ -84,8 +116,8 @@ describe Erector::Convenience do
     it "plain string as item to join means pass it to text" do
       erector do
         join [
-          "<",
-          "&"
+                "<",
+                "&"
         ], Erector::Widget.new { text " + " }
       end.should == "&lt; + &amp;"
     end
@@ -104,7 +136,9 @@ describe Erector::Convenience do
       end.should == "<link href=\"print.css\" media=\"print\" rel=\"stylesheet\" type=\"text/css\" />"
     end
 
-    it "passes extra attributes through"
+    it "passes extra attributes through" do
+      erector { css "foo.css", :title => 'Foo' }.should == "<link href=\"foo.css\" rel=\"stylesheet\" title=\"Foo\" type=\"text/css\" />"
+    end
   end
 
   describe "#url" do
