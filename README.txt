@@ -86,6 +86,8 @@ Special Thanks To:
 * John Firebaugh
 * Nathan Sobo
 * Nick Kallen
+* Alon Salant
+* Andy Peterson
 
 == LICENSE:
 

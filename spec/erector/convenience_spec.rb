@@ -3,6 +3,11 @@ require File.expand_path("#{File.dirname(__FILE__)}/../spec_helper")
 describe Erector::Convenience do
   include Erector::Mixin
 
+  describe "#to_pretty" do
+    it "calls to_s with :prettyprint => true"
+    it "passes extra attributes through to to_s"
+  end
+
   describe "#to_text" do
     it "strips tags" do
       Erector.inline do
@@ -40,6 +45,8 @@ describe Erector::Convenience do
         end.to_text.should == "foo"
       end
     end
+
+    it "passes extra attributes through to to_s"
   end
 
   describe "#join" do
@@ -96,6 +103,8 @@ describe Erector::Convenience do
         css "print.css", :media => "print"
       end.should == "<link href=\"print.css\" media=\"print\" rel=\"stylesheet\" type=\"text/css\" />"
     end
+
+    it "passes extra attributes through"
   end
 
   describe "#url" do
