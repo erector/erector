@@ -153,6 +153,7 @@ describe Erector::Convenience do
         url "http://example.com", :onclick=>"alert('foo')"
       end.should == "<a href=\"http://example.com\" onclick=\"alert('foo')\">http://example.com</a>"
     end
+
   end
 
   describe "#dom_id" do
@@ -172,5 +173,26 @@ describe Erector::Convenience do
       widget = DOMIDWidget.new
       widget.to_s.should == "<div id=\"#{widget.dom_id}\"></div>"
     end
+
+    describe 'for a namespaced widget class' do
+
+      module ::ErectorConvenienceSpec
+        class NestedWidget < Erector::Widget
+        end
+      end
+
+      it 'is colon escaped' do
+        g = ErectorConvenienceSpec::NestedWidget.new
+        g.dom_id.should_not =~ /:/
+      end
+
+      it 'combines all parent namespaces' do
+        g = ErectorConvenienceSpec::NestedWidget.new
+        g.dom_id.should == "ErectorConvenienceSpec_NestedWidget_#{g.object_id}"
+      end
+
+    end
+
   end
 end
+
