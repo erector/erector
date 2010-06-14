@@ -14,35 +14,40 @@ module Erector
       @output.to_s.should == "foobar"
     end
 
+    it "#<< accepts a number" do
+      @output << 1
+      @output.to_s.should == "1"
+    end
+
     it "accepts chained <<s" do
       @output << "foo" << "bar"
       @output.to_s.should == "foobar"
     end
-    
+
     it "provides a placeholder string to be filled in later" do
       @output << "foo"
       placeholder = @output.placeholder
       @output << "bar"
       @output.to_s.should == "foobar"
       placeholder << "baz"
-      @output.to_s.should == "foobazbar"      
+      @output.to_s.should == "foobazbar"
     end
-    
+
     describe '#to_a' do
       it "emits an array" do
         @output << "foo" << "bar"
         @output.to_a.join.should == "foobar"
       end
     end
-    
+
     it "can be initialized with an existing string buffer" do
       s = "foo"
-      @output = Output.new {s}
+      @output = Output.new { s }
       @output << "bar"
       s.should == "foobar"
       @output.to_s.should == "foobar"
     end
-    
+
     it "accepts a prettyprint option" do
       Erector::Output.new(:prettyprint => true).prettyprint.should be_true
       Erector::Output.new(:prettyprint => false).prettyprint.should be_false
@@ -97,7 +102,7 @@ module Erector
       end
 
       it "indents the next line when we're at line start and indented" do
-        @output << "foo" 
+        @output << "foo"
         @output.newline
         @output.indent
         @output << "bar"
@@ -105,7 +110,7 @@ module Erector
         @output.undent
         @output << "baz"
         @output.newline
-        
+
         @output.to_s.should == "foo\n  bar\nbaz\n"
       end
 
@@ -114,14 +119,14 @@ module Erector
         @output << "foo\nbar\nbaz\n"
         @output.to_s.should == "  foo\nbar\nbaz\n"
       end
-      
+
       it "turns off if prettyprint is false" do
         @output = Output.new(:prettyprint => false)
         @output.indent
         @output << "bar"
         @output.to_s.should == "bar"
       end
-      
+
       it "doesn't crash if indentation level is less than 0" do
         @output.undent
         @output << "bar"
@@ -135,8 +140,41 @@ module Erector
         @output.to_s.should == "    foo"
       end
 
+      it "accepts a max line length" do
+        @output = Output.new(:prettyprint => true, :max_length => 10)
+        @output << "Now is the winter of our discontent made glorious summer by this sun of York."
+        @output.to_s.should ==
+                        "Now is the\n" +
+                        "winter of\n" +
+                        "our\n" +
+                        "discontent\n" +
+                        "made\n" +
+                        "glorious\n" +
+                        "summer by\n" +
+                        "this sun\n" +
+                        "of York."
+      end
+
+      it "accepts a max line length wth indentation" do
+        # note that 1 indent = 2 spaces
+        @output = Output.new(:prettyprint => true, :indentation => 1, :max_length => 10)
+        @output << "Now is the winter of our discontent made glorious summer by this sun of York."
+        @output.to_s.should ==
+                        "  Now is\n" +
+                        "  the\n" +
+                        "  winter\n" +
+                        "  of our\n" +
+                        "  discontent\n" +
+                        "  made\n" +
+                        "  glorious\n" +
+                        "  summer\n" +
+                        "  by this\n" +
+                        "  sun of\n" +
+                        "  York."
+      end
+
     end
-    
+
     class Puppy < Erector::Widget
     end
     class Kitten < Erector::Widget

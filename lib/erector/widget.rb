@@ -90,6 +90,12 @@ module Erector
     #               by default). 
     # indentation:: the amount of spaces to indent. Ignored unless prettyprint
     #               is true.
+    # max_length:: preferred maximum length of a line. Line wraps will only
+    #              occur at space characters, so a long word may end up creating
+    #              a line longer than this. If nil (default), then there is no
+    #              arbitrary limit to line lengths, and only internal newline
+    #              characters and prettyprinting will determine newlines in the
+    #              output.
     # helpers:: a helpers object containing utility methods. Usually this is a
     #           Rails view object.
     # content_method_name:: in case you want to call a method other than

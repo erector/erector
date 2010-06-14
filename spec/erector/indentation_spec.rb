@@ -147,6 +147,23 @@ END
     Erector::Widget.prettyprint_default = false
     erector { br }.should == "<br />"
   end
-  
+
+  it "wraps after N characters (if asked)" do
+    Erector.inline do
+      div "the quick brown fox jumps over the lazy dog"
+    end.to_s(:max_length => 20).should ==
+            "<div>the quick brown\n" +
+            "fox jumps over the\n" +
+            "lazy dog</div>"
+  end
+
+  it "wraps after N characters and preserves pretty indent" do
+    Erector.inline do
+      div "the quick brown fox jumps over the lazy dog"
+    end.to_pretty(:max_length => 20).should ==
+            "<div>the quick brown\n" +
+            "  fox jumps over the\n" +
+            "  lazy dog</div>\n"
+  end
 end
 
