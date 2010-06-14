@@ -2,6 +2,8 @@
 
 * barebones Sass support
 * "depends_on" is the new way to include JS and CSS files (replacing "external"). More flexible calling structure.
+* :max_length parameter to to_s
+* jquery method takes optional first parameter (:load or :ready)
 
 == 0.7.3
 * fix bug in pass-block-to-new inline page rendering

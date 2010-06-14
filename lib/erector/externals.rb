@@ -25,6 +25,7 @@ module Erector
       end
 
       # deprecated in favor of #depends_on
+      # todo: warning
       def external(type, value, options = {})
         type = type.to_sym
         x = Dependency.new(type, value, options)

@@ -5,7 +5,7 @@ describe "indentation" do
 
   it "can detect newliney tags" do
     widget = ::Erector.inline
-    widget.instance_eval do 
+    widget.instance_eval do
       @prettyprint = true
     end
     widget.send(:newliney?, "i").should == false
@@ -18,21 +18,21 @@ describe "indentation" do
       b "World"
     end.to_pretty.should == "Hello, <b>World</b>"
   end
-  
+
   it "should add newlines before open newliney tags" do
     Erector.inline do
       p "foo"
       p "bar"
     end.to_pretty.should == "<p>foo</p>\n<p>bar</p>\n"
   end
-  
+
   it "should add newlines between text and open newliney tag" do
     Erector.inline do
       text "One"
       p "Two"
     end.to_pretty.should == "One\n<p>Two</p>\n"
   end
-  
+
   it "should add newlines after end newliney tags" do
     Erector.inline do
       tr do
@@ -40,7 +40,7 @@ describe "indentation" do
       end
     end.to_pretty.should == "<tr>\n  <td>cell</td>\n</tr>\n"
   end
-  
+
   it "should treat empty elements as start and end" do
     Erector.inline do
       p "before"
@@ -48,7 +48,7 @@ describe "indentation" do
       p "after"
     end.to_pretty.should == "<p>before</p>\n<br />\n<p>after</p>\n"
   end
-  
+
   it "empty elements sets at_start_of_line" do
     Erector.inline do
       text "before"
@@ -66,7 +66,7 @@ describe "indentation" do
       text 'after'
     end.to_pretty.should == 'Name<input type="text" />after'
   end
-  
+
   it "will indent" do
     Erector.inline do
       html do
@@ -92,7 +92,7 @@ describe "indentation" do
 </html>
 END
   end
-  
+
   it "preserves indentation for sub-rendered widgets" do
     tea = Erector.inline do
       div do
@@ -105,7 +105,7 @@ END
         widget tea
       end
     end
-    
+
     cup.to_pretty.should == <<END
 <div>
   <p>fine china</p>
@@ -115,14 +115,14 @@ END
 </div>
 END
   end
-  
+
   it "can turn off newlines" do
     erector do
       text "One"
       p "Two"
     end.should == "One<p>Two</p>"
   end
-  
+
   it "can turn newlines on and off" do
     widget = Erector.inline do
       text "One"
@@ -132,14 +132,14 @@ END
     widget.to_pretty.should == "One\n<p>Two</p>\n"
     widget.to_s.should == "One<p>Two</p>"
   end
-  
+
   it "can turn on newlines via to_pretty" do
     widget = Erector.inline do
       text "One"
       p "Two"
     end.to_pretty.should == "One\n<p>Two</p>\n"
   end
-  
+
   it "can turn newlines on/off via global variable" do
     erector { br }.should == "<br />"
     Erector::Widget.prettyprint_default = true
@@ -148,22 +148,33 @@ END
     erector { br }.should == "<br />"
   end
 
-  it "wraps after N characters (if asked)" do
-    Erector.inline do
-      div "the quick brown fox jumps over the lazy dog"
-    end.to_s(:max_length => 20).should ==
-            "<div>the quick brown\n" +
-            "fox jumps over the\n" +
-            "lazy dog</div>"
-  end
+  describe ":max_length" do
+    it "wraps after N characters" do
+      Erector.inline do
+        div "the quick brown fox jumps over the lazy dog"
+      end.to_s(:max_length => 20).should ==
+              "<div>the quick brown\n" +
+                      "fox jumps over the\n" +
+                      "lazy dog</div>"
+    end
 
-  it "wraps after N characters and preserves pretty indent" do
-    Erector.inline do
-      div "the quick brown fox jumps over the lazy dog"
-    end.to_pretty(:max_length => 20).should ==
-            "<div>the quick brown\n" +
-            "  fox jumps over the\n" +
-            "  lazy dog</div>\n"
+    it "preserves pretty indent" do
+      Erector.inline do
+        div "the quick brown fox jumps over the lazy dog"
+      end.to_pretty(:max_length => 20).should ==
+              "<div>the quick brown\n" +
+                      "  fox jumps over the\n" +
+                      "  lazy dog</div>\n"
+    end
+
+    it "preserves raw strings" do
+      Erector.inline do
+        div raw("the quick <brown> fox <jumps> over the lazy dog")
+      end.to_s(:max_length => 20).should ==
+              "<div>the quick\n" +
+                      "<brown> fox <jumps>\n" +
+                      "over the lazy dog\n" +
+                      "</div>"
+    end
   end
 end
-
