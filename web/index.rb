@@ -12,17 +12,20 @@ class Index < Page
     super(:page_title => "Home")
   end
 
-  def render_body
-
-    readme = File.read("#{File.dirname(__FILE__)}/../README.txt")
-    readme.gsub!(/^\= Erector/, '')
+  def readme
+    text = File.read("#{File.dirname(__FILE__)}/../README.txt")
+    text.gsub!(/^\= Erector/, '')
     p = SM::SimpleMarkup.new
     h = SM::ToHtml.new
-    readme = p.convert(readme, h)
-    readme.gsub!(/Erector::Widget/, capture{a "Erector::Widget", :href=> "rdoc/classes/Erector/Widget.html"}.strip)
-    readme.gsub!(/\b(http:\/\/|mailto:)([\w\.\/@])*\b/) do |match|
-      capture{ url match }
+    text = p.convert(text, h)
+    text.gsub!(/Erector::Widget/, capture { a "Erector::Widget", :href=> "rdoc/classes/Erector/Widget.html" }.strip)
+    text.gsub!(/\b(http:\/\/|mailto:)([\w\.\/@])*\b/) do |match|
+      capture { url match }
     end
+    return text
+  end
+
+  def render_body
     rawtext readme
     hr
     p do
@@ -30,6 +33,8 @@ class Index < Page
       a "User Guide", :href => "userguide.html"
       text " and "
       a "FAQ", :href => "faq.html"
+      text " and "
+      a "API", :href => "rdoc"
     end
   end
 end

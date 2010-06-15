@@ -17,7 +17,7 @@ class Sidebar < Erector::Widget
 
       h3 "Documentation:"
       ul :class => "clickable" do
-        clickable_li "Home (readme)", 'index.html'
+        clickable_li "README", 'index.html'
         clickable_li "User Guide", 'userguide.html'
         clickable_li "FAQ", 'faq.html'
         clickable_li 'RDoc API', 'rdoc'
@@ -33,11 +33,10 @@ class Sidebar < Erector::Widget
           br
           span " (current version: #{Erector::VERSION})"
         end
-#        clickable_li 'Release Notes', "http://erector.rubyforge.org/svn/trunk/History.txt"
+        clickable_li 'Erector Mailing List', "http://googlegroups.com/group/erector"
         clickable_li 'RubyForge Project', 'http://rubyforge.org/projects/erector/'
         clickable_li 'Github Repository', 'http://github.com/pivotal/erector'
         clickable_li 'Tracker Project', 'http://www.pivotaltracker.com/projects/482'
-        clickable_li 'Erector Mailing List', "http://googlegroups.com/group/erector"
         clickable_li "erector-devel archive", "http://rubyforge.org/pipermail/erector-devel/"
       end
 

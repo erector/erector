@@ -13,7 +13,8 @@ modular decomposition, encapsulation) in views. See the rdoc for the
 Erector::Widget class to learn how to make your own widgets, and visit the
 project site at http://erector.rubyforge.org for more documentation.
 
-No, seriously, we've got hella docs at http://erector.rubyforge.org
+No, seriously, we've got hella docs at http://erector.rubyforge.org -- go
+check it out.
 
 == SYNOPSIS
 
@@ -93,7 +94,7 @@ Special Thanks To:
 
 (The MIT License)
 
-Copyright (c) 2007-2009 Pivotal Labs
+Copyright (c) 2007-2010 Pivotal Labs and the Erector Project
 
 Permission is hereby granted, free of charge, to any person obtaining
 a copy of this software and associated documentation files (the
