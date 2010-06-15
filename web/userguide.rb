@@ -65,7 +65,7 @@ DONE
       
       p do
         text "Once you have a widget class, you can instantiate it and then call its "
-        code "to_html"
+        code "to_s"
         text " method."
         text " If you want to pass in 'locals' (aka 'assigns'), then do so in the constructor's default hash. This will make instance variables of the same name, with Ruby's '@' sign."
       end
@@ -76,7 +76,7 @@ class Email < Erector::Widget
   end
 end
 
->> Email.new(:address => "foo@example.com").to_html
+>> Email.new(:address => "foo@example.com").to_s
 => "<a href=\"mailto:foo@example.com\">foo@example.com</a>"
       PRE
       p do
@@ -95,13 +95,13 @@ end
         text " from anywhere in your code. It will make an "
         a "inline widget", :href => "#inline"
         text " for you, pass in the block, and call "
-        code "to_html"
+        code "to_s"
         text " on it. And if you pass any options to "
         code "erector"
         text ", like "
         code ":prettyprint => true"
         text ", it'll pass them along to "
-        code "to_html"
+        code "to_s"
         text "!"
       end
       h3 "Examples:"
@@ -227,19 +227,19 @@ DONE
           text "call "
           code "to_pretty"
           text " instead of "
-          code "to_html"
+          code "to_s"
           text " on your Erector::Widget"
         end
         li do
           text "pass "
           code ":prettyprint => true"
           text " to "
-          code "to_html"
+          code "to_s"
         end
         li do
           text "call "
           code "enable_prettyprint(true)"
-          text " on your Erector::Widget.  Then subsequent calls to to_html will prettyprint"
+          text " on your Erector::Widget.  Then subsequent calls to to_s will prettyprint"
         end
         li do
           text "call "
@@ -460,7 +460,7 @@ DONE
         pre <<DONE
 widget = Views::Layouts::Application.new(self)
 widget.content = content_for_layout
-self << widget.to_html
+self << widget.to_s
 DONE
       end
 
@@ -468,7 +468,7 @@ DONE
         text "Here the abstract layout widget is used in a concrete fashion by the template-based layout. Normally, the "
         code "content"
         text " method would be implemented by subclassing widgets, but the layout template sets it directly and then calls "
-        code "to_html"
+        code "to_s"
         text " on the layout widget. This allows the same layout to be shared in a backward compatible way."
       end
     end,
@@ -481,23 +481,23 @@ DONE
         code "content"
         text " method, you can pass a block to "
         code "Erector.inline"
-        text " and get back a widget instance you can call to_html on.  For example:"
+        text " and get back a widget instance you can call to_s on.  For example:"
         pre <<-DONE
 html = Erector.inline do
   p "Hello, world!"
 end
-html.to_html          #=> <p>Hello, world!</p>
+html.to_s          #=> <p>Hello, world!</p>
         DONE
         text "This lets you define mini-widgets on the fly."
       end
       
       p do 
-        text "If you're in Rails, your inline block has access to Rails helpers if you pass a helpers object to to_html:"
+        text "If you're in Rails, your inline block has access to Rails helpers if you pass a helpers object to to_s:"
         pre <<-DONE
 html = Erector.inline do
   image_tag("/foo")
 end
-html.to_html(:helpers => controller)          #=> <img alt="Foo" src="/foo" />
+html.to_s(:helpers => controller)          #=> <img alt="Foo" src="/foo" />
       DONE
     end
     
@@ -771,7 +771,7 @@ end
 local_name = @name
 Page.new do
   div local_name
-end.to_html
+end.to_s
             DONE
           end
         end

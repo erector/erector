@@ -8,8 +8,11 @@ module Erector
     end
 
     # Render (like to_html) but stripping all tags and inserting some
-    # appropriate formatting.
+    # appropriate formatting. Currently we format p, br, ol, ul, and li
+    # tags.
     def to_text(options = {})
+      # TODO: make text output a first class rendering strategy, like HTML is now,
+      # so we can do things like nested lists and numbered lists
       html = to_html(options.merge(:prettyprint => false))
       html.gsub!(/(<(ul|ol)>)?<li>/, "\n* ")
       html.gsub!(/<(\/?(ul|ol|p|br))( \/)?>/, "\n")

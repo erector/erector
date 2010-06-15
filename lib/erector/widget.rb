@@ -34,7 +34,7 @@ module Erector
   # like a normal method and leaves it up to the caller to emit that string if
   # it wants.
   #
-  # Now, seriously, after playing around a bit, go read the user guide. It's 
+  # Now, seriously, after playing around a bit, go read the user guide. It's
   # fun!
   class AbstractWidget
     @@prettyprint_default = false
@@ -105,7 +105,7 @@ module Erector
       _render(options).to_s
     end
 
-    # alias for #to_html (deprecated)
+    # alias for #to_html (dep
     def to_s(*args)
       to_html(*args)
     end

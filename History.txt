@@ -1,9 +1,15 @@
-==
+== 0.8.0
 
+* deprecating to_s in favor of to_html
+* to_text does some formatting 
 * barebones Sass support
 * "depends_on" is the new way to include JS and CSS files (replacing "external"). More flexible calling structure.
-* :max_length parameter to to_html
+* line wrapping via the :max_length parameter to to_html
 * jquery method takes optional first parameter (:load or :ready)
+* Rails 2.3.8 compatibility
+* delegate method_missing to parent widget
+* To render from a Rails context, you must now go through Erector::Rails.render; do not call to_s(:parent => @view) directly
+* 'embed' and 'param' are now self-closing tags (as per browser warnings)
 
 == 0.7.3
 * fix bug in pass-block-to-new inline page rendering

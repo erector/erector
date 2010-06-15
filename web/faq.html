@@ -3,19 +3,21 @@
     <title>Erector - FAQ</title>
     <link href="erector.css" rel="stylesheet" type="text/css" />
   </head>
-  <body>    <div class="sidebar"><a href="index.html"><img class="logo" height="161" src="erector.jpg" width="143" /></a>
-      <ul class="clickable">        <li class="clickable" onclick="document.location='index.html'"><a href="index.html">Home (readme)</a></li>
+  <body>
+    <div class="sidebar"><a href="index.html"><img class="logo" height="161" src="erector.jpg" width="143" /></a>
+      <h3>Documentation:</h3>
+      <ul class="clickable">
+        <li class="clickable" onclick="document.location='index.html'"><a href="index.html">Home (readme)</a></li>
         <li class="clickable" onclick="document.location='userguide.html'"><a href="userguide.html">User Guide</a></li>
         <li class="clickable" onclick="document.location='faq.html'"><a href="faq.html">FAQ</a></li>
+        <li class="clickable" onclick="document.location='rdoc'"><a href="rdoc">RDoc API</a></li>
         <li class="clickable" onclick="document.location='developers.html'"><a href="developers.html">For Developers</a></li>
         <li class="clickable" onclick="document.location='release_notes.html'"><a href="release_notes.html">Release Notes</a></li>
-</ul>
+      </ul>
       <h3>External Links:</h3>
       <ul class="clickable">
-        <li class="clickable" onclick="document.location='http://rubyforge.org/frs/?group_id=4797'"><a href="http://rubyforge.org/frs/?group_id=4797">Download</a>
-          <br />
-          <span> (current version: 0.7.3)</span></li>
-        <li class="clickable" onclick="document.location='rdoc'"><a href="rdoc">RDoc Documentation</a></li>
+        <li class="clickable" onclick="document.location='http://rubyforge.org/frs/?group_id=4797'"><a href="http://rubyforge.org/frs/?group_id=4797">Download</a><br />
+          <span> (current version: 0.8.0)</span></li>
         <li class="clickable" onclick="document.location='http://rubyforge.org/projects/erector/'"><a href="http://rubyforge.org/projects/erector/">RubyForge Project</a></li>
         <li class="clickable" onclick="document.location='http://github.com/pivotal/erector'"><a href="http://github.com/pivotal/erector">Github Repository</a></li>
         <li class="clickable" onclick="document.location='http://www.pivotaltracker.com/projects/482'"><a href="http://www.pivotaltracker.com/projects/482">Tracker Project</a></li>
@@ -23,10 +25,10 @@
         <li class="clickable" onclick="document.location='http://rubyforge.org/pipermail/erector-devel/'"><a href="http://rubyforge.org/pipermail/erector-devel/">erector-devel archive</a></li>
       </ul>
     </div>
-
     <div class="main">
       <h1 class="title">Erector - FAQ</h1>
-      <div class="body">        <ul>
+      <div class="body">
+        <ul>
           <li><a href="#whatiserector">What is Erector?</a></li>
           <li><a href="#wherearethedocs">Where are the docs?</a></li>
           <li><a href="#whyuseerector">Why use Erector?</a></li>
@@ -38,7 +40,6 @@
         </ul>
         <a name="whatiserector"></a>
         <h2>What is Erector?</h2>
-
         <p>Erector is a Builder-like view framework, inspired by <a href="http://code.whytheluckystiff.net/markaby/">Markaby</a> but overcoming some of its flaws. In Erector all views are objects, not template files, which allows the full power of object-oriented programming (inheritance, modular decomposition, encapsulation) in views.</p>
         <a name="wherearethedocs"></a>
         <h2>Where are the docs?</h2>
@@ -93,17 +94,16 @@
           <p><b>Parsed by Ruby.</b> Since Erector widgets are Ruby classes, the native-code Ruby interpreter compiles them during classload time, not a parser written <b>in</b> Ruby at runtime.</p>
           <p><b>Append &gt; Copy. </b> Many templating systems are casual about whether a particular operation <b>returns</b> a string, or <b>appends</b> to an output stream. This can lead to wasteful copying and reallocation. In Erector, all operations concatenate their result to a single output buffer, even when calling nested widgets (via the
             <code>widget</code>
- method). If you choose to, you can use Erector's 
+             method). If you choose to, you can use Erector's 
             <code>capture</code>
- method for explicit string conversion, but by default we use the faster way.</p>
+             method for explicit string conversion, but by default we use the faster way.</p>
           <p><b>Methods, not Partials.</b> In ERB and HAML, modular decomposition is accomplished by separating reused code into separate template files. In addition to being aesthetically problematic, encouraging you to move related code into separate places, it also introduces a performance problem, since every partial may be rendered into a string. (Although sometimes it's not, which is just weird.)</p>
         </p>
         <p>We should point out, of course, that the choice of templating engines by itself is not what will make your application scalable. The effectiveness of your caching policy will dwarf that of your rendering engine in nearly all cases. But it's fun to know we've got a pretty fast horse in this particular race...</p>
-</div>
+      </div>
     </div>
     <div class="footer">
-      <center>Erector is an open source project released under the MIT license. Its initial development was sponsored by <a href="http://pivotallabs.com">Pivotal Labs</a>.
-        <br />
+      <center>Erector is an open source project released under the MIT license. Its initial development was sponsored by <a href="http://pivotallabs.com">Pivotal Labs</a>.<br />
         <center><a href="http://www.pivotallabs.com"><img alt="Pivotal Labs" height="57" src="pivotal.gif" width="158" /></a></center>
       </center>
     </div>

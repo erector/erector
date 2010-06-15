@@ -1,10 +1,10 @@
 use rvm to test locally under 1.8.6
 
-rename to_s to to_html
+(DONE) rename to_s to to_html
 
 change instance vars to start with @_
 
-rename 'user guide' to 'documentation' or something more clear
+(DONE) rename 'user guide' to 'documentation' or something more clear
 
 (DONE) rename "external" to "depends_on"
 

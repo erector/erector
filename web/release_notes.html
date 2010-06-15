@@ -3,19 +3,21 @@
     <title>Erector - Release Notes</title>
     <link href="erector.css" rel="stylesheet" type="text/css" />
   </head>
-  <body>    <div class="sidebar"><a href="index.html"><img class="logo" height="161" src="erector.jpg" width="143" /></a>
-      <ul class="clickable">        <li class="clickable" onclick="document.location='index.html'"><a href="index.html">Home (readme)</a></li>
+  <body>
+    <div class="sidebar"><a href="index.html"><img class="logo" height="161" src="erector.jpg" width="143" /></a>
+      <h3>Documentation:</h3>
+      <ul class="clickable">
+        <li class="clickable" onclick="document.location='index.html'"><a href="index.html">Home (readme)</a></li>
         <li class="clickable" onclick="document.location='userguide.html'"><a href="userguide.html">User Guide</a></li>
         <li class="clickable" onclick="document.location='faq.html'"><a href="faq.html">FAQ</a></li>
+        <li class="clickable" onclick="document.location='rdoc'"><a href="rdoc">RDoc API</a></li>
         <li class="clickable" onclick="document.location='developers.html'"><a href="developers.html">For Developers</a></li>
         <li class="clickable" onclick="document.location='release_notes.html'"><a href="release_notes.html">Release Notes</a></li>
-</ul>
+      </ul>
       <h3>External Links:</h3>
       <ul class="clickable">
-        <li class="clickable" onclick="document.location='http://rubyforge.org/frs/?group_id=4797'"><a href="http://rubyforge.org/frs/?group_id=4797">Download</a>
-          <br />
-          <span> (current version: 0.7.3)</span></li>
-        <li class="clickable" onclick="document.location='rdoc'"><a href="rdoc">RDoc Documentation</a></li>
+        <li class="clickable" onclick="document.location='http://rubyforge.org/frs/?group_id=4797'"><a href="http://rubyforge.org/frs/?group_id=4797">Download</a><br />
+          <span> (current version: 0.8.0)</span></li>
         <li class="clickable" onclick="document.location='http://rubyforge.org/projects/erector/'"><a href="http://rubyforge.org/projects/erector/">RubyForge Project</a></li>
         <li class="clickable" onclick="document.location='http://github.com/pivotal/erector'"><a href="http://github.com/pivotal/erector">Github Repository</a></li>
         <li class="clickable" onclick="document.location='http://www.pivotaltracker.com/projects/482'"><a href="http://www.pivotaltracker.com/projects/482">Tracker Project</a></li>
@@ -23,10 +25,45 @@
         <li class="clickable" onclick="document.location='http://rubyforge.org/pipermail/erector-devel/'"><a href="http://rubyforge.org/pipermail/erector-devel/">erector-devel archive</a></li>
       </ul>
     </div>
-
     <div class="main">
       <h1 class="title">Erector - Release Notes</h1>
-      <div class="body"><h2>0.7.3</h2>
+      <div class="body"><h2>0.8.0</h2>
+<ul>
+<li>deprecating to_s in favor of to_html
+
+</li>
+<li>to_text does some formatting
+
+</li>
+<li>barebones Sass support
+
+</li>
+<li>&quot;depends_on&quot; is the new way to include JS and CSS files
+(replacing &quot;external&quot;). More flexible calling structure.
+
+</li>
+<li>line wrapping via the :max_length parameter to to_html
+
+</li>
+<li>jquery method takes optional first parameter (:load or :ready)
+
+</li>
+<li>Rails 2.3.8 compatibility
+
+</li>
+<li>delegate method_missing to parent widget
+
+</li>
+<li>To render from a Rails context, you must now go through
+Erector::Rails.render; do not call to_s(:parent =&gt; @view) directly
+
+</li>
+<li>&#8216;embed&#8217; and &#8216;param&#8217; are now self-closing tags (as
+per browser warnings)
+
+</li>
+</ul>
+<h2>0.7.3</h2>
 <ul>
 <li>fix bug in pass-block-to-new inline page rendering
 
@@ -191,7 +228,7 @@ method raises error
 <h2>0.6.4 / 2009-05-24</h2>
 <ul>
 <li>mixin: do &quot;include Erector::Mixin&quot; and now &quot;erector {
-}&quot; will instantiate and to_s a widget for you
+}&quot; will instantiate and to_html a widget for you
 
 </li>
 <li>&quot;erector&quot; command-line tool improved:
@@ -251,7 +288,7 @@ accepts either a widget instance, or a widget class and an assigns hash.
 the &#8216;assigns&#8217; constructor parameter
 
 </li>
-<li>Removed Widget#to_s caching, which fixed indentation issues.
+<li>Removed Widget#to_html caching, which fixed indentation issues.
 
 </li>
 <li>BUGFIX: Indentation level is now correctly propagated to nested widgets.
@@ -504,8 +541,7 @@ other method in Widget.
 </div>
     </div>
     <div class="footer">
-      <center>Erector is an open source project released under the MIT license. Its initial development was sponsored by <a href="http://pivotallabs.com">Pivotal Labs</a>.
-        <br />
+      <center>Erector is an open source project released under the MIT license. Its initial development was sponsored by <a href="http://pivotallabs.com">Pivotal Labs</a>.<br />
         <center><a href="http://www.pivotallabs.com"><img alt="Pivotal Labs" height="57" src="pivotal.gif" width="158" /></a></center>
       </center>
     </div>

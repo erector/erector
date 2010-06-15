@@ -3,19 +3,21 @@
     <title>Erector - Home</title>
     <link href="erector.css" rel="stylesheet" type="text/css" />
   </head>
-  <body>    <div class="sidebar"><a href="index.html"><img class="logo" height="161" src="erector.jpg" width="143" /></a>
-      <ul class="clickable">        <li class="clickable" onclick="document.location='index.html'"><a href="index.html">Home (readme)</a></li>
+  <body>
+    <div class="sidebar"><a href="index.html"><img class="logo" height="161" src="erector.jpg" width="143" /></a>
+      <h3>Documentation:</h3>
+      <ul class="clickable">
+        <li class="clickable" onclick="document.location='index.html'"><a href="index.html">Home (readme)</a></li>
         <li class="clickable" onclick="document.location='userguide.html'"><a href="userguide.html">User Guide</a></li>
         <li class="clickable" onclick="document.location='faq.html'"><a href="faq.html">FAQ</a></li>
+        <li class="clickable" onclick="document.location='rdoc'"><a href="rdoc">RDoc API</a></li>
         <li class="clickable" onclick="document.location='developers.html'"><a href="developers.html">For Developers</a></li>
         <li class="clickable" onclick="document.location='release_notes.html'"><a href="release_notes.html">Release Notes</a></li>
-</ul>
+      </ul>
       <h3>External Links:</h3>
       <ul class="clickable">
-        <li class="clickable" onclick="document.location='http://rubyforge.org/frs/?group_id=4797'"><a href="http://rubyforge.org/frs/?group_id=4797">Download</a>
-          <br />
-          <span> (current version: 0.7.3)</span></li>
-        <li class="clickable" onclick="document.location='rdoc'"><a href="rdoc">RDoc Documentation</a></li>
+        <li class="clickable" onclick="document.location='http://rubyforge.org/frs/?group_id=4797'"><a href="http://rubyforge.org/frs/?group_id=4797">Download</a><br />
+          <span> (current version: 0.8.0)</span></li>
         <li class="clickable" onclick="document.location='http://rubyforge.org/projects/erector/'"><a href="http://rubyforge.org/projects/erector/">RubyForge Project</a></li>
         <li class="clickable" onclick="document.location='http://github.com/pivotal/erector'"><a href="http://github.com/pivotal/erector">Github Repository</a></li>
         <li class="clickable" onclick="document.location='http://www.pivotaltracker.com/projects/482'"><a href="http://www.pivotaltracker.com/projects/482">Tracker Project</a></li>
@@ -23,7 +25,6 @@
         <li class="clickable" onclick="document.location='http://rubyforge.org/pipermail/erector-devel/'"><a href="http://rubyforge.org/pipermail/erector-devel/">erector-devel archive</a></li>
       </ul>
     </div>
-
     <div class="main">
       <h1 class="title">Erector - Home</h1>
       <div class="body"><ul>
@@ -108,6 +109,18 @@ To install as a Rails plugin:
 When installing this way, erector is automatically available to your Rails
 code (no require directive is needed).
 </p>
+<h2>TESTS</h2>
+<p>
+Three spec rake tasks are provided: spec:core (core functionality),
+spec:erect (the erector command line tool), and spec:rails (rails
+integration). You do not need to have Rails installed to run the latter
+two; they will clone the rails git repository and set it up for testing
+automatically. You can test against a different version of Rails by
+changing the constants in lib/erector/rails/rails_version.rb
+</p>
+<p>
+&#8216;rake spec&#8217; will run the complete set of specs.
+</p>
 <h2>CREDITS:</h2>
 <p>
 Core Team:
@@ -142,6 +155,12 @@ Special Thanks To:
 <li>Nick Kallen
 
 </li>
+<li>Alon Salant
+
+</li>
+<li>Andy Peterson
+
+</li>
 </ul>
 <h2>LICENSE:</h2>
 <p>
@@ -172,14 +191,12 @@ DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
 OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
 USE OR OTHER DEALINGS IN THE SOFTWARE.
 </p>
-
-        <hr />
+<hr />
         <p>Don't forget to read the <a href="userguide.html">User Guide</a> and <a href="faq.html">FAQ</a></p>
       </div>
     </div>
     <div class="footer">
-      <center>Erector is an open source project released under the MIT license. Its initial development was sponsored by <a href="http://pivotallabs.com">Pivotal Labs</a>.
-        <br />
+      <center>Erector is an open source project released under the MIT license. Its initial development was sponsored by <a href="http://pivotallabs.com">Pivotal Labs</a>.<br />
         <center><a href="http://www.pivotallabs.com"><img alt="Pivotal Labs" height="57" src="pivotal.gif" width="158" /></a></center>
       </center>
     </div>
