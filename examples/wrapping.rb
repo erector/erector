@@ -16,7 +16,7 @@ y = Erector.inline do
   div x
 end
 
-puts y.to_s
+puts y.to_html
 
 z = Erector.inline do
   div do
@@ -24,4 +24,4 @@ z = Erector.inline do
   end
 end
 
-puts z.to_s
+puts z.to_html

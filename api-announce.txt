@@ -1,6 +1,6 @@
 Inspired by GoGaRuCo, I just took a shot at rewriting the API. The basic concept is 
 to clarify the lifecycle of a widget, so "new" accepts permanent state (like "assigns" 
-variables) and "to_s" accepts temporary, rendering state (output stream, helpers, 
+variables) and "to_html" accepts temporary, rendering state (output stream, helpers,
 prettyprinting). This lets you do things like make collections of widgets in once place
 in your code and render them in another place, and basically establish a more coherent
 API than the 8 different ways I've seen people doing nested widgets (or, more likely, 
@@ -15,7 +15,7 @@ me to unify a few concepts and remove some code, especially around prettyprintin
 When we're outside a widget, the pattern is:
 
   w = DateWidget.new(:when => Time.now, :title => "Nap Time") # assigns
-  puts w.to_s(:helpers => some_rails_view)
+  puts w.to_html(:helpers => some_rails_view)
 
 When we're inside a widget we have a few more options. All of these ways inherit
 the rendering state from the parent widget if possible (like output, helpers, and

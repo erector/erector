@@ -3,18 +3,18 @@ require File.expand_path("#{File.dirname(__FILE__)}/../spec_helper")
 describe Erector::Widget do
   it "provides access to instance variables from the calling context" do
     @var = "yay"
-    Erector::Widget.new { @var.should == "yay"; @var = "yum" }.to_s
+    Erector::Widget.new { @var.should == "yay"; @var = "yum" }.to_html
     @var.should == "yum"
   end
 
   it "provides access to bound variables from the calling context" do
     var = "yay"
-    Erector::Widget.new { var.should == "yay"; var = "yum" }.to_s
+    Erector::Widget.new { var.should == "yay"; var = "yum" }.to_html
     var.should == "yum"
   end
 
   it "doesn't provide access to Erector methods" do
-    Erector::Widget.new { lambda { text "yay" }.should raise_error(NoMethodError) }.to_s
+    Erector::Widget.new { lambda { text "yay" }.should raise_error(NoMethodError) }.to_html
   end
 
   describe ".inline" do
@@ -36,16 +36,16 @@ describe Erector::Inline do
 
   it "doesn't provide access to instance variables from the calling context" do
     @var = "yay"
-    Erector.inline { text @var }.to_s.should == ""
+    Erector.inline { text @var }.to_html.should == ""
   end
 
   it "provides access to bound variables from the calling context" do
     var = "yay"
-    Erector.inline { text var }.to_s.should == "yay"
+    Erector.inline { text var }.to_html.should == "yay"
   end
 
   it "provides access to explicit assigns" do
-    Erector.inline(:var => "yay") { text @var }.to_s.should == "yay"
+    Erector.inline(:var => "yay") { text @var }.to_html.should == "yay"
   end
 
   it "provides access to methods from the calling context" do
@@ -53,7 +53,7 @@ describe Erector::Inline do
       "yay"
     end
 
-    Erector.inline { text helper }.to_s.should == "yay"
+    Erector.inline { text helper }.to_html.should == "yay"
   end
 
   describe "#call_block" do
@@ -64,7 +64,7 @@ describe Erector::Inline do
       end
 
       # inside the block...
-      x.to_s.should == 
+      x.to_html.should ==
         "<arg>#{x.object_id}</arg>" + # the argument is the child
         "<self>#{x.object_id}</self>" # and self is also the child
     end

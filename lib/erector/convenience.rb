@@ -1,23 +1,19 @@
 module Erector
   module Convenience
-    # Render (like to_s) but adding newlines and indentation.
-    # You may just want to call to_s(:prettyprint => true)
+    # Render (like to_html) but adding newlines and indentation.
+    # You may just want to call to_html(:prettyprint => true)
     # so you can pass in other rendering options as well.
     def to_pretty(options = {})
-      to_s(options.merge(:prettyprint => true))
+      to_html(options.merge(:prettyprint => true))
     end
 
-    # Render (like to_s) but stripping all tags and inserting some
+    # Render (like to_html) but stripping all tags and inserting some
     # appropriate formatting.
     def to_text(options = {})
-      html = to_s(options.merge(:prettyprint => false))
+      html = to_html(options.merge(:prettyprint => false))
       html.gsub!(/(<(ul|ol)>)?<li>/, "\n* ")
       html.gsub!(/<(\/?(ul|ol|p|br))( \/)?>/, "\n")
       CGI.unescapeHTML(html.gsub(/<[^>]*>/, ''))
-    end
-
-    def to_html(*args)
-      to_s(*args)
     end
 
     # Emits the result of joining the elements in array with the separator.

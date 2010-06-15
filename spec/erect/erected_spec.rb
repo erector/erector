@@ -156,7 +156,7 @@ end
 #      begin
 #        convert(".", "<", "")
 #      rescue => e
-#        e.to_s.should include("Could not parse")
+#        e.to_html.should include("Could not parse")
 #      end
 #    end
     

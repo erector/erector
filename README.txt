@@ -34,7 +34,7 @@ No, seriously, we've got hella docs at http://erector.rubyforge.org
       end
     end
 
-    Hello.new(:target => 'world').to_s
+    Hello.new(:target => 'world').to_html
     => "<html><head><title>Hello</title></head><body>Hello, <b class=\"big\">world</b>!</body></html>"
 
     include Erector::Mixin

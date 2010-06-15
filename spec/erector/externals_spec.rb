@@ -221,7 +221,7 @@ module ExternalsSpec
 
     it "#render_externals returns externals for all rendered sub-widgets to an output buffer" do
       widget = Dinner.new
-      widget.to_s
+      widget.to_html
       widget.render_externals.to_s.should ==
         "<link href=\"/dessert.css\" media=\"all\" rel=\"stylesheet\" type=\"text/css\" />" +
           "<script src=\"/dinner.js\" type=\"text/javascript\"></script>" +

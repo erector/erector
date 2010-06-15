@@ -44,5 +44,5 @@ class Overall < Erector::Widget
   
 end
 
-puts Overall.new().to_s
+puts Overall.new().to_html
 

@@ -126,7 +126,7 @@ module Erector
             FileUtils.mkdir_p(dir)
             output_file = "#{dir}/#{filename}.html"
             File.open(output_file, "w") do |f|
-              f.puts widget.to_s
+              f.puts widget.to_html
             end
             say " --> #{output_file}\n"
           else

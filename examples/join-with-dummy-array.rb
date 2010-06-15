@@ -36,8 +36,8 @@ class Tabs < Erector::Widget
 
 end
 
-puts Tabs.new(false, false).to_s
-puts Tabs.new(true, false).to_s
-puts Tabs.new(false, true).to_s
-puts Tabs.new(true, true).to_s
+puts Tabs.new(false, false).to_html
+puts Tabs.new(true, false).to_html
+puts Tabs.new(false, true).to_html
+puts Tabs.new(true, true).to_html
 

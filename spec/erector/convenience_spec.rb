@@ -4,19 +4,19 @@ describe Erector::Convenience do
   include Erector::Mixin
 
   describe "#to_pretty" do
-    it "calls to_s with :prettyprint => true" do
+    it "calls to_html with :prettyprint => true" do
       widget = Erector.inline do
         div "foo"
       end
-      mock(widget).to_s({:prettyprint => true})
+      mock(widget).to_html({:prettyprint => true})
       widget.to_pretty
     end
 
-    it "passes extra options through to to_s" do
+    it "passes extra options through to to_html" do
       widget = Erector.inline do
         div "foo"
       end
-      mock(widget).to_s({:prettyprint => true, :extra => "yay"})
+      mock(widget).to_html({:prettyprint => true, :extra => "yay"})
       widget.to_pretty(:extra => "yay")
     end
   end
@@ -216,7 +216,7 @@ describe Erector::Convenience do
 
     it "can be used as an HTML id" do
       widget = DOMIDWidget.new
-      widget.to_s.should == "<div id=\"#{widget.dom_id}\"></div>"
+      widget.to_html.should == "<div id=\"#{widget.dom_id}\"></div>"
     end
 
     describe 'for a namespaced widget class' do

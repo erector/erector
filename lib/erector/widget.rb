@@ -11,7 +11,7 @@ module Erector
   # the userguide for important details about the scope of this block when run --
   # http://erector.rubyforge.org/userguide.html#blocks
   #
-  # To render a widget from the outside, instantiate it and call its +to_s+
+  # To render a widget from the outside, instantiate it and call its +to_html+
   # method.
   #
   # A widget's +new+ method optionally accepts an options hash. Entries in
@@ -25,7 +25,7 @@ module Erector
   # To call one widget from another, inside the parent widget's +content+
   # method, instantiate the child widget and call the +widget+ method. This
   # assures that the same output stream is used, which gives better
-  # performance than using +capture+ or +to_s+. It also preserves the
+  # performance than using +capture+ or +to_html+. It also preserves the
   # indentation and helpers of the enclosing class.
   #  
   # In this documentation we've tried to keep the distinction clear between
@@ -66,7 +66,7 @@ module Erector
 
     def initialize(assigns = {}, &block)
       unless assigns.is_a? Hash
-        raise "Erector widgets are initialized with only a parameter hash. (Other parameters are passed to to_s, or the #widget method.)"
+        raise "Erector widgets are initialized with only a parameter hash. (Other parameters are passed to to_html, or the #widget method.)"
       end
 
       @_assigns = assigns
@@ -100,16 +100,21 @@ module Erector
     #           Rails view object.
     # content_method_name:: in case you want to call a method other than
     #                       #content, pass its name in here.
-    def to_s(options = {})
+    def to_html(options = {})
       raise "Erector::Widget#to_s now takes an options hash, not a symbol. Try calling \"to_s(:content_method_name=> :#{options})\"" if options.is_a? Symbol
       _render(options).to_s
     end
-    
-    # Entry point for rendering a widget (and all its children). Same as #to_s
+
+    # alias for #to_html (deprecated)
+    def to_s(*args)
+      to_html(*args)
+    end
+
+    # Entry point for rendering a widget (and all its children). Same as #to_html
     # only it returns an array, for theoretical performance improvements when using a
     # Rack server (like Sinatra or Rails Metal).
     #
-    # # Options: see #to_s
+    # # Options: see #to_html
     def to_a(options = {})
       _render(options).to_a
     end
@@ -149,7 +154,7 @@ module Erector
     #
     # This is the preferred way to call one widget from inside another. This
     # method assures that the same output string is used, which gives better
-    # performance than using +capture+ or +to_s+.
+    # performance than using +capture+ or +to_html+.
     def widget(target, assigns = {}, options = {}, &block)
       if target.is_a? Class
         target.new(assigns, &block)._render_via(self, options)

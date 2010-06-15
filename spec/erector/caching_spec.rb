@@ -186,32 +186,32 @@ if Erector::Cache.is_supported?
       Family.cachable?.should be_true
     end
 
-    describe '#to_s' do
+    describe '#to_html' do
 
       it "caches a rendered widget" do
-        Cash.new(:name => "Johnny").to_s
+        Cash.new(:name => "Johnny").to_html
         @cache[Cash, {:name => "Johnny"}].to_s.should == "<p>Johnny Cash</p>"
       end
 
       it "uses the cached value" do
         @cache[Cash, {:name => "Johnny"}] = "CACHED"
-        Cash.new(:name => "Johnny").to_s.should == "CACHED"
+        Cash.new(:name => "Johnny").to_html.should == "CACHED"
       end
 
       it "doesn't use the cached value for widgets not declared cachable" do
         @cache[NotCachable] = "CACHED"
-        NotCachable.new.to_s.should == "CONTENT"
+        NotCachable.new.to_html.should == "CONTENT"
       end
 
       it "doesn't cache widgets not declared cachable" do
-        NotCachable.new.to_s
+        NotCachable.new.to_html
         @cache[NotCachable].should be_nil
       end
 
       it "doesn't cache widgets initialized with a block (yet)" do
         Cash.new(:name => "June") do
           text "whatever"
-        end.to_s
+        end.to_html
         @cache[Cash, {:name => "June"}].should be_nil
       end
 
@@ -228,24 +228,24 @@ if Erector::Cache.is_supported?
           end
         end
 
-        widget.new.to_s(:content_method_name => :foo).should == "foo"
-        widget.new.to_s(:content_method_name => :bar).should == "bar"
+        widget.new.to_html(:content_method_name => :foo).should == "foo"
+        widget.new.to_html(:content_method_name => :bar).should == "bar"
       end
 
-      it "works when passing an existing output as a parameter to to_s"
+      it "works when passing an existing output as a parameter to to_html"
     end
 
     describe '#widget' do
 
       it "caches rendered widgets" do
-        Family.new.to_s
+        Family.new.to_html
         @cache[Cash, {:name => "Johnny"}].to_s.should == "<p>Johnny Cash</p>"
         @cache[Cash, {:name => "June"}].to_s.should == "<p>June Cash</p>"
       end
 
       it "uses the cached value" do
         @cache[Cash, {:name => "Johnny"}] = "JOHNNY CACHED"
-        Family.new.to_s.should == "JOHNNY CACHED<p>June Cash</p>"
+        Family.new.to_html.should == "JOHNNY CACHED<p>June Cash</p>"
       end
 
       class WidgetWithBlock < Erector::Widget

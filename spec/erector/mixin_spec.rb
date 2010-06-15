@@ -23,7 +23,7 @@ module MixinSpec
         Thing.new.name.should == "<span class=\"name\">Gabriel <i>Garcia</i> Marquez</span>"
       end
       
-      it "passes its parameters to to_s" do
+      it "passes its parameters to to_html" do
         class Thing
           include Erector::Mixin
           def pretty_name

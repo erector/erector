@@ -48,5 +48,5 @@ overall = Erector.inline do
   
 end
 
-puts overall.to_s
+puts overall.to_html
 

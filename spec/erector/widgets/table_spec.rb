@@ -24,7 +24,7 @@ module TableSpec
       attr_reader :html, :doc
       before do
         widget = CustomHeadingTable.new(:row_objects => [])
-        @html = widget.to_s
+        @html = widget.to_html
         @doc = Nokogiri::HTML(html)
       end
 
@@ -46,7 +46,7 @@ module TableSpec
       before do
         @object1 = Struct.new(:first_name).new("Hello")
         widget = CustomCellTable.new(:row_objects => [@object1])
-        @html = widget.to_s
+        @html = widget.to_html
         @doc = Nokogiri::HTML(html)
       end
 
@@ -64,7 +64,7 @@ module TableSpec
         @object2 = Struct.new(:first_name, :last_name, :email).new(4, 5, 6)
         @object3 = Struct.new(:first_name, :last_name, :email).new(7, 8, 9)
         widget = DefaultsTestTable.new(:row_objects => [@object1, @object2, @object3])
-        @html = widget.to_s
+        @html = widget.to_html
         @doc = Nokogiri::HTML(html)
         @table = doc.at("table")
       end

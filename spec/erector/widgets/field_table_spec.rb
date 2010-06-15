@@ -30,7 +30,7 @@ module Erector
         end
 
         it "renders the CreateUser form" do
-          PasswordForm.new(:username => "bobdole").to_s.should ==
+          PasswordForm.new(:username => "bobdole").to_html.should ==
             "<form action=\"/user\" method=\"post\">" +
               "<fieldset class=\"field_table\">" +
               "<legend>Sign Up</legend>" +
@@ -80,7 +80,7 @@ module Erector
 
         it "renders a table with no fields and no buttons" do
           table = FieldTable.new(:title => "Meals")
-          doc = Nokogiri::HTML(table.to_s)
+          doc = Nokogiri::HTML(table.to_html)
           doc.css("fieldset legend").text.should == "Meals"
           doc.at("fieldset")["class"].should == "field_table"
           doc.css("fieldset > table > tr").size.should == 0
@@ -90,7 +90,7 @@ module Erector
           table = FieldTable.new(:title => "Meals") do |t|
             t.button { t.input :type => "button", :value => "cancel" }
           end
-          doc = Nokogiri::HTML(table.to_s)
+          doc = Nokogiri::HTML(table.to_html)
           doc.css("fieldset > table > tr").size.should == 1
           doc.at("fieldset table tr")["class"].should == "field_table_buttons"
           doc.at("td.field_table_button input")["value"].should == "cancel"
@@ -100,7 +100,7 @@ module Erector
           table = FieldTable.new(:title => "Meals") do |t|
             t.field("Breakfast") { t.text "scrambled eggs" }
           end
-          doc = Nokogiri::HTML(table.to_s)
+          doc = Nokogiri::HTML(table.to_html)
           doc.css("fieldset > table > tr").size.should == 1
           doc.at("fieldset table tr")["class"].should == "field_table_field"
           doc.at("fieldset table tr th").text.should == "Breakfast:"
@@ -111,7 +111,7 @@ module Erector
           table = FieldTable.new(:title => "Meals") do |t|
             t.field { t.text "yum yum" }
           end
-          doc = Nokogiri::HTML(table.to_s)
+          doc = Nokogiri::HTML(table.to_html)
           doc.css("fieldset > table > tr").size.should == 1
           doc.at("fieldset table tr")["class"].should == "field_table_field"
           doc.at("fieldset table tr th").text.should == ""
@@ -123,7 +123,7 @@ module Erector
             t.field("Breakfast", "the most important meal of the day") { t.text "eggs" }
             t.field("Lunch") { t.text "hot dogs" }
           end
-          doc = Nokogiri::HTML(table.to_s)
+          doc = Nokogiri::HTML(table.to_html)
           doc.at("fieldset table tr").css("td[3]").text.should == "the most important meal of the day"
         end
 

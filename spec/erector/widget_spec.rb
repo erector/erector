@@ -5,13 +5,13 @@ module WidgetSpec
   describe Erector::Widget do
     include Erector::Mixin
 
-    describe "#to_s" do
+    describe "#to_html" do
       it "invokes #content and returns the string representation of the rendered widget" do
         Class.new(Erector::Widget) do
           def content
             text "Hello"
           end
-        end.new.to_s.should == "Hello"
+        end.new.to_html.should == "Hello"
       end
 
       it "supports other content methods via :content_method_name" do
@@ -19,23 +19,23 @@ module WidgetSpec
           def alternate
             text "Alternate"
           end
-        end.new.to_s(:content_method_name => :alternate).should == "Alternate"
+        end.new.to_html(:content_method_name => :alternate).should == "Alternate"
       end
 
       it "returns an HTML-safe string" do
-        Erector::Widget.new.to_s.should be_html_safe
+        Erector::Widget.new.to_html.should be_html_safe
       end
 
       it "accepts an existing string as an output buffer" do
         s = "foo"
-        Erector.inline { text "bar" }.to_s(:output => s)
+        Erector.inline { text "bar" }.to_html(:output => s)
         s.should == "foobar"
       end
 
       it "accepts an existing Output as an output buffer" do
         output = Erector::Output.new
         output << "foo"
-        Erector.inline { text "bar" }.to_s(:output => output)
+        Erector.inline { text "bar" }.to_html(:output => output)
         output.to_s.should == "foobar"
       end
     end
@@ -74,7 +74,7 @@ module WidgetSpec
       it "adds the widget to the parent's output widgets" do
         inner = Class.new(Erector::Widget)
         outer = Erector.inline { widget inner }
-        outer.to_s
+        outer.to_html
         outer.output.widgets.should include(inner)
       end
 
@@ -102,7 +102,7 @@ module WidgetSpec
           end
         end
 
-        Parent.new.to_s.should == '123'
+        Parent.new.to_html.should == '123'
       end
 
       context "when nested" do
@@ -139,7 +139,7 @@ module WidgetSpec
           WhenNested::Grandchild.new(
                   :parent_widget => WhenNested::Parent,
                   :child_widget => WhenNested::Child
-          ).to_s.should == '<div id="parent_widget"><div id="child_widget"><div id="grandchild"></div></div></div>'
+          ).to_html.should == '<div id="parent_widget"><div id="child_widget"><div id="grandchild"></div></div></div>'
         end
 
         it "renders the tag around the rest of the block with proper indentation" do
@@ -168,7 +168,7 @@ module WidgetSpec
             end
           end
 
-          Parent2.new(:child_widget => child_widget).to_s.should == "<div><b>#{child_widget.dom_id}</b></div>"
+          Parent2.new(:child_widget => child_widget).to_html.should == "<div><b>#{child_widget.dom_id}</b></div>"
         end
       end
     end
@@ -241,7 +241,7 @@ module WidgetSpec
             p @foo
             p @baz
           end
-        end.to_s
+        end.to_html
         doc = Nokogiri::HTML(html)
         doc.css("p").map {|p| p.inner_html}.should == ["bar", "quux"]
       end

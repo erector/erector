@@ -128,9 +128,9 @@ END
       text "One"
       p "Two"
     end
-    widget.to_s.should == "One<p>Two</p>"
+    widget.to_html.should == "One<p>Two</p>"
     widget.to_pretty.should == "One\n<p>Two</p>\n"
-    widget.to_s.should == "One<p>Two</p>"
+    widget.to_html.should == "One<p>Two</p>"
   end
 
   it "can turn on newlines via to_pretty" do
@@ -152,7 +152,7 @@ END
     it "wraps after N characters" do
       Erector.inline do
         div "the quick brown fox jumps over the lazy dog"
-      end.to_s(:max_length => 20).should ==
+      end.to_html(:max_length => 20).should ==
               "<div>the quick brown\n" +
                       "fox jumps over the\n" +
                       "lazy dog</div>"
@@ -170,7 +170,7 @@ END
     it "preserves raw strings" do
       Erector.inline do
         div raw("the quick <brown> fox <jumps> over the lazy dog")
-      end.to_s(:max_length => 20).should ==
+      end.to_html(:max_length => 20).should ==
               "<div>the quick\n" +
                       "<brown> fox <jumps>\n" +
                       "over the lazy dog\n" +
