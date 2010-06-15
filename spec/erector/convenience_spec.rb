@@ -29,6 +29,14 @@ describe Erector::Convenience do
     end
   end
 
+  describe "#to_html" do
+    it "returns html" do
+      Erector.inline do
+        div "foo"
+      end.to_html.should == "<div>foo</div>"
+    end
+  end
+
   describe "#to_text" do
     it "strips tags" do
       Erector.inline do
@@ -78,6 +86,43 @@ describe Erector::Convenience do
         end
       end
       Funny.new.to_text(:content_method_name => :funny).should == "haha"
+    end
+
+    it "puts a blank line (two newlines) after a /p tag" do
+      Erector.inline do
+        p "first paragraph"
+        p "second paragraph"
+      end.to_text.should == "\nfirst paragraph\n\nsecond paragraph\n"
+    end
+
+    it "puts a newline after a br tag" do
+      Erector.inline do
+        text "first line"
+        br
+        text "second line"
+      end.to_text.should == "first line\nsecond line"
+    end
+
+    it "formats a UL (unordered list) using asterisks for bullets" do
+      Erector.inline do
+        ul do
+          li "vanilla"
+          li "chocolate"
+          li "strawberry"
+        end
+      end.to_text.should == "\n* vanilla\n* chocolate\n* strawberry\n"
+    end
+
+    # it's too hard to keep track of numbers with a regexp munger, so just use asterisks for bullets
+    # todo: integrate text output into core rendering code
+    it "formats an OL (ordered list)" do
+      Erector.inline do
+        ol do
+          li "vanilla"
+          li "chocolate"
+          li "strawberry"
+        end
+      end.to_text.should == "\n* vanilla\n* chocolate\n* strawberry\n"
     end
   end
 

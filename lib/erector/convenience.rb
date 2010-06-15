@@ -7,9 +7,17 @@ module Erector
       to_s(options.merge(:prettyprint => true))
     end
 
-    # Render (like to_s) but stripping all tags.
+    # Render (like to_s) but stripping all tags and inserting some
+    # appropriate formatting.
     def to_text(options = {})
-      CGI.unescapeHTML(to_s(options.merge(:prettyprint => false)).gsub(/<[^>]*>/, ''))
+      html = to_s(options.merge(:prettyprint => false))
+      html.gsub!(/(<(ul|ol)>)?<li>/, "\n* ")
+      html.gsub!(/<(\/?(ul|ol|p|br))( \/)?>/, "\n")
+      CGI.unescapeHTML(html.gsub(/<[^>]*>/, ''))
+    end
+
+    def to_html(*args)
+      to_s(*args)
     end
 
     # Emits the result of joining the elements in array with the separator.
