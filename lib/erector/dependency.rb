@@ -1,10 +1,11 @@
 module Erector
-  class Dependency < Struct.new(:type, :text, :options)
+  class Dependency
+    attr_reader :type, :text, :options
 
     def initialize(type, text, options = {})
       text = text.read if text.is_a? IO
       text = self.class.interpolate(text) if options[:interpolate] # todo: test
-      super
+      @type, @text, @options = type, text, options
     end
 
     def self.interpolate(s)

@@ -41,11 +41,11 @@ class ExternalRenderer < Erector::Widget
         rawtext external.text
       end
     end
+    # todo: allow :load or :ready per external script
     rendered_externals(:jquery).each do |external|
-      javascript external.options do
-        jquery_load external.text
-      end
+      jquery :load, external.text, external.options
     end
   end
 
 end
+

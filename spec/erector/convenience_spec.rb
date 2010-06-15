@@ -88,11 +88,17 @@ describe Erector::Convenience do
       Funny.new.to_text(:content_method_name => :funny).should == "haha"
     end
 
+    it "doesn't turn a p into a newline if it's at the beginning of the string" do
+      Erector.inline do
+        p "hi"
+      end.to_text.should == "hi\n"
+    end
+
     it "puts a blank line (two newlines) after a /p tag" do
       Erector.inline do
         p "first paragraph"
         p "second paragraph"
-      end.to_text.should == "\nfirst paragraph\n\nsecond paragraph\n"
+      end.to_text.should == "first paragraph\n\nsecond paragraph\n"
     end
 
     it "puts a newline after a br tag" do
