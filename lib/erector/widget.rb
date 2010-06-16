@@ -173,6 +173,7 @@ module Erector
     def capture
       original, @_output = output, Output.new
       yield
+      original.widgets.concat(output.widgets) # todo: test!!!
       output.to_s
     ensure
       @_output = original

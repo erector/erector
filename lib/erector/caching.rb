@@ -84,6 +84,7 @@ module Erector
     def _render_via(parent, options = {})
       if should_cache?
         parent.output << cache[self.class, assigns, options[:content_method_name]] ||= parent.capture { super }
+        parent.output.widgets << self.class # todo: test!!!
       else
         super
       end
