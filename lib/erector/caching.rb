@@ -1,13 +1,6 @@
 module Erector
   class Cache
-    def self.is_supported?
-      RUBY_VERSION >= "1.8.7"
-    end
-
     def initialize
-      unless self.class.is_supported?
-        raise Errors::RubyVersionNotSupported.new("< 1.8.7", "Erector::Cache uses Hashes with Hashes as keys.")
-      end
       @stores = {}
     end
 
@@ -20,19 +13,24 @@ module Erector
       klass = args.shift
       params = args.first.is_a?(Hash) ? args.first : {}
       content_method = args.last.is_a?(Symbol) ? args.last : nil
-      store_for(klass)[params][content_method] = value
+      store_for(klass)[key(params)][content_method] = value
     end
 
     def [](klass, params = {}, content_method = nil)
-      store_for(klass)[params][content_method]
+      store_for(klass)[key(params)][content_method]
     end
 
     def delete(klass, params = {})
-      store_for(klass).delete(params)
+      store_for(klass).delete(key(params))
     end
 
     def delete_all(klass)
       @stores.delete(klass)
+    end
+
+    # convert hash-key to array-key for compatibility with 1.8.6
+    def key(params)
+      params.to_a
     end
   end
 
