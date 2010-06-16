@@ -14,9 +14,9 @@ module Erector
       # TODO: make text output a first class rendering strategy, like HTML is now,
       # so we can do things like nested lists and numbered lists
       html = to_html(options.merge(:prettyprint => false))
-      html.gsub!(/^<p>/m, '')
+      html.gsub!(/^<p[^>]*>/m, '')
       html.gsub!(/(<(ul|ol)>)?<li>/, "\n* ")
-      html.gsub!(/<(\/?(ul|ol|p|br))( \/)?>/, "\n")
+      html.gsub!(/<(\/?(ul|ol|p|br))[^>]*( \/)?>/, "\n")
       CGI.unescapeHTML(html.gsub(/<[^>]*>/, ''))
     end
 

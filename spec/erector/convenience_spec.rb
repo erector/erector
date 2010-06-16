@@ -101,6 +101,13 @@ describe Erector::Convenience do
       end.to_text.should == "first paragraph\n\nsecond paragraph\n"
     end
 
+    it "separates p tags with attributes" do
+      Erector.inline do
+        p "first paragraph", :class => "first"
+        p "second paragraph", :class => "second"
+      end.to_text.should == "first paragraph\n\nsecond paragraph\n"
+    end
+
     it "puts a newline after a br tag" do
       Erector.inline do
         text "first line"
