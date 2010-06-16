@@ -1,6 +1,5 @@
 require File.expand_path("#{File.dirname(__FILE__)}/../spec_helper")
 
-if Erector::Cache.is_supported?
   describe Erector::Cache do
     before do
       @cache = Erector::Cache.new
@@ -266,4 +265,3 @@ if Erector::Cache.is_supported?
 
     end
   end
-end
