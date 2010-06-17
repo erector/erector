@@ -28,6 +28,10 @@ module Erector
       s = s.to_s unless s.is_a? String
       append_indentation
       if @max_length && s.length + @current_line_length > @max_length
+        leading_spaces = s =~ /^( +)/ ? $1.size : 0
+        trailing_spaces = s =~ /( +)$/ ? $1.size : 0 
+
+        append(" " * leading_spaces)
         need_space = false
         words = s.split(/ /)
         words.each do |word|
@@ -40,6 +44,7 @@ module Erector
           append(word)
           need_space = true
         end
+        append(" " * trailing_spaces)
       else
         append(s)
       end

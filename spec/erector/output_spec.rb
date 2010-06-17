@@ -142,17 +142,26 @@ module Erector
 
       it "accepts a max line length" do
         @output = Output.new(:prettyprint => true, :max_length => 10)
-        @output << "Now is the winter of our discontent made glorious summer by this sun of York."
+        @output << "Now is the winter of our discontent made "
+        @output << "glorious summer by this sun of York."
         @output.to_s.should ==
                         "Now is the\n" +
                         "winter of\n" +
                         "our\n" +
                         "discontent\n" +
-                        "made\n" +
+                        "made \n" +
                         "glorious\n" +
                         "summer by\n" +
                         "this sun\n" +
                         "of York."
+      end
+
+      it "preserves leading and trailing spaces" do
+        @output = Output.new(:max_length => 10)
+        @output << "123456789"
+        @output << " foo "
+        @output << "bar"
+        @output.to_s.should == "123456789 \nfoo bar"
       end
 
       it "accepts a max line length wth indentation" do
