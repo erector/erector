@@ -71,3 +71,22 @@ end
 Spec::Runner.configure do |config|
   include Matchers
 end
+
+def capturing_output
+  output = StringIO.new
+  $stdout = output
+  yield
+  output.string
+ensure
+  $stdout = STDOUT
+end
+
+def capturing_stderr
+  output = StringIO.new
+  $stderr = output
+  yield
+  output.string
+ensure
+  $stderr = STDERR
+end
+

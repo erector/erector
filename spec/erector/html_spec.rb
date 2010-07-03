@@ -295,15 +295,6 @@ describe Erector::HTML do
       end.should == "<!--&nbsp;-->\n"
     end
 
-    def capturing_output
-      output = StringIO.new
-      $stdout = output
-      yield
-      output.string
-    ensure
-      $stdout = STDOUT
-    end
-
     # see http://www.w3.org/TR/html4/intro/sgmltut.html#h-3.2.4
     # "Authors should avoid putting two or more adjacent hyphens inside comments."
     it "warns if there's two hyphens in a row" do

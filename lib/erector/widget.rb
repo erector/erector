@@ -101,12 +101,17 @@ module Erector
     # content_method_name:: in case you want to call a method other than
     #                       #content, pass its name in here.
     def to_html(options = {})
-      raise "Erector::Widget#to_s now takes an options hash, not a symbol. Try calling \"to_s(:content_method_name=> :#{options})\"" if options.is_a? Symbol
+      raise "Erector::Widget#to_html takes an options hash, not a symbol. Try calling \"to_html(:content_method_name=> :#{options})\"" if options.is_a? Symbol
       _render(options).to_s
     end
 
-    # alias for #to_html (dep
+    # alias for #to_html
+    # @deprecated Please use {#to_html} instead
     def to_s(*args)
+      unless defined? @@already_warned_to_s
+        $stderr.puts "Erector::Widget#to_s is deprecated. Please use #to_html instead. Called from #{caller.first}"
+        @@already_warned_to_s = true
+      end
       to_html(*args)
     end
 

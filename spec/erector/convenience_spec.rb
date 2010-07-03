@@ -23,9 +23,11 @@ describe Erector::Convenience do
 
   describe "#to_s" do
     it "returns html" do
-      Erector.inline do
-        div "foo"
-      end.to_s.should == "<div>foo</div>"
+      capturing_stderr do
+        Erector.inline do
+          div "foo"
+        end.to_s.should == "<div>foo</div>"
+      end
     end
   end
 
