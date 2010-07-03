@@ -257,7 +257,7 @@ module Erector
         rawtext value
       end
       rawtext "\n// ]]>"
-      output.newline
+      output.append_newline # this forces a newline even if we're not in pretty mode
 
       close_tag 'script'
       rawtext "\n"

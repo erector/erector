@@ -83,12 +83,12 @@ module Erector
       @indentation -= 1 if prettyprint
     end
 
-    protected
-
     def append_newline
       buffer << "\n"
       @current_line_length = 0
     end
+
+    protected
 
     def append(s)
       buffer << s
