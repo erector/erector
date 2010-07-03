@@ -116,6 +116,37 @@ END
 END
   end
 
+  # see http://github.com/pivotal/erector/issues/#issue/5
+  it "indents scripts properly" do
+    pending 
+    Erector.inline do
+      html :xmlns => 'http://www.w3.org/1999/xhtml' do
+        head do
+          javascript "Cufon.replace('#content');"
+          javascript '$(document).ready(function(){  $(document).pngFix(); });'
+        end
+        body do
+        end
+      end
+    end.to_pretty.should == <<-HTML
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <script type="text/javascript">
+// <![CDATA[
+Cufon.replace('#content');
+// ]]>
+    </script>
+    <script type="text/javascript">
+// <![CDATA[
+$(document).ready(function(){  $(document).pngFix(); });
+// ]]>
+    </script>
+  </head>
+  <body></body>
+</html>
+    HTML
+  end
+
   it "can turn off newlines" do
     erector do
       text "One"

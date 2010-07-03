@@ -256,7 +256,8 @@ module Erector
       else
         rawtext value
       end
-      rawtext "\n// ]]>\n"
+      rawtext "\n// ]]>"
+      output.newline
 
       close_tag 'script'
       rawtext "\n"
