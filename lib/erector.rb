@@ -8,8 +8,6 @@ begin
 rescue LoadError => e
   # oh well, no Sass
 end
-require "active_support/inflector"
-require "active_support/inflections"
 
 require "erector/errors"
 require "erector/extensions/object"

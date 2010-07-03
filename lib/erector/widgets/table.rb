@@ -1,5 +1,10 @@
-module Erector
+begin
+ require "active_support/inflector"
+
+ module Erector
   module Widgets #:nodoc:
+
+
     # The Table widget provides the ability to render a table from a 
     # list of objects (one for each row).
     #
@@ -93,4 +98,7 @@ module Erector
       end
     end
   end
+ end
+rescue LoadError => e
+  $stderr.puts "Erector::Widgets::Table requires active_support"
 end
