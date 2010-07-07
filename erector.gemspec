@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{erector}
-  s.version = "0.7.3"
+  s.version = "0.8.0"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Alex Chaffee", "Brian Takita", "Jeff Dean", "Jim Kingdon"]
-  s.date = %q{2010-06-09}
+  s.date = %q{2010-07-07}
   s.default_executable = %q{erector}
   s.description = %q{Html Builder library.}
   s.email = %q{erector@googlegroups.com}
