@@ -1,17 +1,39 @@
-== 0.8.0
+== 0.8.0 - 2010-07-07
 
-* deprecating to_s in favor of to_html
-* to_text does some formatting 
+Core:
+* deprecated to_s in favor of to_html
+* to_text does some formatting
 * barebones Sass support
 * "depends_on" is the new way to include JS and CSS files (replacing "external"). More flexible calling structure.
 * line wrapping via the :max_length parameter to to_html
+* line wrapping preserves leading and trailing spaces
 * jquery method takes optional first parameter (:load or :ready)
-* Rails 2.3.8 compatibility
 * delegate method_missing to parent widget
-* To render from a Rails context, you must now go through Erector::Rails.render; do not call to_s(:parent => @view) directly
 * 'embed' and 'param' are now self-closing tags (as per browser warnings)
+* Converted Widget#context to take a params hash.
+* Exposed an Output object, with rather useful #placeholder method 
+* Defined Widget#output to delegate to #parent if @parent is not already set.
+* Removed :parent param for Output#initialize in favor of a block.
+* Page#extra_widgets
+* Page only emits externals from widgets that have been rendered on it
+* in-memory widget caching (still experimental)
 
-== 0.7.3
+Rails:
+* Compatibility with Rails 2.3.5 HTML safety
+* Rails 2.3.8 compatibility
+* To render from a Rails context, you must now go through Erector::Rails.render; do not call to_s(:parent => @view) directly
+* rails_xss plugin support
+* additional render :widget options passed to to_s. This means that you can do:
+      render :widget => MyWidget, :content_method_name => :my_content
+* Widget#h is now idempotent
+
+Bugs:
+* [bug] http://github.com/pivotal/erector/issues/#issue/5
+* [bug] http://github.com/pivotal/erector/issues/closed#issue/3
+* [bug] double-rendering
+
+
+== 0.7.3 - 2009-12-01
 * fix bug in pass-block-to-new inline page rendering
 * externals can accept a File (or any IO, actually)
 

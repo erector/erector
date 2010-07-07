@@ -28,8 +28,11 @@
     <div class="main">
       <h1 class="title">Erector - Release Notes</h1>
       <div class="body"><h2>0.8.0</h2>
+<p>
+Core:
+</p>
 <ul>
-<li>deprecating to_s in favor of to_html
+<li>deprecated to_s in favor of to_html
 
 </li>
 <li>to_text does some formatting
@@ -45,25 +48,84 @@
 <li>line wrapping via the :max_length parameter to to_html
 
 </li>
+<li>line wrapping preserves leading and trailing spaces
+
+</li>
 <li>jquery method takes optional first parameter (:load or :ready)
 
 </li>
-<li>Rails 2.3.8 compatibility
-
-</li>
 <li>delegate method_missing to parent widget
-
-</li>
-<li>To render from a Rails context, you must now go through
-Erector::Rails.render; do not call to_s(:parent =&gt; @view) directly
 
 </li>
 <li>&#8216;embed&#8217; and &#8216;param&#8217; are now self-closing tags (as
 per browser warnings)
 
 </li>
+<li>Converted Widget#context to take a params hash.
+
+</li>
+<li>Exposed an Output object, with rather useful #placeholder method
+
+</li>
+<li>Defined Widget#output to delegate to #parent if @parent is not already set.
+
+</li>
+<li>Removed :parent param for Output#initialize in favor of a block.
+
+</li>
+<li>Page#extra_widgets
+
+</li>
+<li>Page only emits externals from widgets that have been rendered on it
+
+</li>
+<li>in-memory widget caching (still experimental)
+
+</li>
 </ul>
-<h2>0.7.3</h2>
+<p>
+Rails:
+</p>
+<ul>
+<li>Compatibility with Rails 2.3.5 HTML safety
+
+</li>
+<li>Rails 2.3.8 compatibility
+
+</li>
+<li>To render from a Rails context, you must now go through
+Erector::Rails.render; do not call to_s(:parent =&gt; @view) directly
+
+</li>
+<li>rails_xss plugin support
+
+</li>
+<li>additional render :widget options passed to to_s. This means that you can
+do:
+
+<pre>
+    render :widget =&gt; MyWidget, :content_method_name =&gt; :my_content
+</pre>
+</li>
+<li>Widget#h is now idempotent
+
+</li>
+</ul>
+<p>
+Bugs:
+</p>
+<ul>
+<li>[bug] http://github.com/pivotal/erector/issues/#issue/5
+
+</li>
+<li>[bug] http://github.com/pivotal/erector/issues/closed#issue/3
+
+</li>
+<li>[bug] double-rendering
+
+</li>
+</ul>
+<h2>0.7.3 - 2009-12-01</h2>
 <ul>
 <li>fix bug in pass-block-to-new inline page rendering
 

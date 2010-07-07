@@ -51,6 +51,10 @@ module Erector
       self
     end
 
+    # Inserts a blank string into the output stream and returns a pointer to it.
+    # If the caller holds on to this pointer, she can later go back and insert text
+    # earlier in the stream. This is used for, e.g., inserting stuff inside the
+    # HEAD element that is not known until after the entire page renders.
     def placeholder
       s = ""
       buffer << s
@@ -83,6 +87,8 @@ module Erector
       @indentation -= 1 if prettyprint
     end
 
+    # always append a newline, regardless of prettyprint setting
+    #todo: test
     def append_newline
       buffer << "\n"
       @current_line_length = 0
