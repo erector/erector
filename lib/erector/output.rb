@@ -62,11 +62,11 @@ module Erector
     end
 
     def to_s
-      RawString.new(buffer.to_s)
+      RawString.new(buffer.kind_of?(String) ? buffer : buffer.join)
     end
 
     def to_a
-      buffer.to_a
+      buffer.kind_of?(Array) ? buffer : [buffer]
     end
 
     def newline

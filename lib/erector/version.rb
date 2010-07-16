@@ -1,3 +1,5 @@
+require 'yaml'
+
 ##
 # Erector view framework
 module Erector
