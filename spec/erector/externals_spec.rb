@@ -98,6 +98,7 @@ module ExternalsSpec
         x[1].text.should == "bar.js"
         x[1].type.should == :js
       end
+
       it "adds multiple files from hash of different types" do
         x = Test.send :interpret_args, :js => ["foo.js", "bar.js"], :css=>'file.css'
         x.size.should == 3
@@ -105,6 +106,7 @@ module ExternalsSpec
         x.map(&:text).include?('bar.js')
         x.map(&:text).include?('file.css')
       end
+
       it "adds multiple files from hash and preserves the options" do
         x = Test.send :interpret_args, :js => ["foo.js", "bar.js"], :foo=>false
         x.size.should == 2
@@ -211,7 +213,7 @@ module ExternalsSpec
 
     it "#render_with_externals sticks the externals for all its rendered sub-widgets at the end of the output buffer" do
       s = Dinner.new.render_with_externals
-      s.to_s.should ==
+      s.join.should ==
         "<span>dinner</span>" +
           "<span>dessert</span>" +
           "<link href=\"/dessert.css\" media=\"all\" rel=\"stylesheet\" type=\"text/css\" />" +
@@ -222,7 +224,7 @@ module ExternalsSpec
     it "#render_externals returns externals for all rendered sub-widgets to an output buffer" do
       widget = Dinner.new
       widget.to_html
-      widget.render_externals.to_s.should ==
+      widget.render_externals.join.should ==
         "<link href=\"/dessert.css\" media=\"all\" rel=\"stylesheet\" type=\"text/css\" />" +
           "<script src=\"/dinner.js\" type=\"text/javascript\"></script>" +
           "<script src=\"/dessert.js\" type=\"text/javascript\"></script>"

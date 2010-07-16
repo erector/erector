@@ -9,4 +9,5 @@ group :development do
   gem "nokogiri"
   gem "jeweler"
   gem "haml"
+  gem "erubis"
 end

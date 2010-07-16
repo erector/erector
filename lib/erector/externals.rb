@@ -59,7 +59,7 @@ module Erector
             texts_hash[t] = options.delete(t) if options.has_key? t
           end
           texts_hash.each do |t, texts|
-            texts.each do |text|
+            [texts].flatten.each do |text|
               deps << interpret_args(t, text, options)
             end
           end
@@ -79,9 +79,10 @@ module Erector
 
     def render_with_externals(options_to_external_renderer = {})
       output = Erector::Output.new
-      self.to_a(:output => output)
+      self.to_a(:output => output) # render all the externals onto this new output buffer
       nested_widgets = output.widgets.to_a
-      externals = ExternalRenderer.new({:classes => nested_widgets}.merge(options_to_external_renderer)).to_html(:output => output)
+      renderer = ExternalRenderer.new({:classes => nested_widgets}.merge(options_to_external_renderer))
+      externals = renderer.to_a(:output => output)
       output.to_a
     end
 

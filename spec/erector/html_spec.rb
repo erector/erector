@@ -115,7 +115,7 @@ describe Erector::HTML do
         object = ['a', 'b']
         erector do
           element 'div', object
-        end.should == "<div>#{object.to_s}</div>"
+        end.should == "<div>#{CGI.escapeHTML object.to_s}</div>"
       end
     end
 
@@ -224,11 +224,12 @@ describe Erector::HTML do
 
     context "with a non-string, non-raw" do
       it "calls to_s and quotes" do
+        array = [7, "foo&bar"]
         erector do
           element 'a' do
-            text [7, "foo&bar"]
+            text array
           end
-        end.should == "<a>7foo&amp;bar</a>"
+        end.should == "<a>#{CGI.escapeHTML array.to_s}</a>"
       end
     end
   end
@@ -380,7 +381,7 @@ describe Erector::HTML do
       # be pretty confusing when this method can already take either a name or number
       lambda {
         erector { text character([]) }
-      }.should raise_error("Unrecognized argument to character: ")
+      }.should raise_error("Unrecognized argument to character: #{[].to_s}")
     end
   end
 

@@ -34,7 +34,7 @@ begin
       instance_variables_for_widget_assignment_for(cell)
     end
   end
-rescue NameError
+rescue NameError, ArgumentError
 end
 
 module Erector

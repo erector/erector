@@ -231,7 +231,9 @@ require File.expand_path("#{File.dirname(__FILE__)}/../spec_helper")
         widget.new.to_html(:content_method_name => :bar).should == "bar"
       end
 
-      it "works when passing an existing output as a parameter to to_html"
+      it "works when passing an existing output as a parameter to to_html" do
+        pending
+      end
     end
 
     describe '#widget' do
