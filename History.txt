@@ -1,6 +1,6 @@
-==
+== 0.8.1 - 2010-07-17
 
-
+Bugfix release to improve Ruby 1.9 compatibility
 
 == 0.8.0 - 2010-07-07
 
