@@ -2,10 +2,11 @@ dir = File.dirname(__FILE__)
 require "#{dir}/page"
 require "#{dir}/sidebar"
 
-require "rdoc/rdoc"
-
-require 'rdoc/markup/simple_markup'
-require 'rdoc/markup/simple_markup/to_html'
+require "rubygems"
+require "bundler"
+Bundler.setup
+require 'rdoc/markup'
+require 'rdoc/markup/to_html'
 
 class Index < Page
   def initialize
@@ -15,9 +16,7 @@ class Index < Page
   def readme
     text = File.read("#{File.dirname(__FILE__)}/../README.txt")
     text.gsub!(/^\= Erector/, '')
-    p = SM::SimpleMarkup.new
-    h = SM::ToHtml.new
-    text = p.convert(text, h)
+    text = RDoc::Markup::ToHtml.new.convert(text)
     text.gsub!(/Erector::Widget/, capture { a "Erector::Widget", :href=> "rdoc/classes/Erector/Widget.html" }.strip)
     text.gsub!(/\b(http:\/\/|mailto:)([\w\.\/@])*\b/) do |match|
       capture { url match }

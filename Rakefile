@@ -1,54 +1,54 @@
 require 'rubygems'
+require 'bundler'
+Bundler.setup
+
 require 'rake'
 require 'rake/testtask'
-require 'rake/rdoctask'
+require 'hanna/rdoctask'
 require 'rake/gempackagetask'
 require 'spec/rake/spectask'
-require './tasks/hoex.rb'  # Alex's patched version of Hoe
+require 'rdoc'
 
 $LOAD_PATH.unshift("#{File.dirname(__FILE__)}/lib")
 
 require "erector/version"
 
-gem_definition = lambda do |s|
-  s.name = "erector"
-  s.summary = "Html Builder library."
-  s.email = "erector@googlegroups.com"
-  s.description = "Html Builder library."
-  specs = Dir.glob("spec/**/*").reject{|file| file =~ %r{^spec/rails_root}}
-  s.files =  ["lib/**/*", "rails/init.rb", "README.txt", "VERSION.yml", "bin/erector", specs]
-  s.test_files =  specs
-end
-
 begin
   require 'jeweler'
-  Jeweler::Tasks.new do |s|
-    gem_definition.call(s)
-    s.homepage = "http://erector.rubyforge.org/"
-    s.authors = [
-      "Alex Chaffee",
-      "Brian Takita",
-      "Jeff Dean",
-      "Jim Kingdon",
+  Jeweler::Tasks.new do |gemspec|
+    gemspec.name = "erector"
+    gemspec.summary = "Html Builder library."
+    gemspec.email = "erector@googlegroups.com"
+    gemspec.description = "Erector is a Builder-like view framework, inspired by Markaby but overcoming some of its flaws. In Erector all views are objects, not template files, which allows the full power of object-oriented programming (inheritance, modular decomposition, encapsulation) in views."
+    specs = Dir.glob("spec/**/*").reject { |file| file =~ %r{^spec/rails_root} }
+    gemspec.files = FileList[
+            "lib/**/*",
+            "rails/init.rb",
+            "README.txt", "VERSION.yml",
+            "bin/erector",
     ]
-    s.add_dependency 'treetop', ">= 1.2.3"
-    s.rubyforge_project = "erector"
+    gemspec.executables = ["erector"]
+    gemspec.test_files =  specs
+    gemspec.homepage = "http://erector.rubyforge.org/"
+    gemspec.authors = [
+            "Alex Chaffee",
+            "Brian Takita",
+            "Jeff Dean",
+            "Jim Kingdon",
+    ]
+    gemspec.add_dependency 'treetop', ">= 1.2.3"
+    gemspec.add_dependency 'rake'
+    gemspec.rubyforge_project = "erector"
   end
+
+  Jeweler::RubyforgeTasks.new do |rubyforge|
+    rubyforge.doc_task = "rdoc"
+    rubyforge.remote_doc_path = "rdoc"
+  end
+
 rescue LoadError
-  puts "Jeweler, or one of its dependencies, is not available. Install it with: sudo gem install technicalpickles-jeweler -s http://gems.github.com"
+  puts "Jeweler, or one of its dependencies, is not available. Install it with: sudo gem install jeweler"
 end
-
-Hoe.new("erector", Erector::VERSION) do |hoe|
-  gem_definition.call(hoe)
-  hoe.developer("Pivotal Labs", "pivotallabsopensource@googlegroups.com")
-  hoe.rdoc_dir = "rdoc"
-  hoe.remote_rdoc_dir = "rdoc"
-
-  # Many of these options are based on what will work with rubyforge and
-  # groups and permissions
-  hoe.rsync_args = "-rlv --delete --inplace --exclude .svn"
-end
-Hoe::remove_tasks("audit", "check_manifest", "post_blog", "multi", "test", "test_deps", "docs")
 
 desc "Default: run tests"
 task :default => :spec
@@ -66,19 +66,35 @@ desc "Build the web site from the .rb files in web/"
 task :web do
   files = Dir["web/*.rb"] - ["web/page.rb", "web/sidebar.rb", "web/clickable_li.rb"]
   require 'erector'
-  require 'erector/erect'
+  require 'erector/erect/erect'
+  $: << "."
   Erector::Widget.prettyprint_default = true
-  Erector::Erect.new(["--to-html", *files]).run
+  Erector::Erect.new(["--to-html", * files]).run
 end
 
 desc "Generate rdoc"
-task :docs do
+task :docs => :rdoc
+
+task :rdoc => :clean_rdoc
+task :clean_rdoc do
   FileUtils.rm_rf("rdoc")
-  options = %w(-o rdoc --inline-source --main README.txt)
-  options << "-t \"Erector #{Erector::VERSION}\""
-  options << '-d' if RUBY_PLATFORM !~ /win32/ and `which dot` =~ /\/dot/ and not ENV['NODOT']
-  system "rdoc #{options.join(" ")} lib bin README.txt"
 end
+
+# push the docs to Rubyforge
+task :publish_docs => :"rubyforge:release:docs"
+
+Rake::RDocTask.new(:rdoc) do |rdoc|
+  rdoc.rdoc_dir = 'rdoc'
+  rdoc.title    = "Erector #{Erector::VERSION}"
+  rdoc.options << '--inline-source' << "--promiscuous"
+  rdoc.options << "--template=hanna"
+  rdoc.options << "--main=README.txt"
+#  rdoc.options << '--diagram' if RUBY_PLATFORM !~ /win32/ and `which dot` =~ /\/dot/ and not ENV['NODOT']
+  rdoc.rdoc_files.include('README.txt')
+  rdoc.rdoc_files.include('lib/**/*.rb')
+  rdoc.rdoc_files.include('bin/**/*')
+end
+
 
 desc "Clone the rails git repository and configure it for testing."
 task(:clone_rails) do
@@ -124,8 +140,8 @@ desc "Regenerate unicode.rb from UnicodeData.txt from unicode.org.  Only needs t
 task(:build_unicode) do
   require 'lib/erector/unicode_builder'
   builder = Erector::UnicodeBuilder.new(
-    File.open("/usr/lib/perl5/5.8.8/unicore/UnicodeData.txt"),
-    File.open("lib/erector/unicode.rb", "w")
+          File.open("/usr/lib/perl5/5.8.8/unicore/UnicodeData.txt"),
+          File.open("lib/erector/unicode.rb", "w")
   )
   builder.generate
 end
@@ -133,12 +149,12 @@ end
 task :print_environment do
   puts <<-ENVIRONMENT
 Build environment:
-  #{`uname -a`.chomp}
+     #{`uname -a`.chomp}
   #{`ruby -v`.chomp}
-  SQLite3: #{`sqlite3 -version`}
-#{`gem env`}
+  SQLite3:    #{`sqlite3 -version`}
+  #{`gem env`}
 Local gems:
-#{`gem list`.gsub(/^/, '  ')}
+   #{`gem list`.gsub(/^/, '  ')}
   ENVIRONMENT
 end
 

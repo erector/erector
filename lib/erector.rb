@@ -24,6 +24,7 @@ require "erector/html"
 require "erector/convenience"
 require "erector/jquery"
 require "erector/sass"
+require "erector/abstract_widget"
 require "erector/widget"
 
 require "erector/inline"

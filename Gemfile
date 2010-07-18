@@ -1,8 +1,11 @@
 source "http://rubygems.org"
 
 gem "treetop"
+gem "rake"
 
 group :development do
+  gem "rack", "1.1.0"
+  gem "activesupport"
   gem "rubyforge"
   gem "rspec"
   gem "rr"
@@ -10,5 +13,6 @@ group :development do
   gem "jeweler"
   gem "haml"
   gem "erubis"
-  gem "activesupport"
+  gem "rdoc", "2.3.0"
+  gem "hanna", :git => "git://github.com/mislav/hanna.git"
 end

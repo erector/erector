@@ -7,6 +7,9 @@ RAILS_LOAD_PATHS.each do |path|
 end
 
 require "rubygems"
+require "bundler"
+Bundler.setup
+
 require "erector"
 require "nokogiri"
 require "rr"
