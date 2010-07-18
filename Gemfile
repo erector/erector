@@ -10,4 +10,5 @@ group :development do
   gem "jeweler"
   gem "haml"
   gem "erubis"
+  gem "activesupport"
 end
