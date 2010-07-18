@@ -1,3 +1,8 @@
+== 
+
+Bugs:
+* Dependency did not correctly work with uniq (reported by Daniel Barlow)
+
 == 0.8.1 - 2010-07-17
 
 Bugfix release to improve Ruby 1.9 compatibility
