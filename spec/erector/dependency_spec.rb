@@ -28,19 +28,40 @@ module DependencySpec
       x.text.should == "sample file contents, 2 + 2 = 4\n"
     end
 
-    it "is equal to an identical external" do
-      x = Erector::Dependency.new(:foo, "abc", {:bar => 7})
-      y = Erector::Dependency.new(:foo, "abc", {:bar => 7})
-      x.should == y
-      [x].should include(y)
-    end
+    describe "comparison methods" do
+      before do
+        @castor = Erector::Dependency.new(:foo, "abc", {:bar => 7})
+        @pollux = Erector::Dependency.new(:foo, "abc", {:bar => 7})
+        @leo = Erector::Dependency.new(:foo, "abc")
+        @pisces = Erector::Dependency.new(:foo, "xyz", {:bar => 7})
+      end
 
-    it "is not equal to an otherwise identical external with different options" do
-      x = Erector::Dependency.new(:foo, "abc")
-      y = Erector::Dependency.new(:foo, "abc", {:bar => 7})
-      x.should_not == y
-      [x].should_not include(y)
-    end
+      it "is equal to an identical external" do
+        @castor.should == @pollux
+        [@castor].should include(@pollux)
+        @castor.eql?(@pollux).should be_true
+        @castor.hash.should == @pollux.hash
+      end
 
+      it "is not equal to an otherwise identical external with different options" do
+        @castor.should_not == @leo
+        [@castor].should_not include(@leo)
+        @castor.eql?(@leo).should_not be_true
+        @castor.hash.should_not == @leo.hash
+      end
+
+      it "is not equal to a different external with the same options" do
+        @castor.should_not == @pisces
+        [@castor].should_not include(@pisces)
+        @castor.eql?(@pisces).should_not be_true
+        @castor.hash.should_not == @pisces.hash
+      end
+
+      # see http://blog.nathanielbibler.com/post/73525836/using-the-ruby-array-uniq-with-custom-classes
+      it "works with uniq" do
+        [@castor, @pollux, @leo].uniq.should == [@castor, @leo]
+      end
+
+    end
   end
 end
