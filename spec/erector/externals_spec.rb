@@ -16,6 +16,7 @@ module ExternalsSpec
     end
 
     it "calls #interpret_args with given arguments and passes result to #push_dependency" do
+      pending "RR problem with Ruby 1.9" if RUBY_VERSION >= "1.9.0"
       mock(Erector::Widget).interpret_args(*@args).returns(@result)
       Erector::Widget.depends_on *@args
     end

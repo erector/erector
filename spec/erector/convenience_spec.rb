@@ -13,6 +13,7 @@ describe Erector::Convenience do
     end
 
     it "passes extra options through to to_html" do
+      pending "RR problem with Ruby 1.9" if RUBY_VERSION >= "1.9.0"
       widget = Erector.inline do
         div "foo"
       end
