@@ -1,13 +1,13 @@
 module Erector
   module HTML
     module ClassMethods
-      # Tags which are always self-closing. Click "[Source]" to see the full list.
+      # Tags which are always self-closing. Click "[show source]" to see the full list.
       def empty_tags
         ['area', 'base', 'br', 'col', 'embed', 'frame',
         'hr', 'img', 'input', 'link', 'meta', 'param']
       end
 
-      # Tags which can contain other stuff. Click "[Source]" to see the full list.
+      # Tags which can contain other stuff. Click "[show source]" to see the full list.
       def full_tags
         [
           'a', 'abbr', 'acronym', 'address', 'article', 'aside', 'audio',
