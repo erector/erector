@@ -31,9 +31,8 @@
 Bugs:
 </p>
 <ul>
-<li><p>
-Dependency did not correctly work with uniq (reported by Daniel Barlow)
-</p>
+<li>Dependency did not correctly work with uniq (reported by Daniel Barlow)
+
 </li>
 </ul>
 <h2>0.8.1 - 2010-07-17</h2>
@@ -45,144 +44,108 @@ Bugfix release to improve Ruby 1.9 compatibility
 Core:
 </p>
 <ul>
-<li><p>
-deprecated to_s in favor of to_html
-</p>
+<li>deprecated to_s in favor of to_html
+
 </li>
-<li><p>
-to_text does some formatting
-</p>
+<li>to_text does some formatting
+
 </li>
-<li><p>
-barebones Sass support
-</p>
+<li>barebones Sass support
+
 </li>
-<li><p>
-&#8220;depends_on&#8221; is the new way to include JS and CSS files
+<li>&#8220;depends_on&#8221; is the new way to include JS and CSS files
 (replacing &#8220;external&#8221;). More flexible calling structure.
-</p>
+
 </li>
-<li><p>
-line wrapping via the :max_length parameter to to_html
-</p>
+<li>line wrapping via the :max_length parameter to to_html
+
 </li>
-<li><p>
-line wrapping preserves leading and trailing spaces
-</p>
+<li>line wrapping preserves leading and trailing spaces
+
 </li>
-<li><p>
-jquery method takes optional first parameter (:load or :ready)
-</p>
+<li>jquery method takes optional first parameter (:load or :ready)
+
 </li>
-<li><p>
-delegate method_missing to parent widget
-</p>
+<li>delegate method_missing to parent widget
+
 </li>
-<li><p>
-&#8216;embed&#8217; and &#8216;param&#8217; are now self-closing tags (as
+<li>&#8216;embed&#8217; and &#8216;param&#8217; are now self-closing tags (as
 per browser warnings)
-</p>
+
 </li>
-<li><p>
-Converted Widget#context to take a params hash.
-</p>
+<li>Converted Widget#context to take a params hash.
+
 </li>
-<li><p>
-Exposed an Output object, with rather useful #placeholder method 
-</p>
+<li>Exposed an Output object, with rather useful #placeholder method
+
 </li>
-<li><p>
-Defined Widget#output to delegate to #parent if @parent is not already set.
-</p>
+<li>Defined Widget#output to delegate to #parent if @parent is not already set.
+
 </li>
-<li><p>
-Removed :parent param for Output#initialize in favor of a block.
-</p>
+<li>Removed :parent param for Output#initialize in favor of a block.
+
 </li>
-<li><p>
-Page#extra_widgets
-</p>
+<li>Page#extra_widgets
+
 </li>
-<li><p>
-Page only emits externals from widgets that have been rendered on it
-</p>
+<li>Page only emits externals from widgets that have been rendered on it
+
 </li>
-<li><p>
-in-memory widget caching (still experimental)
-</p>
+<li>in-memory widget caching (still experimental)
+
 </li>
 </ul>
 <p>
 Rails:
 </p>
 <ul>
-<li><p>
-Compatibility with Rails 2.3.5 HTML safety
-</p>
+<li>Compatibility with Rails 2.3.5 HTML safety
+
 </li>
-<li><p>
-Rails 2.3.8 compatibility
-</p>
+<li>Rails 2.3.8 compatibility
+
 </li>
-<li><p>
-To render from a Rails context, you must now go through
+<li>To render from a Rails context, you must now go through
 Erector::Rails.render; do not call to_s(:parent => @view) directly
-</p>
+
 </li>
-<li><p>
-rails_xss plugin support
-</p>
+<li>rails_xss plugin support
+
 </li>
-<li><p>
-additional render :widget options passed to to_s. This means that you can
+<li>additional render :widget options passed to to_s. This means that you can
 do:
-</p>
+
 <pre>
     render :widget =&gt; MyWidget, :content_method_name =&gt; :my_content
 </pre>
 </li>
-<li><p>
-Widget#h is now idempotent
-</p>
+<li>Widget#h is now idempotent
+
 </li>
 </ul>
 <p>
 Bugs:
 </p>
 <ul>
-<li><dl>
-<dt>bug</dt><dd><p>
-<a
+<li>[bug] <a
 href="http://github.com/pivotal/erector/issues/#issue/5">github.com/pivotal/erector/issues/#issue/5</a>
-</p>
-</dd>
-</dl>
+
 </li>
-<li><dl>
-<dt>bug</dt><dd><p>
-<a
+<li>[bug] <a
 href="http://github.com/pivotal/erector/issues/closed#issue/3">github.com/pivotal/erector/issues/closed#issue/3</a>
-</p>
-</dd>
-</dl>
+
 </li>
-<li><dl>
-<dt>bug</dt><dd><p>
-double-rendering
-</p>
-</dd>
-</dl>
+<li>[bug] double-rendering
+
 </li>
 </ul>
 <h2>0.7.3 - 2009-12-01</h2>
 <ul>
-<li><p>
-fix bug in pass-block-to-new inline page rendering
-</p>
+<li>fix bug in pass-block-to-new inline page rendering
+
 </li>
-<li><p>
-externals can accept a File (or any IO, actually)
-</p>
+<li>externals can accept a File (or any IO, actually)
+
 </li>
 </ul>
 <p>
@@ -208,268 +171,208 @@ Erector tool:
 </pre>
 <h2>0.7.2 - 2009-11-16</h2>
 <ul>
-<li><p>
-Widget#url and #css accept optional extra attributes (e.g.
+<li>Widget#url and #css accept optional extra attributes (e.g.
 &#8216;media&#8217;)
-</p>
+
 </li>
-<li><p>
-Externals accept optional extra attributes (e.g. &#8216;media&#8217;)
-</p>
+<li>Externals accept optional extra attributes (e.g. &#8216;media&#8217;)
+
 </li>
-<li><p>
-Page:
-</p>
+<li>Page:
+
 <ul>
-<li><p>
-body_attributes and html_attributes
-</p>
+<li>body_attributes and html_attributes
+
 </li>
-</ul>
-<ul>
-<li><p>
-allow suppressing of basic styles (right/left/clear)
-</p>
+<li>allow suppressing of basic styles (right/left/clear)
+
 </li>
-</ul>
-<ul>
-<li><p>
-now an InlineWidget
-</p>
+<li>now an InlineWidget
+
 </li>
 </ul>
 </li>
-<li><p>
-erector method passes in parameters to both to_s and the widget&#8217;s
+<li>erector method passes in parameters to both to_s and the widget&#8217;s
 constructor
-</p>
+
 </li>
-<li><p>
-Widget#dom_id method to generate a unique id
-</p>
+<li>Widget#dom_id method to generate a unique id
+
 </li>
-<li><p>
-Widget#to_text method to strip tags
-</p>
+<li>Widget#to_text method to strip tags
+
 </li>
-<li><p>
-supports HTML5 element names
-</p>
+<li>supports HTML5 element names
+
 </li>
-<li><p>
-Widget#text! and #element! which don&#8217;t escape their parameters
-</p>
+<li>Widget#text! and #element! which don&#8217;t escape their parameters
+
 </li>
-<li><p>
-Better Rails initialization
-</p>
+<li>Better Rails initialization
+
 </li>
-<li><p>
-Don&#8217;t emit an attribute with an empty array of values
-</p>
+<li>Don&#8217;t emit an attribute with an empty array of values
+
 </li>
-<li><p>
-Enhanced support for comments, including IE conditional comments
-</p>
+<li>Enhanced support for comments, including IE conditional comments
+
 </li>
-<li><p>
-jQuery method now compatible with jQuery.noConflict()
-</p>
+<li>jQuery method now compatible with jQuery.noConflict()
+
 </li>
 </ul>
 <h2>0.7.1</h2>
 <ul>
-<li><p>
-externals mechanism
-</p>
+<li>externals mechanism
+
 </li>
-<li><p>
-Page widget
-</p>
+<li>Page widget
+
 </li>
-<li><p>
-FieldTable widget
-</p>
+<li>FieldTable widget
+
 </li>
-<li><p>
-EnvironmentBadge widget - inspired by <a
+<li>EnvironmentBadge widget - inspired by <a
 href="http://blog.labnotes.org/2009/10/08/using-a-badge-to-distinguish-development-and-production-environments">blog.labnotes.org/2009/10/08/using-a-badge-to-distinguish-development-and-production-environments</a>
-</p>
+
 </li>
-<li><p>
-added &#8216;jquery&#8217; method to perform a script on $(document).ready
-</p>
+<li>added &#8216;jquery&#8217; method to perform a script on $(document).ready
+
 </li>
-<li><p>
-removed the &#8220;alias_method :inspect, :to_s&#8221; since it made
+<li>removed the &#8220;alias_method :inspect, :to_s&#8221; since it made
 debugging inside widget constructors hard, and what was it for anyway?
-</p>
+
 </li>
-<li><p>
-Instance variables may begin with a &#8217;@&#8217;
-</p>
+<li>Instance variables may begin with a &#8217;@&#8217;
+
 </li>
-<li><p>
-Fixed Rails integration regressions
-</p>
+<li>Fixed Rails integration regressions
+
 </li>
-<li><p>
-Added *.ert templates (Erector Template, similar to Markaby)
-</p>
+<li>Added *.ert templates (Erector Template, similar to Markaby)
+
 </li>
-<li><p>
-#comment method to emit HTML comments (naturally)
-</p>
+<li>#comment method to emit HTML comments (naturally)
+
 </li>
 </ul>
 <h2>0.7.0 / 2009-09-27</h2>
 <ul>
-<li><p>
-Changed behavior of inline blocks. See Widget#new documentation.
-</p>
+<li>Changed behavior of inline blocks. See Widget#new documentation.
+
 </li>
-<li><p>
-Introduced &#8220;Erector::Inline&#8221; and &#8220;Erector.inline&#8221;
+<li>Introduced &#8220;Erector::Inline&#8221; and &#8220;Erector.inline&#8221;
 so people using the old inline semantics can upgrade more easily.
-</p>
+
 </li>
-<li><p>
-Likewise for &#8220;Erector::InlineRailsWidget&#8221; and
+<li>Likewise for &#8220;Erector::InlineRailsWidget&#8221; and
 &#8220;Erector::RailsWidget.inline&#8221;.
-</p>
+
 </li>
-<li><p>
-Due to popular demand, parameters no longer automatically create accessor
+<li>Due to popular demand, parameters no longer automatically create accessor
 methods, even if you declare them with &#8216;needs&#8217;. You&#8217;ll
 have to type out &#8220;attr_accessor :underpants&#8221; yourself.
-</p>
+
 </li>
 </ul>
 <h2>0.6.8 / 2009-09</h2>
 <ul>
-<li><p>
-Added missing tag &#8216;embed&#8217;
-</p>
+<li>Added missing tag &#8216;embed&#8217;
+
 </li>
 </ul>
 <h2>0.6.7 / 2009-06-17</h2>
 <ul>
-<li><p>
-Fixed bug where needs did not get propagated when including modules.
-</p>
+<li>Fixed bug where needs did not get propagated when including modules.
+
 </li>
 </ul>
 <h2>0.6.6 / 2009-05-25</h2>
 <ul>
-<li><p>
-fix to_a bug that slipped in yesterday when I wasn&#8217;t looking
-</p>
+<li>fix to_a bug that slipped in yesterday when I wasn&#8217;t looking
+
 </li>
-<li><p>
-attempting to assign a local variable that overlaps with an internal one
+<li>attempting to assign a local variable that overlaps with an internal one
 raises error
-</p>
+
 </li>
-<li><p>
-attempting to &#8216;needs&#8217; a variable that overlaps with an existing
+<li>attempting to &#8216;needs&#8217; a variable that overlaps with an existing
 method raises error
-</p>
+
 </li>
 </ul>
 <h2>0.6.4 / 2009-05-24</h2>
 <ul>
-<li><p>
-mixin: do &#8220;include Erector::Mixin&#8221; and now &#8220;erector {
+<li>mixin: do &#8220;include Erector::Mixin&#8221; and now &#8220;erector {
 }&#8221; will instantiate and to_html a widget for you
-</p>
+
 </li>
-<li><p>
-&#8220;erector&#8221; command-line tool improved:
-</p>
+<li>&#8220;erector&#8221; command-line tool improved:
+
 <ul>
-<li><p>
-if converting an HTML/ERB file under a &#8220;views&#8221; directory, uses
+<li>if converting an HTML/ERB file under a &#8220;views&#8221; directory, uses
 &#8220;Erector::RailsWidget&#8221; as parent class
-</p>
+
 </li>
-</ul>
-<ul>
-<li><p>
-no longer chokes on &#8220;if IE&#8221; directives
-</p>
+<li>no longer chokes on &#8220;if IE&#8221; directives
+
 </li>
-</ul>
-<ul>
-<li><p>
-changes &#8216;yield&#8217; in a scriptlet to use a missing
+<li>changes &#8216;yield&#8217; in a scriptlet to use a missing
 &#8220;@content_for_layout&#8220;
-</p>
+
 </li>
-</ul>
-<ul>
-<li><p>
-escapes single quotes inside text strings
-</p>
+<li>escapes single quotes inside text strings
+
 </li>
 </ul>
 </li>
-<li><p>
-requires treetop 1.2.5
-</p>
+<li>requires treetop 1.2.5
+
 </li>
-<li><p>
-documentation overhaul, web site arguably prettier
-</p>
+<li>documentation overhaul, web site arguably prettier
+
 </li>
 </ul>
 <h2>0.6.3 / 2009-05-06</h2>
 <ul>
-<li><p>
-Major update to API. You <b>will</b> have to change your code. There are
+<li>Major update to API. You <b>will</b> have to change your code. There are
 deprecation warnings/errors
-</p>
+
 </li>
 </ul>
 <p>
 and there should be an upgrade guide up on the website soon.
 </p>
 <ul>
-<li><p>
-&#8216;render&#8217; renamed to &#8216;content&#8217;
-</p>
+<li>&#8216;render&#8217; renamed to &#8216;content&#8217;
+
 </li>
-<li><p>
-widget constructor only takes one parameter, an &#8216;assigns&#8217; hash
+<li>widget constructor only takes one parameter, an &#8216;assigns&#8217; hash
 (plus the optional default block)
-</p>
+
 </li>
-<li><p>
-to render one widget from inside another, use the &#8216;widget&#8217;
-method (not &#8216;render_to&#8217;). This method 
-</p>
+<li>to render one widget from inside another, use the &#8216;widget&#8217;
+method (not &#8216;render_to&#8217;). This method
+
 </li>
 </ul>
 <p>
 accepts either a widget instance, or a widget class and an assigns hash.
 </p>
 <ul>
-<li><p>
-&#8216;needs&#8217; macro to declare the variables your widget accepts via
+<li>&#8216;needs&#8217; macro to declare the variables your widget accepts via
 the &#8216;assigns&#8217; constructor parameter
-</p>
+
 </li>
-<li><p>
-Removed Widget#to_html caching, which fixed indentation issues.
-</p>
+<li>Removed Widget#to_html caching, which fixed indentation issues.
+
 </li>
-<li><p>
-BUGFIX: Indentation level is now correctly propagated to nested widgets.
-</p>
+<li>BUGFIX: Indentation level is now correctly propagated to nested widgets.
+
 </li>
-<li><p>
-Erector&#8217;s Rails support strategy has changed. The released version of
+<li>Erector&#8217;s Rails support strategy has changed. The released version of
 Erector only supports the latest stable
-</p>
+
 </li>
 </ul>
 <p>
@@ -479,295 +382,236 @@ in the habit of keeping these up to date with the latest features and
 patches.
 </p>
 <ul>
-<li><p>
-Renamed the command line tool to &#8216;erector&#8217;
-</p>
+<li>Renamed the command line tool to &#8216;erector&#8217;
+
 </li>
 </ul>
 <h2>0.5.1</h2>
 <ul>
-<li><p>
-Added methods to easily render additional HTML elements (col, object, and
-about a dozen others).  There are now methods for all non-deprecated
-elements from the HTML 4.0.1 spec.  As before, if erector doesn&#8217;t
-have a method built-in, you can still call the element or empty_element
-method to output any tag.
-</p>
+<li>Added methods to easily render additional HTML elements (col, object, and
+about a dozen others). There are now methods for all non-deprecated
+elements from the HTML 4.0.1 spec. As before, if erector doesn&#8217;t have
+a method built-in, you can still call the element or empty_element method
+to output any tag.
+
 </li>
-<li><p>
-The method instruct!, which was a deprecated synonym for instruct, has been
+<li>The method instruct!, which was a deprecated synonym for instruct, has been
 removed.
-</p>
+
 </li>
-<li><p>
-Fixed bug in resolving view files for pluralized controllers
-</p>
+<li>Fixed bug in resolving view files for pluralized controllers
+
 </li>
 </ul>
 <h3>0.5.0 / 2008-12-13</h3>
 <ul>
-<li><p>
-install_dependencies refreshes the rails_versions directory
-</p>
+<li>install_dependencies refreshes the rails_versions directory
+
 </li>
-<li><p>
-Widget takes a string instead of an IO object to be more compatible with
+<li>Widget takes a string instead of an IO object to be more compatible with
 Rails.
-</p>
+
 </li>
-<li><p>
-Removed Doc
-</p>
+<li>Removed Doc
+
 </li>
-<li><p>
-Widget writes directly to output string instead of to #doc
-</p>
+<li>Widget writes directly to output string instead of to #doc
+
 </li>
 </ul>
 <h3>0.4.200 / 2008-10-11</h3>
 <ul>
-<li><p>
-Erector can now pretty-print the generated HTML to make it easier to read.
-</p>
+<li>Erector can now pretty-print the generated HTML to make it easier to read.
+
 </li>
-<li><p>
-Add join method to Erector::Widget.
-</p>
+<li>Add join method to Erector::Widget.
+
 </li>
 </ul>
 <h3>0.4.191 / 2008-07-29</h3>
 <ul>
-<li><p>
-Renamed HtmlParts to Doc
-</p>
+<li>Renamed HtmlParts to Doc
+
 </li>
-<li><p>
-Widget#doc is now a HtmlParts which proxies to the passed in IO stream
-</p>
+<li>Widget#doc is now a HtmlParts which proxies to the passed in IO stream
+
 </li>
-<li><p>
-Better compatibility with standard Rails rendering because
+<li>Better compatibility with standard Rails rendering because
 ActionController::Base#render and #render_widget now have the Widget write
 directly to _erbout.
-</p>
+
 </li>
-<li><p>
-ActionView::Base objects run with Erector now receive all of the instance
+<li>ActionView::Base objects run with Erector now receive all of the instance
 variables
-</p>
+
 </li>
-<li><p>
-Erector works with erb layouts
-</p>
+<li>Erector works with erb layouts
+
 </li>
-<li><p>
-Deprecate fake_erbout
-</p>
+<li>Deprecate fake_erbout
+
 </li>
-<li><p>
-Better handling for file with .html.rb extension.
-</p>
+<li>Better handling for file with .html.rb extension.
+
 </li>
-<li><p>
-Fix overwriting issue when using Rails helpers
-</p>
+<li>Fix overwriting issue when using Rails helpers
+
 </li>
-<li><p>
-New method Widget#character
-</p>
+<li>New method Widget#character
+
 </li>
-<li><p>
-Widget#nbsp without arguments now outputs a single non-breaking space.
-</p>
+<li>Widget#nbsp without arguments now outputs a single non-breaking space.
+
 </li>
 </ul>
 <h3>0.3.110 / 2008-05-29</h3>
 <ul>
-<li><p>
-support capture from rails helpers, allowing form_for/form_tag to work
+<li>support capture from rails helpers, allowing form_for/form_tag to work
 right
-</p>
+
 </li>
-<li><p>
-fix bug in view_paths support (finding views was hosed)
-</p>
+<li>fix bug in view_paths support (finding views was hosed)
+
 </li>
 </ul>
 <h3>0.3.105 / 2008-05-29</h3>
 <ul>
-<li><p>
-Lots of changes to support Rails integration better.
-</p>
+<li>Lots of changes to support Rails integration better.
+
 </li>
-<li><p>
-Add partial support for render :partial.
-</p>
+<li>Add partial support for render :partial.
+
 </li>
-<li><p>
-More Rails helpers proxies added to helpers.rb.
-</p>
+<li>More Rails helpers proxies added to helpers.rb.
+
 </li>
-<li><p>
-Fake erbouts can now nest, allowing better support for Rails helpers like
+<li>Fake erbouts can now nest, allowing better support for Rails helpers like
 form_for (though they&#8217;re currently capped at 10 deep to head off
 infinite regress).
-</p>
+
 </li>
-<li><p>
-Rails finds both .rb and .html.rb files inside the app/views directories.
-</p>
+<li>Rails finds both .rb and .html.rb files inside the app/views directories.
+
 </li>
-<li><p>
-Use Rails view_paths instead of hardcoded RAILS_ROOT/app/views (patch by
+<li>Use Rails view_paths instead of hardcoded RAILS_ROOT/app/views (patch by
 Rami Grossman)
-</p>
+
 </li>
-<li><p>
-add &#8216;url&#8217; and &#8216;css&#8217; convenience methods to Widget
-</p>
+<li>add &#8216;url&#8217; and &#8216;css&#8217; convenience methods to Widget
+
 </li>
 </ul>
 <h3>0.2.83 / 2008-04-23</h3>
 <ul>
-<li><p>
-&#8220;erect&#8221; supports command-line options
-</p>
+<li>&#8220;erect&#8221; supports command-line options
+
 </li>
-<li><p>
-&#8220;erect&#8221; now works backwards &#8212; you can output static html
+<li>&#8220;erect&#8221; now works backwards &#8212; you can output static html
 from a widget.rb file
-</p>
+
 </li>
-<li><p>
-The web site is generated from erector classes (still pretty minimal
+<li>The web site is generated from erector classes (still pretty minimal
 though)
-</p>
+
 </li>
 </ul>
 <h3>0.2.61 / 2008-04-18</h3>
 <ul>
-<li><p>
-Improvements to &#8220;erect&#8220;
-</p>
+<li>Improvements to &#8220;erect&#8220;
+
 <ul>
-<li><p>
-works on HTML attributes (including namespaced attributes and hyphenated
+<li>works on HTML attributes (including namespaced attributes and hyphenated
 attributes)
-</p>
+
 </li>
-</ul>
-<ul>
-<li><p>
-works on directories (recursively looking for .html and .html.erb and
+<li>works on directories (recursively looking for .html and .html.erb and
 .rhtml files)
-</p>
+
 </li>
-</ul>
-<ul>
-<li><p>
-converts DOCTYPE nodes
-</p>
+<li>converts DOCTYPE nodes
+
 </li>
-</ul>
-<ul>
-<li><p>
-deals with HTML entities inside text and attributes
-</p>
+<li>deals with HTML entities inside text and attributes
+
 </li>
 </ul>
 </li>
 </ul>
 <h3>0.2.54 / 2008-04-15</h3>
 <ul>
-<li><p>
-New script &#8220;erect&#8221; to convert (some) .html.erb files into
+<li>New script &#8220;erect&#8221; to convert (some) .html.erb files into
 erector classes.
-</p>
+
 </li>
 </ul>
 <h3>0.2.42 / 2008-04-11</h3>
 <ul>
-<li><p>
-Rails Controller now can render Erector widgets using #render
-</p>
+<li>Rails Controller now can render Erector widgets using #render
+
 </li>
-<li><p>
-Erector views can live inside Rails &#8220;app/views&#8221; directory, just
+<li>Erector views can live inside Rails &#8220;app/views&#8221; directory, just
 like other views
-</p>
+
 </li>
 </ul>
 <h3>0.1.25 / 2008-02-26</h3>
 <ul>
-<li><p>
-nbsp method
-</p>
+<li>nbsp method
+
 </li>
-<li><p>
-:class => [&#8216;one&#8217;, &#8216;two&#8217;]  (that is, passing an
-array rather than a string)
-</p>
+<li>:class => [&#8216;one&#8217;, &#8216;two&#8217;] (that is, passing an array
+rather than a string)
+
 </li>
 </ul>
 <p>
 &#8230; perhaps one or two I forgot.
 </p>
 <ul>
-<li><p>
-rename tag to element
-</p>
+<li>rename tag to element
+
 </li>
-<li><p>
-add empty_element feature
-</p>
+<li>add empty_element feature
+
 </li>
-<li><p>
-for the built-in HTML tags, knows which ones should be empty and which
+<li>for the built-in HTML tags, knows which ones should be empty and which
 shouldn&#8217;t be. For example, generates `<input />` rather than
 `<input></input>`
-</p>
+
 </li>
-<li><p>
-text and attributes are quoted by default; call raw to avoid this
-</p>
+<li>text and attributes are quoted by default; call raw to avoid this
+
 </li>
-<li><p>
-h is rarely necessary now, but it returns a string rather than appending to
+<li>h is rarely necessary now, but it returns a string rather than appending to
 the buffer
-</p>
+
 </li>
-<li><p>
-nbsp method turns spaces into non-breaking spaces
-</p>
+<li>nbsp method turns spaces into non-breaking spaces
+
 </li>
-<li><p>
-sending in an array for attribute values (typically CSS classes)
+<li>sending in an array for attribute values (typically CSS classes)
 concatenates them separated by spaces
-</p>
+
 </li>
-<li><p>
-The column definition name can be a Proc that gets executed.
-</p>
+<li>The column definition name can be a Proc that gets executed.
+
 </li>
-<li><p>
-Renamed instruct! to instruct (old one remains as a deprecated method for
+<li>Renamed instruct! to instruct (old one remains as a deprecated method for
 now), as it is no more side-effecting (or dangerous or whatever) than any
 other method in Widget.
-</p>
+
 </li>
 </ul>
 <h3>0.1.0 / 2008-02-13</h3>
 <ul>
-<li><p>
-First public release
-</p>
+<li>First public release
+
 </li>
 </ul>
 <h3>0.0.1</h3>
 <ul>
-<li><p>
-Was on pivotalrb.rubyforge.org
-</p>
+<li>Was on pivotalrb.rubyforge.org
+
 </li>
 </ul>
 </div>

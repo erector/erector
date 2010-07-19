@@ -4,6 +4,7 @@ Bundler.setup
 
 require 'rake'
 require 'rake/testtask'
+#require 'rake/rdoctask'
 require 'hanna/rdoctask'
 require 'rake/gempackagetask'
 require 'spec/rake/spectask'
@@ -82,6 +83,19 @@ end
 
 # push the docs to Rubyforge
 task :publish_docs => :"rubyforge:release:docs"
+
+desc "Publish web site to RubyForge"
+task :publish_web do
+  config = YAML.load(File.read(File.expand_path("~/.rubyforge/user-config.yml")))
+  host = "#{config["username"]}@rubyforge.org"
+  rubyforge_name = "erector"
+  remote_dir = "/var/www/gforge-projects/#{rubyforge_name}"
+  local_dir = "web"
+  rdoc_dir = "rdoc"
+  rsync_args = '--archive --verbose --delete'
+
+  sh %{rsync #{rsync_args} --exclude=#{rdoc_dir} #{local_dir}/ #{host}:#{remote_dir}}
+end
 
 Rake::RDocTask.new(:rdoc) do |rdoc|
   rdoc.rdoc_dir = 'rdoc'

@@ -1,8 +1,8 @@
 require 'rubygems'
 require 'treetop'
-dir = File.dirname(__FILE__)
-require "#{dir}/indenting"
-Treetop.load("#{dir}/rhtml.treetop")
+
+require "#{File.dirname(__FILE__)}/indenting"
+Treetop.load("#{File.dirname(__FILE__)}/rhtml.treetop")
 
 module Erector
   class Erected

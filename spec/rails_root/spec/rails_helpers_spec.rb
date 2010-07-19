@@ -200,6 +200,8 @@ describe Erector::Rails::Helpers do
 
   describe "#error_messages_for" do
     it "renders the error message" do
+      pending "RR problem with Ruby 1.9" if RUBY_VERSION >= "1.9.0"
+      
       user_class = BaseDummyModel
       stub(user_class).human_attribute_name {'User'}
       user = user_class.new

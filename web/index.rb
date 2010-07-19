@@ -18,9 +18,6 @@ class Index < Page
     text.gsub!(/^\= Erector/, '')
     text = RDoc::Markup::ToHtml.new.convert(text)
     text.gsub!(/Erector::Widget/, capture { a "Erector::Widget", :href=> "rdoc/classes/Erector/Widget.html" }.strip)
-    text.gsub!(/\b(http:\/\/|mailto:)([\w\.\/@])*\b/) do |match|
-      capture { url match }
-    end
     return text
   end
 
