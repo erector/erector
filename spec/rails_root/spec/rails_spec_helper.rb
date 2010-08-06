@@ -6,4 +6,4 @@ require File.expand_path("../../config/environment", __FILE__)
 
 Bundler.require(:test)
 
-require "erector/rails"
+require "erector/rails/railtie"

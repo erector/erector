@@ -24,7 +24,6 @@ begin
     specs = Dir.glob("spec/**/*").reject { |file| file =~ %r{^spec/rails_root} }
     gemspec.files = FileList[
             "lib/**/*",
-            "rails/init.rb",
             "README.txt", "VERSION.yml",
             "bin/erector",
     ]

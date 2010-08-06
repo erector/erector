@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Alex Chaffee", "Brian Takita", "Jeff Dean", "Jim Kingdon"]
-  s.date = %q{2010-07-18}
+  s.date = %q{2010-08-06}
   s.default_executable = %q{erector}
   s.description = %q{Erector is a Builder-like view framework, inspired by Markaby but overcoming some of its flaws. In Erector all views are objects, not template files, which allows the full power of object-oriented programming (inheritance, modular decomposition, encapsulation) in views.}
   s.email = %q{erector@googlegroups.com}
@@ -42,11 +42,11 @@ Gem::Specification.new do |s|
      "lib/erector/mixin.rb",
      "lib/erector/needs.rb",
      "lib/erector/output.rb",
-     "lib/erector/rails.rb",
      "lib/erector/rails/rails_form_builder.rb",
      "lib/erector/rails/rails_helpers.rb",
      "lib/erector/rails/rails_widget.rb",
      "lib/erector/rails/rails_widget_renderer.rb",
+     "lib/erector/rails/railtie.rb",
      "lib/erector/rails/template_handlers/ert_handler.rb",
      "lib/erector/rails/template_handlers/rb_handler.rb",
      "lib/erector/raw_string.rb",
@@ -61,8 +61,7 @@ Gem::Specification.new do |s|
      "lib/erector/widgets/field_table.rb",
      "lib/erector/widgets/form.rb",
      "lib/erector/widgets/page.rb",
-     "lib/erector/widgets/table.rb",
-     "rails/init.rb"
+     "lib/erector/widgets/table.rb"
   ]
   s.homepage = %q{http://erector.rubyforge.org/}
   s.rdoc_options = ["--charset=UTF-8"]
