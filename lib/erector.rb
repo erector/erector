@@ -33,4 +33,4 @@ require "erector/widgets"
 require "erector/version"
 require "erector/mixin"
 
-require "erector/rails/railtie" if defined?(Rails)
+require "erector/rails" if defined?(Rails)

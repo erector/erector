@@ -1,6 +1,6 @@
 require File.expand_path("#{File.dirname(__FILE__)}/rails_spec_helper")
 
-describe Erector::Rails::WidgetExtensions do
+describe Erector::Rails do
   include Erector::Mixin
 
   before(:each) do

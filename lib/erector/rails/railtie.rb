@@ -1,10 +1,3 @@
-require "erector/rails/rails_form_builder"
-require "erector/rails/rails_widget_renderer"
-require "erector/rails/rails_helpers"
-require "erector/rails/rails_widget"
-require "erector/rails/template_handlers/rb_handler"
-require "erector/rails/template_handlers/ert_handler"
-
 module Erector
   class Railtie < ::Rails::Railtie
     config.generators.template_engine :erector
