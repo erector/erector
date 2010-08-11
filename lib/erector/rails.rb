@@ -56,8 +56,8 @@ module Erector
         module_eval <<-METHOD_DEF, __FILE__, __LINE__+1
           def #{method_name}(*args, &block)
             options = args.extract_options!
-            options[:builder] ||= ::Erector::Rails::FormBuilder
-            text parent.#{method_name}(*(args << options), &block)
+            args << options.merge(:builder => FormBuilder.wrapping(options[:builder]))
+            text parent.#{method_name}(*args, &block)
           end
         METHOD_DEF
       end

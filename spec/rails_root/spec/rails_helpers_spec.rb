@@ -196,5 +196,19 @@ describe Erector::Rails do
         end
       end.should == %{<form accept-charset="UTF-8" action="/test" method="post"><div style="margin:0;padding:0;display:inline"><input name="_snowman" type="hidden" value="&#9731;" /></div><label for="something_my_input">My input</label></form>}
     end
+
+    it "uses the specified builder" do
+      builder = Class.new(ActionView::Base.default_form_builder) do
+        def foo
+          "foo"
+        end
+      end
+
+      test_render do
+        form_for(:something, :url => "/test", :builder => builder) do |form|
+          text form.foo
+        end
+      end.should =~ /foo/
+    end
   end
 end
