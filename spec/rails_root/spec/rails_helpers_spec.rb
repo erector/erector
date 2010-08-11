@@ -1,6 +1,6 @@
 require File.expand_path("#{File.dirname(__FILE__)}/rails_spec_helper")
 
-describe Erector::Rails::Helpers do
+describe Erector::Rails do
   before do
     @controller = ActionController::Base.new
     @controller.request = ActionController::TestRequest.new
