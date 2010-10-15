@@ -1,0 +1,64 @@
+New Dependencies Proposal in 10 Easy (?) Steps
+
+by Andy and Alex
+
+* rename Externals to Dependencies
+* rename external class method to depends_on
+* deprecate :script and :style
+* be smart about type -- rules follow:
+
+(1) depends_on "http://foo.com/bar.js"
+  guesses "js" type
+  links to <script src="http://foo.com/bar.js" />
+
+(2)   depends_on "http://foo.com/bar.css"
+    guesses "css" type
+    links to <link rel="stylesheet" href="http://foo.com/bar.css" type="text/css">
+
+(3)   depends_on "http://foo.com/bar.css", :media => "print"
+    guesses "css" type
+    links to <link rel="stylesheet" href="http://foo.com/bar.css" type="text/css" media="print">
+
+(4) depends_on :js, "alert('hi');"
+  can't guess type, so it must be specified
+  embeds <script type="text/javascript">alert('hi');</script>
+
+(5) depends_on :css, ".foo {color: chartreuse;}"
+    can't guess type, so it must be specified
+    embeds <style>.foo {color: chartreuse;}</style>
+
+(6) depends_on "/scripts/bar.js"
+    guesses "js" type
+    links to <script src="/scripts/bar.js" />
+
+(7) depends_on "/styles/bar.css"
+    guesses "css" type
+    links to <link rel="stylesheet" href="/styles/bar.css" type="text/css">
+
+(8) depends_on "bar.js"
+    guesses "js" type
+    links relative to current page, e.g.
+    <script src="bar.js" />
+
+If you want the contents of a path embedded instead of linked, 
+you can set :embed in the depends_on declaration.
+You must also specify where to grab the contents of the files from:
+Erector::Widget.embed_root = __FILE__ + "../public"
+(In Rails, we will set embed_root for you as RAILS_ROOT + "/public".)
+
+(9) depends_on "/scripts/bar.js", :embed => true
+    embeds contents of ROOT/public/bar.js: <script type="text/javascript">/* bar.js is the best! */...</script>
+
+Or if you want all or most of your paths to become embedded, switch the global default to true:
+  
+(10)
+    Erector::Widget.embed_dependencies = true
+    
+    depends_on "/scripts/bar.js"
+    embeds contents of ROOT/public/bar.js: <script type="text/javascript">/* bar.js is the best! */...</script>
+
+    depends_on "/scripts/foo.js", :embed => false  # overrides the new default -- back to linking
+    links to <script src="/scripts/foo.js" />
+
+Finally, if you want to evaluate your embedded code through a ruby string interpolation, use :interpolate => true.
+(We may want to replace this with ERB someday.)
