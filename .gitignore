@@ -13,3 +13,4 @@ spec/rails_root/tmp
 spec/rails_root/vendor/rails_versions
 spec/rails_root/vendor/rails
 spec/rails_root/vendor/plugins/erector
+Gemfile.lock

@@ -1,6 +1,18 @@
 require 'rubygems'
-require 'bundler'
-Bundler.setup
+
+begin
+  require 'bundler'
+rescue LoadError
+  sh "gem install bundler"
+  require 'bundler'
+end
+
+begin
+  Bundler.setup
+rescue Bundler::BundlerError
+  sh "bundle install"
+  Bundler.setup
+end
 
 require 'rake'
 require 'rake/testtask'
@@ -56,11 +68,10 @@ task :default => :spec
 
 task :test => :spec
 
-task :cruise => [:geminstaller, :print_environment, :test]
+task :cruise => [:install_gems, :print_environment, :test]
 
-task :geminstaller do
-  require 'geminstaller'
-  GemInstaller.run('--sudo --exceptions') || raise("GemInstaller failed")
+task :install_gems do
+  sh "bundle check"
 end
 
 desc "Build the web site from the .rb files in web/"
