@@ -78,7 +78,7 @@ end
           </tr>
         </table>
         <p>Once you have a widget class, you can instantiate it and then call its 
-          <code>to_s</code>
+          <code>to_html</code>
            method. If you want to pass in 'locals' (aka 'assigns'), then do so in the constructor's default hash. This will make instance variables of the same name, with Ruby's '@' sign.</p>
         <pre>class Email &lt; Erector::Widget
   def content
@@ -86,7 +86,7 @@ end
   end
 end
 
-&gt;&gt; Email.new(:address =&gt; &quot;foo@example.com&quot;).to_s
+&gt;&gt; Email.new(:address =&gt; &quot;foo@example.com&quot;).to_html
 =&gt; &quot;&lt;a href=&quot;mailto:foo@example.com&quot;&gt;foo@example.com&lt;/a&gt;&quot;
 </pre>
         <p>(If you want control over which locals are valid to be passed in to a widget, use the <a href="#needs">needs</a> macro.)</p>
@@ -97,13 +97,13 @@ end
         <p>and then call 
           <code>erector { }</code>
            from anywhere in your code. It will make an <a href="#inline">inline widget</a> for you, pass in the block, and call 
-          <code>to_s</code>
+          <code>to_html</code>
            on it. And if you pass any options to 
           <code>erector</code>
           , like 
           <code>:prettyprint =&gt; true</code>
           , it'll pass them along to 
-          <code>to_s</code>
+          <code>to_html</code>
           !</p>
         <h3>Examples:</h3>
         <pre>erector { a &quot;lols&quot;, :href =&gt; &quot;http://icanhascheezburger.com/&quot; }
@@ -116,7 +116,7 @@ erector(:prettyprint =&gt; true) do
     li &quot;tomato&quot;
   end
 end
-=&gt; &quot;&lt;ol&gt;\n  &lt;li&gt;bacon&lt;/li&gt;\n  &lt;li&gt;lettuce&lt;/li&gt;\n  &lt;li&gt;tomato&lt;/li&gt;\n&lt;/ol&gt;\n&quot; 
+=&gt; &quot;&lt;ol&gt;\n  &lt;li&gt;bacon&lt;/li&gt;\n  &lt;li&gt;lettuce&lt;/li&gt;\n  &lt;li&gt;tomato&lt;/li&gt;\n&lt;/ol&gt;\n&quot;
 </pre>
         <a name="apicheatsheet"></a>
         <h2>API Cheatsheet</h2>
@@ -367,16 +367,18 @@ end
           <li>call 
             <code>to_pretty</code>
              instead of 
-            <code>to_s</code>
+            <code>to_html</code>
              on your Erector::Widget</li>
           <li>pass 
             <code>:prettyprint =&gt; true</code>
              to 
-            <code>to_s</code>
+            <code>to_html</code>
           </li>
           <li>call 
             <code>enable_prettyprint(true)</code>
-             on your Erector::Widget.  Then subsequent calls to to_s will prettyprint</li>
+             on your Erector::Widget.  Then subsequent calls to 
+            <code>to_html</code>
+             will prettyprint</li>
           <li>call 
             <code>Erector::Widget.prettyprint_default = true</code>
              (for example, in environments/development.rb in a rails application, or anywhere which is convenient)</li>
@@ -546,13 +548,13 @@ end
            - The markaby template (adjust for other appropriately templating technologies)
           <pre>widget = Views::Layouts::Application.new(self)
 widget.content = content_for_layout
-self &lt;&lt; widget.to_s
+self &lt;&lt; widget.to_html
 </pre>
         </p>
         <p>Here the abstract layout widget is used in a concrete fashion by the template-based layout. Normally, the 
           <code>content</code>
            method would be implemented by subclassing widgets, but the layout template sets it directly and then calls 
-          <code>to_s</code>
+          <code>to_html</code>
            on the layout widget. This allows the same layout to be shared in a backward compatible way.</p>
         <a name="inline"></a>
         <h2>Inline Widgets</h2>
@@ -562,18 +564,22 @@ self &lt;&lt; widget.to_s
           <code>content</code>
            method, you can pass a block to 
           <code>Erector.inline</code>
-           and get back a widget instance you can call to_s on.  For example:
-          <pre>html = Erector.inline do
+           and get back a widget instance you can call 
+          <code>to_html</code>
+           on.  For example:
+          <pre>hello = Erector.inline do
   p &quot;Hello, world!&quot;
 end
-html.to_s          #=&gt; &lt;p&gt;Hello, world!&lt;/p&gt;
+hello.to_html          #=&gt; &lt;p&gt;Hello, world!&lt;/p&gt;
 </pre>
           This lets you define mini-widgets on the fly.</p>
-        <p>If you're in Rails, your inline block has access to Rails helpers if you pass a helpers object to to_s:
-          <pre>html = Erector.inline do
+        <p>If you're in Rails, your inline block has access to Rails helpers if you pass a helpers object to 
+          <code>to_html</code>
+          :
+          <pre>image = Erector.inline do
   image_tag(&quot;/foo&quot;)
 end
-html.to_s(:helpers =&gt; controller)          #=&gt; &lt;img alt=&quot;Foo&quot; src=&quot;/foo&quot; /&gt;
+image.to_html(:helpers =&gt; controller)          #=&gt; &lt;img alt=&quot;Foo&quot; src=&quot;/foo&quot; /&gt;
 </pre>
         </p>
         <p>Note that inline widgets are usually redundant if you're already inside an Erector content method. You can just use a normal 
@@ -765,7 +771,7 @@ end
               <pre>local_name = @name
 Page.new do
   div local_name
-end.to_s
+end.to_html
 </pre>
             </li>
           </ul>
