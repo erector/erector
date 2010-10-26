@@ -19,7 +19,10 @@ require 'rake/testtask'
 #require 'rake/rdoctask'
 require 'hanna/rdoctask'
 require 'rake/gempackagetask'
-require 'spec/rake/spectask'
+
+#require "spec/rake/spectask"  # RSpec 1.3
+require "rspec/core/rake_task" # RSpec 2.0
+
 require 'rdoc'
 
 $LOAD_PATH.unshift("#{File.dirname(__FILE__)}/lib")
@@ -185,22 +188,22 @@ end
 
 namespace :spec do
   desc "Run core specs."
-  Spec::Rake::SpecTask.new(:core) do |spec|
-    spec.spec_files = FileList['spec/erector/*_spec.rb']
-    spec.spec_opts = ['--backtrace']
+  RSpec::Core::RakeTask.new(:core) do |spec|
+    spec.pattern = 'spec/erector/*_spec.rb'
+    spec.rspec_opts = ['--backtrace']
   end
 
   desc "Run specs for the 'erector' command line tool."
-  Spec::Rake::SpecTask.new(:erect) do |spec|
-    spec.spec_files = FileList['spec/erect/*_spec.rb']
-    spec.spec_opts = ['--backtrace']
+  RSpec::Core::RakeTask.new(:erect) do |spec|
+    spec.pattern = 'spec/erect/*_spec.rb'
+    spec.rspec_opts = ['--backtrace']
   end
   task :erect => :clone_rails
 
   desc "Run specs for erector's Rails integration."
-  Spec::Rake::SpecTask.new(:rails) do |spec|
-    spec.spec_files = FileList['spec/rails_root/spec/*_spec.rb']
-    spec.spec_opts = ['--backtrace']
+  RSpec::Core::RakeTask.new(:rails) do |spec|
+    spec.pattern = 'spec/rails_root/spec/*_spec.rb'
+    spec.rspec_opts = ['--backtrace']
   end
   task :rails => :clone_rails
 end

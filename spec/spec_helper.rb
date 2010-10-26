@@ -15,12 +15,9 @@ require "nokogiri"
 require "rr"
 require 'tempfile'
 require 'ostruct'
-require "spec"
-require "spec/autorun"
-
-Spec::Runner.configure do |config|
-  config.mock_with :rr
-end
+require "rspec"
+require "rspec/autorun"
+require "open3"
 
 unless '1.9'.respond_to?(:force_encoding)
   String.class_eval do
@@ -71,8 +68,9 @@ module Matchers
   end
 end
 
-Spec::Runner.configure do |config|
+RSpec.configure do |config|
   include Matchers
+  config.mock_with :rr
 end
 
 def capturing_output
@@ -91,5 +89,32 @@ def capturing_stderr
   output.string
 ensure
   $stderr = STDERR
+end
+
+def sys(cmd, expected_status = 0)
+  start_time = Time.now
+  $stderr.print cmd
+  Open3.popen3(cmd) do |stdin, stdout, stderr, wait_thread|
+    # in Ruby 1.8, wait_thread is nil :-( so just pretend the process was successful (status 0)
+    exit_status = (wait_thread.value.exitstatus if wait_thread) || 0
+    output = stdout.read + stderr.read
+    unless expected_status.nil?
+      unless exit_status == expected_status
+        $stderr.puts " => #{exit_status}"
+        puts output
+        exit_status.should == expected_status
+      end
+#      assert { output and exit_status == expected_status }
+    end
+    yield output if block_given?
+    output
+  end
+ensure
+  $stderr.puts " (#{"%.2f" % (Time.now - start_time)} sec)"
+end
+
+def clear_bundler_env
+  # Bundler inherits its environment by default, so clear it here
+  %w{BUNDLE_PATH BUNDLE_BIN_PATH BUNDLE_GEMFILE}.each { |var| ENV.delete(var) }
 end
 

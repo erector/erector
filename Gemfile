@@ -7,7 +7,7 @@ group :development do
   gem "rack", "1.1.0"
   gem "activesupport", "~>2.3"
   gem "rails", "~>2"
-  gem "rspec", "1.3"
+  gem "rspec", "~>2"
   gem "sqlite3-ruby", "~>1.3", :require => 'sqlite3'
   gem "rubyforge"
   gem "rr"
