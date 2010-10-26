@@ -19,8 +19,6 @@ require 'rake/testtask'
 #require 'rake/rdoctask'
 require 'hanna/rdoctask'
 require 'rake/gempackagetask'
-
-#require "spec/rake/spectask"  # RSpec 1.3
 require "rspec/core/rake_task" # RSpec 2.0
 
 require 'rdoc'
