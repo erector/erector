@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 desired_ruby=ruby-1.8.6-p399
 project_name=erector
