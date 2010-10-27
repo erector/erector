@@ -3,6 +3,11 @@
 desired_ruby=ruby-1.8.6-p399
 project_name=erector
 
+# remove annoying "warning: Insecure world writable dir"
+function remove_annoying_warning() {
+  chmod go-w $HOME/.rvm/gems/${desired_ruby}@{global,${project_name}}{,/bin} 2>/dev/null
+}
+
 # enable rvm for ruby interpreter switching
 source $HOME/.rvm/scripts/rvm || exit 1
 
@@ -14,12 +19,7 @@ rvm list | grep $desired_ruby > /dev/null || rvm install $desired_ruby || exit 1
 
 # use our ruby with a custom gemset
 rvm use ${desired_ruby}@${project_name} --create
-
-# remove annoying "warning: Insecure world writable dir"
-gemdir=$HOME/.rvm/gems/${desired_ruby}@${project_name}
-gemdir_global=$HOME/.rvm/gems/${desired_ruby}@global
-chmod go-w $gemdir $gemdir/bin $gemdir_global $gemdir_global/bin
-ls -ld $gemdir $gemdir/bin
+remove_annoying_warning
 
 # install bundler if necessary
 gem list --local bundler | grep bundler || gem install bundler || exit 1
@@ -29,6 +29,9 @@ echo USER=$USER && ruby --version && which ruby && which bundle
 
 # conditionally install project gems from Gemfile
 bundle check || bundle install || exit 1
+
+# remove the warning again after we've created all the gem directories
+remove_annoying_warning
 
 # finally, run rake
 rake cruise
