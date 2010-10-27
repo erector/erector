@@ -10,7 +10,7 @@ source $HOME/.rvm/scripts/rvm || exit 1
 rvm list
 
 # install our chosen ruby if necessary
-rvm list | grep $desired_ruby || rvm install $desired_ruby || exit 1 > /dev/null
+rvm list | grep $desired_ruby > /dev/null || rvm install $desired_ruby || exit 1
 
 # use our ruby with a custom gemset
 rvm use ${desired_ruby}@${project_name} --create
