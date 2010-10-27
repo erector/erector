@@ -1,3 +1,4 @@
+puts "RUBY_VERSION=#{RUBY_VERSION}"
 require 'rubygems'
 
 begin
@@ -11,8 +12,10 @@ end
 begin
   Bundler.setup
 rescue Bundler::BundlerError => e
+  puts "$USER is #{ENV['USER']}"
   puts "Bundler.setup failed with BundlerError: #{e.message}"
   puts "Attempting shell install of gem bundle"
+  sh "echo USER=$USER"
   sh "bundle install"
   Bundler.setup
 end
