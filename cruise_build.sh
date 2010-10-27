@@ -15,6 +15,9 @@ rvm list | grep $desired_ruby > /dev/null || rvm install $desired_ruby || exit 1
 # use our ruby with a custom gemset
 rvm use ${desired_ruby}@${project_name} --create
 
+# remove annoying "warning: Insecure world writable dir"
+chmod go-w $HOME/.rvm/gems/${desired_ruby}@${project_name}/bin
+
 # install bundler if necessary
 gem list --local bundler | grep bundler || gem install bundler || exit 1
 
