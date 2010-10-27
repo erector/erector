@@ -97,7 +97,7 @@ def sys(cmd, expected_status = 0)
   Open3.popen3(cmd) do |stdin, stdout, stderr, wait_thread|
     # in Ruby 1.8, wait_thread is nil :-( so just pretend the process was successful (status 0)
     exit_status = (wait_thread.value.exitstatus if wait_thread) || 0
-    output = stdout.read + stderr.read
+    output = stdout.read # + stderr.read #todo: make stderr optional
     unless expected_status.nil?
       unless exit_status == expected_status
         $stderr.puts " => #{exit_status}"

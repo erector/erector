@@ -1,17 +1,28 @@
 #!/bin/bash
 
+desired_ruby=ruby-1.8.6-p399
+project_name=erector
+
+# enable rvm for ruby interpreter switching
 source $HOME/.rvm/scripts/rvm || exit 1
 
-echo "Rubies:"
+# show available (installed) rubies (for debugging)
 rvm list
-echo "---"
 
-rvm list | grep ruby-1.8.6-p399 || rvm install ruby-1.8.6-p399 || exit 1
-source .rvmrc
+# install our chosen ruby if necessary
+rvm list | grep $desired_ruby || rvm install $desired_ruby || exit 1 > /dev/null
 
-gem list --local bundler | grep bundler || gem install bundler
+# use our ruby with a custom gemset
+rvm use ${desired_ruby}@${project_name} --create
 
+# install bundler if necessary
+gem list --local bundler | grep bundler || gem install bundler || exit 1
+
+# debugging info
 echo USER=$USER && ruby --version && which ruby && which bundle
 
-bundle check || bundle install &&
-  rake cruise
+# conditionally install project gems from Gemfile
+bundle check || bundle install || exit 1
+
+# finally, run rake
+rake cruise
