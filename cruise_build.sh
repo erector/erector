@@ -17,7 +17,8 @@ rvm use ${desired_ruby}@${project_name} --create
 
 # remove annoying "warning: Insecure world writable dir"
 gemdir=$HOME/.rvm/gems/${desired_ruby}@${project_name}
-chmod go-w $gemdir $gemdir/bin
+gemdir_global=$HOME/.rvm/gems/${desired_ruby}@global
+chmod go-w $gemdir $gemdir/bin $gemdir_global $gemdir_global/bin
 ls -ld $gemdir $gemdir/bin
 
 # install bundler if necessary
