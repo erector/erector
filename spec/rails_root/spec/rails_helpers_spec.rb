@@ -54,7 +54,7 @@ describe Erector::Rails::Helpers do
 
     it "isn't double rendered when 'text link_to' is used by mistake" do
       test_render do
-        text link_to 'Test', '/foo'
+        text link_to('Test', '/foo')
       end.should == %{<a href="/foo">Test</a>}
     end
   end
@@ -201,7 +201,7 @@ describe Erector::Rails::Helpers do
   describe "#error_messages_for" do
     it "renders the error message" do
       pending "RR problem with Ruby 1.9" if RUBY_VERSION >= "1.9.0"
-      
+
       user_class = BaseDummyModel
       stub(user_class).human_attribute_name {'User'}
       user = user_class.new
@@ -247,7 +247,7 @@ describe Erector::Rails::Helpers do
     it "doesn't double render if 'text form.label' is used by mistake" do
       test_render do
         form_for(:something, :url => "/test") do |form|
-          text form.label :my_input, "My input"
+          text form.label(:my_input, "My input")
         end
       end.should == %{<form action="/test" method="post"><label for="something_my_input">My input</label></form>}
     end

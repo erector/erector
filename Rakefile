@@ -5,6 +5,7 @@ begin
   require 'bundler'
 rescue LoadError
   puts "bundler not found; attempting shell install of bundler"
+  sh "which ruby"
   sh "gem install bundler"
   require 'bundler'
 end
@@ -15,7 +16,7 @@ rescue Bundler::BundlerError => e
   puts "$USER is #{ENV['USER']}"
   puts "Bundler.setup failed with BundlerError: #{e.message}"
   puts "Attempting shell install of gem bundle"
-  sh "echo USER=$USER"
+  sh "echo USER=$USER && which ruby && ruby --version && which bundle"
   sh "bundle install"
   Bundler.setup
 end
