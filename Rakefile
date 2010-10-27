@@ -3,23 +3,25 @@ require 'rubygems'
 begin
   require 'bundler'
 rescue LoadError
+  puts "bundler not found; attempting shell install of bundler"
   sh "gem install bundler"
   require 'bundler'
 end
 
 begin
   Bundler.setup
-rescue Bundler::BundlerError
+rescue Bundler::BundlerError => e
+  puts "Bundler.setup failed with BundlerError: #{e.message}"
+  puts "Attempting shell install of gem bundle"
   sh "bundle install"
   Bundler.setup
 end
 
 require 'rake'
 require 'rake/testtask'
-#require 'rake/rdoctask'
 require 'hanna/rdoctask'
 require 'rake/gempackagetask'
-require "rspec/core/rake_task" # RSpec 2.0
+require "rspec/core/rake_task"
 
 require 'rdoc'
 
