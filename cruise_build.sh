@@ -5,9 +5,11 @@ source $HOME/.rvm/scripts/rvm || exit 1
 echo "Rubies:"
 rvm list
 echo "---"
-rvm list | grep ruby-1.8.6-p399 || rvm install ruby-1.8.6-p399 || exit 1
 
+rvm list | grep ruby-1.8.6-p399 || rvm install ruby-1.8.6-p399 || exit 1
 source .rvmrc
+
+gem list --local bundler | grep bundler || gem install bundler
 
 echo USER=$USER && ruby --version && which ruby && which bundle
 
