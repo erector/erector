@@ -5,7 +5,7 @@ project_name=erector
 
 # remove annoying "warning: Insecure world writable dir"
 function remove_annoying_warning() {
-  chmod go-w $HOME/.rvm/gems/${desired_ruby}@{global,${project_name}}{,/bin} 2>/dev/null
+  chmod go-w $HOME/.rvm/gems/${desired_ruby}{,@{global,${project_name}}}{,/bin} 2>/dev/null
 }
 
 # enable rvm for ruby interpreter switching
