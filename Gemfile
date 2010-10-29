@@ -4,9 +4,10 @@ gem "treetop"
 gem "rake"
 
 group :development do
-  gem "activesupport"
+  gem "activesupport", "~>3"
+  gem "rspec", "~>2"
+  gem "sqlite3-ruby", "~>1.3", :require => 'sqlite3'
   gem "rubyforge"
-  gem "rspec"
   gem "rr"
   gem "nokogiri"
   gem "jeweler"

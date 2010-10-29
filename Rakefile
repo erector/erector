@@ -1,13 +1,32 @@
+puts "RUBY_VERSION=#{RUBY_VERSION}"
 require 'rubygems'
-require 'bundler'
-Bundler.setup
+
+begin
+  require 'bundler'
+rescue LoadError
+  puts "bundler not found; attempting shell install of bundler"
+  sh "which ruby"
+  sh "gem install bundler"
+  require 'bundler'
+end
+
+begin
+  Bundler.setup
+rescue Bundler::BundlerError => e
+  puts "$USER is #{ENV['USER']}"
+  puts "Bundler.setup failed with BundlerError: #{e.message}"
+  puts "Attempting shell install of gem bundle"
+  sh "echo USER=$USER && which ruby && ruby --version && which bundle"
+  sh "bundle install"
+  Bundler.setup
+end
 
 require 'rake'
 require 'rake/testtask'
-#require 'rake/rdoctask'
 require 'hanna/rdoctask'
 require 'rake/gempackagetask'
-require 'spec/rake/spectask'
+require "rspec/core/rake_task"
+
 require 'rdoc'
 
 $LOAD_PATH.unshift("#{File.dirname(__FILE__)}/lib")
@@ -55,11 +74,10 @@ task :default => :spec
 
 task :test => :spec
 
-task :cruise => [:geminstaller, :print_environment, :test]
+task :cruise => [:install_gems, :print_environment, :test]
 
-task :geminstaller do
-  require 'geminstaller'
-  GemInstaller.run('--sudo --exceptions') || raise("GemInstaller failed")
+task :install_gems do
+  sh "bundle check"
 end
 
 desc "Build the web site from the .rb files in web/"
@@ -132,21 +150,21 @@ end
 
 namespace :spec do
   desc "Run core specs."
-  Spec::Rake::SpecTask.new(:core) do |spec|
-    spec.spec_files = FileList['spec/erector/*_spec.rb']
-    spec.spec_opts = ['--backtrace']
+  RSpec::Core::RakeTask.new(:core) do |spec|
+    spec.pattern = 'spec/erector/*_spec.rb'
+    spec.rspec_opts = ['--backtrace']
   end
 
   desc "Run specs for the 'erector' command line tool."
-  Spec::Rake::SpecTask.new(:erect) do |spec|
-    spec.spec_files = FileList['spec/erect/*_spec.rb']
-    spec.spec_opts = ['--backtrace']
+  RSpec::Core::RakeTask.new(:erect) do |spec|
+    spec.pattern = 'spec/erect/*_spec.rb'
+    spec.rspec_opts = ['--backtrace']
   end
 
   desc "Run specs for erector's Rails integration."
-  Spec::Rake::SpecTask.new(:rails) do |spec|
-    spec.spec_files = FileList['spec/rails_root/spec/*_spec.rb']
-    spec.spec_opts = ['--backtrace']
+  RSpec::Core::RakeTask.new(:rails) do |spec|
+    spec.pattern = 'spec/rails_root/spec/*_spec.rb'
+    spec.rspec_opts = ['--backtrace']
   end
 end
 

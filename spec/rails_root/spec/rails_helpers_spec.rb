@@ -40,7 +40,7 @@ describe Erector::Rails do
 
     it "isn't double rendered when 'text link_to' is used by mistake" do
       test_render do
-        text link_to 'Test', '/foo'
+        text link_to('Test', '/foo')
       end.should == %{<a href="/foo">Test</a>}
     end
   end
@@ -192,7 +192,7 @@ describe Erector::Rails do
     it "doesn't double render if 'text form.label' is used by mistake" do
       test_render do
         form_for(:something, :url => "/test") do |form|
-          text form.label :my_input, "My input"
+          text form.label(:my_input, "My input")
         end
       end.should == %{<form accept-charset="UTF-8" action="/test" method="post"><div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="&#x2713;" /></div><label for="something_my_input">My input</label></form>}
     end

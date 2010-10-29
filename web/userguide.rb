@@ -8,7 +8,7 @@ class Userguide < Page
   def initialize
     super(:page_title => "User Guide")
   end
-  
+
   def render_body
     p do
       text "Make sure to check out the "
@@ -25,7 +25,7 @@ class Userguide < Page
     Section.new("The Basics") do
       p "The basic way to construct some HTML/XML with erector is to subclass Erector::Widget and implement a content method:"
       table do
-        tr do 
+        tr do
           td do
             pre <<DONE
 class Hello < Erector::Widget
@@ -62,10 +62,10 @@ DONE
           end
         end
       end
-      
+
       p do
         text "Once you have a widget class, you can instantiate it and then call its "
-        code "to_s"
+        code "to_html"
         text " method."
         text " If you want to pass in 'locals' (aka 'assigns'), then do so in the constructor's default hash. This will make instance variables of the same name, with Ruby's '@' sign."
       end
@@ -76,7 +76,7 @@ class Email < Erector::Widget
   end
 end
 
->> Email.new(:address => "foo@example.com").to_s
+>> Email.new(:address => "foo@example.com").to_html
 => "<a href=\"mailto:foo@example.com\">foo@example.com</a>"
       PRE
       p do
@@ -95,13 +95,13 @@ end
         text " from anywhere in your code. It will make an "
         a "inline widget", :href => "#inline"
         text " for you, pass in the block, and call "
-        code "to_s"
+        code "to_html"
         text " on it. And if you pass any options to "
         code "erector"
         text ", like "
         code ":prettyprint => true"
         text ", it'll pass them along to "
-        code "to_s"
+        code "to_html"
         text "!"
       end
       h3 "Examples:"
@@ -116,7 +116,7 @@ erector(:prettyprint => true) do
     li "tomato"
   end
 end
-=> "<ol>\\n  <li>bacon</li>\\n  <li>lettuce</li>\\n  <li>tomato</li>\\n</ol>\\n" 
+=> "<ol>\\n  <li>bacon</li>\\n  <li>lettuce</li>\\n  <li>tomato</li>\\n</ol>\\n"
       PRE
 
     end,
@@ -151,7 +151,7 @@ end
         ["instruct",                   "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"],
         ["comment 'foo'",              "<!--foo-->"],
         ["url 'http://example.com'",   "<a href=\"http://example.com\">http://example.com</a>"],
-        
+
         ["capture { div }", "<div></div>", "returns the block as a string, doesn't add it to the current output stream"],
         ["div :class => ['a', 'b']", "<div class=\"a b\"></div>"],
       ]
@@ -179,9 +179,9 @@ jQuery(document).ready(function($){
 </script>
 DONE
         ]
-      
+
       cheats << ["join([widget1, widget2],\n separator)", "", "See examples/join.rb for more explanation"]
-      
+
       table :class => 'cheatsheet' do
         tr do
           th "code"
@@ -203,13 +203,13 @@ DONE
               if cheat[2]
                 text nbsp("  ")
                 text character(:horizontal_ellipsis)
-                i cheat[2] 
+                i cheat[2]
               end
             end
           end
         end
       end
-      
+
       p do
         text "Lots more documentation is at the "
         a "RDoc API pages", :href => "rdoc/index.html"
@@ -218,7 +218,7 @@ DONE
         text " so don't go saying we never wrote you nothin'."
       end
     end,
-    
+
     Section.new("Pretty-printing") do
       p "Erector has the ability to insert newlines and indentation to make the generated HTML more readable.  Newlines are inserted before and after certain tags."
       p "To enable pretty-printing (insertion of newlines and indentation) of Erector's output, do one of the following:"
@@ -227,19 +227,21 @@ DONE
           text "call "
           code "to_pretty"
           text " instead of "
-          code "to_s"
+          code "to_html"
           text " on your Erector::Widget"
         end
         li do
           text "pass "
           code ":prettyprint => true"
           text " to "
-          code "to_s"
+          code "to_html"
         end
         li do
           text "call "
           code "enable_prettyprint(true)"
-          text " on your Erector::Widget.  Then subsequent calls to to_s will prettyprint"
+          text " on your Erector::Widget.  Then subsequent calls to "
+          code "to_html"
+          text " will prettyprint"
         end
         li do
           text "call "
@@ -256,7 +258,7 @@ DONE
         code "render :template"
         text " method as usual, or directly instantiate the view class and call its content method."
       end
-      
+
       p "For example:"
 
       code "app/controllers/welcome_controller.rb:"
@@ -295,7 +297,7 @@ DONE
         code "config/environment.rb"
         text ". You also should delete (or rename) any other view files with the same base name that might be getting in the way."
       end
-      
+
       p do
         text "Currently there is only partial support for some standard Rails features like partials, layouts, assigns, and helpers. Check the "
         a "erector Google Groups mailing list", :href => "http://googlegroups.com/group/erector"
@@ -311,7 +313,7 @@ DONE
       erect your existing Rails app. The 'erector' tool will convert HTML or HTML/ERB into an Erector class.
       It ships as part of the Erector gem, so to try it out, install the gem, then run
       """.strip
-      
+
       pre "erector app/views/foos/*.html.erb"
 
       p "or just"
@@ -355,7 +357,7 @@ DONE
       p "Erector replaces the typical Rails layout mechanism with a more natural construct, the use of inheritance. Want a common
       layout? Just implement a layout superclass and inherit from it. Implement content in the superclass and implement template
       methods in its subclasses."
-      
+
       p do
         text "For example:"
         pre <<-DONE
@@ -431,7 +433,7 @@ end
           code "app/views/layouts"
           text " as usual."
         end
-      
+
       p "There's one trick you'll need to use this layout for non-erector view templates. Here's an example."
 
       p do
@@ -460,7 +462,7 @@ DONE
         pre <<DONE
 widget = Views::Layouts::Application.new(self)
 widget.content = content_for_layout
-self << widget.to_s
+self << widget.to_html
 DONE
       end
 
@@ -468,7 +470,7 @@ DONE
         text "Here the abstract layout widget is used in a concrete fashion by the template-based layout. Normally, the "
         code "content"
         text " method would be implemented by subclassing widgets, but the layout template sets it directly and then calls "
-        code "to_s"
+        code "to_html"
         text " on the layout widget. This allows the same layout to be shared in a backward compatible way."
       end
     end,
@@ -481,38 +483,42 @@ DONE
         code "content"
         text " method, you can pass a block to "
         code "Erector.inline"
-        text " and get back a widget instance you can call to_s on.  For example:"
+        text " and get back a widget instance you can call "
+        code "to_html"
+        text " on.  For example:"
         pre <<-DONE
-html = Erector.inline do
+hello = Erector.inline do
   p "Hello, world!"
 end
-html.to_s          #=> <p>Hello, world!</p>
+hello.to_html          #=> <p>Hello, world!</p>
         DONE
         text "This lets you define mini-widgets on the fly."
       end
-      
-      p do 
-        text "If you're in Rails, your inline block has access to Rails helpers if you pass a helpers object to to_s:"
+
+      p do
+        text "If you're in Rails, your inline block has access to Rails helpers if you pass a helpers object to "
+        code "to_html"
+        text ":"
         pre <<-DONE
-html = Erector.inline do
+image = Erector.inline do
   image_tag("/foo")
 end
-html.to_s(:helpers => controller)          #=> <img alt="Foo" src="/foo" />
+image.to_html(:helpers => controller)          #=> <img alt="Foo" src="/foo" />
       DONE
     end
-    
+
       p do
         text "Note that inline widgets are usually redundant if you're already inside an Erector content method. You can just use a normal "
         code "do"
         text " block and the Erector methods will work as usual when called back from "
         code "yield"
         text ". Inline widgets get evaluated with "
-        code "instance_eval" 
+        code "instance_eval"
         text " which may or may not be what you want. See the section on "
         a "blocks", :href=>"#blocks"
         text " in this user guide for more detail."
       end
-      
+
       p do
         text "One extra bonus feature of inline widgets is that they can call methods defined on the parent class, even though they're out of scope. How do they do this? Through method_missing magic. (But isn't method_missing magic against the design goals of Erector? Yes, some would say so, and that's why we're reserving it for a special subclass and method. For Erector::Widget and subclasses, if you pass in a block, it's a plain old block with normal semantics.) But they can't directly access instance variables on the parent, so watch it."
       end
@@ -524,7 +530,7 @@ html.to_s(:helpers => controller)          #=> <img alt="Foo" src="/foo" />
         text "the code is less self-documenting and doesn't 'fail fast' if you pass in the wrong parameters, "
         text "or fail to pass in the right ones. Even simple typos can lead to very annoying debugging problems."
       end
-      
+
       p do
         text "To help this, we've added an optional feature by which your widget can declare that it "
         text "needs a certain set of named parameters to be passed in. "
@@ -541,7 +547,7 @@ end
         code ":engine => 'V-8'"
         text " into its constructor. (Actually, it will work with any engine, but a V-8 is the baddest.)"
       end
-      
+
       p do
         text "See the "
         a "rdoc for Widget#needs", :href => 'rdoc/classes/Erector/Widget.html#M000053'
@@ -550,7 +556,7 @@ end
         text " no longer automatically declares accessor methods."
       end
     end,
-    
+
     Section.new("Externals") do
       p do
         text "Erector's got some nice tags, like "
@@ -585,7 +591,7 @@ class HotSauce < Erector::Widget
   end
 end
         DONE
-        text "Then when " 
+        text "Then when "
         code "Page"
         text " emits the "
         code "head"
@@ -604,7 +610,7 @@ end
       p do
         text "It also collapses redundant externals, so if lots of your widgets declare the same thing (say, 'jquery.js'), it'll only get included once."
       end
-      
+
       p do
         a "Page", :href => "rdoc/classes/Erector/Widgets/Page.html"
         text " looks for the following depends on:"
@@ -639,7 +645,7 @@ end
         DONE
       end
     end,
-    
+
     Section.new("Blocks") do
       p "Erector is all about blocks (otherwise known as closures). Unfortunately, there are some confusing aspects to working with blocks; this section aims to clarify the issues so if you find yourself stuck on an 'undefined method' or a nil instance variable, at least you'll have some context to help debug it."
       p "There are basically three cases where you can pass a block to Erector:"
@@ -663,8 +669,8 @@ end
         code "div"
         text " and "
         code "p"
-        text " are evaluated using normal " 
-        code "yield" 
+        text " are evaluated using normal "
+        code "yield"
         text " semantics, and the "
         code "@name"
         text " and "
@@ -672,7 +678,7 @@ end
         text " instance variables are evaluated in the context of the Person instance being rendered."
       end
       p "So far, so good."
-      
+
       h3 "2. To the constructor of an Erector::Widget"
       p do
         text "In this case you can build a widget \"on the fly\" and have it render whatever it wants, then call your block. This is useful for widgets like "
@@ -713,9 +719,9 @@ end
         code "(Form)"
         text "."
       end
-      
+
       p do
-        text "A quirk of this technique is that methods inside the block will be called on the calling widget, not the called widget. This doesn't cause any problems for element methods (" 
+        text "A quirk of this technique is that methods inside the block will be called on the calling widget, not the called widget. This doesn't cause any problems for element methods ("
         code "b"
         text " and "
         code "input"
@@ -728,9 +734,9 @@ widget(Form.new(:action => "/person/\#{@user.id}", :method => "delete") do |f|
 end)
         DONE
       end
-      
+
       p do
-        text "(As a variant of this case, note that the" 
+        text "(As a variant of this case, note that the"
         code "widget"
         text " method can accept a widget class, hash and block, instead of an instance; in this case it will set the widget's block and this code:"
         pre <<-DONE
@@ -740,13 +746,13 @@ end
         DONE
         text " will work the same as the version above.)"
       end
-      
+
       h3 "3. To the constructor of an Erector::InlineWidget"
       p do
         text "This is where things get hairy. Sometimes we want to construct a widget on the fly, but we're not inside a widget already. So any block we pass in will not have access to Erector methods. In this case we have a special subclass called "
         code "Erector::InlineWidget"
         text " which uses two magic tricks: "
-        code "instance_eval" 
+        code "instance_eval"
         text " and "
         code "method_missing"
         text " to accomplish the following:"
@@ -771,7 +777,7 @@ end
 local_name = @name
 Page.new do
   div local_name
-end.to_s
+end.to_html
             DONE
           end
         end
@@ -785,7 +791,7 @@ end.to_s
           text "One note for developers: when creating a widget like "
         code "Form"
         text " that needs to call back to its block, use the method "
-        code "call_block" 
+        code "call_block"
         text ", which calls the block and passes in self as appropriate for both inline and normal widgets."
       end
     end

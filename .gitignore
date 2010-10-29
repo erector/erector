@@ -10,3 +10,4 @@ pkg
 rdoc
 spec/rails_root/log
 spec/rails_root/tmp
+Gemfile.lock

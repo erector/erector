@@ -36,7 +36,8 @@ module Erector
   #
   # This class extends AbstractWidget and includes several modules,
   # so be sure to check all of those places for API documentation for the
-  # various methods of Widget.
+  # various methods of Widget. Also read the API Cheatsheet in the user guide
+  # at http://erector.rubyforge.org/userguide#apicheatsheet
   #
   # Now, seriously, after playing around a bit, go read the user guide. It's
   # fun!  
@@ -49,9 +50,5 @@ module Erector
     include Erector::JQuery
     include Erector::AfterInitialize
     include Erector::Sass if Object.const_defined?(:Sass)
-
-    def __test__
-
-    end
   end
 end
