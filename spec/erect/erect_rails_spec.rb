@@ -76,7 +76,7 @@ describe "the 'erector' command" do
           gemfile.write <<-GEMFILE
             source 'http://rubygems.org'
 
-            gem "rails", "3.0.0.rc"
+            gem "rails", "~> 3.0.0"
             gem 'sqlite3-ruby', :require => 'sqlite3'
             gem "erector", :path => "#{erector_dir}"
           GEMFILE

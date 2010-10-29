@@ -17,5 +17,5 @@ group :development do
 end
 
 group :rails do
-  gem "rails", "3.0.0.rc"
+  gem "rails", "~> 3.0.0"
 end
