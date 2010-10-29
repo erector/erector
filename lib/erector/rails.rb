@@ -36,9 +36,10 @@ module Erector
       def render(widget, view, local_assigns = {}, is_partial = false, options = {})
         widget = widget.new(assigns_for(widget, view, local_assigns, is_partial)) if widget.is_a?(Class)
         view.with_output_buffer do
-          # Set parent to the view and use Rails's output buffer.
-          widget.to_html(options.merge(:parent => view,
-                                       :output => Output.new { view.output_buffer }))
+          # Set parent and helpers to the view and use Rails's output buffer.
+          widget.to_html(options.merge(:helpers => view,
+                                       :parent  => view,
+                                       :output  => Output.new { view.output_buffer }))
         end
       end
 
@@ -47,7 +48,7 @@ module Erector
       def def_simple_rails_helper(method_name)
         module_eval <<-METHOD_DEF, __FILE__, __LINE__+1
           def #{method_name}(*args, &block)
-            text parent.#{method_name}(*args, &block)
+            text helpers.#{method_name}(*args, &block)
           end
         METHOD_DEF
       end
@@ -57,7 +58,7 @@ module Erector
           def #{method_name}(*args, &block)
             options = args.extract_options!
             args << options.merge(:builder => FormBuilder.wrapping(options[:builder]))
-            text parent.#{method_name}(*args, &block)
+            text helpers.#{method_name}(*args, &block)
           end
         METHOD_DEF
       end
@@ -99,21 +100,21 @@ module Erector
       self.controller_assigns_propagate_to_partials = true
     end
 
-    # We need to delegate #capture to parent.capture, so that when
+    # We need to delegate #capture to helpers.capture, so that when
     # the captured block is executed, both erector and Rails output
     # from within the block go to the appropriate buffer.
     def capture(&block)
-      if parent.respond_to?(:capture)
-        raw(parent.capture(&block).to_s)
+      if helpers.respond_to?(:capture)
+        raw(helpers.capture(&block).to_s)
       else
         super
       end
     end
 
     def render(*args, &block)
-      captured = parent.capture do
-        parent.concat(parent.render(*args, &block))
-        parent.output_buffer.to_s
+      captured = helpers.capture do
+        helpers.concat(helpers.render(*args, &block))
+        helpers.output_buffer.to_s
       end
       rawtext(captured)
     end
@@ -121,17 +122,17 @@ module Erector
     # Delegate to non-markup producing helpers via method_missing,
     # returning their result directly.
     def method_missing(name, *args, &block)
-      if parent.respond_to?(name)
-        parent.send(name, *args, &block)
+      if helpers.respond_to?(name)
+        helpers.send(name, *args, &block)
       else
         super
       end
     end
 
-    # Since we delegate method_missing to parent, we need to delegate
+    # Since we delegate method_missing to helpers, we need to delegate
     # respond_to? as well.
     def respond_to?(name)
-      super || parent.respond_to?(name)
+      super || helpers.respond_to?(name)
     end
 
     [

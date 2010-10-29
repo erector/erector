@@ -197,6 +197,12 @@ describe Erector::Rails do
       end.should == %{<form accept-charset="UTF-8" action="/test" method="post"><div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="&#x2713;" /></div><label for="something_my_input">My input</label></form>}
     end
 
+    it "can be called from a nested widget" do
+      test_render do
+        widget Erector.inline { form_for(:something, :url => "/test") {|form| form.text_field :my_input} }
+      end.should =~ /^<form/
+    end
+
     it "uses the specified builder" do
       builder = Class.new(ActionView::Base.default_form_builder) do
         def foo
