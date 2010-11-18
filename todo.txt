@@ -1,3 +1,5 @@
+add "fork me on github" badge
+
 use rvm to test locally under 1.8.6
 
 (DONE) rename to_s to to_html
