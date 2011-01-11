@@ -203,7 +203,7 @@ module Erector
     #
     # Since "Authors should avoid putting two or more adjacent hyphens inside comments,"
     # we emit a warning if you do that.
-    def comment(text = '', &block)
+    def comment(text = '')
       puts "Warning: Authors should avoid putting two or more adjacent hyphens inside comments." if text =~ /--/
 
       conditional = text =~ /\[if .*\]/
@@ -212,9 +212,9 @@ module Erector
       rawtext text
       rawtext ">" if conditional
 
-      if block
+      if block_given?
         rawtext "\n"
-        block.call
+        yield
         rawtext "\n"
       end
 
