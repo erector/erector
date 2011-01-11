@@ -312,7 +312,7 @@ module Erector
           results << "#{key}=\"#{h(value)}\""
         end
       end
-      return results.join(' ')
+      results.join(' ')
     end
 
     def sorted(attributes)
@@ -320,7 +320,7 @@ module Erector
       attributes.each do |key, value|
         stringized << [key.to_s, value]
       end
-      return stringized.sort
+      stringized.sort
     end
 
     def sort_for_xml_declaration(attributes)
@@ -330,7 +330,7 @@ module Erector
       attributes.each do |key, value|
         stringized << [key.to_s, value]
       end
-      return stringized.sort{|a, b| b <=> a}
+      stringized.sort{|a, b| b <=> a}
     end
 
     NON_NEWLINEY = {'i' => true, 'b' => true, 'small' => true,
