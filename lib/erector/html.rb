@@ -224,43 +224,33 @@ module Erector
 
     # Emits a javascript block inside a +script+ tag, wrapped in CDATA
     # doohickeys like all the cool JS kids do.
-    def javascript(*args, &block)
-      if args.length > 2
-        raise ArgumentError, "Cannot accept more than two arguments"
+    def javascript(value = nil, attributes = {})
+      if value.is_a?(Hash)
+        attributes = value
+        value      = nil
+      elsif block_given? && value
+        raise ArgumentError, "You can't pass both a block and a value to javascript -- please choose one."
       end
-      attributes, value = nil, nil
-      arg0 = args[0]
-      if arg0.is_a?(Hash)
-        attributes = arg0
-      else
-        value = arg0
-        arg1 = args[1]
-        if arg1.is_a?(Hash)
-          attributes = arg1
+
+      script(attributes.merge(:type => "text/javascript")) do
+        # Shouldn't this be a "cdata" HtmlPart?
+        # (maybe, but the syntax is specific to javascript; it isn't
+        # really a generic XML CDATA section.  Specifically,
+        # ]]> within value is not treated as ending the
+        # CDATA section by Firefox2 when parsing text/html,
+        # although I guess we could refuse to generate ]]>
+        # there, for the benefit of XML/XHTML parsers).
+        output << raw("\n// <![CDATA[\n")
+        if block_given?
+          yield
+        else
+          output << raw(value)
         end
+        output << raw("\n// ]]>")
+        output.append_newline # this forces a newline even if we're not in pretty mode
       end
-      attributes ||= {}
-      attributes[:type] = "text/javascript"
-      open_tag 'script', attributes
 
-      # Shouldn't this be a "cdata" HtmlPart?
-      # (maybe, but the syntax is specific to javascript; it isn't
-      # really a generic XML CDATA section.  Specifically,
-      # ]]> within value is not treated as ending the
-      # CDATA section by Firefox2 when parsing text/html,
-      # although I guess we could refuse to generate ]]>
-      # there, for the benefit of XML/XHTML parsers).
-      rawtext "\n// <![CDATA[\n"
-      if block
-        instance_eval(&block)
-      else
-        rawtext value
-      end
-      rawtext "\n// ]]>"
-      output.append_newline # this forces a newline even if we're not in pretty mode
-
-      close_tag 'script'
-      rawtext "\n"
+      output << raw("\n")
     end
 
     protected
