@@ -281,17 +281,20 @@ module Erector
       end
       attributes ||= {}
       open_tag tag_name, attributes
-      if block && value
-        raise ArgumentError, "You can't pass both a block and a value to #{tag_name} -- please choose one."
+      begin
+        if block && value
+          raise ArgumentError, "You can't pass both a block and a value to #{tag_name} -- please choose one."
+        end
+        if block
+          block.call
+        elsif raw
+          text! value
+        else
+          text value
+        end
+      ensure
+        close_tag tag_name
       end
-      if block
-        block.call
-      elsif raw
-        text! value
-      else
-        text value
-      end
-      close_tag tag_name
     end
 
     def __empty_element__(tag_name, attributes={})
