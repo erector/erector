@@ -4,7 +4,7 @@ module Erector
       # Tags which are always self-closing. Click "[show source]" to see the full list.
       def empty_tags
         ['area', 'base', 'br', 'col', 'embed', 'frame',
-        'hr', 'img', 'input', 'link', 'meta', 'param']
+        'hr', 'img', 'link', 'meta', 'param']
       end
 
       # Tags which can contain other stuff. Click "[show source]" to see the full list.
@@ -16,7 +16,7 @@ module Erector
           'datalist', 'dd', 'del', 'details', 'dfn', 'dialog', 'div', 'dl', 'dt',
           'em',
           'fieldset', 'figure', 'footer', 'form', 'frameset',
-          'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'head', 'header', 'hgroup', 'html', 'i',
+          'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'head', 'header', 'hgroup', 'html', 'i', 'input',
           'iframe', 'ins', 'keygen', 'kbd', 'label', 'legend', 'li',
           'map', 'mark', 'meter',
           'nav', 'noframes', 'noscript',
