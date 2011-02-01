@@ -191,7 +191,10 @@ module Erector
       :update_page_tag,
 
       # JavaScriptHelper
-      :javascript_tag
+      :javascript_tag,
+
+      # CsrfHelper
+      :csrf_meta_tag
     ].each do |method_name|
       def_simple_rails_helper(method_name)
     end
