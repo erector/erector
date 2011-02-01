@@ -82,12 +82,12 @@ module Erector
 
       missing = self.class.needed_variables - assigned
       unless missing.empty? || missing == [nil]
-        raise "Missing parameter#{missing.size == 1 ? '' : 's'}: #{missing.join(', ')}"
+        raise "Missing parameter#{missing.size == 1 ? '' : 's'} for #{self.class.name}: #{missing.join(', ')}"
       end
 
       excess = assigned - self.class.needed_variables
       unless self.class.needed_variables.empty? || excess.empty?
-        raise("Excess parameter#{excess.size == 1 ? '' : 's'}: #{excess.join(', ')}")
+        raise("Excess parameter#{excess.size == 1 ? '' : 's'} for #{self.class.name}: #{excess.join(', ')}")
       end
     end
   end

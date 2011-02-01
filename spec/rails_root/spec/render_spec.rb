@@ -210,7 +210,7 @@ describe ActionController::Base do
     end
     
     it "should raise when rendering a widget class with implicit assigns and too many variables" do
-      proc { test_action(:render_widget_with_extra_controller_variables) }.should raise_error(RuntimeError, /Excess parameters?: .*baz/)
+      proc { test_action(:render_widget_with_extra_controller_variables) }.should raise_error(RuntimeError, /Excess parameters?.*: .*baz/)
     end
 
     it "should render a specific content method" do
@@ -240,7 +240,7 @@ describe ActionController::Base do
     end
     
     it "should raise if rendering a #needs template with excess controller variables" do
-      proc { test_action(:render_needs_template_with_excess_variables) }.should raise_error(ActionView::TemplateError, /Excess parameters?: .*barfoo/)
+      proc { test_action(:render_needs_template_with_excess_variables) }.should raise_error(ActionView::TemplateError, /Excess parameters?.*: .*barfoo/)
     end
     
     it "should render a #needs template with excess controller variables and ignore_extra_controller_assigns" do
@@ -276,7 +276,7 @@ describe ActionController::Base do
     end
     
     it "should raise if passing a local that's not needed" do
-      proc { test_action(:render_erector_with_locals_from_erb_not_needed) }.should raise_error(ActionView::TemplateError, /Excess parameters?: .*baz/)
+      proc { test_action(:render_erector_with_locals_from_erb_not_needed) }.should raise_error(ActionView::TemplateError, /Excess parameters?.*: .*baz/)
     end
     
     it "should not pass unneeded controller variables to a partial" do

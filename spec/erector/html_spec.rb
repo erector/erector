@@ -506,4 +506,45 @@ describe Erector::HTML do
       erector { close_tag :foo; close_tag :bar }.should == "</foo></bar>"
     end
   end
+
+  describe "exception handling" do
+    class RenderWithReturn < Erector::Widget
+      def content
+        h2 do
+          return "returned_value"
+          text "don't get here"
+        end
+      end
+    end
+
+    it "closes tags when a block returns" do
+      RenderWithReturn.new.to_html.should == "<h2></h2>"
+    end
+
+    it "closes tags when a block throws and the exception is caught" do
+      erector do
+        begin
+          div do
+            raise "no way"
+            text "not reached"
+          end
+        rescue
+        end
+      end.should == "<div></div>"
+    end
+
+    it "closes tags when throwing block versus text exception" do
+      erector do
+        begin
+          span "a value" do
+            text "a block"
+          end
+        rescue ArgumentError => e
+          e.to_s.should include(
+            "You can't pass both a block and a value")
+        end
+      end.should == "<span></span>"
+    end
+  end
+
 end
