@@ -1,7 +1,8 @@
-== 
+== 0.8.2 - 2011-02-16
 
-Bugs:
-* Dependency did not correctly work with uniq (reported by Daniel Barlow)
+* Close tags on exception or return
+* Gem dependency cleanup
+* Bug: Dependency did not correctly work with uniq (reported by Daniel Barlow)
 
 == 0.8.1 - 2010-07-17
 
