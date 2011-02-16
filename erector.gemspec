@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{erector}
-  s.version = "0.8.1"
+  s.version = "0.8.2"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Alex Chaffee", "Brian Takita", "Jeff Dean", "Jim Kingdon"]
-  s.date = %q{2010-07-18}
+  s.date = %q{2011-02-16}
   s.default_executable = %q{erector}
   s.description = %q{Erector is a Builder-like view framework, inspired by Markaby but overcoming some of its flaws. In Erector all views are objects, not template files, which allows the full power of object-oriented programming (inheritance, modular decomposition, encapsulation) in views.}
   s.email = %q{erector@googlegroups.com}
@@ -69,7 +69,7 @@ Gem::Specification.new do |s|
   s.rdoc_options = ["--charset=UTF-8"]
   s.require_paths = ["lib"]
   s.rubyforge_project = %q{erector}
-  s.rubygems_version = %q{1.3.7}
+  s.rubygems_version = %q{1.5.2}
   s.summary = %q{Html Builder library.}
   s.test_files = [
     "spec/erect",
@@ -82,6 +82,8 @@ Gem::Specification.new do |s|
      "spec/erector/convenience_spec.rb",
      "spec/erector/dependency_spec.rb",
      "spec/erector/externals_spec.rb",
+     "spec/erector/hello_from_readme.rb",
+     "spec/erector/hello_from_readme_spec.rb",
      "spec/erector/html_spec.rb",
      "spec/erector/indentation_spec.rb",
      "spec/erector/inline_spec.rb",
@@ -102,7 +104,6 @@ Gem::Specification.new do |s|
   ]
 
   if s.respond_to? :specification_version then
-    current_version = Gem::Specification::CURRENT_SPECIFICATION_VERSION
     s.specification_version = 3
 
     if Gem::Version.new(Gem::VERSION) >= Gem::Version.new('1.2.0') then
