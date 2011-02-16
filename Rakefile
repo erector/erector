@@ -1,3 +1,4 @@
+require 'psych'  # to fix http://stackoverflow.com/questions/4932881/gemcutter-rake-build-now-throws-undefined-method-write-for-syckemitter
 puts "RUBY_VERSION=#{RUBY_VERSION}"
 require 'rubygems'
 
