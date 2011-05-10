@@ -177,6 +177,7 @@ module Erector
     # Return a character given its unicode code point or unicode name.
     def character(code_point_or_name)
       if code_point_or_name.is_a?(Symbol)
+        require "erector/unicode"
         found = Erector::CHARACTERS[code_point_or_name]
         if found.nil?
           raise "Unrecognized character #{code_point_or_name}"
