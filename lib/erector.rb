@@ -9,9 +9,6 @@ rescue LoadError => e
   # oh well, no Sass
 end
 
-require "erector/errors"
-require "erector/extensions/object"
-require "erector/extensions/hash"
 require "erector/raw_string"
 require "erector/dependencies"
 require "erector/dependency"

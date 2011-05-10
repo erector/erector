@@ -157,7 +157,7 @@ grammar Rhtml
         if stripped.empty?
           ""
         else
-          line "text '#{stripped.html_unescape.gsub(/\'/, "\\\\'")
+          line "text '#{CGI.unescapeHTML(stripped).gsub(/\'/, "\\\\'")
           }'"
         end
       end
@@ -209,7 +209,9 @@ grammar Rhtml
       
       def extract_erb(s, parenthesize = true)
         if s =~ /^(.*?)<%=(.*?)%>(.*?)$/
-          pre, code, post = $1.html_unescape.escape_single_quotes, $2, $3.html_unescape.escape_single_quotes
+          pre, code, post = $1, $2, $3
+          pre = CGI.unescapeHTML(pre).gsub(/[']/, '\\\\\'')
+          post = CGI.unescapeHTML(post).gsub(/[']/, '\\\\\'')
           out = ""
           out = "'#{pre}' + " unless pre.length == 0
           out += parenthesize_if_necessary(code.strip)
@@ -220,7 +222,7 @@ grammar Rhtml
           out = parenthesize_if_necessary(out) if parenthesize
           out
         else
-          "'" + s.html_unescape.escape_single_quotes + "'"
+          "'" + CGI.unescapeHTML(s).gsub(/[']/, '\\\\\'') + "'"
         end
       end
     }
