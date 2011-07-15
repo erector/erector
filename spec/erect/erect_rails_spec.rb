@@ -85,7 +85,7 @@ describe "the 'erector' command" do
 
         FileUtils.cd('dummy') do
           run "BUNDLE_GEMFILE=./Gemfile bundle install"
-          puts(run "BUNDLE_GEMFILE=./Gemfile bundle exec rails generate scaffold post title:string body:text published:boolean")
+          run "BUNDLE_GEMFILE=./Gemfile bundle exec rails generate scaffold post title:string body:text published:boolean"
           run "BUNDLE_GEMFILE=./Gemfile bundle exec erector ./app/views/posts"
 
           FileUtils.rm_f("app/views/posts/*.erb")
