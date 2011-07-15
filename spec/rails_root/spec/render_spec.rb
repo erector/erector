@@ -8,15 +8,6 @@ describe ActionController::Base do
     # We need this, because we reference Views::Test::Needs below, and it
     # doesn't auto-load otherwise.
     require 'views/test/needs.html.rb'
-    
-    def render_widget_with_implicit_assigns
-      @foobar = "foobar"
-      render_widget TestWidget
-    end
-
-    def render_widget_with_explicit_assigns
-      render_widget TestWidget, :foobar => "foobar"
-    end
 
     def render_widget_class
       @foobar = "foobar"
@@ -200,26 +191,9 @@ describe ActionController::Base do
     end
   end
 
-  before do
-    @controller = TestController.new
-    @request    = ActionController::TestRequest.new
-    @response   = ActionController::TestResponse.new
-  end
-
   def test_action(action)
-    @request.action = action.to_s
-    @controller.process(@request, @response)
+    @response = TestController.action(action).call(Rack::MockRequest.env_for("/path"))[2]
     @response.body
-  end
-
-  describe "#render_widget" do
-    it "should render a widget with implicit assigns" do
-      test_action(:render_widget_with_implicit_assigns).should == "foobar"
-    end
-
-    it "should render a widget with explicit assigns" do
-      test_action(:render_widget_with_explicit_assigns).should == "foobar"
-    end
   end
 
   describe "#render" do

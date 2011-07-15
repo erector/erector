@@ -1,6 +1,4 @@
-require File.expand_path("#{File.dirname(__FILE__)}/../spec_helper")
-require "erector/rails"
-require "rails/version"
+require File.expand_path("../../spec_helper", __FILE__)
 
 # backport mktmpdir so this test will work on Ruby 1.8.6
 unless Dir.respond_to?(:mktmpdir)
@@ -49,60 +47,50 @@ end
 # converter tool on a newly generated scaffold app (like we brag about in the 
 # user guide).
 #
-module Erector
-  describe "the Rails version" do
-    it "should be #{Erector::Rails::RAILS_VERSION}" do
-      ::Rails::VERSION::STRING.should == Erector::Rails::RAILS_VERSION
+describe "the 'erector' command" do
+  def run(cmd)
+    stderr_file = Dir.tmpdir + "/stderr.txt"
+    stdout = IO.popen(cmd + " 2>#{stderr_file}") do |pipe|
+      pipe.read
+    end
+    stderr = File.open(stderr_file) {|f| f.read}
+    FileUtils.rm_f(stderr_file)
+    if $?.exitstatus != 0 || stdout =~ /\berror\b/
+      run_info = "Command #{cmd} failed\nDIR:\n  #{Dir.getwd}\nSTDOUT:\n#{indent stdout}\nSTDERR:\n#{indent stderr}"
+      raise run_info
+    else
+      return stdout
     end
   end
 
-  describe "Erect in a Rails app" do
-    def run(cmd)
-      stderr_file = Dir.tmpdir + "/stderr.txt"
-      stdout = IO.popen(cmd + " 2>#{stderr_file}") do |pipe|
-        pipe.read
-      end
-      stderr = File.open(stderr_file) {|f| f.read}
-      FileUtils.rm_f(stderr_file)
-      if $?.exitstatus != 0
-        raise "Command #{cmd} failed\nDIR:\n  #{Dir.getwd}\nSTDOUT:\n#{indent stdout}\nSTDERR:\n#{indent stderr}"
-      else
-        return stdout
-      end
-    end
-    
-    def indent(s)
-      s.gsub(/^/, '  ')
-    end
+  def indent(s)
+    s.gsub(/^/, '  ')
+  end
 
-    it "works like we say it does in the user guide" do
-      erector_dir = File.expand_path("#{File.dirname(__FILE__)}/../..")
+  it "works like we say it does in the user guide" do
+    erector_dir = File.expand_path("../../..", __FILE__)
+    puts "erector_dir=#{erector_dir}"
+    Dir.mktmpdir do |app_dir|
+      FileUtils.cd(app_dir) do
+        run "bundle exec rails new dummy"
 
-      # We add the paths to our vendored copy of rails to the load paths, so
-      # that this spec can be run without having a version of Rails (which may
-      # not match the version we wish to test against) installed.
-      rails_libs_argument = "-I'#{RAILS_LOAD_PATHS.join("':'")}'"
+        File.open('dummy/Gemfile', 'w') do |gemfile|
+          gemfile.write <<-GEMFILE
+            source 'http://rubygems.org'
 
-      Dir.mktmpdir do |app_dir|
-        run "ruby #{rails_libs_argument} '#{VENDOR_RAILS}/railties/bin/rails' '#{app_dir}'"
+            gem "rails", "~> 3.0.0"
+            gem 'sqlite3-ruby', :require => 'sqlite3'
+            gem "erector", :path => "#{erector_dir}"
+          GEMFILE
+        end
 
-        FileUtils.cp_r(VENDOR_RAILS, "#{app_dir}/vendor/rails")
-
-        FileUtils.mkdir_p(app_dir + "/vendor/gems")
-        FileUtils.cp_r(erector_dir, "#{app_dir}/vendor/gems/erector")
-
-        FileUtils.cd(app_dir) do
-          run "script/generate scaffold post title:string body:text published:boolean"
-
-          # The 'erector' binary would normally have been installed through rubygems,
-          # providing it with a wrapper script which requires rubygems. But here we
-          # run it directly, so we need to require rubygems explicitly before running
-          # the main script.
-          run "ruby #{rails_libs_argument} -I'#{erector_dir}/lib' " +
-            "-e \"require 'rubygems'; load '#{erector_dir}/bin/erector'\" app/views/posts"
+        FileUtils.cd('dummy') do
+          run "BUNDLE_GEMFILE=./Gemfile bundle install"
+          puts(run "BUNDLE_GEMFILE=./Gemfile bundle exec rails generate scaffold post title:string body:text published:boolean")
+          run "BUNDLE_GEMFILE=./Gemfile bundle exec erector ./app/views/posts"
 
           FileUtils.rm_f("app/views/posts/*.erb")
-          run "rake --trace db:migrate"
+          run "BUNDLE_GEMFILE=./Gemfile bundle exec rake --trace db:migrate"
 
           # run "script/server" # todo: launch in background; use mechanize or something to crawl it; then kill it
           # perhaps use open4?

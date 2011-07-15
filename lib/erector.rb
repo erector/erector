@@ -32,3 +32,5 @@ require "erector/unicode"
 require "erector/widgets"
 require "erector/version"
 require "erector/mixin"
+
+require "erector/rails" if defined?(Rails)

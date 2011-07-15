@@ -8,12 +8,11 @@ Gem::Specification.new do |s|
   s.version = "0.8.2"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
-  s.authors = ["Alex Chaffee", "Brian Takita", "Jeff Dean", "Jim Kingdon"]
-  s.date = %q{2011-02-16}
-  s.default_executable = %q{erector}
+  s.authors = [%q{Alex Chaffee}, %q{Brian Takita}, %q{Jeff Dean}, %q{Jim Kingdon}, %q{John Firebaugh}]
+  s.date = %q{2011-07-15}
   s.description = %q{Erector is a Builder-like view framework, inspired by Markaby but overcoming some of its flaws. In Erector all views are objects, not template files, which allows the full power of object-oriented programming (inheritance, modular decomposition, encapsulation) in views.}
   s.email = %q{erector@googlegroups.com}
-  s.executables = ["erector"]
+  s.executables = [%q{erector}]
   s.extra_rdoc_files = [
     "README.txt"
   ]
@@ -43,13 +42,18 @@ Gem::Specification.new do |s|
      "lib/erector/needs.rb",
      "lib/erector/output.rb",
      "lib/erector/rails.rb",
-     "lib/erector/rails/extensions/action_controller.rb",
-     "lib/erector/rails/extensions/rails_helpers.rb",
-     "lib/erector/rails/extensions/rails_widget.rb",
-     "lib/erector/rails/rails_form_builder.rb",
-     "lib/erector/rails/rails_version.rb",
-     "lib/erector/rails/template_handlers/ert_handler.rb",
-     "lib/erector/rails/template_handlers/rb_handler.rb",
+     "lib/erector/rails/form_builder.rb",
+     "lib/erector/rails/railtie.rb",
+     "lib/erector/rails/template_handler.rb",
+     "lib/erector/rails/widget_renderer.rb",
+     "lib/erector/rails2.rb",
+     "lib/erector/rails2/extensions/action_controller.rb",
+     "lib/erector/rails2/extensions/rails_helpers.rb",
+     "lib/erector/rails2/extensions/rails_widget.rb",
+     "lib/erector/rails2/rails_form_builder.rb",
+     "lib/erector/rails2/rails_version.rb",
+     "lib/erector/rails2/template_handlers/ert_handler.rb",
+     "lib/erector/rails2/template_handlers/rb_handler.rb",
      "lib/erector/raw_string.rb",
      "lib/erector/sass.rb",
      "lib/erector/unicode.rb",
@@ -62,14 +66,13 @@ Gem::Specification.new do |s|
      "lib/erector/widgets/field_table.rb",
      "lib/erector/widgets/form.rb",
      "lib/erector/widgets/page.rb",
-     "lib/erector/widgets/table.rb",
-     "rails/init.rb"
+     "lib/erector/widgets/table.rb"
   ]
   s.homepage = %q{http://erector.rubyforge.org/}
-  s.rdoc_options = ["--charset=UTF-8"]
-  s.require_paths = ["lib"]
+  s.rdoc_options = [%q{--charset=UTF-8}]
+  s.require_paths = [%q{lib}]
   s.rubyforge_project = %q{erector}
-  s.rubygems_version = %q{1.5.2}
+  s.rubygems_version = %q{1.8.5}
   s.summary = %q{Html Builder library.}
   s.test_files = [
     "spec/erect",
@@ -100,6 +103,113 @@ Gem::Specification.new do |s|
      "spec/erector/widgets/form_spec.rb",
      "spec/erector/widgets/page_spec.rb",
      "spec/erector/widgets/table_spec.rb",
+     "spec/rails2",
+     "spec/rails2/erect_rails_spec.rb",
+     "spec/rails2/rails_root",
+     "spec/rails2/rails_root/app",
+     "spec/rails2/rails_root/app/controllers",
+     "spec/rails2/rails_root/app/controllers/application.rb",
+     "spec/rails2/rails_root/app/helpers",
+     "spec/rails2/rails_root/app/helpers/application_helper.rb",
+     "spec/rails2/rails_root/app/views",
+     "spec/rails2/rails_root/app/views/test",
+     "spec/rails2/rails_root/app/views/test/_erb.erb",
+     "spec/rails2/rails_root/app/views/test/_erector.rb",
+     "spec/rails2/rails_root/app/views/test/_partial_with_locals.rb",
+     "spec/rails2/rails_root/app/views/test/bare.rb",
+     "spec/rails2/rails_root/app/views/test/erb_from_erector.html.rb",
+     "spec/rails2/rails_root/app/views/test/erector_from_erb.html.erb",
+     "spec/rails2/rails_root/app/views/test/erector_with_locals_from_erb.html.erb",
+     "spec/rails2/rails_root/app/views/test/implicit_assigns.html.rb",
+     "spec/rails2/rails_root/app/views/test/needs.html.rb",
+     "spec/rails2/rails_root/app/views/test/needs_subclass.html.rb",
+     "spec/rails2/rails_root/app/views/test/protected_instance_variable.html.rb",
+     "spec/rails2/rails_root/app/views/test/render_default.html.rb",
+     "spec/rails2/rails_root/app/views/test/render_partial.html.rb",
+     "spec/rails2/rails_root/config",
+     "spec/rails2/rails_root/config/boot.rb",
+     "spec/rails2/rails_root/config/database.yml",
+     "spec/rails2/rails_root/config/environment.rb",
+     "spec/rails2/rails_root/config/environments",
+     "spec/rails2/rails_root/config/environments/development.rb",
+     "spec/rails2/rails_root/config/environments/production.rb",
+     "spec/rails2/rails_root/config/environments/test.rb",
+     "spec/rails2/rails_root/config/initializers",
+     "spec/rails2/rails_root/config/initializers/inflections.rb",
+     "spec/rails2/rails_root/config/initializers/mime_types.rb",
+     "spec/rails2/rails_root/config/routes.rb",
+     "spec/rails2/rails_root/doc",
+     "spec/rails2/rails_root/doc/README_FOR_APP",
+     "spec/rails2/rails_root/public",
+     "spec/rails2/rails_root/public/404.html",
+     "spec/rails2/rails_root/public/422.html",
+     "spec/rails2/rails_root/public/500.html",
+     "spec/rails2/rails_root/public/dispatch.cgi",
+     "spec/rails2/rails_root/public/dispatch.fcgi",
+     "spec/rails2/rails_root/public/dispatch.rb",
+     "spec/rails2/rails_root/public/favicon.ico",
+     "spec/rails2/rails_root/public/images",
+     "spec/rails2/rails_root/public/images/rails.png",
+     "spec/rails2/rails_root/public/index.html",
+     "spec/rails2/rails_root/public/javascripts",
+     "spec/rails2/rails_root/public/javascripts/application.js",
+     "spec/rails2/rails_root/public/javascripts/controls.js",
+     "spec/rails2/rails_root/public/javascripts/dragdrop.js",
+     "spec/rails2/rails_root/public/javascripts/effects.js",
+     "spec/rails2/rails_root/public/javascripts/prototype.js",
+     "spec/rails2/rails_root/public/robots.txt",
+     "spec/rails2/rails_root/Rakefile",
+     "spec/rails2/rails_root/README",
+     "spec/rails2/rails_root/script",
+     "spec/rails2/rails_root/script/about",
+     "spec/rails2/rails_root/script/console",
+     "spec/rails2/rails_root/script/destroy",
+     "spec/rails2/rails_root/script/generate",
+     "spec/rails2/rails_root/script/performance",
+     "spec/rails2/rails_root/script/performance/benchmarker",
+     "spec/rails2/rails_root/script/performance/profiler",
+     "spec/rails2/rails_root/script/performance/request",
+     "spec/rails2/rails_root/script/plugin",
+     "spec/rails2/rails_root/script/process",
+     "spec/rails2/rails_root/script/process/inspector",
+     "spec/rails2/rails_root/script/process/reaper",
+     "spec/rails2/rails_root/script/process/spawner",
+     "spec/rails2/rails_root/script/runner",
+     "spec/rails2/rails_root/script/server",
+     "spec/rails2/rails_root/spec",
+     "spec/rails2/rails_root/spec/rails_helpers_spec.rb",
+     "spec/rails2/rails_root/spec/rails_spec_helper.rb",
+     "spec/rails2/rails_root/spec/rails_widget_spec.rb",
+     "spec/rails2/rails_root/spec/render_spec.rb",
+     "spec/rails2/rails_root/vendor",
+     "spec/rails2/rails_root/vendor/plugins",
+     "spec/rails2/rails_root/vendor/plugins/empty.txt",
+     "spec/rails2/rails_root/vendor/plugins/rails_xss",
+     "spec/rails2/rails_root/vendor/plugins/rails_xss/init.rb",
+     "spec/rails2/rails_root/vendor/plugins/rails_xss/lib",
+     "spec/rails2/rails_root/vendor/plugins/rails_xss/lib/rails_xss",
+     "spec/rails2/rails_root/vendor/plugins/rails_xss/lib/rails_xss/action_view.rb",
+     "spec/rails2/rails_root/vendor/plugins/rails_xss/lib/rails_xss/erubis.rb",
+     "spec/rails2/rails_root/vendor/plugins/rails_xss/lib/rails_xss/string_ext.rb",
+     "spec/rails2/rails_root/vendor/plugins/rails_xss/lib/rails_xss.rb",
+     "spec/rails2/rails_root/vendor/plugins/rails_xss/lib/tasks",
+     "spec/rails2/rails_root/vendor/plugins/rails_xss/lib/tasks/rails_xss_tasks.rake",
+     "spec/rails2/rails_root/vendor/plugins/rails_xss/MIT-LICENSE",
+     "spec/rails2/rails_root/vendor/plugins/rails_xss/Rakefile",
+     "spec/rails2/rails_root/vendor/plugins/rails_xss/README.markdown",
+     "spec/rails2/rails_root/vendor/plugins/rails_xss/test",
+     "spec/rails2/rails_root/vendor/plugins/rails_xss/test/active_record_helper_test.rb",
+     "spec/rails2/rails_root/vendor/plugins/rails_xss/test/asset_tag_helper_test.rb",
+     "spec/rails2/rails_root/vendor/plugins/rails_xss/test/caching_test.rb",
+     "spec/rails2/rails_root/vendor/plugins/rails_xss/test/date_helper_test.rb",
+     "spec/rails2/rails_root/vendor/plugins/rails_xss/test/deprecated_output_safety_test.rb",
+     "spec/rails2/rails_root/vendor/plugins/rails_xss/test/erb_util_test.rb",
+     "spec/rails2/rails_root/vendor/plugins/rails_xss/test/form_helper_test.rb",
+     "spec/rails2/rails_root/vendor/plugins/rails_xss/test/form_tag_helper_test.rb",
+     "spec/rails2/rails_root/vendor/plugins/rails_xss/test/output_safety_test.rb",
+     "spec/rails2/rails_root/vendor/plugins/rails_xss/test/rails_xss_test.rb",
+     "spec/rails2/rails_root/vendor/plugins/rails_xss/test/test_helper.rb",
+     "spec/rails2/rails_root/vendor/plugins/rails_xss/test/text_helper_test.rb",
      "spec/spec_helper.rb"
   ]
 

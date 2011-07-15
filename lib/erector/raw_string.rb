@@ -4,5 +4,9 @@ module Erector
     def html_safe?
       true
     end
+
+    def to_s
+      self
+    end
   end
 end
