@@ -33,6 +33,14 @@ class ExternalRenderer < Erector::Widget
         rawtext external.text
       end
     end
+
+    if Object.const_defined?(:Sass)
+      rendered_externals(:scss).each do |external|
+        style({:type => "text/css", 'xml:space' => 'preserve'}.merge(external.options)) do
+          rawtext Sass.compile(external.text)
+        end
+      end
+    end
   end
   
   def inline_scripts
