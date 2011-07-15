@@ -69,7 +69,6 @@ describe "the 'erector' command" do
 
   it "works like we say it does in the user guide" do
     erector_dir = File.expand_path("../../..", __FILE__)
-    puts "erector_dir=#{erector_dir}"
     Dir.mktmpdir do |app_dir|
       FileUtils.cd(app_dir) do
         run "bundle exec rails new dummy"

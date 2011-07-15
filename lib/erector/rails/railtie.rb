@@ -1,6 +1,6 @@
 module Erector
   class Railtie < ::Rails::Railtie
-    config.generators.template_engine :erector
+    # config.generators.template_engine :rb
 
     # TODO: automatically add app directory to app.config.autoload_paths,
     # so that Views::Foo::Bar autoloads, and 'require "views/foo/bar.html"'
