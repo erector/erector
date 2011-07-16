@@ -27,6 +27,9 @@ gem list --local bundler | grep bundler || gem install bundler || exit 1
 # conditionally install project gems from Gemfile
 bundle check || bundle install || exit 1
 
+# do the same for the rails 2 app
+(cd spec/rails2/rails_app; bundle check || bundle install || exit 1)
+
 # remove the warning again after we've created all the gem directories
 remove_annoying_warning
 
