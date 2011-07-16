@@ -117,8 +117,8 @@ task :publish_web do
   sh %{rsync #{rsync_args} --exclude=#{rdoc_dir} #{local_dir}/ #{host}:#{remote_dir}}
 end
 
-require 'rake/rdoctask'
-Rake::RDocTask.new(:rdoc) do |rdoc|
+require 'rdoc/task'
+RDoc::Task.new(:rdoc) do |rdoc|
   rdoc.rdoc_dir = 'rdoc'
   rdoc.title    = "Erector #{Erector::VERSION}"
   rdoc.options << '--inline-source' << "--promiscuous"
