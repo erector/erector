@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-desired_ruby=ruby-1.8.6-p399
+desired_ruby=ruby-1.9.2-p180
 project_name=erector
 
 # remove annoying "warning: Insecure world writable dir"
