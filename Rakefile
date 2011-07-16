@@ -25,7 +25,7 @@ puts "RUBY_VERSION=#{RUBY_VERSION}"
 #
 require 'rake'
 require 'rake/testtask'
-require 'hanna/rdoctask'
+# require 'hanna/rdoctask'
 require 'rake/gempackagetask'
 require "rspec/core/rake_task"
 
@@ -117,11 +117,12 @@ task :publish_web do
   sh %{rsync #{rsync_args} --exclude=#{rdoc_dir} #{local_dir}/ #{host}:#{remote_dir}}
 end
 
+require 'rake/rdoctask'
 Rake::RDocTask.new(:rdoc) do |rdoc|
   rdoc.rdoc_dir = 'rdoc'
   rdoc.title    = "Erector #{Erector::VERSION}"
   rdoc.options << '--inline-source' << "--promiscuous"
-  rdoc.options << "--template=hanna"
+  # rdoc.options << "--template=hanna"
   rdoc.options << "--main=README.txt"
 #  rdoc.options << '--diagram' if RUBY_PLATFORM !~ /win32/ and `which dot` =~ /\/dot/ and not ENV['NODOT']
   rdoc.rdoc_files.include('README.txt')
