@@ -13,6 +13,7 @@ module Erector
       def self.def_simple_rails_helper(method_name)
         module_eval(<<-METHOD_DEF, __FILE__, __LINE__+1)
           def #{method_name}(*args, &block)
+            # i wonder why this is text and not rawtext
             text parent.#{method_name}(*args, &block)
           end
         METHOD_DEF
@@ -93,18 +94,30 @@ module Erector
             if block_given?
               parent.#{method_name}(*args, &block)
             else
-              text parent.#{method_name}(*args, &block)
+              rails_helper_output = parent.#{method_name}(*args, &block)
+              # i wonder why this is text and not rawtext
+              text rails_helper_output
             end
           end
         METHOD_DEF
       end
 
-      [:link_to,
-       :form_tag,
+      [:form_tag,
        :field_set_tag,
        :form_remote_tag,
        :javascript_tag].each do |method_name|
         def_block_rails_helper(method_name)
+      end
+
+      def link_to(*args, &block)
+        if block_given?
+          parent.link_to(*args, &block)
+        else
+          args[0] = args[0].html_escape
+          rails_helper_output = parent.link_to(*args, &block)
+          # i wonder why this is text and not rawtext
+          text rails_helper_output
+        end
       end
 
       # Delegate to non-markup producing helpers via method_missing,

@@ -43,11 +43,14 @@ module Erector
 
       view.send(:_evaluate_assigns_and_ivars)
 
-      view.with_output_buffer do
+      output_buffer = view.with_output_buffer do
         # Set parent to the view and use Rails's output buffer.
+        new_output = Output.new { view.output_buffer }
         widget.to_html(options.merge(:parent => view,
-                                  :output => Output.new { view.output_buffer }))
+                                  :output => new_output))
       end
+      output_buffer
+
     end
 
     module WidgetExtensions

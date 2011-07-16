@@ -1,11 +1,11 @@
 require "action_controller"
-require "erector/rails/rails_version"
-require "erector/rails/rails_form_builder"
-require "erector/rails/extensions/action_controller"
-require "erector/rails/extensions/rails_helpers"
-require "erector/rails/extensions/rails_widget"
-require "erector/rails/template_handlers/rb_handler"
-require "erector/rails/template_handlers/ert_handler"
+require "erector/rails2/rails_version"
+require "erector/rails2/rails_form_builder"
+require "erector/rails2/extensions/action_controller"
+require "erector/rails2/extensions/rails_helpers"
+require "erector/rails2/extensions/rails_widget"
+require "erector/rails2/template_handlers/rb_handler"
+require "erector/rails2/template_handlers/ert_handler"
 
 module Erector
   def self.init_rails(binding)
