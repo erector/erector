@@ -32,7 +32,7 @@ module Erector
 
     def initialize(assigns = {}, &block)
       unless assigns.is_a? Hash
-        raise "Erector widgets are initialized with only a parameter hash. (Other parameters are passed to to_html, or the #widget method.)"
+        raise ArgumentError, "Erector widgets are initialized with only a parameter hash, but you passed #{assigns.class}:#{assigns.inspect}. (Other parameters are passed to to_html, or the #widget method.)"
       end
 
       @_assigns = assigns
