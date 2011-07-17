@@ -73,17 +73,15 @@ describe "the 'erector' command" do
       FileUtils.cd(app_dir) do
         run "bundle exec rails new dummy"
 
-        File.open('dummy/Gemfile', 'w') do |gemfile|
-          gemfile.write <<-GEMFILE
-            source 'http://rubygems.org'
-
-            gem "rails", "~> 3.0.0"
-            gem 'sqlite3-ruby', :require => 'sqlite3'
+        File.open('dummy/Gemfile', 'a+') do |gemfile|
+          require 'rails/version'
+          gemfile.write <<-GEMFILE.strip
             gem "erector", :path => "#{erector_dir}"
           GEMFILE
         end
 
         FileUtils.cd('dummy') do
+          # puts File.read("./Gemfile")
           run "BUNDLE_GEMFILE=./Gemfile bundle install"
           run "BUNDLE_GEMFILE=./Gemfile bundle exec rails generate scaffold post title:string body:text published:boolean"
           run "BUNDLE_GEMFILE=./Gemfile bundle exec #{erector_dir}/bin/erector ./app/views/posts"
