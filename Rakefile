@@ -1,28 +1,8 @@
-require 'psych'  # to fix http://stackoverflow.com/questions/4932881/gemcutter-rake-build-now-throws-undefined-method-write-for-syckemitter
 puts "RUBY_VERSION=#{RUBY_VERSION}"
 
-# require 'rubygems'
-#
-# begin
-#   require 'bundler'
-# rescue LoadError
-#   puts "bundler not found; attempting shell install of bundler"
-#   sh "which ruby"
-#   sh "gem install bundler"
-#   require 'bundler'
-# end
-#
-# begin
-#   Bundler.setup
-# rescue Bundler::BundlerError => e
-#   puts "$USER is #{ENV['USER']}"
-#   puts "Bundler.setup failed with BundlerError: #{e.message}"
-#   puts "Attempting shell install of gem bundle"
-#   sh "echo USER=$USER && which ruby && ruby --version && which bundle"
-#   sh "bundle install"
-#   Bundler.setup
-# end
-#
+# fix http://stackoverflow.com/questions/4932881/gemcutter-rake-build-now-throws-undefined-method-write-for-syckemitter
+require 'psych' unless RUBY_VERSION =~ /^1\.8/
+
 require 'rake'
 require 'rake/testtask'
 # require 'hanna/rdoctask'
