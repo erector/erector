@@ -151,6 +151,17 @@ end
 })
     end
 
+    it "escapes single quotes around ERb escapes" do
+      convert(".",
+        "<div value=\"don't <%= tase %> me, bro!\" />",
+%{class Dummy < Erector::Widget
+  def content
+    div(:value => ('don\\\'t ' + tase + ' me, bro!'))
+  end
+end
+})
+    end
+
 # todo: figure out if there is any such thing as unparsable HTML anymore
 #    it "raises an exception if given unparsable HTML" do
 #      begin

@@ -3,6 +3,9 @@ require "rake"
 require "erector/erect/erected"  # pull this out so we don't recreate the grammar every time
 
 module Erector
+
+  # "erect" is the erstwhile name of the command-line tool that converts between HTML/ERB and Erector.
+  # It's invoked via "erector --to-html foo.rb" or "erector --to-erector foo.html" (default is --to-erector)
   class Erect
     attr_reader :files, :verbose, :mode, :output_dir, :superklass, :method_name
     def initialize(args)
@@ -11,7 +14,7 @@ module Erector
       @output_dir = nil
       @superklass = 'Erector::Widget'
       @method_name = 'content'
-      
+
       opts = OptionParser.new do |opts|
         opts.banner = "Usage: erector [options] [file|dir]*"
 
@@ -23,7 +26,7 @@ module Erector
                 "Operate silently except in case of error") do |quiet|
           @verbose = !quiet
         end
-        
+
         opts.on("--to-erector", "(default) Convert from html/rhtml to erector classes") do
           @mode = :to_erector
         end
@@ -31,15 +34,15 @@ module Erector
         opts.on("--to-html", "Convert from erector to html") do
           @mode = :to_html
         end
-        
+
         opts.on("--superclass SUPERCLASS", "Superclass for new widget (default Erector::Widget)") do |superklass|
           @superklass = superklass
         end
-        
+
         opts.on("--method METHOD", "Method containing content for widget (default 'content')") do |method_name|
           @method_name = method_name
         end
-        
+
         opts.on("-o", "--output-dir DIRECTORY", "Output files to DIRECTORY (default: output files go next to input files)") do |dir|
           @output_dir = dir
         end
@@ -54,17 +57,17 @@ module Erector
           puts Erector::VERSION
           exit
         end
-        
+
       end
       opts.parse!(args)
       @files = args
       explode_dirs
     end
-    
+
     def say(msg)
       print msg if verbose
     end
-    
+
     #todo: unit test
     def explode_dirs
       exploded_files = FileList.new
@@ -77,7 +80,7 @@ module Erector
       end
       @files = exploded_files
     end
-    
+
     def explode(dir)
       case mode
       when :to_erector
@@ -86,13 +89,13 @@ module Erector
         FileList["#{dir}/**/*.rb"]
       end
     end
-    
+
     def run
       @success = true
       self.send(mode)
       @success
     end
-    
+
     def to_erector
       files.each do |file|
         say "Erecting #{file}... "
@@ -118,7 +121,7 @@ module Erector
           filename = file.split('/').last.gsub(/\.rb$/, '')
           widget_name = camelize(filename)
           widget_class = constantize(widget_name)
-          
+
           if widget_class < Erector::Widget
             widget = widget_class.new
             #todo: skip if it's missing a no-arg constructor
@@ -139,7 +142,7 @@ module Erector
         end
       end
     end
-    
+
     # stolen from activesuppport/lib/inflector.rb
     def camelize(lower_case_and_underscored_word, first_letter_in_uppercase = true)
       if first_letter_in_uppercase
@@ -154,7 +157,7 @@ module Erector
       end
       Object.module_eval("::#{$1}", __FILE__, __LINE__)
     end
-    
+
 
   end
 end

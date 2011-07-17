@@ -80,11 +80,11 @@ grammar Rhtml
       def convert_removing_trims
         convert.gsub(/\s*\-\s*$/, '')
       end
-      
+
       def text_value_removing_trims
         text_value.gsub(/\s*\-\s*$/, '')
       end
-      
+
       def convert
         code = text_value.strip
         # matches a word, followed by either a word, a string, or a symbol
@@ -101,7 +101,7 @@ grammar Rhtml
 			end
 		}
 	end
-	
+
 	rule directive
 	  '<!' [^>]* '>' <Erector::Indenting> {
 			def convert
@@ -113,7 +113,7 @@ grammar Rhtml
   rule tagname
     [A-Za-z0-9_:-]+
   end
-  
+
   rule varname
     [A-Za-z0-9_]+
   end
@@ -197,21 +197,27 @@ grammar Rhtml
       def value
         val.text_value
       end
-    
+
       def convert
         extract_erb(val.text_value)
       end
-      
+
       def parenthesize_if_necessary(s)
         return s if s.strip =~ /^\(.*\)$/ || s =~ /^[A-Z0-9_]*$/i
         "(" + s + ")"
       end
-      
+
+      def escape_single_quotes(s)
+        s.gsub(/[']/, '\\\\\'')
+      end
+
+      def escape_quoted(s)
+        escape_single_quotes(CGI.unescapeHTML(s))
+      end
+
       def extract_erb(s, parenthesize = true)
         if s =~ /^(.*?)<%=(.*?)%>(.*?)$/
-          pre, code, post = $1, $2, $3
-          pre = CGI.unescapeHTML(pre).gsub(/[']/, '\\\\\'')
-          post = CGI.unescapeHTML(post).gsub(/[']/, '\\\\\'')
+          pre, code, post = escape_quoted($1), $2, escape_quoted($3)
           out = ""
           out = "'#{pre}' + " unless pre.length == 0
           out += parenthesize_if_necessary(code.strip)
@@ -222,7 +228,7 @@ grammar Rhtml
           out = parenthesize_if_necessary(out) if parenthesize
           out
         else
-          "'" + CGI.unescapeHTML(s).gsub(/[']/, '\\\\\'') + "'"
+          "'" + escape_quoted(s) + "'"
         end
       end
     }
