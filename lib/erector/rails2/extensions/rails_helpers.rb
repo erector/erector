@@ -113,7 +113,7 @@ module Erector
         if block_given?
           parent.link_to(*args, &block)
         else
-          args[0] = args[0].html_escape
+          args[0] = CGI.escapeHTML(args[0])
           rails_helper_output = parent.link_to(*args, &block)
           # i wonder why this is text and not rawtext
           text rails_helper_output
