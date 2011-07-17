@@ -1,4 +1,10 @@
 module Erector
+
+  # Externals are a mechanism by which a widget can declare page-level
+  # resources upon which it depends. They are not emitted during the widget's
+  # normal rendering process. Rather, the Erector::Widget::Page keeps track of
+  # all the widgets it renders, then goes back and inserts the proper tags for
+  # all the externals inside its HEAD element.
   module Externals
     def self.included(base)
       base.extend ClassMethods
@@ -45,7 +51,7 @@ module Erector
       def my_dependencies
         @my_dependencies ||= Dependencies.new
       end
-      
+
       private
       INFERABLE_TYPES = [:css, :js]
 
