@@ -156,19 +156,16 @@ namespace :spec do
   desc "Run core specs."
   RSpec::Core::RakeTask.new(:core) do |spec|
     spec.pattern = 'spec/erector/*_spec.rb'
-    spec.rspec_opts = ['--backtrace']
   end
 
   desc "Run specs for the 'erector' command line tool."
   RSpec::Core::RakeTask.new(:erect) do |spec|
     spec.pattern = 'spec/erect/*_spec.rb'
-    spec.rspec_opts = ['--backtrace']
   end
 
   desc "Run specs for erector's Rails integration."
   RSpec::Core::RakeTask.new(:rails) do |spec|
     spec.pattern = 'spec/rails_root/spec/*_spec.rb'
-    spec.rspec_opts = ['--backtrace']
   end
 
   desc "Run specs for erector's Rails integration under Rails 2."

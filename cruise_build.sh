@@ -27,6 +27,9 @@ gem list --local bundler | grep bundler || gem install bundler || exit 1
 # conditionally install project gems from Gemfile
 bundle check || bundle install || exit 1
 
+# force install the sqlite3 gem since the CI box is a weirdo
+gem install sqlite3 --no-rdoc --no-ri
+
 # do the same for the rails 2 app
 (cd spec/rails2/rails_app; bundle check || bundle install || exit 1)
 
