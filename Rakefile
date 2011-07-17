@@ -1,28 +1,8 @@
-require 'psych'  # to fix http://stackoverflow.com/questions/4932881/gemcutter-rake-build-now-throws-undefined-method-write-for-syckemitter
 puts "RUBY_VERSION=#{RUBY_VERSION}"
 
-# require 'rubygems'
-#
-# begin
-#   require 'bundler'
-# rescue LoadError
-#   puts "bundler not found; attempting shell install of bundler"
-#   sh "which ruby"
-#   sh "gem install bundler"
-#   require 'bundler'
-# end
-#
-# begin
-#   Bundler.setup
-# rescue Bundler::BundlerError => e
-#   puts "$USER is #{ENV['USER']}"
-#   puts "Bundler.setup failed with BundlerError: #{e.message}"
-#   puts "Attempting shell install of gem bundle"
-#   sh "echo USER=$USER && which ruby && ruby --version && which bundle"
-#   sh "bundle install"
-#   Bundler.setup
-# end
-#
+# fix http://stackoverflow.com/questions/4932881/gemcutter-rake-build-now-throws-undefined-method-write-for-syckemitter
+require 'psych' unless RUBY_VERSION =~ /^1\.8/
+
 require 'rake'
 require 'rake/testtask'
 # require 'hanna/rdoctask'
@@ -30,8 +10,8 @@ require 'rake/gempackagetask'
 require "rspec/core/rake_task"
 
 require 'rdoc'
-
-$LOAD_PATH.unshift("#{File.dirname(__FILE__)}/lib")
+here = File.expand_path(File.dirname(__FILE__))
+$LOAD_PATH.unshift("#{here}/lib")
 
 require "erector/version"
 
@@ -156,22 +136,19 @@ namespace :spec do
   desc "Run core specs."
   RSpec::Core::RakeTask.new(:core) do |spec|
     spec.pattern = 'spec/erector/*_spec.rb'
-    spec.rspec_opts = ['--backtrace']
   end
 
   desc "Run specs for the 'erector' command line tool."
   RSpec::Core::RakeTask.new(:erect) do |spec|
     spec.pattern = 'spec/erect/*_spec.rb'
-    spec.rspec_opts = ['--backtrace']
   end
 
   desc "Run specs for erector's Rails integration."
   RSpec::Core::RakeTask.new(:rails) do |spec|
     spec.pattern = 'spec/rails_root/spec/*_spec.rb'
-    spec.rspec_opts = ['--backtrace']
   end
 
-  desc "Run specs for erector's Rails integration."
+  desc "Run specs for erector's Rails integration under Rails 2."
   task :rails2 do
     Dir.chdir("spec/rails2/rails_app") do
       # Bundler.with_clean_env do
@@ -179,12 +156,13 @@ namespace :spec do
       # end
     end
   end
-  # RSpec::Core::RakeTask.new(:rails2) do |spec|
-  #   spec.pattern = 'spec/rails2/rails_app/spec/*_spec.rb'
-  #   spec.rspec_opts = ['--backtrace']
-  #   spec.skip_bundler = true
-  #   # spec.gemfile = 'spec/rails2/rails_app/Gemfile'
-  # end
+
+  desc "Run all specs under Rails 3.1 - prepare with 'bundle install --gemfile Gemfile-rails31'"
+  task :rails31 do
+    gemfile = "#{here}/Gemfile-rails31"
+    sh "BUNDLE_GEMFILE='#{gemfile}' bundle exec rake spec:core spec:erect spec:rails"
+  end
+
 end
 
 desc "Run the specs for the erector plugin"

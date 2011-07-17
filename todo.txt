@@ -1,53 +1,56 @@
-add "fork me on github" badge
+# 0.9 release
+* announce on Pivotal Blabs
+* comment on https://pivotallabs.com/users/alex/blog/articles/1029-why-wouldn-t-you-use-erector-
+* comment on http://www.quora.com/Why-dont-more-people-use-Erector?srid=uJ6p
 
-use rvm to test locally under 1.8.6
+# Web Site
+* add "fork me on github" badge
 
-(DONE) rename to_s to to_html
+# Documentation
+* caching
+* externals
+* rails
 
-change instance vars to start with @_
+# Technical
+* use rvm to test locally under 1.8.6/1.8.7
+* change all instance vars to start with @_
+* depends_on FooWidget, BarWidget (add all of these widgets' dependencies)
+* unify :script and :js, :style and :css
+* rename 'css' convenience method to 'css_link' method, or otherwise remove confusion between inline and linked css
+* make render switch inside ExternalRenderer
 
-(DONE) rename 'user guide' to 'documentation' or something more clear
-
-(DONE) rename "external" to "depends_on"
-
-(DONE) variant syntaxes for "depends_on"
-   depends_on :js => ["foo.js", "bar.js"]
-  
-depends_on FooWidget, BarWidget
-  -- add all of these widgets' dependencies
-  
-(DONE) cleverly figure out the external type
-  depends_on "foo.js"
-  depends_on "foo.css"
-  depends_on File.new("foo.js")
-  depends_on File.new("foo.css")
-
-unify :script and :js, :style and :css
-
-make render switch inside ExternalRenderer
-  class FooWidget < Widget
-    depends_on "jquery.js", :render => :link
-    depends_on "foo.js"
-    depends_on "bar.js"
-
-  end
-
-  ExternalRenderer.default_render = :embed
-
-
-pluggable renderer e.g.
-  class JavaScriptRenderer < Widget
-    def content
-      if @external.options[:render] == :embed
-        javascript @external.options do
-          rawtext @external.text
+        class FooWidget < Widget
+          depends_on "jquery.js", :render => :link
+          depends_on "foo.js"
+          depends_on "bar.js"
         end
-      else
-        script({:type => "text/javascript", :src => @external.text}.merge(@external.options))
-      end
-    end
-  end
-  
-  ExternalRenderer.renderer_for(:js, JavaScriptRenderer)
 
-rename 'css' convenience method to 'css_link' method, or otherwise remove confusion between inline and linked css
+        ExternalRenderer.default_render = :embed
+
+
+* pluggable renderer e.g.
+        class JavaScriptRenderer < Widget
+          def content
+            if @external.options[:render] == :embed
+              javascript @external.options do
+                rawtext @external.text
+              end
+            else
+              script({:type => "text/javascript", :src => @external.text}.merge(@external.options))
+            end
+          end
+        end
+
+        ExternalRenderer.renderer_for(:js, JavaScriptRenderer)
+* dot-class and bang-id
+* rename Cache to WidgetCache
+* use Moneta for WidgetCache
+  * should give us couchdb, memcache, etc. caching
+
+* better sass support
+* haml support
+
+* XML widget
+* dynamic widget (use method_missing so unknown messages become tags)
+
+
