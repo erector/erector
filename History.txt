@@ -3,6 +3,11 @@
 * Finally merged bigfix/rails3 branch - Erector now works with either Rails 2 or Rails 3 (or neither)
 * 'scss' external type [needs tests]
 
+Deprecated or Removed:
+
+* text(widget) -- passing a widget to the text method is now an error
+* element! -- removed
+
 == 0.8.2 - 2011-02-16
 
 * Close tags on exception or return

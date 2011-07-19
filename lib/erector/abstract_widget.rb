@@ -66,6 +66,7 @@ module Erector
     #           Rails view object.
     # content_method_name:: in case you want to call a method other than
     #                       #content, pass its name in here.
+    #
     def to_html(options = {})
       raise "Erector::Widget#to_html takes an options hash, not a symbol. Try calling \"to_html(:content_method_name=> :#{options})\"" if options.is_a? Symbol
       _render(options).to_s

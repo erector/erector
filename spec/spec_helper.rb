@@ -13,6 +13,8 @@ require "rspec"
 require "rspec/autorun"
 require "open3"
 
+require "wrong/adapters/rspec"
+
 unless '1.9'.respond_to?(:force_encoding)
   String.class_eval do
     begin
