@@ -2,6 +2,7 @@
 
 * Finally merged bigfix/rails3 branch - Erector now works with either Rails 2 or Rails 3 (or neither)
 * 'scss' external type [needs tests]
+* dot-class and dot-id-bang syntax
 
 Deprecated or Removed:
 
