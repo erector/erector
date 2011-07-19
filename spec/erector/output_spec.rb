@@ -38,11 +38,17 @@ module Erector
         @output << "foo" << "bar"
         @output.to_a.join.should == "foobar"
       end
+
+      it "works with a string buffer" do
+        o = Output.new(:buffer => "")
+        o << "foo" << "bar"
+        o.to_a.should == ["foobar"]
+      end
     end
 
     it "can be initialized with an existing string buffer" do
       s = "foo"
-      @output = Output.new { s }
+      @output = Output.new(:buffer => s)
       @output << "bar"
       s.should == "foobar"
       @output.to_s.should == "foobar"
@@ -184,16 +190,68 @@ module Erector
 
     end
 
-    class Puppy < Erector::Widget
-    end
-    class Kitten < Erector::Widget
+    describe "widget tracking" do
+
+      class Puppy < Erector::Widget
+      end
+      class Kitten < Erector::Widget
+      end
+
+      it "can keep track of widget classes emitted to it" do
+        @output.widgets << Puppy
+        @output.widgets << Kitten
+        @output.widgets << Puppy
+        @output.widgets.to_a.should include_only([Puppy, Kitten])
+      end
+
     end
 
-    it "can keep track of widget classes emitted to it" do
-      @output.widgets << Puppy
-      @output.widgets << Kitten
-      @output.widgets << Puppy
-      @output.widgets.to_a.should include_only([Puppy, Kitten])
+    describe "mark and rewind" do
+      it "with an array buffer" do
+        a = []
+        @output = Output.new(:buffer => a)
+        @output << "foo"
+        @output.mark
+
+        @output << "bar"
+        a.should == ["foo", "bar"]
+        @output.to_s.should == "foobar"
+
+        @output.rewind
+        @output.to_s.should == "foo"
+        a.should == ["foo"]
+
+        @output << "goo"
+        a.should == ["foo", "goo"]
+        @output.to_s.should == "foogoo"
+
+        @output.rewind
+        @output << "fa"
+        @output << "la"
+        a.should == ["foo", "fa", "la"]
+        @output.to_s.should == "foofala"
+      end
+
+      it "with a string buffer" do
+        s = ""
+        @output = Output.new(:buffer => s)
+        @output << "foo"
+        @output.mark
+
+        @output << "bar"
+        s.should == "foobar"
+
+        @output.rewind
+        s.should == "foo"
+
+        @output << "goo"
+        s.should == "foogoo"
+
+        @output.rewind
+        @output << "fa"
+        @output << "la"
+        s.should == "foofala"
+      end
     end
   end
 end

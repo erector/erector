@@ -45,7 +45,7 @@ module Erector
 
       output_buffer = view.with_output_buffer do
         # Set parent to the view and use Rails's output buffer.
-        new_output = Output.new { view.output_buffer }
+        new_output = Output.new :buffer => lambda { view.output_buffer }
         widget.to_html(options.merge(:parent => view,
                                   :output => new_output))
       end

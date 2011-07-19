@@ -4,19 +4,20 @@ module Erector
 
     attr_reader :prettyprint, :widgets, :indentation, :max_length
 
-    def initialize(options = {}, & get_buffer)
+    def initialize(options = {})
       @prettyprint = options.fetch(:prettyprint, Widget.prettyprint_default)
       @indentation = options.fetch(:indentation, 0)
       @current_line_length = 0
       @max_length = options[:max_length]
       @widgets = []
-      if get_buffer
-        @get_buffer = get_buffer
-      elsif buffer = options[:output]
-        @get_buffer = lambda { buffer }
+
+      @get_buffer = if options[:buffer] and options[:buffer].respond_to? :call
+        options[:buffer]
+      elsif options[:buffer]
+        lambda { options[:buffer] }
       else
         buffer = []
-        @get_buffer = lambda { buffer }
+        lambda { buffer }
       end
     end
 
@@ -25,11 +26,13 @@ module Erector
     end
 
     def <<(s)
+      # raise s.inspect unless s.is_a? String
+      #
       s = s.to_s unless s.is_a? String
       append_indentation
       if @max_length && s.length + @current_line_length > @max_length
         leading_spaces = s =~ /^( +)/ ? $1.size : 0
-        trailing_spaces = s =~ /( +)$/ ? $1.size : 0 
+        trailing_spaces = s =~ /( +)$/ ? $1.size : 0
 
         append(" " * leading_spaces)
         need_space = false
@@ -51,10 +54,11 @@ module Erector
       self
     end
 
-    # Inserts a blank string into the output stream and returns a pointer to it.
-    # If the caller holds on to this pointer, she can later go back and insert text
-    # earlier in the stream. This is used for, e.g., inserting stuff inside the
-    # HEAD element that is not known until after the entire page renders.
+    # Inserts a blank string into the output stream and returns a pointer to
+    # it. If the caller holds on to this pointer, she can later go back and
+    # insert text earlier in the stream. This is used for, e.g., inserting
+    # stuff inside the HEAD element that is not known until after the entire
+    # page renders.
     def placeholder
       s = ""
       buffer << s
@@ -92,6 +96,21 @@ module Erector
     def append_newline
       buffer << "\n"
       @current_line_length = 0
+    end
+
+    def mark
+      @mark = buffer.size
+    end
+
+    def rewind
+      if buffer.kind_of?(Array)
+        buffer.slice!(@mark..-1)
+      elsif buffer.kind_of?(String)
+        buffer.slice!(@mark..-1)
+      else
+        raise "Don't know how to rewind a #{buffer.class}"
+      end
+
     end
 
     protected
