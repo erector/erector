@@ -105,6 +105,10 @@ module Erector
     def rewind
       if buffer.kind_of?(Array)
         buffer.slice!(@mark..-1)
+      elsif (Object.const_defined?(:ActiveSupport) and
+        buffer.kind_of?(ActiveSupport::SafeBuffer))
+        # monkey patch to get around SafeBuffer's well-meaning paranoia
+        String.instance_method(:slice!).bind(buffer).call(@mark..-1)
       elsif buffer.kind_of?(String)
         buffer.slice!(@mark..-1)
       else

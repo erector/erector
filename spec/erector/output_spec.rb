@@ -1,5 +1,7 @@
 require File.expand_path("#{File.dirname(__FILE__)}/../spec_helper")
 
+require 'active_support'
+
 module Erector
   describe Erector::Output do
     before do
@@ -252,6 +254,39 @@ module Erector
         @output << "la"
         s.should == "foofala"
       end
+
+      it "with a SafeBuffer buffer" do
+        s = ActiveSupport::SafeBuffer.new
+        @output = Output.new(:buffer => s)
+        @output << "foo"
+        @output.mark
+
+        @output << "bar"
+        s.should == "foobar"
+
+        @output.rewind
+        s.should == "foo"
+
+        @output << "goo"
+        s.should == "foogoo"
+
+        @output.rewind
+        @output << "fa"
+        @output << "la"
+        s.should == "foofala"
+      end
+
+      # it "returns and accepts a value" do
+      #   s = ""
+      #   @output = Output.new(:buffer => s)
+      #   @output << "a"
+      #   mark1 = @output.mark
+      #   output << "b"
+      #   mark2 = @output.mark
+      #
+      #   @output.rewind(mark1)
+      #   s.should == "a"
+      # end
     end
   end
 end

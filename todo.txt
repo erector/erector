@@ -17,6 +17,7 @@
 * depends_on FooWidget, BarWidget (add all of these widgets' dependencies)
 * unify :script and :js, :style and :css
 * rename 'css' convenience method to 'css_link' method, or otherwise remove confusion between inline and linked css
+@ rename External to Extra since it's more descriptive
 * make render switch inside ExternalRenderer
 
         class FooWidget < Widget
@@ -52,5 +53,5 @@
 
 * XML widget
 * dynamic widget (use method_missing so unknown messages become tags)
-
+* pass multiple args to an element method, including promises so they can be rewound and rerendered later. Merge this with "join" method.
 

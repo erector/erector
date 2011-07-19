@@ -228,7 +228,7 @@ module WidgetSpec
       it "renders a widget" do
         erector do
           text "B"
-          text Erector.inline { p "A" }
+          widget Erector.inline { p "A" }
           text "B"
         end.should == "B<p>A</p>B"
       end

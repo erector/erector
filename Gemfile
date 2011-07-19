@@ -15,7 +15,7 @@ group :development do
   gem "erubis"
   gem "rdoc", "~>2.3"
   # gem "hanna", :git => "git://github.com/mislav/hanna.git"
-  gem "wrong"
+  gem "wrong", ">=0.5.4"
 end
 
 group :rails do

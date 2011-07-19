@@ -427,11 +427,6 @@ describe Erector::HTML do
         erector { element "foo", plain }.should == "<foo>#{escaped}</foo>"
       end
     end
-    describe "#element!" do
-      it "doesn't HTML escape its param" do
-        erector { element! "foo", plain }.should == "<foo>#{plain}</foo>"
-      end
-    end
   end
 
   describe "#javascript" do
@@ -500,13 +495,6 @@ describe Erector::HTML do
     end
   end
 
-  describe "#close_tag" do
-    it "works when it's all alone, even though it messes with the indent level" do
-      erector { close_tag :foo }.should == "</foo>"
-      erector { close_tag :foo; close_tag :bar }.should == "</foo></bar>"
-    end
-  end
-
   describe "exception handling" do
     class RenderWithReturn < Erector::Widget
       def content
@@ -536,14 +524,16 @@ describe Erector::HTML do
     it "closes tags when throwing block versus text exception" do
       erector do
         begin
-          span "a value" do
-            text "a block"
+          div do
+            span "a value" do
+              text "a block"
+            end
           end
         rescue ArgumentError => e
           e.to_s.should include(
-            "You can't pass both a block and a value")
+            "You can't pass both a block and a value to span")
         end
-      end.should == "<span></span>"
+      end.should == "<div></div>"
     end
   end
 

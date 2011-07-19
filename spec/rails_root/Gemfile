@@ -7,4 +7,5 @@ gem "i18n"
 
 group :test do
   gem 'rspec'
+  gem "wrong", ">=0.5.4"
 end

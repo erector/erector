@@ -25,12 +25,20 @@ module Erector
     # which are rendered, or strings, which are html-escaped and output.
     def join(array, separator)
       first = true
-      array.each do |widget_or_text|
+      array.each do |item|
         if !first
-          text separator
+          if separator.is_a? Widget
+            widget separator
+          else
+            text separator
+          end
         end
         first = false
-        text widget_or_text
+        if item.is_a? Widget
+          widget item
+        else
+          text item
+        end
       end
     end
 

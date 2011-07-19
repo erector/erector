@@ -156,8 +156,16 @@ module Erector
       @_block   = block if block
       @_parent  = options[:parent]  || parent
       @_helpers = options[:helpers] || parent
-      @_output  = options[:output]
-      @_output  = Output.new(options) unless output.is_a?(Output)
+      if options[:output]
+        # todo: document that either :buffer or :output can be used to specify an output buffer, and deprecate :output
+        if options[:output].is_a? Output
+          @_output = options[:output]
+        else
+          @_output = Output.new({:buffer => options[:output]}.merge(options))
+        end
+      else
+        @_output = Output.new(options)
+      end
 
       output.widgets << self.class
       send(options[:content_method_name] || :content)
