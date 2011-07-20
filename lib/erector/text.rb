@@ -9,12 +9,39 @@ module Erector
     # You shouldn't pass a widget in to this method, as that will cause
     # performance problems (as well as being semantically goofy). Use the
     # #widget method instead.
-    def text(value)
-      if value.is_a? Widget
-        # todo: better deprecation
-        raise "Don't pass a widget to the text method. Use the widget method instead."
+    def text(*values)
+      options = if values.last.is_a? Hash
+        values.pop
+      else
+        {}
       end
-      output << h(value)
+      delimiter = options[:join]
+
+      values.select{|value| value.is_a? Promise}.each do |promise|
+        # erase whatever the promises wrote already
+        promise._rewind
+      end
+
+      first = true
+      values.each do |value|
+        if !first and delimiter
+          output << h(delimiter)
+        end
+        first = false
+
+        case value
+        when Widget
+          # todo: better deprecation
+          raise "Don't pass a widget to the text method. Use the widget method instead."
+        when Promise
+          value._mark # so the promise's rewind won't erase anything
+          value._render # render the promise to the output stream again
+          # note: we could let the promise cache its first effort, but
+          # here I think it's better to optimize for memory over speed
+        else
+          output << h(value)
+        end
+      end
       nil
     end
 

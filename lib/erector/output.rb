@@ -102,15 +102,15 @@ module Erector
       @mark = buffer.size
     end
 
-    def rewind
+    def rewind pos = @mark
       if buffer.kind_of?(Array)
-        buffer.slice!(@mark..-1)
+        buffer.slice!(pos..-1)
       elsif (Object.const_defined?(:ActiveSupport) and
         buffer.kind_of?(ActiveSupport::SafeBuffer))
         # monkey patch to get around SafeBuffer's well-meaning paranoia
-        String.instance_method(:slice!).bind(buffer).call(@mark..-1)
+        String.instance_method(:slice!).bind(buffer).call(pos..-1)
       elsif buffer.kind_of?(String)
-        buffer.slice!(@mark..-1)
+        buffer.slice!(pos..-1)
       else
         raise "Don't know how to rewind a #{buffer.class}"
       end

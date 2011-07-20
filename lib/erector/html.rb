@@ -19,7 +19,7 @@ module Erector
       if tag.self_closing?
         self.class_eval(<<-SRC, __FILE__, __LINE__ + 1)
           def #{tag.name}(*args, &block)
-            __empty_element__('#{tag.name}', *args, &block)
+            _empty_element('#{tag.name}', *args, &block)
           end
         SRC
       else

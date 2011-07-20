@@ -33,7 +33,7 @@ module Erector
     # in this rdoc page, but trust us, they're there.
     #
     def empty_element(*args, &block)
-      __empty_element__(*args, &block)
+      _empty_element(*args, &block)
     end
 
     # moved to Promise
@@ -99,7 +99,7 @@ module Erector
       promise
     end
 
-    def __empty_element__(tag_name, attributes={})
+    def _empty_element(tag_name, attributes={})
       promise = Promise.new(output, tag_name, attributes, true, newliney?(tag_name))
       promise._render
       promise

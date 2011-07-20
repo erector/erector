@@ -21,8 +21,7 @@ module Erector
       _set_attributes attributes
       @text = nil
       @inside_renderer = inside_renderer
-
-      @output.mark
+      _mark
     end
 
     def _set_attributes attributes
@@ -31,8 +30,16 @@ module Erector
       end
     end
 
+    def _mark
+      @mark = @output.mark
+    end
+
+    def _rewind
+      @output.rewind @mark
+    end
+
     def _render
-      @output.rewind
+      _rewind
       _render_open_tag
       begin
         _render_inside_tag

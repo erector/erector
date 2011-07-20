@@ -224,7 +224,7 @@ module WidgetSpec
       end
     end
 
-    describe '#text' do
+    describe '#widget' do
       it "renders a widget" do
         erector do
           text "B"
@@ -233,6 +233,50 @@ module WidgetSpec
         end.should == "B<p>A</p>B"
       end
     end
+
+    describe '#text' do
+      it "fails to render a widget" do
+        lambda do
+          erector do
+            text "B"
+            text Erector.inline { p "A" }
+            text "B"
+          end
+        end.should raise_error
+      end
+
+      it "can take several text values" do
+        erector do
+          text "a", "b", "c"
+        end.should == "abc"
+      end
+
+      it "can take several text values with a text delimiter" do
+        erector do
+          text "a", "b", "c", :join => " "
+        end.should == "a b c"
+      end
+
+      it "can take several text values including a promise" do
+        erector do
+          text "i ", b("love"), " cheese"
+        end.should == "i <b>love</b> cheese"
+      end
+
+      it "can take several text values including several promises and a delimiter" do
+        erector do
+          text "i", b("love"), i("green"), "cheese", :join => " "
+        end.should == "i <b>love</b> <i>green</i> cheese"
+      end
+
+      it "can take several text values including a dot-class promise" do
+        erector do
+          text "i ", b.wow("love"), " cheese"
+        end.should == "i <b class=\"wow\">love</b> cheese"
+      end
+
+    end
+
 
     describe "assigning instance variables" do
       it "handles instance variable names with and without '@' in the beginning" do

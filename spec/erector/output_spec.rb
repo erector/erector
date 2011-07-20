@@ -276,17 +276,17 @@ module Erector
         s.should == "foofala"
       end
 
-      # it "returns and accepts a value" do
-      #   s = ""
-      #   @output = Output.new(:buffer => s)
-      #   @output << "a"
-      #   mark1 = @output.mark
-      #   output << "b"
-      #   mark2 = @output.mark
-      #
-      #   @output.rewind(mark1)
-      #   s.should == "a"
-      # end
+      it "returns and accepts a value" do
+        s = ""
+        @output = Output.new(:buffer => s)
+        @output << "a"
+        mark1 = @output.mark
+        @output << "b"
+        mark2 = @output.mark
+
+        @output.rewind(mark1)
+        s.should == "a"
+      end
     end
   end
 end

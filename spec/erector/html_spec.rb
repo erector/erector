@@ -405,6 +405,7 @@ describe Erector::HTML do
         erector { text h(plain) }.should == escaped
       end
     end
+
     describe "#rawtext" do
       it "doesn't HTML escape its param" do
         erector { rawtext plain }.should == plain
