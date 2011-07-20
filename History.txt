@@ -8,6 +8,8 @@ Deprecated or Removed:
 
 * text(widget) -- passing a widget to the text method is now an error
 * element! -- removed
+* empty_element -- removed
+* all_tags -- removed (perhaps to be replaced)
 
 == 0.8.2 - 2011-02-16
 

@@ -3,11 +3,6 @@ end
 
 require "cgi"
 require "yaml"
-begin
-  require "sass"
-rescue LoadError => e
-  # oh well, no Sass
-end
 
 require "erector/raw_string"
 require "erector/dependencies"

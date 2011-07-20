@@ -7,7 +7,7 @@ module Erector
     #
     # Using the arcane powers of Ruby, there are magic methods that call
     # +element+ for all the standard HTML tags, like +a+, +body+, +p+, and so
-    # forth. Look at the source of #full_tags for the full list.
+    # forth. Look at the source of erector/html.rb for the full list.
     # Unfortunately, this big mojo confuses rdoc, so we can't see each method
     # in this rdoc page, but trust us, they're there.
     #
@@ -20,7 +20,7 @@ module Erector
     # how elegant it is? Not confusing at all if you don't think about it.
     #
     def element(*args, &block)
-      __element__(*args, &block)
+      _element(*args, &block)
     end
 
     # Internal method used to emit a self-closing HTML/XML element, including
@@ -28,7 +28,7 @@ module Erector
     #
     # Using the arcane powers of Ruby, there are magic methods that call
     # +empty_element+ for all the standard HTML tags, like +img+, +br+, and so
-    # forth. Look at the source of #empty_tags for the full list.
+    # forth. Look at the source of #self_closing_tags for the full list.
     # Unfortunately, this big mojo confuses rdoc, so we can't see each method
     # in this rdoc page, but trust us, they're there.
     #
@@ -61,7 +61,7 @@ module Erector
     #   end
     # end
 
-    def __element__(tag_name, *args, &block)
+    def _element(tag_name, *args, &block)
       if args.length > 2
         raise ArgumentError, "Cannot accept more than four arguments"
       end

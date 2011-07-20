@@ -3,13 +3,6 @@ require File.expand_path("#{File.dirname(__FILE__)}/../spec_helper")
 describe Erector::HTML do
   include Erector::Mixin
 
-  describe ".all_tags" do
-    it "returns set of full and empty tags" do
-      Erector::Widget.all_tags.class.should == Array
-      Erector::Widget.all_tags.should == Erector::Widget.full_tags + Erector::Widget.empty_tags
-    end
-  end
-
   describe "#instruct" do
     it "when passed no arguments; returns an XML declaration with version 1 and utf-8" do
       # version must precede encoding, per XML 1.0 4th edition (section 2.8)
@@ -148,7 +141,7 @@ describe Erector::HTML do
     end
 
     it "renders the proper full tags" do
-      Erector::Widget.full_tags.each do |tag_name|
+      Erector::HTML.full_tags.each do |tag_name|
         expected = "<#{tag_name}></#{tag_name}>"
         actual = erector { send(tag_name) }
         begin
@@ -252,7 +245,7 @@ describe Erector::HTML do
     end
 
     it "renders the proper empty-element tags" do
-      Erector::Widget.empty_tags.each do |tag_name|
+      Erector::HTML.self_closing_tags.each do |tag_name|
         expected = "<#{tag_name} />"
         actual = erector { send(tag_name) }
         begin

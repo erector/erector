@@ -2,75 +2,186 @@ require "erector/element"
 require "erector/attributes"
 require "erector/promise"
 require "erector/text"
+require "erector/tag"
 
 module Erector
   module HTML
-    module ClassMethods
-      # Tags which are always self-closing. Click "[show source]" to see the full list.
-      def empty_tags
-        ['area', 'base', 'br', 'col', 'embed', 'frame',
-        'hr', 'img', 'input', 'link', 'meta', 'param']
-      end
 
-      # Tags which can contain other stuff. Click "[show source]" to see the full list.
-      def full_tags
-        [
-          'a', 'abbr', 'acronym', 'address', 'article', 'aside', 'audio',
-          'b', 'bdo', 'big', 'blockquote', 'body', 'button',
-          'canvas', 'caption', 'center', 'cite', 'code', 'colgroup', 'command',
-          'datalist', 'dd', 'del', 'details', 'dfn', 'dialog', 'div', 'dl', 'dt',
-          'em',
-          'fieldset', 'figure', 'footer', 'form', 'frameset',
-          'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'head', 'header', 'hgroup', 'html', 'i',
-          'iframe', 'ins', 'keygen', 'kbd', 'label', 'legend', 'li',
-          'map', 'mark', 'meter',
-          'nav', 'noframes', 'noscript',
-          'object', 'ol', 'optgroup', 'option',
-          'p', 'pre', 'progress',
-          'q', 'ruby', 'rt', 'rp', 's',
-          'samp', 'script', 'section', 'select', 'small', 'source', 'span', 'strike',
-          'strong', 'style', 'sub', 'sup',
-          'table', 'tbody', 'td', 'textarea', 'tfoot',
-          'th', 'thead', 'time', 'title', 'tr', 'tt',
-          'u', 'ul',
-          'var', 'video'
-        ]
-      end
+    # todo: move these tag methods to some parent class or module so we can
+    # have different XML-ish document types
 
-      def all_tags
-        full_tags + empty_tags
-      end
+    @@tags = {}
 
-      def def_empty_tag_method(tag_name)
+    def self.tag *args
+      tag = Tag.new(*args)
+      @@tags[tag.name] = tag
+
+      if tag.self_closing?
         self.class_eval(<<-SRC, __FILE__, __LINE__ + 1)
-          def #{tag_name}(*args, &block)
-            __empty_element__('#{tag_name}', *args, &block)
+          def #{tag.name}(*args, &block)
+            __empty_element__('#{tag.name}', *args, &block)
           end
         SRC
-      end
-
-      def def_full_tag_method(tag_name)
+      else
         self.class_eval(<<-SRC, __FILE__, __LINE__ + 1)
-          def #{tag_name}(*args, &block)
-              __element__('#{tag_name}', *args, &block)
+          def #{tag.name}(*args, &block)
+              _element('#{tag.name}', *args, &block)
           end
 
-          def #{tag_name}!(*args, &block)
-            __element__('#{tag_name}', *(args.map{|a|raw(a)}), &block)
+          def #{tag.name}!(*args, &block)
+            _element('#{tag.name}', *(args.map{|a|raw(a)}), &block)
           end
         SRC
       end
     end
 
-    def self.included(base)
-      base.extend ClassMethods
+    # Tags which are always self-closing
+    def self.self_closing_tags
+      @@tags.values.select{|tag| tag.self_closing?}.map{|tag| tag.name}
+    end
 
-      base.full_tags.each do |tag_name|
-        base.def_full_tag_method(tag_name)
-      end
+    # Tags which can contain other stuff
+    def self.full_tags
+      @@tags.values.select{|tag| !tag.self_closing?}.map{|tag| tag.name}
+    end
 
-      base.empty_tags.each do |tag_name|
-        base.def_empty_tag_method(tag_name)
+    tag 'area', :self_closing
+    tag 'base', :self_closing
+    tag 'br', :self_closing
+    tag 'col', :self_closing
+    tag 'embed', :self_closing
+    tag 'frame', :self_closing
+    tag 'hr', :self_closing
+    tag 'img', :self_closing, :inline
+    tag 'input', :self_closing, :inline
+    tag 'link', :self_closing
+    tag 'meta', :self_closing
+    tag 'param', :self_closing
+
+    tag 'a', :inline
+    tag 'abbr'
+    tag 'acronym'
+    tag 'address'
+    tag 'article'
+    tag 'aside'
+    tag 'audio'
+
+    tag 'b', :inline
+    tag 'bdo'
+    tag 'big'
+    tag 'blockquote'
+    tag 'body'
+    tag 'button', :inline
+
+    tag 'canvas'
+    tag 'caption'
+    tag 'center'
+    tag 'cite'
+    tag 'code'
+    tag 'colgroup'
+    tag 'command'
+
+    tag 'datalist'
+    tag 'dd'
+    tag 'del'
+    tag 'details'
+    tag 'dfn'
+    tag 'dialog'
+    tag 'div'
+    tag 'dl'
+    tag 'dt'
+
+    tag 'em'
+
+    tag 'fieldset'
+    tag 'figure'
+    tag 'footer'
+    tag 'form'
+    tag 'frameset'
+
+    tag 'h1'
+    tag 'h2'
+    tag 'h3'
+    tag 'h4'
+    tag 'h5'
+    tag 'h6'
+    tag 'head'
+    tag 'header'
+    tag 'hgroup'
+    tag 'html'
+    tag 'i', :inline
+
+    tag 'iframe'
+    tag 'ins'
+    tag 'keygen'
+    tag 'kbd'
+    tag 'label'
+    tag 'legend'
+    tag 'li'
+
+    tag 'map'
+    tag 'mark'
+    tag 'meter'
+
+    tag 'nav'
+    tag 'noframes'
+    tag 'noscript'
+
+    tag 'object'
+    tag 'ol'
+    tag 'optgroup'
+    tag 'option'
+
+    tag 'p'
+    tag 'pre'
+    tag 'progress'
+
+    tag 'q'
+    tag 'ruby'
+    tag 'rt'
+    tag 'rp'
+    tag 's'
+
+    tag 'samp'
+    tag 'script'
+    tag 'section'
+    tag 'select', :inline
+    tag 'small', :inline
+    tag 'source'
+    tag 'span', :inline
+    tag 'strike'
+
+    tag 'strong'
+    tag 'style'
+    tag 'sub'
+    tag 'sup'
+
+    tag 'table'
+    tag 'tbody'
+    tag 'td'
+    tag 'textarea', :inline
+    tag 'tfoot'
+
+    tag 'th'
+    tag 'thead'
+    tag 'time'
+    tag 'title'
+    tag 'tr'
+    tag 'tt'
+
+    tag 'u'
+    tag 'ul'
+
+    tag 'var'
+    tag 'video'
+
+
+    def newliney?(tag_name)
+      tag = @@tags[tag_name]
+      if tag
+        tag.newliney?
+      else
+        true
       end
     end
 
@@ -155,13 +266,5 @@ module Erector
       stringized.sort{|a, b| b <=> a}
     end
 
-    NON_NEWLINEY = {'i' => true, 'b' => true, 'small' => true,
-      'img' => true, 'span' => true, 'a' => true,
-      'input' => true, 'textarea' => true, 'button' => true, 'select' => true
-    }
-
-    def newliney?(tag_name)
-      !NON_NEWLINEY.include?(tag_name)
-    end
   end
 end
