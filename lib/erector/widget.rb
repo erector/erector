@@ -1,3 +1,9 @@
+require "erector/element"
+require "erector/attributes"
+require "erector/promise"
+require "erector/text"
+require "erector/tag"
+
 module Erector
   
   # A Widget is the center of the Erector universe.
@@ -36,12 +42,27 @@ module Erector
   #
   # This class extends AbstractWidget and includes several modules,
   # so be sure to check all of those places for API documentation for the
-  # various methods of Widget. Also read the API Cheatsheet in the user guide
-  # at http://erector.rubyforge.org/userguide#apicheatsheet
+  # various methods of Widget:
   #
-  # Now, seriously, after playing around a bit, go read the user guide. It's
-  # fun!  
+  # * Element
+  # * Attributes
+  # * Text
+  # * HTML
+  # * Convenience
+  # * Needs
+  # * Caching
+  # * Externals
+  # * AfterInitialize
+  # 
+  # * JQuery
+  # * Sass  
+  #
+  # Also read the API Cheatsheet in the user guide
+  # at http://erector.rubyforge.org/userguide#apicheatsheet
   class Widget < AbstractWidget
+    include Erector::Element
+    include Erector::Attributes
+    include Erector::Text
     include Erector::HTML
     include Erector::Needs
     include Erector::Caching
@@ -49,6 +70,6 @@ module Erector
     include Erector::Convenience
     include Erector::JQuery
     include Erector::AfterInitialize
-    include Erector::Sass if Object.const_defined?(:Sass)
+    include Erector::Sass if Object.const_defined?(:Sass)    
   end
 end

@@ -1,7 +1,11 @@
 puts "RUBY_VERSION=#{RUBY_VERSION}"
 
-# fix http://stackoverflow.com/questions/4932881/gemcutter-rake-build-now-throws-undefined-method-write-for-syckemitter
-require 'psych' unless RUBY_VERSION =~ /^1\.8/
+begin
+  # fix http://stackoverflow.com/questions/4932881/gemcutter-rake-build-now-throws-undefined-method-write-for-syckemitter
+  require 'psych' unless RUBY_VERSION =~ /^1\.8/
+rescue LoadError
+  warn "Couldn't find psych; continuing."
+end
 
 require 'rake'
 require 'rake/testtask'

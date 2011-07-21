@@ -93,7 +93,9 @@ module Erector
 
     # Template method which must be overridden by all widget subclasses.
     # Inside this method you call the magic #element methods which emit HTML
-    # and text to the output string. If you call "super" (or don't override
+    # and text to the output string. 
+    # 
+    # If you call "super" (or don't override
     # +content+, or explicitly call "call_block") then your widget will
     # execute the block that was passed into its constructor. The semantics of
     # this block are confusing; make sure to read the rdoc for Erector#call_block
@@ -172,6 +174,7 @@ module Erector
       output
     end
 
+    # same as _render, but using a parent widget's output stream and helpers
     def _render_via(parent, options = {}, &block)
       _render(options.merge(:parent  => parent,
                             :output  => parent.output,

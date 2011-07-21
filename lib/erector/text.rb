@@ -1,7 +1,12 @@
 
 module Erector
   module Text
-    # Emits text.  If a string is passed in, it will be HTML-escaped. If the
+    # Emits text to the output buffer, e.g.
+    #
+    #   text "my dog smells awful"
+    #   => "my dog smells awful"
+    #
+    # If a string is passed in, it will be HTML-escaped. If the
     # result of calling methods such as raw is passed in, the HTML will not be
     # HTML-escaped again. If another kind of object is passed in, the result
     # of calling its to_s method will be treated as a string would be.
@@ -9,6 +14,26 @@ module Erector
     # You shouldn't pass a widget in to this method, as that will cause
     # performance problems (as well as being semantically goofy). Use the
     # #widget method instead.
+    #
+    # You may pass a series of values (i.e. varargs). In that case, each value
+    # will be emitted to the output stream in turn. You can specify a delimiter
+    # by using an options hash with as the final argument, using +:join+ as the key,
+    # e.g.
+    # 
+    #   text "my", "dog", "smells", :join => " "
+    #   => "my dog smells"
+    #
+    # You may also pass a Promise as a parameter; every tag
+    # method now returns a Promise after emitting. This allows
+    # you to easily embed simple HTML formatting into a sentence, e.g.
+    #
+    #   text "my", "dog", "smells", b("great!"), :join => " "
+    #   => "my dog smells <b>great!</b>"
+    #
+    # (Yes, the initial call to +b+ emits "\&lt;b>great\&lt;/b>" to the output buffer;
+    # the Promise feature takes care of rewinding and rewriting the output
+    # buffer during the later call to +text+.)
+    #
     def text(*values)
       options = if values.last.is_a? Hash
         values.pop

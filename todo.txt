@@ -10,6 +10,7 @@
 * caching
 * externals
 * rails
+* use braces over do..end
 
 # Technical
 * use rvm to test locally under 1.8.6/1.8.7
@@ -55,3 +56,6 @@
 * dynamic widget (use method_missing so unknown messages become tags)
 * pass multiple args to an element method, including promises so they can be rewound and rerendered later. Merge this with "join" method.
 
+* deprecate "join" since "text" now takes an array
+* alias "text" to "emit"?
+  * (some XML docs have a "Text" element)
