@@ -87,7 +87,8 @@ module Erector
       output = Erector::Output.new
       self.to_a(:output => output) # render all the externals onto this new output buffer
       nested_widgets = output.widgets.to_a
-      renderer = ExternalRenderer.new({:classes => nested_widgets}.merge(options_to_external_renderer))
+      options_to_external_renderer = {:classes => nested_widgets}.merge(options_to_external_renderer)
+      renderer = ExternalRenderer.new(options_to_external_renderer)
       externals = renderer.to_a(:output => output)
       output.to_a
     end

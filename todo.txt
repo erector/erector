@@ -59,3 +59,7 @@
 * deprecate "join" since "text" now takes an array
 * alias "text" to "emit"?
   * (some XML docs have a "Text" element)
+* work with Sprockets https://github.com/sstephenson/sprockets/
+* work with Rails 3.1 http://weblog.rubyonrails.org/2011/5/22/rails-3-1-release-candidate
+* rename _render to emit?
+* split up html_spec.rb into different specs per mixin

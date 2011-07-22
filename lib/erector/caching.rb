@@ -73,6 +73,7 @@ module Erector
       cache && block.nil? && self.class.cachable?
     end
 
+protected
     def _render(options = {})
       if should_cache?
         cache[self.class, assigns, options[:content_method_name]] ||= super

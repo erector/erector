@@ -30,7 +30,7 @@ module Erector
     end
   end
 
-  class InlineWidget < Erector::Widget
+  class InlineWidget < Widget
     include Inline
   end
 

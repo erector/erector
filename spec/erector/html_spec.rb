@@ -141,7 +141,7 @@ describe Erector::HTML do
     end
 
     it "renders the proper full tags" do
-      Erector::HTML.full_tags.each do |tag_name|
+      Erector::HTMLWidget.full_tags.each do |tag_name|
         expected = "<#{tag_name}></#{tag_name}>"
         actual = erector { send(tag_name) }
         begin
@@ -245,7 +245,7 @@ describe Erector::HTML do
     end
 
     it "renders the proper empty-element tags" do
-      Erector::HTML.self_closing_tags.each do |tag_name|
+      Erector::HTMLWidget.self_closing_tags.each do |tag_name|
         expected = "<#{tag_name} />"
         actual = erector { send(tag_name) }
         begin

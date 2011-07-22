@@ -27,7 +27,6 @@ module ExternalsSpec
       Quesadilla.my_dependencies.should == []
     end
 
-
     describe '#interpret_args' do
 
       class Test

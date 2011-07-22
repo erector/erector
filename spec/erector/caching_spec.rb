@@ -1,5 +1,6 @@
 require File.expand_path("#{File.dirname(__FILE__)}/../spec_helper")
 
+# todo: figure out why "include Caching" only works when it's on Widget
   describe Erector::Cache do
     before do
       @cache = Erector::Cache.new

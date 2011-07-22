@@ -4,7 +4,6 @@ require "rubygems"
 require "bundler"
 Bundler.setup
 
-require "erector"
 require "nokogiri"
 require "rr"
 require 'tempfile'
@@ -14,6 +13,9 @@ require "rspec/autorun"
 require "open3"
 
 require "wrong/adapters/rspec"
+include Wrong::D
+
+require "erector"
 
 unless '1.9'.respond_to?(:force_encoding)
   String.class_eval do

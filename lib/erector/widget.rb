@@ -3,9 +3,10 @@ require "erector/attributes"
 require "erector/promise"
 require "erector/text"
 require "erector/tag"
+require "erector/html_widget"
 
 module Erector
-  
+
   # A Widget is the center of the Erector universe.
   #
   # To create a widget, extend Erector::Widget and implement the +content+
@@ -44,32 +45,50 @@ module Erector
   # so be sure to check all of those places for API documentation for the
   # various methods of Widget:
   #
+  # * AbstractWidget
   # * Element
   # * Attributes
   # * Text
-  # * HTML
-  # * Convenience
   # * Needs
   # * Caching
   # * Externals
   # * AfterInitialize
-  # 
+  #
+  # * HTML
+  # * Convenience
   # * JQuery
-  # * Sass  
+  # * Sass
   #
   # Also read the API Cheatsheet in the user guide
   # at http://erector.rubyforge.org/userguide#apicheatsheet
-  class Widget < AbstractWidget
-    include Erector::Element
-    include Erector::Attributes
-    include Erector::Text
-    include Erector::HTML
+  class Widget < HTMLWidget
+
+    # for some reason these need to be included in Widget and not AbstractWidget
     include Erector::Needs
     include Erector::Caching
     include Erector::Externals
+
+
+    include Erector::HTML
     include Erector::Convenience
     include Erector::JQuery
-    include Erector::AfterInitialize
-    include Erector::Sass if Object.const_defined?(:Sass)    
+    include Erector::Sass if Object.const_defined?(:Sass)
+
+    # alias for AbstractWidget#render
+    def to_html(options = {})
+      raise "Erector::Widget#to_html takes an options hash, not a symbol. Try calling \"to_html(:content_method_name=> :#{options})\"" if options.is_a? Symbol
+      _render(options).to_s
+    end
+
+    # alias for #to_html
+    # @deprecated Please use {#to_html} instead
+    def to_s(*args)
+      unless defined? @@already_warned_to_s
+        $stderr.puts "Erector::Widget#to_s is deprecated. Please use #to_html instead. Called from #{caller.first}"
+        @@already_warned_to_s = true
+      end
+      to_html(*args)
+    end
+
   end
 end

@@ -108,6 +108,8 @@ module Erector
       elsif (Object.const_defined?(:ActiveSupport) and
         buffer.kind_of?(ActiveSupport::SafeBuffer))
         # monkey patch to get around SafeBuffer's well-meaning paranoia
+        # see http://yehudakatz.com/2010/02/01/safebuffers-and-rails-3-0/
+        # and http://weblog.rubyonrails.org/2011/6/8/potential-xss-vulnerability-in-ruby-on-rails-applications
         String.instance_method(:slice!).bind(buffer).call(pos..-1)
       elsif buffer.kind_of?(String)
         buffer.slice!(pos..-1)

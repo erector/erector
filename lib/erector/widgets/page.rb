@@ -7,14 +7,15 @@
 # declare it.
 #
 # The script and style declarations are accumulated at class load time, as
-# 'dependencies'. This technique allows all widgets to add their own requirements
-# to the page header without extra logic for declaring which pages include
-# which nested widgets. Fortunately, Page is now smart enough to figure out
-# which widgets were actually rendered during the body_content run, so it only
-# emits into its HEAD the dependencies that are relevant. If it misses some, or
-# if you want to add some extra dependencies -- for instance, styles that apply
-# to widgets that are rendered later via AJAX -- then return an array of those
-# widget classes in your subclass by overriding the #extra_widgets method.
+# 'dependencies'. This technique allows all widgets to add their own
+# requirements to the page header without extra logic for declaring which
+# pages include which nested widgets. Fortunately, Page is now smart enough to
+# figure out which widgets were actually rendered during the body_content run,
+# so it only emits into its HEAD the dependencies that are relevant. If it
+# misses some, or if you want to add some extra dependencies -- for instance,
+# styles that apply to widgets that are rendered later via AJAX -- then return
+# an array of those widget classes in your subclass by overriding the
+# #extra_widgets method.
 #
 # If you want something to show up in the headers for just one page type
 # (subclass), then override #head_content, call super, and then emit it
@@ -93,8 +94,9 @@
 #   end
 #
 # = Thoughts:
-#  * It may be desirable to unify #js and #script, and #css and #style, and have the routine be
-#    smart enough to analyze its parameter to decide whether to make it a file or a script.
+#  * It may be desirable to unify #js and #script, and #css and #style, and
+#    have the routine be smart enough to analyze its parameter to decide
+#    whether to make it a file or a script.
 #
 class Erector::Widgets::Page < Erector::InlineWidget
 

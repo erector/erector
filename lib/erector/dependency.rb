@@ -23,7 +23,8 @@ module Erector
     end
 
     def hash
-      # this is a fairly inefficient hash function but it does the trick for now
+      # this is a fairly inefficient hash function but it does the trick for
+      # now
       "#{type}#{text}#{options}".hash
     end
   end
