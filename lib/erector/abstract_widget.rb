@@ -1,3 +1,10 @@
+require 'erector/element'
+require 'erector/attributes'
+require 'erector/text'
+require 'erector/convenience'
+require 'erector/after_initialize'
+require 'erector/output'
+
 module Erector
 
   # Abstract base class for Widget. This pattern allows Widget to include lots

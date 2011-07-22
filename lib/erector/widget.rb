@@ -4,6 +4,7 @@ require "erector/promise"
 require "erector/text"
 require "erector/tag"
 require "erector/html_widget"
+require "erector/needs"
 
 module Erector
 
@@ -64,13 +65,12 @@ module Erector
   class Widget < HTMLWidget
 
     # for some reason these need to be included in Widget and not AbstractWidget
-    include Erector::Needs
-    include Erector::Caching
-    include Erector::Externals
+    include Needs
+    include Caching
+    include Externals
 
-
-    include Erector::HTML
-    include Erector::Convenience
+    include HTML
+    include Convenience
     include Erector::JQuery
     include Erector::Sass if Object.const_defined?(:Sass)
 

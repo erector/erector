@@ -1,3 +1,4 @@
+require "erector/raw_string"
 
 module Erector
   module Text
@@ -55,7 +56,7 @@ module Erector
         first = false
 
         case value
-        when Widget
+        when AbstractWidget
           # todo: better deprecation
           raise "Don't pass a widget to the text method. Use the widget method instead."
         when Promise

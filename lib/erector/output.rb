@@ -1,3 +1,5 @@
+require 'erector/abstract_widget'
+
 module Erector
   class Output
     SPACES_PER_INDENT = 2
@@ -5,7 +7,7 @@ module Erector
     attr_reader :prettyprint, :widgets, :indentation, :max_length
 
     def initialize(options = {})
-      @prettyprint = options.fetch(:prettyprint, Widget.prettyprint_default)
+      @prettyprint = options.fetch(:prettyprint, AbstractWidget.prettyprint_default)
       @indentation = options.fetch(:indentation, 0)
       @current_line_length = 0
       @max_length = options[:max_length]

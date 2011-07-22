@@ -4,7 +4,7 @@ module Erector
     # You may just want to call to_html(:prettyprint => true)
     # so you can pass in other rendering options as well.
     def to_pretty(options = {})
-      to_html(options.merge(:prettyprint => true))
+      render(options.merge(:prettyprint => true))
     end
 
     # Render (like to_html) but stripping all tags and inserting some

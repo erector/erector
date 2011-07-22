@@ -16,7 +16,10 @@ require "erector/html"
 require "erector/convenience"
 require "erector/jquery"
 require "erector/sass"
+
 require "erector/abstract_widget"
+require "erector/xml_widget"
+require "erector/html_widget"
 require "erector/widget"
 
 require "erector/inline"

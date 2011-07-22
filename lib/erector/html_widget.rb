@@ -1,8 +1,3 @@
-require "erector/element"
-require "erector/attributes"
-require "erector/promise"
-require "erector/text"
-require "erector/tag"
 require "erector/xml_widget"
 
 module Erector
@@ -61,7 +56,7 @@ module Erector
   #
   # Also read the API Cheatsheet in the user guide
   # at http://erector.rubyforge.org/userguide#apicheatsheet
-  class HTMLWidget < XMLWidget
+  class HTMLWidget < Erector::XMLWidget
 
     include Erector::HTML
     include Erector::Convenience

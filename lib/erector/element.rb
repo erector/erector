@@ -1,3 +1,6 @@
+require 'erector/abstract_widget'
+require 'erector/promise'
+
 # todo: unit test
 module Erector
   module Element
@@ -63,7 +66,7 @@ module Erector
 
     def _element(tag_name, *args, &block)
       if args.length > 2
-        raise ArgumentError, "Cannot accept more than four arguments"
+        raise ArgumentError, "too many args"
       end
       attributes, value = nil, nil
       arg0 = args[0]
@@ -82,9 +85,9 @@ module Erector
       end
 
       attributes ||= {}
-      promise = if value
+      promise = if !value.nil?
         Promise.new(output, tag_name,  attributes, false, newliney?(tag_name)) do
-          if value.is_a? Widget
+          if value.is_a? AbstractWidget
             widget value
           else
             text value

@@ -1,16 +1,26 @@
+require 'erector/abstract_widget'
+require 'erector/tag'
+require 'erector/needs'
+
 module Erector
 
   # Abstract base class for XML Widgets and HTMLWidget.
   # Declares "tags" which define methods that emit tags.
   class XMLWidget < AbstractWidget
+    include Needs
 
-    def self.tag_named tag_name
+    def self.tag_named tag_name, checked = []
       @tags ||= {}
       @tags[tag_name] || begin
         tag = nil
-        ancestors[1..-1].select{|k| k.respond_to? :tag_named}.each do |k|
-          tag = k.tag_named(tag_name)
-          break if tag
+        checked << self
+        taggy_ancestors = (ancestors - checked).select{|k| k.respond_to? :tag_named}
+        taggy_ancestors.each do |k|
+          tag = k.tag_named(tag_name, checked)
+          if tag
+            @tags[tag_name] = tag
+            break
+          end
         end
         tag
       end
@@ -21,19 +31,24 @@ module Erector
       @tags ||= {}
       @tags[tag.name] = tag
 
+      if instance_methods.include?(tag.method_name.to_sym)
+        warn "method '#{tag.method_name}' is already defined; skipping #{caller[1]}"
+        return
+      end
+
       if tag.self_closing?
         self.class_eval(<<-SRC, __FILE__, __LINE__ + 1)
-          def #{tag.name}(*args, &block)
+          def #{tag.method_name}(*args, &block)
             _empty_element('#{tag.name}', *args, &block)
           end
         SRC
       else
         self.class_eval(<<-SRC, __FILE__, __LINE__ + 1)
-          def #{tag.name}(*args, &block)
+        def #{tag.method_name}(*args, &block)
               _element('#{tag.name}', *args, &block)
           end
 
-          def #{tag.name}!(*args, &block)
+          def #{tag.method_name}!(*args, &block)
             _element('#{tag.name}', *(args.map{|a|raw(a)}), &block)
           end
         SRC
@@ -93,6 +108,8 @@ module Erector
       rawtext "-->\n"
     end
 
+    alias_method :to_xml, :render
+
     protected
 
     def sort_for_xml_declaration(attributes)
@@ -104,7 +121,6 @@ module Erector
       end
       stringized.sort{|a, b| b <=> a}
     end
-
 
   end
 

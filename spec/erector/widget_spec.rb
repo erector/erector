@@ -290,5 +290,12 @@ module WidgetSpec
         doc.css("p").map {|p| p.inner_html}.should == ["bar", "quux"]
       end
     end
+
+    describe "named elements" do
+      it "can emit boolean values" do
+        erector { div true }.should == "<div>true</div>"
+        erector { div false }.should == "<div>false</div>"
+      end
+    end
   end
 end

@@ -14,6 +14,7 @@
 * externals
 * rails
 * use braces over do..end
+* move docs to github pages
 
 # Technical
 * use rvm to test locally under 1.8.6/1.8.7
