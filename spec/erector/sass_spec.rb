@@ -1,7 +1,7 @@
 require File.expand_path("#{File.dirname(__FILE__)}/../spec_helper")
 
 if !Object.const_defined?(:Sass)
-  puts "Skipping Sass spec... run 'gem install haml' to enable these tests."
+  puts "Skipping Sass spec... run 'gem install sass' to enable these tests."
 else
   module CacheSpec
     describe Erector::Sass do

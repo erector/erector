@@ -1,5 +1,4 @@
 require "optparse"
-require "rake"
 require "erector/erect/erected"  # pull this out so we don't recreate the grammar every time
 
 module Erector
@@ -70,23 +69,27 @@ module Erector
 
     #todo: unit test
     def explode_dirs
-      exploded_files = FileList.new
+      exploded_files = []
       files.each do |file|
         if File.directory?(file)
-          exploded_files.add(explode(file))
+          exploded_files << explode(file)
         else
-          exploded_files.add(file)
+          exploded_files << file
         end
       end
-      @files = exploded_files
+      @files = exploded_files.flatten
     end
 
     def explode(dir)
       case mode
       when :to_erector
-        FileList["#{dir}/**/*.rhtml", "#{dir}/**/*.html", "#{dir}/**/*.html.erb"]
+        ["#{dir}/**/*.rhtml",
+          "#{dir}/**/*.html",
+          "#{dir}/**/*.html.erb"].map do |pattern|
+          Dir.glob pattern
+        end.flatten
       when :to_html
-        FileList["#{dir}/**/*.rb"]
+        Dir.glob "#{dir}/**/*.rb"
       end
     end
 

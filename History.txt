@@ -4,8 +4,9 @@
 * 'scss' external type [needs tests]
 * dot-class and dot-id-bang syntax
 * expanded widget hierarchy; now XMLWidget can be used as the base for a non-HTML widget (for XML formats that may not want the HTML tags and methods)
-* render method as preferred synonym for to_html (since we now support non-HTML widgets)
+* 'render' method as preferred synonym for to_html (since we now support non-HTML widgets)
 * 'tag' macro to add your own tag types (esp. to XML widgets)
+* remove dependency on rake gem
 
 Deprecated or Removed:
 

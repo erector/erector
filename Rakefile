@@ -9,8 +9,7 @@ end
 
 require 'rake'
 require 'rake/testtask'
-# require 'hanna/rdoctask'
-require 'rake/gempackagetask'
+
 require "rspec/core/rake_task"
 
 require 'rdoc'
@@ -22,18 +21,23 @@ require "erector/version"
 begin
   require 'jeweler'
   Jeweler::Tasks.new do |gemspec|
+    gemspec.version = Erector::VERSION
     gemspec.name = "erector"
-    gemspec.summary = "Html Builder library."
+    gemspec.summary = "HTML/XML Builder library"
     gemspec.email = "erector@googlegroups.com"
     gemspec.description = "Erector is a Builder-like view framework, inspired by Markaby but overcoming some of its flaws. In Erector all views are objects, not template files, which allows the full power of object-oriented programming (inheritance, modular decomposition, encapsulation) in views."
-    specs = Dir.glob("spec/**/*").reject { |file| file =~ %r{spec/rails_root} }
     gemspec.files = FileList[
-            "lib/**/*",
-            "README.txt", "VERSION.yml",
-            "bin/erector",
+      "README.txt",
+      "VERSION.yml",
+      "lib/**/*",
+      "bin/erector",
     ]
     gemspec.executables = ["erector"]
-    gemspec.test_files =  specs
+    specs = Dir.glob("spec/**/*") #.reject { |file| file =~ %r{spec/rails2/} }
+    gemspec.test_files = ([
+      "Rakefile",
+      "Gemfile",
+    ] + specs).flatten
     gemspec.homepage = "http://erector.rubyforge.org/"
     gemspec.authors = [
             "Alex Chaffee",
@@ -42,9 +46,7 @@ begin
             "Jim Kingdon",
             "John Firebaugh",
     ]
-    gemspec.add_dependency 'treetop', ">= 1.2.3"
-    gemspec.add_dependency 'rake'
-    gemspec.rubyforge_project = "erector"
+    # gemspec.add_dependency 'treetop', ">= 1.2.3" # Jeweler now reads Gemfile, I think
   end
 
   Jeweler::RubyforgeTasks.new do |rubyforge|
@@ -56,12 +58,10 @@ rescue LoadError
   puts "Jeweler, or one of its dependencies, is not available. Install it with: sudo gem install jeweler"
 end
 
-desc "Default: run tests"
+desc "Default: run most tests"
 task :default => :spec
-
-task :test => :spec
-
 task :cruise => [:install_gems, :print_environment, :test]
+task :test => :spec
 
 task :install_gems do
   sh "bundle check"
@@ -106,7 +106,6 @@ RDoc::Task.new(:rdoc) do |rdoc|
   rdoc.rdoc_dir = 'rdoc'
   rdoc.title    = "Erector #{Erector::VERSION}"
   rdoc.options << '--inline-source' << "--promiscuous"
-  # rdoc.options << "--template=hanna"
   rdoc.options << "--main=README.txt"
 #  rdoc.options << '--diagram' if RUBY_PLATFORM !~ /win32/ and `which dot` =~ /\/dot/ and not ENV['NODOT']
   rdoc.rdoc_files.include('README.txt')
@@ -166,8 +165,7 @@ namespace :spec do
     gemfile = "#{here}/Gemfile-rails31"
     sh "BUNDLE_GEMFILE='#{gemfile}' bundle exec rake spec:core spec:erect spec:rails"
   end
-
 end
 
-desc "Run the specs for the erector plugin"
+desc "Run most specs"
 task :spec => ['spec:core', 'spec:erect', 'spec:rails', 'spec:rails2']

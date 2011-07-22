@@ -1,7 +1,6 @@
 source "http://rubygems.org"
 
-gem "treetop"
-gem "rake"
+gem "treetop", ">= 1.2.3"
 
 group :development do
   gem "activesupport", "~>3"
@@ -14,7 +13,6 @@ group :development do
   gem "sass"
   gem "erubis"
   gem "rdoc", "~>3.4"
-  # gem "hanna", :git => "git://github.com/mislav/hanna.git"
   gem "wrong", ">=0.5.4"
 end
 

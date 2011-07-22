@@ -1,7 +1,10 @@
 # 0.9 release
-* announce on Pivotal Blabs
 * comment on https://pivotallabs.com/users/alex/blog/articles/1029-why-wouldn-t-you-use-erector-
 * comment on http://www.quora.com/Why-dont-more-people-use-Erector?srid=uJ6p
+* announce on
+  * http://www.rubyflow.com/
+  * Pivotal Blabs
+  * ruby-talk
 
 # Web Site
 * add "fork me on github" badge
