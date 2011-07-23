@@ -158,9 +158,11 @@ namespace :spec do
 
   desc "Run specs for erector's Rails integration under Rails 2."
   task :rails2 do
-    Dir.chdir("spec/rails2/rails_app") do
+    rails_app = "#{here}/spec/rails2/rails_app"
+    gemfile = "#{rails_app}/Gemfile"
+    Dir.chdir(rails_app) do
       # Bundler.with_clean_env do
-        sh "BUNDLE_GEMFILE='./Gemfile' bundle exec rake rails2"
+        sh "BUNDLE_GEMFILE='#{gemfile}' bundle exec rake rails2"
       # end
     end
   end
