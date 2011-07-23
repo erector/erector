@@ -13,9 +13,9 @@ source $HOME/.rvm/scripts/rvm || exit 1
 # show available (installed) rubies (for debugging)
 rvm list
 
-# temporary: try to install the sqlite3 dev libraries
-echo `which sqlite3`
-sudo apt-get install libsqlite3-dev
+# # temporary: try to install the sqlite3 dev libraries
+# echo `which sqlite3`
+# sudo apt-get install libsqlite3-dev
 
 for desired_ruby in ruby-1.9.2-p180 ruby-1.8.7-p334; do
 
@@ -36,7 +36,7 @@ for desired_ruby in ruby-1.9.2-p180 ruby-1.8.7-p334; do
   bundle check || bundle install || exit 1
 
   # force install the sqlite3 gem since the CI box is a weirdo
-  gem install sqlite3 --no-rdoc --no-ri
+  gem install sqlite3 --no-rdoc --no-ri -- --with-sqlite3-include=/usr/include
 
   # do the same for the rails 2 app
   (cd spec/rails2/rails_app; bundle check || bundle install || exit 1)
