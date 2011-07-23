@@ -13,6 +13,9 @@ source $HOME/.rvm/scripts/rvm || exit 1
 # show available (installed) rubies (for debugging)
 rvm list
 
+# temporary: try to install the sqlite3 dev libraries
+echo `which sqlite3`
+apt-get install libsqlite3-dev
 
 for desired_ruby in ruby-1.9.2-p180 ruby-1.8.7-p334; do
 
