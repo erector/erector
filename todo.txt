@@ -22,7 +22,8 @@
 * depends_on FooWidget, BarWidget (add all of these widgets' dependencies)
 * unify :script and :js, :style and :css
 * rename 'css' convenience method to 'css_link' method, or otherwise remove confusion between inline and linked css
-@ rename External to Extra since it's more descriptive
+* rename External to Extra since it's more descriptive
+  * make Extras just be more like a regular widget somehow
 * make render switch inside ExternalRenderer
 
         class FooWidget < Widget
