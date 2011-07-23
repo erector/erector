@@ -17,6 +17,10 @@ rvm list
 # echo `which sqlite3`
 # sudo apt-get install libsqlite3-dev
 
+echo "sqlite gem_make.out:"
+cat /home/pivotal/.rvm/gems/ruby-1.9.2-p180@erector/gems/sqlite3-1.3.3/ext/sqlite3/gem_make.out
+
+
 for desired_ruby in ruby-1.9.2-p180 ruby-1.8.7-p334; do
 
   echo ""
