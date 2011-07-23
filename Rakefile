@@ -7,6 +7,9 @@ rescue LoadError
   warn "Couldn't find psych; continuing."
 end
 
+require "bundler"
+Bundler.setup
+
 require 'rake'
 require 'rake/testtask'
 

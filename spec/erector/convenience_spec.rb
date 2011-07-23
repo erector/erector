@@ -4,11 +4,11 @@ describe Erector::Convenience do
   include Erector::Mixin
 
   describe "#to_pretty" do
-    it "calls to_html with :prettyprint => true" do
+    it "calls render with :prettyprint => true" do
       widget = Erector.inline do
         div "foo"
       end
-      mock(widget).to_html({:prettyprint => true})
+      mock(widget).render({:prettyprint => true})
       widget.to_pretty
     end
 

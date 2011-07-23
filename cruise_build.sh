@@ -42,6 +42,6 @@ for desired_ruby in ruby-1.9.2-p180 ruby-1.8.7-p334; do
   remove_annoying_warning
 
   # finally, run rake
-  rake cruise
+  bundle exec rake cruise
 
 done
