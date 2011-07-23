@@ -22,7 +22,7 @@ begin
     gemspec.summary = "Html Builder library."
     gemspec.email = "erector@googlegroups.com"
     gemspec.description = "Erector is a Builder-like view framework, inspired by Markaby but overcoming some of its flaws. In Erector all views are objects, not template files, which allows the full power of object-oriented programming (inheritance, modular decomposition, encapsulation) in views."
-    specs = Dir.glob("spec/**/*").reject { |file| file =~ %r{spec/rails_root} }
+    specs = Dir.glob("spec/**/*")
     gemspec.files = FileList[
             "lib/**/*",
             "README.txt", "VERSION.yml",
@@ -38,8 +38,6 @@ begin
             "Jim Kingdon",
             "John Firebaugh",
     ]
-    gemspec.add_dependency 'treetop', ">= 1.2.3"
-    gemspec.add_dependency 'rake'
     gemspec.rubyforge_project = "erector"
   end
 
