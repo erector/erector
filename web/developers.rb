@@ -93,7 +93,7 @@ END
       li %q{Run 'rake package' so that you can see whether the gem generation seems to work locally before proceeding to try to upload it to rubyforge (if you skip this step, the package will be generated when you run rake release)}
       li "If you haven't done so before, run 'rubyforge setup' and 'rubyforge config' (for more details on these steps, see README.txt in the rubyforge gem)"
       li "Run 'rake release VERSION=1.2.3'. (The parameter is to confirm you're releasing the version you intend to.)"
-      li "Run 'rake publish_docs web publish_web' cause the docs and site need to be updated, at least with the new version number."
+      li "Run 'rake publish' cause the docs and site need to be updated, at least with the new version number."
       li %q{Immediately go into History.txt and make a new section at the top. Since we won't yet know what the next version will be called, the new section will be noted by a single "==" at the top of the file.}
       li do
         text "Send email to "

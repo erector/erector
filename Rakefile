@@ -85,11 +85,8 @@ task :clean_rdoc do
   FileUtils.rm_rf("rdoc")
 end
 
-# push the docs to Rubyforge
-task :publish_docs => :"rubyforge:release:docs"
-
-desc "Publish web site to RubyForge"
-task :publish_web do
+desc "Publish web site and docs to RubyForge"
+task :publish => [:web, :docs] do
   config = YAML.load(File.read(File.expand_path("~/.rubyforge/user-config.yml")))
   host = "#{config["username"]}@rubyforge.org"
   rubyforge_name = "erector"
@@ -98,8 +95,13 @@ task :publish_web do
   rdoc_dir = "rdoc"
   rsync_args = '--archive --verbose --delete'
 
+  puts "== Publishing web site to RubyForge"
   sh %{rsync #{rsync_args} --exclude=#{rdoc_dir} #{local_dir}/ #{host}:#{remote_dir}}
+
+  puts "== Publishing rdoc to RubyForge"
+  sh %{rsync #{rsync_args} #{rdoc_dir}/ #{host}:#{remote_dir}/rdoc}
 end
+
 
 require 'rdoc/task'
 RDoc::Task.new(:rdoc) do |rdoc|
