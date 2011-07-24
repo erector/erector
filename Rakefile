@@ -34,6 +34,7 @@ begin
       "VERSION.yml",
       "lib/**/*",
       "bin/erector",
+      ".gemtest",
     ]
     gemspec.executables = ["erector"]
     specs = Dir.glob("spec/**/*") #.reject { |file| file =~ %r{spec/rails2/} }
