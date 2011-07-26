@@ -18,4 +18,5 @@ end
 
 group :rails do
   gem "rails", "~> 3.0.0"
+  gem "sqlite3" # required for new rails app in erector tool spec
 end
