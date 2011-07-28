@@ -3,16 +3,23 @@ require File.expand_path("#{File.dirname(__FILE__)}/rails_spec_helper")
 
 
 describe ActionController::Base do
-  class TestController < ActionController::Base
+  class LayoutTestController < ActionController::Base
     # Let exceptions propagate rather than generating the usual error page.
     include ActionController::TestCase::RaiseActionExceptions
 
     # We need this, because we reference Views::Test::Needs below, and it
     # doesn't auto-load otherwise.
 
+    require 'views/test/render_default.html.rb'
+
     layout :layout
+
     def layout
-      /erb_layout/.match(action_name) ? 'erb_layout' : 'erector_layout'
+      case action_name
+      when /erb_layout/ then 'erb_layout'
+      when /erector_layout/ then 'erector_layout'
+      else false
+      end
     end
 
     def render_default(options={})
@@ -45,31 +52,31 @@ describe ActionController::Base do
     end
 
     def render_widget_with_erb_layout
-      render :widget => TestWidget
+      render :widget => LayoutTestWidget
     end
 
     def render_widget_with_erector_layout
-      render :widget => TestWidget
+      render :widget => LayoutTestWidget
     end
 
     def render_widget_with_erb_nested_layout
-      render :widget => TestWidget, :layout => 'erb_layout_with_nested_widget'
+      render :widget => LayoutTestWidget, :layout => 'erb_layout_with_nested_widget'
     end
 
     def render_widget_with_erector_nested_layout
-      render :widget => TestWidget, :layout => 'erector_layout_with_nested_widget'
+      render :widget => LayoutTestWidget, :layout => 'erector_layout_with_nested_widget'
     end
 
   end
 
-  class TestWidget < Erector::Widget
+  class LayoutTestWidget < Erector::Widget
     def content
       text 'test content '
     end
   end
 
   def test_action(action)
-    @response = TestController.action(action).call(Rack::MockRequest.env_for("/path"))[2]
+    @response = LayoutTestController.action(action).call(Rack::MockRequest.env_for("/path"))[2]
     @response.body
   end
 
