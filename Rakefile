@@ -156,11 +156,6 @@ namespace :spec do
     spec.pattern = 'spec/rails_root/spec/*_spec.rb'
   end
 
-  desc "Run specs for erector's Rails integration."
-  RSpec::Core::RakeTask.new(:layout) do |spec|
-    spec.pattern = 'spec/rails_root/spec/layout_spec.rb'
-  end
-
   desc "Run specs for erector's Rails integration under Rails 2."
   task :rails2 do
     rails_app = "#{here}/spec/rails2/rails_app"
