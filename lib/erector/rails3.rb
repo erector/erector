@@ -2,6 +2,7 @@ require "erector/rails/template_handler"
 require "erector/rails/railtie"
 require "erector/rails/widget_renderer"
 require "erector/rails/form_builder"
+require "erector/rails/action_view_widget_renderer"
 
 module Erector
   module Rails
