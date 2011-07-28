@@ -9,7 +9,7 @@ class Faq < Page
   end
 
   def render_body
-    text article
+    widget article
   end
   
   def article

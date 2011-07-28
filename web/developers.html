@@ -17,7 +17,7 @@
       <h3>External Links:</h3>
       <ul class="clickable">
         <li class="clickable" onclick="document.location='http://rubyforge.org/frs/?group_id=4797'"><a href="http://rubyforge.org/frs/?group_id=4797">Download</a><br />
-          <span> (current version: 0.8.1)</span></li>
+          <span> (current version: 0.9.0.pre1)</span></li>
         <li class="clickable" onclick="document.location='http://googlegroups.com/group/erector'"><a href="http://googlegroups.com/group/erector">Erector Mailing List</a></li>
         <li class="clickable" onclick="document.location='http://rubyforge.org/projects/erector/'"><a href="http://rubyforge.org/projects/erector/">RubyForge Project</a></li>
         <li class="clickable" onclick="document.location='http://github.com/pivotal/erector'"><a href="http://github.com/pivotal/erector">Github Repository</a></li>
@@ -92,7 +92,7 @@ git push
           <li>Run 'rake package' so that you can see whether the gem generation seems to work locally before proceeding to try to upload it to rubyforge (if you skip this step, the package will be generated when you run rake release)</li>
           <li>If you haven't done so before, run 'rubyforge setup' and 'rubyforge config' (for more details on these steps, see README.txt in the rubyforge gem)</li>
           <li>Run 'rake release VERSION=1.2.3'. (The parameter is to confirm you're releasing the version you intend to.)</li>
-          <li>Run 'rake publish_docs web publish_web' cause the docs and site need to be updated, at least with the new version number.</li>
+          <li>Run 'rake publish' cause the docs and site need to be updated, at least with the new version number.</li>
           <li>Immediately go into History.txt and make a new section at the top. Since we won't yet know what the next version will be called, the new section will be noted by a single &quot;==&quot; at the top of the file.</li>
           <li>Send email to <a href="mailto:erector@googlegroups.com">erector Google Groups mailing list</a> announcing the new release.</li>
         </ol>

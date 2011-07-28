@@ -24,6 +24,11 @@ li {
   padding-bottom: .5em;
 }
 
+li > p {
+    -webkit-margin-before: 0;
+    -webkit-margin-after: 0;
+}
+
 .sidebar h3 {
     margin-bottom: .25em;
 }
