@@ -1,0 +1,221 @@
+<html>
+  <head>
+    <title>Erector - Home</title>
+    <link href="erector.css" rel="stylesheet" type="text/css" />
+  </head>
+  <body>    <div class="sidebar">      <div class="logo">
+        <center><a href="index.html"><img class="logo" height="193" src="erector.jpg" width="172" /></a></center>
+      </div>
+      <h3>Documentation:</h3>
+      <ul class="clickable">
+        <li class="clickable" onclick="document.location='index.html'"><a href="index.html">README</a></li>
+        <li class="clickable" onclick="document.location='userguide.html'"><a href="userguide.html">User Guide</a></li>
+        <li class="clickable" onclick="document.location='faq.html'"><a href="faq.html">FAQ</a></li>
+        <li class="clickable" onclick="document.location='rdoc'"><a href="rdoc">RDoc API</a></li>
+        <li class="clickable" onclick="document.location='developers.html'"><a href="developers.html">For Developers</a></li>
+        <li class="clickable" onclick="document.location='release_notes.html'"><a href="release_notes.html">Release Notes</a></li>
+      </ul>
+      <h3>External Links:</h3>
+      <ul class="clickable">
+        <li class="clickable" onclick="document.location='http://rubyforge.org/frs/?group_id=4797'"><a href="http://rubyforge.org/frs/?group_id=4797">Download</a><br />
+          <span> (current version: 0.9.0.pre1)</span></li>
+        <li class="clickable" onclick="document.location='http://googlegroups.com/group/erector'"><a href="http://googlegroups.com/group/erector">Erector Mailing List</a></li>
+        <li class="clickable" onclick="document.location='http://rubyforge.org/projects/erector/'"><a href="http://rubyforge.org/projects/erector/">RubyForge Project</a></li>
+        <li class="clickable" onclick="document.location='http://github.com/pivotal/erector'"><a href="http://github.com/pivotal/erector">Github Repository</a></li>
+        <li class="clickable" onclick="document.location='http://www.pivotaltracker.com/projects/482'"><a href="http://www.pivotaltracker.com/projects/482">Tracker Project</a></li>
+        <li class="clickable" onclick="document.location='http://rubyforge.org/pipermail/erector-devel/'"><a href="http://rubyforge.org/pipermail/erector-devel/">erector-devel archive</a></li>
+      </ul>
+    </div>
+    <div class="main">      <h1 class="title"><img src="erector-logo.png" /><br />
+        Home</h1>
+      <div class="body"><ul>
+<li><p>
+<a href="http://erector.rubyforge.org">erector.rubyforge.org</a>
+</p>
+</li>
+<li><p>
+<a href="mailto:erector@googlegroups.com">erector@googlegroups.com</a>
+</p>
+</li>
+<li><p>
+<a
+href="http://www.pivotaltracker.com/projects/482">www.pivotaltracker.com/projects/482</a>
+</p>
+</li>
+</ul>
+<h2>DESCRIPTION</h2>
+<p>
+Erector is a Builder-like view framework, inspired by Markaby but
+overcoming some of its flaws. In Erector all views are objects, not
+template files, which allows the full power of object-oriented programming
+(inheritance, modular decomposition, encapsulation) in views. See the rdoc
+for the <a href="rdoc/classes/Erector/Widget.html">Erector::Widget</a> class to learn how to make your own widgets, and
+visit the project site at <a
+href="http://erector.rubyforge.org">erector.rubyforge.org</a> for more
+documentation.
+</p>
+<p>
+No, seriously, we&#8217;ve got hella docs at <a
+href="http://erector.rubyforge.org">erector.rubyforge.org</a> &#8212; go
+check it out.
+</p>
+<h2>SYNOPSIS</h2>
+<pre>
+    require 'erector'
+
+    class Hello &lt; <a href="rdoc/classes/Erector/Widget.html">Erector::Widget</a>
+      def content
+        html do
+          head do
+            title &quot;Hello&quot;
+          end
+          body do
+            text &quot;Hello, &quot;
+            b @target, :class =&gt; 'big'
+            text &quot;!&quot;
+          end
+        end
+      end
+    end
+
+    Hello.new(:target =&gt; 'world').to_html
+    =&gt; &quot;&lt;html&gt;&lt;head&gt;&lt;title&gt;Hello&lt;/title&gt;&lt;/head&gt;&lt;body&gt;Hello, &lt;b class=\&quot;big\&quot;&gt;world&lt;/b&gt;!&lt;/body&gt;&lt;/html&gt;&quot;
+
+    include Erector::Mixin
+    erector { div &quot;love&quot;, :class =&gt; &quot;big&quot; }
+    =&gt; &quot;&lt;div class=\&quot;big\&quot;&gt;love&lt;/div&gt;&quot;
+</pre>
+<h2>REQUIREMENTS</h2>
+<p>
+The gem depends on rake and treetop, although this is just for using the
+command-line tool,  so deployed applications won&#8217;t need these. The
+Rails-dependent code is now separated so  you can use Erector cleanly in a
+non-Rails app.
+</p>
+<h2>INSTALL</h2>
+<p>
+To install as a gem:
+</p>
+<ul>
+<li><p>
+sudo gem install erector
+</p>
+</li>
+</ul>
+<p>
+Then add &#8220;require &#8216;erector&#8217;&#8221; to any files which
+need erector.
+</p>
+<p>
+To install as a Rails plugin:
+</p>
+<ul>
+<li><p>
+Copy the erector source to vendor/plugins/erector in your Rails directory.
+</p>
+</li>
+</ul>
+<p>
+When installing this way, erector is automatically available to your Rails
+code (no require directive is needed).
+</p>
+<h2>TESTS</h2>
+<p>
+Three spec rake tasks are provided: spec:core (core functionality),
+spec:erect (the erector command line tool), and spec:rails (rails
+integration).
+</p>
+<p>
+&#8216;rake spec&#8217; will run the complete set of specs.
+</p>
+<h2>CREDITS:</h2>
+<p>
+Core Team:
+</p>
+<ul>
+<li><p>
+Alex Chaffee
+</p>
+</li>
+<li><p>
+Brian Takita
+</p>
+</li>
+</ul>
+<p>
+Special Thanks To:
+</p>
+<ul>
+<li><p>
+Abby (Chaffee&#8217;s muse &amp; Best friend)
+</p>
+</li>
+<li><p>
+Jim Kingdon
+</p>
+</li>
+<li><p>
+Jeff Dean
+</p>
+</li>
+<li><p>
+John Firebaugh
+</p>
+</li>
+<li><p>
+Nathan Sobo
+</p>
+</li>
+<li><p>
+Nick Kallen
+</p>
+</li>
+<li><p>
+Alon Salant
+</p>
+</li>
+<li><p>
+Andy Peterson
+</p>
+</li>
+</ul>
+<h2>LICENSE:</h2>
+<p>
+(The MIT License)
+</p>
+<p>
+Copyright &#169; 2007-2010 Pivotal Labs and the Erector Project
+</p>
+<p>
+Permission is hereby granted, free of charge, to any person obtaining a
+copy of this software and associated documentation files (the
+&#8220;Software&#8221;), to deal in the Software without restriction,
+including without limitation the rights to use, copy, modify, merge,
+publish, distribute, sublicense, and/or sell copies of the Software, and to
+permit persons to whom the Software is furnished to do so, subject to the
+following conditions:
+</p>
+<p>
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+</p>
+<p>
+THE SOFTWARE IS PROVIDED &#8220;AS IS&#8221;, WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+USE OR OTHER DEALINGS IN THE SOFTWARE.
+</p>
+<hr />
+        <p>Don't forget to read the <a href="userguide.html">User Guide</a> and <a href="faq.html">FAQ</a> and <a href="rdoc">API</a></p>
+      </div>
+    </div>
+    <div class="footer">
+      <center>Erector is an open source project released under the MIT license. Its initial development was sponsored by <a href="http://pivotallabs.com">Pivotal Labs</a>.<br />
+        <center><a href="http://www.pivotallabs.com"><img alt="Pivotal Labs" height="57" src="pivotal.gif" width="158" /></a></center>
+      </center>
+    </div>
+  </body>
+</html>

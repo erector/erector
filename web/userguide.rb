@@ -11,9 +11,9 @@ class Userguide < Page
 
   def render_body
     p do
-      text "Make sure to check out the "
-      a "RDoc Documentation", :href => "rdoc"
-      text " for more details on the API."
+      text "Make sure to check out the ",
+        a("RDoc Documentation", :href => "rdoc"),
+        " for more details on the API."
     end
 
     widget article
@@ -44,7 +44,7 @@ end
 DONE
           end
           td do
-            span :class => "separator" do
+            span.separator do
               text character(:rightwards_arrow)
             end
           end
@@ -585,7 +585,7 @@ class HotSauce < Erector::Widget
   depends_on :js, "/lib/picante.js"
 
   def content
-    p :class => "tapatio" do
+    p.tapatio do
       text "esta salsa es muy picante!"
     end
   end

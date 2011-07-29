@@ -2,6 +2,8 @@ dir = File.dirname(__FILE__)
 require "#{dir}/sidebar"
 require "#{dir}/clickable_li"
 
+# todo: inherit from Erector::Widgets::Page
+
 class Page < Erector::Widget
   needs :page_title => nil, :selection => nil
 
@@ -27,18 +29,20 @@ class Page < Erector::Widget
         
         widget Sidebar.new(:current_page => selection)
 
-        div :class => "main" do
+        div.main do
 
-          h1 :class => "title" do
-            text "Erector - #{real_page_title}"
+          h1.title do
+            img :src => 'erector-logo.png'
+            br
+            text real_page_title
           end
 
-          div :class => "body" do
+          div.body do
             render_body
           end
         end
         
-        div :class => "footer" do
+        div.footer do
           center do
             text "Erector is an open source project released under the MIT license. Its initial development was sponsored by "
             a "Pivotal Labs", :href => "http://pivotallabs.com"

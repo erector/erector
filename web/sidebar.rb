@@ -9,14 +9,18 @@ class Sidebar < Erector::Widget
   
   def content
     
-    div :class => "sidebar" do
+    div.sidebar do
 
-      a :href => "index.html" do
-        img :src => 'erector.jpg', :class => 'logo', :height => (323/2), :width => (287/2)
-      end
+      div.logo {
+        center {
+          a :href => "index.html" do
+            img :src => 'erector.jpg', :class => 'logo', :height => (323*0.6).to_i, :width => (287*0.6).to_i
+          end
+        }
+      }
 
       h3 "Documentation:"
-      ul :class => "clickable" do
+      ul.clickable do
         clickable_li "README", 'index.html'
         clickable_li "User Guide", 'userguide.html'
         clickable_li "FAQ", 'faq.html'
@@ -26,7 +30,7 @@ class Sidebar < Erector::Widget
       end
 
       h3 "External Links:"
-      ul :class => "clickable" do
+      ul.clickable do
         href = 'http://rubyforge.org/frs/?group_id=4797'
         li :class => 'clickable', :onclick => "document.location='#{href}'" do
           a('Download', :href => href)
