@@ -3,6 +3,7 @@ require "#{here}/navbar"
 require "#{here}/logo"
 require "#{here}/clickable_li"
 require "#{here}/promo"
+require "#{here}/fork_me"
 
 # todo: inherit from Erector::Widgets::Page
 
@@ -54,7 +55,7 @@ class Page < Erector::Widget
         scss "#{here}/erector.scss"
       end
       body do
-
+        widget ForkMe
         div.top do
           div.logo do
             a(:href => "index.html") { img :src => 'erector-logo.png' }
