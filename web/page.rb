@@ -1,18 +1,45 @@
-dir = File.dirname(__FILE__)
-require "#{dir}/sidebar"
-require "#{dir}/clickable_li"
+here = File.dirname(__FILE__)
+require "#{here}/navbar"
+require "#{here}/logo"
+require "#{here}/clickable_li"
+require "#{here}/promo"
 
 # todo: inherit from Erector::Widgets::Page
 
 class Page < Erector::Widget
-  needs :page_title => nil, :selection => nil
-
-  def real_page_title
+  needs :page_title
+  
+  def display_name
     @page_title || self.class.name
   end
   
-  def selection
-    @selection || @page_title.downcase
+  ##
+  # Convert to snake case.
+  #
+  #   "FooBar".snake_case           #=> "foo_bar"
+  #   "HeadlineCNNNews".snake_case  #=> "headline_cnn_news"
+  #   "CNN".snake_case              #=> "cnn"
+  #
+  # @return [String] Receiver converted to snake case.
+  #
+  # @api public
+  # borrowed from https://github.com/datamapper/extlib/blob/master/lib/extlib/string.rb
+  def snake_case(s)
+    if s.match(/\A[A-Z]+\z/)
+      s.downcase
+    else
+      s.gsub(/([A-Z]+)([A-Z][a-z])/, '\1_\2').
+       gsub(/([a-z])([A-Z])/, '\1_\2').
+       downcase
+    end
+  end
+
+  def name
+    snake_case(self.class.name)
+  end
+  
+  def href
+     name + ".html"
   end
   
   def clickable_li(item, href)
@@ -22,45 +49,52 @@ class Page < Erector::Widget
   def content
     html do
       head do
-        title "Erector - #{real_page_title}"
-        css "erector.css"
+        title "Erector - #{display_name}"
+        here = File.dirname(__FILE__)
+        scss "#{here}/erector.scss"
       end
       body do
-        
-        widget Sidebar.new(:current_page => selection)
 
-        div.main do
-
-          h1.title do
-            img :src => 'erector-logo.png'
-            br
-            text real_page_title
-          end
-
-          div.body do
-            render_body
+        div.top do
+          div.logo do
+            a(:href => "index.html") { img :src => 'erector-logo.png' }
           end
         end
+        widget Navbar.new(:current_page => self)
+        widget Promo, :src => promo
         
-        div.footer do
-          center do
-            text "Erector is an open source project released under the MIT license. Its initial development was sponsored by "
-            a "Pivotal Labs", :href => "http://pivotallabs.com"
-            text "."
-            br
-            center do
-              a :href => "http://www.pivotallabs.com" do
-                img :src => "pivotal.gif", :width => 158, :height => 57, :alt => "Pivotal Labs"
-              end
-            end
-
-          end
+        
+        div.main do
+          div.body do
+            body_content
+          end          
+          footer
         end
       end
     end
   end
   
+  def promo
+    "images/erector-the-worlds-greatest-toy.jpg"
+  end
+
+  def footer
+    div.footer do
+      a :href => "http://www.pivotallabs.com" do
+        img :src => "pivotal.gif", :width => 158, :height => 57, :alt => "Pivotal Labs", :style => "float:right; padding: 8px;"
+      end
+      center do
+        text "Erector is an open source project released under the MIT license."
+        br
+        text "Its initial development was sponsored by ", a("Pivotal Labs", :href => "http://pivotallabs.com"), "."
+        br
+        text "Not affiliated with or sponsored by the makers of Erector or Meccano toys."
+      end
+    end
+  end
+  
   # override me
-  def render_body
+  def body_content
+    raise "override me"
   end
 end

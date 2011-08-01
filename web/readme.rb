@@ -1,6 +1,6 @@
 dir = File.dirname(__FILE__)
 require "#{dir}/page"
-require "#{dir}/sidebar"
+require "#{dir}/navbar"
 
 require "rubygems"
 require "bundler"
@@ -10,7 +10,7 @@ require 'rdoc/markup/to_html'
 
 class Readme < Page
   def initialize
-    super(:page_title => "Home")
+    super(:page_title => "README")
   end
 
   def readme
@@ -21,7 +21,7 @@ class Readme < Page
     return text
   end
 
-  def render_body
+  def body_content
     rawtext readme
     hr
     p do

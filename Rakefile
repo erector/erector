@@ -72,7 +72,9 @@ end
 
 desc "Build the web site from the .rb files in web/"
 task :web do
-  files = Dir["web/*.rb"] - ["web/page.rb", "web/sidebar.rb", "web/clickable_li.rb"]
+  files = Dir["web/*.rb"].select do |filename|
+    File.read(filename) =~ (/\< Page/)
+  end
   require 'erector'
   require 'erector/erect/erect'
   $: << "."
