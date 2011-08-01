@@ -108,16 +108,21 @@ task :publish => [:web, :docs] do
 end
 
 
+begin
 require 'rdoc/task'
-RDoc::Task.new(:rdoc) do |rdoc|
-  rdoc.rdoc_dir = 'rdoc'
-  rdoc.title    = "Erector #{Erector::VERSION}"
-  rdoc.options << '--inline-source' << "--promiscuous"
-  rdoc.options << "--main=README.txt"
-#  rdoc.options << '--diagram' if RUBY_PLATFORM !~ /win32/ and `which dot` =~ /\/dot/ and not ENV['NODOT']
-  rdoc.rdoc_files.include('README.txt')
-  rdoc.rdoc_files.include('lib/**/*.rb')
-  rdoc.rdoc_files.include('bin/**/*')
+  RDoc::Task.new(:rdoc) do |rdoc|
+    rdoc.rdoc_dir = 'rdoc'
+    rdoc.title    = "Erector #{Erector::VERSION}"
+    rdoc.options << 
+      '--inline-source' << 
+      "--promiscuous" <<
+      "--main=README.txt"
+    rdoc.rdoc_files.include('README.txt')
+    rdoc.rdoc_files.include('lib/**/*.rb')
+    rdoc.rdoc_files.include('bin/**/*')
+  end
+rescue LoadError => e
+  puts "#{e.class}: #{e.message}"
 end
 
 desc "Regenerate unicode.rb from UnicodeData.txt from unicode.org.  Only needs to be run when there is a new version of the Unicode specification"
