@@ -29,11 +29,11 @@ for desired_ruby in ruby-1.9.2-p180 ruby-1.8.7-p334; do
   gem list --local bundler | grep bundler || gem install bundler || exit 1
   
   # conditionally install project gems from Gemfile
-  echo "\nChecking gems for main project"
+  echo "Checking gems for main project"
   bundle check || bundle install || exit 1
 
   # do the same for the rails 2 app
-  echo "\nChecking gems for Rails 2"
+  echo "Checking gems for Rails 2"
   (cd spec/rails2/rails_app; BUNDLE_GEMFILE=./Gemfile bundle check || bundle install || exit 1)
 
   # remove the warning again after we've created all the gem directories
