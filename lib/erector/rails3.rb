@@ -2,6 +2,7 @@ require "erector/rails/template_handler"
 require "erector/rails/railtie"
 require "erector/rails/widget_renderer"
 require "erector/rails/form_builder"
+require "erector/rails/action_view_widget_renderer"
 
 module Erector
   module Rails
@@ -118,7 +119,21 @@ module Erector
       end
       rawtext(captured)
     end
-
+    
+    # redefine widget (inhrited AbstractWidget) to not bypass controller assignments
+    # delegate to render
+    def widget(target, assigns = {}, options = {}, &block)
+      target = if target.is_a? Class
+        target.new(assigns)
+      else
+        unless assigns.empty?
+          raise "Unexpected second parameter. Did you mean to pass in assigns when you instantiated the #{target.class.to_s}?"
+        end
+        target
+      end
+      render options.merge(:widget => target), &block
+    end
+    
     # Delegate to non-markup producing helpers via method_missing,
     # returning their result directly.
     def method_missing(name, *args, &block)
