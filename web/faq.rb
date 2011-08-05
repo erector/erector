@@ -1,6 +1,7 @@
 dir = File.dirname(__FILE__)
 require "#{dir}/page"
-require "#{dir}/sidebar"
+require "#{dir}/navbar"
+require "#{dir}/article"
 
 class Faq < Page
 
@@ -8,12 +9,16 @@ class Faq < Page
     super(:page_title => "FAQ")
   end
 
-  def render_body
-    text article
+  def body_content
+    widget article
+  end
+
+  def promo
+    "images/the-mysto-erector.jpg"
   end
   
   def article
-    Article.new(
+    Article.new("Erector FAQ", 
     [
       Section.new("What is Erector?") do
         p do
@@ -156,6 +161,12 @@ class Faq < Page
           text "We should point out, of course, that the choice of templating engines by itself is not what will make your application scalable. The effectiveness of your caching policy will dwarf that of your rendering engine in nearly all cases. But it's fun to know we've got a pretty fast horse in this particular race..."
         end
       end,
+      
+      Section.new("Why don't more people use Erector?") {
+        p do
+          text "See ", a("Why don't more people use Erector?", :href=>"http://www.quora.com/Why-dont-more-people-use-Erector"), " at Quora."
+        end
+      },
       
     ])
   end

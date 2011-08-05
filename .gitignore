@@ -19,3 +19,4 @@ spec/rails2/rails_app/vendor/rails_versions
 spec/rails2/rails_app/vendor/rails
 spec/rails2/rails_app/vendor/plugins/erector
 Gemfile.lock
+.DS_Store

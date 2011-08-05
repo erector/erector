@@ -1,6 +1,6 @@
 <html>
   <head>
-    <title>Erector - For Developers</title>
+    <title>Erector - README</title>
     <style>body, td, a, p {
   font-family: Lucida Grande, Lucida Sans, arial, sans-serif;
   font-size: 11pt; }
@@ -202,82 +202,195 @@ div.promo {
         <li class="clickable" onclick="document.location='userguide.html'"><a href="userguide.html">User Guide</a></li>
         <li class="clickable" onclick="document.location='faq.html'"><a href="faq.html">FAQ</a></li>
         <li class="clickable" onclick="document.location='rdoc'"><a href="rdoc">RDoc API</a></li>
-        <li class="clickable current" onclick="document.location='developers.html'"><a href="developers.html">For Developers</a></li>
+        <li class="clickable" onclick="document.location='developers.html'"><a href="developers.html">For Developers</a></li>
         <li class="clickable" onclick="document.location='release_notes.html'"><a href="release_notes.html">Release Notes</a></li>
         <li class="clickable" onclick="document.location='links.html'"><a href="links.html">Links</a></li>
       </ul>
     </div>
-    <div class="promo_wrapper">      <div class="promo"><img src="images/be-an-erector-engineer.jpeg" /></div>
+    <div class="promo_wrapper">      <div class="promo"><img src="images/erector-the-worlds-greatest-toy.jpg" /></div>
     </div>
-    <div class="main">      <div class="body">
-        <h1>Want to help develop Erector? Here's what to do.</h1>
-        <h2>Clone Erector from Github or create your own fork:</h2>
-        <pre>git clone git://github.com/pivotal/erector.git</pre>
-        <h2>Install gems:</h2>
-        <pre>sudo gem install rake rails rspec rubyforge hpricot treetop</pre>
-        <h2>Run specs:</h2>
-        <pre>rake</pre>
-        <h2>Check out the available rake tasks:</h2>
-        <pre>rake -T</pre>
-        <h2>Sign up for the mailing list:</h2>
-        <a href="http://groups.google.com/group/erector">'erector' Google Group</a>
-        <p>and check out the archives of the old <a href="http://rubyforge.org/mailman/listinfo/erector-devel">erector-devel mailing list</a></p>
-        <h2>Watch the github repo at </h2>
-        <a href="http://github.com/pivotal/erector">http://github.com/pivotal/erector</a>
-        <h2>Join the Pivotal Tracker project at </h2>
-        <a href="http://www.pivotaltracker.com/projects/482">http://www.pivotaltracker.com/projects/482</a>
-        <h2>Basic read-only git usage</h2>
-        <p>First, install git.  Then download erector using git:</p>
-        <pre>git clone git://github.com/pivotal/erector.git</pre>
-        <p>Generate a diff between what you have edited and what you have run git add on:</p>
-        <pre>git diff</pre>
-        <p>Generate a diff between what you have run git add on and locally committed:</p>
-        <pre>git diff --cached</pre>
-        <p>Commit locally (into your .git directory):</p>
-        <pre>git commit -a</pre>
-        <p>You can update from the erector repository at github with:</p>
-        <pre>git pull</pre>
-        <p>However, since you have checked out git read-only, you cannot push back your changes with:</p>
-        <pre>git push</pre>
-        <p>Instead, mail a diff to the mailing list, or fork your own github repository and send a pull request.</p>
-        <h2>Read/write access</h2>
-        <p>The following instructions assume you have been listed as a collaborator on the github pivotal erector project.</p>
-        <p>First, install git.  Then:</p>
-        <pre>git clone git@github.com:pivotal/erector.git</pre>
-        <p>To push your changes back to the main git repository:</p>
-        <pre>git commit -a
-git pull
-# Deal with merge issues if any. 
-git push
+    <div class="main">      <div class="body"><ul>
+<li><p>
+<a href="http://erector.rubyforge.org">erector.rubyforge.org</a>
+</p>
+</li>
+<li><p>
+<a href="mailto:erector@googlegroups.com">erector@googlegroups.com</a>
+</p>
+</li>
+<li><p>
+<a
+href="http://www.pivotaltracker.com/projects/482">www.pivotaltracker.com/projects/482</a>
+</p>
+</li>
+</ul>
+<h2>DESCRIPTION</h2>
+<p>
+Erector is a Builder-like view framework, inspired by Markaby but
+overcoming some of its flaws. In Erector all views are objects, not
+template files, which allows the full power of object-oriented programming
+(inheritance, modular decomposition, encapsulation) in views. See the rdoc
+for the <a href="rdoc/classes/Erector/Widget.html">Erector::Widget</a> class to learn how to make your own widgets, and
+visit the project site at <a
+href="http://erector.rubyforge.org">erector.rubyforge.org</a> for more
+documentation.
+</p>
+<p>
+No, seriously, we&#8217;ve got hella docs at <a
+href="http://erector.rubyforge.org">erector.rubyforge.org</a> &#8212; go
+check it out.
+</p>
+<h2>SYNOPSIS</h2>
+<pre>
+    require 'erector'
+
+    class Hello &lt; <a href="rdoc/classes/Erector/Widget.html">Erector::Widget</a>
+      def content
+        html do
+          head do
+            title &quot;Hello&quot;
+          end
+          body do
+            text &quot;Hello, &quot;
+            b @target, :class =&gt; 'big'
+            text &quot;!&quot;
+          end
+        end
+      end
+    end
+
+    Hello.new(:target =&gt; 'world').to_html
+    =&gt; &quot;&lt;html&gt;&lt;head&gt;&lt;title&gt;Hello&lt;/title&gt;&lt;/head&gt;&lt;body&gt;Hello, &lt;b class=\&quot;big\&quot;&gt;world&lt;/b&gt;!&lt;/body&gt;&lt;/html&gt;&quot;
+
+    include Erector::Mixin
+    erector { div &quot;love&quot;, :class =&gt; &quot;big&quot; }
+    =&gt; &quot;&lt;div class=\&quot;big\&quot;&gt;love&lt;/div&gt;&quot;
 </pre>
-        <p>To get other people's changes:</p>
-        <pre>git pull</pre>
-        <h2>Versioning and Release Policy</h2>
-        <ul>
-          <li>Versions are of the form major.minor.tiny</li>
-          <li>Tiny revisions fix bugs or documentation</li>
-          <li>Minor revisions add API calls, or change behavior</li>
-          <li>Minor revisions may also remove API calls, but these must be clearly announced in History.txt, with instructions on how to migrate </li>
-          <li>Major revisions are about marketing more than technical needs. We will stay in major version 0 until we're happy taking the &quot;alpha&quot; label off it. And if we ever do a major overhaul of the API, especially one that breaks backwards compatibility, we will probably want to increment the major version.</li>
-          <li>Developers should attempt to add lines in History.txt to reflect their checkins. These should reflect feature-level changes, not just one line per checkin. The top section of History.txt is used as the Release Notes by the &quot;rake publish&quot; task and will appear on the RubyForge file page.</li>
-        </ul>
-        <h2>How to push a release</h2>
-        <ol>
-          <li>Pick a version number. Either increment the major, minor, or tiny version from the previous version.</li>
-          <li>Look at History.txt and make sure the release notes are up to date. Put the version number and today's date on the top line (after the &quot;==&quot;).</li>
-          <li>Put the new version number in 
-            <code>VERSION.yml</code>
-             (not in 
-            <code>erector.gemspec</code>
-            ; that'll get changed on its own)</li>
-          <li>Commit these changes, e.g. 'git commit -a'</li>
-          <li>Run 'rake package' so that you can see whether the gem generation seems to work locally before proceeding to try to upload it to rubyforge (if you skip this step, the package will be generated when you run rake release)</li>
-          <li>If you haven't done so before, run 'rubyforge setup' and 'rubyforge config' (for more details on these steps, see README.txt in the rubyforge gem)</li>
-          <li>Run 'rake release VERSION=1.2.3'. (The parameter is to confirm you're releasing the version you intend to.)</li>
-          <li>Run 'rake publish' cause the docs and site need to be updated, at least with the new version number.</li>
-          <li>Immediately go into History.txt and make a new section at the top. Since we won't yet know what the next version will be called, the new section will be noted by a single &quot;==&quot; at the top of the file.</li>
-          <li>Send email to <a href="mailto:erector@googlegroups.com">erector Google Groups mailing list</a> announcing the new release.</li>
-        </ol>
+<h2>REQUIREMENTS</h2>
+<p>
+The gem depends on rake and treetop, although this is just for using the
+command-line tool,  so deployed applications won&#8217;t need these. The
+Rails-dependent code is now separated so  you can use Erector cleanly in a
+non-Rails app.
+</p>
+<h2>INSTALL</h2>
+<p>
+To install as a gem:
+</p>
+<ul>
+<li><p>
+sudo gem install erector
+</p>
+</li>
+</ul>
+<p>
+Then add &#8220;require &#8216;erector&#8217;&#8221; to any files which
+need erector.
+</p>
+<p>
+To install as a Rails plugin:
+</p>
+<ul>
+<li><p>
+Copy the erector source to vendor/plugins/erector in your Rails directory.
+</p>
+</li>
+</ul>
+<p>
+When installing this way, erector is automatically available to your Rails
+code (no require directive is needed).
+</p>
+<h2>TESTS</h2>
+<p>
+Three spec rake tasks are provided: spec:core (core functionality),
+spec:erect (the erector command line tool), and spec:rails (rails
+integration).
+</p>
+<p>
+&#8216;rake spec&#8217; will run the complete set of specs.
+</p>
+<h2>CREDITS:</h2>
+<p>
+Core Team:
+</p>
+<ul>
+<li><p>
+Alex Chaffee
+</p>
+</li>
+<li><p>
+Brian Takita
+</p>
+</li>
+</ul>
+<p>
+Special Thanks To:
+</p>
+<ul>
+<li><p>
+Abby (Chaffee&#8217;s muse &amp; Best friend)
+</p>
+</li>
+<li><p>
+Jim Kingdon
+</p>
+</li>
+<li><p>
+Jeff Dean
+</p>
+</li>
+<li><p>
+John Firebaugh
+</p>
+</li>
+<li><p>
+Nathan Sobo
+</p>
+</li>
+<li><p>
+Nick Kallen
+</p>
+</li>
+<li><p>
+Alon Salant
+</p>
+</li>
+<li><p>
+Andy Peterson
+</p>
+</li>
+</ul>
+<h2>LICENSE:</h2>
+<p>
+(The MIT License)
+</p>
+<p>
+Copyright &#169; 2007-2010 Pivotal Labs and the Erector Project
+</p>
+<p>
+Permission is hereby granted, free of charge, to any person obtaining a
+copy of this software and associated documentation files (the
+&#8220;Software&#8221;), to deal in the Software without restriction,
+including without limitation the rights to use, copy, modify, merge,
+publish, distribute, sublicense, and/or sell copies of the Software, and to
+permit persons to whom the Software is furnished to do so, subject to the
+following conditions:
+</p>
+<p>
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+</p>
+<p>
+THE SOFTWARE IS PROVIDED &#8220;AS IS&#8221;, WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+USE OR OTHER DEALINGS IN THE SOFTWARE.
+</p>
+<hr />
+        <p>Don't forget to read the <a href="userguide.html">User Guide</a> and <a href="faq.html">FAQ</a> and <a href="rdoc">API</a></p>
       </div>
       <div class="footer"><a href="http://www.pivotallabs.com"><img alt="Pivotal Labs" height="57" src="pivotal.gif" style="float:right; padding: 8px;" width="158" /></a>
         <center>Erector is an open source project released under the MIT license.<br />

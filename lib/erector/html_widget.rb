@@ -61,7 +61,7 @@ module Erector
     include Erector::HTML
     include Erector::Convenience
     include Erector::JQuery
-    include Erector::Sass if Object.const_defined?(:Sass)
+    include Erector::Sass
 
     tag 'area', :self_closing
     tag 'base', :self_closing

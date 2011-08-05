@@ -1,6 +1,6 @@
 dir = File.dirname(__FILE__)
 require "#{dir}/page"
-require "#{dir}/sidebar"
+require "#{dir}/navbar"
 
 require "rubygems"
 require "bundler"
@@ -13,7 +13,7 @@ class ReleaseNotes < Page
     super(:page_title => "Release Notes")
   end
   
-  def render_body
+  def body_content
     notes = File.read("#{File.dirname(__FILE__)}/../History.txt")
     notes.gsub!(/^== *$/, '')
     notes = RDoc::Markup::ToHtml.new.convert(notes)

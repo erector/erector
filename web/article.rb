@@ -2,10 +2,10 @@ dir = File.dirname(__FILE__)
 require "#{dir}/section"
 
 class Article < Erector::Widget
-  attr_reader :sections
   
-  def initialize(sections = [])
+  def initialize(title, sections = [])
     super({})
+    @title = title
     @sections = sections
   end
   
@@ -16,21 +16,25 @@ class Article < Erector::Widget
   
   def content
     table_of_contents
-    render_sections
+    sections
   end
   
   def table_of_contents
-    ul do
-      sections.each do |section|
-        li do
-          a section.title, :href => "##{section.href}"
+    div.toc do
+      h2 @title
+      ol.toc do
+        @sections.each do |section|
+          li do
+            a section.title, :href => "##{section.href}"
+          end
         end
       end
     end
+    div.clear
   end
   
-  def render_sections
-    sections.each do |section|
+  def sections
+    @sections.each do |section|
       a :name => section.href
       h2 section.title
       widget section

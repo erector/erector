@@ -1,17 +1,20 @@
 dir = File.dirname(__FILE__)
 require "#{dir}/page"
-require "#{dir}/sidebar"
+require "#{dir}/navbar"
 
 class Developers < Page
 
   def initialize
     super(:page_title => "For Developers")
   end
+  
+  def promo
+    "images/be-an-erector-engineer.jpeg"
+  end
 
-  def render_body
+  def body_content
+    h1 "Want to help develop Erector? Here's what to do."
     
-    p "Want to help develop Erector? Here's what to do."
-
     h2 "Clone Erector from Github or create your own fork:"
     pre "git clone git://github.com/pivotal/erector.git"
 

@@ -13,14 +13,6 @@ source $HOME/.rvm/scripts/rvm || exit 1
 # show available (installed) rubies (for debugging)
 rvm list
 
-# # temporary: try to install the sqlite3 dev libraries
-# echo `which sqlite3`
-# sudo apt-get install libsqlite3-dev
-
-echo "sqlite gem_make.out:"
-cat /home/pivotal/.rvm/gems/ruby-1.9.2-p180@erector/gems/sqlite3-1.3.3/ext/sqlite3/gem_make.out
-
-
 for desired_ruby in ruby-1.9.2-p180 ruby-1.8.7-p334; do
 
   echo ""
@@ -35,15 +27,14 @@ for desired_ruby in ruby-1.9.2-p180 ruby-1.8.7-p334; do
 
   # install bundler if necessary
   gem list --local bundler | grep bundler || gem install bundler || exit 1
-
+  
   # conditionally install project gems from Gemfile
+  echo "Checking gems for main project"
   bundle check || bundle install || exit 1
 
-  # force install the sqlite3 gem since the CI box is a weirdo
-  gem install sqlite3 --no-rdoc --no-ri -- --with-sqlite3-include=/usr/include
-
   # do the same for the rails 2 app
-  (cd spec/rails2/rails_app; bundle check || bundle install || exit 1)
+  echo "Checking gems for Rails 2"
+  (cd spec/rails2/rails_app; BUNDLE_GEMFILE=./Gemfile bundle check || bundle install || exit 1)
 
   # remove the warning again after we've created all the gem directories
   remove_annoying_warning

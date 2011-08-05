@@ -12,12 +12,12 @@ describe Erector::Convenience do
       widget.to_pretty
     end
 
-    it "passes extra options through to to_html" do
+    it "passes extra options through to render" do
       pending "RR problem with Ruby 1.9" if RUBY_VERSION >= "1.9.0"
       widget = Erector.inline do
         div "foo"
       end
-      mock(widget).to_html({:prettyprint => true, :extra => "yay"})
+      mock(widget).render({:prettyprint => true, :extra => "yay"})
       widget.to_pretty(:extra => "yay")
     end
   end

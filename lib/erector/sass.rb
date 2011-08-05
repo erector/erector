@@ -9,9 +9,20 @@ module Erector
   # yet, patches) for whether and how to support, e.g., caching,
   # loading from files, precompilation, etc.
   module Sass
-    def sass(sass_text)
+    def sass(arg, options = {})
       require "sass"
-      style ::Sass::Engine.new(sass_text, :cache => false).render
+      options = {:cache => false}.merge(options)
+      if arg =~ /[\w\.*]\.s?css/i
+        options[:filename] = arg
+      sass_text = File.read(arg)
+      else
+        sass_text = arg
+      end
+      style raw(::Sass.compile(sass_text, options))
+    end
+    
+    def scss(arg, options = {})
+      sass arg, {:syntax => :scss}.merge(options)
     end
   end
 end

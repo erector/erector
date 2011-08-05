@@ -1,208 +1,245 @@
 <html>
   <head>
     <title>Erector - Home</title>
-    <link href="erector.css" rel="stylesheet" type="text/css" />
+    <style>body, td, a, p {
+  font-family: Lucida Grande, Lucida Sans, arial, sans-serif;
+  font-size: 11pt; }
+
+body {
+  margin: 0;
+  padding: 0; }
+
+img {
+  border: none; }
+
+.clear {
+  clear: both; }
+
+ul {
+  list-style-position: inside; }
+
+li {
+  margin-left: 1.5em;
+  padding-bottom: .5em; }
+
+li > p {
+  -webkit-margin-before: 0;
+  -webkit-margin-after: 0; }
+
+h1 {
+  /*  font-variant: small-caps;*/
+  border-bottom: 1px solid gray;
+  /*  background: #EEE; */
+  padding: .25em;
+  padding-left: 0px;
+  margin-left: 0px;
+  text-shadow: #999 1px 1px 1px; }
+
+h2 {
+  margin-top: 2em;
+  background: #FEFEEB;
+  padding: .25em;
+  border: 1px solid #CCC;
+  text-shadow: #999 1px 1px 1px; }
+
+pre {
+  background-color: #EEEEFF;
+  border: 1px solid gray;
+  padding: .5em;
+  padding-left: 2em;
+  margin-right: 6em;
+  overflow: auto; }
+
+/* cheatsheet */
+table.cheatsheet {
+  border-style: outset;
+  border-collapse: collapse;
+  font-size: 10pt; }
+  table.cheatsheet code {
+    background-color: #EEEEFF; }
+  table.cheatsheet i {
+    font-size: 11pt; }
+  table.cheatsheet th {
+    background-color: #EDEDED; }
+  table.cheatsheet td, table.cheatsheet th {
+    border-width: 1px;
+    border-style: solid;
+    border-color: lightgray;
+    padding: .5em;
+    font-size: 10pt; }
+  table.cheatsheet td {
+    vertical-align: top; }
+
+code {
+  font-size: 12pt; }
+
+pre {
+  font-size: 12pt;
+  font-family: Inconsolata,                Consolas,                "Andale Mono",                "Lucida Console",                "Lucida Sans Typewriter",                "DejaVu Sans Mono",                "Bitstream Vera Sans Mono",                "Liberation Mono",                "Nimbus Mono L",                Monaco,                "Courier New",                Courier,                monospace; }
+
+.separator {
+  margin-right: 10px;
+  font-size: 36pt; }
+
+/* top */
+div.top {
+  background-color: #FEFDCD;
+  /*  background-color: #FDF909;
+  */
+  text-align: bottom;
+  margin: 0;
+  padding: 8px 8px 4px; }
+  div.top .logo {
+    margin: 2px auto; }
+    div.top .logo img {
+      opacity: 0.6; }
+
+/* navbar */
+div.navbar {
+  width: 100%;
+  margin: 0 0 2px;
+  padding: 8px 0px 11px;
+  /* no idea why, but this centers the buttons*/
+  overflow-vertical: auto;
+  text-align: left;
+  background-color: #A3D3D1;
+  border-top: 1px solid #6881BA;
+  border-bottom: 1px solid #6881BA; }
+  div.navbar h3 {
+    margin-bottom: .25em; }
+  div.navbar ul {
+    list-style-type: none;
+    display: inline;
+    margin: -1px 0px 0px;
+    padding: 8px 0px;
+    list-style-type: none; }
+  div.navbar li.clickable {
+    display: inline;
+    color: #ccdcea;
+    background-color: #3470a2;
+    list-style-type: none;
+    margin: 8px;
+    padding: 8px 2px;
+    padding-right: 1em;
+    padding-left: 1em;
+    /*  font-variant: small-caps;*/
+    border: 1px solid #6881BA;
+    font-size: 9pt; }
+    div.navbar li.clickable a, div.navbar li.clickable a:visited {
+      text-decoration: none;
+      /*font-weight: bold;*/
+      color: white;
+      margin: 0; }
+  div.navbar li.clickable:hover {
+    background-color: blue;
+    cursor: pointer;
+    cursor: hand; }
+  div.navbar li.clickable.current {
+    font-weight: bold;
+    border: 1px solid black;
+    background-color: #3875D7; }
+    div.navbar li.clickable.current a {
+      color: white; }
+
+/* main */
+.main {
+  margin: 0 auto; }
+
+.footer {
+  font-size: 10pt;
+  border-top: 1px solid black;
+  padding: 1em; }
+
+.body {
+  max-width: 60em;
+  margin-left: 100px;
+  margin-right: 100px; }
+
+.body a {
+  color: #6881BA;
+  text-decoration: none;
+  border-bottom: 1px dotted; }
+
+.main h1.title {
+  margin: 0 200px;
+  text-align: center; }
+
+/* article */
+div.toc {
+  margin: 1em .25em;
+  display: inline-block;
+  border: 1px solid black; }
+  div.toc h2 {
+    margin: 0; }
+  div.toc ul, div.toc ol {
+    padding: .25em 1em; }
+
+.promo_wrapper {
+  float: right; }
+
+div.promo_wrapper {
+  text-align: center;
+  margin: 4px;
+  padding: 4px; }
+
+div.promo {
+  display: inline-block;
+  border: 2px solid #6881BA;
+  text-align: center;
+  background: white; }
+  div.promo img {
+    border: 2px solid black;
+    margin: 2px; }
+  div.promo p {
+    padding: .25em .5em; }
+</style>
   </head>
-  <body>
-    <div class="sidebar"><a href="index.html"><img class="logo" height="161" src="erector.jpg" width="143" /></a>
-      <h3>Documentation:</h3>
-      <ul class="clickable">
-        <li class="clickable" onclick="document.location='index.html'"><a href="index.html">README</a></li>
+  <body>    <a href="http://github.com/pivotal/erector"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://a248.e.akamai.net/assets.github.com/img/30f550e0d38ceb6ef5b81500c64d970b7fb0f028/687474703a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6f72616e67655f6666373630302e706e67" alt="Fork me on GitHub"></a>
+    <div class="top">      <div class="logo"><a href="index.html"><img src="erector-logo.png" /></a></div>
+    </div>
+    <div class="navbar">      <ul class="clickable">
+        <li class="clickable current" onclick="document.location='index.html'"><a href="index.html">Home</a></li>
         <li class="clickable" onclick="document.location='userguide.html'"><a href="userguide.html">User Guide</a></li>
         <li class="clickable" onclick="document.location='faq.html'"><a href="faq.html">FAQ</a></li>
         <li class="clickable" onclick="document.location='rdoc'"><a href="rdoc">RDoc API</a></li>
         <li class="clickable" onclick="document.location='developers.html'"><a href="developers.html">For Developers</a></li>
         <li class="clickable" onclick="document.location='release_notes.html'"><a href="release_notes.html">Release Notes</a></li>
-      </ul>
-      <h3>External Links:</h3>
-      <ul class="clickable">
-        <li class="clickable" onclick="document.location='http://rubyforge.org/frs/?group_id=4797'"><a href="http://rubyforge.org/frs/?group_id=4797">Download</a><br />
-          <span> (current version: 0.8.1)</span></li>
-        <li class="clickable" onclick="document.location='http://googlegroups.com/group/erector'"><a href="http://googlegroups.com/group/erector">Erector Mailing List</a></li>
-        <li class="clickable" onclick="document.location='http://rubyforge.org/projects/erector/'"><a href="http://rubyforge.org/projects/erector/">RubyForge Project</a></li>
-        <li class="clickable" onclick="document.location='http://github.com/pivotal/erector'"><a href="http://github.com/pivotal/erector">Github Repository</a></li>
-        <li class="clickable" onclick="document.location='http://www.pivotaltracker.com/projects/482'"><a href="http://www.pivotaltracker.com/projects/482">Tracker Project</a></li>
-        <li class="clickable" onclick="document.location='http://rubyforge.org/pipermail/erector-devel/'"><a href="http://rubyforge.org/pipermail/erector-devel/">erector-devel archive</a></li>
+        <li class="clickable" onclick="document.location='links.html'"><a href="links.html">Links</a></li>
       </ul>
     </div>
-    <div class="main">
-      <h1 class="title">Erector - Home</h1>
-      <div class="body"><ul>
-<li><a href="http://erector.rubyforge.org">erector.rubyforge.org</a>
-
-</li>
-<li><a href="mailto:erector@googlegroups.com">erector@googlegroups.com</a>
-
-</li>
-<li><a
-href="http://www.pivotaltracker.com/projects/482">www.pivotaltracker.com/projects/482</a>
-
-</li>
-</ul>
-<h2>DESCRIPTION</h2>
-<p>
-Erector is a Builder-like view framework, inspired by Markaby but
-overcoming some of its flaws. In Erector all views are objects, not
-template files, which allows the full power of object-oriented programming
-(inheritance, modular decomposition, encapsulation) in views. See the rdoc
-for the <a href="rdoc/classes/Erector/Widget.html">Erector::Widget</a> class to learn how to make your own widgets, and
-visit the project site at <a
-href="http://erector.rubyforge.org">erector.rubyforge.org</a> for more
-documentation.
-</p>
-<p>
-No, seriously, we&#8217;ve got hella docs at <a
-href="http://erector.rubyforge.org">erector.rubyforge.org</a> &#8212; go
-check it out.
-</p>
-<h2>SYNOPSIS</h2>
-<pre>
-    require 'erector'
-
-    class Hello &lt; <a href="rdoc/classes/Erector/Widget.html">Erector::Widget</a>
-      def content
-        html do
-          head do
-            title &quot;Hello&quot;
-          end
-          body do
-            text &quot;Hello, &quot;
-            b @target, :class =&gt; 'big'
-            text &quot;!&quot;
-          end
-        end
+    <div class="promo_wrapper">      <div class="promo"><img src="images/erector-the-worlds-greatest-toy.jpg" /></div>
+    </div>
+    <div class="main">      <div class="body">
+        <p>Erector is a Builder-like view framework for <a href="http://ruby-lang.org">Ruby</a>, inspired by <a href="http://code.whytheluckystiff.net/markaby/">Markaby</a>. </p>
+        <p>In Erector all views are objects, not template files, which allows the full power of object-oriented programming (inheritance, modular decomposition, encapsulation) in views.</p>
+        <pre>require 'erector'
+class Logo &lt; Erector::Widget
+  def content
+    div.logo {
+      a :href =&gt; &quot;index.html&quot; do
+        img.logo :src =&gt; 'erector.jpg',
+          :height =&gt; 323, 
+          :width =&gt; 287
       end
-    end
+    }
+  end
+end
 
-    Hello.new(:target =&gt; 'world').to_html
-    =&gt; &quot;&lt;html&gt;&lt;head&gt;&lt;title&gt;Hello&lt;/title&gt;&lt;/head&gt;&lt;body&gt;Hello, &lt;b class=\&quot;big\&quot;&gt;world&lt;/b&gt;!&lt;/body&gt;&lt;/html&gt;&quot;
-
-    include Erector::Mixin
-    erector { div &quot;love&quot;, :class =&gt; &quot;big&quot; }
-    =&gt; &quot;&lt;div class=\&quot;big\&quot;&gt;love&lt;/div&gt;&quot;
+Logo.new.to_html #=&gt;
+  &lt;div class=&quot;logo&quot;&gt;
+    &lt;a href=&quot;index.html&quot;&gt;
+      &lt;img class=&quot;logo&quot; height=&quot;323&quot; src=&quot;erector.jpg&quot; width=&quot;287&quot; /&gt;
+    &lt;/a&gt;
+  &lt;/div&gt;
+  
 </pre>
-<h2>REQUIREMENTS</h2>
-<p>
-The gem depends on rake and treetop, although this is just for using the
-command-line tool, so deployed applications won&#8217;t need these. The
-Rails-dependent code is now separated so you can use Erector cleanly in a
-non-Rails app.
-</p>
-<h2>INSTALL</h2>
-<p>
-To install as a gem:
-</p>
-<ul>
-<li>sudo gem install erector
-
-</li>
-</ul>
-<p>
-Then add &#8220;require &#8216;erector&#8217;&#8221; to any files which
-need erector.
-</p>
-<p>
-To install as a Rails plugin:
-</p>
-<ul>
-<li>Copy the erector source to vendor/plugins/erector in your Rails directory.
-
-</li>
-</ul>
-<p>
-When installing this way, erector is automatically available to your Rails
-code (no require directive is needed).
-</p>
-<h2>TESTS</h2>
-<p>
-Three spec rake tasks are provided: spec:core (core functionality),
-spec:erect (the erector command line tool), and spec:rails (rails
-integration). You do not need to have Rails installed to run the latter
-two; they will clone the rails git repository and set it up for testing
-automatically. You can test against a different version of Rails by
-changing the constants in lib/erector/rails/rails_version.rb
-</p>
-<p>
-&#8216;rake spec&#8217; will run the complete set of specs.
-</p>
-<h2>CREDITS:</h2>
-<p>
-Core Team:
-</p>
-<ul>
-<li>Alex Chaffee
-
-</li>
-<li>Brian Takita
-
-</li>
-</ul>
-<p>
-Special Thanks To:
-</p>
-<ul>
-<li>Abby (Chaffee&#8217;s muse &amp; Best friend)
-
-</li>
-<li>Jim Kingdon
-
-</li>
-<li>Jeff Dean
-
-</li>
-<li>John Firebaugh
-
-</li>
-<li>Nathan Sobo
-
-</li>
-<li>Nick Kallen
-
-</li>
-<li>Alon Salant
-
-</li>
-<li>Andy Peterson
-
-</li>
-</ul>
-<h2>LICENSE:</h2>
-<p>
-(The MIT License)
-</p>
-<p>
-Copyright &#169; 2007-2010 Pivotal Labs and the Erector Project
-</p>
-<p>
-Permission is hereby granted, free of charge, to any person obtaining a
-copy of this software and associated documentation files (the
-&#8220;Software&#8221;), to deal in the Software without restriction,
-including without limitation the rights to use, copy, modify, merge,
-publish, distribute, sublicense, and/or sell copies of the Software, and to
-permit persons to whom the Software is furnished to do so, subject to the
-following conditions:
-</p>
-<p>
-The above copyright notice and this permission notice shall be included in
-all copies or substantial portions of the Software.
-</p>
-<p>
-THE SOFTWARE IS PROVIDED &#8220;AS IS&#8221;, WITHOUT WARRANTY OF ANY KIND,
-EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
-NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
-DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
-OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
-USE OR OTHER DEALINGS IN THE SOFTWARE.
-</p>
-<hr />
-        <p>Don't forget to read the <a href="userguide.html">User Guide</a> and <a href="faq.html">FAQ</a> and <a href="rdoc">API</a></p>
+        <p>Don't forget to read the <a href="userguide.html">User Guide</a> and <a href="faq.html">FAQ</a> and <a href="rdoc">API</a> documentation!</p>
       </div>
-    </div>
-    <div class="footer">
-      <center>Erector is an open source project released under the MIT license. Its initial development was sponsored by <a href="http://pivotallabs.com">Pivotal Labs</a>.<br />
-        <center><a href="http://www.pivotallabs.com"><img alt="Pivotal Labs" height="57" src="pivotal.gif" width="158" /></a></center>
-      </center>
+      <div class="footer"><a href="http://www.pivotallabs.com"><img alt="Pivotal Labs" height="57" src="pivotal.gif" style="float:right; padding: 8px;" width="158" /></a>
+        <center>Erector is an open source project released under the MIT license.<br />
+Its initial development was sponsored by <a href="http://pivotallabs.com">Pivotal Labs</a>.<br />
+          Not affiliated with or sponsored by the makers of Erector or Meccano toys.</center>
+      </div>
     </div>
   </body>
 </html>

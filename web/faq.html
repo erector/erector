@@ -1,43 +1,229 @@
 <html>
   <head>
     <title>Erector - FAQ</title>
-    <link href="erector.css" rel="stylesheet" type="text/css" />
+    <style>body, td, a, p {
+  font-family: Lucida Grande, Lucida Sans, arial, sans-serif;
+  font-size: 11pt; }
+
+body {
+  margin: 0;
+  padding: 0; }
+
+img {
+  border: none; }
+
+.clear {
+  clear: both; }
+
+ul {
+  list-style-position: inside; }
+
+li {
+  margin-left: 1.5em;
+  padding-bottom: .5em; }
+
+li > p {
+  -webkit-margin-before: 0;
+  -webkit-margin-after: 0; }
+
+h1 {
+  /*  font-variant: small-caps;*/
+  border-bottom: 1px solid gray;
+  /*  background: #EEE; */
+  padding: .25em;
+  padding-left: 0px;
+  margin-left: 0px;
+  text-shadow: #999 1px 1px 1px; }
+
+h2 {
+  margin-top: 2em;
+  background: #FEFEEB;
+  padding: .25em;
+  border: 1px solid #CCC;
+  text-shadow: #999 1px 1px 1px; }
+
+pre {
+  background-color: #EEEEFF;
+  border: 1px solid gray;
+  padding: .5em;
+  padding-left: 2em;
+  margin-right: 6em;
+  overflow: auto; }
+
+/* cheatsheet */
+table.cheatsheet {
+  border-style: outset;
+  border-collapse: collapse;
+  font-size: 10pt; }
+  table.cheatsheet code {
+    background-color: #EEEEFF; }
+  table.cheatsheet i {
+    font-size: 11pt; }
+  table.cheatsheet th {
+    background-color: #EDEDED; }
+  table.cheatsheet td, table.cheatsheet th {
+    border-width: 1px;
+    border-style: solid;
+    border-color: lightgray;
+    padding: .5em;
+    font-size: 10pt; }
+  table.cheatsheet td {
+    vertical-align: top; }
+
+code {
+  font-size: 12pt; }
+
+pre {
+  font-size: 12pt;
+  font-family: Inconsolata,                Consolas,                "Andale Mono",                "Lucida Console",                "Lucida Sans Typewriter",                "DejaVu Sans Mono",                "Bitstream Vera Sans Mono",                "Liberation Mono",                "Nimbus Mono L",                Monaco,                "Courier New",                Courier,                monospace; }
+
+.separator {
+  margin-right: 10px;
+  font-size: 36pt; }
+
+/* top */
+div.top {
+  background-color: #FEFDCD;
+  /*  background-color: #FDF909;
+  */
+  text-align: bottom;
+  margin: 0;
+  padding: 8px 8px 4px; }
+  div.top .logo {
+    margin: 2px auto; }
+    div.top .logo img {
+      opacity: 0.6; }
+
+/* navbar */
+div.navbar {
+  width: 100%;
+  margin: 0 0 2px;
+  padding: 8px 0px 11px;
+  /* no idea why, but this centers the buttons*/
+  overflow-vertical: auto;
+  text-align: left;
+  background-color: #A3D3D1;
+  border-top: 1px solid #6881BA;
+  border-bottom: 1px solid #6881BA; }
+  div.navbar h3 {
+    margin-bottom: .25em; }
+  div.navbar ul {
+    list-style-type: none;
+    display: inline;
+    margin: -1px 0px 0px;
+    padding: 8px 0px;
+    list-style-type: none; }
+  div.navbar li.clickable {
+    display: inline;
+    color: #ccdcea;
+    background-color: #3470a2;
+    list-style-type: none;
+    margin: 8px;
+    padding: 8px 2px;
+    padding-right: 1em;
+    padding-left: 1em;
+    /*  font-variant: small-caps;*/
+    border: 1px solid #6881BA;
+    font-size: 9pt; }
+    div.navbar li.clickable a, div.navbar li.clickable a:visited {
+      text-decoration: none;
+      /*font-weight: bold;*/
+      color: white;
+      margin: 0; }
+  div.navbar li.clickable:hover {
+    background-color: blue;
+    cursor: pointer;
+    cursor: hand; }
+  div.navbar li.clickable.current {
+    font-weight: bold;
+    border: 1px solid black;
+    background-color: #3875D7; }
+    div.navbar li.clickable.current a {
+      color: white; }
+
+/* main */
+.main {
+  margin: 0 auto; }
+
+.footer {
+  font-size: 10pt;
+  border-top: 1px solid black;
+  padding: 1em; }
+
+.body {
+  max-width: 60em;
+  margin-left: 100px;
+  margin-right: 100px; }
+
+.body a {
+  color: #6881BA;
+  text-decoration: none;
+  border-bottom: 1px dotted; }
+
+.main h1.title {
+  margin: 0 200px;
+  text-align: center; }
+
+/* article */
+div.toc {
+  margin: 1em .25em;
+  display: inline-block;
+  border: 1px solid black; }
+  div.toc h2 {
+    margin: 0; }
+  div.toc ul, div.toc ol {
+    padding: .25em 1em; }
+
+.promo_wrapper {
+  float: right; }
+
+div.promo_wrapper {
+  text-align: center;
+  margin: 4px;
+  padding: 4px; }
+
+div.promo {
+  display: inline-block;
+  border: 2px solid #6881BA;
+  text-align: center;
+  background: white; }
+  div.promo img {
+    border: 2px solid black;
+    margin: 2px; }
+  div.promo p {
+    padding: .25em .5em; }
+</style>
   </head>
-  <body>
-    <div class="sidebar"><a href="index.html"><img class="logo" height="161" src="erector.jpg" width="143" /></a>
-      <h3>Documentation:</h3>
-      <ul class="clickable">
-        <li class="clickable" onclick="document.location='index.html'"><a href="index.html">README</a></li>
+  <body>    <a href="http://github.com/pivotal/erector"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://a248.e.akamai.net/assets.github.com/img/30f550e0d38ceb6ef5b81500c64d970b7fb0f028/687474703a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6f72616e67655f6666373630302e706e67" alt="Fork me on GitHub"></a>
+    <div class="top">      <div class="logo"><a href="index.html"><img src="erector-logo.png" /></a></div>
+    </div>
+    <div class="navbar">      <ul class="clickable">
+        <li class="clickable" onclick="document.location='index.html'"><a href="index.html">Home</a></li>
         <li class="clickable" onclick="document.location='userguide.html'"><a href="userguide.html">User Guide</a></li>
-        <li class="clickable" onclick="document.location='faq.html'"><a href="faq.html">FAQ</a></li>
+        <li class="clickable current" onclick="document.location='faq.html'"><a href="faq.html">FAQ</a></li>
         <li class="clickable" onclick="document.location='rdoc'"><a href="rdoc">RDoc API</a></li>
         <li class="clickable" onclick="document.location='developers.html'"><a href="developers.html">For Developers</a></li>
         <li class="clickable" onclick="document.location='release_notes.html'"><a href="release_notes.html">Release Notes</a></li>
-      </ul>
-      <h3>External Links:</h3>
-      <ul class="clickable">
-        <li class="clickable" onclick="document.location='http://rubyforge.org/frs/?group_id=4797'"><a href="http://rubyforge.org/frs/?group_id=4797">Download</a><br />
-          <span> (current version: 0.8.1)</span></li>
-        <li class="clickable" onclick="document.location='http://googlegroups.com/group/erector'"><a href="http://googlegroups.com/group/erector">Erector Mailing List</a></li>
-        <li class="clickable" onclick="document.location='http://rubyforge.org/projects/erector/'"><a href="http://rubyforge.org/projects/erector/">RubyForge Project</a></li>
-        <li class="clickable" onclick="document.location='http://github.com/pivotal/erector'"><a href="http://github.com/pivotal/erector">Github Repository</a></li>
-        <li class="clickable" onclick="document.location='http://www.pivotaltracker.com/projects/482'"><a href="http://www.pivotaltracker.com/projects/482">Tracker Project</a></li>
-        <li class="clickable" onclick="document.location='http://rubyforge.org/pipermail/erector-devel/'"><a href="http://rubyforge.org/pipermail/erector-devel/">erector-devel archive</a></li>
+        <li class="clickable" onclick="document.location='links.html'"><a href="links.html">Links</a></li>
       </ul>
     </div>
-    <div class="main">
-      <h1 class="title">Erector - FAQ</h1>
-      <div class="body">
-        <ul>
-          <li><a href="#whatiserector">What is Erector?</a></li>
-          <li><a href="#wherearethedocs">Where are the docs?</a></li>
-          <li><a href="#whyuseerector">Why use Erector?</a></li>
-          <li><a href="#wherearesomeexamples">Where are some examples?</a></li>
-          <li><a href="#howdoeserectorstackupagainstmarkaby">How does Erector stack up against Markaby?</a></li>
-          <li><a href="#howdoeserectorstackupagainsthaml">How does Erector stack up against HAML?</a></li>
-          <li><a href="#howdoiuselayouts">How do I use layouts?</a></li>
-          <li><a href="#howfastiserectorcomparedtoerbhamletc">How fast is Erector compared to ERB, HAML, etc.?</a></li>
-        </ul>
+    <div class="promo_wrapper">      <div class="promo"><img src="images/the-mysto-erector.jpg" /></div>
+    </div>
+    <div class="main">      <div class="body">        <div class="toc">
+          <h2>Erector FAQ</h2>
+          <ol class="toc">
+            <li><a href="#whatiserector">What is Erector?</a></li>
+            <li><a href="#wherearethedocs">Where are the docs?</a></li>
+            <li><a href="#whyuseerector">Why use Erector?</a></li>
+            <li><a href="#wherearesomeexamples">Where are some examples?</a></li>
+            <li><a href="#howdoeserectorstackupagainstmarkaby">How does Erector stack up against Markaby?</a></li>
+            <li><a href="#howdoeserectorstackupagainsthaml">How does Erector stack up against HAML?</a></li>
+            <li><a href="#howdoiuselayouts">How do I use layouts?</a></li>
+            <li><a href="#howfastiserectorcomparedtoerbhamletc">How fast is Erector compared to ERB, HAML, etc.?</a></li>
+            <li><a href="#whydontmorepeopleuseerector">Why don't more people use Erector?</a></li>
+          </ol>
+        </div>
+        <div class="clear"></div>
         <a name="whatiserector"></a>
         <h2>What is Erector?</h2>
         <p>Erector is a Builder-like view framework, inspired by <a href="http://code.whytheluckystiff.net/markaby/">Markaby</a> but overcoming some of its flaws. In Erector all views are objects, not template files, which allows the full power of object-oriented programming (inheritance, modular decomposition, encapsulation) in views.</p>
@@ -100,12 +286,15 @@
           <p><b>Methods, not Partials.</b> In ERB and HAML, modular decomposition is accomplished by separating reused code into separate template files. In addition to being aesthetically problematic, encouraging you to move related code into separate places, it also introduces a performance problem, since every partial may be rendered into a string. (Although sometimes it's not, which is just weird.)</p>
         </p>
         <p>We should point out, of course, that the choice of templating engines by itself is not what will make your application scalable. The effectiveness of your caching policy will dwarf that of your rendering engine in nearly all cases. But it's fun to know we've got a pretty fast horse in this particular race...</p>
+        <a name="whydontmorepeopleuseerector"></a>
+        <h2>Why don't more people use Erector?</h2>
+        <p>See <a href="http://www.quora.com/Why-dont-more-people-use-Erector">Why don't more people use Erector?</a> at Quora.</p>
       </div>
-    </div>
-    <div class="footer">
-      <center>Erector is an open source project released under the MIT license. Its initial development was sponsored by <a href="http://pivotallabs.com">Pivotal Labs</a>.<br />
-        <center><a href="http://www.pivotallabs.com"><img alt="Pivotal Labs" height="57" src="pivotal.gif" width="158" /></a></center>
-      </center>
+      <div class="footer"><a href="http://www.pivotallabs.com"><img alt="Pivotal Labs" height="57" src="pivotal.gif" style="float:right; padding: 8px;" width="158" /></a>
+        <center>Erector is an open source project released under the MIT license.<br />
+Its initial development was sponsored by <a href="http://pivotallabs.com">Pivotal Labs</a>.<br />
+          Not affiliated with or sponsored by the makers of Erector or Meccano toys.</center>
+      </div>
     </div>
   </body>
 </html>

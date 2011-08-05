@@ -73,7 +73,9 @@ end
 
 desc "Build the web site from the .rb files in web/"
 task :web do
-  files = Dir["web/*.rb"] - ["web/page.rb", "web/sidebar.rb", "web/clickable_li.rb"]
+  files = Dir["web/*.rb"].select do |filename|
+    File.read(filename) =~ (/\< Page/)
+  end
   require 'erector'
   require 'erector/erect/erect'
   $: << "."
@@ -107,16 +109,21 @@ task :publish => [:web, :docs] do
 end
 
 
+begin
 require 'rdoc/task'
-RDoc::Task.new(:rdoc) do |rdoc|
-  rdoc.rdoc_dir = 'rdoc'
-  rdoc.title    = "Erector #{Erector::VERSION}"
-  rdoc.options << '--inline-source' << "--promiscuous"
-  rdoc.options << "--main=README.txt"
-#  rdoc.options << '--diagram' if RUBY_PLATFORM !~ /win32/ and `which dot` =~ /\/dot/ and not ENV['NODOT']
-  rdoc.rdoc_files.include('README.txt')
-  rdoc.rdoc_files.include('lib/**/*.rb')
-  rdoc.rdoc_files.include('bin/**/*')
+  RDoc::Task.new(:rdoc) do |rdoc|
+    rdoc.rdoc_dir = 'rdoc'
+    rdoc.title    = "Erector #{Erector::VERSION}"
+    rdoc.options << 
+      '--inline-source' << 
+      "--promiscuous" <<
+      "--main=README.txt"
+    rdoc.rdoc_files.include('README.txt')
+    rdoc.rdoc_files.include('lib/**/*.rb')
+    rdoc.rdoc_files.include('bin/**/*')
+  end
+rescue LoadError => e
+  puts "#{e.class}: #{e.message}"
 end
 
 desc "Regenerate unicode.rb from UnicodeData.txt from unicode.org.  Only needs to be run when there is a new version of the Unicode specification"
@@ -159,9 +166,11 @@ namespace :spec do
 
   desc "Run specs for erector's Rails integration under Rails 2."
   task :rails2 do
-    Dir.chdir("spec/rails2/rails_app") do
+    rails_app = "#{here}/spec/rails2/rails_app"
+    gemfile = "#{rails_app}/Gemfile"
+    Dir.chdir(rails_app) do
       # Bundler.with_clean_env do
-        sh "BUNDLE_GEMFILE='./Gemfile' bundle exec rake rails2"
+        sh "BUNDLE_GEMFILE='#{gemfile}' bundle exec rake rails2"
       # end
     end
   end

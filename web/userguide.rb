@@ -1,6 +1,6 @@
 dir = File.dirname(__FILE__)
 require "#{dir}/page"
-require "#{dir}/sidebar"
+require "#{dir}/navbar"
 require "#{dir}/article"
 require "#{dir}/section"
 
@@ -9,18 +9,22 @@ class Userguide < Page
     super(:page_title => "User Guide")
   end
 
-  def render_body
+  def promo
+    "images/1959erector.jpeg"
+  end
+  
+  def body_content
     p do
-      text "Make sure to check out the "
-      a "RDoc Documentation", :href => "rdoc"
-      text " for more details on the API."
+      text "Make sure to check out the ",
+        a("RDoc Documentation", :href => "rdoc"),
+        " for more details on the API."
     end
 
     widget article
   end
 
   def article
-    Article.new(
+    Article.new("Erector User Guide", 
   [
     Section.new("The Basics") do
       p "The basic way to construct some HTML/XML with erector is to subclass Erector::Widget and implement a content method:"
@@ -44,7 +48,7 @@ end
 DONE
           end
           td do
-            span :class => "separator" do
+            span.separator do
               text character(:rightwards_arrow)
             end
           end
@@ -369,8 +373,8 @@ class Views::Layouts::Page < Erector::Widget
         css "myapp.css"
       end
       body do
-        div :class => 'sidebar' do
-          render_sidebar
+        div :class => 'navbar' do
+          render_navbar
         end
         div :class => 'body' do
           render_body
@@ -382,7 +386,7 @@ class Views::Layouts::Page < Erector::Widget
     end
   end
 
-  def render_sidebar
+  def render_navbar
     a "MyApp Home", :href => "/"
   end
 
@@ -407,7 +411,7 @@ class Views::Faq::Index < Views::Layouts::Page
     p "A: To get to the other side"
   end
 
-  def render_sidebar
+  def render_navbar
     super
     a "More FAQs", :href => "http://faqs.org"
   end
@@ -418,7 +422,7 @@ end
         ul do
           li "Set instance variables (e.g. title)"
           li "Override sections completely (e.g. render_body)"
-          li "Append to standard content (e.g. render_sidebar)"
+          li "Append to standard content (e.g. render_navbar)"
           li "Use standard content unchanged (e.g. render_footer)"
         end
         p "all in a straightforward, easily understood paradigm (OO inheritance). (No more weird yielding to invisible, undocumented closures!)"
@@ -585,7 +589,7 @@ class HotSauce < Erector::Widget
   depends_on :js, "/lib/picante.js"
 
   def content
-    p :class => "tapatio" do
+    p.tapatio do
       text "esta salsa es muy picante!"
     end
   end

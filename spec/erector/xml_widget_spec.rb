@@ -13,7 +13,6 @@ module XmlWidgetSpec
     tag "lastBuildDate"
     tag "pubDate"
     tag "item"
-    tag "description"
     tag "guid"
 
     def content

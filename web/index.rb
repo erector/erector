@@ -1,6 +1,6 @@
 dir = File.dirname(__FILE__)
 require "#{dir}/page"
-require "#{dir}/sidebar"
+require "#{dir}/navbar"
 
 require "rubygems"
 require "bundler"
@@ -12,18 +12,42 @@ class Index < Page
   def initialize
     super(:page_title => "Home")
   end
-
-  def readme
-    text = File.read("#{File.dirname(__FILE__)}/../README.txt")
-    text.gsub!(/^\= Erector/, '')
-    text = RDoc::Markup::ToHtml.new.convert(text)
-    text.gsub!(/Erector::Widget/, capture { a "Erector::Widget", :href=> "rdoc/classes/Erector/Widget.html" }.strip)
-    return text
+  
+  def body_content
+    p {
+      text "Erector is a Builder-like view framework for ", a("Ruby", :href=>"http://ruby-lang.org")
+      text ", inspired by "
+      a "Markaby", :href => "http://code.whytheluckystiff.net/markaby/"
+      text ". "
+    }
+    
+    p {
+      text "In Erector all views are objects, not template files, which allows the full power of object-oriented programming (inheritance, modular decomposition, encapsulation) in views."
+    }
+    
+    pre <<-RUBY
+require 'erector'
+class Logo < Erector::Widget
+  def content
+    div.logo {
+      a :href => "index.html" do
+        img.logo :src => 'erector.jpg',
+          :height => 323, 
+          :width => 287
+      end
+    }
   end
+end
 
-  def render_body
-    rawtext readme
-    hr
+Logo.new.to_html #=>
+  <div class="logo">
+    <a href="index.html">
+      <img class="logo" height="323" src="erector.jpg" width="287" />
+    </a>
+  </div>
+  
+    RUBY
+
     p do
       text "Don't forget to read the "
       a "User Guide", :href => "userguide.html"
@@ -31,6 +55,7 @@ class Index < Page
       a "FAQ", :href => "faq.html"
       text " and "
       a "API", :href => "rdoc"
+      text " documentation!"
     end
   end
 end
