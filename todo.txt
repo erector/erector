@@ -70,5 +70,5 @@
 * work with Rails 3.1 http://weblog.rubyonrails.org/2011/5/22/rails-3-1-release-candidate
 * rename _render to emit?
 * split up html_spec.rb into different specs per mixin
-
 * scss, js, jquery, sass, css, style ... clarify inline vs. link semantics, also file path/root (web vs. filesystem)
+* http://test.rubygems.org/
