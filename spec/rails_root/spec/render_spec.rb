@@ -162,6 +162,21 @@ describe ActionController::Base do
       @bar = "bar"
       render :widget => NeedsWidget
     end
+    
+    def render_with_widget_as_layout
+      render :layout => "layouts/widget_as_layout"
+    end
+    
+    def render_with_widget_as_layout_and_vars
+      @before = "Breakfast"
+      @during = "Lunch"
+      @after = "Dinner"
+      render :template => "test/render_with_widget_as_layout", :layout => "layouts/widget_as_layout"
+    end
+    
+    def render_with_widget_as_layout_using_content_for
+      render :template => "test/render_with_widget_as_layout_using_content_for", :layout => "layouts/widget_as_layout"
+    end
   end
 
   class TestWidget < Erector::Widget
@@ -294,5 +309,18 @@ describe ActionController::Base do
     it "should allow rendering widget with needs" do
       proc { test_action(:render_with_needs) }.should_not raise_error
     end
+    
+    it "should allow using a widget as a layout" do
+      test_action(:render_with_widget_as_layout).should == "BEFOREDURINGAFTER"
+    end
+
+    it "should allow using a widget as a layout with instance vars" do
+      test_action(:render_with_widget_as_layout_and_vars).should == "BreakfastLunchDinner"
+    end
+
+    it "should allow using a widget as a layout using content_for" do
+      test_action(:render_with_widget_as_layout_using_content_for).should == "TOPBEFOREDURINGAFTER"
+    end
+
   end
 end
