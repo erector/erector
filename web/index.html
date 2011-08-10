@@ -45,8 +45,7 @@ h2 {
 pre {
   background-color: #EEEEFF;
   border: 1px solid gray;
-  padding: .5em;
-  padding-left: 2em;
+  padding: .5em 1em;
   margin-right: 6em;
   overflow: auto; }
 
@@ -217,11 +216,11 @@ div.promo {
 class Logo &lt; Erector::Widget
   def content
     div.logo {
-      a :href =&gt; &quot;index.html&quot; do
+      a(:href =&gt; &quot;index.html&quot;) {
         img.logo :src =&gt; 'erector.jpg',
           :height =&gt; 323, 
           :width =&gt; 287
-      end
+      }
     }
   end
 end

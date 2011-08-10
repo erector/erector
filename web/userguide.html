@@ -45,8 +45,7 @@ h2 {
 pre {
   background-color: #EEEEFF;
   border: 1px solid gray;
-  padding: .5em;
-  padding-left: 2em;
+  padding: .5em 1em;
   margin-right: 6em;
   overflow: auto; }
 
@@ -222,7 +221,8 @@ div.promo {
               <li><a href="#prettyprinting">Pretty-printing</a></li>
               <li><a href="#rails">Using Erector from Ruby on Rails</a></li>
               <li><a href="#tool">Erector tool: Command-line conversion to and from HTML</a></li>
-              <li><a href="#layoutinheritance">Layout Inheritance</a></li>
+              <li><a href="#pagelayoutinheritance">Page Layout Inheritance</a></li>
+              <li><a href="#erectorlayoutsinrails">Erector Layouts in Rails</a></li>
               <li><a href="#inlinewidgets">Inline Widgets</a></li>
               <li><a href="#needs">Needs</a></li>
               <li><a href="#externals">Externals</a></li>
@@ -233,27 +233,31 @@ div.promo {
           <div class="sections">
             <a name="thebasics"></a>
             <h2>1. The Basics</h2>
-            <p>The basic way to construct some HTML/XML with erector is to subclass Erector::Widget and implement a content method:</p>
+            <p>              The basic way to construct some HTML/XML with erector is to subclass 
+              <code>Erector::Widget</code>
+               and implement a 
+              <code>content</code>
+               method:</p>
             <table>
               <tr>
-                <td>
+                <td valign="top">
                   <pre>class Hello &lt; Erector::Widget
   def content
-    html do
-      head do
+    html {
+      head {
         title &quot;Hello&quot;
-      end
-      body do
+      }
+      body {
         text &quot;Hello, &quot;
         b &quot;world!&quot;
-      end
-    end
+      }
+    }
   end
 end
 </pre>
                 </td>
                 <td><span class="separator">&#x2192;</span></td>
-                <td>
+                <td valign="top">
                   <pre>&lt;html&gt;
   &lt;head&gt;
     &lt;title&gt;Hello&lt;/title&gt;
@@ -299,11 +303,11 @@ end
 =&gt; &quot;&lt;a href=\&quot;http://icanhascheezburger.com/\&quot;&gt;lols&lt;/a&gt;&quot;
 
 erector(:prettyprint =&gt; true) do
-  ol do
+  ol {
     li &quot;bacon&quot;
     li &quot;lettuce&quot;
     li &quot;tomato&quot;
-  end
+  }
 end
 =&gt; &quot;&lt;ol&gt;\n  &lt;li&gt;bacon&lt;/li&gt;\n  &lt;li&gt;lettuce&lt;/li&gt;\n  &lt;li&gt;tomato&lt;/li&gt;\n&lt;/ol&gt;\n&quot;
 </pre>
@@ -347,14 +351,14 @@ end
             <code>app/views/welcome/show.rb:</code>
             <pre>class Views::Welcome::Show &lt; Erector::Widget
   def content
-    html do
-      head do
+    html {
+      head {
         title &quot;Welcome page&quot;
-      end
-      body do
+      }
+      body {
         p &quot;Hello, world&quot;
-      end
-    end
+      }
+    }
   end
 end
 </pre>
@@ -398,42 +402,41 @@ open http://localhost:3000/posts
               option and some file names and it will render the erector widgets to appropriately-named HTML files. We're actually using 
               <code>erector</code>
                to build this Erector documentation web site that you're reading <b>right now.</b> Check out the 'web' directory and the 'web' task in the Rakefile to see how it's done.</p>
-            <a name="layoutinheritance"></a>
-            <h2>6. Layout Inheritance</h2>
+            <a name="pagelayoutinheritance"></a>
+            <h2>6. Page Layout Inheritance</h2>
             <p>Erector replaces the typical Rails layout mechanism with a more natural construct, the use of inheritance. Want a common
-      layout? Just implement a layout superclass and inherit from it. Implement content in the superclass and implement template
-      methods in its subclasses.</p>
+      layout? Implement a layout superclass and have your page class inherit from it and override methods as needed.</p>
             <p>For example:
               <pre>class Views::Layouts::Page &lt; Erector::Widget
   def content
-    html do
-      head do
-        title &quot;MyApp - #{page_title}&quot;
+    html {
+      head {
+        title &quot;MyApp - #{@page_title}&quot;
         css &quot;myapp.css&quot;
-      end
-      body do
-        div :class =&gt; 'navbar' do
-          render_navbar
-        end
-        div :class =&gt; 'body' do
-          render_body
-        end
-        div :class =&gt; 'footer' do
-          render_footer
-        end
-      end
-    end
+      }
+      body {
+        div.navbar {
+          navbar
+        }
+        div.main {
+          main
+        }
+        div.footer {
+          footer
+        }
+      }
+    }
   end
 
-  def render_navbar
+  def navbar
     a &quot;MyApp Home&quot;, :href =&gt; &quot;/&quot;
   end
 
-  def render_body
+  def main
     p &quot;This page intentionally left blank.&quot;
   end
 
-  def render_footer
+  def footer
     p &quot;Copyright (c) 2112, Rush Enterprises Inc.&quot;
   end
 end
@@ -443,12 +446,12 @@ end
     super(:page_title =&gt; &quot;FAQ&quot;)
   end
 
-  def render_body
+  def main
     p &quot;Q: Why is the sky blue?&quot;
     p &quot;A: To get to the other side&quot;
   end
 
-  def render_navbar
+  def navbar
     super
     a &quot;More FAQs&quot;, :href =&gt; &quot;http://faqs.org&quot;
   end
@@ -463,7 +466,10 @@ end
               <li>Use standard content unchanged (e.g. render_footer)</li>
             </ul>
             <p>all in a straightforward, easily understood paradigm (OO inheritance). (No more weird yielding to invisible, undocumented closures!)</p>
-            <p>To use this in Rails, declare 
+            <p>Check out <a href="/rdoc/Erector/Widgets/Page.html">Erector::Widgets::Page</a> for a widget that does a lot of this for you, including rendering <a href="#externals">externals</a> in the HEAD element.</p>
+            <a name="erectorlayoutsinrails"></a>
+            <h2>7. Erector Layouts in Rails</h2>
+            <p>To use layout inheritance in Rails, declare 
               <code>layout nil</code>
                in 
               <code>app/controllers/application.rb</code>
@@ -472,40 +478,60 @@ end
                in 
               <code>app/views/layouts</code>
                as usual.</p>
-            <p>There's one trick you'll need to use this layout for non-erector view templates. Here's an example.</p>
-            <p>
-              <code>application.rb</code>
-               - The Erector layout superclass
+            <p>To use an Erector widget as a regular Rails layout, you'll have to set things up a bit differently.<br />
+              <code>app/views/layouts/application.rb:</code>
               <pre>class Views::Layouts::Application &lt; Erector::Widget
-  attr_accessor :content
-
   def content
-    html do
-      head { } # head content here
-      # body content here
-      body do
-        text content
-      end
+    html {
+      head {
+        title &quot;MyApp - #{page_title}&quot;
+        css &quot;myapp.css&quot;
+      }
+      body {
+        div.navbar {
+          navbar
+        }
+        div.main {
+          content_for :layout
+        }
+        div.footer {
+          footer
+        }
+      }
+    }
+  end
+
+  def navbar
+    ul {
+      li { a &quot;MyApp Home&quot;, :href =&gt; &quot;/&quot; }
+      content_for :navbar if content_for? :navbar
+    }
+  end
+
+  def footer
+    p &quot;Copyright (c) 2112, Rush Enterprises Inc.&quot;
+    content_for :footer if content_for? :footer    
+  end
+
+end
+</pre>
+              <br />
+              <code>app/views/faq/index.rb:</code>
+              <pre>class Views::Faq::Index &lt; Erector::Widget
+  def content
+    content_for :navbar do
+      li { a &quot;More FAQs&quot;, :href =&gt; &quot;http://faqs.org&quot; }
     end
+
+    p &quot;Q: Why is the sky blue?&quot;
+    p &quot;A: To get to the other side&quot;
   end
 end
 </pre>
+              <p>[TODO: more explanation]</p>
             </p>
-            <p>
-              <code>application.mab</code>
-               - The markaby template (adjust for other appropriately templating technologies)
-              <pre>widget = Views::Layouts::Application.new(self)
-widget.content = content_for_layout
-self &lt;&lt; widget.to_html
-</pre>
-            </p>
-            <p>Here the abstract layout widget is used in a concrete fashion by the template-based layout. Normally, the 
-              <code>content</code>
-               method would be implemented by subclassing widgets, but the layout template sets it directly and then calls 
-              <code>to_html</code>
-               on the layout widget. This allows the same layout to be shared in a backward compatible way.</p>
             <a name="inlinewidgets"></a>
-            <h2>7. Inline Widgets</h2>
+            <h2>8. Inline Widgets</h2>
             <p>Instead of subclassing 
               <code>Erector::Widget</code>
                and implementing a 
@@ -539,7 +565,7 @@ image.to_html(:helpers =&gt; controller)          #=&gt; &lt;img alt=&quot;Foo&q
                which may or may not be what you want. See the section on <a href="#blocks">blocks</a> in this user guide for more detail.</p>
             <p>One extra bonus feature of inline widgets is that they can call methods defined on the parent class, even though they're out of scope. How do they do this? Through method_missing magic. (But isn't method_missing magic against the design goals of Erector? Yes, some would say so, and that's why we're reserving it for a special subclass and method. For Erector::Widget and subclasses, if you pass in a block, it's a plain old block with normal semantics.) But they can't directly access instance variables on the parent, so watch it.</p>
             <a name="needs"></a>
-            <h2>8. Needs</h2>
+            <h2>9. Needs</h2>
             <p>Named parameters in Ruby are fun, but one frustrating aspect of the 'options hash' technique is that the code is less self-documenting and doesn't 'fail fast' if you pass in the wrong parameters, or fail to pass in the right ones. Even simple typos can lead to very annoying debugging problems.</p>
             <p>To help this, we've added an optional feature by which your widget can declare that it needs a certain set of named parameters to be passed in. For example:
               <pre>class Car &lt; Erector::Widget
@@ -556,7 +582,7 @@ end
               <code>needs</code>
                no longer automatically declares accessor methods.</p>
             <a name="externals"></a>
-            <h2>9. Externals</h2>
+            <h2>10. Externals</h2>
             <p>Erector's got some nice tags, like 
               <code>script</code>
                and 
@@ -575,9 +601,9 @@ end
   depends_on :js, &quot;/lib/picante.js&quot;
 
   def content
-    p.tapatio do
+    p.hot_sauce {
       text &quot;esta salsa es muy picante!&quot;
-    end
+    }
   end
 end
 </pre>
@@ -597,7 +623,7 @@ end
 </pre>
             </p>
             <p>It also collapses redundant externals, so if lots of your widgets declare the same thing (say, 'jquery.js'), it'll only get included once.</p>
-            <p><a href="rdoc/classes/Erector/Widgets/Page.html">Page</a> looks for the following depends on:
+            <p><a href="rdoc/classes/Erector/Widgets/Page.html">Page</a> looks for the following externals:
               <table>
                 <tr>
                   <th>:js</th>
@@ -622,20 +648,20 @@ end
 </pre>
             </p>
             <a name="blocks"></a>
-            <h2>10. Blocks</h2>
+            <h2>11. Blocks</h2>
             <p>Erector is all about blocks (otherwise known as closures). Unfortunately, there are some confusing aspects to working with blocks; this section aims to clarify the issues so if you find yourself stuck on an 'undefined method' or a nil instance variable, at least you'll have some context to help debug it.</p>
             <p>There are basically three cases where you can pass a block to Erector:</p>
             <h3>1. To an element method</h3>
             <p>This is the normal case that provides the slick HTML DSL. In the following code:</p>
             <pre>class Person &lt; Erector::Widget
   def content
-    div do
+    div {
       h3 @name
-      p do
+      p {
         b &quot;Birthday: &quot;
         span @birthday
-      end
-    end
+      }
+    }
   end
 end
 </pre>
@@ -658,16 +684,16 @@ end
             <pre>class PersonActions &lt; Erector::Widget
   needs :user
   def content
-    div do
-      widget(Form.new(:action =&gt; &quot;/person/#{@user.id}&quot;, :method =&gt; &quot;delete&quot;) do
+    div {
+      widget(Form.new(:action =&gt; &quot;/person/#{@user.id}&quot;, :method =&gt; &quot;delete&quot;) {
         input :type =&gt; &quot;submit&quot;, :value =&gt; &quot;Remove #{@user.name}&quot;
-      end)
-      widget(Form.new(:action =&gt; &quot;/person/#{@user.id}/email&quot;, :method =&gt; &quot;post&quot;) do
+      })
+      widget(Form.new(:action =&gt; &quot;/person/#{@user.id}/email&quot;, :method =&gt; &quot;post&quot;) {
         b &quot;Send message: &quot;
         input :type =&gt; &quot;text&quot;, :name =&gt; &quot;message&quot;
         input :type =&gt; &quot;submit&quot;, :value =&gt; &quot;Email #{@user.name}&quot;
-      end)
-    end
+      })
+    }
   end
 end
 </pre>

@@ -27,22 +27,29 @@ class Userguide < Page
     Article.new(:name => "Erector User Guide").tap { |a|
 
       a.add(:name => "The Basics") do
-      p "The basic way to construct some HTML/XML with erector is to subclass Erector::Widget and implement a content method:"
+        p do
+          text "The basic way to construct some HTML/XML with erector is to subclass ",
+            code("Erector::Widget"),
+            " and implement a ",
+            code("content"),
+            " method:"
+        end
+        
       table do
         tr do
-          td do
+          td :valign => "top" do
             pre <<DONE
 class Hello < Erector::Widget
   def content
-    html do
-      head do
+    html {
+      head {
         title "Hello"
-      end
-      body do
+      }
+      body {
         text "Hello, "
         b "world!"
-      end
-    end
+      }
+    }
   end
 end
 DONE
@@ -52,7 +59,7 @@ DONE
               text character(:rightwards_arrow)
             end
           end
-          td do
+          td :valign => "top" do
             pre <<-HTML
 <html>
   <head>
@@ -114,11 +121,11 @@ erector { a "lols", :href => "http://icanhascheezburger.com/" }
 => "<a href=\\"http://icanhascheezburger.com/\\">lols</a>"
 
 erector(:prettyprint => true) do
-  ol do
+  ol {
     li "bacon"
     li "lettuce"
     li "tomato"
-  end
+  }
 end
 => "<ol>\\n  <li>bacon</li>\\n  <li>lettuce</li>\\n  <li>tomato</li>\\n</ol>\\n"
       PRE
@@ -179,14 +186,14 @@ DONE
       pre <<DONE
 class Views::Welcome::Show < Erector::Widget
   def content
-    html do
-      head do
+    html {
+      head {
         title "Welcome page"
-      end
-      body do
+      }
+      body {
         p "Hello, world"
-      end
-    end
+      }
+    }
   end
 end
 DONE
@@ -258,44 +265,43 @@ DONE
     end
 
 
-    a.add(:name => "Layout Inheritance") do
+    a.add(:name => "Page Layout Inheritance") do
       p "Erector replaces the typical Rails layout mechanism with a more natural construct, the use of inheritance. Want a common
-      layout? Just implement a layout superclass and inherit from it. Implement content in the superclass and implement template
-      methods in its subclasses."
+      layout? Implement a layout superclass and have your page class inherit from it and override methods as needed."
 
       p do
         text "For example:"
         pre <<-DONE
 class Views::Layouts::Page < Erector::Widget
   def content
-    html do
-      head do
-        title "MyApp - \#{page_title}"
+    html {
+      head {
+        title "MyApp - \#{@page_title}"
         css "myapp.css"
-      end
-      body do
-        div :class => 'navbar' do
-          render_navbar
-        end
-        div :class => 'body' do
-          render_body
-        end
-        div :class => 'footer' do
-          render_footer
-        end
-      end
-    end
+      }
+      body {
+        div.navbar {
+          navbar
+        }
+        div.main {
+          main
+        }
+        div.footer {
+          footer
+        }
+      }
+    }
   end
 
-  def render_navbar
+  def navbar
     a "MyApp Home", :href => "/"
   end
 
-  def render_body
+  def main
     p "This page intentionally left blank."
   end
 
-  def render_footer
+  def footer
     p "Copyright (c) 2112, Rush Enterprises Inc."
   end
 end
@@ -307,12 +313,12 @@ class Views::Faq::Index < Views::Layouts::Page
     super(:page_title => "FAQ")
   end
 
-  def render_body
+  def main
     p "Q: Why is the sky blue?"
     p "A: To get to the other side"
   end
 
-  def render_navbar
+  def navbar
     super
     a "More FAQs", :href => "http://faqs.org"
   end
@@ -327,56 +333,87 @@ end
           li "Use standard content unchanged (e.g. render_footer)"
         end
         p "all in a straightforward, easily understood paradigm (OO inheritance). (No more weird yielding to invisible, undocumented closures!)"
-        p do
-          text "To use this in Rails, declare "
-          code "layout nil"
-          text " in "
-          code "app/controllers/application.rb"
-          text " and then define your Page parent class as "
-          code "class Views::Layouts::Page"
-          text " in "
-          code "app/views/layouts"
-          text " as usual."
-        end
-
-      p "There's one trick you'll need to use this layout for non-erector view templates. Here's an example."
+        p {
+         text "Check out "
+         a "Erector::Widgets::Page", :href => "/rdoc/Erector/Widgets/Page.html"
+         text " for a widget that does a lot of this for you, including rendering "
+         a "externals", :href => "#externals"
+         text " in the HEAD element."
+        }
+      end
+      
+      a.add(:name => "Erector Layouts in Rails") do
 
       p do
-        code "application.rb"
-        text " - The Erector layout superclass"
-        pre <<DONE
-class Views::Layouts::Application < Erector::Widget
-  attr_accessor :content
-
-  def content
-    html do
-      head { } # head content here
-      # body content here
-      body do
-        text content
+        text "To use layout inheritance in Rails, declare "
+        code "layout nil"
+        text " in "
+        code "app/controllers/application.rb"
+        text " and then define your Page parent class as "
+        code "class Views::Layouts::Page"
+        text " in "
+        code "app/views/layouts"
+        text " as usual."
       end
+      p do
+        text "To use an Erector widget as a regular Rails layout, you'll have to set things up a bit differently."
+        br
+        code "app/views/layouts/application.rb:"
+        pre <<-RUBY
+class Views::Layouts::Application < Erector::Widget
+  def content
+    html {
+      head {
+        title "MyApp - \#{page_title}"
+        css "myapp.css"
+      }
+      body {
+        div.navbar {
+          navbar
+        }
+        div.main {
+          content_for :layout
+        }
+        div.footer {
+          footer
+        }
+      }
+    }
+  end
+
+  def navbar
+    ul {
+      li { a "MyApp Home", :href => "/" }
+      content_for :navbar if content_for? :navbar
+    }
+  end
+
+  def footer
+    p "Copyright (c) 2112, Rush Enterprises Inc."
+    content_for :footer if content_for? :footer    
+  end
+
+end
+        RUBY
+        
+        br
+        code "app/views/faq/index.rb:"
+        
+        pre <<-RUBY
+class Views::Faq::Index < Erector::Widget
+  def content
+    content_for :navbar do
+      li { a "More FAQs", :href => "http://faqs.org" }
     end
+
+    p "Q: Why is the sky blue?"
+    p "A: To get to the other side"
   end
 end
-DONE
-      end
+        RUBY
 
-      p do
-        code "application.mab"
-        text " - The markaby template (adjust for other appropriately templating technologies)"
-        pre <<DONE
-widget = Views::Layouts::Application.new(self)
-widget.content = content_for_layout
-self << widget.to_html
-DONE
-      end
-
-      p do
-        text "Here the abstract layout widget is used in a concrete fashion by the template-based layout. Normally, the "
-        code "content"
-        text " method would be implemented by subclassing widgets, but the layout template sets it directly and then calls "
-        code "to_html"
-        text " on the layout widget. This allows the same layout to be shared in a backward compatible way."
+        p "[TODO: more explanation]"
+        
       end
     end
 
@@ -490,9 +527,9 @@ class HotSauce < Erector::Widget
   depends_on :js, "/lib/picante.js"
 
   def content
-    p.tapatio do
+    p.hot_sauce {
       text "esta salsa es muy picante!"
-    end
+    }
   end
 end
         DONE
@@ -518,7 +555,7 @@ end
 
       p do
         a "Page", :href => "rdoc/classes/Erector/Widgets/Page.html"
-        text " looks for the following depends on:"
+        text " looks for the following externals:"
         table do
           tr do
             th ":js"
@@ -559,13 +596,13 @@ end
       pre <<-DONE
 class Person < Erector::Widget
   def content
-    div do
+    div {
       h3 @name
-      p do
+      p {
         b "Birthday: "
         span @birthday
-      end
-    end
+      }
+    }
   end
 end
       DONE
@@ -594,16 +631,16 @@ end
 class PersonActions < Erector::Widget
   needs :user
   def content
-    div do
-      widget(Form.new(:action => "/person/\#{@user.id}", :method => "delete") do
+    div {
+      widget(Form.new(:action => "/person/\#{@user.id}", :method => "delete") {
         input :type => "submit", :value => "Remove \#{@user.name}"
-      end)
-      widget(Form.new(:action => "/person/\#{@user.id}/email", :method => "post") do
+      })
+      widget(Form.new(:action => "/person/\#{@user.id}/email", :method => "post") {
         b "Send message: "
         input :type => "text", :name => "message"
         input :type => "submit", :value => "Email \#{@user.name}"
-      end)
-    end
+      })
+    }
   end
 end
       DONE
