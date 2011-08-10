@@ -18,9 +18,9 @@ class Faq < Page
   end
   
   def article
-    Article.new("Erector FAQ", 
+    Article.new(:name => "Erector FAQ", :sections =>
     [
-      Section.new("What is Erector?") do
+      Section.new(:name => "What is Erector?") do
         p do
           text "Erector is a Builder-like view framework, inspired by "
           a "Markaby", :href => "http://code.whytheluckystiff.net/markaby/"
@@ -28,7 +28,7 @@ class Faq < Page
         end
       end,
       
-      Section.new("Where are the docs?") do
+      Section.new(:name => "Where are the docs?") do
         p do
           text "See the "
           a "rdoc for the Erector::Widget class", :href => "http://erector.rubyforge.org/rdoc/classes/Erector/Widget.html"
@@ -40,7 +40,7 @@ class Faq < Page
         end
       end,
       
-      Section.new("Why use Erector?") do
+      Section.new(:name => "Why use Erector?") do
         div "Briefly..."
 
         ul do
@@ -63,7 +63,7 @@ class Faq < Page
         end
       end,
       
-      Section.new("Where are some examples?") do
+      Section.new(:name => "Where are some examples?") do
         p do
           text "This very web site you're reading right now is built with Erector, using the "
           a "erector", :href => "userguide.html#tool"
@@ -89,7 +89,7 @@ class Faq < Page
         end
       end,
       
-      Section.new("How does Erector stack up against Markaby?") do
+      Section.new(:name => "How does Erector stack up against Markaby?") do
         p do
           text "We loved "
           a "Markaby", :href => "http://code.whytheluckystiff.net/markaby/"
@@ -106,14 +106,14 @@ class Faq < Page
         end
       end,
       
-      Section.new("How does Erector stack up against HAML?") do
+      Section.new(:name => "How does Erector stack up against HAML?") do
         p do
           a "HAML", :href =>"http://haml.hamptoncatlin.com/"
           text " is beautiful. But it suffers from the same design flaw (or, some would say, advantage) as every templating technology: views are not objects, and markup isn't code. But views want to do codey things like loops and variables and modular decomposition and inheritance, and every effort to wedge control logic into markup ends up smelling like a hack. There's always going to be some algorithmic idiom that's awkward in a template language. We figure, why deny it? Code is code. Embrace your true nature! Lick your screen and taste the code!"
         end
       end,
       
-      Section.new("How do I use layouts?") do
+      Section.new(:name => "How do I use layouts?") do
         p "Rails has a concept of layouts, which are essentially skeletons for a page, which get fleshed out by views. This is a powerful mechanism for rendering web pages; however, the mechanism Rails uses (via content_for and yield) is fundamentally incompatible with Erector's \"just call the content method\" design."
         p do
           text "We recommend a slightly different approach, known officially as the "
@@ -129,7 +129,7 @@ class Faq < Page
         end
       end,
       
-      Section.new("How fast is Erector compared to ERB, HAML, etc.?") do
+      Section.new(:name => "How fast is Erector compared to ERB, HAML, etc.?") do
         p do
           a "Initial benchmarking tests", :href => "http://github.com/alexch/erector-benchmark"
           text " show that Erector is about 2x as fast as ERB and 4x as fast as HAML under typical conditions."
@@ -162,7 +162,7 @@ class Faq < Page
         end
       end,
       
-      Section.new("Why don't more people use Erector?") {
+      Section.new(:name => "Why don't more people use Erector?") {
         p do
           text "See ", a("Why don't more people use Erector?", :href=>"http://www.quora.com/Why-dont-more-people-use-Erector"), " at Quora."
         end

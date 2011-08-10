@@ -1,13 +1,25 @@
-class Section < Erector::Widget
-  attr_reader :title
-
-  def initialize(title = 'Section', name = nil, &block)
-    super(&block)
-    @title = title
-    @name = name || title.split(':').first.gsub(/[^\w]/, '').downcase
-  end
+class Section < Erector::InlineWidget
+  needs :name, :href => nil, :sections => []
+  attr_reader :name, :sections
 
   def href
-    @name
+    @href || @name.split(':').first.gsub(/[^\w]/, '').downcase
   end
+
+  # todo: unify with Article
+  def <<(section)
+    @sections << section
+    self
+  end
+  
+  def add(options, &block)
+    Section.new(options, &block).tap do |sec|
+      self << sec
+    end
+  end
+  
+  def sections?
+    !@sections.empty?
+  end
+  
 end

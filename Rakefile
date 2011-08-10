@@ -158,6 +158,7 @@ namespace :spec do
   RSpec::Core::RakeTask.new(:erect) do |spec|
     spec.pattern = 'spec/erect/*_spec.rb'
   end
+  
 
   desc "Run specs for erector's Rails integration."
   RSpec::Core::RakeTask.new(:rails) do |spec|
@@ -180,7 +181,13 @@ namespace :spec do
     gemfile = "#{here}/Gemfile-rails31"
     sh "BUNDLE_GEMFILE='#{gemfile}' bundle exec rake spec:core spec:erect spec:rails"
   end
+    
+  desc "Run specs for the Erector web site."
+  RSpec::Core::RakeTask.new(:web) do |spec|
+    spec.pattern = 'spec/web/*_spec.rb'
+  end
+
 end
 
 desc "Run most specs"
-task :spec => ['spec:core', 'spec:erect', 'spec:rails', 'spec:rails2']
+task :spec => ['spec:core', 'spec:erect', 'spec:rails', 'spec:rails2', 'spec:web']

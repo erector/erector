@@ -24,9 +24,9 @@ class Userguide < Page
   end
 
   def article
-    Article.new("Erector User Guide", 
-  [
-    Section.new("The Basics") do
+    Article.new(:name => "Erector User Guide").tap { |a|
+
+      a.add(:name => "The Basics") do
       p "The basic way to construct some HTML/XML with erector is to subclass Erector::Widget and implement a content method:"
       table do
         tr do
@@ -53,7 +53,7 @@ DONE
             end
           end
           td do
-            pre <<DONE
+            pre <<-HTML
 <html>
   <head>
     <title>Hello</title>
@@ -62,7 +62,7 @@ DONE
   Hello, <b>world!</b>
   </body>
 </html>
-DONE
+            HTML
           end
         end
       end
@@ -88,9 +88,9 @@ end
         a "needs", :href => "#needs"
         text " macro.)"
       end
-    end,
+    end
 
-    Section.new("Mixin") do
+    a.add(:name => "Mixin") do
       p "If all this widget stuff is too complicated, just do "
       pre "include Erector::Mixin"
       p do
@@ -123,107 +123,9 @@ end
 => "<ol>\\n  <li>bacon</li>\\n  <li>lettuce</li>\\n  <li>tomato</li>\\n</ol>\\n"
       PRE
 
-    end,
+    end
 
-    Section.new("API Cheatsheet") do
-      cheats = [
-        ["element('foo')",             "<foo></foo>"],
-        ["empty_element('foo')",       "<foo />"],
-        ["html",                       "<html></html>", "and likewise for all non-deprecated elements from the HTML 4.0.1 spec"],
-        ["b 'foo'",                    "<b>foo</b>"],
-        ["div { b 'foo' }",            "<div><b>foo</b></div>"],
-
-        ["text 'foo'",                 "foo"],
-        ["text '&<>'",                 "&amp;&lt;&gt;", "all normal text is HTML escaped, which is what you generally want, especially if the text came from the user or a database"],
-        ["text raw('&<>')",            "&<>", "raw text escapes being escaped"],
-        ["rawtext('&<>')",             "&<>", "alias for text(raw())"],
-        ["text!('&<>')",               "&<>", "another alias for text(raw())"],
-
-        ["div { text 'foo' }",        "<div>foo</div>"],
-        ["div 'foo'",                 "<div>foo</div>"],
-        ["foo = 'bar'\ndiv foo",      "<div>bar</div>"],
-        ["a(:href => 'foo.div')",     "<a href=\"foo.div\"></a>"],
-        ["a(:href => 'q?a&b')",        "<a href=\"q?a&amp;b\"></a>", "attributes are escaped like text is"],
-        ["a(:href => raw('&amp;'))",   "<a href=\"&amp;\"></a>", "raw strings are never escaped, even in attributes"],
-        ["a 'foo', :href => \"bar\"",    "<a href=\"bar\">foo</a>"],
-
-        ["text nbsp('Save Doc')",      "Save&#160;Doc", "turns spaces into non-breaking spaces"],
-        ["text nbsp",                  "&#160;", "a single non-breaking space"],
-        ["text character(160)",        "&#xa0;", "output a character given its unicode code point"],
-        ["text character(:right-arrow)",      "&#x2192;", "output a character given its unicode name"],
-
-        ["instruct",                   "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"],
-        ["comment 'foo'",              "<!--foo-->"],
-        ["url 'http://example.com'",   "<a href=\"http://example.com\">http://example.com</a>"],
-
-        ["capture { div }", "<div></div>", "returns the block as a string, doesn't add it to the current output stream"],
-        ["div :class => ['a', 'b']", "<div class=\"a b\"></div>"],
-      ]
-      cheats << [
-        "javascript(\n" +
-        "'if (x < y && x > z) \n" +
-        'alert("don\'t stop");' +
-        ')', <<-DONE
-<script type="text/javascript">
-// <![CDATA[
-if (x < y && x > z) alert("don't stop");
-// ]]>
-</script>
-DONE
-        ]
-      cheats << [
-        "jquery '$(\"p\").wrap(\"<div></div>\");'",
-<<-DONE
-<script type="text/javascript">
-// <![CDATA[
-jQuery(document).ready(function($){
-  $("p").wrap("<div></div>");
-});
-// ]]>
-</script>
-DONE
-        ]
-
-      cheats << ["join([widget1, widget2],\n separator)", "", "See examples/join.rb for more explanation"]
-
-      table :class => 'cheatsheet' do
-        tr do
-          th "code"
-          th "output"
-        end
-        cheats.each do |cheat|
-          tr do
-            td :width=>"30%" do
-              code do
-                join cheat[0].split("\n"), raw("<br/>")
-              end
-            end
-            td do
-              if cheat[1]
-                code do
-                  join cheat[1].split("\n"), raw("<br/>")
-                end
-              end
-              if cheat[2]
-                text nbsp("  ")
-                text character(:horizontal_ellipsis)
-                i cheat[2]
-              end
-            end
-          end
-        end
-      end
-
-      p do
-        text "Lots more documentation is at the "
-        a "RDoc API pages", :href => "rdoc/index.html"
-        text " especially for "
-        a "Erector::Widget", :href => "rdoc/classes/Erector/Widget.html"
-        text " so don't go saying we never wrote you nothin'."
-      end
-    end,
-
-    Section.new("Pretty-printing") do
+    a.add(:name => "Pretty-printing") do
       p "Erector has the ability to insert newlines and indentation to make the generated HTML more readable.  Newlines are inserted before and after certain tags."
       p "To enable pretty-printing (insertion of newlines and indentation) of Erector's output, do one of the following:"
       ul do
@@ -253,10 +155,9 @@ DONE
           text " (for example, in environments/development.rb in a rails application, or anywhere which is convenient)"
         end
       end
-    end,
+    end
 
-    Section.new("Using Erector from Ruby on Rails", "rails") do
-
+    a.add(:name => "Using Erector from Ruby on Rails", :href => "rails") do
       p do
         text "Your views are just ruby classes.  Your controller can either call Rails' "
         code "render :template"
@@ -308,9 +209,9 @@ DONE
         text " for status updates on these features."
       end
 
-    end,
+    end
 
-    Section.new("Erector tool: Command-line conversion to and from HTML", "tool") do
+    a.add(:name => "Erector tool: Command-line conversion to and from HTML", :href => "tool") do
 
       p """
       To make Rails integration as smooth as possible, we've written a little tool that will help you
@@ -354,10 +255,10 @@ DONE
         b "right now."
         text " Check out the 'web' directory and the 'web' task in the Rakefile to see how it's done."
       end
-    end,
+    end
 
 
-    Section.new("Layout Inheritance") do
+    a.add(:name => "Layout Inheritance") do
       p "Erector replaces the typical Rails layout mechanism with a more natural construct, the use of inheritance. Want a common
       layout? Just implement a layout superclass and inherit from it. Implement content in the superclass and implement template
       methods in its subclasses."
@@ -477,9 +378,9 @@ DONE
         code "to_html"
         text " on the layout widget. This allows the same layout to be shared in a backward compatible way."
       end
-    end,
+    end
 
-    Section.new("Inline Widgets", "inline") do
+    a.add(:name => "Inline Widgets") do
       p do
         text "Instead of subclassing "
         code "Erector::Widget"
@@ -526,9 +427,9 @@ image.to_html(:helpers => controller)          #=> <img alt="Foo" src="/foo" />
       p do
         text "One extra bonus feature of inline widgets is that they can call methods defined on the parent class, even though they're out of scope. How do they do this? Through method_missing magic. (But isn't method_missing magic against the design goals of Erector? Yes, some would say so, and that's why we're reserving it for a special subclass and method. For Erector::Widget and subclasses, if you pass in a block, it's a plain old block with normal semantics.) But they can't directly access instance variables on the parent, so watch it."
       end
-    end,
+    end
 
-    Section.new("Needs") do
+    a.add(:name => "Needs") do
       p do
         text "Named parameters in Ruby are fun, but one frustrating aspect of the 'options hash' technique is that "
         text "the code is less self-documenting and doesn't 'fail fast' if you pass in the wrong parameters, "
@@ -559,9 +460,9 @@ end
         code "needs"
         text " no longer automatically declares accessor methods."
       end
-    end,
+    end
 
-    Section.new("Externals") do
+    a.add(:name => "Externals") do
       p do
         text "Erector's got some nice tags, like "
         code "script"
@@ -648,9 +549,9 @@ end
     depends_on :style, File.new("\#{File.dirname(__FILE__)}/../public/sample.css")
         DONE
       end
-    end,
+    end
 
-    Section.new("Blocks") do
+    a.add(:name => "Blocks") do
       p "Erector is all about blocks (otherwise known as closures). Unfortunately, there are some confusing aspects to working with blocks; this section aims to clarify the issues so if you find yourself stuck on an 'undefined method' or a nil instance variable, at least you'll have some context to help debug it."
       p "There are basically three cases where you can pass a block to Erector:"
       h3 "1. To an element method"
@@ -799,7 +700,7 @@ end.to_html
         text ", which calls the block and passes in self as appropriate for both inline and normal widgets."
       end
     end
-    end,
-    ])
+  end
+  }
   end
 end
