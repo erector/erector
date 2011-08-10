@@ -225,7 +225,7 @@ describe ActionController::Base do
     end
     
     it "should raise when rendering a widget class with implicit assigns and too many variables" do
-      proc { test_action(:render_widget_with_extra_controller_variables) }.should raise_error(RuntimeError, /Excess parameters?.*: .*baz/)
+      proc { test_action(:render_widget_with_extra_controller_variables) }.should raise_error(ArgumentError, /Excess parameters?.*: .*baz/)
     end
 
     it "should render a specific content method" do

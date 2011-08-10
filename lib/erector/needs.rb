@@ -75,6 +75,7 @@ module Erector
       # set variables with default values
       self.class.needed_defaults.each do |name, value|
         unless assigned.include?(name)
+          value = [NilClass, FalseClass, TrueClass, Fixnum, Float].include?(value.class) ? value : value.dup
           instance_variable_set("@#{name}", value)
           assigned << name
         end
@@ -82,12 +83,12 @@ module Erector
 
       missing = self.class.needed_variables - assigned
       unless missing.empty? || missing == [nil]
-        raise "Missing parameter#{missing.size == 1 ? '' : 's'} for #{self.class.name}: #{missing.join(', ')}"
+        raise ArgumentError, "Missing parameter#{missing.size == 1 ? '' : 's'} for #{self.class.name}: #{missing.join(', ')}"
       end
 
       excess = assigned - self.class.needed_variables
       unless self.class.needed_variables.empty? || excess.empty?
-        raise("Excess parameter#{excess.size == 1 ? '' : 's'} for #{self.class.name}: #{excess.join(', ')}")
+        raise ArgumentError, "Excess parameter#{excess.size == 1 ? '' : 's'} for #{self.class.name}: #{excess.join(', ')}"
       end
     end
   end
