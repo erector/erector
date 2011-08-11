@@ -27,7 +27,18 @@ class Rails < Page
 
   def article
     Article.new(:name => "Erector On Rails").tap { |a|
-
+      a.add(:name => "Install") do
+        p {          
+          text "To install as a gem, add ", code("gem 'erector'"), " to your ", code("Gemfile"), 
+            ", then add ", code("require 'erector'"), " to ", code("environment.rb"), "."
+        }
+        p  {
+          text "To install as a Rails plugin, copy the erector source to ",
+            code("vendor/plugins/erector"), " in your project directory. ",
+            "When installing this way, erector is automatically available to your Rails code (no require directive is needed)."
+        }
+      end
+      
     a.add(:name => "Using Erector from Ruby on Rails", :href => "rails") do
       p do
         text "Your views are just ruby classes.  Your controller can either call Rails' "

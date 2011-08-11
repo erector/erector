@@ -25,7 +25,7 @@ class Navbar < Erector::Widget
         clickable_li 'RDoc API', 'rdoc'
         clickable_page Developers.new
         clickable_page ReleaseNotes.new
-        clickable_page Links.new
+        clickable_page Community.new
       end
     end
   end

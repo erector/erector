@@ -211,7 +211,7 @@ div.promo {
         <li class="clickable" onclick="document.location='rdoc'"><a href="rdoc">RDoc API</a></li>
         <li class="clickable" onclick="document.location='developers.html'"><a href="developers.html">For Developers</a></li>
         <li class="clickable" onclick="document.location='release_notes.html'"><a href="release_notes.html">Release Notes</a></li>
-        <li class="clickable" onclick="document.location='links.html'"><a href="links.html">Links</a></li>
+        <li class="clickable" onclick="document.location='community.html'"><a href="community.html">Community</a></li>
       </ul>
     </div>
     <div class="promo_wrapper">      <div class="promo"><img src="images/erector-the-worlds-greatest-toy.jpg" /></div>
@@ -219,7 +219,41 @@ div.promo {
     <div class="main">      <div class="body">
         <p>Erector is a Builder-like view framework for <a href="http://ruby-lang.org">Ruby</a>, inspired by <a href="http://code.whytheluckystiff.net/markaby/">Markaby</a>. </p>
         <p>In Erector all views are objects, not template files, which allows the full power of object-oriented programming (inheritance, modular decomposition, encapsulation) in views.</p>
-        <p>Here's an Erector Widget:</p>
+        <h2>Examples</h2>
+        <pre class="sh_ruby">require 'erector'
+
+class Hello &lt; Erector::Widget
+  def content
+    html {
+      head {
+        title &quot;Hello&quot;
+      }
+      body {
+        h1.heading! &quot;Message:&quot;
+        text &quot;Hello, &quot;
+        b.big @target
+        text &quot;!&quot;
+      }
+    }
+  end
+end
+
+Hello.new(:target =&gt; 'world').to_html
+</pre>
+        <pre class="sh_html">&lt;html&gt;
+  &lt;head&gt;
+    &lt;title&gt;Hello&lt;/title&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;h1 id=&quot;heading&quot;&gt;Message:&lt;/h1&gt;
+    Hello, &lt;b class=&quot;big&quot;&gt;world&lt;/b&gt;!
+  &lt;/body&gt;
+&lt;/html&gt;
+</pre>
+        <pre class="sh_ruby">    include Erector::Mixin
+    erector { div &quot;love&quot;, :class =&gt; &quot;big&quot; }
+    =&gt; &quot;&lt;div class=&quot;big&quot;&gt;love&lt;/div&gt;&quot;    
+</pre>
         <pre class="sh_ruby">require 'erector'
 class Logo &lt; Erector::Widget
   def content
@@ -233,16 +267,14 @@ class Logo &lt; Erector::Widget
   end
 end
 </pre>
-        <p>And here's what comes out when you run 
-          <code>Logo.new.to_html</code>
-          :</p>
         <pre class="sh_html">&lt;div class=&quot;logo&quot;&gt;
   &lt;a href=&quot;index.html&quot;&gt;
     &lt;img class=&quot;logo&quot; height=&quot;323&quot; src=&quot;erector.jpg&quot; width=&quot;287&quot; /&gt;
   &lt;/a&gt;
 &lt;/div&gt;
 </pre>
-        <p>Don't forget to read the <a href="userguide.html">User Guide</a> and <a href="faq.html">FAQ</a> and <a href="rdoc">API</a> documentation!</p>
+        <hr />
+        <p>Current version: 0.9.0.pre1</p>
       </div>
       <div class="footer"><a href="http://www.pivotallabs.com"><img alt="Pivotal Labs" height="57" src="pivotal.gif" style="float:right; padding: 8px;" width="158" /></a>
         <center>Erector is an open source project released under the MIT license.<br />

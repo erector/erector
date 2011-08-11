@@ -211,7 +211,7 @@ div.promo {
         <li class="clickable" onclick="document.location='rdoc'"><a href="rdoc">RDoc API</a></li>
         <li class="clickable" onclick="document.location='developers.html'"><a href="developers.html">For Developers</a></li>
         <li class="clickable" onclick="document.location='release_notes.html'"><a href="release_notes.html">Release Notes</a></li>
-        <li class="clickable" onclick="document.location='links.html'"><a href="links.html">Links</a></li>
+        <li class="clickable" onclick="document.location='community.html'"><a href="community.html">Community</a></li>
       </ul>
     </div>
     <div class="promo_wrapper">      <div class="promo"><img src="images/erectorhudson.jpeg" /></div>
@@ -223,6 +223,7 @@ div.promo {
           <div class="toc">
             <h2>Table of Contents</h2>
             <ol class="toc">
+              <li><a href="#install">Install</a></li>
               <li><a href="#rails">Using Erector from Ruby on Rails</a></li>
               <li><a href="#tool">Erector tool: Command-line conversion to and from HTML</a></li>
               <li><a href="#pagelayoutinheritance">Page Layout Inheritance</a></li>
@@ -231,8 +232,22 @@ div.promo {
           </div>
           <div class="clear"></div>
           <div class="sections">
+            <a name="install"></a>
+            <h2>1. Install</h2>
+            <p>              To install as a gem, add 
+              <code>gem 'erector'</code>
+               to your 
+              <code>Gemfile</code>
+              , then add 
+              <code>require 'erector'</code>
+               to 
+              <code>environment.rb</code>
+              .</p>
+            <p>              To install as a Rails plugin, copy the erector source to 
+              <code>vendor/plugins/erector</code>
+               in your project directory. When installing this way, erector is automatically available to your Rails code (no require directive is needed).</p>
             <a name="rails"></a>
-            <h2>1. Using Erector from Ruby on Rails</h2>
+            <h2>2. Using Erector from Ruby on Rails</h2>
             <p>Your views are just ruby classes.  Your controller can either call Rails' 
               <code>render :template</code>
                method as usual, or directly instantiate the view class and call its content method.</p>
@@ -269,7 +284,7 @@ end
               . You also should delete (or rename) any other view files with the same base name that might be getting in the way.</p>
             <p>Currently there is only partial support for some standard Rails features like partials, layouts, assigns, and helpers. Check the <a href="http://googlegroups.com/group/erector">erector Google Groups mailing list</a> for status updates on these features.</p>
             <a name="tool"></a>
-            <h2>2. Erector tool: Command-line conversion to and from HTML</h2>
+            <h2>3. Erector tool: Command-line conversion to and from HTML</h2>
             <p>To make Rails integration as smooth as possible, we've written a little tool that will help you
       erect your existing Rails app. The 'erector' tool will convert HTML or HTML/ERB into an Erector class.
       It ships as part of the Erector gem, so to try it out, install the gem, then run</p>
@@ -303,7 +318,7 @@ open http://localhost:3000/posts
               <code>erector</code>
                to build this Erector documentation web site that you're reading <b>right now.</b> Check out the 'web' directory and the 'web' task in the Rakefile to see how it's done.</p>
             <a name="pagelayoutinheritance"></a>
-            <h2>3. Page Layout Inheritance</h2>
+            <h2>4. Page Layout Inheritance</h2>
             <p>Erector replaces the typical Rails layout mechanism with a more natural construct, the use of inheritance. Want a common
       layout? Implement a layout superclass and have your page class inherit from it and override methods as needed.</p>
             <p>For example:
@@ -368,7 +383,7 @@ end
             <p>all in a straightforward, easily understood paradigm (OO inheritance). (No more weird yielding to invisible, undocumented closures!)</p>
             <p>Check out <a href="/rdoc/Erector/Widgets/Page.html">Erector::Widgets::Page</a> for a widget that does a lot of this for you, including rendering <a href="#externals">externals</a> in the HEAD element.</p>
             <a name="erectorlayoutsinrails"></a>
-            <h2>4. Erector Layouts in Rails</h2>
+            <h2>5. Erector Layouts in Rails</h2>
             <p>To use layout inheritance in Rails, declare 
               <code>layout nil</code>
                in 

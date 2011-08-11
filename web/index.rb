@@ -25,8 +25,47 @@ class Index < Page
       text "In Erector all views are objects, not template files, which allows the full power of object-oriented programming (inheritance, modular decomposition, encapsulation) in views."
     }
     
-    p "Here's an Erector Widget:"
+    h2 "Examples"
     
+    source :ruby, <<-RUBY
+require 'erector'
+
+class Hello < Erector::Widget
+  def content
+    html {
+      head {
+        title "Hello"
+      }
+      body {
+        h1.heading! "Message:"
+        text "Hello, "
+        b.big @target
+        text "!"
+      }
+    }
+  end
+end
+
+Hello.new(:target => 'world').to_html
+    RUBY
+    source :html, <<-HTML
+<html>
+  <head>
+    <title>Hello</title>
+  </head>
+  <body>
+    <h1 id="heading">Message:</h1>
+    Hello, <b class="big">world</b>!
+  </body>
+</html>
+    HTML
+    
+    source :ruby, <<-RUBY
+    include Erector::Mixin
+    erector { div "love", :class => "big" }
+    => "<div class=\"big\">love</div>"    
+    RUBY
+
     source :ruby, <<-RUBY
 require 'erector'
 class Logo < Erector::Widget
@@ -41,13 +80,7 @@ class Logo < Erector::Widget
   end
 end
     RUBY
-  
-    p {
-      text "And here's what comes out when you run "
-      code "Logo.new.to_html"
-      text ":"
-    }
-  
+      
     source :html, <<-HTML
 <div class="logo">
   <a href="index.html">
@@ -55,16 +88,11 @@ end
   </a>
 </div>
     HTML
+    
+    hr
+    p "Current version: #{Erector::VERSION}"
 
-    p do
-      text "Don't forget to read the "
-      a "User Guide", :href => "userguide.html"
-      text " and "
-      a "FAQ", :href => "faq.html"
-      text " and "
-      a "API", :href => "rdoc"
-      text " documentation!"
-    end
   end
+  
 end
 
