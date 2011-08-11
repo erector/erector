@@ -38,7 +38,7 @@ class Userguide < Page
       table do
         tr do
           td :valign => "top" do
-            pre <<DONE
+            source :ruby, <<-RUBY
 class Hello < Erector::Widget
   def content
     html {
@@ -52,7 +52,7 @@ class Hello < Erector::Widget
     }
   end
 end
-DONE
+            RUBY
           end
           td do
             span.separator do
@@ -60,7 +60,7 @@ DONE
             end
           end
           td :valign => "top" do
-            pre <<-HTML
+            source :html, <<-HTML
 <html>
   <head>
     <title>Hello</title>
@@ -80,7 +80,7 @@ DONE
         text " method."
         text " If you want to pass in 'locals' (aka 'assigns'), then do so in the constructor's default hash. This will make instance variables of the same name, with Ruby's '@' sign."
       end
-      pre <<-PRE
+      source :ruby, <<-PRE
 class Email < Erector::Widget
   def content
     a @address, :href => "mailto:#{@address}"
@@ -116,7 +116,7 @@ end
         text "!"
       end
       h3 "Examples:"
-      pre <<-PRE
+      source :ruby, <<-PRE
 erector { a "lols", :href => "http://icanhascheezburger.com/" }
 => "<a href=\\"http://icanhascheezburger.com/\\">lols</a>"
 
@@ -174,7 +174,7 @@ end
       p "For example:"
 
       code "app/controllers/welcome_controller.rb:"
-      pre <<DONE
+      source :ruby, <<-DONE
 class WelcomeController < ApplicationController
   def index
     render :template => 'welcome/show'
@@ -183,7 +183,7 @@ end
 DONE
 
       code "app/views/welcome/show.rb:"
-      pre <<DONE
+      source :ruby, <<-DONE
 class Views::Welcome::Show < Erector::Widget
   def content
     html {
@@ -236,18 +236,22 @@ DONE
 
       p "Here's a little command-line howto for erecting a scaffold Rails app:"
 
-      pre <<DONE
+      source :sh, <<-DONE
+# create a toy Rails app
 rails foo
 cd foo
 script/generate scaffold post title:string body:text published:boolean
 
+# convert all the "posts" views
 erector app/views/posts
 
-mate app/views/posts
-sleep 30 # this should be enough time for you to stop drooling
-
+# remove the old ERB views
 rm app/views/posts/*.erb
+
+# a little configuration step
 (echo ""; echo "require 'erector'") >> config/environment.rb
+
+# launch the app and make sure it works
 rake db:migrate
 script/server
 open http://localhost:3000/posts
@@ -271,7 +275,7 @@ DONE
 
       p do
         text "For example:"
-        pre <<-DONE
+        source :ruby, <<-DONE
 class Views::Layouts::Page < Erector::Widget
   def content
     html {
@@ -307,7 +311,7 @@ class Views::Layouts::Page < Erector::Widget
 end
         DONE
 
-        pre <<-DONE
+        source :ruby, <<-DONE
 class Views::Faq::Index < Views::Layouts::Page
   def initialize
     super(:page_title => "FAQ")
@@ -359,7 +363,7 @@ end
         text "To use an Erector widget as a regular Rails layout, you'll have to set things up a bit differently."
         br
         code "app/views/layouts/application.rb:"
-        pre <<-RUBY
+        source :ruby, <<-RUBY
 class Views::Layouts::Application < Erector::Widget
   def content
     html {
@@ -399,7 +403,7 @@ end
         br
         code "app/views/faq/index.rb:"
         
-        pre <<-RUBY
+        source :ruby, <<-RUBY
 class Views::Faq::Index < Erector::Widget
   def content
     content_for :navbar do
@@ -428,7 +432,7 @@ end
         text " and get back a widget instance you can call "
         code "to_html"
         text " on.  For example:"
-        pre <<-DONE
+        source :ruby, <<-DONE
 hello = Erector.inline do
   p "Hello, world!"
 end
@@ -441,7 +445,7 @@ hello.to_html          #=> <p>Hello, world!</p>
         text "If you're in Rails, your inline block has access to Rails helpers if you pass a helpers object to "
         code "to_html"
         text ":"
-        pre <<-DONE
+        source :ruby, <<-DONE
 image = Erector.inline do
   image_tag("/foo")
 end
@@ -477,7 +481,7 @@ image.to_html(:helpers => controller)          #=> <img alt="Foo" src="/foo" />
         text "To help this, we've added an optional feature by which your widget can declare that it "
         text "needs a certain set of named parameters to be passed in. "
         text "For example:"
-        pre <<-DONE
+        source :ruby, <<-DONE
 class Car < Erector::Widget
   needs :engine, :wheels => 4
   def content
@@ -519,7 +523,7 @@ end
       end
       p do
         text "Here's an example:"
-        pre <<-DONE
+        source :ruby, <<-DONE
 class HotSauce < Erector::Widget
   depends_on :css, "/css/tapatio.css"
   depends_on :css, "/css/salsa_picante.css", :media => "print"
@@ -538,7 +542,7 @@ end
         text " emits the "
         code "head"
         text " it'll look like this:"
-        pre <<-DONE
+        source :ruby, <<-DONE
 <head>
   <meta content="text/html;charset=UTF-8" http-equiv="content-type" />
   <title>HotPage</title>
@@ -549,6 +553,7 @@ end
 </head>
         DONE
       end
+      
       p do
         text "It also collapses redundant externals, so if lots of your widgets declare the same thing (say, 'jquery.js'), it'll only get included once."
       end
@@ -582,7 +587,7 @@ end
       p do
         text "Instead of a string, you can also specify a File object; the file's contents get read and used as text. This allows you to inline files instead of referring to them, for potential performance benefits."
         text " Example:"
-        pre <<-DONE
+        source :ruby, <<-DONE
     depends_on :style, File.new("\#{File.dirname(__FILE__)}/../public/sample.css")
         DONE
       end
@@ -593,7 +598,7 @@ end
       p "There are basically three cases where you can pass a block to Erector:"
       h3 "1. To an element method"
       p "This is the normal case that provides the slick HTML DSL. In the following code:"
-      pre <<-DONE
+      source :ruby, <<-DONE
 class Person < Erector::Widget
   def content
     div {
@@ -627,7 +632,7 @@ end
         code "Form"
         text " which want to wrap your HTML in some of their own tags."
       end
-      pre <<-DONE
+      source :ruby, <<-DONE
 class PersonActions < Erector::Widget
   needs :user
   def content
@@ -669,7 +674,7 @@ end
         code "input"
         text " above"
         text "), but may be confusing if you want the block to be able to call methods on the target widget. In that case the caller can declare the block to take a parameter; this parameter will point to the nested widget instance."
-        pre <<-DONE
+        source :ruby, <<-DONE
 widget(Form.new(:action => "/person/\#{@user.id}", :method => "delete") do |f|
   span "This form's method is \#{f.method}"
   input :type => "submit", :value => "Remove \#{@user.name}"
@@ -681,7 +686,7 @@ end)
         text "(As a variant of this case, note that the"
         code "widget"
         text " method can accept a widget class, hash and block, instead of an instance; in this case it will set the widget's block and this code:"
-        pre <<-DONE
+        source :ruby, <<-DONE
 widget Form, :action => "/person/\#{@user.id}", :method => "delete" do
   input :type => "submit", :value => "Remove \#{@user.name}"
 end
@@ -715,7 +720,7 @@ end
           li do
             b "Bound"
             text " local variables will still be in scope. This means you can \"smuggle in\" instance variables via local variables. For example:"
-            pre <<-DONE
+            source :ruby, <<-DONE
 local_name = @name
 Page.new do
   div local_name

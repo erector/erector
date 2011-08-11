@@ -49,6 +49,9 @@ pre {
   margin-right: 6em;
   overflow: auto; }
 
+code {
+  background-color: #F4F4FF; }
+
 /* cheatsheet */
 table.cheatsheet {
   border-style: outset;
@@ -118,24 +121,22 @@ div.navbar {
     background-color: #3470a2;
     list-style-type: none;
     margin: 8px;
-    padding: 8px 2px;
-    padding-right: 1em;
-    padding-left: 1em;
+    padding: 4px 6px;
     /*  font-variant: small-caps;*/
-    border: 1px solid #6881BA;
-    font-size: 9pt; }
+    border: 2px solid #6881BA; }
     div.navbar li.clickable a, div.navbar li.clickable a:visited {
       text-decoration: none;
       /*font-weight: bold;*/
       color: white;
-      margin: 0; }
+      margin: 0;
+      font-size: 10pt; }
   div.navbar li.clickable:hover {
     background-color: blue;
     cursor: pointer;
     cursor: hand; }
   div.navbar li.clickable.current {
     font-weight: bold;
-    border: 1px solid black;
+    border: 2px solid black;
     background-color: #3875D7; }
     div.navbar li.clickable.current a {
       color: white; }
@@ -192,8 +193,13 @@ div.promo {
   div.promo p {
     padding: .25em .5em; }
 </style>
+    <script src="js/sh_main.min.js"></script>
+    <script src="js/sh_lang/sh_ruby.min.js"></script>
+    <script src="js/sh_lang/sh_html.min.js"></script>
+    <script src="js/sh_lang/sh_sh.min.js"></script>
+    <link href="css/sh_style.css" rel="stylesheet" type="text/css" />
   </head>
-  <body>    <a href="http://github.com/pivotal/erector"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://a248.e.akamai.net/assets.github.com/img/30f550e0d38ceb6ef5b81500c64d970b7fb0f028/687474703a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6f72616e67655f6666373630302e706e67" alt="Fork me on GitHub"></a>
+  <body onload="sh_highlightDocument();">    <a href="http://github.com/pivotal/erector"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://a248.e.akamai.net/assets.github.com/img/30f550e0d38ceb6ef5b81500c64d970b7fb0f028/687474703a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6f72616e67655f6666373630302e706e67" alt="Fork me on GitHub"></a>
     <div class="top">      <div class="logo"><a href="index.html"><img src="erector-logo.png" /></a></div>
     </div>
     <div class="navbar">      <ul class="clickable">

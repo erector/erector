@@ -1,9 +1,10 @@
-dir = File.dirname(__FILE__)
+require 'erector'
+dir = File.expand_path(File.dirname(__FILE__))
+
 require "#{dir}/section"
 
 # todo: move this to Erector::Widgets (aka ErectorSet)
 class Article < Erector::Widget
-  
   needs :name, :sections => []
   
   def <<(section)

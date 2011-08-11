@@ -3,12 +3,14 @@ require "#{here}/navbar"
 require "#{here}/logo"
 require "#{here}/clickable_li"
 require "#{here}/promo"
+require "#{here}/source"
 require "#{here}/fork_me"
 
 # todo: inherit from Erector::Widgets::Page
 
 class Page < Erector::Widget
   needs :page_title
+  include Source
   
   def display_name
     @page_title || self.class.name
@@ -53,8 +55,14 @@ class Page < Erector::Widget
         title "Erector - #{display_name}"
         here = File.dirname(__FILE__)
         scss "#{here}/erector.scss"
+        
+        script :src=>"js/sh_main.min.js"
+        script :src=>"js/sh_lang/sh_ruby.min.js"
+        script :src=>"js/sh_lang/sh_html.min.js"
+        script :src=>"js/sh_lang/sh_sh.min.js"
+        css "css/sh_style.css"        
       end
-      body do
+      body :onload => "sh_highlightDocument();" do
         widget ForkMe
         div.top do
           div.logo do
@@ -63,7 +71,6 @@ class Page < Erector::Widget
         end
         widget Navbar.new(:current_page => self)
         widget Promo, :src => promo
-        
         
         div.main do
           div.body do

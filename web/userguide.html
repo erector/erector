@@ -49,6 +49,9 @@ pre {
   margin-right: 6em;
   overflow: auto; }
 
+code {
+  background-color: #F4F4FF; }
+
 /* cheatsheet */
 table.cheatsheet {
   border-style: outset;
@@ -118,24 +121,22 @@ div.navbar {
     background-color: #3470a2;
     list-style-type: none;
     margin: 8px;
-    padding: 8px 2px;
-    padding-right: 1em;
-    padding-left: 1em;
+    padding: 4px 6px;
     /*  font-variant: small-caps;*/
-    border: 1px solid #6881BA;
-    font-size: 9pt; }
+    border: 2px solid #6881BA; }
     div.navbar li.clickable a, div.navbar li.clickable a:visited {
       text-decoration: none;
       /*font-weight: bold;*/
       color: white;
-      margin: 0; }
+      margin: 0;
+      font-size: 10pt; }
   div.navbar li.clickable:hover {
     background-color: blue;
     cursor: pointer;
     cursor: hand; }
   div.navbar li.clickable.current {
     font-weight: bold;
-    border: 1px solid black;
+    border: 2px solid black;
     background-color: #3875D7; }
     div.navbar li.clickable.current a {
       color: white; }
@@ -192,8 +193,13 @@ div.promo {
   div.promo p {
     padding: .25em .5em; }
 </style>
+    <script src="js/sh_main.min.js"></script>
+    <script src="js/sh_lang/sh_ruby.min.js"></script>
+    <script src="js/sh_lang/sh_html.min.js"></script>
+    <script src="js/sh_lang/sh_sh.min.js"></script>
+    <link href="css/sh_style.css" rel="stylesheet" type="text/css" />
   </head>
-  <body>    <a href="http://github.com/pivotal/erector"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://a248.e.akamai.net/assets.github.com/img/30f550e0d38ceb6ef5b81500c64d970b7fb0f028/687474703a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6f72616e67655f6666373630302e706e67" alt="Fork me on GitHub"></a>
+  <body onload="sh_highlightDocument();">    <a href="http://github.com/pivotal/erector"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://a248.e.akamai.net/assets.github.com/img/30f550e0d38ceb6ef5b81500c64d970b7fb0f028/687474703a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6f72616e67655f6666373630302e706e67" alt="Fork me on GitHub"></a>
     <div class="top">      <div class="logo"><a href="index.html"><img src="erector-logo.png" /></a></div>
     </div>
     <div class="navbar">      <ul class="clickable">
@@ -241,7 +247,7 @@ div.promo {
             <table>
               <tr>
                 <td valign="top">
-                  <pre>class Hello &lt; Erector::Widget
+                  <pre class="sh_ruby">class Hello &lt; Erector::Widget
   def content
     html {
       head {
@@ -258,7 +264,7 @@ end
                 </td>
                 <td><span class="separator">&#x2192;</span></td>
                 <td valign="top">
-                  <pre>&lt;html&gt;
+                  <pre class="sh_html">&lt;html&gt;
   &lt;head&gt;
     &lt;title&gt;Hello&lt;/title&gt;
   &lt;/head&gt;
@@ -273,7 +279,7 @@ end
             <p>Once you have a widget class, you can instantiate it and then call its 
               <code>to_html</code>
                method. If you want to pass in 'locals' (aka 'assigns'), then do so in the constructor's default hash. This will make instance variables of the same name, with Ruby's '@' sign.</p>
-            <pre>class Email &lt; Erector::Widget
+            <pre class="sh_ruby">class Email &lt; Erector::Widget
   def content
     a @address, :href =&gt; &quot;mailto:&quot;
   end
@@ -299,7 +305,7 @@ end
               <code>to_html</code>
               !</p>
             <h3>Examples:</h3>
-            <pre>erector { a &quot;lols&quot;, :href =&gt; &quot;http://icanhascheezburger.com/&quot; }
+            <pre class="sh_ruby">erector { a &quot;lols&quot;, :href =&gt; &quot;http://icanhascheezburger.com/&quot; }
 =&gt; &quot;&lt;a href=\&quot;http://icanhascheezburger.com/\&quot;&gt;lols&lt;/a&gt;&quot;
 
 erector(:prettyprint =&gt; true) do
@@ -342,14 +348,14 @@ end
                method as usual, or directly instantiate the view class and call its content method.</p>
             <p>For example:</p>
             <code>app/controllers/welcome_controller.rb:</code>
-            <pre>class WelcomeController &lt; ApplicationController
+            <pre class="sh_ruby">class WelcomeController &lt; ApplicationController
   def index
     render :template =&gt; 'welcome/show'
   end
 end
 </pre>
             <code>app/views/welcome/show.rb:</code>
-            <pre>class Views::Welcome::Show &lt; Erector::Widget
+            <pre class="sh_ruby">class Views::Welcome::Show &lt; Erector::Widget
   def content
     html {
       head {
@@ -382,17 +388,21 @@ end
             <pre>erector app/views</pre>
             <p>and then delete the original files when you're satisfied.</p>
             <p>Here's a little command-line howto for erecting a scaffold Rails app:</p>
-            <pre>rails foo
+            <pre class="sh_sh"># create a toy Rails app
+rails foo
 cd foo
 script/generate scaffold post title:string body:text published:boolean
 
+# convert all the &quot;posts&quot; views
 erector app/views/posts
 
-mate app/views/posts
-sleep 30 # this should be enough time for you to stop drooling
-
+# remove the old ERB views
 rm app/views/posts/*.erb
+
+# a little configuration step
 (echo &quot;&quot;; echo &quot;require 'erector'&quot;) &gt;&gt; config/environment.rb
+
+# launch the app and make sure it works
 rake db:migrate
 script/server
 open http://localhost:3000/posts
@@ -407,7 +417,7 @@ open http://localhost:3000/posts
             <p>Erector replaces the typical Rails layout mechanism with a more natural construct, the use of inheritance. Want a common
       layout? Implement a layout superclass and have your page class inherit from it and override methods as needed.</p>
             <p>For example:
-              <pre>class Views::Layouts::Page &lt; Erector::Widget
+              <pre class="sh_ruby">class Views::Layouts::Page &lt; Erector::Widget
   def content
     html {
       head {
@@ -441,7 +451,7 @@ open http://localhost:3000/posts
   end
 end
 </pre>
-              <pre>class Views::Faq::Index &lt; Views::Layouts::Page
+              <pre class="sh_ruby">class Views::Faq::Index &lt; Views::Layouts::Page
   def initialize
     super(:page_title =&gt; &quot;FAQ&quot;)
   end
@@ -480,7 +490,7 @@ end
                as usual.</p>
             <p>To use an Erector widget as a regular Rails layout, you'll have to set things up a bit differently.<br />
               <code>app/views/layouts/application.rb:</code>
-              <pre>class Views::Layouts::Application &lt; Erector::Widget
+              <pre class="sh_ruby">class Views::Layouts::Application &lt; Erector::Widget
   def content
     html {
       head {
@@ -517,7 +527,7 @@ end
 </pre>
               <br />
               <code>app/views/faq/index.rb:</code>
-              <pre>class Views::Faq::Index &lt; Erector::Widget
+              <pre class="sh_ruby">class Views::Faq::Index &lt; Erector::Widget
   def content
     content_for :navbar do
       li { a &quot;More FAQs&quot;, :href =&gt; &quot;http://faqs.org&quot; }
@@ -541,7 +551,7 @@ end
                and get back a widget instance you can call 
               <code>to_html</code>
                on.  For example:
-              <pre>hello = Erector.inline do
+              <pre class="sh_ruby">hello = Erector.inline do
   p &quot;Hello, world!&quot;
 end
 hello.to_html          #=&gt; &lt;p&gt;Hello, world!&lt;/p&gt;
@@ -550,7 +560,7 @@ hello.to_html          #=&gt; &lt;p&gt;Hello, world!&lt;/p&gt;
             <p>If you're in Rails, your inline block has access to Rails helpers if you pass a helpers object to 
               <code>to_html</code>
               :
-              <pre>image = Erector.inline do
+              <pre class="sh_ruby">image = Erector.inline do
   image_tag(&quot;/foo&quot;)
 end
 image.to_html(:helpers =&gt; controller)          #=&gt; &lt;img alt=&quot;Foo&quot; src=&quot;/foo&quot; /&gt;
@@ -568,7 +578,7 @@ image.to_html(:helpers =&gt; controller)          #=&gt; &lt;img alt=&quot;Foo&q
             <h2>9. Needs</h2>
             <p>Named parameters in Ruby are fun, but one frustrating aspect of the 'options hash' technique is that the code is less self-documenting and doesn't 'fail fast' if you pass in the wrong parameters, or fail to pass in the right ones. Even simple typos can lead to very annoying debugging problems.</p>
             <p>To help this, we've added an optional feature by which your widget can declare that it needs a certain set of named parameters to be passed in. For example:
-              <pre>class Car &lt; Erector::Widget
+              <pre class="sh_ruby">class Car &lt; Erector::Widget
   needs :engine, :wheels =&gt; 4
   def content
     text &quot;My #{@wheels} wheels go round and round; my #{@engine} goes vroom!&quot;
@@ -594,7 +604,7 @@ end
               <code>head</code>
               .</p>
             <p>Here's an example:
-              <pre>class HotSauce &lt; Erector::Widget
+              <pre class="sh_ruby">class HotSauce &lt; Erector::Widget
   depends_on :css, &quot;/css/tapatio.css&quot;
   depends_on :css, &quot;/css/salsa_picante.css&quot;, :media =&gt; &quot;print&quot;
   depends_on :js, &quot;/lib/jquery.js&quot;
@@ -612,7 +622,7 @@ end
                emits the 
               <code>head</code>
                it'll look like this:
-              <pre>&lt;head&gt;
+              <pre class="sh_ruby">&lt;head&gt;
   &lt;meta content=&quot;text/html;charset=UTF-8&quot; http-equiv=&quot;content-type&quot; /&gt;
   &lt;title&gt;HotPage&lt;/title&gt;
   &lt;link href=&quot;/css/tapatio.css&quot; media=&quot;all&quot; rel=&quot;stylesheet&quot; type=&quot;text/css&quot; /&gt;
@@ -644,7 +654,7 @@ end
               </table>
               It might be a little difficult to remember the difference between :js and :script, and between :css and :style, so I'm thinking of maybe unifying them and looking at the content to determine whether it's inline or not. (Something simple like, if it includes a space, then it's inline.) Good idea? Let us know on <a href="http://googlegroups.com/group/erector">the erector mailing list</a>!</p>
             <p>Instead of a string, you can also specify a File object; the file's contents get read and used as text. This allows you to inline files instead of referring to them, for potential performance benefits. Example:
-              <pre>    depends_on :style, File.new(&quot;#{File.dirname(__FILE__)}/../public/sample.css&quot;)
+              <pre class="sh_ruby">    depends_on :style, File.new(&quot;#{File.dirname(__FILE__)}/../public/sample.css&quot;)
 </pre>
             </p>
             <a name="blocks"></a>
@@ -653,7 +663,7 @@ end
             <p>There are basically three cases where you can pass a block to Erector:</p>
             <h3>1. To an element method</h3>
             <p>This is the normal case that provides the slick HTML DSL. In the following code:</p>
-            <pre>class Person &lt; Erector::Widget
+            <pre class="sh_ruby">class Person &lt; Erector::Widget
   def content
     div {
       h3 @name
@@ -681,7 +691,7 @@ end
             <p>In this case you can build a widget &quot;on the fly&quot; and have it render whatever it wants, then call your block. This is useful for widgets like 
               <code>Form</code>
                which want to wrap your HTML in some of their own tags.</p>
-            <pre>class PersonActions &lt; Erector::Widget
+            <pre class="sh_ruby">class PersonActions &lt; Erector::Widget
   needs :user
   def content
     div {
@@ -713,7 +723,7 @@ end
                and 
               <code>input</code>
                above), but may be confusing if you want the block to be able to call methods on the target widget. In that case the caller can declare the block to take a parameter; this parameter will point to the nested widget instance.
-              <pre>widget(Form.new(:action =&gt; &quot;/person/#{@user.id}&quot;, :method =&gt; &quot;delete&quot;) do |f|
+              <pre class="sh_ruby">widget(Form.new(:action =&gt; &quot;/person/#{@user.id}&quot;, :method =&gt; &quot;delete&quot;) do |f|
   span &quot;This form's method is #{f.method}&quot;
   input :type =&gt; &quot;submit&quot;, :value =&gt; &quot;Remove #{@user.name}&quot;
 end)
@@ -722,7 +732,7 @@ end)
             <p>(As a variant of this case, note that the
               <code>widget</code>
                method can accept a widget class, hash and block, instead of an instance; in this case it will set the widget's block and this code:
-              <pre>widget Form, :action =&gt; &quot;/person/#{@user.id}&quot;, :method =&gt; &quot;delete&quot; do
+              <pre class="sh_ruby">widget Form, :action =&gt; &quot;/person/#{@user.id}&quot;, :method =&gt; &quot;delete&quot; do
   input :type =&gt; &quot;submit&quot;, :value =&gt; &quot;Remove #{@user.name}&quot;
 end
 </pre>
@@ -742,7 +752,7 @@ end
                 <li>methods will be looked for first on the inline widget, and then on the caller.</li>
                 <li>instance variables will be looked for on the inline widget <b>only</b>. This can be the source of many a nil! As a general rule, you should probably stay away from instance variables when using inline widgets. However...</li>
                 <li><b>Bound</b> local variables will still be in scope. This means you can &quot;smuggle in&quot; instance variables via local variables. For example:
-                  <pre>local_name = @name
+                  <pre class="sh_ruby">local_name = @name
 Page.new do
   div local_name
 end.to_html

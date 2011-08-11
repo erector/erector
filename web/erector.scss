@@ -56,6 +56,10 @@ pre {
   overflow: auto;
 }
 
+code {
+  background-color: #F4F4FF;
+}
+
 /* cheatsheet */
 table.cheatsheet {
   border-style: outset;
@@ -164,21 +168,19 @@ div.navbar {
     color: #ccdcea;
     background-color: #3470a2;
     list-style-type: none;
-    margin: 8px;
 
-    padding: 8px 2px;
-    padding-right: 1em;
-    padding-left: 1em;
+    margin: 8px;
+    padding: 4px 6px;
 
   /*  font-variant: small-caps;*/
-    border: 1px solid #6881BA;
-    font-size: 9pt;
+    border: 2px solid #6881BA;
 
     a, a:visited {
       text-decoration: none;
       /*font-weight: bold;*/
       color: white;
       margin: 0;
+      font-size: 10pt;
     }
   }
 
@@ -189,7 +191,7 @@ div.navbar {
   
   li.clickable.current {
     font-weight: bold;
-    border: 1px solid black;
+    border: 2px solid black;
     background-color: #3875D7;
     a {
       color: white;
