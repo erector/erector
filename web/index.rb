@@ -25,6 +25,8 @@ class Index < Page
       text "In Erector all views are objects, not template files, which allows the full power of object-oriented programming (inheritance, modular decomposition, encapsulation) in views."
     }
     
+    p "Here's an Erector Widget:"
+    
     source :ruby, <<-RUBY
 require 'erector'
 class Logo < Erector::Widget
@@ -38,9 +40,14 @@ class Logo < Erector::Widget
     }
   end
 end
-
-Logo.new.to_html #=>
-  RUBY
+    RUBY
+  
+    p {
+      text "And here's what comes out when you run "
+      code "Logo.new.to_html"
+      text ":"
+    }
+  
     source :html, <<-HTML
 <div class="logo">
   <a href="index.html">

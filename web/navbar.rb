@@ -19,6 +19,7 @@ class Navbar < Erector::Widget
       ul.clickable do
         clickable_page Index.new
         clickable_page Userguide.new
+        clickable_page Rails.new
         clickable_page Faq.new
         clickable_page Cheatsheet.new
         clickable_li 'RDoc API', 'rdoc'

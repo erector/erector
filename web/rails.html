@@ -1,0 +1,443 @@
+<html>
+  <head>
+    <title>Erector - Erector On Rails</title>
+    <style>body, td, a, p {
+  font-family: Lucida Grande, Lucida Sans, arial, sans-serif;
+  font-size: 11pt; }
+
+body {
+  margin: 0;
+  padding: 0; }
+
+img {
+  border: none; }
+
+.clear {
+  clear: both; }
+
+ul {
+  list-style-position: inside; }
+
+li {
+  margin-left: 1.5em;
+  padding-bottom: .5em; }
+
+li > p {
+  -webkit-margin-before: 0;
+  -webkit-margin-after: 0; }
+
+h1 {
+  /*  font-variant: small-caps;*/
+  border-bottom: 1px solid gray;
+  /*  background: #EEE; */
+  padding: .25em;
+  padding-left: 0px;
+  margin-left: 0px;
+  text-shadow: #999 1px 1px 1px; }
+
+h2 {
+  margin-top: 2em;
+  background: #FEFEEB;
+  padding: .25em;
+  border: 1px solid #CCC;
+  text-shadow: #999 1px 1px 1px; }
+
+pre {
+  background-color: #EEEEFF;
+  border: 1px solid gray;
+  padding: .5em 1em;
+  margin-right: 6em;
+  overflow: auto; }
+
+code {
+  background-color: #F4F4FF; }
+
+/* cheatsheet */
+table.cheatsheet {
+  border-style: outset;
+  border-collapse: collapse;
+  font-size: 10pt; }
+  table.cheatsheet code {
+    background-color: #EEEEFF; }
+  table.cheatsheet i {
+    font-size: 11pt; }
+  table.cheatsheet th {
+    background-color: #EDEDED; }
+  table.cheatsheet td, table.cheatsheet th {
+    border-width: 1px;
+    border-style: solid;
+    border-color: lightgray;
+    padding: .5em;
+    font-size: 10pt; }
+  table.cheatsheet td {
+    vertical-align: top; }
+
+code {
+  font-size: 12pt; }
+
+pre {
+  font-size: 12pt;
+  font-family: Inconsolata,                Consolas,                "Andale Mono",                "Lucida Console",                "Lucida Sans Typewriter",                "DejaVu Sans Mono",                "Bitstream Vera Sans Mono",                "Liberation Mono",                "Nimbus Mono L",                Monaco,                "Courier New",                Courier,                monospace; }
+
+.separator {
+  margin-right: 10px;
+  font-size: 36pt; }
+
+/* top */
+div.top {
+  background-color: #FEFDCD;
+  /*  background-color: #FDF909;
+  */
+  text-align: bottom;
+  margin: 0;
+  padding: 8px 8px 4px; }
+  div.top .logo {
+    margin: 2px auto; }
+    div.top .logo img {
+      opacity: 0.6; }
+
+/* navbar */
+div.navbar {
+  width: 100%;
+  margin: 0 0 2px;
+  padding: 8px 0px 11px;
+  /* no idea why, but this centers the buttons*/
+  overflow-vertical: auto;
+  text-align: left;
+  background-color: #A3D3D1;
+  border-top: 1px solid #6881BA;
+  border-bottom: 1px solid #6881BA; }
+  div.navbar h3 {
+    margin-bottom: .25em; }
+  div.navbar ul {
+    list-style-type: none;
+    display: inline;
+    margin: -1px 0px 0px;
+    padding: 8px 0px;
+    list-style-type: none; }
+  div.navbar li.clickable {
+    display: inline;
+    color: #ccdcea;
+    background-color: #3470a2;
+    list-style-type: none;
+    margin: 8px;
+    padding: 4px 6px;
+    /*  font-variant: small-caps;*/
+    border: 2px solid #6881BA; }
+    div.navbar li.clickable a, div.navbar li.clickable a:visited {
+      text-decoration: none;
+      /*font-weight: bold;*/
+      color: white;
+      margin: 0;
+      font-size: 10pt; }
+  div.navbar li.clickable:hover {
+    background-color: blue;
+    cursor: pointer;
+    cursor: hand; }
+  div.navbar li.clickable.current {
+    font-weight: bold;
+    border: 2px solid black;
+    background-color: #3875D7; }
+    div.navbar li.clickable.current a {
+      color: white; }
+
+/* main */
+.main {
+  margin: 0 auto; }
+
+.footer {
+  font-size: 10pt;
+  border-top: 1px solid black;
+  padding: 1em; }
+
+.body {
+  max-width: 60em;
+  margin-left: 100px;
+  margin-right: 100px; }
+
+.body a {
+  color: #6881BA;
+  text-decoration: none;
+  border-bottom: 1px dotted; }
+
+.main h1.title {
+  margin: 0 200px;
+  text-align: center; }
+
+/* article */
+div.toc {
+  margin: 1em .25em;
+  display: inline-block;
+  border: 1px solid black; }
+  div.toc h2 {
+    margin: 0; }
+  div.toc ul, div.toc ol {
+    padding: .25em 1em; }
+
+.promo_wrapper {
+  float: right; }
+
+div.promo_wrapper {
+  text-align: center;
+  margin: 4px;
+  padding: 4px; }
+
+div.promo {
+  display: inline-block;
+  border: 2px solid #6881BA;
+  text-align: center;
+  background: white; }
+  div.promo img {
+    border: 2px solid black;
+    margin: 2px; }
+  div.promo p {
+    padding: .25em .5em; }
+</style>
+    <script src="js/sh_main.min.js"></script>
+    <script src="js/sh_lang/sh_ruby.min.js"></script>
+    <script src="js/sh_lang/sh_html.min.js"></script>
+    <script src="js/sh_lang/sh_sh.min.js"></script>
+    <link href="css/sh_style.css" rel="stylesheet" type="text/css" />
+  </head>
+  <body onload="sh_highlightDocument();">    <a href="http://github.com/pivotal/erector"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://a248.e.akamai.net/assets.github.com/img/30f550e0d38ceb6ef5b81500c64d970b7fb0f028/687474703a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6f72616e67655f6666373630302e706e67" alt="Fork me on GitHub"></a>
+    <div class="top">      <div class="logo"><a href="index.html"><img src="erector-logo.png" /></a></div>
+    </div>
+    <div class="navbar">      <ul class="clickable">
+        <li class="clickable" onclick="document.location='index.html'"><a href="index.html">Home</a></li>
+        <li class="clickable" onclick="document.location='userguide.html'"><a href="userguide.html">User Guide</a></li>
+        <li class="clickable current" onclick="document.location='rails.html'"><a href="rails.html">Erector On Rails</a></li>
+        <li class="clickable" onclick="document.location='faq.html'"><a href="faq.html">FAQ</a></li>
+        <li class="clickable" onclick="document.location='cheatsheet.html'"><a href="cheatsheet.html">Cheatsheet</a></li>
+        <li class="clickable" onclick="document.location='rdoc'"><a href="rdoc">RDoc API</a></li>
+        <li class="clickable" onclick="document.location='developers.html'"><a href="developers.html">For Developers</a></li>
+        <li class="clickable" onclick="document.location='release_notes.html'"><a href="release_notes.html">Release Notes</a></li>
+        <li class="clickable" onclick="document.location='links.html'"><a href="links.html">Links</a></li>
+      </ul>
+    </div>
+    <div class="promo_wrapper">      <div class="promo"><img src="images/erectorhudson.jpeg" /></div>
+    </div>
+    <div class="main">      <div class="body">
+        <p>This page describes integrating Erector into <a href="http://rubyonrails.org">Ruby on Rails</a> apps. Read the <a href="userguide.html">User Guide</a> for details on Erector itself.</p>
+        <div class="article">
+          <h1 class="name">Erector On Rails</h1>
+          <div class="toc">
+            <h2>Table of Contents</h2>
+            <ol class="toc">
+              <li><a href="#rails">Using Erector from Ruby on Rails</a></li>
+              <li><a href="#tool">Erector tool: Command-line conversion to and from HTML</a></li>
+              <li><a href="#pagelayoutinheritance">Page Layout Inheritance</a></li>
+              <li><a href="#erectorlayoutsinrails">Erector Layouts in Rails</a></li>
+            </ol>
+          </div>
+          <div class="clear"></div>
+          <div class="sections">
+            <a name="rails"></a>
+            <h2>1. Using Erector from Ruby on Rails</h2>
+            <p>Your views are just ruby classes.  Your controller can either call Rails' 
+              <code>render :template</code>
+               method as usual, or directly instantiate the view class and call its content method.</p>
+            <p>For example:</p>
+            <code>app/controllers/welcome_controller.rb:</code>
+            <pre class="sh_ruby">class WelcomeController &lt; ApplicationController
+  def index
+    render :template =&gt; 'welcome/show'
+  end
+end
+</pre>
+            <code>app/views/welcome/show.rb:</code>
+            <pre class="sh_ruby">class Views::Welcome::Show &lt; Erector::Widget
+  def content
+    html {
+      head {
+        title &quot;Welcome page&quot;
+      }
+      body {
+        p &quot;Hello, world&quot;
+      }
+    }
+  end
+end
+</pre>
+            <p>For Rails to find these .rb files during 
+              <code>render :template</code>
+              , you must first either copy the erector source to 
+              <code>vendor/plugins/erector</code>
+              , or add 
+              <code>require 'erector'</code>
+               to 
+              <code>config/environment.rb</code>
+              . You also should delete (or rename) any other view files with the same base name that might be getting in the way.</p>
+            <p>Currently there is only partial support for some standard Rails features like partials, layouts, assigns, and helpers. Check the <a href="http://googlegroups.com/group/erector">erector Google Groups mailing list</a> for status updates on these features.</p>
+            <a name="tool"></a>
+            <h2>2. Erector tool: Command-line conversion to and from HTML</h2>
+            <p>To make Rails integration as smooth as possible, we've written a little tool that will help you
+      erect your existing Rails app. The 'erector' tool will convert HTML or HTML/ERB into an Erector class.
+      It ships as part of the Erector gem, so to try it out, install the gem, then run</p>
+            <pre>erector app/views/foos/*.html.erb</pre>
+            <p>or just</p>
+            <pre>erector app/views</pre>
+            <p>and then delete the original files when you're satisfied.</p>
+            <p>Here's a little command-line howto for erecting a scaffold Rails app:</p>
+            <pre class="sh_sh"># create a toy Rails app
+rails foo
+cd foo
+script/generate scaffold post title:string body:text published:boolean
+
+# convert all the &quot;posts&quot; views
+erector app/views/posts
+
+# remove the old ERB views
+rm app/views/posts/*.erb
+
+# a little configuration step
+(echo &quot;&quot;; echo &quot;require 'erector'&quot;) &gt;&gt; config/environment.rb
+
+# launch the app and make sure it works
+rake db:migrate
+script/server
+open http://localhost:3000/posts
+</pre>
+            <p>On the erector-to-html side, pass in the 
+              <code>--to-html</code>
+              option and some file names and it will render the erector widgets to appropriately-named HTML files. We're actually using 
+              <code>erector</code>
+               to build this Erector documentation web site that you're reading <b>right now.</b> Check out the 'web' directory and the 'web' task in the Rakefile to see how it's done.</p>
+            <a name="pagelayoutinheritance"></a>
+            <h2>3. Page Layout Inheritance</h2>
+            <p>Erector replaces the typical Rails layout mechanism with a more natural construct, the use of inheritance. Want a common
+      layout? Implement a layout superclass and have your page class inherit from it and override methods as needed.</p>
+            <p>For example:
+              <pre class="sh_ruby">class Views::Layouts::Page &lt; Erector::Widget
+  def content
+    html {
+      head {
+        title &quot;MyApp - #{@page_title}&quot;
+        css &quot;myapp.css&quot;
+      }
+      body {
+        div.navbar {
+          navbar
+        }
+        div.main {
+          main
+        }
+        div.footer {
+          footer
+        }
+      }
+    }
+  end
+
+  def navbar
+    a &quot;MyApp Home&quot;, :href =&gt; &quot;/&quot;
+  end
+
+  def main
+    p &quot;This page intentionally left blank.&quot;
+  end
+
+  def footer
+    p &quot;Copyright (c) 2112, Rush Enterprises Inc.&quot;
+  end
+end
+</pre>
+              <pre class="sh_ruby">class Views::Faq::Index &lt; Views::Layouts::Page
+  def initialize
+    super(:page_title =&gt; &quot;FAQ&quot;)
+  end
+
+  def main
+    p &quot;Q: Why is the sky blue?&quot;
+    p &quot;A: To get to the other side&quot;
+  end
+
+  def navbar
+    super
+    a &quot;More FAQs&quot;, :href =&gt; &quot;http://faqs.org&quot;
+  end
+end
+</pre>
+            </p>
+            <p>Notice how this mechanism allows you to...</p>
+            <ul>
+              <li>Set instance variables (e.g. title)</li>
+              <li>Override sections completely (e.g. render_body)</li>
+              <li>Append to standard content (e.g. render_navbar)</li>
+              <li>Use standard content unchanged (e.g. render_footer)</li>
+            </ul>
+            <p>all in a straightforward, easily understood paradigm (OO inheritance). (No more weird yielding to invisible, undocumented closures!)</p>
+            <p>Check out <a href="/rdoc/Erector/Widgets/Page.html">Erector::Widgets::Page</a> for a widget that does a lot of this for you, including rendering <a href="#externals">externals</a> in the HEAD element.</p>
+            <a name="erectorlayoutsinrails"></a>
+            <h2>4. Erector Layouts in Rails</h2>
+            <p>To use layout inheritance in Rails, declare 
+              <code>layout nil</code>
+               in 
+              <code>app/controllers/application.rb</code>
+               and then define your Page parent class as 
+              <code>class Views::Layouts::Page</code>
+               in 
+              <code>app/views/layouts</code>
+               as usual.</p>
+            <p>To use an Erector widget as a regular Rails layout, you'll have to set things up a bit differently.<br />
+              <code>app/views/layouts/application.rb:</code>
+              <pre class="sh_ruby">class Views::Layouts::Application &lt; Erector::Widget
+  def content
+    html {
+      head {
+        title &quot;MyApp - #{page_title}&quot;
+        css &quot;myapp.css&quot;
+      }
+      body {
+        div.navbar {
+          navbar
+        }
+        div.main {
+          content_for :layout
+        }
+        div.footer {
+          footer
+        }
+      }
+    }
+  end
+
+  def navbar
+    ul {
+      li { a &quot;MyApp Home&quot;, :href =&gt; &quot;/&quot; }
+      content_for :navbar if content_for? :navbar
+    }
+  end
+
+  def footer
+    p &quot;Copyright (c) 2112, Rush Enterprises Inc.&quot;
+    content_for :footer if content_for? :footer    
+  end
+
+end
+</pre>
+              <br />
+              <code>app/views/faq/index.rb:</code>
+              <pre class="sh_ruby">class Views::Faq::Index &lt; Erector::Widget
+  def content
+    content_for :navbar do
+      li { a &quot;More FAQs&quot;, :href =&gt; &quot;http://faqs.org&quot; }
+    end
+
+    p &quot;Q: Why is the sky blue?&quot;
+    p &quot;A: To get to the other side&quot;
+  end
+end
+</pre>
+              <p>[TODO: more explanation]</p>
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="footer"><a href="http://www.pivotallabs.com"><img alt="Pivotal Labs" height="57" src="pivotal.gif" style="float:right; padding: 8px;" width="158" /></a>
+        <center>Erector is an open source project released under the MIT license.<br />
+Its initial development was sponsored by <a href="http://pivotallabs.com">Pivotal Labs</a>.<br />
+          Not affiliated with or sponsored by the makers of Erector or Meccano toys.</center>
+      </div>
+    </div>
+  </body>
+</html>

@@ -205,6 +205,7 @@ div.promo {
     <div class="navbar">      <ul class="clickable">
         <li class="clickable current" onclick="document.location='index.html'"><a href="index.html">Home</a></li>
         <li class="clickable" onclick="document.location='userguide.html'"><a href="userguide.html">User Guide</a></li>
+        <li class="clickable" onclick="document.location='rails.html'"><a href="rails.html">Erector On Rails</a></li>
         <li class="clickable" onclick="document.location='faq.html'"><a href="faq.html">FAQ</a></li>
         <li class="clickable" onclick="document.location='cheatsheet.html'"><a href="cheatsheet.html">Cheatsheet</a></li>
         <li class="clickable" onclick="document.location='rdoc'"><a href="rdoc">RDoc API</a></li>
@@ -218,6 +219,7 @@ div.promo {
     <div class="main">      <div class="body">
         <p>Erector is a Builder-like view framework for <a href="http://ruby-lang.org">Ruby</a>, inspired by <a href="http://code.whytheluckystiff.net/markaby/">Markaby</a>. </p>
         <p>In Erector all views are objects, not template files, which allows the full power of object-oriented programming (inheritance, modular decomposition, encapsulation) in views.</p>
+        <p>Here's an Erector Widget:</p>
         <pre class="sh_ruby">require 'erector'
 class Logo &lt; Erector::Widget
   def content
@@ -230,9 +232,10 @@ class Logo &lt; Erector::Widget
     }
   end
 end
-
-Logo.new.to_html #=&gt;
 </pre>
+        <p>And here's what comes out when you run 
+          <code>Logo.new.to_html</code>
+          :</p>
         <pre class="sh_html">&lt;div class=&quot;logo&quot;&gt;
   &lt;a href=&quot;index.html&quot;&gt;
     &lt;img class=&quot;logo&quot; height=&quot;323&quot; src=&quot;erector.jpg&quot; width=&quot;287&quot; /&gt;

@@ -164,65 +164,12 @@ end
       end
     end
 
-    a.add(:name => "Using Erector from Ruby on Rails", :href => "rails") do
-      p do
-        text "Your views are just ruby classes.  Your controller can either call Rails' "
-        code "render :template"
-        text " method as usual, or directly instantiate the view class and call its content method."
-      end
-
-      p "For example:"
-
-      code "app/controllers/welcome_controller.rb:"
-      source :ruby, <<-DONE
-class WelcomeController < ApplicationController
-  def index
-    render :template => 'welcome/show'
-  end
-end
-DONE
-
-      code "app/views/welcome/show.rb:"
-      source :ruby, <<-DONE
-class Views::Welcome::Show < Erector::Widget
-  def content
-    html {
-      head {
-        title "Welcome page"
-      }
-      body {
-        p "Hello, world"
-      }
-    }
-  end
-end
-DONE
-
-      p do
-        text "For Rails to find these .rb files during "
-        code "render :template"
-        text ", you must first either copy the erector source to "
-        code "vendor/plugins/erector"
-        text ", or add "
-        code "require 'erector'"
-        text " to "
-        code "config/environment.rb"
-        text ". You also should delete (or rename) any other view files with the same base name that might be getting in the way."
-      end
-
-      p do
-        text "Currently there is only partial support for some standard Rails features like partials, layouts, assigns, and helpers. Check the "
-        a "erector Google Groups mailing list", :href => "http://googlegroups.com/group/erector"
-        text " for status updates on these features."
-      end
-
-    end
 
     a.add(:name => "Erector tool: Command-line conversion to and from HTML", :href => "tool") do
 
       p """
-      To make Rails integration as smooth as possible, we've written a little tool that will help you
-      erect your existing Rails app. The 'erector' tool will convert HTML or HTML/ERB into an Erector class.
+      We've written a little tool that will help you
+      erect your existing HTML app. The 'erector' tool will convert HTML or HTML/ERB into an Erector class.
       It ships as part of the Erector gem, so to try it out, install the gem, then run
       """.strip
 
@@ -234,28 +181,9 @@ DONE
 
       p "and then delete the original files when you're satisfied."
 
-      p "Here's a little command-line howto for erecting a scaffold Rails app:"
-
-      source :sh, <<-DONE
-# create a toy Rails app
-rails foo
-cd foo
-script/generate scaffold post title:string body:text published:boolean
-
-# convert all the "posts" views
-erector app/views/posts
-
-# remove the old ERB views
-rm app/views/posts/*.erb
-
-# a little configuration step
-(echo ""; echo "require 'erector'") >> config/environment.rb
-
-# launch the app and make sure it works
-rake db:migrate
-script/server
-open http://localhost:3000/posts
-DONE
+      p {
+       text  "See the ", a("Erector on Rails Guide", :href => "rails.html"), " for more details on converting a Rails app." 
+      }
       p do
         text "On the erector-to-html side, pass in the "
         code "--to-html"
@@ -264,10 +192,13 @@ DONE
         code "erector"
         text " to build this Erector documentation web site that you're reading "
         b "right now."
-        text " Check out the 'web' directory and the 'web' task in the Rakefile to see how it's done."
+        text " Check out the ",
+          a("'web' directory", :href => "https://github.com/pivotal/erector/tree/master/web"),
+          " and the ",
+          a("'web' task in the Rakefile", :href => "https://github.com/pivotal/erector/blob/77738d13fbbb3e1b8d24653ff2950dbb88b756ed/Rakefile#L74-84"),
+          " to see how it's done."
       end
     end
-
 
     a.add(:name => "Page Layout Inheritance") do
       p "Erector replaces the typical Rails layout mechanism with a more natural construct, the use of inheritance. Want a common
@@ -275,8 +206,8 @@ DONE
 
       p do
         text "For example:"
-        source :ruby, <<-DONE
-class Views::Layouts::Page < Erector::Widget
+        source :ruby, <<-RUBY
+class MyAppPage < Erector::Widget
   def content
     html {
       head {
@@ -309,10 +240,10 @@ class Views::Layouts::Page < Erector::Widget
     p "Copyright (c) 2112, Rush Enterprises Inc."
   end
 end
-        DONE
+        RUBY
 
-        source :ruby, <<-DONE
-class Views::Faq::Index < Views::Layouts::Page
+        source :ruby, <<-RUBY
+class Faq < MyAppPage
   def initialize
     super(:page_title => "FAQ")
   end
@@ -327,100 +258,26 @@ class Views::Faq::Index < Views::Layouts::Page
     a "More FAQs", :href => "http://faqs.org"
   end
 end
-      DONE
-        end
-        p "Notice how this mechanism allows you to..."
-        ul do
-          li "Set instance variables (e.g. title)"
-          li "Override sections completely (e.g. render_body)"
-          li "Append to standard content (e.g. render_navbar)"
-          li "Use standard content unchanged (e.g. render_footer)"
-        end
-        p "all in a straightforward, easily understood paradigm (OO inheritance). (No more weird yielding to invisible, undocumented closures!)"
-        p {
-         text "Check out "
-         a "Erector::Widgets::Page", :href => "/rdoc/Erector/Widgets/Page.html"
-         text " for a widget that does a lot of this for you, including rendering "
-         a "externals", :href => "#externals"
-         text " in the HEAD element."
-        }
+        RUBY
       end
       
-      a.add(:name => "Erector Layouts in Rails") do
-
-      p do
-        text "To use layout inheritance in Rails, declare "
-        code "layout nil"
-        text " in "
-        code "app/controllers/application.rb"
-        text " and then define your Page parent class as "
-        code "class Views::Layouts::Page"
-        text " in "
-        code "app/views/layouts"
-        text " as usual."
+      p "Notice how this mechanism allows you to..."
+      ul do
+        li "Set instance variables (e.g. title)"
+        li "Override sections completely (e.g. render_body)"
+        li "Append to standard content (e.g. render_navbar)"
+        li "Use standard content unchanged (e.g. render_footer)"
       end
-      p do
-        text "To use an Erector widget as a regular Rails layout, you'll have to set things up a bit differently."
-        br
-        code "app/views/layouts/application.rb:"
-        source :ruby, <<-RUBY
-class Views::Layouts::Application < Erector::Widget
-  def content
-    html {
-      head {
-        title "MyApp - \#{page_title}"
-        css "myapp.css"
+      p "all in a straightforward, easily understood paradigm (OO inheritance). (No more weird yielding to invisible, undocumented closures!)"
+      p {
+       text "Check out "
+       a "Erector::Widgets::Page", :href => "/rdoc/Erector/Widgets/Page.html"
+       text " for a widget that does a lot of this for you, including rendering "
+       a "externals", :href => "#externals"
+       text " in the HEAD element."
       }
-      body {
-        div.navbar {
-          navbar
-        }
-        div.main {
-          content_for :layout
-        }
-        div.footer {
-          footer
-        }
-      }
-    }
-  end
-
-  def navbar
-    ul {
-      li { a "MyApp Home", :href => "/" }
-      content_for :navbar if content_for? :navbar
-    }
-  end
-
-  def footer
-    p "Copyright (c) 2112, Rush Enterprises Inc."
-    content_for :footer if content_for? :footer    
-  end
-
-end
-        RUBY
-        
-        br
-        code "app/views/faq/index.rb:"
-        
-        source :ruby, <<-RUBY
-class Views::Faq::Index < Erector::Widget
-  def content
-    content_for :navbar do
-      li { a "More FAQs", :href => "http://faqs.org" }
     end
-
-    p "Q: Why is the sky blue?"
-    p "A: To get to the other side"
-  end
-end
-        RUBY
-
-        p "[TODO: more explanation]"
-        
-      end
-    end
-
+      
     a.add(:name => "Inline Widgets") do
       p do
         text "Instead of subclassing "
@@ -432,12 +289,12 @@ end
         text " and get back a widget instance you can call "
         code "to_html"
         text " on.  For example:"
-        source :ruby, <<-DONE
+        source :ruby, <<-RUBY
 hello = Erector.inline do
   p "Hello, world!"
 end
 hello.to_html          #=> <p>Hello, world!</p>
-        DONE
+        RUBY
         text "This lets you define mini-widgets on the fly."
       end
 
@@ -445,12 +302,12 @@ hello.to_html          #=> <p>Hello, world!</p>
         text "If you're in Rails, your inline block has access to Rails helpers if you pass a helpers object to "
         code "to_html"
         text ":"
-        source :ruby, <<-DONE
+        source :ruby, <<-RUBY
 image = Erector.inline do
   image_tag("/foo")
 end
 image.to_html(:helpers => controller)          #=> <img alt="Foo" src="/foo" />
-      DONE
+      RUBY
     end
 
       p do
@@ -481,14 +338,14 @@ image.to_html(:helpers => controller)          #=> <img alt="Foo" src="/foo" />
         text "To help this, we've added an optional feature by which your widget can declare that it "
         text "needs a certain set of named parameters to be passed in. "
         text "For example:"
-        source :ruby, <<-DONE
+        source :ruby, <<-RUBY
 class Car < Erector::Widget
   needs :engine, :wheels => 4
   def content
     text "My \#{@wheels} wheels go round and round; my \#{@engine} goes vroom!"
   end
 end
-        DONE
+        RUBY
         text "This widget will throw an exception if you fail to pass "
         code ":engine => 'V-8'"
         text " into its constructor. (Actually, it will work with any engine, but a V-8 is the baddest.)"
@@ -523,7 +380,7 @@ end
       end
       p do
         text "Here's an example:"
-        source :ruby, <<-DONE
+        source :ruby, <<-RUBY
 class HotSauce < Erector::Widget
   depends_on :css, "/css/tapatio.css"
   depends_on :css, "/css/salsa_picante.css", :media => "print"
@@ -536,13 +393,13 @@ class HotSauce < Erector::Widget
     }
   end
 end
-        DONE
+        RUBY
         text "Then when "
         code "Page"
         text " emits the "
         code "head"
         text " it'll look like this:"
-        source :ruby, <<-DONE
+        source :ruby, <<-RUBY
 <head>
   <meta content="text/html;charset=UTF-8" http-equiv="content-type" />
   <title>HotPage</title>
@@ -551,7 +408,7 @@ end
   <script src="/lib/jquery.js" type="text/javascript"></script>
   <script src="/lib/picante.js" type="text/javascript"></script>
 </head>
-        DONE
+        RUBY
       end
       
       p do
@@ -587,9 +444,9 @@ end
       p do
         text "Instead of a string, you can also specify a File object; the file's contents get read and used as text. This allows you to inline files instead of referring to them, for potential performance benefits."
         text " Example:"
-        source :ruby, <<-DONE
+        source :ruby, <<-RUBY
     depends_on :style, File.new("\#{File.dirname(__FILE__)}/../public/sample.css")
-        DONE
+        RUBY
       end
     end
 
@@ -598,7 +455,7 @@ end
       p "There are basically three cases where you can pass a block to Erector:"
       h3 "1. To an element method"
       p "This is the normal case that provides the slick HTML DSL. In the following code:"
-      source :ruby, <<-DONE
+      source :ruby, <<-RUBY
 class Person < Erector::Widget
   def content
     div {
@@ -610,7 +467,7 @@ class Person < Erector::Widget
     }
   end
 end
-      DONE
+      RUBY
       p do
         text "the blocks passed in to "
         code "div"
@@ -632,7 +489,7 @@ end
         code "Form"
         text " which want to wrap your HTML in some of their own tags."
       end
-      source :ruby, <<-DONE
+      source :ruby, <<-RUBY
 class PersonActions < Erector::Widget
   needs :user
   def content
@@ -648,7 +505,7 @@ class PersonActions < Erector::Widget
     }
   end
 end
-      DONE
+      RUBY
       p do
         text "In this case, you will get two "
         code "form"
@@ -674,23 +531,23 @@ end
         code "input"
         text " above"
         text "), but may be confusing if you want the block to be able to call methods on the target widget. In that case the caller can declare the block to take a parameter; this parameter will point to the nested widget instance."
-        source :ruby, <<-DONE
+        source :ruby, <<-RUBY
 widget(Form.new(:action => "/person/\#{@user.id}", :method => "delete") do |f|
   span "This form's method is \#{f.method}"
   input :type => "submit", :value => "Remove \#{@user.name}"
 end)
-        DONE
+        RUBY
       end
 
       p do
         text "(As a variant of this case, note that the"
         code "widget"
         text " method can accept a widget class, hash and block, instead of an instance; in this case it will set the widget's block and this code:"
-        source :ruby, <<-DONE
+        source :ruby, <<-RUBY
 widget Form, :action => "/person/\#{@user.id}", :method => "delete" do
   input :type => "submit", :value => "Remove \#{@user.name}"
 end
-        DONE
+        RUBY
         text " will work the same as the version above.)"
       end
 
@@ -720,12 +577,12 @@ end
           li do
             b "Bound"
             text " local variables will still be in scope. This means you can \"smuggle in\" instance variables via local variables. For example:"
-            source :ruby, <<-DONE
+            source :ruby, <<-RUBY
 local_name = @name
 Page.new do
   div local_name
 end.to_html
-            DONE
+            RUBY
           end
         end
         p do
