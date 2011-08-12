@@ -43,14 +43,18 @@ h2 {
   text-shadow: #999 1px 1px 1px; }
 
 pre {
-  background-color: #EEEEFF;
+  background-color: #f4f4FF;
   border: 1px solid gray;
   padding: .5em 1em;
-  margin-right: 6em;
-  overflow: auto; }
+  overflow: auto;
+  font-family: Inconsolata,                Consolas,                "Andale Mono",                "Lucida Console",                "Lucida Sans Typewriter",                "DejaVu Sans Mono",                "Bitstream Vera Sans Mono",                "Liberation Mono",                "Nimbus Mono L",                Monaco,                "Courier New",                Courier,                monospace; }
+
+pre.sh_html {
+  background-color: #FFFADE; }
 
 code {
-  background-color: #F4F4FF; }
+  background-color: #F4F4FF;
+  font-size: 12pt; }
 
 /* cheatsheet */
 table.cheatsheet {
@@ -71,13 +75,6 @@ table.cheatsheet {
     font-size: 10pt; }
   table.cheatsheet td {
     vertical-align: top; }
-
-code {
-  font-size: 12pt; }
-
-pre {
-  font-size: 12pt;
-  font-family: Inconsolata,                Consolas,                "Andale Mono",                "Lucida Console",                "Lucida Sans Typewriter",                "DejaVu Sans Mono",                "Bitstream Vera Sans Mono",                "Liberation Mono",                "Nimbus Mono L",                Monaco,                "Courier New",                Courier,                monospace; }
 
 .separator {
   margin-right: 10px;
@@ -192,6 +189,20 @@ div.promo {
     margin: 2px; }
   div.promo p {
     padding: .25em .5em; }
+
+/* example */
+div.example {
+  position: relative;
+  border: 2px solid darkblue;
+  margin: 1em;
+  padding: .5em; }
+  div.example .before, div.example .after {
+    margin: 1em;
+    text-align: top;
+    vertical-align: top; }
+    div.example .before pre, div.example .after pre {
+      margin: 0;
+      width: 100%; }
 </style>
     <script src="js/sh_main.min.js"></script>
     <script src="js/sh_lang/sh_ruby.min.js"></script>
@@ -219,8 +230,11 @@ div.promo {
     <div class="main">      <div class="body">
         <p>Erector is a Builder-like view framework for <a href="http://ruby-lang.org">Ruby</a>, inspired by <a href="http://code.whytheluckystiff.net/markaby/">Markaby</a>. </p>
         <p>In Erector all views are objects, not template files, which allows the full power of object-oriented programming (inheritance, modular decomposition, encapsulation) in views.</p>
-        <h2>Examples</h2>
-        <pre class="sh_ruby">require 'erector'
+        <h2 class="clear">Examples</h2>
+        <div class="example">
+          <table>
+            <tr>              <td class="before">
+                <pre class="sh_ruby">require 'erector'
 
 class Hello &lt; Erector::Widget
   def content
@@ -240,7 +254,10 @@ end
 
 Hello.new(:target =&gt; 'world').to_html
 </pre>
-        <pre class="sh_html">&lt;html&gt;
+              </td>
+              <td class="separator"><span class="separator">&#x2192;</span></td>
+              <td class="after">
+                <pre class="sh_html">&lt;html&gt;
   &lt;head&gt;
     &lt;title&gt;Hello&lt;/title&gt;
   &lt;/head&gt;
@@ -250,11 +267,31 @@ Hello.new(:target =&gt; 'world').to_html
   &lt;/body&gt;
 &lt;/html&gt;
 </pre>
-        <pre class="sh_ruby">    include Erector::Mixin
-    erector { div &quot;love&quot;, :class =&gt; &quot;big&quot; }
-    =&gt; &quot;&lt;div class=&quot;big&quot;&gt;love&lt;/div&gt;&quot;    
+              </td>
+            </tr>
+          </table>
+          <div class="clear"></div>
+        </div>
+        <div class="example">
+          <table>
+            <tr>              <td class="before">
+                <pre class="sh_ruby">include Erector::Mixin
+erector { div &quot;love&quot;, :class =&gt; &quot;big&quot; }
 </pre>
-        <pre class="sh_ruby">require 'erector'
+              </td>
+              <td class="separator"><span class="separator">&#x2192;</span></td>
+              <td class="after">
+                <pre class="sh_html">&lt;div class=&quot;big&quot;&gt;love&lt;/div&gt;
+</pre>
+              </td>
+            </tr>
+          </table>
+          <div class="clear"></div>
+        </div>
+        <div class="example">
+          <table>
+            <tr>              <td class="before">
+                <pre class="sh_ruby">require 'erector'
 class Logo &lt; Erector::Widget
   def content
     div.logo {
@@ -267,12 +304,21 @@ class Logo &lt; Erector::Widget
   end
 end
 </pre>
-        <pre class="sh_html">&lt;div class=&quot;logo&quot;&gt;
+              </td>
+              <td class="separator"><span class="separator">&#x2192;</span></td>
+              <td class="after">
+                <pre class="sh_html">&lt;div class=&quot;logo&quot;&gt;
   &lt;a href=&quot;index.html&quot;&gt;
-    &lt;img class=&quot;logo&quot; height=&quot;323&quot; src=&quot;erector.jpg&quot; width=&quot;287&quot; /&gt;
+    &lt;img class=&quot;logo&quot; height=&quot;323&quot; 
+      src=&quot;erector.jpg&quot; width=&quot;287&quot; /&gt;
   &lt;/a&gt;
 &lt;/div&gt;
 </pre>
+              </td>
+            </tr>
+          </table>
+          <div class="clear"></div>
+        </div>
         <hr />
         <p>Current version: 0.9.0.pre1</p>
       </div>

@@ -49,15 +49,33 @@ h2 {
 }
 
 pre {
-  background-color: #EEEEFF;
+  background-color: #f4f4FF;
   border: 1px solid gray;
   padding: .5em 1em;
-  margin-right: 6em;
   overflow: auto;
+  
+  font-family: Inconsolata,
+               Consolas,
+               "Andale Mono",
+               "Lucida Console",
+               "Lucida Sans Typewriter",
+               "DejaVu Sans Mono",
+               "Bitstream Vera Sans Mono",
+               "Liberation Mono",
+               "Nimbus Mono L",
+               Monaco,
+               "Courier New",
+               Courier,
+               monospace;
+}
+
+pre.sh_html {
+  background-color: #FFFADE;
 }
 
 code {
   background-color: #F4F4FF;
+  font-size: 12pt;
 }
 
 /* cheatsheet */
@@ -92,28 +110,6 @@ table.cheatsheet {
   td {
     vertical-align: top;
   }
-}
-
-code {
-  font-size: 12pt;
-}
-
-pre {
-  font-size: 12pt;
-  font-family: Inconsolata,
-               Consolas,
-               "Andale Mono",
-               "Lucida Console",
-               "Lucida Sans Typewriter",
-               "DejaVu Sans Mono",
-               "Bitstream Vera Sans Mono",
-               "Liberation Mono",
-               "Nimbus Mono L",
-               Monaco,
-               "Courier New",
-               Courier,
-               monospace;
-
 }
 
 .separator {
@@ -263,5 +259,24 @@ div.promo {
   }
   p {
     padding: .25em .5em;
+  }
+}
+
+/* example */
+div.example {
+  position: relative; 
+  border: 2px solid darkblue;
+  margin: 1em;
+  padding: .5em;
+  
+  .before, .after {
+    margin: 1em;
+    text-align: top;
+    vertical-align: top;
+    
+    pre {
+      margin: 0;
+      width: 100%;
+    }
   }
 }

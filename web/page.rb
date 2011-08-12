@@ -4,6 +4,7 @@ require "#{here}/logo"
 require "#{here}/clickable_li"
 require "#{here}/promo"
 require "#{here}/source"
+require "#{here}/example"
 require "#{here}/fork_me"
 
 # todo: inherit from Erector::Widgets::Page
@@ -11,6 +12,7 @@ require "#{here}/fork_me"
 class Page < Erector::Widget
   needs :page_title
   include Source
+  include Example
   
   def display_name
     @page_title || self.class.name

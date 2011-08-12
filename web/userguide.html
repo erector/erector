@@ -43,14 +43,18 @@ h2 {
   text-shadow: #999 1px 1px 1px; }
 
 pre {
-  background-color: #EEEEFF;
+  background-color: #f4f4FF;
   border: 1px solid gray;
   padding: .5em 1em;
-  margin-right: 6em;
-  overflow: auto; }
+  overflow: auto;
+  font-family: Inconsolata,                Consolas,                "Andale Mono",                "Lucida Console",                "Lucida Sans Typewriter",                "DejaVu Sans Mono",                "Bitstream Vera Sans Mono",                "Liberation Mono",                "Nimbus Mono L",                Monaco,                "Courier New",                Courier,                monospace; }
+
+pre.sh_html {
+  background-color: #FFFADE; }
 
 code {
-  background-color: #F4F4FF; }
+  background-color: #F4F4FF;
+  font-size: 12pt; }
 
 /* cheatsheet */
 table.cheatsheet {
@@ -71,13 +75,6 @@ table.cheatsheet {
     font-size: 10pt; }
   table.cheatsheet td {
     vertical-align: top; }
-
-code {
-  font-size: 12pt; }
-
-pre {
-  font-size: 12pt;
-  font-family: Inconsolata,                Consolas,                "Andale Mono",                "Lucida Console",                "Lucida Sans Typewriter",                "DejaVu Sans Mono",                "Bitstream Vera Sans Mono",                "Liberation Mono",                "Nimbus Mono L",                Monaco,                "Courier New",                Courier,                monospace; }
 
 .separator {
   margin-right: 10px;
@@ -192,6 +189,20 @@ div.promo {
     margin: 2px; }
   div.promo p {
     padding: .25em .5em; }
+
+/* example */
+div.example {
+  position: relative;
+  border: 2px solid darkblue;
+  margin: 1em;
+  padding: .5em; }
+  div.example .before, div.example .after {
+    margin: 1em;
+    text-align: top;
+    vertical-align: top; }
+    div.example .before pre, div.example .after pre {
+      margin: 0;
+      width: 100%; }
 </style>
     <script src="js/sh_main.min.js"></script>
     <script src="js/sh_lang/sh_ruby.min.js"></script>
@@ -277,15 +288,15 @@ end
             </table>
             <p>Once you have a widget class, you can instantiate it and then call its 
               <code>to_html</code>
-               method. If you want to pass in 'locals' (aka 'assigns'), then do so in the constructor's default hash. This will make instance variables of the same name, with Ruby's '@' sign.</p>
+               method. If you want to pass in parameters (aka 'assigns' or 'locals' in Rails parlance), then do so in the constructor's default hash. This will make instance variables of the same name, with Ruby's '@' sign.</p>
             <pre class="sh_ruby">class Email &lt; Erector::Widget
   def content
-    a @address, :href =&gt; &quot;mailto:&quot;
+    a @address, :href =&gt; &quot;mailto:#{@address}&quot;
   end
 end
 
 &gt;&gt; Email.new(:address =&gt; &quot;foo@example.com&quot;).to_html
-=&gt; &quot;&lt;a href=&quot;mailto:foo@example.com&quot;&gt;foo@example.com&lt;/a&gt;&quot;
+=&gt; &quot;&lt;a href=\&quot;mailto:foo@example.com\&quot;&gt;foo@example.com&lt;/a&gt;&quot;
 </pre>
             <p>(If you want control over which locals are valid to be passed in to a widget, use the <a href="#needs">needs</a> macro.)</p>
             <a name="mixin"></a>

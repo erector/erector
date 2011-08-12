@@ -1,7 +1,6 @@
 require 'erector'
-dir = File.expand_path(File.dirname(__FILE__))
-
-require "#{dir}/section"
+here = File.expand_path(File.dirname(__FILE__))
+require "#{here}/section"
 
 # todo: move this to Erector::Widgets (aka ErectorSet)
 class Article < Erector::Widget

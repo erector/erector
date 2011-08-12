@@ -78,17 +78,17 @@ end
         text "Once you have a widget class, you can instantiate it and then call its "
         code "to_html"
         text " method."
-        text " If you want to pass in 'locals' (aka 'assigns'), then do so in the constructor's default hash. This will make instance variables of the same name, with Ruby's '@' sign."
+        text " If you want to pass in parameters (aka 'assigns' or 'locals' in Rails parlance), then do so in the constructor's default hash. This will make instance variables of the same name, with Ruby's '@' sign."
       end
       source :ruby, <<-PRE
 class Email < Erector::Widget
   def content
-    a @address, :href => "mailto:#{@address}"
+    a @address, :href => "mailto:\#{@address}"
   end
 end
 
 >> Email.new(:address => "foo@example.com").to_html
-=> "<a href=\"mailto:foo@example.com\">foo@example.com</a>"
+=> "<a href=\\"mailto:foo@example.com\\">foo@example.com</a>"
       PRE
       p do
         text "(If you want control over which locals are valid to be passed in to a widget, use the "
