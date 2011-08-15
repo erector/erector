@@ -77,7 +77,7 @@ module Erector
     # alias for AbstractWidget#render
     def to_html(options = {})
       raise "Erector::Widget#to_html takes an options hash, not a symbol. Try calling \"to_html(:content_method_name=> :#{options})\"" if options.is_a? Symbol
-      _render(options).to_s
+      _emit(options).to_s
     end
 
     # alias for #to_html

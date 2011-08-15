@@ -8,7 +8,7 @@ describe Erector::Convenience do
       widget = Erector.inline do
         div "foo"
       end
-      mock(widget).render({:prettyprint => true})
+      mock(widget).emit({:prettyprint => true})
       widget.to_pretty
     end
 
@@ -17,7 +17,7 @@ describe Erector::Convenience do
       widget = Erector.inline do
         div "foo"
       end
-      mock(widget).render({:prettyprint => true, :extra => "yay"})
+      mock(widget).emit({:prettyprint => true, :extra => "yay"})
       widget.to_pretty(:extra => "yay")
     end
   end

@@ -1,4 +1,4 @@
-class Section < Erector::Widget
+class Section < Erector::InlineWidget
   needs :name, :href => nil, :sections => []
   attr_reader :name, :sections
 

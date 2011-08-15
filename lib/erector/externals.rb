@@ -2,8 +2,8 @@ module Erector
 
   # Externals are a mechanism by which a widget can declare page-level
   # resources upon which it depends. They are not emitted during the widget's
-  # normal rendering process. Rather, the Erector::Widget::Page keeps track of
-  # all the widgets it renders, then goes back and inserts the proper tags for
+  # normal emiting process. Rather, the Erector::Widget::Page keeps track of
+  # all the widgets it emits, then goes back and inserts the proper tags for
   # all the externals inside its HEAD element.
   module Externals
     def self.included(base)
@@ -83,21 +83,21 @@ module Erector
       end
     end
 
-    def render_with_externals(options_to_external_renderer = {})
+    def render_with_externals(options_to_external_emiter = {})
       output = Erector::Output.new
-      self.to_a(:output => output) # render all the externals onto this new output buffer
+      self.to_a(:output => output) # emit all the externals onto this new output buffer
       nested_widgets = output.widgets.to_a
-      options_to_external_renderer = {:classes => nested_widgets}.merge(options_to_external_renderer)
-      renderer = ExternalRenderer.new(options_to_external_renderer)
-      externals = renderer.to_a(:output => output)
+      options_to_external_emiter = {:classes => nested_widgets}.merge(options_to_external_emiter)
+      emiter = ExternalRenderer.new(options_to_external_emiter)
+      externals = emiter.to_a(:output => output)
       output.to_a
     end
 
-    def render_externals(options_to_external_renderer = {})
+    def render_externals(options_to_external_emiter = {})
       output_for_externals = Erector::Output.new
       nested_widgets = output.widgets
-      externalizer = ExternalRenderer.new({:classes => nested_widgets}.merge(options_to_external_renderer))
-      externalizer._render(:output => output_for_externals)
+      externalizer = ExternalRenderer.new({:classes => nested_widgets}.merge(options_to_external_emiter))
+      externalizer._emit(:output => output_for_externals)
       output_for_externals.to_a
     end
   end

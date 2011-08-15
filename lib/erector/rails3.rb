@@ -111,6 +111,7 @@ module Erector
       end
     end
 
+    # Wrap Rails' render method, to capture output from partials etc.
     def render(*args, &block)
       captured = helpers.capture do
         helpers.concat(helpers.render(*args, &block))

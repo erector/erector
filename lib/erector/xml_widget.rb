@@ -108,7 +108,7 @@ module Erector
       rawtext "-->\n"
     end
 
-    alias_method :to_xml, :render
+    alias_method :to_xml, :emit
 
     protected
 

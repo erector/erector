@@ -4,10 +4,11 @@
 * 'scss' external type [needs tests]
 * dot-class and dot-id-bang syntax
 * expanded widget hierarchy; now XMLWidget can be used as the base for a non-HTML widget (for XML formats that may not want the HTML tags and methods)
-* 'render' method as preferred synonym for to_html (since we now support non-HTML widgets)
+* 'emit' method as preferred synonym for to_html (since we now support non-HTML widgets)
 * 'tag' macro to add your own tag types (esp. to XML widgets)
 * :snake_case option to tag (if you want the method name to be nice for a CamelCase tag name)
 * remove dependency on rake gem
+* rename 'render' method to 'emit' (to reduce confusion with Rails' "render" methods)
 
 Deprecated or Removed:
 
@@ -15,7 +16,11 @@ Deprecated or Removed:
 * element! -- removed
 * empty_element -- removed
 * all_tags -- removed (perhaps to be replaced)
-* to\_s -- use render or to\_html instead
+* to\_s -- use emit or to\_html instead
+
+== 0.8.3
+
+* Finally merged bigfix/rails3 branch - Erector now works with either Rails 2 or Rails 3 (or neither)
 
 == 0.8.2 - 2011-02-16
 

@@ -48,7 +48,7 @@ module XmlWidgetSpec
   describe Erector::XMLWidget do
 
     it "can be overriden for a plain XML doc" do
-      SampleChannel.new.render(:prettyprint => true).should == <<-XML
+      SampleChannel.new.emit(:prettyprint => true).should == <<-XML
 <?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0">
   <channel>

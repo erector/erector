@@ -85,12 +85,12 @@ module Erector
     # content_method_name:: in case you want to call a method other than
     #                       #content, pass its name in here.
     #
-    def render(options = {})
-      _render(options).to_s
+    def emit(options = {})
+      _emit(options).to_s
     end
 
-    # alias for #render
-    # @deprecated Please use {#render} instead
+    # alias for #emit
+    # @deprecated Please use {#emit} instead
     def to_s(*args)
       unless defined? @@already_warned_to_s
         $stderr.puts "Erector::Widget#to_s is deprecated. Please use #to_html instead. Called from #{caller.first}"
@@ -103,9 +103,9 @@ module Erector
     # #render / #to_html only it returns an array, for theoretical performance
     # improvements when using a Rack server (like Sinatra or Rails Metal).
     #
-    # # Options: see #render
+    # # Options: see #emit
     def to_a(options = {})
-      _render(options).to_a
+      _emit(options).to_a
     end
 
     # Template method which must be overridden by all widget subclasses.
@@ -142,7 +142,7 @@ module Erector
     # the second argument is a hash used to populate its instance variables.
     # If the first argument is an instance then the hash must be unspecified
     # (or empty). If a block is passed to this method, then it gets set as the
-    # rendered widget's block, and will be executed when that widget calls
+    # emited widget's block, and will be executed when that widget calls
     # +call_block+ or calls +super+ from inside its +content+ method.
     #
     # This is the preferred way to call one widget from inside another. This
@@ -150,12 +150,12 @@ module Erector
     # performance than using +capture+ or +to_html+.
     def widget(target, assigns = {}, options = {}, &block)
       if target.is_a? Class
-        target.new(assigns, &block)._render_via(self, options)
+        target.new(assigns, &block)._emit_via(self, options)
       else
         unless assigns.empty?
           raise "Unexpected second parameter. Did you mean to pass in assigns when you instantiated the #{target.class.to_s}?"
         end
-        target._render_via(self, options, &block)
+        target._emit_via(self, options, &block)
       end
     end
 
@@ -175,7 +175,7 @@ module Erector
     protected
     # executes this widget's #content method, which emits stuff onto the
     # output stream
-    def _render(options = {}, &block)
+    def _emit(options = {}, &block)
       @_block   = block if block
       @_parent  = options[:parent]  || parent
       @_helpers = options[:helpers] || parent
@@ -195,9 +195,9 @@ module Erector
       output
     end
 
-    # same as _render, but using a parent widget's output stream and helpers
-    def _render_via(parent, options = {}, &block)
-      _render(options.merge(:parent  => parent,
+    # same as _emit, but using a parent widget's output stream and helpers
+    def _emit_via(parent, options = {}, &block)
+      _emit(options.merge(:parent  => parent,
                             :output  => parent.output,
                             :helpers => parent.helpers), &block)
     end
