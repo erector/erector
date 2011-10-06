@@ -239,6 +239,7 @@ div.example {
               <li><a href="#tool">Erector tool: Command-line conversion to and from HTML</a></li>
               <li><a href="#pagelayoutinheritance">Page Layout Inheritance</a></li>
               <li><a href="#erectorlayoutsinrails">Erector Layouts in Rails</a></li>
+              <li><a href="#instancevariables">Instance Variables</a></li>
             </ol>
           </div>
           <div class="clear"></div>
@@ -456,6 +457,42 @@ end
 </pre>
               <p>[TODO: more explanation]</p>
             </p>
+            <a name="instancevariables"></a>
+            <h2>6. Instance Variables</h2>
+            <p>Controller instance variables (sometimes called &quot;assigns&quot;) are available to 
+the view, and also to any partial
+that gets rendered by the view, no matter how deeply-nested. This effectively
+makes controller instance variables &quot;globals&quot;. In small view hierarchies this
+probably isn't an issue, but in large ones it can make debugging and
+reasoning about the code very difficult.
+</p>
+            <p>Often, large Rails applications will assign many controller instance variables.
+Sometimes these aren't used by a view: ApplicationController might assign
+variables that are used by many, but not all, views; and various other things
+may accumulate, especially if you've been using templating systems that are
+more forgiving than Erector. Erector's &quot;needs&quot; mechanism helps enforce 
+stricter encapsulation. But if you migrate from a promiscuous Rails app
+to Erector, you're stuck using
+no &quot;needs&quot; declaration at all, because it needs to contain every assigned
+variable, or Erector will raise an exception.
+</p>
+            <p>Two widget-class-level settings can help you with these problems.</p>
+            <h3>controller_assigns_propagate_to_partials</h3>
+            <p>If you set this to true (and it's inherited through to subclasses), then any
+widget that's getting rendered as a partial will only have access to locals
+explicitly passed to it (render :partial =&gt; ..., :locals =&gt; ...). (This
+doesn't change the behavior of widgets that are explicitly rendered, as they
+don't have this issue.) This can allow for cleaner encapsulation of partials,
+as they must be passed everything they use and can't rely on controller
+instance variables.
+</p>
+            <h3>ignore_extra_controller_assigns</h3>
+            <p>If you set this to true (and it's inherited through to subclasses), however,
+then &quot;needs&quot; declarations on the widget will cause excess controller variables
+to be ignored -- they'll be unavailable to the widget (so 'needs' still means
+something), but they won't cause widget instantiation to fail, either. This
+can let a large Rails project transition to Erector more smoothly.
+</p>
           </div>
         </div>
       </div>

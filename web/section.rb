@@ -1,4 +1,9 @@
+dir = File.dirname(__FILE__)
+require "#{dir}/source"
+
 class Section < Erector::InlineWidget
+  include Source # todo: make it not an InlineWidget after all
+
   needs :name, :href => nil, :sections => []
   attr_reader :name, :sections
 

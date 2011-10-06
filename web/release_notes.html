@@ -249,7 +249,7 @@ methods)
 </p>
 </li>
 <li><p>
-&#8216;render&#8217; method as preferred synonym for to_html (since we now
+&#8216;emit&#8217; method as preferred synonym for to_html (since we now
 support non-HTML widgets)
 </p>
 </li>
@@ -264,6 +264,11 @@ CamelCase tag name)
 </li>
 <li><p>
 remove dependency on rake gem
+</p>
+</li>
+<li><p>
+rename &#8216;render&#8217; method to &#8216;emit&#8217; (to reduce
+confusion with Rails&#8217; &#8220;render&#8221; methods)
 </p>
 </li>
 </ul>
@@ -288,7 +293,19 @@ all_tags &#8212; removed (perhaps to be replaced)
 </p>
 </li>
 <li><p>
-to_s &#8212; use render or to_html instead
+to_s &#8212; use emit or to_html instead
+</p>
+</li>
+<li><p>
+join &#8212; use the :join option instead
+</p>
+</li>
+</ul>
+<h2>0.8.3</h2>
+<ul>
+<li><p>
+Finally merged bigfix/rails3 branch - Erector now works with either Rails 2
+or Rails 3 (or neither)
 </p>
 </li>
 </ul>

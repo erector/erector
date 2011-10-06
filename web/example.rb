@@ -7,7 +7,7 @@ module Example
       table {
         tr {
           td.before {
-            source :ruby, ruby
+            source_code :ruby, ruby
           }
           td.separator {
             span.separator {
@@ -15,7 +15,7 @@ module Example
             }
           }
           td.after {
-            source :html, html
+            source_code :html, html
           }
         }
       }

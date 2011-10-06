@@ -3,8 +3,11 @@ require "#{dir}/page"
 require "#{dir}/navbar"
 require "#{dir}/article"
 require "#{dir}/section"
+require "#{dir}/source"
 
 class Userguide < Page
+  include Source
+  
   def initialize
     super(:page_title => "User Guide")
   end
@@ -34,11 +37,10 @@ class Userguide < Page
             code("content"),
             " method:"
         end
-        
       table do
         tr do
           td :valign => "top" do
-            source :ruby, <<-RUBY
+            source_code :ruby, <<-RUBY
 class Hello < Erector::Widget
   def content
     html {
@@ -60,7 +62,7 @@ end
             end
           end
           td :valign => "top" do
-            source :html, <<-HTML
+            source_code :html, <<-HTML
 <html>
   <head>
     <title>Hello</title>
@@ -80,7 +82,7 @@ end
         text " method."
         text " If you want to pass in parameters (aka 'assigns' or 'locals' in Rails parlance), then do so in the constructor's default hash. This will make instance variables of the same name, with Ruby's '@' sign."
       end
-      source :ruby, <<-PRE
+      source_code :ruby, <<-PRE
 class Email < Erector::Widget
   def content
     a @address, :href => "mailto:\#{@address}"
@@ -116,7 +118,7 @@ end
         text "!"
       end
       h3 "Examples:"
-      source :ruby, <<-PRE
+      source_code :ruby, <<-PRE
 erector { a "lols", :href => "http://icanhascheezburger.com/" }
 => "<a href=\\"http://icanhascheezburger.com/\\">lols</a>"
 
@@ -206,7 +208,7 @@ end
 
       p do
         text "For example:"
-        source :ruby, <<-RUBY
+        source_code :ruby, <<-RUBY
 class MyAppPage < Erector::Widget
   def content
     html {
@@ -242,7 +244,7 @@ class MyAppPage < Erector::Widget
 end
         RUBY
 
-        source :ruby, <<-RUBY
+        source_code :ruby, <<-RUBY
 class Faq < MyAppPage
   def initialize
     super(:page_title => "FAQ")
@@ -277,7 +279,7 @@ end
        text " in the HEAD element."
       }
     end
-      
+
     a.add(:name => "Inline Widgets") do
       p do
         text "Instead of subclassing "
@@ -289,7 +291,7 @@ end
         text " and get back a widget instance you can call "
         code "to_html"
         text " on.  For example:"
-        source :ruby, <<-RUBY
+        source_code :ruby, <<-RUBY
 hello = Erector.inline do
   p "Hello, world!"
 end
@@ -302,7 +304,7 @@ hello.to_html          #=> <p>Hello, world!</p>
         text "If you're in Rails, your inline block has access to Rails helpers if you pass a helpers object to "
         code "to_html"
         text ":"
-        source :ruby, <<-RUBY
+        source_code :ruby, <<-RUBY
 image = Erector.inline do
   image_tag("/foo")
 end
@@ -338,7 +340,7 @@ image.to_html(:helpers => controller)          #=> <img alt="Foo" src="/foo" />
         text "To help this, we've added an optional feature by which your widget can declare that it "
         text "needs a certain set of named parameters to be passed in. "
         text "For example:"
-        source :ruby, <<-RUBY
+        source_code :ruby, <<-RUBY
 class Car < Erector::Widget
   needs :engine, :wheels => 4
   def content
@@ -380,7 +382,7 @@ end
       end
       p do
         text "Here's an example:"
-        source :ruby, <<-RUBY
+        source_code :ruby, <<-RUBY
 class HotSauce < Erector::Widget
   depends_on :css, "/css/tapatio.css"
   depends_on :css, "/css/salsa_picante.css", :media => "print"
@@ -399,7 +401,7 @@ end
         text " emits the "
         code "head"
         text " it'll look like this:"
-        source :ruby, <<-RUBY
+        source_code :ruby, <<-RUBY
 <head>
   <meta content="text/html;charset=UTF-8" http-equiv="content-type" />
   <title>HotPage</title>
@@ -444,7 +446,7 @@ end
       p do
         text "Instead of a string, you can also specify a File object; the file's contents get read and used as text. This allows you to inline files instead of referring to them, for potential performance benefits."
         text " Example:"
-        source :ruby, <<-RUBY
+        source_code :ruby, <<-RUBY
     depends_on :style, File.new("\#{File.dirname(__FILE__)}/../public/sample.css")
         RUBY
       end
@@ -455,7 +457,7 @@ end
       p "There are basically three cases where you can pass a block to Erector:"
       h3 "1. To an element method"
       p "This is the normal case that provides the slick HTML DSL. In the following code:"
-      source :ruby, <<-RUBY
+      source_code :ruby, <<-RUBY
 class Person < Erector::Widget
   def content
     div {
@@ -489,7 +491,7 @@ end
         code "Form"
         text " which want to wrap your HTML in some of their own tags."
       end
-      source :ruby, <<-RUBY
+      source_code :ruby, <<-RUBY
 class PersonActions < Erector::Widget
   needs :user
   def content
@@ -531,7 +533,7 @@ end
         code "input"
         text " above"
         text "), but may be confusing if you want the block to be able to call methods on the target widget. In that case the caller can declare the block to take a parameter; this parameter will point to the nested widget instance."
-        source :ruby, <<-RUBY
+        source_code :ruby, <<-RUBY
 widget(Form.new(:action => "/person/\#{@user.id}", :method => "delete") do |f|
   span "This form's method is \#{f.method}"
   input :type => "submit", :value => "Remove \#{@user.name}"
@@ -543,7 +545,7 @@ end)
         text "(As a variant of this case, note that the"
         code "widget"
         text " method can accept a widget class, hash and block, instead of an instance; in this case it will set the widget's block and this code:"
-        source :ruby, <<-RUBY
+        source_code :ruby, <<-RUBY
 widget Form, :action => "/person/\#{@user.id}", :method => "delete" do
   input :type => "submit", :value => "Remove \#{@user.name}"
 end
@@ -577,7 +579,7 @@ end
           li do
             b "Bound"
             text " local variables will still be in scope. This means you can \"smuggle in\" instance variables via local variables. For example:"
-            source :ruby, <<-RUBY
+            source_code :ruby, <<-RUBY
 local_name = @name
 Page.new do
   div local_name

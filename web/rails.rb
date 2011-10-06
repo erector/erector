@@ -3,8 +3,11 @@ require "#{dir}/page"
 require "#{dir}/navbar"
 require "#{dir}/article"
 require "#{dir}/section"
+require "#{dir}/source"
 
 class Rails < Page
+  include Source
+
   def initialize
     super(:page_title => "Erector On Rails")
   end
@@ -38,7 +41,7 @@ class Rails < Page
             "When installing this way, erector is automatically available to your Rails code (no require directive is needed)."
         }
       end
-      
+    
     a.add(:name => "Using Erector from Ruby on Rails", :href => "rails") do
       p do
         text "Your views are just ruby classes.  Your controller can either call Rails' "
@@ -49,7 +52,7 @@ class Rails < Page
       p "For example:"
 
       code "app/controllers/welcome_controller.rb:"
-      source :ruby, <<-DONE
+      source_code :ruby, <<-DONE
 class WelcomeController < ApplicationController
   def index
     render :template => 'welcome/show'
@@ -58,7 +61,7 @@ end
 DONE
 
       code "app/views/welcome/show.rb:"
-      source :ruby, <<-DONE
+      source_code :ruby, <<-DONE
 class Views::Welcome::Show < Erector::Widget
   def content
     html {
@@ -111,7 +114,7 @@ DONE
 
       p "Here's a little command-line howto for erecting a scaffold Rails app:"
 
-      source :sh, <<-DONE
+      source_code :sh, <<-DONE
 # create a toy Rails app
 rails foo
 cd foo
@@ -150,7 +153,7 @@ DONE
 
       p do
         text "For example:"
-        source :ruby, <<-DONE
+        source_code :ruby, <<-DONE
 class Views::Layouts::Page < Erector::Widget
   def content
     html {
@@ -186,7 +189,7 @@ class Views::Layouts::Page < Erector::Widget
 end
         DONE
 
-        source :ruby, <<-DONE
+        source_code :ruby, <<-DONE
 class Views::Faq::Index < Views::Layouts::Page
   def initialize
     super(:page_title => "FAQ")
@@ -238,7 +241,7 @@ end
         text "To use an Erector widget as a regular Rails layout, you'll have to set things up a bit differently."
         br
         code "app/views/layouts/application.rb:"
-        source :ruby, <<-RUBY
+        source_code :ruby, <<-RUBY
 class Views::Layouts::Application < Erector::Widget
   def content
     html {
@@ -278,7 +281,7 @@ end
         br
         code "app/views/faq/index.rb:"
         
-        source :ruby, <<-RUBY
+        source_code :ruby, <<-RUBY
 class Views::Faq::Index < Erector::Widget
   def content
     content_for :navbar do
@@ -296,7 +299,7 @@ end
       end
     end
     
-    a.add(:title => "Instance Variables") do
+    a.add(:name => "Instance Variables") do
       p <<-TEXT
 Controller instance variables (sometimes called "assigns") are available to 
 the view, and also to any partial
@@ -332,7 +335,7 @@ as they must be passed everything they use and can't rely on controller
 instance variables.
       TEXT
       
-      example
+      # example
 
       h3 "ignore_extra_controller_assigns"
       
@@ -343,8 +346,8 @@ to be ignored -- they'll be unavailable to the widget (so 'needs' still means
 something), but they won't cause widget instantiation to fail, either. This
 can let a large Rails project transition to Erector more smoothly.
       TEXT
-      
 
+    end
   }
   end
 end

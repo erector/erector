@@ -61,7 +61,7 @@ class Developers < Page
     pre "git clone git@github.com:pivotal/erector.git"
 
     p "To push your changes back to the main git repository:"
-    source :sh, <<END
+    source_code :sh, <<END
 git commit -a
 git pull
 # Deal with merge issues if any. 

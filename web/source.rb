@@ -5,8 +5,8 @@ module Source
     into.external :css, "css/sh_style.css"
   end
   
-  def source lang, source_code
+  def source_code lang, text
     sh_lang = "sh_#{lang}"
-    pre source_code, :class => sh_lang
+    pre text, :class => sh_lang
   end
 end
