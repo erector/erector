@@ -295,6 +295,55 @@ end
         
       end
     end
+    
+    a.add(:title => "Instance Variables") do
+      p <<-TEXT
+Controller instance variables (sometimes called "assigns") are available to 
+the view, and also to any partial
+that gets rendered by the view, no matter how deeply-nested. This effectively
+makes controller instance variables "globals". In small view hierarchies this
+probably isn't an issue, but in large ones it can make debugging and
+reasoning about the code very difficult.
+      TEXT
+      
+      p <<-TEXT
+Often, large Rails applications will assign many controller instance variables.
+Sometimes these aren't used by a view: ApplicationController might assign
+variables that are used by many, but not all, views; and various other things
+may accumulate, especially if you've been using templating systems that are
+more forgiving than Erector. Erector's "needs" mechanism helps enforce 
+stricter encapsulation. But if you migrate from a promiscuous Rails app
+to Erector, you're stuck using
+no "needs" declaration at all, because it needs to contain every assigned
+variable, or Erector will raise an exception.
+      TEXT
+      
+      p "Two widget-class-level settings can help you with these problems."
+      
+      h3 "controller_assigns_propagate_to_partials"
+
+      p <<-TEXT
+If you set this to true (and it's inherited through to subclasses), then any
+widget that's getting rendered as a partial will only have access to locals
+explicitly passed to it (render :partial => ..., :locals => ...). (This
+doesn't change the behavior of widgets that are explicitly rendered, as they
+don't have this issue.) This can allow for cleaner encapsulation of partials,
+as they must be passed everything they use and can't rely on controller
+instance variables.
+      TEXT
+      
+      example
+
+      h3 "ignore_extra_controller_assigns"
+      
+      p <<-TEXT
+If you set this to true (and it's inherited through to subclasses), however,
+then "needs" declarations on the widget will cause excess controller variables
+to be ignored -- they'll be unavailable to the widget (so 'needs' still means
+something), but they won't cause widget instantiation to fail, either. This
+can let a large Rails project transition to Erector more smoothly.
+      TEXT
+      
 
   }
   end

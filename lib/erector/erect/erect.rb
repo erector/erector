@@ -1,5 +1,6 @@
 require "optparse"
 require "erector/erect/erected"  # pull this out so we don't recreate the grammar every time
+require "fileutils"
 
 module Erector
 
@@ -129,7 +130,7 @@ module Erector
             widget = widget_class.new
             #todo: skip if it's missing a no-arg constructor
             dir = output_dir || File.dirname(file)
-            FileUtils.mkdir_p(dir)
+            ::FileUtils.mkdir_p(dir)
             output_file = "#{dir}/#{filename}.html"
             File.open(output_file, "w") do |f|
               f.puts widget.to_html

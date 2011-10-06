@@ -13,7 +13,7 @@ source $HOME/.rvm/scripts/rvm || exit 1
 # show available (installed) rubies (for debugging)
 rvm list
 
-for desired_ruby in ruby-1.9.2-p180 ruby-1.8.7-p334; do
+for desired_ruby in ruby-1.9.2-p290 ruby-1.8.7-p334; do
 
   echo ""
   echo "== $desired_ruby"

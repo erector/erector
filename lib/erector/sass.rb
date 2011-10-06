@@ -14,7 +14,7 @@ module Erector
       options = {:cache => false}.merge(options)
       if arg =~ /[\w\.*]\.s?css/i
         options[:filename] = arg
-      sass_text = File.read(arg)
+        sass_text = File.read(arg)
       else
         sass_text = arg
       end

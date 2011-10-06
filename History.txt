@@ -17,6 +17,7 @@ Deprecated or Removed:
 * empty_element -- removed
 * all_tags -- removed (perhaps to be replaced)
 * to\_s -- use emit or to\_html instead
+* join -- use the :join option instead
 
 == 0.8.3
 
