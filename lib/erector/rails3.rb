@@ -36,10 +36,13 @@ module Erector
       def render(widget, view, local_assigns = {}, is_partial = false, options = {})
         widget = widget.new(assigns_for(widget, view, local_assigns, is_partial)) if widget.is_a?(Class)
         view.with_output_buffer do
+          output = Output.new
+          
           # Set parent and helpers to the view and use Rails's output buffer.
           widget.to_html(options.merge(:helpers => view,
                                        :parent  => view,
-                                       :output  => Output.new(:buffer => lambda { view.output_buffer })))
+                                       :output  => output ))
+          view.output_buffer << output.to_s
         end
       end
 
