@@ -163,7 +163,7 @@ module Erector
     # output string to a string and returns it as raw text. If at all possible
     # you should avoid this method since it hurts performance, and use
     # +widget+ instead.
-    def capture
+    def capture_content
       original, @_output = output, Output.new
       yield
       original.widgets.concat(output.widgets) # todo: test!!!
@@ -171,6 +171,7 @@ module Erector
     ensure
       @_output = original
     end
+    alias_method :capture, :capture_content
 
     protected
     # executes this widget's #content method, which emits stuff onto the

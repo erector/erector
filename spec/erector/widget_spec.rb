@@ -222,6 +222,17 @@ module WidgetSpec
           end
         end.should == '<div><p>Captured Content</p><p>Nested Capture</p></div>'
       end
+
+      it "also is callable as #capture_content in case someone stole the capture name (I'm talking to you, rails 3.1)" do
+        captured = nil
+        captured2 = nil
+        erector do
+          captured = capture_content { text "A" }
+          captured2 = capture { text "A" }
+        end.should == ""
+        captured.should == "A"
+        captured2.should == "A"
+      end
     end
 
     describe '#widget' do
