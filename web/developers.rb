@@ -16,10 +16,15 @@ class Developers < Page
     h1 "Want to help develop Erector? Here's what to do."
     
     h2 "Clone Erector from Github or create your own fork:"
-    pre "git clone git://github.com/pivotal/erector.git"
+    pre <<END
+git clone git://github.com/pivotal/erector.git
+cd erector
+END
 
     h2 "Install gems:"
-    pre "sudo gem install rake rails rspec rubyforge hpricot treetop"
+    pre <<END
+bundle install
+END
 
     h2 "Run specs:"
     pre "rake"
