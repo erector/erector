@@ -119,6 +119,14 @@ describe Erector::Rails do
     end
   end
 
+  describe "#favicon_link_tag" do
+    it "renders tag" do
+      test_render do
+        favicon_link_tag("rails.ico")
+      end.should == %{<link href="/images/rails.ico" rel="shortcut icon" type="image/vnd.microsoft.icon" />}
+    end
+  end
+
   describe "#image_tag" do
     it "renders tag" do
       test_render do
