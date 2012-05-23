@@ -1,0 +1,3 @@
+# whatever...
+module RailsHelpersSpecHelper
+end

@@ -9,6 +9,7 @@
 * :snake_case option to tag (if you want the method name to be nice for a CamelCase tag name)
 * remove dependency on rake gem
 * rename 'render' method to 'emit' (to reduce confusion with Rails' "render" methods)
+* Add missing favicon_link_tag and crsf_meta_tags helper methods
 
 Deprecated or Removed:
 
