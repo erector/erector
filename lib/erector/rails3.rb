@@ -174,6 +174,7 @@ module Erector
       :auto_discovery_link_tag,
       :javascript_include_tag,
       :stylesheet_link_tag,
+      :favicon_link_tag,
       :image_tag,
 
       # ScriptaculousHelper
@@ -195,7 +196,8 @@ module Erector
       :javascript_tag,
 
       # CsrfHelper
-      :csrf_meta_tag
+      :csrf_meta_tag,
+      :csrf_meta_tags
     ].each do |method_name|
       def_simple_rails_helper(method_name)
     end
