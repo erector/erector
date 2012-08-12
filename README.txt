@@ -2,6 +2,7 @@
 
 * http://erector.rubyforge.org
 * mailto:erector@googlegroups.com
+* http://github.com/pivotal/erector
 * http://www.pivotaltracker.com/projects/482
 
 == DESCRIPTION
@@ -44,8 +45,8 @@ check it out.
 
 == REQUIREMENTS
 
-The gem depends on rake and treetop, although this is just for using the command-line tool, 
-so deployed applications won't need these. The Rails-dependent code is now separated so 
+The gem depends on rake and treetop, although this is just for using the command-line tool,
+so deployed applications won't need these. The Rails-dependent code is now separated so
 you can use Erector cleanly in a non-Rails app.
 
 == INSTALL
