@@ -1,4 +1,4 @@
-== 0.9.0
+== 0.9.0 - 2012-08-12
 
 * Finally merged bigfix/rails3 branch - Erector now works with either Rails 2 or Rails 3 (or neither)
 * 'scss' external type [needs tests]
@@ -10,6 +10,7 @@
 * remove dependency on rake gem
 * rename 'render' method to 'emit' (to reduce confusion with Rails' "render" methods)
 * Add missing favicon_link_tag and crsf_meta_tags helper methods
+* Add #capture_content as an alias for #capture, so we can call it in a Rails 3.1 app
 
 Deprecated or Removed:
 
@@ -47,7 +48,7 @@ Core:
 * delegate method_missing to parent widget
 * 'embed' and 'param' are now self-closing tags (as per browser warnings)
 * Converted Widget#context to take a params hash.
-* Exposed an Output object, with rather useful #placeholder method 
+* Exposed an Output object, with rather useful #placeholder method
 * Defined Widget#output to delegate to #parent if @parent is not already set.
 * Removed :parent param for Output#initialize in favor of a block.
 * Page#extra_widgets
@@ -149,7 +150,7 @@ Erector tool:
 and there should be an upgrade guide up on the website soon.
 * 'render' renamed to 'content'
 * widget constructor only takes one parameter, an 'assigns' hash (plus the optional default block)
-* to render one widget from inside another, use the 'widget' method (not 'render_to'). This method 
+* to render one widget from inside another, use the 'widget' method (not 'render_to'). This method
 accepts either a widget instance, or a widget class and an assigns hash.
 * 'needs' macro to declare the variables your widget accepts via the 'assigns' constructor parameter
 * Removed Widget#to_html caching, which fixed indentation issues.

@@ -47,7 +47,7 @@ pre {
   border: 1px solid gray;
   padding: .5em 1em;
   overflow: auto;
-  font-family: Inconsolata,                Consolas,                "Andale Mono",                "Lucida Console",                "Lucida Sans Typewriter",                "DejaVu Sans Mono",                "Bitstream Vera Sans Mono",                "Liberation Mono",                "Nimbus Mono L",                Monaco,                "Courier New",                Courier,                monospace; }
+  font-family: Inconsolata, Consolas, "Andale Mono", "Lucida Console", "Lucida Sans Typewriter", "DejaVu Sans Mono", "Bitstream Vera Sans Mono", "Liberation Mono", "Nimbus Mono L", Monaco, "Courier New", Courier, monospace; }
 
 pre.sh_html {
   background-color: #FFFADE; }
@@ -240,6 +240,7 @@ div.example {
               <li><a href="#pagelayoutinheritance">Page Layout Inheritance</a></li>
               <li><a href="#erectorlayoutsinrails">Erector Layouts in Rails</a></li>
               <li><a href="#instancevariables">Instance Variables</a></li>
+              <li><a href="#moreaboutrails">More about Rails</a></li>
             </ol>
           </div>
           <div class="clear"></div>
@@ -437,7 +438,7 @@ end
 
   def footer
     p &quot;Copyright (c) 2112, Rush Enterprises Inc.&quot;
-    content_for :footer if content_for? :footer    
+    content_for :footer if content_for? :footer
   end
 
 end
@@ -459,7 +460,7 @@ end
             </p>
             <a name="instancevariables"></a>
             <h2>6. Instance Variables</h2>
-            <p>Controller instance variables (sometimes called &quot;assigns&quot;) are available to 
+            <p>Controller instance variables (sometimes called &quot;assigns&quot;) are available to
 the view, and also to any partial
 that gets rendered by the view, no matter how deeply-nested. This effectively
 makes controller instance variables &quot;globals&quot;. In small view hierarchies this
@@ -470,7 +471,7 @@ reasoning about the code very difficult.
 Sometimes these aren't used by a view: ApplicationController might assign
 variables that are used by many, but not all, views; and various other things
 may accumulate, especially if you've been using templating systems that are
-more forgiving than Erector. Erector's &quot;needs&quot; mechanism helps enforce 
+more forgiving than Erector. Erector's &quot;needs&quot; mechanism helps enforce
 stricter encapsulation. But if you migrate from a promiscuous Rails app
 to Erector, you're stuck using
 no &quot;needs&quot; declaration at all, because it needs to contain every assigned
@@ -493,6 +494,9 @@ to be ignored -- they'll be unavailable to the widget (so 'needs' still means
 something), but they won't cause widget instantiation to fail, either. This
 can let a large Rails project transition to Erector more smoothly.
 </p>
+            <a name="moreaboutrails"></a>
+            <h2>7. More about Rails</h2>
+            <p>#capture_content is now an alias for #capture, so we can call it in a Rails 3.1 app</p>
           </div>
         </div>
       </div>

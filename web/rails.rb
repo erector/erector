@@ -15,7 +15,7 @@ class Rails < Page
   def promo
     "images/erectorhudson.jpeg"
   end
-  
+
   def body_content
     p do
       text "This page describes integrating Erector into ",
@@ -31,8 +31,8 @@ class Rails < Page
   def article
     Article.new(:name => "Erector On Rails").tap { |a|
       a.add(:name => "Install") do
-        p {          
-          text "To install as a gem, add ", code("gem 'erector'"), " to your ", code("Gemfile"), 
+        p {
+          text "To install as a gem, add ", code("gem 'erector'"), " to your ", code("Gemfile"),
             ", then add ", code("require 'erector'"), " to ", code("environment.rb"), "."
         }
         p  {
@@ -41,7 +41,7 @@ class Rails < Page
             "When installing this way, erector is automatically available to your Rails code (no require directive is needed)."
         }
       end
-    
+
     a.add(:name => "Using Erector from Ruby on Rails", :href => "rails") do
       p do
         text "Your views are just ruby classes.  Your controller can either call Rails' "
@@ -223,7 +223,7 @@ end
          text " in the HEAD element."
         }
       end
-      
+
       a.add(:name => "Erector Layouts in Rails") do
 
       p do
@@ -272,15 +272,15 @@ class Views::Layouts::Application < Erector::Widget
 
   def footer
     p "Copyright (c) 2112, Rush Enterprises Inc."
-    content_for :footer if content_for? :footer    
+    content_for :footer if content_for? :footer
   end
 
 end
         RUBY
-        
+
         br
         code "app/views/faq/index.rb:"
-        
+
         source_code :ruby, <<-RUBY
 class Views::Faq::Index < Erector::Widget
   def content
@@ -295,34 +295,34 @@ end
         RUBY
 
         p "[TODO: more explanation]"
-        
+
       end
     end
-    
+
     a.add(:name => "Instance Variables") do
       p <<-TEXT
-Controller instance variables (sometimes called "assigns") are available to 
+Controller instance variables (sometimes called "assigns") are available to
 the view, and also to any partial
 that gets rendered by the view, no matter how deeply-nested. This effectively
 makes controller instance variables "globals". In small view hierarchies this
 probably isn't an issue, but in large ones it can make debugging and
 reasoning about the code very difficult.
       TEXT
-      
+
       p <<-TEXT
 Often, large Rails applications will assign many controller instance variables.
 Sometimes these aren't used by a view: ApplicationController might assign
 variables that are used by many, but not all, views; and various other things
 may accumulate, especially if you've been using templating systems that are
-more forgiving than Erector. Erector's "needs" mechanism helps enforce 
+more forgiving than Erector. Erector's "needs" mechanism helps enforce
 stricter encapsulation. But if you migrate from a promiscuous Rails app
 to Erector, you're stuck using
 no "needs" declaration at all, because it needs to contain every assigned
 variable, or Erector will raise an exception.
       TEXT
-      
+
       p "Two widget-class-level settings can help you with these problems."
-      
+
       h3 "controller_assigns_propagate_to_partials"
 
       p <<-TEXT
@@ -334,11 +334,11 @@ don't have this issue.) This can allow for cleaner encapsulation of partials,
 as they must be passed everything they use and can't rely on controller
 instance variables.
       TEXT
-      
+
       # example
 
       h3 "ignore_extra_controller_assigns"
-      
+
       p <<-TEXT
 If you set this to true (and it's inherited through to subclasses), however,
 then "needs" declarations on the widget will cause excess controller variables
@@ -348,6 +348,10 @@ can let a large Rails project transition to Erector more smoothly.
       TEXT
 
     end
+
+      a.add(:name => "More about Rails") do
+        p "#capture_content is now an alias for #capture, so we can call it in a Rails 3.1 app"
+      end
   }
   end
 end
