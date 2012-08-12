@@ -209,7 +209,7 @@ end
         end
         p "Notice how this mechanism allows you to..."
         ul do
-          li "Set instance variables (e.g. title)"
+          li "Set instance variables (e.g. page_title)"
           li "Override sections completely (e.g. render_body)"
           li "Append to standard content (e.g. render_navbar)"
           li "Use standard content unchanged (e.g. render_footer)"
@@ -219,24 +219,27 @@ end
          text "Check out "
          a "Erector::Widgets::Page", :href => "/rdoc/Erector/Widgets/Page.html"
          text " for a widget that does a lot of this for you, including rendering "
-         a "externals", :href => "#externals"
+         a "externals", :href => "userguide.html#externals"
          text " in the HEAD element."
         }
-      end
-
-      a.add(:name => "Erector Layouts in Rails") do
 
       p do
         text "To use layout inheritance in Rails, declare "
         code "layout nil"
         text " in "
         code "app/controllers/application.rb"
+        text " (or in an individual controller class)"
         text " and then define your Page parent class as "
         code "class Views::Layouts::Page"
         text " in "
         code "app/views/layouts"
         text " as usual."
       end
+
+      end
+
+      a.add(:name => "Erector Widgets as Rails Layouts") do
+
       p do
         text "To use an Erector widget as a regular Rails layout, you'll have to set things up a bit differently."
         br
