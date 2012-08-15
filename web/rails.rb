@@ -88,6 +88,12 @@ DONE
         text ". You also should delete (or rename) any other view files with the same base name that might be getting in the way."
       end
 
+      p {
+        text "You must also add app to the class load path. Put this line into "
+        code "config/application.rb"
+        pre 'config.autoload_paths += %W(#{config.root}/app)'
+      }
+
       p do
         text "Currently there is only partial support for some standard Rails features like partials, layouts, assigns, and helpers. Check the "
         a "erector Google Groups mailing list", :href => "http://googlegroups.com/group/erector"
