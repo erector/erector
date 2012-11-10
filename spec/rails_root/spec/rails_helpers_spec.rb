@@ -70,26 +70,32 @@ describe Erector::Rails do
       Rails.application.routes.draw do
         root :to => "rails_helpers_spec#index"
       end
+      @app_controller         = ApplicationController.new
+      @app_controller.request = ActionController::TestRequest.new
+      def app_render(&block)
+        Erector::Rails.render(Erector.inline(&block), @app_controller.view_context)
+      end
+
     end
 
     it "can be called directly" do
-      test_render do
+      app_render do
         text root_path
       end.should == "/"
     end
 
     it "can be called via parent" do
-      test_render do
+      app_render do
         text parent.root_path
       end.should == "/"
     end
 
     it "respects default_url_options defined by the controller" do
-      def @controller.default_url_options(options = nil)
+      def @app_controller.default_url_options(options = nil)
         { :host => "www.override.com" }
       end
 
-      test_render do
+      app_render do
         text root_url
       end.should == "http://www.override.com/"
     end
