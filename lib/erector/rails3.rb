@@ -120,6 +120,15 @@ module Erector
       rawtext(captured)
     end
 
+    # Rails content_for is output if and only if no block given
+    def content_for(*args,&block)
+      if block
+        helpers.content_for(*args,&block)
+      else
+        rawtext(helpers.content_for(*args))
+      end
+    end
+
     # Delegate to non-markup producing helpers via method_missing,
     # returning their result directly.
     def method_missing(name, *args, &block)
