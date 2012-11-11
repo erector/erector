@@ -13,7 +13,7 @@ group :development do
   gem "sass"
   gem "erubis"
   gem "rdoc", "~> 3.4"
-  gem "wrong", ">=0.5.4"
+  gem "wrong", ">=0.6.2"
 end
 
 group :rails do
