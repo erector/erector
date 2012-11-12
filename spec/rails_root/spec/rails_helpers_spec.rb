@@ -2,10 +2,10 @@ require File.expand_path("#{File.dirname(__FILE__)}/rails_spec_helper")
 
 describe Erector::Rails do
   before do
-    @controller = ActionController::Base.new
+    @controller         = ActionController::Base.new
     @controller.request = ActionController::TestRequest.new
 
-    @view = ActionView::Base.new
+    @view            = ActionView::Base.new
     @view.controller = @controller
 
     def @view.protect_against_forgery?
@@ -70,26 +70,32 @@ describe Erector::Rails do
       Rails.application.routes.draw do
         root :to => "rails_helpers_spec#index"
       end
+      @app_controller         = ApplicationController.new
+      @app_controller.request = ActionController::TestRequest.new
+      def app_render(&block)
+        Erector::Rails.render(Erector.inline(&block), @app_controller.view_context)
+      end
+
     end
 
     it "can be called directly" do
-      test_render do
+      app_render do
         text root_path
       end.should == "/"
     end
 
     it "can be called via parent" do
-      test_render do
+      app_render do
         text parent.root_path
       end.should == "/"
     end
 
     it "respects default_url_options defined by the controller" do
-      def @controller.default_url_options(options = nil)
+      def @app_controller.default_url_options(options = nil)
         { :host => "www.override.com" }
       end
 
-      test_render do
+      app_render do
         text root_url
       end.should == "http://www.override.com/"
     end
@@ -151,14 +157,16 @@ describe Erector::Rails do
     end
   end
 
-  [:sortable_element,
-   :draggable_element,
-   :drop_receiving_element].each do |helper|
-    describe "##{helper}" do
-      it "renders helper js" do
-        test_render do
-          send(helper, "rails", :url => "/foo")
-        end.should =~ %r{<script type="text/javascript">.*</script>}m
+  if defined?(ActionView::Helpers::ScriptaculousHelper)
+    [:sortable_element,
+     :draggable_element,
+     :drop_receiving_element].each do |helper|
+      describe "##{helper}" do
+        it "renders helper js" do
+          test_render do
+            send(helper, "rails", :url => "/foo")
+          end.should =~ %r{<script type="text/javascript">.*</script>}m
+        end
       end
     end
   end
@@ -207,7 +215,7 @@ describe Erector::Rails do
 
     it "can be called from a nested widget" do
       test_render do
-        widget Erector.inline { form_for(:something, :url => "/test") {|form| form.text_field :my_input} }
+        widget Erector.inline { form_for(:something, :url => "/test") { |form| form.text_field :my_input } }
       end.should =~ /^<form/
     end
 
