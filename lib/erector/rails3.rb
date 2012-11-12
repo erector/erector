@@ -126,6 +126,7 @@ module Erector
         helpers.content_for(*args,&block)
       else
         rawtext(helpers.content_for(*args))
+        ''
       end
     end
 
