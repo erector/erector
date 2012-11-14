@@ -2,7 +2,7 @@ source "http://rubygems.org"
 
 gem "treetop", ">= 1.2.3"
 
-group :development do
+group :development, :test do
   gem "activesupport", "~>3"
   gem "rspec", "~>2"
   gem "rubyforge"
@@ -13,7 +13,8 @@ group :development do
   gem "sass"
   gem "erubis"
   gem "rdoc", "~>3.4"
-  gem "wrong", ">=0.5.4"
+  gem "wrong", ">=0.6.3"
+  gem "genspec"
 end
 
 group :rails do

@@ -7,10 +7,10 @@ module Erector
     attr_reader :prettyprint, :widgets, :indentation, :max_length
 
     def initialize(options = {})
-      @prettyprint = options.fetch(:prettyprint, AbstractWidget.prettyprint_default)
-      @indentation = options.fetch(:indentation, 0)
+      @prettyprint = options.fetch(:prettyprint, Erector.prettyprint)
+      @indentation = options.fetch(:indentation, Erector.indentation)
+      @max_length = options.fetch(:max_length, Erector.max_length)
       @current_line_length = 0
-      @max_length = options[:max_length]
       @widgets = []
 
       @get_buffer = if options[:buffer] and options[:buffer].respond_to? :call

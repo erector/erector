@@ -20,17 +20,18 @@ module Erector
 
     include Erector::Convenience
 
-    @@prettyprint_default = false
     def prettyprint_default
-      @@prettyprint_default
+      $stderr.puts "#{self.class}#prettyprint_default is deprecated, use Erector.prettyprint= instead"
+      Erector.prettyprint
     end
-
     def self.prettyprint_default
-      @@prettyprint_default
+      $stderr.puts "#{self.class}.prettyprint_default is deprecated, use Erector.prettyprint= instead"
+      Erector.prettyprint
     end
 
     def self.prettyprint_default=(enabled)
-      @@prettyprint_default = enabled
+      $stderr.puts "#{self.class}.prettyprint_default is deprecated, use Erector.prettyprint= instead"
+      Erector.prettyprint = enabled
     end
 
     def self.inline(*args, &block)
@@ -66,7 +67,7 @@ module Erector
     # creates a new output string (if necessary), calls this widget's #content
     # method and returns the string.
     #
-    # Options:
+    # Options (defaults set on Erector module in erector/config):
     # output:: the string (or array, or Erector::Output) to output to.
     #          Default: a new empty string
     # prettyprint:: whether Erector should add newlines and indentation.
@@ -192,7 +193,7 @@ module Erector
       end
 
       output.widgets << self.class
-      send(options[:content_method_name] || :content)
+      send(options[:content_method_name] || Erector.content_method)
       output
     end
 

@@ -87,7 +87,7 @@ describe "the 'erector' command" do
           run "BUNDLE_GEMFILE=./Gemfile bundle exec #{erector_dir}/bin/erector ./app/views/posts"
 
           FileUtils.rm_f("app/views/posts/*.erb")
-          run "BUNDLE_GEMFILE=./Gemfile bundle exec rake --trace db:migrate"
+          run "BUNDLE_GEMFILE=./Gemfile bundle exec rake db:migrate --trace"
 
           # run "script/server" # todo: launch in background; use mechanize or something to crawl it; then kill it
           # perhaps use open4?

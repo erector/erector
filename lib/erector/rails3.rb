@@ -2,17 +2,21 @@ require "erector/rails/template_handler"
 require "erector/rails/railtie"
 require "erector/rails/widget_renderer"
 require "erector/rails/form_builder"
+require "erector/rails/config"
+require "erector/rails/generators/config_generator"
 
 module Erector
   module Rails
+
+
     class << self
       def should_assign?(name, widget_class, is_partial)
         (!widget_class.ignore_extra_controller_assigns || widget_class.needs?(name)) &&
-          (!is_partial || widget_class.controller_assigns_propagate_to_partials)
+            (!is_partial || widget_class.controller_assigns_propagate_to_partials)
       end
 
       def assigns_for(widget_class, view, local_assigns, is_partial)
-        assigns = {}
+        assigns = { }
 
         view.assigns.each do |name, value|
           name = name.to_sym
@@ -33,7 +37,7 @@ module Erector
         end
       end
 
-      def render(widget, view, local_assigns = {}, is_partial = false, options = {})
+      def render(widget, view, local_assigns = { }, is_partial = false, options = { })
         widget = widget.new(assigns_for(widget, view, local_assigns, is_partial)) if widget.is_a?(Class)
         view.with_output_buffer do
           # Set parent and helpers to the view and use Rails's output buffer.
@@ -81,7 +85,7 @@ module Erector
       # something), but they won't cause widget instantiation to fail, either. This
       # can let a large Rails project transition to Erector more smoothly.
       class_attribute :ignore_extra_controller_assigns
-      self.ignore_extra_controller_assigns = true
+      self.ignore_extra_controller_assigns = Erector.ignore_extra_controller_assigns
 
       # In ERb templates, controller instance variables are available to any partial
       # that gets rendered by the view, no matter how deeply-nested. This effectively
@@ -97,7 +101,7 @@ module Erector
       # as they must be passed everything they use and can't rely on controller
       # instance variables.
       class_attribute :controller_assigns_propagate_to_partials
-      self.controller_assigns_propagate_to_partials = true
+      self.controller_assigns_propagate_to_partials = Erector.controller_assigns_propagate_to_partials
     end
 
     # We need to delegate #capture to helpers.capture, so that when
@@ -121,9 +125,9 @@ module Erector
     end
 
     # Rails content_for is output if and only if no block given
-    def content_for(*args,&block)
+    def content_for(*args, &block)
       if block
-        helpers.content_for(*args,&block)
+        helpers.content_for(*args, &block)
       else
         rawtext(helpers.content_for(*args))
         ''
@@ -147,67 +151,67 @@ module Erector
     end
 
     [
-      # UrlHelper
-      :link_to,
-      :button_to,
-      :link_to_unless_current,
-      :link_to_unless,
-      :link_to_if,
-      :mail_to,
+        # UrlHelper
+        :link_to,
+        :button_to,
+        :link_to_unless_current,
+        :link_to_unless,
+        :link_to_if,
+        :mail_to,
 
-      # FormTagHelper
-      :form_tag,
-      :select_tag,
-      :text_field_tag,
-      :label_tag,
-      :hidden_field_tag,
-      :file_field_tag,
-      :password_field_tag,
-      :text_area_tag,
-      :check_box_tag,
-      :radio_button_tag,
-      :submit_tag,
-      :image_submit_tag,
-      :field_set_tag,
+        # FormTagHelper
+        :form_tag,
+        :select_tag,
+        :text_field_tag,
+        :label_tag,
+        :hidden_field_tag,
+        :file_field_tag,
+        :password_field_tag,
+        :text_area_tag,
+        :check_box_tag,
+        :radio_button_tag,
+        :submit_tag,
+        :image_submit_tag,
+        :field_set_tag,
 
-      # FormHelper
-      :form_for,
-      :text_field,
-      :password_field,
-      :hidden_field,
-      :file_field,
-      :text_area,
-      :check_box,
-      :radio_button,
+        # FormHelper
+        :form_for,
+        :text_field,
+        :password_field,
+        :hidden_field,
+        :file_field,
+        :text_area,
+        :check_box,
+        :radio_button,
 
-      # AssetTagHelper
-      :auto_discovery_link_tag,
-      :javascript_include_tag,
-      :stylesheet_link_tag,
-      :favicon_link_tag,
-      :image_tag,
+        # AssetTagHelper
+        :auto_discovery_link_tag,
+        :javascript_include_tag,
+        :stylesheet_link_tag,
+        :favicon_link_tag,
+        :image_tag,
 
-      # ScriptaculousHelper
-      :sortable_element,
-      :sortable_element_js,
-      :text_field_with_auto_complete,
-      :draggable_element,
-      :drop_receiving_element,
+        # ScriptaculousHelper
+        :sortable_element,
+        :sortable_element_js,
+        :text_field_with_auto_complete,
+        :draggable_element,
+        :drop_receiving_element,
 
-      # PrototypeHelper
-      :link_to_remote,
-      :button_to_remote,
-      :periodically_call_remote,
-      :form_remote_tag,
-      :submit_to_remote,
-      :update_page_tag,
+        # PrototypeHelper
+        :link_to_remote,
+        :button_to_remote,
+        :periodically_call_remote,
+        :form_remote_tag,
+        :submit_to_remote,
+        :update_page_tag,
 
-      # JavaScriptHelper
-      :javascript_tag,
+        # JavaScriptHelper
+        :javascript_tag,
 
-      # CsrfHelper
-      :csrf_meta_tag,
-      :csrf_meta_tags
+        # CsrfHelper
+        :csrf_meta_tag,
+        :csrf_meta_tags
     ].each do |method_name|
       def_simple_rails_helper(method_name)
     end

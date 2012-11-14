@@ -49,27 +49,52 @@ module Erector
     end
 
     it "can be initialized with an existing string buffer" do
-      s = "foo"
+      s       = "foo"
       @output = Output.new(:buffer => s)
       @output << "bar"
       s.should == "foobar"
       @output.to_s.should == "foobar"
     end
 
-    it "accepts a prettyprint option" do
-      Erector::Output.new(:prettyprint => true).prettyprint.should be_true
-      Erector::Output.new(:prettyprint => false).prettyprint.should be_false
+    it "defaults to global prettyprint setting" do
+      with_defaults(:prettyprint => true) do
+        Erector::Output.new.prettyprint.should be_true
+      end
+      with_defaults(:prettyprint => false) do
+        Erector::Output.new.prettyprint.should be_false
+      end
     end
 
-    it "accepts the global prettyprint_default setting" do
-      old_default = Erector::Widget.new.prettyprint_default
-      begin
-        Erector::Widget.prettyprint_default = true
-        Erector::Output.new.prettyprint.should be_true
-        Erector::Widget.prettyprint_default = false
-        Erector::Output.new.prettyprint.should be_false
-      ensure
-        Erector::Widget.prettyprint_default = old_default
+    it "accepts a prettyprint option and overrides global setting" do
+      with_defaults(:prettyprint => false) do
+        Erector::Output.new(:prettyprint => true).prettyprint.should be_true
+      end
+      with_defaults(:prettyprint => true) do
+        Erector::Output.new(:prettyprint => false).prettyprint.should be_false
+      end
+    end
+
+    it "defaults to global max_length setting" do
+      with_defaults(:max_length => 80) do
+        Erector::Output.new.max_length.should == 80
+      end
+    end
+
+    it "accepts a max_length option and overrides global setting" do
+      with_defaults(:max_length => 90) do
+        Erector::Output.new(:max_length => 80).max_length.should == 80
+      end
+    end
+
+    it "defaults to global indentation setting" do
+      with_defaults(:indentation => 3) do
+        Erector::Output.new.indentation.should == 3
+      end
+    end
+
+    it "accepts a indentation option and overrides global setting" do
+      with_defaults(:indentation => 3) do
+        Erector::Output.new(:indentation => 4).indentation.should == 4
       end
     end
 
@@ -153,15 +178,15 @@ module Erector
         @output << "Now is the winter of our discontent made "
         @output << "glorious summer by this sun of York."
         @output.to_s.should ==
-                        "Now is the\n" +
-                        "winter of\n" +
-                        "our\n" +
-                        "discontent\n" +
-                        "made \n" +
-                        "glorious\n" +
-                        "summer by\n" +
-                        "this sun\n" +
-                        "of York."
+            "Now is the\n" +
+                "winter of\n" +
+                "our\n" +
+                "discontent\n" +
+                "made \n" +
+                "glorious\n" +
+                "summer by\n" +
+                "this sun\n" +
+                "of York."
       end
 
       it "preserves leading and trailing spaces" do
@@ -177,17 +202,17 @@ module Erector
         @output = Output.new(:prettyprint => true, :indentation => 1, :max_length => 10)
         @output << "Now is the winter of our discontent made glorious summer by this sun of York."
         @output.to_s.should ==
-                        "  Now is\n" +
-                        "  the\n" +
-                        "  winter\n" +
-                        "  of our\n" +
-                        "  discontent\n" +
-                        "  made\n" +
-                        "  glorious\n" +
-                        "  summer\n" +
-                        "  by this\n" +
-                        "  sun of\n" +
-                        "  York."
+            "  Now is\n" +
+                "  the\n" +
+                "  winter\n" +
+                "  of our\n" +
+                "  discontent\n" +
+                "  made\n" +
+                "  glorious\n" +
+                "  summer\n" +
+                "  by this\n" +
+                "  sun of\n" +
+                "  York."
       end
 
     end
@@ -210,7 +235,7 @@ module Erector
 
     describe "mark and rewind" do
       it "with an array buffer" do
-        a = []
+        a       = []
         @output = Output.new(:buffer => a)
         @output << "foo"
         @output.mark
@@ -235,7 +260,7 @@ module Erector
       end
 
       it "with a string buffer" do
-        s = ""
+        s       = ""
         @output = Output.new(:buffer => s)
         @output << "foo"
         @output.mark
@@ -256,7 +281,7 @@ module Erector
       end
 
       it "with a SafeBuffer buffer" do
-        s = ActiveSupport::SafeBuffer.new
+        s       = ActiveSupport::SafeBuffer.new
         @output = Output.new(:buffer => s)
         @output << "foo"
         @output.mark
@@ -277,7 +302,7 @@ module Erector
       end
 
       it "returns and accepts a value" do
-        s = ""
+        s       = ""
         @output = Output.new(:buffer => s)
         @output << "a"
         mark1 = @output.mark

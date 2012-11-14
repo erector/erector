@@ -1,6 +1,7 @@
 require "optparse"
 require "erector/erect/erected"  # pull this out so we don't recreate the grammar every time
 require "fileutils"
+require "erector/config"
 
 module Erector
 
@@ -12,8 +13,8 @@ module Erector
       @verbose = true
       @mode = :to_erector
       @output_dir = nil
-      @superklass = 'Erector::Widget'
-      @method_name = 'content'
+      @superklass = Erector.widget_class_name
+      @method_name = Erector.content_method.to_s
 
       opts = OptionParser.new do |opts|
         opts.banner = "Usage: erector [options] [file|dir]*"
