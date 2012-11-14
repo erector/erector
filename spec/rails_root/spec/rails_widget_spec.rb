@@ -65,16 +65,16 @@ describe Erector::Rails do
 
   describe "escaping" do
     it "escapes non-safe strings" do
-      erector { text "<>&" }.should == "&lt;&gt;&amp;"
+      test_render { text "<>&" }.should == "&lt;&gt;&amp;"
     end
 
     it "does not escape safe strings" do
-      erector { text "<>&".html_safe }.should == "<>&"
+      test_render { text "<>&".html_safe }.should == "<>&"
     end
 
     it "returns safe strings from capture" do
       captured = nil
-      erector do
+      test_render do
         captured = capture {}
       end
       captured.should be_html_safe
