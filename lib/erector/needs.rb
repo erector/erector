@@ -105,11 +105,11 @@ module Erector
 
     protected
 
+    # lazy fallback to global config;
+    # this way we allow dynamic resetting of global defaults
+    # as well as inheritable class-level override with class_attribute :add_accessors_for_needs
     def get_add_accessors_for_needs
-      cattr = add_accessors_for_needs
-      #$stderr.puts "def = #{Erector.add_accessors_for_needs}; cattr = #{cattr}"
-      cattr.nil? ? Erector.add_accessors_for_needs : cattr
-      #proc { |x| x || Erector.add_accessors_for_needs }.call(false)
+      add_accessors_for_needs.nil? ? Erector.add_accessors_for_needs : add_accessors_for_needs
     end
 
   end
