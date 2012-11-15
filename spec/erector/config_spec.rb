@@ -7,7 +7,8 @@ describe Erector do
       :content_method    => :content,
       :prettyprint       => false,
       :indentation       => 0,
-      :max_length        => nil
+      :max_length        => nil,
+      :add_accessors_for_needs => false
   }
 
   SETTINGS.each { |s, v| test_default(s, v) }

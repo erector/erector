@@ -74,7 +74,7 @@ describe Erector::Needs do
       thing.instance_variable_get(:@baz).should equal(2)
     }.should_not raise_error(ArgumentError)
   end
-  
+
   it "duplicates default values, so they're not accidentally shared across all instances" do
     class Thing8a < Erector::Widget
       needs :foo => []
@@ -82,7 +82,7 @@ describe Erector::Needs do
     end
     t1 = Thing8a.new
     t2 = Thing8a.new
-    assert { t1.foo.object_id != t2.foo.object_id }    
+    assert { t1.foo.object_id != t2.foo.object_id }
     assert { t1.foo == [] }
     assert { t2.foo == [] }
   end
@@ -97,10 +97,10 @@ describe Erector::Needs do
     }.should_not raise_error(ArgumentError)
   end
 
-  it "doesn't attempt to dup undupable value if there's another need passed in (bug)" do    
+  it "doesn't attempt to dup undupable value if there's another need passed in (bug)" do
     class Section < Erector::Widget
       needs :title, :href => nil, :stinky => false, :awesome => true, :answer => 42, :shoe_size => 12.5
-    end    
+    end
     Section.new(:title => "Steal Underpants").instance_variable_get(:@awesome).should == true
   end
 
@@ -122,18 +122,32 @@ describe Erector::Needs do
     lambda { Car.new(:wheels => 4) }.should raise_error(ArgumentError)
   end
 
-  it "no longer defines accessors for each of the needed variables" do
-    class NeedfulThing < Erector::Widget
-      needs :love
-    end
-    thing = NeedfulThing.new(:love => "all we need")
-    lambda {thing.love}.should raise_error(NoMethodError)
-  end
-
   it "no longer complains if you attempt to 'need' a variable whose name overlaps with an existing method" do
     class ThingWithOverlap < Erector::Widget
       needs :text
     end
     lambda { ThingWithOverlap.new(:text => "alas") }.should_not raise_error(ArgumentError)
   end
+
+  describe "add_accessors_for_needs option" do
+    it "by default no accessors for needed variables" do
+      class NeedfulThing < Erector::Widget
+        needs :love
+      end
+      thing = NeedfulThing.new(:love => "all we need")
+      lambda { thing.love }.should raise_error(NoMethodError)
+    end
+
+    it "makes needed variables accessible via attr_reader" do
+      with_defaults(:add_accessors_for_needs => true) do
+        class NeedfulThing2 < Erector::Widget
+          needs :love
+        end
+        thing = NeedfulThing2.new(:love => "all we need")
+        thing.love.should == "all we need"
+      end
+    end
+
+  end
+
 end

@@ -32,6 +32,11 @@ module Erector
   mattr_accessor :max_length
   @@max_length = nil
 
+  # add_accessors_for_needs:: attr_accessors are dynamically defined for all
+  #                           needed parameters (so they can be read as local vars)
+  mattr_accessor :add_accessors_for_needs
+  @@add_accessors_for_needs = false
+
   def setup
     yield self
   end

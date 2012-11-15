@@ -10,5 +10,6 @@ Erector.setup do |config|
   #config.prettyprint                              = false
   #config.indentation                              = 0
   #config.max_length                               = nil
+  #config.add_accessors_for_needs                  = false
 
 end
