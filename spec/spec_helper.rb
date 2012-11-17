@@ -77,9 +77,31 @@ module ExampleGroupHelpers
       old_defaults.each { |k, v| Erector.send("#{k}=", v) }
     end
   end
+
+  def with_view_paths(controller, view_paths)
+    begin
+      old_value                 = controller.view_paths
+      controller.view_paths = view_paths
+      yield
+    ensure
+      controller.view_paths = old_value
+    end
+  end
+
+  def with_layout(controller, layout)
+    begin
+      controller.layout layout
+      yield
+    ensure
+      controller.layout nil
+    end
+  end
+
 end
 
 module SpecMacros
+  include ExampleGroupHelpers
+
   def test_default(k, v)
     describe "global setting Erector.'#{k}'" do
       it "defaults to '#{v}'" do

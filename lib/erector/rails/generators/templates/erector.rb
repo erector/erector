@@ -11,5 +11,5 @@ Erector.setup do |config|
   #config.indentation                              = 0
   #config.max_length                               = nil
   #config.add_accessors_for_needs                  = false
-
+  #config.widget_class_prefix                      = "views"
 end

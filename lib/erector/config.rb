@@ -37,6 +37,11 @@ module Erector
   mattr_accessor :add_accessors_for_needs
   @@add_accessors_for_needs = false
 
+  # widget_class_prefix:: class prefix used for the default view templates
+  # used by erector converter and reused by rails template handler to guess the widget class
+  mattr_accessor :widget_class_prefix
+  @@widget_class_prefix     = "views"
+
   def setup
     yield self
   end
