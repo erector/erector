@@ -374,7 +374,7 @@ open http://localhost:3000/posts
 end
 </pre>
               <pre class="sh_ruby">class Views::Faq::Index &lt; Views::Layouts::Page
-  def initialize
+  def initialize(attr=nil)
     super(:page_title =&gt; &quot;FAQ&quot;)
   end
 
