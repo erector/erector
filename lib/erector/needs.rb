@@ -1,6 +1,9 @@
+require 'active_support/core_ext/class/attribute.rb'
+
 module Erector
   module Needs
     def self.included(base)
+      base.class_attribute :add_accessors_for_needs
       base.extend ClassMethods
     end
 
@@ -52,11 +55,11 @@ module Erector
       end
 
       def needed_variables
-        @needed_variables ||= get_needs.map{|need| need.is_a?(Hash) ? need.keys : need}.flatten
+        @needed_variables ||= get_needs.map { |need| need.is_a?(Hash) ? need.keys : need }.flatten
       end
 
       def needed_defaults
-        @needed_defaults ||= get_needs.inject({}) do |defaults, need|
+        @needed_defaults ||= get_needs.inject({ }) do |defaults, need|
           defaults = need.merge(defaults) if need.is_a? Hash
           defaults
         end
@@ -65,9 +68,14 @@ module Erector
       def needs?(name)
         needed_variables.empty? || needed_variables.include?(name)
       end
+
+      def add_accessors_for_needs!
+        attr_accessor *needed_variables
+      end
+
     end
 
-    def initialize(assigns = {})
+    def initialize(assigns = { })
       super
 
       assigned = assigns.keys
@@ -90,6 +98,19 @@ module Erector
       unless self.class.needed_variables.empty? || excess.empty?
         raise ArgumentError, "Excess parameter#{excess.size == 1 ? '' : 's'} for #{self.class.name}: #{excess.join(', ')}"
       end
+
+      self.class.add_accessors_for_needs! if get_add_accessors_for_needs
+
     end
+
+    protected
+
+    # lazy fallback to global config;
+    # this way we allow dynamic resetting of global defaults
+    # as well as inheritable class-level override with class_attribute :add_accessors_for_needs
+    def get_add_accessors_for_needs
+      add_accessors_for_needs.nil? ? Erector.add_accessors_for_needs : add_accessors_for_needs
+    end
+
   end
 end

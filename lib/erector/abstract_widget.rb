@@ -20,17 +20,19 @@ module Erector
 
     include Erector::Convenience
 
-    @@prettyprint_default = false
     def prettyprint_default
-      @@prettyprint_default
+      $stderr.puts "#{self.class}#prettyprint_default is deprecated, use Erector.prettyprint= instead"
+      Erector.prettyprint
     end
 
     def self.prettyprint_default
-      @@prettyprint_default
+      $stderr.puts "#{self.class}.prettyprint_default is deprecated, use Erector.prettyprint= instead"
+      Erector.prettyprint
     end
 
     def self.prettyprint_default=(enabled)
-      @@prettyprint_default = enabled
+      $stderr.puts "#{self.class}.prettyprint_default is deprecated, use Erector.prettyprint= instead"
+      Erector.prettyprint = enabled
     end
 
     def self.inline(*args, &block)
@@ -47,7 +49,7 @@ module Erector
       SRC
     end
 
-    def initialize(assigns = {}, &block)
+    def initialize(assigns = { }, &block)
       unless assigns.is_a? Hash
         raise ArgumentError, "Erector widgets are initialized with only a parameter hash, but you passed #{assigns.class}:#{assigns.inspect}. (Other parameters are passed to to_html, or the #widget method.)"
       end
@@ -66,7 +68,7 @@ module Erector
     # creates a new output string (if necessary), calls this widget's #content
     # method and returns the string.
     #
-    # Options:
+    # Options (defaults set on Erector module in erector/config):
     # output:: the string (or array, or Erector::Output) to output to.
     #          Default: a new empty string
     # prettyprint:: whether Erector should add newlines and indentation.
@@ -85,7 +87,7 @@ module Erector
     # content_method_name:: in case you want to call a method other than
     #                       #content, pass its name in here.
     #
-    def emit(options = {})
+    def emit(options = { })
       _emit(options).to_s
     end
 
@@ -104,7 +106,7 @@ module Erector
     # improvements when using a Rack server (like Sinatra or Rails Metal).
     #
     # # Options: see #emit
-    def to_a(options = {})
+    def to_a(options = { })
       _emit(options).to_a
     end
 
@@ -148,7 +150,7 @@ module Erector
     # This is the preferred way to call one widget from inside another. This
     # method assures that the same output string is used, which gives better
     # performance than using +capture+ or +to_html+.
-    def widget(target, assigns = {}, options = {}, &block)
+    def widget(target, assigns = { }, options = { }, &block)
       if target.is_a? Class
         target.new(assigns, &block)._emit_via(self, options)
       else
@@ -171,36 +173,37 @@ module Erector
     ensure
       @_output = original
     end
+
     alias_method :capture, :capture_content
 
     protected
     # executes this widget's #content method, which emits stuff onto the
     # output stream
-    def _emit(options = {}, &block)
-      @_block   = block if block
-      @_parent  = options[:parent]  || parent
+    def _emit(options = { }, &block)
+      @_block = block if block
+      @_parent  = options[:parent] || parent
       @_helpers = options[:helpers] || parent
       if options[:output]
         # todo: document that either :buffer or :output can be used to specify an output buffer, and deprecate :output
         if options[:output].is_a? Output
           @_output = options[:output]
         else
-          @_output = Output.new({:buffer => options[:output]}.merge(options))
+          @_output = Output.new({ :buffer => options[:output] }.merge(options))
         end
       else
         @_output = Output.new(options)
       end
 
       output.widgets << self.class
-      send(options[:content_method_name] || :content)
+      send(options[:content_method_name] || Erector.content_method)
       output
     end
 
     # same as _emit, but using a parent widget's output stream and helpers
-    def _emit_via(parent, options = {}, &block)
+    def _emit_via(parent, options = { }, &block)
       _emit(options.merge(:parent  => parent,
-                            :output  => parent.output,
-                            :helpers => parent.helpers), &block)
+                          :output  => parent.output,
+                          :helpers => parent.helpers), &block)
     end
 
     protected
@@ -212,7 +215,7 @@ module Erector
       attributes.each do |key, value|
         stringized << [key.to_s, value]
       end
-      stringized.sort{|a, b| b <=> a}
+      stringized.sort { |a, b| b <=> a }
     end
 
   end

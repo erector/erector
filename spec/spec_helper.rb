@@ -36,8 +36,8 @@ module Matchers
     end
 
     def matches?(actual)
-      @missing = @expected.reject {|e| actual.include?(e)}
-      @extra = actual.reject {|e| @expected.include?(e)}
+      @missing = @expected.reject { |e| actual.include?(e) }
+      @extra   = actual.reject { |e| @expected.include?(e) }
       @extra.empty? && @missing.empty?
     end
 
@@ -66,13 +66,66 @@ module Matchers
   end
 end
 
+module ExampleGroupHelpers
+  def with_defaults(options)
+    old_defaults = { }
+    options.each { |k, v| old_defaults[k] = Erector.send(k) }
+    begin
+      options.each { |k, v| Erector.send("#{k}=", v) }
+      yield
+    ensure
+      old_defaults.each { |k, v| Erector.send("#{k}=", v) }
+    end
+  end
+
+  def with_view_paths(controller, view_paths)
+    begin
+      old_value                 = controller.view_paths
+      controller.view_paths = view_paths
+      yield
+    ensure
+      controller.view_paths = old_value
+    end
+  end
+
+  def with_layout(controller, layout)
+    begin
+      controller.layout layout
+      yield
+    ensure
+      controller.layout nil
+    end
+  end
+
+end
+
+module SpecMacros
+  include ExampleGroupHelpers
+
+  def test_default(k, v)
+    describe "global setting Erector.'#{k}'" do
+      it "defaults to '#{v}'" do
+        Erector.send(k).should == v
+      end
+
+      it "can be reset" do
+        with_defaults(k => 'wow') do
+          Erector.send(k).should == 'wow'
+        end
+      end
+    end
+  end
+end
+
 RSpec.configure do |config|
-  include Matchers
+  config.extend SpecMacros
+  config.include Matchers
+  config.include ExampleGroupHelpers
   config.mock_with :rr
 end
 
 def capturing_output
-  output = StringIO.new
+  output  = StringIO.new
   $stdout = output
   yield
   output.string
@@ -81,7 +134,7 @@ ensure
 end
 
 def capturing_stderr
-  output = StringIO.new
+  output  = StringIO.new
   $stderr = output
   yield
   output.string
@@ -95,7 +148,7 @@ def sys(cmd, expected_status = 0)
   Open3.popen3(cmd) do |stdin, stdout, stderr, wait_thread|
     # in Ruby 1.8, wait_thread is nil :-( so just pretend the process was successful (status 0)
     exit_status = (wait_thread.value.exitstatus if wait_thread) || 0
-    output = stdout.read # + stderr.read #todo: make stderr optional
+    output      = stdout.read # + stderr.read #todo: make stderr optional
     unless expected_status.nil?
       unless exit_status == expected_status
         $stderr.puts " => #{exit_status}"

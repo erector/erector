@@ -4,6 +4,7 @@ end
 require "cgi"
 require "yaml"
 
+require "erector/config"
 require "erector/raw_string"
 require "erector/dependencies"
 require "erector/dependency"

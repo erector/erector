@@ -60,18 +60,8 @@ describe Erector::Convenience do
       end.to_text.should == "foo"
     end
 
-    def with_prettyprint_default(value = true)
-      old_default = Erector::Widget.new.prettyprint_default
-      begin
-        Erector::Widget.prettyprint_default = value
-        yield
-      ensure
-        Erector::Widget.prettyprint_default = old_default
-      end
-    end
-
     it "doesn't inherit unwanted pretty-printed whitespace (i.e. it turns off prettyprinting)" do
-      with_prettyprint_default(true) do
+      with_defaults(:prettyprint => true) do
         Erector.inline do
           div { div { div "foo" } }
         end.to_text.should == "foo"

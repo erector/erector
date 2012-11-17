@@ -118,7 +118,7 @@ END
 
   # see http://github.com/pivotal/erector/issues/#issue/5
   it "indents scripts properly" do
-    pending 
+    pending
     Erector.inline do
       html :xmlns => 'http://www.w3.org/1999/xhtml' do
         head do
@@ -173,10 +173,12 @@ $(document).ready(function(){  $(document).pngFix(); });
 
   it "can turn newlines on/off via global variable" do
     erector { br }.should == "<br />"
-    Erector::Widget.prettyprint_default = true
-    erector { br }.should == "<br />\n"
-    Erector::Widget.prettyprint_default = false
-    erector { br }.should == "<br />"
+    with_defaults(:prettyprint => true) do
+      erector { br }.should == "<br />\n"
+    end
+    with_defaults(:prettyprint => false) do
+      erector { br }.should == "<br />"
+    end
   end
 
   describe ":max_length" do
@@ -184,28 +186,28 @@ $(document).ready(function(){  $(document).pngFix(); });
       Erector.inline do
         div "the quick brown fox jumps over the lazy dog"
       end.to_html(:max_length => 20).should ==
-              "<div>the quick brown\n" +
-                      "fox jumps over the\n" +
-                      "lazy dog</div>"
+          "<div>the quick brown\n" +
+              "fox jumps over the\n" +
+              "lazy dog</div>"
     end
 
     it "preserves pretty indent" do
       Erector.inline do
         div "the quick brown fox jumps over the lazy dog"
       end.to_pretty(:max_length => 20).should ==
-              "<div>the quick brown\n" +
-                      "  fox jumps over the\n" +
-                      "  lazy dog</div>\n"
+          "<div>the quick brown\n" +
+              "  fox jumps over the\n" +
+              "  lazy dog</div>\n"
     end
 
     it "preserves raw strings" do
       Erector.inline do
         div raw("the quick <brown> fox <jumps> over the lazy dog")
       end.to_html(:max_length => 20).should ==
-              "<div>the quick\n" +
-                      "<brown> fox <jumps>\n" +
-                      "over the lazy dog\n" +
-                      "</div>"
+          "<div>the quick\n" +
+              "<brown> fox <jumps>\n" +
+              "over the lazy dog\n" +
+              "</div>"
     end
   end
 end
