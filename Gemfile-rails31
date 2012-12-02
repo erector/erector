@@ -13,7 +13,7 @@ group :development do
   gem "sass"
   gem "erubis"
   gem "rdoc", "~>3.4"
-  gem "wrong", ">=0.5.4"
+  gem "wrong", ">=0.6.3"
 end
 
 group :rails do
@@ -25,7 +25,7 @@ group :rails do
   gem 'sass-rails'
   gem 'coffee-script'
   gem 'uglifier'
-
+  gem 'coffee-rails', '~> 3.2.1' 
   gem 'jquery-rails'
   gem 'turn', :require => false
 end
