@@ -144,9 +144,16 @@ class Erector::Widgets::Page < Erector::InlineWidget
     standard_doctype(:xhtml10, :transitional)
   end
 
+  # Override to provide XML headers
+  def xml_headers
+    nil
+  end
+
   def content
     extra_head_slot = nil
-    rawtext doctype
+    xml_head = xml_headers
+    rawtext(xml_head) if xml_head
+    rawtext(doctype)
     html(html_attributes) do
       head do
         head_content
