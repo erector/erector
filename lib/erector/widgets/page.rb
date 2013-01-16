@@ -144,14 +144,14 @@ class Erector::Widgets::Page < Erector::InlineWidget
     standard_doctype(:xhtml10, :transitional)
   end
 
-  # Override to provide XML headers
-  def xml_headers
+  # Override to provide XML declaration. May be nil to indicate that there should not be a declaration.
+  def xml_declaration
     nil
   end
 
   def content
     extra_head_slot = nil
-    xml_head = xml_headers
+    xml_head = xml_declaration
     rawtext(xml_head) if xml_head
     rawtext(doctype)
     html(html_attributes) do
