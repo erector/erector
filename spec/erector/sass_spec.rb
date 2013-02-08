@@ -1,19 +1,29 @@
 require File.expand_path("#{File.dirname(__FILE__)}/../spec_helper")
 
-if !Object.const_defined?(:Sass)
-  puts "Skipping Sass spec... run 'gem install sass' to enable these tests."
-else
-  module CacheSpec
-    describe Erector::Sass do
-      include Erector::Mixin
-      it "works" do
-        erector {sass SAMPLE_SASS}.should == SAMPLE_CSS
+module CacheSpec
+  describe Erector::Sass do
+    include Erector::Mixin
+    describe 'the #sass method' do
+      it "renders SCSS by default, since that's what Sass recommends these days" do
+        erector {sass SAMPLE_SCSS}.should == SAMPLE_CSS
+      end
+      it "renders SASS with explicit option" do
+        erector {sass SAMPLE_SASS, :syntax => :sass}.should == SAMPLE_CSS
+      end
+      it "renders SCSS with explicit option" do
+        erector {sass SAMPLE_SCSS, :syntax => :scss}.should == SAMPLE_CSS
+      end
+    end
+
+    describe 'the #scss method' do
+      it "renders SCSS" do
+        erector {scss SAMPLE_SCSS}.should == SAMPLE_CSS
       end
     end
   end
 end
 
-SAMPLE_SASS =<<-SASS
+SAMPLE_SASS =<<-SASS.strip
 h1
   height: 118px
   margin-top: 1em
@@ -21,13 +31,27 @@ h1
 .tagline
   font-size: 26px
   text-align: right
-  SASS
+SASS
 
-SAMPLE_CSS ="""<style>h1 {
+SAMPLE_SCSS =<<-CSS.strip
+h1 {
+  height: 118px;
+  margin-top: 1em;
+}
+
+.tagline {
+  font-size: 26px;
+  text-align: right;
+}
+CSS
+
+SAMPLE_CSS =<<-CSS.strip
+<style>h1 {
   height: 118px;
   margin-top: 1em; }
 
 .tagline {
   font-size: 26px;
   text-align: right; }
-</style>"""
+</style>
+CSS
