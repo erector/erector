@@ -1,0 +1,36 @@
+erector thoughts
+
+- scss
+- pluggable output
+- extra
+  - css/style
+  - js/script
+  - any element calls -- make it a proper widget
+- .erector file
+  - a big method
+  - that can use "def" on the fly :-)
+  - or a class if the word "class" appears ?
+- mixing render and emit a la Nokorector
+
+- https://github.com/judofyr/parkaby
+
+
+p {
+ "foo"
+}
+
+p { 
+  [ 
+    "foo" if foo?,
+    "bar",
+  ]
+}
+
+p [
+  "foo",
+  x = 10
+  while x < 100
+    li x
+  end,
+  "bar",
+]

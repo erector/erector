@@ -116,7 +116,7 @@ END
 END
   end
 
-  # see http://github.com/pivotal/erector/issues/#issue/5
+  # see http://github.com/erector/erector/issues/#issue/5
   it "indents scripts properly" do
     pending 
     Erector.inline do

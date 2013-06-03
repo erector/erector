@@ -17,7 +17,7 @@ class Developers < Page
     
     h2 "Clone Erector from Github or create your own fork:"
     pre <<END
-git clone git://github.com/pivotal/erector.git
+git clone git://github.com/erector/erector.git
 cd erector
 END
 
@@ -40,14 +40,14 @@ END
     end
 
     h2 "Watch the github repo at "
-    url "http://github.com/pivotal/erector"
+    url "http://github.com/erector/erector"
 
     h2 "Join the Pivotal Tracker project at "
     url "http://www.pivotaltracker.com/projects/482"
     
     h2 "Basic read-only git usage"
     p "First, install git.  Then download erector using git:"
-    pre "git clone git://github.com/pivotal/erector.git"
+    pre "git clone git://github.com/erector/erector.git"
     p "Generate a diff between what you have edited and what you have run git add on:"
     pre "git diff"
     p "Generate a diff between what you have run git add on and locally committed:"

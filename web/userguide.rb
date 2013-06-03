@@ -264,9 +264,9 @@ body class="nav-bar" id="my-id"
         text " to build this Erector documentation web site that you're reading "
         b "right now."
         text " Check out the ",
-          a("'web' directory", :href => "https://github.com/pivotal/erector/tree/master/web"),
+          a("'web' directory", :href => "https://github.com/erector/erector/tree/master/web"),
           " and the ",
-          a("'web' task in the Rakefile", :href => "https://github.com/pivotal/erector/blob/77738d13fbbb3e1b8d24653ff2950dbb88b756ed/Rakefile#L74-84"),
+          a("'web' task in the Rakefile", :href => "https://github.com/erector/erector/blob/77738d13fbbb3e1b8d24653ff2950dbb88b756ed/Rakefile#L74-84"),
           " to see how it's done."
       end
     end

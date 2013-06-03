@@ -67,8 +67,8 @@ Rails:
 * Widget#h is now idempotent
 
 Bugs:
-* [bug] http://github.com/pivotal/erector/issues/#issue/5
-* [bug] http://github.com/pivotal/erector/issues/closed#issue/3
+* [bug] http://github.com/erector/erector/issues/#issue/5
+* [bug] http://github.com/erector/erector/issues/closed#issue/3
 * [bug] double-rendering
 
 

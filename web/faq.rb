@@ -68,7 +68,7 @@ class Faq < Page
           text "This very web site you're reading right now is built with Erector, using the "
           a "erector", :href => "userguide.html#tool"
           text " command-line tool. See the "
-          a "repository", :href => "http://github.com/pivotal/erector"
+          a "repository", :href => "http://github.com/erector/erector"
           text " (especially the web directory)."
         end
         

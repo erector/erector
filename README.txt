@@ -2,7 +2,7 @@
 
 * http://erector.rubyforge.org
 * mailto:erector@googlegroups.com
-* http://github.com/pivotal/erector
+* http://github.com/erector/erector
 * http://www.pivotaltracker.com/projects/482
 
 == DESCRIPTION

@@ -33,19 +33,19 @@ h1 {
   padding: .25em;
   padding-left: 0px;
   margin-left: 0px;
-  text-shadow: #999 1px 1px 1px; }
+  text-shadow: #999999 1px 1px 1px; }
 
 h2 {
   margin-top: 2em;
   background: #FEFEEB;
   padding: .25em;
-  border: 1px solid #CCC;
-  text-shadow: #999 1px 1px 1px; }
+  border: 1px solid #cccccc;
+  text-shadow: #999999 1px 1px 1px; }
 
 pre {
   background-color: #f4f4FF;
   border: 1px solid gray;
-  padding: .5em 1em;
+  padding: 0.5em 1em;
   overflow: auto;
   font-family: Inconsolata, Consolas, "Andale Mono", "Lucida Console", "Lucida Sans Typewriter", "DejaVu Sans Mono", "Bitstream Vera Sans Mono", "Liberation Mono", "Nimbus Mono L", Monaco, "Courier New", Courier, monospace; }
 
@@ -102,8 +102,8 @@ div.navbar {
   overflow-vertical: auto;
   text-align: left;
   background-color: #A3D3D1;
-  border-top: 1px solid #6881BA;
-  border-bottom: 1px solid #6881BA; }
+  border-top: 1px solid #6881ba;
+  border-bottom: 1px solid #6881ba; }
   div.navbar h3 {
     margin-bottom: .25em; }
   div.navbar ul {
@@ -120,7 +120,7 @@ div.navbar {
     margin: 8px;
     padding: 4px 6px;
     /*  font-variant: small-caps;*/
-    border: 2px solid #6881BA; }
+    border: 2px solid #6881ba; }
     div.navbar li.clickable a, div.navbar li.clickable a:visited {
       text-decoration: none;
       /*font-weight: bold;*/
@@ -163,13 +163,13 @@ div.navbar {
 
 /* article */
 div.toc {
-  margin: 1em .25em;
+  margin: 1em 0.25em;
   display: inline-block;
   border: 1px solid black; }
   div.toc h2 {
     margin: 0; }
   div.toc ul, div.toc ol {
-    padding: .25em 1em; }
+    padding: 0.25em 1em; }
 
 .promo_wrapper {
   float: right; }
@@ -181,14 +181,14 @@ div.promo_wrapper {
 
 div.promo {
   display: inline-block;
-  border: 2px solid #6881BA;
+  border: 2px solid #6881ba;
   text-align: center;
   background: white; }
   div.promo img {
     border: 2px solid black;
     margin: 2px; }
   div.promo p {
-    padding: .25em .5em; }
+    padding: 0.25em 0.5em; }
 
 /* example */
 div.example {
@@ -210,7 +210,7 @@ div.example {
     <script src="js/sh_lang/sh_sh.min.js"></script>
     <link href="css/sh_style.css" rel="stylesheet" type="text/css" />
   </head>
-  <body onload="sh_highlightDocument();">    <a href="http://github.com/pivotal/erector"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://a248.e.akamai.net/assets.github.com/img/30f550e0d38ceb6ef5b81500c64d970b7fb0f028/687474703a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6f72616e67655f6666373630302e706e67" alt="Fork me on GitHub"></a>
+  <body onload="sh_highlightDocument();">    <a href="http://github.com/erector/erector"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://a248.e.akamai.net/assets.github.com/img/30f550e0d38ceb6ef5b81500c64d970b7fb0f028/687474703a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6f72616e67655f6666373630302e706e67" alt="Fork me on GitHub"></a>
     <div class="top">      <div class="logo"><a href="index.html"><img src="erector-logo.png" /></a></div>
     </div>
     <div class="navbar">      <ul class="clickable">
@@ -234,236 +234,120 @@ div.example {
             <th>output</th>
           </tr>
           <tr>
-            <td width="30%">
-              <code>element('foo')</code>
-            </td>
-            <td>
-              <code>&lt;foo&gt;&lt;/foo&gt;</code>
-            </td>
+            <td width="30%"><code>element('foo')</code></td>
+            <td><code>&lt;foo&gt;&lt;/foo&gt;</code></td>
           </tr>
           <tr>
-            <td width="30%">
-              <code>empty_element('foo')</code>
-            </td>
-            <td>
-              <code>&lt;foo /&gt;</code>
-            </td>
+            <td width="30%"><code>empty_element('foo')</code></td>
+            <td><code>&lt;foo /&gt;</code></td>
           </tr>
           <tr>
-            <td width="30%">
-              <code>html</code>
-            </td>
-            <td>
-              <code>&lt;html&gt;&lt;/html&gt;</code>
-              &#160;&#160;&#x2026;<i>and likewise for all non-deprecated elements from the HTML 4.0.1 spec</i></td>
+            <td width="30%"><code>html</code></td>
+            <td><code>&lt;html&gt;&lt;/html&gt;</code>&#160;&#160;&#x2026;<i>and likewise for all non-deprecated elements from the HTML 4.0.1 spec</i></td>
           </tr>
           <tr>
-            <td width="30%">
-              <code>b 'foo'</code>
-            </td>
-            <td>
-              <code>&lt;b&gt;foo&lt;/b&gt;</code>
-            </td>
+            <td width="30%"><code>b 'foo'</code></td>
+            <td><code>&lt;b&gt;foo&lt;/b&gt;</code></td>
           </tr>
           <tr>
-            <td width="30%">
-              <code>div { b 'foo' }</code>
-            </td>
-            <td>
-              <code>&lt;div&gt;&lt;b&gt;foo&lt;/b&gt;&lt;/div&gt;</code>
-            </td>
+            <td width="30%"><code>div { b 'foo' }</code></td>
+            <td><code>&lt;div&gt;&lt;b&gt;foo&lt;/b&gt;&lt;/div&gt;</code></td>
           </tr>
           <tr>
-            <td width="30%">
-              <code>text 'foo'</code>
-            </td>
-            <td>
-              <code>foo</code>
-            </td>
+            <td width="30%"><code>text 'foo'</code></td>
+            <td><code>foo</code></td>
           </tr>
           <tr>
-            <td width="30%">
-              <code>text '&amp;&lt;&gt;'</code>
-            </td>
-            <td>
-              <code>&amp;amp;&amp;lt;&amp;gt;</code>
-              &#160;&#160;&#x2026;<i>all normal text is HTML escaped, which is what you generally want, especially if the text came from the user or a database</i></td>
+            <td width="30%"><code>text '&amp;&lt;&gt;'</code></td>
+            <td><code>&amp;amp;&amp;lt;&amp;gt;</code>&#160;&#160;&#x2026;<i>all normal text is HTML escaped, which is what you generally want, especially if the text came from the user or a database</i></td>
           </tr>
           <tr>
-            <td width="30%">
-              <code>text raw('&amp;&lt;&gt;')</code>
-            </td>
-            <td>
-              <code>&amp;&lt;&gt;</code>
-              &#160;&#160;&#x2026;<i>raw text escapes being escaped</i></td>
+            <td width="30%"><code>text raw('&amp;&lt;&gt;')</code></td>
+            <td><code>&amp;&lt;&gt;</code>&#160;&#160;&#x2026;<i>raw text escapes being escaped</i></td>
           </tr>
           <tr>
-            <td width="30%">
-              <code>rawtext('&amp;&lt;&gt;')</code>
-            </td>
-            <td>
-              <code>&amp;&lt;&gt;</code>
-              &#160;&#160;&#x2026;<i>alias for text(raw())</i></td>
+            <td width="30%"><code>rawtext('&amp;&lt;&gt;')</code></td>
+            <td><code>&amp;&lt;&gt;</code>&#160;&#160;&#x2026;<i>alias for text(raw())</i></td>
           </tr>
           <tr>
-            <td width="30%">
-              <code>text!('&amp;&lt;&gt;')</code>
-            </td>
-            <td>
-              <code>&amp;&lt;&gt;</code>
-              &#160;&#160;&#x2026;<i>another alias for text(raw())</i></td>
+            <td width="30%"><code>text!('&amp;&lt;&gt;')</code></td>
+            <td><code>&amp;&lt;&gt;</code>&#160;&#160;&#x2026;<i>another alias for text(raw())</i></td>
           </tr>
           <tr>
-            <td width="30%">
-              <code>div { text 'foo' }</code>
-            </td>
-            <td>
-              <code>&lt;div&gt;foo&lt;/div&gt;</code>
-            </td>
+            <td width="30%"><code>div { text 'foo' }</code></td>
+            <td><code>&lt;div&gt;foo&lt;/div&gt;</code></td>
           </tr>
           <tr>
-            <td width="30%">
-              <code>div 'foo'</code>
-            </td>
-            <td>
-              <code>&lt;div&gt;foo&lt;/div&gt;</code>
-            </td>
+            <td width="30%"><code>div 'foo'</code></td>
+            <td><code>&lt;div&gt;foo&lt;/div&gt;</code></td>
           </tr>
           <tr>
-            <td width="30%">
-              <code>foo = 'bar'<br/>div foo</code>
-            </td>
-            <td>
-              <code>&lt;div&gt;bar&lt;/div&gt;</code>
-            </td>
+            <td width="30%"><code>foo = 'bar'<br/>div foo</code></td>
+            <td><code>&lt;div&gt;bar&lt;/div&gt;</code></td>
           </tr>
           <tr>
-            <td width="30%">
-              <code>a(:href =&gt; 'foo.div')</code>
-            </td>
-            <td>
-              <code>&lt;a href=&quot;foo.div&quot;&gt;&lt;/a&gt;</code>
-            </td>
+            <td width="30%"><code>a(:href =&gt; 'foo.div')</code></td>
+            <td><code>&lt;a href=&quot;foo.div&quot;&gt;&lt;/a&gt;</code></td>
           </tr>
           <tr>
-            <td width="30%">
-              <code>a(:href =&gt; 'q?a&amp;b')</code>
-            </td>
-            <td>
-              <code>&lt;a href=&quot;q?a&amp;amp;b&quot;&gt;&lt;/a&gt;</code>
-              &#160;&#160;&#x2026;<i>attributes are escaped like text is</i></td>
+            <td width="30%"><code>a(:href =&gt; 'q?a&amp;b')</code></td>
+            <td><code>&lt;a href=&quot;q?a&amp;amp;b&quot;&gt;&lt;/a&gt;</code>&#160;&#160;&#x2026;<i>attributes are escaped like text is</i></td>
           </tr>
           <tr>
-            <td width="30%">
-              <code>a(:href =&gt; raw('&amp;amp;'))</code>
-            </td>
-            <td>
-              <code>&lt;a href=&quot;&amp;amp;&quot;&gt;&lt;/a&gt;</code>
-              &#160;&#160;&#x2026;<i>raw strings are never escaped, even in attributes</i></td>
+            <td width="30%"><code>a(:href =&gt; raw('&amp;amp;'))</code></td>
+            <td><code>&lt;a href=&quot;&amp;amp;&quot;&gt;&lt;/a&gt;</code>&#160;&#160;&#x2026;<i>raw strings are never escaped, even in attributes</i></td>
           </tr>
           <tr>
-            <td width="30%">
-              <code>a 'foo', :href =&gt; &quot;bar&quot;</code>
-            </td>
-            <td>
-              <code>&lt;a href=&quot;bar&quot;&gt;foo&lt;/a&gt;</code>
-            </td>
+            <td width="30%"><code>a 'foo', :href =&gt; &quot;bar&quot;</code></td>
+            <td><code>&lt;a href=&quot;bar&quot;&gt;foo&lt;/a&gt;</code></td>
           </tr>
           <tr>
-            <td width="30%">
-              <code>text nbsp('Save Doc')</code>
-            </td>
-            <td>
-              <code>Save&amp;#160;Doc</code>
-              &#160;&#160;&#x2026;<i>turns spaces into non-breaking spaces</i></td>
+            <td width="30%"><code>text nbsp('Save Doc')</code></td>
+            <td><code>Save&amp;#160;Doc</code>&#160;&#160;&#x2026;<i>turns spaces into non-breaking spaces</i></td>
           </tr>
           <tr>
-            <td width="30%">
-              <code>text nbsp</code>
-            </td>
-            <td>
-              <code>&amp;#160;</code>
-              &#160;&#160;&#x2026;<i>a single non-breaking space</i></td>
+            <td width="30%"><code>text nbsp</code></td>
+            <td><code>&amp;#160;</code>&#160;&#160;&#x2026;<i>a single non-breaking space</i></td>
           </tr>
           <tr>
-            <td width="30%">
-              <code>text character(160)</code>
-            </td>
-            <td>
-              <code>&amp;#xa0;</code>
-              &#160;&#160;&#x2026;<i>output a character given its unicode code point</i></td>
+            <td width="30%"><code>text character(160)</code></td>
+            <td><code>&amp;#xa0;</code>&#160;&#160;&#x2026;<i>output a character given its unicode code point</i></td>
           </tr>
           <tr>
-            <td width="30%">
-              <code>text character(:right-arrow)</code>
-            </td>
-            <td>
-              <code>&amp;#x2192;</code>
-              &#160;&#160;&#x2026;<i>output a character given its unicode name</i></td>
+            <td width="30%"><code>text character(:right-arrow)</code></td>
+            <td><code>&amp;#x2192;</code>&#160;&#160;&#x2026;<i>output a character given its unicode name</i></td>
           </tr>
           <tr>
-            <td width="30%">
-              <code>instruct</code>
-            </td>
-            <td>
-              <code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</code>
-            </td>
+            <td width="30%"><code>instruct</code></td>
+            <td><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</code></td>
           </tr>
           <tr>
-            <td width="30%">
-              <code>comment 'foo'</code>
-            </td>
-            <td>
-              <code>&lt;!--foo--&gt;</code>
-            </td>
+            <td width="30%"><code>comment 'foo'</code></td>
+            <td><code>&lt;!--foo--&gt;</code></td>
           </tr>
           <tr>
-            <td width="30%">
-              <code>url 'http://example.com'</code>
-            </td>
-            <td>
-              <code>&lt;a href=&quot;http://example.com&quot;&gt;http://example.com&lt;/a&gt;</code>
-            </td>
+            <td width="30%"><code>url 'http://example.com'</code></td>
+            <td><code>&lt;a href=&quot;http://example.com&quot;&gt;http://example.com&lt;/a&gt;</code></td>
           </tr>
           <tr>
-            <td width="30%">
-              <code>capture { div }</code>
-            </td>
-            <td>
-              <code>&lt;div&gt;&lt;/div&gt;</code>
-              &#160;&#160;&#x2026;<i>returns the block as a string, doesn't add it to the current output stream</i></td>
+            <td width="30%"><code>capture { div }</code></td>
+            <td><code>&lt;div&gt;&lt;/div&gt;</code>&#160;&#160;&#x2026;<i>returns the block as a string, doesn't add it to the current output stream</i></td>
           </tr>
           <tr>
-            <td width="30%">
-              <code>div :class =&gt; ['a', 'b']</code>
-            </td>
-            <td>
-              <code>&lt;div class=&quot;a b&quot;&gt;&lt;/div&gt;</code>
-            </td>
+            <td width="30%"><code>div :class =&gt; ['a', 'b']</code></td>
+            <td><code>&lt;div class=&quot;a b&quot;&gt;&lt;/div&gt;</code></td>
           </tr>
           <tr>
-            <td width="30%">
-              <code>javascript(<br/>'if (x &lt; y &amp;&amp; x &gt; z) <br/>alert(&quot;don't stop&quot;);)</code>
-            </td>
-            <td>
-              <code>&lt;script type=&quot;text/javascript&quot;&gt;<br/>// &lt;![CDATA[<br/>if (x &lt; y &amp;&amp; x &gt; z) alert(&quot;don't stop&quot;);<br/>// ]]&gt;<br/>&lt;/script&gt;</code>
-            </td>
+            <td width="30%"><code>javascript(<br/>'if (x &lt; y &amp;&amp; x &gt; z) <br/>alert(&quot;don't stop&quot;);)</code></td>
+            <td><code>&lt;script type=&quot;text/javascript&quot;&gt;<br/>// &lt;![CDATA[<br/>if (x &lt; y &amp;&amp; x &gt; z) alert(&quot;don't stop&quot;);<br/>// ]]&gt;<br/>&lt;/script&gt;</code></td>
           </tr>
           <tr>
-            <td width="30%">
-              <code>jquery '$(&quot;p&quot;).wrap(&quot;&lt;div&gt;&lt;/div&gt;&quot;);'</code>
-            </td>
-            <td>
-              <code>&lt;script type=&quot;text/javascript&quot;&gt;<br/>// &lt;![CDATA[<br/>jQuery(document).ready(function($){<br/>  $(&quot;p&quot;).wrap(&quot;&lt;div&gt;&lt;/div&gt;&quot;);<br/>});<br/>// ]]&gt;<br/>&lt;/script&gt;</code>
-            </td>
+            <td width="30%"><code>jquery '$(&quot;p&quot;).wrap(&quot;&lt;div&gt;&lt;/div&gt;&quot;);'</code></td>
+            <td><code>&lt;script type=&quot;text/javascript&quot;&gt;<br/>// &lt;![CDATA[<br/>jQuery(document).ready(function($){<br/>  $(&quot;p&quot;).wrap(&quot;&lt;div&gt;&lt;/div&gt;&quot;);<br/>});<br/>// ]]&gt;<br/>&lt;/script&gt;</code></td>
           </tr>
           <tr>
-            <td width="30%">
-              <code>join([widget1, widget2],<br/> separator)</code>
-            </td>
-            <td>
-              <code></code>
-              &#160;&#160;&#x2026;<i>See examples/join.rb for more explanation</i></td>
+            <td width="30%"><code>join([widget1, widget2],<br/> separator)</code></td>
+            <td><code></code>&#160;&#160;&#x2026;<i>See examples/join.rb for more explanation</i></td>
           </tr>
         </table>
         <p>Lots more documentation is at the <a href="rdoc/index.html">RDoc API pages</a> especially for <a href="rdoc/classes/Erector/Widget.html">Erector::Widget</a> so don't go saying we never wrote you nothin'.</p>
