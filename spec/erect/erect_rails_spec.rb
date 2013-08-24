@@ -42,9 +42,9 @@ unless Dir.respond_to?(:mktmpdir)
   end
 end
 
-# Note: this is *not* inside the rails_root since we're not testing 
+# Note: this is *not* inside the rails_root since we're not testing
 # Erector inside a rails app. We're testing that we can use the command-line
-# converter tool on a newly generated scaffold app (like we brag about in the 
+# converter tool on a newly generated scaffold app (like we brag about in the
 # user guide).
 #
 describe "the 'erector' command" do
@@ -87,7 +87,7 @@ describe "the 'erector' command" do
           run "BUNDLE_GEMFILE=./Gemfile bundle exec #{erector_dir}/bin/erector ./app/views/posts"
 
           FileUtils.rm_f("app/views/posts/*.erb")
-          run "BUNDLE_GEMFILE=./Gemfile bundle exec rake --trace db:migrate"
+          run "BUNDLE_GEMFILE=./Gemfile bundle exec rake db:migrate"
 
           # run "script/server" # todo: launch in background; use mechanize or something to crawl it; then kill it
           # perhaps use open4?

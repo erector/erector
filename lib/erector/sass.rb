@@ -8,6 +8,10 @@ module Erector
   # Current support is barebones. Please offer suggestions (or better
   # yet, patches) for whether and how to support, e.g., caching,
   # loading from files, precompilation, etc.
+  #
+  # It seems to me that SASS/SCSS should be part of the Page widget, which
+  # would allow all the little style snippets to be compiled together
+  # and appear in the document HEAD.
   module Sass
     def sass(arg, options = {})
       require "sass"
@@ -20,7 +24,7 @@ module Erector
       end
       style raw(::Sass.compile(sass_text, options))
     end
-    
+
     def scss(arg, options = {})
       sass arg, {:syntax => :scss}.merge(options)
     end

@@ -1,15 +1,11 @@
-begin
- require "active_support/inflector"
-
- module Erector
+module Erector
   module Widgets #:nodoc:
-
-
-    # The Table widget provides the ability to render a table from a 
+    # The Table widget provides the ability to render a table from a
     # list of objects (one for each row).
     #
     # Because the default for the column titles utilizes the ActiveSupport
-    # Inflector#titleize method, this widget requires active_support to be loaded.
+    # Inflector#titleize method, this widget requires active_support to be loaded
+    # (or some other gem that adds `titleize` to String).
     #
     #   class UsersTable < Erector::Widgets::Table
     #     column :first_name
@@ -26,7 +22,7 @@ begin
         # that the user sees) and a block which renders the cell given
         # a row object.  If the block is not specified, the cell contains
         # the result of calling a method whose name is id.
-        # 
+        #
         # The name can be a string or a proc.
         def column(id, name=id.to_s.titleize, &cell_proc)
           cell_proc ||= proc {|object| text object.__send__(id)}
@@ -98,7 +94,4 @@ begin
       end
     end
   end
- end
-rescue LoadError => e
-  $stderr.puts "Erector::Widgets::Table requires active_support"
 end

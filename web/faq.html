@@ -33,19 +33,19 @@ h1 {
   padding: .25em;
   padding-left: 0px;
   margin-left: 0px;
-  text-shadow: #999 1px 1px 1px; }
+  text-shadow: #999999 1px 1px 1px; }
 
 h2 {
   margin-top: 2em;
   background: #FEFEEB;
   padding: .25em;
-  border: 1px solid #CCC;
-  text-shadow: #999 1px 1px 1px; }
+  border: 1px solid #cccccc;
+  text-shadow: #999999 1px 1px 1px; }
 
 pre {
   background-color: #f4f4FF;
   border: 1px solid gray;
-  padding: .5em 1em;
+  padding: 0.5em 1em;
   overflow: auto;
   font-family: Inconsolata, Consolas, "Andale Mono", "Lucida Console", "Lucida Sans Typewriter", "DejaVu Sans Mono", "Bitstream Vera Sans Mono", "Liberation Mono", "Nimbus Mono L", Monaco, "Courier New", Courier, monospace; }
 
@@ -102,8 +102,8 @@ div.navbar {
   overflow-vertical: auto;
   text-align: left;
   background-color: #A3D3D1;
-  border-top: 1px solid #6881BA;
-  border-bottom: 1px solid #6881BA; }
+  border-top: 1px solid #6881ba;
+  border-bottom: 1px solid #6881ba; }
   div.navbar h3 {
     margin-bottom: .25em; }
   div.navbar ul {
@@ -120,7 +120,7 @@ div.navbar {
     margin: 8px;
     padding: 4px 6px;
     /*  font-variant: small-caps;*/
-    border: 2px solid #6881BA; }
+    border: 2px solid #6881ba; }
     div.navbar li.clickable a, div.navbar li.clickable a:visited {
       text-decoration: none;
       /*font-weight: bold;*/
@@ -163,13 +163,13 @@ div.navbar {
 
 /* article */
 div.toc {
-  margin: 1em .25em;
+  margin: 1em 0.25em;
   display: inline-block;
   border: 1px solid black; }
   div.toc h2 {
     margin: 0; }
   div.toc ul, div.toc ol {
-    padding: .25em 1em; }
+    padding: 0.25em 1em; }
 
 .promo_wrapper {
   float: right; }
@@ -181,14 +181,14 @@ div.promo_wrapper {
 
 div.promo {
   display: inline-block;
-  border: 2px solid #6881BA;
+  border: 2px solid #6881ba;
   text-align: center;
   background: white; }
   div.promo img {
     border: 2px solid black;
     margin: 2px; }
   div.promo p {
-    padding: .25em .5em; }
+    padding: 0.25em 0.5em; }
 
 /* example */
 div.example {
@@ -210,7 +210,7 @@ div.example {
     <script src="js/sh_lang/sh_sh.min.js"></script>
     <link href="css/sh_style.css" rel="stylesheet" type="text/css" />
   </head>
-  <body onload="sh_highlightDocument();">    <a href="http://github.com/pivotal/erector"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://a248.e.akamai.net/assets.github.com/img/30f550e0d38ceb6ef5b81500c64d970b7fb0f028/687474703a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6f72616e67655f6666373630302e706e67" alt="Fork me on GitHub"></a>
+  <body onload="sh_highlightDocument();">    <a href="http://github.com/erector/erector"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://a248.e.akamai.net/assets.github.com/img/30f550e0d38ceb6ef5b81500c64d970b7fb0f028/687474703a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6f72616e67655f6666373630302e706e67" alt="Fork me on GitHub"></a>
     <div class="top">      <div class="logo"><a href="index.html"><img src="erector-logo.png" /></a></div>
     </div>
     <div class="navbar">      <ul class="clickable">
@@ -273,7 +273,7 @@ div.example {
             </ul>
             <a name="wherearesomeexamples"></a>
             <h2>4. Where are some examples?</h2>
-            <p>This very web site you're reading right now is built with Erector, using the <a href="userguide.html#tool">erector</a> command-line tool. See the <a href="http://github.com/pivotal/erector">repository</a> (especially the web directory).</p>
+            <p>This very web site you're reading right now is built with Erector, using the <a href="userguide.html#tool">erector</a> command-line tool. See the <a href="http://github.com/erector/erector">repository</a> (especially the web directory).</p>
             <p>We also have several examples checked in to the repository in the examples directory.</p>
             <p>At RailsConf 2009 Alex whipped up a simple Sinatra + Erector + ActiveRecord webapp called <a href="http://github.com/alexch/vegas">Vegas</a>. Caveat lector.</p>
             <p>Currently we don't know of any open-source projects built with Erector so we can't show you working source code for a full Erector webapp. And client confidentiality keeps us from saying which of the <a href="http://pivotallabs.com/clients">Pivotal Labs</a> project were built with Erector. But trust us, they're out there.</p>
@@ -299,11 +299,7 @@ div.example {
             <p><a href="http://github.com/alexch/erector-benchmark">Initial benchmarking tests</a> show that Erector is about 2x as fast as ERB and 4x as fast as HAML under typical conditions.
               <p>The main architectural benefits of Erector from a performance standpoint are:</p>
               <p><b>Parsed by Ruby.</b> Since Erector widgets are Ruby classes, the native-code Ruby interpreter compiles them during classload time, not a parser written <b>in</b> Ruby at runtime.</p>
-              <p><b>Append &gt; Copy. </b> Many templating systems are casual about whether a particular operation <b>returns</b> a string, or <b>appends</b> to an output stream. This can lead to wasteful copying and reallocation. In Erector, all operations concatenate their result to a single output buffer, even when calling nested widgets (via the
-                <code>widget</code>
-                 method). If you choose to, you can use Erector's 
-                <code>capture</code>
-                 method for explicit string conversion, but by default we use the faster way.</p>
+              <p><b>Append &gt; Copy. </b> Many templating systems are casual about whether a particular operation <b>returns</b> a string, or <b>appends</b> to an output stream. This can lead to wasteful copying and reallocation. In Erector, all operations concatenate their result to a single output buffer, even when calling nested widgets (via the<code>widget</code> method). If you choose to, you can use Erector's <code>capture</code> method for explicit string conversion, but by default we use the faster way.</p>
               <p><b>Methods, not Partials.</b> In ERB and HAML, modular decomposition is accomplished by separating reused code into separate template files. In addition to being aesthetically problematic, encouraging you to move related code into separate places, it also introduces a performance problem, since every partial may be rendered into a string. (Although sometimes it's not, which is just weird.)</p>
             </p>
             <p>We should point out, of course, that the choice of templating engines by itself is not what will make your application scalable. The effectiveness of your caching policy will dwarf that of your rendering engine in nearly all cases. But it's fun to know we've got a pretty fast horse in this particular race...</p>

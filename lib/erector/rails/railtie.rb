@@ -7,5 +7,7 @@ module Erector
     # works. For now, you must add the following to config/application.rb:
     #
     #     config.autoload_paths += %W(#{config.root}/app)
+    #
+    # (Maybe ::Rails.configuration.autoload_paths will work?)
   end
 end

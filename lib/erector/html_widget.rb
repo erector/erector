@@ -77,25 +77,25 @@ module Erector
     tag 'param', :self_closing
 
     tag 'a', :inline
-    tag 'abbr'
-    tag 'acronym'
+    tag 'abbr', :inline
+    tag 'acronym', :inline
     tag 'address'
     tag 'article'
     tag 'aside'
     tag 'audio'
 
     tag 'b', :inline
-    tag 'bdo'
-    tag 'big'
+    tag 'bdo', :inline
+    tag 'big', :inline
     tag 'blockquote'
     tag 'body'
     tag 'button', :inline
 
     tag 'canvas'
-    tag 'caption'
+    tag 'caption', :inline
     tag 'center'
-    tag 'cite'
-    tag 'code'
+    tag 'cite', :inline
+    tag 'code', :inline
     tag 'colgroup'
     tag 'command'
 
@@ -103,13 +103,13 @@ module Erector
     tag 'dd'
     tag 'del'
     tag 'details'
-    tag 'dfn'
+    tag 'dfn', :inline
     tag 'dialog'
     tag 'div'
     tag 'dl'
-    tag 'dt'
+    tag 'dt', :inline
 
-    tag 'em'
+    tag 'em', :inline
 
     tag 'fieldset'
     tag 'figure'
@@ -132,9 +132,9 @@ module Erector
     tag 'iframe'
     tag 'ins'
     tag 'keygen'
-    tag 'kbd'
-    tag 'label'
-    tag 'legend'
+    tag 'kbd', :inline
+    tag 'label', :inline
+    tag 'legend', :inline
     tag 'li'
 
     tag 'map'
@@ -154,13 +154,13 @@ module Erector
     tag 'pre'
     tag 'progress'
 
-    tag 'q'
+    tag 'q', :inline
     tag 'ruby'
     tag 'rt'
     tag 'rp'
     tag 's'
 
-    tag 'samp'
+    tag 'samp', :inline
     tag 'script'
     tag 'section'
     tag 'select', :inline
@@ -169,10 +169,10 @@ module Erector
     tag 'span', :inline
     tag 'strike'
 
-    tag 'strong'
+    tag 'strong', :inline
     tag 'style'
-    tag 'sub'
-    tag 'sup'
+    tag 'sub', :inline
+    tag 'sup', :inline
 
     tag 'table'
     tag 'tbody'
@@ -185,12 +185,12 @@ module Erector
     tag 'time'
     tag 'title'
     tag 'tr'
-    tag 'tt'
+    tag 'tt', :inline
 
     tag 'u'
     tag 'ul'
 
-    tag 'var'
+    tag 'var', :inline
     tag 'video'
 
 

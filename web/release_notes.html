@@ -33,19 +33,19 @@ h1 {
   padding: .25em;
   padding-left: 0px;
   margin-left: 0px;
-  text-shadow: #999 1px 1px 1px; }
+  text-shadow: #999999 1px 1px 1px; }
 
 h2 {
   margin-top: 2em;
   background: #FEFEEB;
   padding: .25em;
-  border: 1px solid #CCC;
-  text-shadow: #999 1px 1px 1px; }
+  border: 1px solid #cccccc;
+  text-shadow: #999999 1px 1px 1px; }
 
 pre {
   background-color: #f4f4FF;
   border: 1px solid gray;
-  padding: .5em 1em;
+  padding: 0.5em 1em;
   overflow: auto;
   font-family: Inconsolata, Consolas, "Andale Mono", "Lucida Console", "Lucida Sans Typewriter", "DejaVu Sans Mono", "Bitstream Vera Sans Mono", "Liberation Mono", "Nimbus Mono L", Monaco, "Courier New", Courier, monospace; }
 
@@ -102,8 +102,8 @@ div.navbar {
   overflow-vertical: auto;
   text-align: left;
   background-color: #A3D3D1;
-  border-top: 1px solid #6881BA;
-  border-bottom: 1px solid #6881BA; }
+  border-top: 1px solid #6881ba;
+  border-bottom: 1px solid #6881ba; }
   div.navbar h3 {
     margin-bottom: .25em; }
   div.navbar ul {
@@ -120,7 +120,7 @@ div.navbar {
     margin: 8px;
     padding: 4px 6px;
     /*  font-variant: small-caps;*/
-    border: 2px solid #6881BA; }
+    border: 2px solid #6881ba; }
     div.navbar li.clickable a, div.navbar li.clickable a:visited {
       text-decoration: none;
       /*font-weight: bold;*/
@@ -163,13 +163,13 @@ div.navbar {
 
 /* article */
 div.toc {
-  margin: 1em .25em;
+  margin: 1em 0.25em;
   display: inline-block;
   border: 1px solid black; }
   div.toc h2 {
     margin: 0; }
   div.toc ul, div.toc ol {
-    padding: .25em 1em; }
+    padding: 0.25em 1em; }
 
 .promo_wrapper {
   float: right; }
@@ -181,14 +181,14 @@ div.promo_wrapper {
 
 div.promo {
   display: inline-block;
-  border: 2px solid #6881BA;
+  border: 2px solid #6881ba;
   text-align: center;
   background: white; }
   div.promo img {
     border: 2px solid black;
     margin: 2px; }
   div.promo p {
-    padding: .25em .5em; }
+    padding: 0.25em 0.5em; }
 
 /* example */
 div.example {
@@ -210,7 +210,7 @@ div.example {
     <script src="js/sh_lang/sh_sh.min.js"></script>
     <link href="css/sh_style.css" rel="stylesheet" type="text/css" />
   </head>
-  <body onload="sh_highlightDocument();">    <a href="http://github.com/pivotal/erector"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://a248.e.akamai.net/assets.github.com/img/30f550e0d38ceb6ef5b81500c64d970b7fb0f028/687474703a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6f72616e67655f6666373630302e706e67" alt="Fork me on GitHub"></a>
+  <body onload="sh_highlightDocument();">    <a href="http://github.com/erector/erector"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://a248.e.akamai.net/assets.github.com/img/30f550e0d38ceb6ef5b81500c64d970b7fb0f028/687474703a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6f72616e67655f6666373630302e706e67" alt="Fork me on GitHub"></a>
     <div class="top">      <div class="logo"><a href="index.html"><img src="erector-logo.png" /></a></div>
     </div>
     <div class="navbar">      <ul class="clickable">
@@ -227,8 +227,12 @@ div.example {
     </div>
     <div class="promo_wrapper">      <div class="promo"><img src="images/erector-the-worlds-greatest-toy.jpg" /></div>
     </div>
-    <div class="main">      <div class="body">
-<h2 id="label-0.9.0">0.9.0</h2>
+    <div class="main">      <div class="body"><ul><li>
+<p>Add option hyphenize_underscores to control hyphens versus underscores in
+dot-class and dot-id-bang syntax.</p>
+</li></ul>
+
+<h2 id="label-0.9.0+-+2012-08-12">0.9.0 - 2012-08-12</h2>
 <ul><li>
 <p>Finally merged bigfix/rails3 branch - Erector now works with either Rails 2
 or Rails 3 (or neither)</p>
@@ -357,12 +361,12 @@ do:</p>
 <ul><li><dl class="rdoc-list label-list"><dt>bug
 <dd>
 <p><a
-href="http://github.com/pivotal/erector/issues/#issue/5">github.com/pivotal/erector/issues/#issue/5</a></p>
+href="http://github.com/erector/erector/issues/#issue/5">github.com/erector/erector/issues/#issue/5</a></p>
 </dd></dl>
 </li><li><dl class="rdoc-list label-list"><dt>bug
 <dd>
 <p><a
-href="http://github.com/pivotal/erector/issues/closed#issue/3">github.com/pivotal/erector/issues/closed#issue/3</a></p>
+href="http://github.com/erector/erector/issues/closed#issue/3">github.com/erector/erector/issues/closed#issue/3</a></p>
 </dd></dl>
 </li><li><dl class="rdoc-list label-list"><dt>bug
 <dd>

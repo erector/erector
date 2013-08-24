@@ -77,6 +77,40 @@ describe Erector::HTML do
       end
     end
 
+    context "with underscored attributes" do
+      context "without hyphenize_underscores" do
+        it "keeps class names as underscored" do
+          erector do
+            empty_element('foo').max_thingie
+          end.should == '<foo class="max_thingie" />'
+        end
+
+        it "also keeps classes specified as attributes as underscored" do
+          erector do
+            empty_element('foo', :class => "max_thingie")
+          end.should == '<foo class="max_thingie" />'
+        end
+      end
+
+      context "with hyphenize_underscores" do
+        before do
+          Erector::Widget.hyphenize_underscores = true
+        end
+
+        it "turns underscores in class names into hyphens" do
+          erector do
+            empty_element('foo').max_thingie
+          end.should == '<foo class="max-thingie" />'
+        end
+
+        it "lets you pick underscores or hyphens when specifying a class as an attribute" do
+          erector do
+            empty_element('foo', :class => "max_thingie")
+          end.should == '<foo class="max_thingie" />'
+        end
+      end
+    end
+
     context "with inner tags" do
       it "returns nested tags" do
         erector do

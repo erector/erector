@@ -10,7 +10,7 @@ class Community < Page
   def body_content
     ul.clickable do
       clickable_li 'Erector Mailing List', "http://googlegroups.com/group/erector"
-      clickable_li 'Github Repository', 'http://github.com/pivotal/erector'
+      clickable_li 'Github Repository', 'http://github.com/erector/erector'
       clickable_li 'Tracker Project', 'http://www.pivotaltracker.com/projects/482'
       h3 "Obsolete:"
       clickable_li 'RubyForge Project', 'http://rubyforge.org/projects/erector/'

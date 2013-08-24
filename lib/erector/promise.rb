@@ -84,6 +84,10 @@ module Erector
 
     def method_missing(method_name, *args, &block)
       method_name = method_name.to_s
+      if Erector::Widget.hyphenize_underscores
+        method_name = method_name.gsub(/_/, "-")
+      end
+
       if method_name =~ /\!$/
         id_str = method_name[0...-1]
         raise ArgumentError, "setting id #{id_str} but id #{@attributes["id"]} already present" if @attributes["id"]

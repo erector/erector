@@ -33,6 +33,16 @@ module Erector
       @@prettyprint_default = enabled
     end
 
+    @@hyphenize_underscores = false
+
+    def self.hyphenize_underscores
+      @@hyphenize_underscores
+    end
+
+    def self.hyphenize_underscores=(enabled)
+      @@hyphenize_underscores = enabled
+    end
+
     def self.inline(*args, &block)
       Class.new(self) do
         include Erector::Inline

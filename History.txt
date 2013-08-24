@@ -1,3 +1,5 @@
+* Add option hyphenize_underscores to control hyphens versus underscores in dot-class and dot-id-bang syntax.
+
 == 0.9.0 - 2012-08-12
 
 * Finally merged bigfix/rails3 branch - Erector now works with either Rails 2 or Rails 3 (or neither)
@@ -65,8 +67,8 @@ Rails:
 * Widget#h is now idempotent
 
 Bugs:
-* [bug] http://github.com/pivotal/erector/issues/#issue/5
-* [bug] http://github.com/pivotal/erector/issues/closed#issue/3
+* [bug] http://github.com/erector/erector/issues/#issue/5
+* [bug] http://github.com/erector/erector/issues/closed#issue/3
 * [bug] double-rendering
 
 

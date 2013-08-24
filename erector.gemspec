@@ -95,7 +95,7 @@ Gem::Specification.new do |s|
       s.add_development_dependency(%q<sass>, [">= 0"])
       s.add_development_dependency(%q<erubis>, [">= 0"])
       s.add_development_dependency(%q<rdoc>, ["~> 3.4"])
-      s.add_development_dependency(%q<wrong>, [">= 0.5.4"])
+      s.add_development_dependency(%q<wrong>, [">= 0"])
     else
       s.add_dependency(%q<treetop>, [">= 1.2.3"])
       s.add_dependency(%q<activesupport>, ["~> 3"])
@@ -108,7 +108,7 @@ Gem::Specification.new do |s|
       s.add_dependency(%q<sass>, [">= 0"])
       s.add_dependency(%q<erubis>, [">= 0"])
       s.add_dependency(%q<rdoc>, ["~> 3.4"])
-      s.add_dependency(%q<wrong>, [">= 0.5.4"])
+      s.add_dependency(%q<wrong>, [">= 0"])
     end
   else
     s.add_dependency(%q<treetop>, [">= 1.2.3"])
@@ -122,7 +122,7 @@ Gem::Specification.new do |s|
     s.add_dependency(%q<sass>, [">= 0"])
     s.add_dependency(%q<erubis>, [">= 0"])
     s.add_dependency(%q<rdoc>, ["~> 3.4"])
-    s.add_dependency(%q<wrong>, [">= 0.5.4"])
+    s.add_dependency(%q<wrong>, [">= 0"])
   end
 end
 

@@ -33,19 +33,19 @@ h1 {
   padding: .25em;
   padding-left: 0px;
   margin-left: 0px;
-  text-shadow: #999 1px 1px 1px; }
+  text-shadow: #999999 1px 1px 1px; }
 
 h2 {
   margin-top: 2em;
   background: #FEFEEB;
   padding: .25em;
-  border: 1px solid #CCC;
-  text-shadow: #999 1px 1px 1px; }
+  border: 1px solid #cccccc;
+  text-shadow: #999999 1px 1px 1px; }
 
 pre {
   background-color: #f4f4FF;
   border: 1px solid gray;
-  padding: .5em 1em;
+  padding: 0.5em 1em;
   overflow: auto;
   font-family: Inconsolata, Consolas, "Andale Mono", "Lucida Console", "Lucida Sans Typewriter", "DejaVu Sans Mono", "Bitstream Vera Sans Mono", "Liberation Mono", "Nimbus Mono L", Monaco, "Courier New", Courier, monospace; }
 
@@ -102,8 +102,8 @@ div.navbar {
   overflow-vertical: auto;
   text-align: left;
   background-color: #A3D3D1;
-  border-top: 1px solid #6881BA;
-  border-bottom: 1px solid #6881BA; }
+  border-top: 1px solid #6881ba;
+  border-bottom: 1px solid #6881ba; }
   div.navbar h3 {
     margin-bottom: .25em; }
   div.navbar ul {
@@ -120,7 +120,7 @@ div.navbar {
     margin: 8px;
     padding: 4px 6px;
     /*  font-variant: small-caps;*/
-    border: 2px solid #6881BA; }
+    border: 2px solid #6881ba; }
     div.navbar li.clickable a, div.navbar li.clickable a:visited {
       text-decoration: none;
       /*font-weight: bold;*/
@@ -163,13 +163,13 @@ div.navbar {
 
 /* article */
 div.toc {
-  margin: 1em .25em;
+  margin: 1em 0.25em;
   display: inline-block;
   border: 1px solid black; }
   div.toc h2 {
     margin: 0; }
   div.toc ul, div.toc ol {
-    padding: .25em 1em; }
+    padding: 0.25em 1em; }
 
 .promo_wrapper {
   float: right; }
@@ -181,14 +181,14 @@ div.promo_wrapper {
 
 div.promo {
   display: inline-block;
-  border: 2px solid #6881BA;
+  border: 2px solid #6881ba;
   text-align: center;
   background: white; }
   div.promo img {
     border: 2px solid black;
     margin: 2px; }
   div.promo p {
-    padding: .25em .5em; }
+    padding: 0.25em 0.5em; }
 
 /* example */
 div.example {
@@ -210,7 +210,7 @@ div.example {
     <script src="js/sh_lang/sh_sh.min.js"></script>
     <link href="css/sh_style.css" rel="stylesheet" type="text/css" />
   </head>
-  <body onload="sh_highlightDocument();">    <a href="http://github.com/pivotal/erector"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://a248.e.akamai.net/assets.github.com/img/30f550e0d38ceb6ef5b81500c64d970b7fb0f028/687474703a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6f72616e67655f6666373630302e706e67" alt="Fork me on GitHub"></a>
+  <body onload="sh_highlightDocument();">    <a href="http://github.com/erector/erector"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://a248.e.akamai.net/assets.github.com/img/30f550e0d38ceb6ef5b81500c64d970b7fb0f028/687474703a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6f72616e67655f6666373630302e706e67" alt="Fork me on GitHub"></a>
     <div class="top">      <div class="logo"><a href="index.html"><img src="erector-logo.png" /></a></div>
     </div>
     <div class="navbar">      <ul class="clickable">
@@ -238,7 +238,7 @@ div.example {
               <li><a href="#rails">Using Erector from Ruby on Rails</a></li>
               <li><a href="#tool">Erector tool: Command-line conversion to and from HTML</a></li>
               <li><a href="#pagelayoutinheritance">Page Layout Inheritance</a></li>
-              <li><a href="#erectorlayoutsinrails">Erector Layouts in Rails</a></li>
+              <li><a href="#erectorwidgetsasrailslayouts">Erector Widgets as Rails Layouts</a></li>
               <li><a href="#instancevariables">Instance Variables</a></li>
               <li><a href="#moreaboutrails">More about Rails</a></li>
             </ol>
@@ -247,23 +247,11 @@ div.example {
           <div class="sections">
             <a name="install"></a>
             <h2>1. Install</h2>
-            <p>              To install as a gem, add 
-              <code>gem 'erector'</code>
-               to your 
-              <code>Gemfile</code>
-              , then add 
-              <code>require 'erector'</code>
-               to 
-              <code>environment.rb</code>
-              .</p>
-            <p>              To install as a Rails plugin, copy the erector source to 
-              <code>vendor/plugins/erector</code>
-               in your project directory. When installing this way, erector is automatically available to your Rails code (no require directive is needed).</p>
+            <p>To install as a gem, add <code>gem 'erector'</code> to your <code>Gemfile</code>, then add <code>require 'erector'</code> to <code>environment.rb</code>.</p>
+            <p>To install as a Rails plugin, copy the erector source to <code>vendor/plugins/erector</code> in your project directory. When installing this way, erector is automatically available to your Rails code (no require directive is needed).</p>
             <a name="rails"></a>
             <h2>2. Using Erector from Ruby on Rails</h2>
-            <p>Your views are just ruby classes.  Your controller can either call Rails' 
-              <code>render :template</code>
-               method as usual, or directly instantiate the view class and call its content method.</p>
+            <p>Your views are just ruby classes.  Your controller can either call Rails' <code>render :template</code> method as usual, or directly instantiate the view class and call its content method.</p>
             <p>For example:</p>
             <code>app/controllers/welcome_controller.rb:</code>
             <pre class="sh_ruby">class WelcomeController &lt; ApplicationController
@@ -286,15 +274,10 @@ end
   end
 end
 </pre>
-            <p>For Rails to find these .rb files during 
-              <code>render :template</code>
-              , you must first either copy the erector source to 
-              <code>vendor/plugins/erector</code>
-              , or add 
-              <code>require 'erector'</code>
-               to 
-              <code>config/environment.rb</code>
-              . You also should delete (or rename) any other view files with the same base name that might be getting in the way.</p>
+            <p>For Rails to find these .rb files during <code>render :template</code>, you must first either copy the erector source to <code>vendor/plugins/erector</code>, or add <code>require 'erector'</code> to <code>config/environment.rb</code>. You also should delete (or rename) any other view files with the same base name that might be getting in the way.</p>
+            <p>You must also add app to the class load path. Put this line into <code>config/application.rb</code>
+              <pre>config.autoload_paths += %W(#{config.root}/app)</pre>
+            </p>
             <p>Currently there is only partial support for some standard Rails features like partials, layouts, assigns, and helpers. Check the <a href="http://googlegroups.com/group/erector">erector Google Groups mailing list</a> for status updates on these features.</p>
             <a name="tool"></a>
             <h2>3. Erector tool: Command-line conversion to and from HTML</h2>
@@ -325,11 +308,7 @@ rake db:migrate
 script/server
 open http://localhost:3000/posts
 </pre>
-            <p>On the erector-to-html side, pass in the 
-              <code>--to-html</code>
-              option and some file names and it will render the erector widgets to appropriately-named HTML files. We're actually using 
-              <code>erector</code>
-               to build this Erector documentation web site that you're reading <b>right now.</b> Check out the 'web' directory and the 'web' task in the Rakefile to see how it's done.</p>
+            <p>On the erector-to-html side, pass in the <code>--to-html</code>option and some file names and it will render the erector widgets to appropriately-named HTML files. We're actually using <code>erector</code> to build this Erector documentation web site that you're reading <b>right now.</b> Check out the 'web' directory and the 'web' task in the Rakefile to see how it's done.</p>
             <a name="pagelayoutinheritance"></a>
             <h2>4. Page Layout Inheritance</h2>
             <p>Erector replaces the typical Rails layout mechanism with a more natural construct, the use of inheritance. Want a common
@@ -388,24 +367,16 @@ end
             </p>
             <p>Notice how this mechanism allows you to...</p>
             <ul>
-              <li>Set instance variables (e.g. title)</li>
+              <li>Set instance variables (e.g. page_title)</li>
               <li>Override sections completely (e.g. render_body)</li>
               <li>Append to standard content (e.g. render_navbar)</li>
               <li>Use standard content unchanged (e.g. render_footer)</li>
             </ul>
             <p>all in a straightforward, easily understood paradigm (OO inheritance). (No more weird yielding to invisible, undocumented closures!)</p>
-            <p>Check out <a href="/rdoc/Erector/Widgets/Page.html">Erector::Widgets::Page</a> for a widget that does a lot of this for you, including rendering <a href="#externals">externals</a> in the HEAD element.</p>
-            <a name="erectorlayoutsinrails"></a>
-            <h2>5. Erector Layouts in Rails</h2>
-            <p>To use layout inheritance in Rails, declare 
-              <code>layout nil</code>
-               in 
-              <code>app/controllers/application.rb</code>
-               and then define your Page parent class as 
-              <code>class Views::Layouts::Page</code>
-               in 
-              <code>app/views/layouts</code>
-               as usual.</p>
+            <p>Check out <a href="/rdoc/Erector/Widgets/Page.html">Erector::Widgets::Page</a> for a widget that does a lot of this for you, including rendering <a href="userguide.html#externals">externals</a> in the HEAD element.</p>
+            <p>To use layout inheritance in Rails, declare <code>layout nil</code> in <code>app/controllers/application.rb</code> (or in an individual controller class) and then define your Page parent class as <code>class Views::Layouts::Page</code> in <code>app/views/layouts</code> as usual.</p>
+            <a name="erectorwidgetsasrailslayouts"></a>
+            <h2>5. Erector Widgets as Rails Layouts</h2>
             <p>To use an Erector widget as a regular Rails layout, you'll have to set things up a bit differently.<br />
               <code>app/views/layouts/application.rb:</code>
               <pre class="sh_ruby">class Views::Layouts::Application &lt; Erector::Widget

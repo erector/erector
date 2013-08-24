@@ -166,6 +166,75 @@ end
       end
     end
 
+    a.add(:name => "Classes and IDs") do
+      p do
+        text "Because HTML tends to heavily use the "
+        code "class"
+        text " and "
+        code "id"
+        text " attributes, it is convenient to have a special syntax to specify them."
+      end
+      table do
+        tr do
+          td :valign => "top" do
+            source_code :ruby, <<-RUBY
+body.sample!.helpful "Hello, world!"
+            RUBY
+          end
+          td do
+            span.separator do
+              text character(:rightwards_arrow)
+            end
+          end
+          td :valign => "top" do
+            source_code :html, <<-HTML
+body class="helpful" id="sample"
+            HTML
+          end
+        end
+      end
+
+      p do
+        text "Most CSS and javascript tends to write classes and IDs with hyphens (for example "
+        code "nav-bar"
+        text " instead of "
+        code "nav_bar"
+        text "). Therefore, erector has a setting to convert underscores to hyphens."
+      end
+
+      table do
+        tr do
+          td :valign => "top" do
+            source_code :ruby, <<-RUBY
+Erector::Widget.hyphenize_underscores = true
+body.my_id!.nav_bar "Hello, world!"
+            RUBY
+          end
+          td do
+            span.separator do
+              text character(:rightwards_arrow)
+            end
+          end
+          td :valign => "top" do
+            source_code :html, <<-HTML
+body class="nav-bar" id="my-id"
+            HTML
+          end
+        end
+      end
+
+      p do
+        text "You can put the setting of "
+        code "hyphenize_underscores"
+        text " anywhere it is convenient, for example "
+        code "config/application.rb"
+        text " in a rails application. For compatibility with erector 0.9.0, the "
+        text "default is false, but this is likely to change to true in a future version "
+        text "of erector, so explicitly set it to false if you are relying on the "
+        text "underscores."
+      end
+    end
+
 
     a.add(:name => "Erector tool: Command-line conversion to and from HTML", :href => "tool") do
 
@@ -195,9 +264,9 @@ end
         text " to build this Erector documentation web site that you're reading "
         b "right now."
         text " Check out the ",
-          a("'web' directory", :href => "https://github.com/pivotal/erector/tree/master/web"),
+          a("'web' directory", :href => "https://github.com/erector/erector/tree/master/web"),
           " and the ",
-          a("'web' task in the Rakefile", :href => "https://github.com/pivotal/erector/blob/77738d13fbbb3e1b8d24653ff2950dbb88b756ed/Rakefile#L74-84"),
+          a("'web' task in the Rakefile", :href => "https://github.com/erector/erector/blob/77738d13fbbb3e1b8d24653ff2950dbb88b756ed/Rakefile#L74-84"),
           " to see how it's done."
       end
     end
