@@ -99,9 +99,10 @@ describe Erector::Needs do
 
   it "doesn't attempt to dup undupable value if there's another need passed in (bug)" do    
     class Section < Erector::Widget
-      needs :title, :href => nil, :stinky => false, :awesome => true, :answer => 42, :shoe_size => 12.5
+      needs :title, :href => nil, :stinky => false, :awesome => true, :answer => 42, :shoe_size => 12.5, :event_type => :jump
     end    
     Section.new(:title => "Steal Underpants").instance_variable_get(:@awesome).should == true
+    Section.new(:title => "Steal Underpants").instance_variable_get(:@event_type).should == :jump
   end
 
   it "accumulates needs across the inheritance chain even with modules mixed in" do
