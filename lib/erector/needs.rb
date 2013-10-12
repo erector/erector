@@ -75,7 +75,7 @@ module Erector
       # set variables with default values
       self.class.needed_defaults.each do |name, value|
         unless assigned.include?(name)
-          value = [NilClass, FalseClass, TrueClass, Fixnum, Float].include?(value.class) ? value : value.dup
+          value = [NilClass, FalseClass, TrueClass, Fixnum, Float, Symbol].include?(value.class) ? value : value.dup
           instance_variable_set("@#{name}", value)
           assigned << name
         end
