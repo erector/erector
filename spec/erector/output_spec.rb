@@ -203,7 +203,8 @@ module Erector
         @output.widgets << Puppy
         @output.widgets << Kitten
         @output.widgets << Puppy
-        @output.widgets.to_a.should include_only([Puppy, Kitten])
+        @output.widgets.to_a.should include(Puppy)
+        @output.widgets.to_a.should include(Kitten)
       end
 
     end
