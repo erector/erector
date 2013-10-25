@@ -18,15 +18,11 @@ Gem::Specification.new do |s|
   s.add_dependency 'rails', '>= 4.0'
   s.add_dependency 'treetop', '>= 1.2.3'
 
-  s.add_development_dependency "activesupport", "~>3"
-  s.add_development_dependency "rspec", "~>2"
-  s.add_development_dependency "rubyforge"
+  s.add_development_dependency 'rspec-rails', '2.12.2'
   s.add_development_dependency "rr"
   s.add_development_dependency "nokogiri"
   s.add_development_dependency "haml"
   s.add_development_dependency "sass"
-  s.add_development_dependency "erubis"
-  s.add_development_dependency "rdoc", "~>3.4"
   s.add_development_dependency "wrong", ">=0.5.4"
 
 end
