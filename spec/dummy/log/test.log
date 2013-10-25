@@ -61,3 +61,89 @@ Completed 500 Internal Server Error in 4ms
 Completed 500 Internal Server Error in 0ms
   Processing by TestController#render_with_widget_as_layout_using_content_for as HTML
 Completed 500 Internal Server Error in 0ms
+Processing by TestController#render_erector_partial_without_controller_variables as HTML
+Completed 500 Internal Server Error in 2ms
+Processing by TestController#render_needs_subclass_template_with_excess_variables_and_ignoring_extras as HTML
+  Rendered test/needs_subclass.html.rb (1.7ms)
+Completed 200 OK in 5ms (Views: 4.3ms)
+Processing by TestController#render_erector_with_locals_from_erb_override as HTML
+  Rendered test/_partial_with_locals.rb (1.5ms)
+  Rendered test/erector_with_locals_from_erb.html.erb (3.4ms)
+Completed 200 OK in 5ms (Views: 4.7ms)
+Processing by TestController#render_default as HTML
+  Rendered test/render_default.html.rb (1.2ms)
+Completed 200 OK in 3ms (Views: 2.8ms)
+Processing by TestController#render_bare_rb as HTML
+  Rendered test/bare.rb (1.3ms)
+Completed 200 OK in 3ms (Views: 2.5ms)
+Processing by TestController#render_needs_template_with_excess_variables as HTML
+  Rendered test/needs.html.rb (2.3ms)
+Completed 500 Internal Server Error in 4ms
+Processing by TestController#render_needs_template_with_excess_variables_and_ignoring_extras as HTML
+  Rendered test/needs.html.rb (0.2ms)
+Completed 200 OK in 1ms (Views: 0.9ms)
+Processing by TestController#render_default_erb_with_layout as HTML
+  Rendered test/render_default_erb_with_layout.html.erb within layouts/widget_as_layout (0.6ms)
+Completed 200 OK in 7ms (Views: 6.4ms)
+Processing by TestController#render_erector_partial_with_unneeded_controller_variables as HTML
+Completed 500 Internal Server Error in 2ms
+Processing by TestController#render_template_with_excess_variables as HTML
+  Rendered test/render_default.html.rb within layouts/widget_as_layout (0.7ms)
+Completed 200 OK in 3ms (Views: 2.9ms)
+Processing by TestController#render_widget_with_extra_controller_variables as HTML
+Completed 500 Internal Server Error in 1ms
+Processing by TestController#render_with_needs as HTML
+Completed 200 OK in 0ms (Views: 0.3ms)
+Processing by TestController#render_default_erb_with_layout as HTML
+  Rendered test/render_default_erb_with_layout.html.erb within layouts/erb_as_layout (0.1ms)
+Completed 200 OK in 2ms (Views: 1.5ms)
+Processing by TestController#render_default_widget_with_layout as HTML
+  Rendered test/render_default_widget_with_layout.html.rb within layouts/widget_as_layout (0.9ms)
+Completed 200 OK in 2ms (Views: 2.1ms)
+Processing by TestController#render_with_widget_as_layout_using_content_for as HTML
+  Rendered test/render_with_widget_as_layout_using_content_for.rb within layouts/widget_as_layout (0.9ms)
+Completed 200 OK in 2ms (Views: 2.3ms)
+Processing by TestController#render_default_widget_with_layout as HTML
+  Rendered test/render_default_widget_with_layout.html.rb within layouts/erb_as_layout (0.1ms)
+Completed 200 OK in 1ms (Views: 0.6ms)
+Processing by TestController#render_erector_with_locals_from_erb_not_needed as HTML
+  Rendered test/_partial_with_locals.rb (1.0ms)
+  Rendered test/erector_with_locals_from_erb.html.erb within layouts/erb_as_layout (1.6ms)
+Completed 500 Internal Server Error in 2ms
+Processing by TestController#render_template_with_protected_instance_variable as HTML
+Completed 500 Internal Server Error in 2ms
+Processing by TestController#render_template_with_partial as HTML
+Completed 500 Internal Server Error in 1ms
+Processing by TestController#render_erector_from_erb as HTML
+  Rendered test/_erector.rb (0.9ms)
+  Rendered test/erector_from_erb.html.erb within layouts/erb_as_layout (1.9ms)
+Completed 200 OK in 3ms (Views: 3.0ms)
+Processing by TestController#render_widget_class as HTML
+Completed 200 OK in 1ms (Views: 0.4ms)
+Processing by TestController#render_with_widget_as_layout as HTML
+  Rendered test/render_with_widget_as_layout.rb within layouts/widget_as_layout (0.8ms)
+Completed 200 OK in 2ms (Views: 2.0ms)
+Processing by TestController#render_template_with_implicit_assigns as HTML
+Completed 500 Internal Server Error in 1ms
+Processing by TestController#render_widget_instance as HTML
+Completed 200 OK in 1ms (Views: 0.3ms)
+Processing by TestController#render_widget_with_ignored_controller_variables as HTML
+Completed 200 OK in 1ms (Views: 0.5ms)
+Processing by TestController#render_erector_with_locals_from_erb_defaulted as HTML
+  Rendered test/_partial_with_locals.rb (0.3ms)
+  Rendered test/erector_with_locals_from_erb.html.erb within layouts/erb_as_layout (0.5ms)
+Completed 200 OK in 1ms (Views: 1.0ms)
+Processing by TestController#render_erb_from_erector as HTML
+Completed 500 Internal Server Error in 1ms
+Processing by TestController#render_with_rails_options as HTML
+Completed 500 Internal Server Error in 0ms (Views: 0.3ms)
+Processing by TestController#render_erector_with_locals_from_erb as HTML
+  Rendered test/_partial_with_locals.rb (0.6ms)
+  Rendered test/erector_with_locals_from_erb.html.erb within layouts/erb_as_layout (1.2ms)
+Completed 200 OK in 2ms (Views: 1.6ms)
+Processing by TestController#render_with_widget_as_layout_and_vars as HTML
+  Rendered test/render_with_widget_as_layout.rb within layouts/widget_as_layout (0.2ms)
+Completed 200 OK in 1ms (Views: 0.7ms)
+Processing by TestController#render_with_content_method as HTML
+Completed 200 OK in 0ms (Views: 0.2ms)
+  Rendered text template (0.1ms)
