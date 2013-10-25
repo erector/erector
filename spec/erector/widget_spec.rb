@@ -1,5 +1,6 @@
 require File.expand_path("#{File.dirname(__FILE__)}/../spec_helper")
 require 'benchmark'
+require 'nokogiri'
 
 module WidgetSpec
   describe Erector::Widget do
@@ -191,7 +192,7 @@ module WidgetSpec
     describe '#capture' do
       it "should return content rather than write it to the buffer" do
         erector do
-          captured = capture do
+          captured = capture_content do
             p 'Captured Content'
           end
           div do
@@ -203,15 +204,15 @@ module WidgetSpec
       it "returns a RawString" do
         captured = nil
         erector do
-          captured = capture {}
+          captured = capture_content {}
         end.should == ""
         captured.should be_a_kind_of(Erector::RawString)
       end
 
       it "works with nested captures" do
         erector do
-          captured = capture do
-            captured = capture do
+          captured = capture_content do
+            captured = capture_content do
               p 'Nested Capture'
             end
             p 'Captured Content'
@@ -225,13 +226,10 @@ module WidgetSpec
 
       it "also is callable as #capture_content in case someone stole the capture name (I'm talking to you, rails 3.1)" do
         captured = nil
-        captured2 = nil
         erector do
           captured = capture_content { text "A" }
-          captured2 = capture { text "A" }
         end.should == ""
         captured.should == "A"
-        captured2.should == "A"
       end
     end
 
