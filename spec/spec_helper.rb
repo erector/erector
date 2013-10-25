@@ -20,3 +20,12 @@ Dir[Rails.root.join("../../spec/support/**/*.rb")].each {|f| require f}
 RSpec.configure do |config|
 
 end
+
+def capturing_output
+  output = StringIO.new
+  $stdout = output
+  yield
+  output.string
+ensure
+  $stdout = STDOUT
+end
