@@ -1,21 +1,6 @@
-source "http://rubygems.org"
+source "https://rubygems.org"
 
-gem "treetop", ">= 1.2.3"
-
-group :development do
-  gem "activesupport", "~>3"
-  gem "rspec", "~>2"
-  gem "rubyforge"
-  gem "rr"
-  gem "nokogiri"
-  gem "jeweler"
-  gem "haml"
-  gem "sass"
-  gem "erubis"
-  gem "rdoc", "~> 3.4"
-  gem "wrong", ">=0.6.3"
-end
-
-group :rails do
-  gem "rails", "~> 3.0.0"
-end
+# Declare your gem's dependencies in dobt_auth.gemspec.
+# Bundler will treat runtime dependencies like base dependencies, and
+# development dependencies will be added by default to the :development group.
+gemspec
