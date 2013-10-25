@@ -113,7 +113,7 @@ describe Erector::Rails do
     it "renders tag" do
       test_render do
         javascript_include_tag("rails")
-      end.should =~ %r{<script src="/javascripts/rails.js(?:\?\d+)?" type="text/javascript"></script>}
+      end.should =~ %r{<script src="/javascripts/rails.js(?:\?\d+)?"></script>}
     end
   end
 
@@ -121,7 +121,7 @@ describe Erector::Rails do
     it "renders tag" do
       test_render do
         stylesheet_link_tag("rails")
-      end.should == %{<link href="/stylesheets/rails.css" media="screen" rel="stylesheet" type="text/css" />}
+      end.should == %{<link href="/stylesheets/rails.css" media="screen" rel="stylesheet" />}
     end
   end
 
@@ -145,7 +145,7 @@ describe Erector::Rails do
     it "renders tag" do
       test_render do
         javascript_tag "alert('All is good')"
-      end.should == %{<script type="text/javascript">\n//<![CDATA[\nalert('All is good')\n//]]>\n</script>}
+      end.should == %{<script>\n//<![CDATA[\nalert('All is good')\n//]]>\n</script>}
     end
 
     it "supports block syntax" do
@@ -153,7 +153,7 @@ describe Erector::Rails do
         javascript_tag do
           text! "alert('All is good')"
         end
-      end.should == %{<script type="text/javascript">\n//<![CDATA[\nalert('All is good')\n//]]>\n</script>}
+      end.should == %{<script>\n//<![CDATA[\nalert('All is good')\n//]]>\n</script>}
     end
   end
 
