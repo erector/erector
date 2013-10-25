@@ -136,7 +136,7 @@ require File.expand_path("#{File.dirname(__FILE__)}/../spec_helper")
 
     class Cash < Erector::Widget
       needs :name
-      cachable
+      cachable # this is correct, just an alias
 
       def content
         p do

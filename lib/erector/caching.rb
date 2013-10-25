@@ -44,9 +44,7 @@ module Erector
         @cachable = value
       end
 
-      def cachable(value = true)
-        @cachable = value
-      end
+      alias_method :cachable, :cacheable
 
       def cachable?
         if @cachable.nil?
@@ -73,7 +71,7 @@ module Erector
       cache && block.nil? && self.class.cachable?
     end
 
-protected
+    protected
     def _emit(options = {})
       if should_cache?
         cache[self.class, assigns, options[:content_method_name]] ||= super
@@ -84,7 +82,7 @@ protected
 
     def _emit_via(parent, options = {})
       if should_cache?
-        parent.output << cache[self.class, assigns, options[:content_method_name]] ||= parent.capture { super }
+        parent.output << cache[self.class, assigns, options[:content_method_name]] ||= parent.capture_content { super }
         parent.output.widgets << self.class # todo: test!!!
       else
         super
