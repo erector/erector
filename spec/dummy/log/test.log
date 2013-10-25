@@ -1,0 +1,63 @@
+Rendered text template (0.0ms)
+  Processing by TestController#render_widget_class as HTML
+Completed 500 Internal Server Error in 6ms
+  Processing by TestController#render_widget_instance as HTML
+Completed 500 Internal Server Error in 5ms
+  Processing by TestController#render_widget_with_ignored_controller_variables as HTML
+Completed 500 Internal Server Error in 4ms
+  Processing by TestController#render_widget_with_extra_controller_variables as HTML
+Completed 500 Internal Server Error in 4ms
+  Processing by TestController#render_with_content_method as HTML
+Completed 500 Internal Server Error in 4ms
+  Processing by TestController#render_with_rails_options as HTML
+Completed 500 Internal Server Error in 5ms
+  Processing by TestController#render_template_with_implicit_assigns as HTML
+Completed 500 Internal Server Error in 0ms
+  Processing by TestController#render_template_with_protected_instance_variable as HTML
+Completed 500 Internal Server Error in 0ms
+  Processing by TestController#render_bare_rb as HTML
+Completed 500 Internal Server Error in 0ms
+  Processing by TestController#render_template_with_excess_variables as HTML
+Completed 500 Internal Server Error in 0ms
+  Processing by TestController#render_needs_template_with_excess_variables as HTML
+Completed 500 Internal Server Error in 0ms
+  Processing by TestController#render_needs_template_with_excess_variables_and_ignoring_extras as HTML
+Completed 500 Internal Server Error in 27ms
+  Processing by TestController#render_needs_subclass_template_with_excess_variables_and_ignoring_extras as HTML
+Completed 500 Internal Server Error in 0ms
+  Processing by TestController#render_template_with_partial as HTML
+Completed 500 Internal Server Error in 0ms
+  Processing by TestController#render_erb_from_erector as HTML
+Completed 500 Internal Server Error in 0ms
+  Processing by TestController#render_erector_from_erb as HTML
+Completed 500 Internal Server Error in 0ms
+  Processing by TestController#render_erector_with_locals_from_erb as HTML
+Completed 500 Internal Server Error in 0ms
+  Processing by TestController#render_erector_with_locals_from_erb_defaulted as HTML
+Completed 500 Internal Server Error in 0ms
+  Processing by TestController#render_erector_with_locals_from_erb_override as HTML
+Completed 500 Internal Server Error in 0ms
+  Processing by TestController#render_erector_with_locals_from_erb_not_needed as HTML
+Completed 500 Internal Server Error in 0ms
+  Processing by TestController#render_erector_partial_with_unneeded_controller_variables as HTML
+Completed 500 Internal Server Error in 0ms
+  Processing by TestController#render_erector_partial_without_controller_variables as HTML
+Completed 500 Internal Server Error in 3ms
+  Processing by TestController#render_default as HTML
+Completed 500 Internal Server Error in 4ms
+  Processing by TestController#render_default_erb_with_layout as HTML
+Completed 500 Internal Server Error in 5ms
+  Processing by TestController#render_default_widget_with_layout as HTML
+Completed 500 Internal Server Error in 4ms
+  Processing by TestController#render_default_erb_with_layout as HTML
+Completed 500 Internal Server Error in 4ms
+  Processing by TestController#render_default_widget_with_layout as HTML
+Completed 500 Internal Server Error in 4ms
+  Processing by TestController#render_with_needs as HTML
+Completed 500 Internal Server Error in 4ms
+  Processing by TestController#render_with_widget_as_layout as HTML
+Completed 500 Internal Server Error in 4ms
+  Processing by TestController#render_with_widget_as_layout_and_vars as HTML
+Completed 500 Internal Server Error in 0ms
+  Processing by TestController#render_with_widget_as_layout_using_content_for as HTML
+Completed 500 Internal Server Error in 0ms
