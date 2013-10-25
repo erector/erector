@@ -202,7 +202,7 @@ describe Erector::Rails do
           form.label :my_input, "My input"
           form.text_field :my_input
         end
-      end.should == %{<form accept-charset="UTF-8" action="/test" method="post"><div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="&#x2713;" /></div><label for="something_my_input">My input</label><input id="something_my_input" name="something[my_input]" size="30" type="text" /></form>}
+      end.should == %{<form accept-charset="UTF-8" action="/test" method="post"><div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="&#x2713;" /></div><label for="something_my_input">My input</label><input id="something_my_input" name="something[my_input]" type="text" /></form>}
     end
 
     it "doesn't double render if 'text form.label' is used by mistake" do

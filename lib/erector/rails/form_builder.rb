@@ -13,7 +13,7 @@ module Erector
 
       attr_reader :parent, :template
 
-      def initialize(object_name, object, template, options, proc)
+      def initialize(object_name, object, template, options, proc = nil)
         @template = template
         @parent = parent_builder_class.new(object_name, object, template, options, proc)
       end
