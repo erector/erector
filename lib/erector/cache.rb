@@ -5,7 +5,7 @@ module Erector
     end
 
     def store_for(klass)
-      @stores[klass] ||= Hash.new {|h,k| h[k] = {}}
+      @stores[klass] ||= Hash.new
     end
 
     def []=(*args)
@@ -13,11 +13,11 @@ module Erector
       klass = args.shift
       params = args.first.is_a?(Hash) ? args.first : {}
       content_method = args.last.is_a?(Symbol) ? args.last : nil
-      store_for(klass)[key(params)][content_method] = value
+      store_for(klass)[key(params, content_method)] = value
     end
 
     def [](klass, params = {}, content_method = nil)
-      store_for(klass)[key(params)][content_method]
+      store_for(klass)[key(params, content_method)]
     end
 
     def delete(klass, params = {})
@@ -29,8 +29,8 @@ module Erector
     end
 
     # convert hash-key to array-key for compatibility with 1.8.6
-    def key(params)
-      params.to_a
+    def key(params, content_method = nil)
+      params.to_a.push(content_method)
     end
   end
 end
