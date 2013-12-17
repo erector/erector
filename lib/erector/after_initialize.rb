@@ -25,10 +25,5 @@ module Erector
         @after_initialize_parts ||= []
       end
     end
-
-    def initialize(*args, &blk)
-      super
-      self.class.after_initialize self
-    end
   end
 end

@@ -70,6 +70,8 @@ module Erector
 
       @_parent = eval("self", block.binding) if block
       @_block = block
+
+      self.class.after_initialize(self)
     end
 
     # Entry point for rendering a widget (and all its children). This method
