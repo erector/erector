@@ -7,6 +7,10 @@ module Erector
     module ClassMethods
       def cacheable(value = true)
         @cachable = value
+
+        if value && value != true
+          @cache_version = value
+        end
       end
 
       alias_method :cachable, :cacheable
@@ -17,6 +21,10 @@ module Erector
         else
           @cachable
         end
+      end
+
+      def cache_version
+        @cache_version || nil
       end
 
       def cache
@@ -39,7 +47,7 @@ module Erector
     protected
     def _emit(options = {})
       if should_cache?
-        cache[self.class, assigns, options[:content_method_name]] ||= super
+        cache[self.class, self.class.cache_version, assigns, options[:content_method_name]] ||= super
       else
         super
       end
@@ -47,7 +55,7 @@ module Erector
 
     def _emit_via(parent, options = {})
       if should_cache?
-        parent.output << cache[self.class, assigns, options[:content_method_name]] ||= parent.capture_content { super }
+        parent.output << cache[self.class, self.class.cache_version, assigns, options[:content_method_name]] ||= parent.capture_content { super }
         parent.output.widgets << self.class # todo: test!!!
       else
         super
