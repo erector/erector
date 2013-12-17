@@ -20,11 +20,7 @@ module Erector
       end
 
       def cache
-        @@cache ||= nil
-      end
-
-      def cache=(c)
-        @@cache = c
+        Erector::Cache.instance
       end
     end
 
@@ -33,7 +29,7 @@ module Erector
     end
 
     def should_cache?
-      cache && block.nil? && self.class.cachable?
+      block.nil? && self.class.cachable?
     end
 
     protected

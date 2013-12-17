@@ -4,7 +4,7 @@ require File.expand_path("#{File.dirname(__FILE__)}/../spec_helper")
 describe Erector::Cache do
   before do
     ::Rails.cache.clear
-    @cache = Erector::Cache.new
+    @cache = Erector::Cache.instance
   end
 
   class Johnny < Erector::Widget
@@ -164,12 +164,7 @@ describe Erector::Caching do
 
   before do
     ::Rails.cache.clear
-    @cache = Erector::Cache.new
-    Erector::Widget.cache = @cache
-  end
-
-  after do
-    Erector::Widget.cache = nil
+    @cache = Erector::Cache.instance
   end
 
   it "has a global cache" do
