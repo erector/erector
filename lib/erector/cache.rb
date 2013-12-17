@@ -5,7 +5,7 @@ module Erector
     end
 
     def store_for(klass)
-      @stores[klass] ||= Hash.new
+      @stores[klass] ||= Erector::RailsCache.new(klass)
     end
 
     def []=(*args)
@@ -24,13 +24,32 @@ module Erector
       store_for(klass).delete(key(params))
     end
 
-    def delete_all(klass)
-      @stores.delete(klass)
-    end
-
     # convert hash-key to array-key for compatibility with 1.8.6
     def key(params, content_method = nil)
       params.to_a.push(content_method)
     end
   end
+
+  class RailsCache
+    def initialize(prefix)
+      @prefix = prefix
+    end
+
+    def []=(key, val)
+      ::Rails.cache.write(prefix(key), val.to_s)
+    end
+
+    def [](key)
+      ::Rails.cache.read(prefix(key))
+    end
+
+    def delete(key)
+      ::Rails.cache.delete(prefix(key))
+    end
+
+    def prefix(key)
+      ['erector', @prefix, *key]
+    end
+  end
+
 end
