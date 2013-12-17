@@ -156,6 +156,14 @@ describe Erector::Caching do
     end
   end
 
+  class ModelCash < Erector::Widget
+    cacheable
+
+    def content
+      text @model.name
+    end
+  end
+
   class NotCachable < Erector::Widget
     def content
       text "CONTENT"
@@ -188,6 +196,12 @@ describe Erector::Caching do
     it "caches a rendered widget" do
       Cash.new(:name => "Johnny").to_html
       @cache[Cash, {:name => "Johnny"}].should == "<p>Johnny Cash</p>"
+    end
+
+    it "calls :cache_key" do
+      model = OpenStruct.new(name: 'Myname', cache_key: 'two')
+      ModelCash.new(:model => model).to_html
+      @cache[ModelCash, { model: 'two' }].should == "Myname"
     end
 
     it "uses the cached value" do
