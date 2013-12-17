@@ -29,7 +29,11 @@ module Erector
     end
 
     def should_cache?
-      block.nil? && self.class.cachable?
+      if block.nil? && self.class.cachable?
+        true
+      else
+        false
+      end
     end
 
     protected
