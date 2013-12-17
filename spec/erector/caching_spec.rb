@@ -27,6 +27,15 @@ describe Erector::Caching do
     end
   end
 
+  class CashWithComplexKey < Erector::Widget
+    needs :sites
+    cachable
+
+    def content
+      text @sites.first.name
+    end
+  end
+
   class Family < Erector::Widget
     cacheable
 
@@ -81,6 +90,15 @@ describe Erector::Caching do
     it "uses a cache version for the class" do
       CashWithVersion.new(:name => "Johnny").to_html
       @cache[CashWithVersion, 'v2', {:name => "Johnny"}].should == "<p>Johnny Cash 2</p>"
+    end
+
+    it "handles complex keys" do
+      site1 = OpenStruct.new(name: 'site one name')
+      site2 = OpenStruct.new(name: 'site two name')
+      site3 = OpenStruct.new(name: 'site three name')
+      CashWithComplexKey.new(sites: [site1, site2]).to_html
+      @cache[CashWithComplexKey, sites: [site1, site2]].should == "site one name"
+      CashWithComplexKey.new(sites: [site3, site1, site2]).to_html.should == "site three name"
     end
 
     it "calls :cache_key" do
