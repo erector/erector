@@ -24,7 +24,6 @@ require "erector/html_widget"
 require "erector/widget"
 
 require "erector/inline"
-require "erector/widgets"
 require "erector/version"
 require "erector/mixin"
 
