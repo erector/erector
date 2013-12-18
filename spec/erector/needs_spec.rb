@@ -74,7 +74,7 @@ describe Erector::Needs do
       thing.instance_variable_get(:@baz).should equal(2)
     }.should_not raise_error(ArgumentError)
   end
-  
+
   it "duplicates default values, so they're not accidentally shared across all instances" do
     class Thing8a < Erector::Widget
       needs :foo => []
@@ -82,9 +82,10 @@ describe Erector::Needs do
     end
     t1 = Thing8a.new
     t2 = Thing8a.new
-    assert { t1.foo.object_id != t2.foo.object_id }    
-    assert { t1.foo == [] }
-    assert { t2.foo == [] }
+
+    t1.foo.object_id.should_not == t2.foo.object_id
+    t1.foo.should == []
+    t2.foo.should == []
   end
 
   it "allows nil to be a default value" do
@@ -97,10 +98,10 @@ describe Erector::Needs do
     }.should_not raise_error(ArgumentError)
   end
 
-  it "doesn't attempt to dup undupable value if there's another need passed in (bug)" do    
+  it "doesn't attempt to dup undupable value if there's another need passed in (bug)" do
     class Section < Erector::Widget
       needs :title, :href => nil, :stinky => false, :awesome => true, :answer => 42, :shoe_size => 12.5, :event_type => :jump
-    end    
+    end
     Section.new(:title => "Steal Underpants").instance_variable_get(:@awesome).should == true
     Section.new(:title => "Steal Underpants").instance_variable_get(:@event_type).should == :jump
   end

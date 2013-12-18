@@ -8,27 +8,27 @@ module Erector
       erect = Erect.new([])
       erect.files.should == []
     end
-    
+
     it "parses a command line with one filename on it" do
       erect = Erect.new(["foo.html"])
       erect.files.should == ["foo.html"]
     end
-    
+
     it "parses a command line with several filenames on it" do
       erect = Erect.new(["foo.html", "bar/baz.html"])
       erect.files.should == ["foo.html", "bar/baz.html"]
     end
-    
+
     it "is verbose by default, but quiet when told" do
       Erect.new([]).verbose.should be_true
       Erect.new(["-q"]).verbose.should be_false
     end
-    
+
     it "sets the superclass to what you tell it" do
       Erect.new([]).superklass.should == 'Erector::Widget'
       Erect.new(['--superclass', 'Foo::Bar']).superklass.should == 'Foo::Bar'
     end
-    
+
     it "sets the method name to what you tell it" do
       Erect.new([]).method_name.should == 'content'
       Erect.new(['--method', 'my_content']).method_name.should == 'my_content'
@@ -38,7 +38,7 @@ module Erector
       erect = Erect.new(["-q", "foo.html", "bar/baz.html"])
       erect.files.should == ["foo.html", "bar/baz.html"]
     end
- 
+
     def capturing_output
       output = StringIO.new
       $stdout = output
@@ -47,7 +47,7 @@ module Erector
     ensure
       $stdout = STDOUT
     end
-    
+
     it "exits immediately from help" do
       output = capturing_output do
         lambda {
@@ -56,7 +56,7 @@ module Erector
       end
       output.should =~ /^Usage/
     end
-    
+
     it "exits immediately from --version" do
       output = capturing_output do
         lambda {
@@ -65,7 +65,7 @@ module Erector
       end
       output.should == Erector::VERSION + "\n"
     end
-    
+
     it "changes to html output" do
       erect = Erect.new(["--to-html"])
       erect.mode.should == :to_html
@@ -85,26 +85,26 @@ module Erector
         }.should raise_error
       end
     end
-    
+
     it "returns false when there's an error during run" do
       capturing_output do
         Erect.new(["MISSINGFILE"]).run.should == false
       end
-        
+
     end
-    
+
   end
-  
+
   describe "Erect functionally" do
-    
+
     attr_reader :dir, :fred_html, :wilma_rhtml, :barney_html_erb, :fred_rb
-    
+
     def create(file, body="hi")
       File.open(file, "w") do |f|
         f.puts(body)
       end
     end
-    
+
     before :all do
       @dir = Dir.tmpdir + "/#{Time.now.to_i}" + "/explode"
       @fred_html = "#{dir}/fred.html"
@@ -118,24 +118,24 @@ module Erector
       create(barney_html_erb)
       create(fred_rb, "class Fred < Erector::Widget\ndef content\ndiv 'dino'\nend\nend")
     end
-    
+
     it "explodes dirs into .html etc. files when in to-rb mode" do
       erect = Erect.new(["--to-erector", dir])
       erect.files.sort.should == [barney_html_erb, fred_html, wilma_rhtml]
     end
-    
-    it "explodes dirs into .rb files when in to-html mode" do    
+
+    it "explodes dirs into .rb files when in to-html mode" do
       erect = Erect.new(["--to-html", dir])
       erect.files.should == [fred_rb]
     end
-    
+
     it "outputs .rb files in the same directory as the input .html files" do
       erect = Erect.new(["--to-erector", "-q", fred_html])
       erect.run
       File.exist?(fred_rb).should be_true
       File.read(fred_rb).should include("text 'hi'")
     end
-    
+
     it "outputs .html files in the same directory as the input .rb files" do
       betty_rb = "#{dir}/betty.rb"
       betty_html = "#{dir}/betty.html"
@@ -146,7 +146,7 @@ module Erector
       File.exist?(betty_html).should be_true
       File.read(betty_html).should == "<div>bam bam</div>\n"
     end
-    
+
     it "outputs .html files in the given directory" do
       create(fred_rb, "class Fred < Erector::Widget\ndef content\ndiv 'dino'\nend\nend")
       out_dir = "#{dir}/out"
@@ -159,7 +159,7 @@ module Erector
       File.exist?(out_file).should be_true
       File.read(out_file).should == "<div>dino</div>\n"
     end
-    
+
     it "skips rendering classes that aren't widgets" do
       mr_slate_rb = "#{dir}/mr_slate.rb"
       mr_slate_html = "#{dir}/mr_slate.html"
@@ -168,7 +168,7 @@ module Erector
       erect.run
       File.exist?(mr_slate_html).should be_false
     end
-    
+
     # it "properly indents lines beginning with for, unless, etc."
   end
 

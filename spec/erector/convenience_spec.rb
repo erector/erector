@@ -6,10 +6,10 @@ describe Erector::Convenience do
   describe "#to_pretty" do
     it "calls render with :prettyprint => true" do
       widget = Erector.inline do
-        div "foo"
+        div 'foo'
+        div 'boo'
       end
-      mock(widget).emit({:prettyprint => true})
-      widget.to_pretty
+      widget.to_pretty.should == "<div>foo</div>\n<div>boo</div>\n"
     end
 
     it "passes extra options through to render" do
@@ -19,16 +19,6 @@ describe Erector::Convenience do
       end
       mock(widget).emit({:prettyprint => true, :extra => "yay"})
       widget.to_pretty(:extra => "yay")
-    end
-  end
-
-  describe "#to_s" do
-    it "returns html" do
-      capturing_stderr do
-        Erector.inline do
-          div "foo"
-        end.to_s.should == "<div>foo</div>"
-      end
     end
   end
 
@@ -211,7 +201,7 @@ describe Erector::Convenience do
 
     it "accepts extra attributes" do
       erector do
-        url "http://example.com", :onclick=>"alert('foo')"
+        url "http://example.com", :onclick=>"alert('foo')".html_safe
       end.should == "<a href=\"http://example.com\" onclick=\"alert('foo')\">http://example.com</a>"
     end
 

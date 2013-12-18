@@ -1,39 +1,4 @@
 module Erector
-  class Cache
-    def initialize
-      @stores = {}
-    end
-
-    def store_for(klass)
-      @stores[klass] ||= Hash.new {|h,k| h[k] = {}}
-    end
-
-    def []=(*args)
-      value = args.pop
-      klass = args.shift
-      params = args.first.is_a?(Hash) ? args.first : {}
-      content_method = args.last.is_a?(Symbol) ? args.last : nil
-      store_for(klass)[key(params)][content_method] = value
-    end
-
-    def [](klass, params = {}, content_method = nil)
-      store_for(klass)[key(params)][content_method]
-    end
-
-    def delete(klass, params = {})
-      store_for(klass).delete(key(params))
-    end
-
-    def delete_all(klass)
-      @stores.delete(klass)
-    end
-
-    # convert hash-key to array-key for compatibility with 1.8.6
-    def key(params)
-      params.to_a
-    end
-  end
-
   module Caching
     def self.included(base)
       base.extend ClassMethods
@@ -42,11 +7,13 @@ module Erector
     module ClassMethods
       def cacheable(value = true)
         @cachable = value
+
+        if value && value != true
+          @cache_version = value
+        end
       end
 
-      def cachable(value = true)
-        @cachable = value
-      end
+      alias_method :cachable, :cacheable
 
       def cachable?
         if @cachable.nil?
@@ -56,12 +23,12 @@ module Erector
         end
       end
 
-      def cache
-        @@cache ||= nil
+      def cache_version
+        @cache_version || nil
       end
 
-      def cache=(c)
-        @@cache = c
+      def cache
+        Erector::Cache.instance
       end
     end
 
@@ -70,13 +37,17 @@ module Erector
     end
 
     def should_cache?
-      cache && block.nil? && self.class.cachable?
+      if block.nil? && self.class.cachable?
+        true
+      else
+        false
+      end
     end
 
-protected
+    protected
     def _emit(options = {})
       if should_cache?
-        cache[self.class, assigns, options[:content_method_name]] ||= super
+        cache[self.class, self.class.cache_version, assigns, options[:content_method_name]] ||= super
       else
         super
       end
@@ -84,7 +55,7 @@ protected
 
     def _emit_via(parent, options = {})
       if should_cache?
-        parent.output << cache[self.class, assigns, options[:content_method_name]] ||= parent.capture { super }
+        parent.output << cache[self.class, self.class.cache_version, assigns, options[:content_method_name]] ||= parent.capture_content { super }
         parent.output.widgets << self.class # todo: test!!!
       else
         super

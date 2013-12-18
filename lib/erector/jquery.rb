@@ -24,13 +24,5 @@ module Erector
       end
     end
 
-    def jquery_load(text)    #:nodoc:
-      $stderr.puts "jquery_load is deprecated; use jquery(:load, text) instead"
-    end
-
-    def jquery_ready(text)    #:nodoc:
-      $stderr.puts "jquery_ready is deprecated; use jquery(:ready, text) instead"
-    end
-
   end
 end

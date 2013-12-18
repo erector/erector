@@ -2,7 +2,7 @@ module Erector
   def self.inline(*args, &block)
     InlineWidget.new(*args, &block)
   end
-  
+
   module Inline
     # Executes the widget's block (the one that was passed in the
     # constructor). Since "self" is pointing to the new widget, the block does
@@ -16,17 +16,6 @@ module Erector
     def call_block
       # note that instance_eval seems to pass in self as a parameter to the block
       instance_eval(&block) if block
-    end
-    
-    private
-    # This is part of the sub-widget/parent feature (see #widget method).
-    def method_missing(name, *args, &block)
-      if parent && parent.respond_to?(name)
-        block ||= lambda {} # captures self HERE
-        parent.send(name, *args, &block)
-      else
-        super
-      end
     end
   end
 
