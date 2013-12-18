@@ -96,6 +96,9 @@ GEM
       sexp_processor (~> 4.1)
     sass (3.2.12)
     sexp_processor (4.4.0)
+    simple_form (3.0.1)
+      actionpack (>= 4.0.0, < 4.1)
+      activemodel (>= 4.0.0, < 4.1)
     simplecov (0.7.1)
       multi_json (~> 1.0)
       simplecov-html (~> 0.7.1)
@@ -139,5 +142,6 @@ DEPENDENCIES
   rr
   rspec-rails (= 2.12.2)
   sass
+  simple_form
   sqlite3
   wrong (>= 0.5.4)

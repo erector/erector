@@ -1,4 +1,5 @@
 require File.expand_path("#{File.dirname(__FILE__)}/rails_spec_helper")
+require 'simple_form'
 
 describe Erector::Rails do
   before do
@@ -243,4 +244,15 @@ describe Erector::Rails do
       end.should =~ /foo/
     end
   end
+
+  describe "#simple_form_for" do
+    it "instantiates a SimpleForm builder" do
+      test_render do
+        simple_form_for(:something, :url => "/test") do |form|
+          form.input :foobar
+        end
+      end.should =~ /foobar/
+    end
+  end
+
 end

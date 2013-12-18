@@ -53,11 +53,11 @@ module Erector
         METHOD_DEF
       end
 
-      def def_rails_form_helper(method_name)
+      def def_rails_form_helper(method_name, explicit_builder = nil)
         module_eval <<-METHOD_DEF, __FILE__, __LINE__+1
           def #{method_name}(*args, &block)
             options = args.extract_options!
-            args << options.merge(:builder => FormBuilder.wrapping(options[:builder]))
+            args << options.merge(:builder => FormBuilder.wrapping(#{explicit_builder || 'options[:builder]'}))
             text helpers.#{method_name}(*args, &block)
           end
         METHOD_DEF
@@ -214,6 +214,10 @@ module Erector
 
     [:form_for, :fields_for].each do |method_name|
       def_rails_form_helper(method_name)
+    end
+
+    [:simple_form_for, :simple_fields_for].each do |method_name|
+      def_rails_form_helper(method_name, "SimpleForm::FormBuilder")
     end
 
     Erector::Widget.send :include, self
