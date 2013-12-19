@@ -10,9 +10,10 @@ Gem::Specification.new do |s|
 
   s.required_ruby_version = Gem::Requirement.new('>= 2.0.0')
   s.authors = ["Alex Chaffee", "Brian Takita", "Jeff Dean", "Jim Kingdon", "John Firebaugh", "Adam Becker"]
-  s.summary = "This is a fork of Erector, updated for Rails 4."
+  s.summary = "Erector, for Rails 4"
   s.description = "This is a fork of Erector, updated for Rails 4."
   s.email = "adam@dobt.co"
+  s.license     = "MIT"
 
   s.files = `git ls-files`.split("\n")
   s.test_files = `git ls-files -- {features,spec}/*`.split("\n")
