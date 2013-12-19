@@ -2,7 +2,6 @@ module Erector
 end
 
 require "cgi"
-require "yaml"
 
 require "erector/raw_string"
 require "erector/dependencies"
@@ -19,7 +18,6 @@ require "erector/jquery"
 require "erector/sass"
 
 require "erector/abstract_widget"
-require "erector/xml_widget"
 require "erector/html_widget"
 require "erector/widget"
 

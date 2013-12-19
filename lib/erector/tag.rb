@@ -50,6 +50,7 @@ module Erector
     #
     # @api public
     # borrowed from https://github.com/datamapper/extlib/blob/master/lib/extlib/string.rb
+    # @todo delegate to activesupport?
     def snake_case(s)
       if s.match(/\A[A-Z]+\z/)
         s.downcase

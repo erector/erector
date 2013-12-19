@@ -69,12 +69,28 @@ describe Erector::HTML do
     end
 
     context "with many attributes" do
-      it "alphabetize them" do
+      it "should emit them in the order they are given" do
         erector do
-          empty_element('foo', :alpha => "", :betty => "5", :aardvark => "tough",
-                        :carol => "", :demon => "", :erector => "", :pi => "3.14", :omicron => "", :zebra => "", :brain => "")
-        end.should == "<foo aardvark=\"tough\" alpha=\"\" betty=\"5\" brain=\"\" carol=\"\" demon=\"\" " \
-               "erector=\"\" omicron=\"\" pi=\"3.14\" zebra=\"\" />";
+          empty_element('foo', :alpha => "", :betty => "5", :aardvark => "tough")
+        end.should == "<foo alpha=\"\" betty=\"5\" aardvark=\"tough\" />"
+      end
+    end
+
+    context "with boolean attributes" do
+      it "should emit HTML5-style true attributes" do
+        erector do
+          empty_element('foo', :alpha => true)
+        end.should == "<foo alpha />"
+      end
+
+      it "should emit nothing for false or nil attributes" do
+        erector do
+          empty_element('foo', :alpha => false)
+        end.should == "<foo />"
+
+        erector do
+          empty_element('foo', :alpha => nil)
+        end.should == "<foo />"
       end
     end
 
