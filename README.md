@@ -2,3 +2,7 @@ Erector for Rails 4 [![Gem Version](https://badge.fury.io/rb/erector-rails4.png)
 =====
 
 This is a fork of [Erector](https://github.com/erector/erector) with a lotta old crap removed. Currently under active development, but in regular use at [DOBT](https://www.github.com/dobtco).
+
+```ruby
+gem 'erector-rails4', require: 'erector'
+```
