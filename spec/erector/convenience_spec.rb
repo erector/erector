@@ -178,17 +178,18 @@ describe Erector::Convenience do
     it "makes a link when passed a string" do
       erector do
         css "erector.css"
-      end.should == "<link href=\"erector.css\" rel=\"stylesheet\" type=\"text/css\" />"
+      end.should == "<link rel=\"stylesheet\" type=\"text/css\" href=\"erector.css\" />"
     end
 
     it "accepts a media attribute" do
       erector do
         css "print.css", :media => "print"
-      end.should == "<link href=\"print.css\" media=\"print\" rel=\"stylesheet\" type=\"text/css\" />"
+      end.should == "<link rel=\"stylesheet\" type=\"text/css\" href=\"print.css\" media=\"print\" />"
     end
 
     it "passes extra attributes through" do
-      erector { css "foo.css", :title => 'Foo' }.should == "<link href=\"foo.css\" rel=\"stylesheet\" title=\"Foo\" type=\"text/css\" />"
+      erector { css "foo.css", :title => 'Foo' }.should ==
+        "<link rel=\"stylesheet\" type=\"text/css\" href=\"foo.css\" title=\"Foo\" />"
     end
   end
 

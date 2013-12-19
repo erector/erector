@@ -8,3 +8,4 @@ spec/dummy/.sass-cache
 spec/dummy/public/uploads/*
 tmp/*
 coverage/*
+*.gem

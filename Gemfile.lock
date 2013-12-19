@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    erector (0.9.0)
+    erector-rails4 (0.0.1)
       rails (>= 4.0)
       treetop (>= 1.2.3)
 
@@ -103,7 +103,7 @@ GEM
       multi_json (~> 1.0)
       simplecov-html (~> 0.7.1)
     simplecov-html (0.7.1)
-    sprockets (2.10.0)
+    sprockets (2.10.1)
       hike (~> 1.2)
       multi_json (~> 1.0)
       rack (~> 1.0)
@@ -136,7 +136,7 @@ PLATFORMS
 
 DEPENDENCIES
   coveralls
-  erector!
+  erector-rails4!
   haml
   nokogiri
   rr

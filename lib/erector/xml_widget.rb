@@ -76,7 +76,7 @@ module Erector
 
     # Emits an XML instruction, which looks like this: <?xml version=\"1.0\" encoding=\"UTF-8\" ?>
     def instruct(attributes={:version => "1.0", :encoding => "UTF-8"})
-      output << raw("<?xml#{format_sorted(sort_for_xml_declaration(attributes))}?>")
+      output << raw("<?xml#{format_attributes(sort_for_xml_declaration(attributes))}?>")
     end
 
     # Emits an XML/HTML comment (&lt;!-- ... --&gt;) surrounding +text+ and/or

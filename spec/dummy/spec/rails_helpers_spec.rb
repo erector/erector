@@ -3,7 +3,7 @@ require 'simple_form'
 
 describe Erector::Rails do
   before do
-    @controller         = ActionController::Base.new
+    @controller         = ApplicationController.new
     @controller.request = ActionController::TestRequest.new
 
     @view            = ActionView::Base.new
@@ -16,6 +16,16 @@ describe Erector::Rails do
 
   def test_render(&block)
     Erector::Rails.render(Erector.inline(&block), @controller.view_context)
+  end
+
+  describe "a non-output helper" do
+    it "does not render to the output buffer" do
+      test_render do
+        if user_role == 'admin'
+          text 'foo'
+        end
+      end.should == %{foo}
+    end
   end
 
   describe "#link_to" do
