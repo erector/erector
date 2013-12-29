@@ -126,7 +126,7 @@ module Erector
       if helpers.respond_to?(name)
         return_value = helpers.send(name, *args, &block)
 
-        if return_value.is_a?(String)
+        if return_value.try(:html_safe?)
           text return_value
         else
           return_value
