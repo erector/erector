@@ -120,8 +120,8 @@ module Erector
       end
     end
 
-    # Delegate to non-markup producing helpers via method_missing,
-    # returning their result directly.
+    # Delegate to both Rails and custom helpers via method_missing, 
+    # and output return values that are html_safe
     def method_missing(name, *args, &block)
       if helpers.respond_to?(name)
         return_value = helpers.send(name, *args, &block)

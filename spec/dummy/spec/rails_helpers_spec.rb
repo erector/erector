@@ -18,13 +18,45 @@ describe Erector::Rails do
     Erector::Rails.render(Erector.inline(&block), @controller.view_context)
   end
 
-  describe "a non-output helper" do
+  describe "a user-defined non-output helper" do
     it "does not render to the output buffer" do
       test_render do
-        if user_role == 'admin'
+        if user_role_unsafe == 'admin'
           text 'foo'
         end
       end.should == %{foo}
+    end
+
+    it "renders with the text method" do
+      test_render do
+        text user_role_unsafe
+      end.should == %{admin}
+    end
+
+    it "can be combined with a built-in method" do
+      test_render do
+        link_to user_role_unsafe, user_role_unsafe
+      end.should == %{<a href="admin">admin</a>}
+    end
+  end
+
+  describe "a helper intended to output" do
+    it "renders when called" do
+      test_render do
+        user_role_safe
+      end.should == %{admin}
+    end
+
+    it "cannot be combined directly with a built-in method" do
+      test_render do
+        image_tag user_role_safe
+      end.should == %{admin<img src="" />}
+    end
+
+    it "can be combined with a built-in method by using capture" do
+      test_render do
+        image_tag capture {user_role_safe}
+      end.should == %{<img alt="Admin" src="/images/admin" />}
     end
   end
 
@@ -165,20 +197,6 @@ describe Erector::Rails do
           text! "alert('All is good')"
         end
       end.should == %{<script>\n//<![CDATA[\nalert('All is good')\n//]]>\n</script>}
-    end
-  end
-
-  if defined?(ActionView::Helpers::ScriptaculousHelper)
-    [:sortable_element,
-     :draggable_element,
-     :drop_receiving_element].each do |helper|
-      describe "##{helper}" do
-        it "renders helper js" do
-          test_render do
-            send(helper, "rails", :url => "/foo")
-          end.should =~ %r{<script type="text/javascript">.*</script>}m
-        end
-      end
     end
   end
 
