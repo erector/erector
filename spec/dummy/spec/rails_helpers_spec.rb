@@ -40,26 +40,6 @@ describe Erector::Rails do
     end
   end
 
-  describe "a helper intended to output" do
-    it "renders when called" do
-      test_render do
-        user_role_safe
-      end.should == %{admin}
-    end
-
-    it "cannot be combined directly with a built-in method" do
-      test_render do
-        image_tag user_role_safe
-      end.should == %{admin<img src="" />}
-    end
-
-    it "can be combined with a built-in method by using capture" do
-      test_render do
-        image_tag capture {user_role_safe}
-      end.should == %{<img alt="Admin" src="/images/admin" />}
-    end
-  end
-
   describe "#link_to" do
     it "renders a link" do
       test_render do
