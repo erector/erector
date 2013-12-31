@@ -37,11 +37,17 @@ module Erector
     end
 
     def should_cache?
-      if block.nil? && self.class.cachable?
+      if block.nil? && self.class.cachable? && caching_configured?
         true
       else
         false
       end
+    end
+
+    def caching_configured?
+      return true if !defined?(Rails)
+      ::Rails.configuration.action_controller.perform_caching &&
+      ::Rails.configuration.action_controller.cache_store
     end
 
     protected
