@@ -43,6 +43,16 @@ module Erector
         end
       end
 
+      # Wrappers for rails helpers that produce markup. Erector needs to
+      # manually emit their result.
+      def def_simple_rails_helper(method_name)
+        module_eval <<-METHOD_DEF, __FILE__, __LINE__+1
+          def #{method_name}(*args, &block)
+            text helpers.#{method_name}(*args, &block)
+          end
+        METHOD_DEF
+      end
+
       def def_rails_form_helper(method_name, explicit_builder = nil)
         module_eval <<-METHOD_DEF, __FILE__, __LINE__+1
           def #{method_name}(*args, &block)
@@ -124,13 +134,7 @@ module Erector
     # and output return values that are html_safe
     def method_missing(name, *args, &block)
       if helpers.respond_to?(name)
-        return_value = helpers.send(name, *args, &block)
-
-        if return_value.try(:html_safe?)
-          text return_value
-        else
-          return_value
-        end
+        helpers.send(name, *args, &block)
       else
         super
       end
@@ -140,6 +144,72 @@ module Erector
     # respond_to? as well.
     def respond_to?(name)
       super || helpers.respond_to?(name)
+    end
+
+    [
+      # UrlHelper
+      :link_to,
+      :button_to,
+      :link_to_unless_current,
+      :link_to_unless,
+      :link_to_if,
+      :mail_to,
+
+      # FormTagHelper
+      :form_tag,
+      :select_tag,
+      :text_field_tag,
+      :label_tag,
+      :hidden_field_tag,
+      :file_field_tag,
+      :password_field_tag,
+      :text_area_tag,
+      :check_box_tag,
+      :radio_button_tag,
+      :submit_tag,
+      :image_submit_tag,
+      :field_set_tag,
+
+      # FormHelper
+      :form_for,
+      :text_field,
+      :password_field,
+      :hidden_field,
+      :file_field,
+      :text_area,
+      :check_box,
+      :radio_button,
+
+      # AssetTagHelper
+      :auto_discovery_link_tag,
+      :javascript_include_tag,
+      :stylesheet_link_tag,
+      :favicon_link_tag,
+      :image_tag,
+
+      # ScriptaculousHelper
+      :sortable_element,
+      :sortable_element_js,
+      :text_field_with_auto_complete,
+      :draggable_element,
+      :drop_receiving_element,
+
+      # PrototypeHelper
+      :link_to_remote,
+      :button_to_remote,
+      :periodically_call_remote,
+      :form_remote_tag,
+      :submit_to_remote,
+      :update_page_tag,
+
+      # JavaScriptHelper
+      :javascript_tag,
+
+      # CsrfHelper
+      :csrf_meta_tag,
+      :csrf_meta_tags
+    ].each do |method_name|
+      def_simple_rails_helper(method_name)
     end
 
     [:form_for, :fields_for].each do |method_name|
