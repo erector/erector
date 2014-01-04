@@ -91,7 +91,7 @@ module Erector
 
     # makes a unique id based on the widget's class name and object id
     # that you can use as the HTML id of an emitted element
-    def dom_id
+    def widget_dom_id
       "#{self.class.name.gsub(/:+/,"_")}_#{self.object_id}"
     end
   end

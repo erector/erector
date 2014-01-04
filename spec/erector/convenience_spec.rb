@@ -208,22 +208,22 @@ describe Erector::Convenience do
 
   end
 
-  describe "#dom_id" do
+  describe "#widget_dom_id" do
     class DOMIDWidget < Erector::Widget
       def content
-        div :id => dom_id
+        div :id => widget_dom_id
       end
     end
 
     it "makes a unique id based on the widget's class name and object id" do
       widget = DOMIDWidget.new
-      widget.dom_id.should include("#{widget.object_id}")
-      widget.dom_id.should include("DOMIDWidget")
+      widget.widget_dom_id.should include("#{widget.object_id}")
+      widget.widget_dom_id.should include("DOMIDWidget")
     end
 
     it "can be used as an HTML id" do
       widget = DOMIDWidget.new
-      widget.to_html.should == "<div id=\"#{widget.dom_id}\"></div>"
+      widget.to_html.should == "<div id=\"#{widget.widget_dom_id}\"></div>"
     end
 
     describe 'for a namespaced widget class' do
@@ -235,12 +235,12 @@ describe Erector::Convenience do
 
       it 'is colon escaped' do
         g = ErectorConvenienceSpec::NestedWidget.new
-        g.dom_id.should_not =~ /:/
+        g.widget_dom_id.should_not =~ /:/
       end
 
       it 'combines all parent namespaces' do
         g = ErectorConvenienceSpec::NestedWidget.new
-        g.dom_id.should == "ErectorConvenienceSpec_NestedWidget_#{g.object_id}"
+        g.widget_dom_id.should == "ErectorConvenienceSpec_NestedWidget_#{g.object_id}"
       end
 
     end

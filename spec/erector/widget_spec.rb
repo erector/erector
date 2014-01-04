@@ -163,13 +163,13 @@ module WidgetSpec
             def content
               div do
                 widget @child_widget do |child|
-                  b child.dom_id
+                  b child.widget_dom_id
                 end
               end
             end
           end
 
-          Parent2.new(:child_widget => child_widget).to_html.should == "<div><b>#{child_widget.dom_id}</b></div>"
+          Parent2.new(:child_widget => child_widget).to_html.should == "<div><b>#{child_widget.widget_dom_id}</b></div>"
         end
       end
     end

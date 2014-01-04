@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    erector-rails4 (0.0.5)
+    erector-rails4 (0.0.6)
       rails (>= 4.0)
       treetop (>= 1.2.3)
 
