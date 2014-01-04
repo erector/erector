@@ -2,6 +2,7 @@ require "erector/rails/template_handler"
 require "erector/rails/railtie"
 require "erector/rails/widget_renderer"
 require "erector/rails/form_builder"
+require "erector/rails/autoload_monkeypatch"
 
 module Erector
   module Rails
@@ -130,7 +131,7 @@ module Erector
       end
     end
 
-    # Delegate to both Rails and custom helpers via method_missing, 
+    # Delegate to both Rails and custom helpers via method_missing,
     # and output return values that are html_safe
     def method_missing(name, *args, &block)
       if helpers.respond_to?(name)
