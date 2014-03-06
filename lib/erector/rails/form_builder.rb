@@ -13,9 +13,9 @@ module Erector
 
       attr_reader :parent, :template
 
-      def initialize(object_name, object, template, options, proc = nil)
+      def initialize(object_name, object, template, options)
         @template = template
-        @parent = parent_builder_class.new(object_name, object, template, options, proc)
+        @parent = parent_builder_class.new(object_name, object, template, options)
       end
 
       def method_missing(method_name, *args, &block)
