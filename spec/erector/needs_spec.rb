@@ -137,4 +137,12 @@ describe Erector::Needs do
     end
     lambda { ThingWithOverlap.new(:text => "alas") }.should_not raise_error(ArgumentError)
   end
+
+  it "doesn't complain if you pass it an undeclared parameter and ignore_extra_assigns is set to true" do
+    class ThingIgnoreExtraAssigns < Erector::Widget
+      needs :foo
+    end
+    ThingIgnoreExtraAssigns.ignore_extra_assigns = true
+    lambda { ThingIgnoreExtraAssigns.new(:foo => 1, :bar => 1) }.should_not raise_error(ArgumentError)
+  end
 end

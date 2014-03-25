@@ -65,6 +65,14 @@ module Erector
       def needs?(name)
         needed_variables.empty? || needed_variables.include?(name)
       end
+
+      def ignore_extra_assigns
+        @ignore_extra_assigns ||= false
+      end
+
+      def ignore_extra_assigns=(new_value)
+        @ignore_extra_assigns = (new_value ? :true : :false)
+      end
     end
 
     def initialize(assigns = {})
@@ -87,7 +95,7 @@ module Erector
       end
 
       excess = assigned - self.class.needed_variables
-      unless self.class.needed_variables.empty? || excess.empty?
+      unless self.class.needed_variables.empty? || excess.empty? || self.class.ignore_extra_assigns
         raise ArgumentError, "Excess parameter#{excess.size == 1 ? '' : 's'} for #{self.class.name}: #{excess.join(', ')}"
       end
     end
