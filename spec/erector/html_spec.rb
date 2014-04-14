@@ -428,7 +428,7 @@ describe Erector::HTML do
 
   describe 'escaping' do
     plain = 'if (x < y && x > z) alert("don\'t stop");'
-    escaped = "if (x &lt; y &amp;&amp; x &gt; z) alert(&quot;don't stop&quot;);"
+    escaped = "if (x &lt; y &amp;&amp; x &gt; z) alert(&quot;don&#39;t stop&quot;);"
 
     describe "#text" do
       it "does HTML escape its param" do

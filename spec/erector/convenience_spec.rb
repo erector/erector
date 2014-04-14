@@ -212,7 +212,7 @@ describe Erector::Convenience do
     it "accepts extra attributes" do
       erector do
         url "http://example.com", :onclick=>"alert('foo')"
-      end.should == "<a href=\"http://example.com\" onclick=\"alert('foo')\">http://example.com</a>"
+      end.should == "<a href=\"http://example.com\" onclick=\"alert(&#39;foo&#39;)\">http://example.com</a>"
     end
 
   end

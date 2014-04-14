@@ -3,6 +3,7 @@ source "http://rubygems.org"
 gem "treetop", ">= 1.2.3"
 
 group :development do
+  gem "rake", "~>10.0.1"
   gem "activesupport", "~>3"
   gem "rspec", "~>2"
   gem "rubyforge"

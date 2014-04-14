@@ -158,7 +158,6 @@ namespace :spec do
     spec.pattern = 'spec/erect/*_spec.rb'
   end
 
-
   desc "Run specs for erector's Rails 3 integration."
   RSpec::Core::RakeTask.new(:integration_rails3) do |spec|
     spec.pattern = 'spec/rails_root/spec/*_spec.rb'
@@ -167,6 +166,10 @@ namespace :spec do
   desc "Run specs for erector's Rails 2 integration."
   RSpec::Core::RakeTask.new(:integration_rails2) do |spec|
     spec.pattern = 'spec/rails2/rails_app/spec/*_spec.rb'
+  end
+
+  def prepare_gemfile gemfile
+    Bundler.with_clean_env { sh "bundle check --gemfile #{gemfile} || bundle install --gemfile #{gemfile}" }
   end
 
   desc "Run specs for erector's Rails integration under Rails 2.  - prepare with 'bundle install --gemfile Gemfile-rails2"
@@ -184,6 +187,7 @@ namespace :spec do
   desc "Run all specs under latest Rails - prepare with 'bundle install --gemfile Gemfile-rails'"
   task :rails do
     gemfile = "#{here}/Gemfile-rails"
+    prepare_gemfile gemfile
     sh "BUNDLE_GEMFILE='#{gemfile}' bundle exec rake spec:core spec:erect spec:integration_rails3"
   end
 
