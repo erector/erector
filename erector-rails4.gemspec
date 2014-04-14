@@ -21,17 +21,17 @@ Gem::Specification.new do |s|
   s.homepage = "http://github.com/adamjacobbecker/erector-rails4"
   s.require_paths = ["lib"]
 
-  s.add_dependency 'rails', '>= 4.1.0'
-  s.add_dependency 'treetop', '>= 1.2.3'
+  s.add_dependency 'rails', '~> 4.1', '>= 4.1.0'
+  s.add_dependency 'treetop', '~> 1.2', '>= 1.2.3'
 
-  s.add_development_dependency 'coveralls'
-  s.add_development_dependency 'haml'
-  s.add_development_dependency 'nokogiri'
-  s.add_development_dependency 'rr'
-  s.add_development_dependency 'rspec-rails'
-  s.add_development_dependency 'sass'
-  s.add_development_dependency 'simple_form'
-  s.add_development_dependency 'sqlite3'
-  s.add_development_dependency 'wrong'
+  s.add_development_dependency 'coveralls', '0.7.0'
+  s.add_development_dependency 'haml', '4.0.5'
+  s.add_development_dependency 'nokogiri', '1.6.1'
+  s.add_development_dependency 'rr', '1.1.2'
+  s.add_development_dependency 'rspec-rails', '2.14.2'
+  s.add_development_dependency 'sass', '3.3.4'
+  s.add_development_dependency 'simple_form', '3.0.2'
+  s.add_development_dependency 'sqlite3', '1.3.9'
+  s.add_development_dependency 'wrong', '0.7.1'
 
 end
