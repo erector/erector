@@ -1,4 +1,18 @@
+== 0.10.0 - 2014-04-14
+
+* "Ryan Davis says so" release
 * Add option hyphenize_underscores to control hyphens versus underscores in dot-class and dot-id-bang syntax.
+* e9c8c50 ignore_extra_assigns feature where one can skip excess check. inspired by :ignore_extra_controller_assigns in rails widget.      Ahto Jussila
+* misc bugfixes
+* 1796dbf `needs` doesn't duplicate symbol values (Mike Lewis)
+* 67e5b89 default syntax for sass is scss
+* b90246f silence silly 'Erector::Widgets::Table requires active_support' message. (Who uses Table anyway?) (Alex Chaffee)
+* 61147fe Add hyphenize_underscores option.        Jim Kingdon
+* Rails 3 improvements
+  * 3601aca 2012-11-12  content_for returns empty string to avoid double rendering errors        zelig
+  * 155d928 2012-11-11  rails 3 templates, layouts, render deprecation   zelig
+  * d30b1fd 2012-11-11  update Gemfile, regenerate gemspec       zelig
+* 4ea4d16 2012-09-12    The following elements are inline according to HTML 4 DTD: abbr, acronym, bdo, big, caption, cite, code, dfn, dt, em, kbd, label, legend. Fixes bug whereby prettyprinting would output excess whitespace which affects the appearance in a browser.     NeedFeed Developer
 
 == 0.9.0 - 2012-08-12
 
