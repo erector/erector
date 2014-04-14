@@ -9,3 +9,4 @@ spec/dummy/public/uploads/*
 tmp/*
 coverage/*
 *.gem
+Gemfile.lock
