@@ -2,6 +2,7 @@
 *.iml
 *.ipr
 *.iws
+*.log
 *.rbc
 *~
 .DS_Store
@@ -27,3 +28,4 @@ spec/reports
 test/tmp
 test/version_tmp
 tmp
+vendor

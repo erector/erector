@@ -124,31 +124,31 @@ namespace :spec do
     spec.pattern = 'spec/rails_root/spec/*_spec.rb'
   end
 
-  desc "Run specs for erector's Rails 2 integration."
-  RSpec::Core::RakeTask.new(:integration_rails2) do |spec|
-    spec.pattern = 'spec/rails2/rails_app/spec/*_spec.rb'
+  desc "Run specs for erector's Rails 4 integration."
+  RSpec::Core::RakeTask.new(:integration_rails4) do |spec|
+    spec.pattern = 'spec/rails_root/spec/*_spec.rb'
   end
 
   def prepare_gemfile gemfile
     Bundler.with_clean_env { sh "bundle check --gemfile #{gemfile} || bundle install --gemfile #{gemfile}" }
   end
 
-  desc "Run specs for erector's Rails integration under Rails 2.  - prepare with 'bundle install --gemfile Gemfile-rails2"
-  task :rails2 do
-    gemfile = "#{here}/Gemfile-rails2"
-    prepare_gemfile gemfile
-    sh "BUNDLE_GEMFILE='#{gemfile}' bundle exec rake spec:core spec:integration_rails2"
-  end
-
-  desc "Run all specs under Rails 3.1 - prepare with 'bundle install --gemfile Gemfile-rails31'"
-  task :rails31 do
+  desc "Run all specs under Rails 3"
+  task :rails3 do
     gemfile = "#{here}/Gemfile-rails31"
     prepare_gemfile gemfile
     sh "BUNDLE_GEMFILE='#{gemfile}' bundle exec rake spec:core spec:erect spec:integration_rails3"
   end
 
-  desc "Run all specs under latest Rails - prepare with 'bundle install --gemfile Gemfile-rails'"
-  task :rails do
+  desc "Run all specs under Rails 4"
+  task :rails4 do
+    gemfile = "#{here}/Gemfile-rails4"
+    prepare_gemfile gemfile
+    sh "BUNDLE_GEMFILE='#{gemfile}' bundle exec rake spec:core spec:erect spec:integration_rails4"
+  end
+
+  desc "Run all specs under latest Rails"
+  task :rails => :rails4 do
     gemfile = "#{here}/Gemfile-rails"
     prepare_gemfile gemfile
     sh "BUNDLE_GEMFILE='#{gemfile}' bundle exec rake spec:core spec:erect spec:integration_rails3"
@@ -162,4 +162,4 @@ namespace :spec do
 end
 
 desc "Run most specs"
-task :spec => ['spec:rails', 'spec:rails2', 'spec:web']
+task :spec => ['spec:rails', 'spec:rails3', 'spec:web']
