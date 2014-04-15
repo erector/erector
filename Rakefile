@@ -9,18 +9,17 @@ end
 
 require "bundler"
 Bundler.setup
+require "bundler/gem_tasks"
 
 require 'rake'
 require 'rake/testtask'
-
 require "rspec/core/rake_task"
-
 require 'rdoc'
+
 here = File.expand_path(File.dirname(__FILE__))
 $LOAD_PATH.unshift("#{here}/lib")
 
 require "erector/version"
-require "bundler/gem_tasks"
 
 # Tasks
 
