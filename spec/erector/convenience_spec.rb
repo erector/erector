@@ -2,6 +2,7 @@ require File.expand_path("#{File.dirname(__FILE__)}/../spec_helper")
 
 describe Erector::Convenience do
   include Erector::Mixin
+  let(:tick) { CGI.escapeHTML("'") }
 
   describe "#to_pretty" do
     it "calls render with :prettyprint => true" do
@@ -212,7 +213,7 @@ describe Erector::Convenience do
     it "accepts extra attributes" do
       erector do
         url "http://example.com", :onclick=>"alert('foo')"
-      end.should == "<a href=\"http://example.com\" onclick=\"alert(&#39;foo&#39;)\">http://example.com</a>"
+      end.should == "<a href=\"http://example.com\" onclick=\"alert(#{tick}foo#{tick})\">http://example.com</a>"
     end
 
   end

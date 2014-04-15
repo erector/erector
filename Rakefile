@@ -175,12 +175,14 @@ namespace :spec do
   desc "Run specs for erector's Rails integration under Rails 2.  - prepare with 'bundle install --gemfile Gemfile-rails2"
   task :rails2 do
     gemfile = "#{here}/Gemfile-rails2"
+    prepare_gemfile gemfile
     sh "BUNDLE_GEMFILE='#{gemfile}' bundle exec rake spec:core spec:integration_rails2"
   end
 
   desc "Run all specs under Rails 3.1 - prepare with 'bundle install --gemfile Gemfile-rails31'"
   task :rails31 do
     gemfile = "#{here}/Gemfile-rails31"
+    prepare_gemfile gemfile
     sh "BUNDLE_GEMFILE='#{gemfile}' bundle exec rake spec:core spec:erect spec:integration_rails3"
   end
 

@@ -3,6 +3,8 @@ require File.expand_path("#{File.dirname(__FILE__)}/../spec_helper")
 describe Erector::HTML do
   include Erector::Mixin
 
+  let(:tick) { CGI.escapeHTML("'") }
+
   describe "#instruct" do
     it "when passed no arguments; returns an XML declaration with version 1 and utf-8" do
       # version must precede encoding, per XML 1.0 4th edition (section 2.8)
@@ -427,8 +429,8 @@ describe Erector::HTML do
   end
 
   describe 'escaping' do
-    plain = 'if (x < y && x > z) alert("don\'t stop");'
-    escaped = "if (x &lt; y &amp;&amp; x &gt; z) alert(&quot;don&#39;t stop&quot;);"
+    let(:plain) { 'if (x < y && x > z) alert("don\'t stop");' }
+    let(:escaped) { "if (x &lt; y &amp;&amp; x &gt; z) alert(&quot;don#{tick}t stop&quot;);" }
 
     describe "#text" do
       it "does HTML escape its param" do
