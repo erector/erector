@@ -20,48 +20,9 @@ here = File.expand_path(File.dirname(__FILE__))
 $LOAD_PATH.unshift("#{here}/lib")
 
 require "erector/version"
+require "bundler/gem_tasks"
 
-begin
-  require 'jeweler'
-  Jeweler::Tasks.new do |gemspec|
-    gemspec.version = Erector::VERSION
-    gemspec.name = "erector"
-    gemspec.summary = "HTML/XML Builder library"
-    gemspec.email = "erector@googlegroups.com"
-    gemspec.description = "Erector is a Builder-like view framework, inspired by Markaby but overcoming some of its flaws. In Erector all views are objects, not template files, which allows the full power of object-oriented programming (inheritance, modular decomposition, encapsulation) in views."
-    gemspec.files = FileList[
-      "README.txt",
-      "VERSION.yml",
-      "lib/**/*",
-      "bin/erector",
-      ".gemtest",
-    ]
-    gemspec.executables = ["erector"]
-    specs = Dir.glob("spec/**/*") #.reject { |file| file =~ %r{spec/rails2/} }
-    gemspec.test_files = ([
-      "Rakefile",
-      "Gemfile",
-    ] + specs).flatten
-    gemspec.homepage = "http://erector.rubyforge.org/"
-    gemspec.authors = [
-            "Alex Chaffee",
-            "Brian Takita",
-            "Jeff Dean",
-            "Jim Kingdon",
-            "John Firebaugh",
-    ]
-    # gemspec.add_dependency 'treetop', ">= 1.2.3" # Jeweler now reads Gemfile, I think
-  end
-
-  Jeweler::RubyforgeTasks.new do |rubyforge|
-    rubyforge.project = "erector"
-    rubyforge.doc_task = "rdoc"
-    rubyforge.remote_doc_path = "rdoc"
-  end
-
-rescue LoadError
-  puts "Jeweler, or one of its dependencies, is not available. Install it with: sudo gem install jeweler"
-end
+# Tasks
 
 desc "Default: run most tests"
 task :default => :spec
