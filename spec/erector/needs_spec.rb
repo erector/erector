@@ -11,7 +11,7 @@ describe Erector::Needs do
     class Thing2 < Erector::Widget
       needs nil
     end
-    lambda { Thing2.new }.should_not raise_error(ArgumentError)
+    lambda { Thing2.new }.should_not raise_error
     lambda { Thing2.new(:foo => 1) }.should raise_error(ArgumentError)
   end
 
@@ -19,7 +19,7 @@ describe Erector::Needs do
     class Thing2b < Erector::Widget
       needs :foo
     end
-    lambda { Thing2b.new(:foo => 1) }.should_not raise_error(ArgumentError)
+    lambda { Thing2b.new(:foo => 1) }.should_not raise_error
   end
 
   it "complains if you pass it an undeclared parameter" do
@@ -33,7 +33,7 @@ describe Erector::Needs do
     class Thing4 < Erector::Widget
       needs :foo, :bar
     end
-    lambda { Thing4.new(:foo => 1, :bar => 2) }.should_not raise_error(ArgumentError)
+    lambda { Thing4.new(:foo => 1, :bar => 2) }.should_not raise_error
   end
 
   it "complains when passing in an extra parameter after declaring many parameters" do
@@ -60,7 +60,7 @@ describe Erector::Needs do
       thing = Thing7.new(:foo => 1, :baz => 3)
       thing.instance_variable_get(:@bar).should equal(7)
       thing.instance_variable_get(:@baz).should equal(3)
-    }.should_not raise_error(ArgumentError)
+    }.should_not raise_error
   end
 
   it "allows multiple values on a line, including default values at the end of the line" do
@@ -72,9 +72,9 @@ describe Erector::Needs do
       thing.instance_variable_get(:@foo).should equal(1)
       thing.instance_variable_get(:@bar).should equal(7)
       thing.instance_variable_get(:@baz).should equal(2)
-    }.should_not raise_error(ArgumentError)
+    }.should_not raise_error
   end
-  
+
   it "duplicates default values, so they're not accidentally shared across all instances" do
     class Thing8a < Erector::Widget
       needs :foo => []
@@ -82,7 +82,7 @@ describe Erector::Needs do
     end
     t1 = Thing8a.new
     t2 = Thing8a.new
-    assert { t1.foo.object_id != t2.foo.object_id }    
+    assert { t1.foo.object_id != t2.foo.object_id }
     assert { t1.foo == [] }
     assert { t2.foo == [] }
   end
@@ -94,13 +94,13 @@ describe Erector::Needs do
     lambda {
       thing = Thing9.new
       thing.instance_variable_get(:@foo).should be_nil
-    }.should_not raise_error(ArgumentError)
+    }.should_not raise_error
   end
 
-  it "doesn't attempt to dup undupable value if there's another need passed in (bug)" do    
+  it "doesn't attempt to dup undupable value if there's another need passed in (bug)" do
     class Section < Erector::Widget
       needs :title, :href => nil, :stinky => false, :awesome => true, :answer => 42, :shoe_size => 12.5, :event_type => :jump
-    end    
+    end
     Section.new(:title => "Steal Underpants").instance_variable_get(:@awesome).should == true
     Section.new(:title => "Steal Underpants").instance_variable_get(:@event_type).should == :jump
   end
@@ -118,7 +118,7 @@ describe Erector::Needs do
       needs :engine
     end
 
-    lambda { Car.new(:engine => 'V-8', :wheels => 4) }.should_not raise_error(ArgumentError)
+    lambda { Car.new(:engine => 'V-8', :wheels => 4) }.should_not raise_error
     lambda { Car.new(:engine => 'V-8') }.should raise_error(ArgumentError)
     lambda { Car.new(:wheels => 4) }.should raise_error(ArgumentError)
   end
@@ -135,7 +135,7 @@ describe Erector::Needs do
     class ThingWithOverlap < Erector::Widget
       needs :text
     end
-    lambda { ThingWithOverlap.new(:text => "alas") }.should_not raise_error(ArgumentError)
+    lambda { ThingWithOverlap.new(:text => "alas") }.should_not raise_error
   end
 
   it "doesn't complain if you pass it an undeclared parameter and ignore_extra_assigns is set to true" do
@@ -143,6 +143,6 @@ describe Erector::Needs do
       needs :foo
     end
     ThingIgnoreExtraAssigns.ignore_extra_assigns = true
-    lambda { ThingIgnoreExtraAssigns.new(:foo => 1, :bar => 1) }.should_not raise_error(ArgumentError)
+    lambda { ThingIgnoreExtraAssigns.new(:foo => 1, :bar => 1) }.should_not raise_error
   end
 end
