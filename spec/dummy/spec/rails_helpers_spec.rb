@@ -20,6 +20,10 @@ describe Erector::Rails do
       ' type="text/javascript"'
     end
 
+    @link_type_tag = if Gem::Version.new(::Rails.version) < Gem::Version.new('4.0.0')
+      ' type="text/css"'
+    end
+
     def @view.protect_against_forgery?
       false
     end
@@ -155,7 +159,7 @@ describe Erector::Rails do
     it "renders tag" do
       test_render do
         stylesheet_link_tag("rails")
-      end.should == %{<link href="/stylesheets/rails.css" media="screen" rel="stylesheet" />}
+      end.should == %{<link href="/stylesheets/rails.css" media="screen" rel="stylesheet"#{@link_type_tag} />}
     end
   end
 
