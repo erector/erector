@@ -9,6 +9,7 @@ describe Erector::Rails do
     @view            = ActionView::Base.new
     @view.controller = @controller
 
+    # See https://github.com/rails/rails/commit/7a085dac2a2820856cbe6c2ca8c69779ac766a97
     @hidden_input_styles = if Gem::Version.new(::Rails.version) >= Gem::Version.new('4.1.0')
       "display:none"
     else
