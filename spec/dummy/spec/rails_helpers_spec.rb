@@ -180,7 +180,7 @@ describe Erector::Rails do
     it "renders tag" do
       test_render do
         javascript_tag "alert('All is good')"
-      end.should == %{<script>\n//<![CDATA[\nalert('All is good')\n//]]>\n</script>}
+      end.should == %{<script#{@script_type_tag}>\n//<![CDATA[\nalert('All is good')\n//]]>\n</script>}
     end
 
     it "supports block syntax" do
@@ -188,7 +188,7 @@ describe Erector::Rails do
         javascript_tag do
           text! "alert('All is good')"
         end
-      end.should == %{<script>\n//<![CDATA[\nalert('All is good')\n//]]>\n</script>}
+      end.should == %{<script#{@script_type_tag}>\n//<![CDATA[\nalert('All is good')\n//]]>\n</script>}
     end
   end
 
