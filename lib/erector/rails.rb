@@ -1,7 +1,13 @@
 require "erector/rails/template_handler"
 require "erector/rails/railtie"
 require "erector/rails/widget_renderer"
-require "erector/rails/form_builder"
+
+if Gem::Version.new(::Rails.version) < Gem::Version.new('4.0.0')
+  require "erector/rails/form_builder_rails_3"
+else
+  require "erector/rails/form_builder"
+end
+
 require "erector/rails/autoload_monkeypatch"
 
 module Erector

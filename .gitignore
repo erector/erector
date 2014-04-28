@@ -11,3 +11,5 @@ coverage/*
 *.gem
 Gemfile.lock
 spec/dummy/db/test.sqlite3
+gemfiles/*.lock
+.ruby-gemset
