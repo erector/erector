@@ -1,8 +1,0 @@
-language: ruby
-cache: bundler
-script: bundle exec rspec
-notifications:
-  email: false
-
-rvm:
-  - 2.0.0
