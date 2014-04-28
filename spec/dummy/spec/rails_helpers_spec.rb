@@ -9,6 +9,12 @@ describe Erector::Rails do
     @view            = ActionView::Base.new
     @view.controller = @controller
 
+    @hidden_input_styles = if Gem::Version.new(::Rails.version) >= Gem::Version.new('4.1.0')
+      "display:none"
+    else
+      "margin:0;padding:0;display:inline"
+    end
+
     def @view.protect_against_forgery?
       false
     end
@@ -192,7 +198,7 @@ describe Erector::Rails do
     it "works without a block" do
       test_render do
         form_tag("/posts")
-      end.should == %{<form accept-charset="UTF-8" action="/posts" method="post"><div style="display:none"><input name="utf8" type="hidden" value="&#x2713;" /></div>}
+      end.should == %{<form accept-charset="UTF-8" action="/posts" method="post"><div style="#{@hidden_input_styles}"><input name="utf8" type="hidden" value="&#x2713;" /></div>}
     end
 
     it "can be mixed with erector and rails helpers" do
@@ -200,7 +206,7 @@ describe Erector::Rails do
         form_tag("/posts") do
           div { submit_tag 'Save' }
         end
-      end.should == %{<form accept-charset="UTF-8" action="/posts" method="post"><div style="display:none"><input name="utf8" type="hidden" value="&#x2713;" /></div><div><input name="commit" type="submit" value="Save" /></div></form>}
+      end.should == %{<form accept-charset="UTF-8" action="/posts" method="post"><div style="#{@hidden_input_styles}"><input name="utf8" type="hidden" value="&#x2713;" /></div><div><input name="commit" type="submit" value="Save" /></div></form>}
     end
   end
 
@@ -211,7 +217,7 @@ describe Erector::Rails do
           form.label :my_input, "My input"
           form.text_field :my_input
         end
-      end.should == %{<form accept-charset="UTF-8" action="/test" method="post"><div style="display:none"><input name="utf8" type="hidden" value="&#x2713;" /></div><label for="something_my_input">My input</label><input id="something_my_input" name="something[my_input]" type="text" /></form>}
+      end.should == %{<form accept-charset="UTF-8" action="/test" method="post"><div style="#{@hidden_input_styles}"><input name="utf8" type="hidden" value="&#x2713;" /></div><label for="something_my_input">My input</label><input id="something_my_input" name="something[my_input]" type="text" /></form>}
     end
 
     it "doesn't double render if 'text form.label' is used by mistake" do
@@ -219,7 +225,7 @@ describe Erector::Rails do
         form_for(:something, :url => "/test") do |form|
           text form.label(:my_input, "My input")
         end
-      end.should == %{<form accept-charset="UTF-8" action="/test" method="post"><div style="display:none"><input name="utf8" type="hidden" value="&#x2713;" /></div><label for="something_my_input">My input</label></form>}
+      end.should == %{<form accept-charset="UTF-8" action="/test" method="post"><div style="#{@hidden_input_styles}"><input name="utf8" type="hidden" value="&#x2713;" /></div><label for="something_my_input">My input</label></form>}
     end
 
     it "can be called from a nested widget" do
