@@ -1,4 +1,4 @@
-require File.expand_path("#{File.dirname(__FILE__)}/../spec_helper")
+require 'spec_helper'
 
 describe Erector::Widget do
   it "provides access to instance variables from the calling context" do

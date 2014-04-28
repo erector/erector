@@ -1,4 +1,4 @@
-require File.expand_path("#{File.dirname(__FILE__)}/../spec_helper")
+require 'spec_helper'
 
 describe "indentation" do
   include Erector::Mixin
@@ -118,7 +118,7 @@ END
 
   # see http://github.com/erector/erector/issues/#issue/5
   it "indents scripts properly" do
-    pending 
+    pending
     Erector.inline do
       html :xmlns => 'http://www.w3.org/1999/xhtml' do
         head do

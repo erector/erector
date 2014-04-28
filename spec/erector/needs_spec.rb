@@ -1,4 +1,4 @@
-require File.expand_path("#{File.dirname(__FILE__)}/../spec_helper")
+require 'spec_helper'
 
 describe Erector::Needs do
   it "doesn't complain if there aren't any needs declared" do

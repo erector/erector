@@ -1,4 +1,4 @@
-require File.expand_path("#{File.dirname(__FILE__)}/../spec_helper")
+require 'spec_helper'
 require 'benchmark'
 require 'active_support' # for Symbol#to_proc
 

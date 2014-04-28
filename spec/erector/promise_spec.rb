@@ -1,4 +1,4 @@
-require File.expand_path("#{File.dirname(__FILE__)}/../spec_helper")
+require 'spec_helper'
 
 require "erector/promise"
 # a "promise" is my working name for a pointer back into the output stream, so we can rewrite the current tag (or a different one)

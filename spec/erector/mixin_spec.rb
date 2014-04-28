@@ -1,12 +1,12 @@
-require File.expand_path("#{File.dirname(__FILE__)}/../spec_helper")
+require 'spec_helper'
 require 'benchmark'
 
 module MixinSpec
-  
+
   describe Erector::Mixin do
     describe "#erector" do
       it "renders its block to a string" do
-        
+
         class Thing
           include Erector::Mixin
           def name
@@ -19,10 +19,10 @@ module MixinSpec
             end
           end
         end
-        
+
         Thing.new.name.should == "<span class=\"name\">Gabriel <i>Garcia</i> Marquez</span>"
       end
-      
+
       it "passes its parameters to to_html" do
         class Thing
           include Erector::Mixin
@@ -38,10 +38,10 @@ module MixinSpec
             end
           end
         end
-        
-        Thing.new.pretty_name.should == 
-        "<div class=\"name\">\n" + 
-        "  <ul>\n" + 
+
+        Thing.new.pretty_name.should ==
+        "<div class=\"name\">\n" +
+        "  <ul>\n" +
         "    <li>Gabriel</li>\n" +
         "    <li>Garcia</li>\n" +
         "    <li>Marquez</li>\n" +
