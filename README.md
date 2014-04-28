@@ -1,3 +1,4 @@
+[![Stories in Ready](https://badge.waffle.io/adamjacobbecker/erector-rails4.png?label=ready&title=Ready)](https://waffle.io/adamjacobbecker/erector-rails4)
 Erector for Rails 4
 =====
 
