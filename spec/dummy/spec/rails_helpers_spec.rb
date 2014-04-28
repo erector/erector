@@ -16,12 +16,9 @@ describe Erector::Rails do
       "margin:0;padding:0;display:inline"
     end
 
-    @script_type_tag = if Gem::Version.new(::Rails.version) < Gem::Version.new('4.0.0')
-      ' type="text/javascript"'
-    end
-
-    @link_type_tag = if Gem::Version.new(::Rails.version) < Gem::Version.new('4.0.0')
-      ' type="text/css"'
+    if Gem::Version.new(::Rails.version) < Gem::Version.new('4.0.0')
+      @script_type_tag = ' type="text/javascript"'
+      @link_type_tag = ' type="text/css"'
     end
 
     def @view.protect_against_forgery?
