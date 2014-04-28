@@ -60,6 +60,7 @@ describe Erector::Caching do
   end
 
   before do
+    ::Rails.configuration.action_controller.cache_store = :memory_store
     ::Rails.cache.clear
     @cache = Erector::Cache.instance
   end
