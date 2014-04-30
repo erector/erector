@@ -37,6 +37,15 @@ describe Erector::Caching do
     end
   end
 
+  class CashWithCacheOpts < Erector::Widget
+    needs :name, :occupation
+    cachable 'v3', only_keys: [:occupation]
+
+    def content
+      text "#{@name} is a #{@occupation}"
+    end
+  end
+
   class Family < Erector::Widget
     cacheable
 
@@ -112,6 +121,11 @@ describe Erector::Caching do
     it "uses the cached value" do
       @cache[Cash, {:name => "Johnny"}] = "CACHED"
       Cash.new(:name => "Johnny").to_html.should == "CACHED"
+    end
+
+    it "uses the only_keys option" do
+      CashWithCacheOpts.new(name: "Adam", occupation: "Hairdresser").to_html
+      @cache[CashWithCacheOpts, 'v3', {occupation: "Hairdresser"}].should == "Adam is a Hairdresser"
     end
 
     it "doesn't use the cached value for widgets not declared cachable" do

@@ -5,8 +5,8 @@ module Erector
     end
 
     module ClassMethods
-      def cacheable(value = true)
-        @cachable = value
+      def cacheable(value = true, opts = {})
+        @cachable, @cache_opts = value, opts
 
         if value && value != true
           @cache_version = value
@@ -20,6 +20,12 @@ module Erector
           superclass.respond_to?(:cachable?) && superclass.cachable?
         else
           @cachable
+        end
+      end
+
+      def cache_opts
+        if cachable?
+          @cache_opts || {}
         end
       end
 
@@ -50,10 +56,18 @@ module Erector
       ::Rails.configuration.action_controller.cache_store
     end
 
+    def cache_key_assigns
+      if self.class.cache_opts[:only_keys]
+        assigns.slice(*self.class.cache_opts[:only_keys])
+      else
+        assigns
+      end
+    end
+
     protected
     def _emit(options = {})
       if should_cache?
-        cache[self.class, self.class.cache_version, assigns, options[:content_method_name]] ||= super
+        cache[self.class, self.class.cache_version, cache_key_assigns, options[:content_method_name]] ||= super
       else
         super
       end
@@ -61,7 +75,7 @@ module Erector
 
     def _emit_via(parent, options = {})
       if should_cache?
-        parent.output << cache[self.class, self.class.cache_version, assigns, options[:content_method_name]] ||= parent.capture_content { super }
+        parent.output << cache[self.class, self.class.cache_version, cache_key_assigns, options[:content_method_name]] ||= parent.capture_content { super }
         parent.output.widgets << self.class # todo: test!!!
       else
         super
