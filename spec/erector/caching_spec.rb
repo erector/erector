@@ -126,6 +126,8 @@ describe Erector::Caching do
     it "uses the only_keys option" do
       CashWithCacheOpts.new(name: "Adam", occupation: "Hairdresser").to_html
       @cache[CashWithCacheOpts, 'v3', {occupation: "Hairdresser"}].should == "Adam is a Hairdresser"
+      CashWithCacheOpts.new(name: "Foobar", occupation: "Hairdresser").to_html.should == "Adam is a Hairdresser"
+      CashWithCacheOpts.new(name: "Foobar", occupation: "Hairdressr").to_html.should == "Foobar is a Hairdressr"
     end
 
     it "doesn't use the cached value for widgets not declared cachable" do

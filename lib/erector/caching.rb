@@ -67,7 +67,22 @@ module Erector
     protected
     def _emit(options = {})
       if should_cache?
-        cache[self.class, self.class.cache_version, cache_key_assigns, options[:content_method_name]] ||= super
+        if options[:output]
+          # todo: document that either :buffer or :output can be used to specify an output buffer, and deprecate :output
+          if options[:output].is_a? Output
+            @_output = options[:output]
+          else
+            @_output = Output.new({:buffer => options[:output]}.merge(options))
+          end
+        else
+          @_output = Output.new(options)
+        end
+
+        if (cached_str = cache[self.class, self.class.cache_version, cache_key_assigns, options[:content_method_name]])
+          output << cached_str
+        else
+          cache[self.class, self.class.cache_version, cache_key_assigns, options[:content_method_name]] = super
+        end
       else
         super
       end

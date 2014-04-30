@@ -49,6 +49,16 @@ describe ActionController::Base do
       render :widget => TestWidget, :content_method_name => :content_method
     end
 
+    def render_with_cache_one
+      @name = 'One'
+      render :widget => CashWidget
+    end
+
+    def render_with_cache_two
+      @name = 'Two'
+      render :widget => CashWidget
+    end
+
     def render_with_rails_options
       render :widget => TestWidget, :status => 500, :content_type => "application/json"
     end
@@ -229,6 +239,15 @@ describe ActionController::Base do
     end
   end
 
+  class CashWidget < Erector::Widget
+    needs :name
+    cacheable 'v1'
+
+    def content
+      text @name
+    end
+  end
+
   def test_action(action)
     @response = TestController.action(action).call(Rack::MockRequest.env_for("/path"))[2]
     @response.body
@@ -363,6 +382,13 @@ describe ActionController::Base do
 
     it "should allow using a widget as a layout using content_for" do
       test_action(:render_with_widget_as_layout_using_content_for).should == "TOPBEFOREDURINGAFTER"
+    end
+
+    it "should cache properly" do
+      test_action(:render_with_cache_one).should == "One"
+      test_action(:render_with_cache_one).should == "One"
+      test_action(:render_with_cache_two).should == "Two"
+      test_action(:render_with_cache_two).should == "Two"
     end
 
   end
