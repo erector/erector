@@ -445,7 +445,11 @@ describe Erector::HTML do
 
   describe 'escaping' do
     plain = 'if (x < y && x > z) alert("don\'t stop");'
-    escaped = "if (x &lt; y &amp;&amp; x &gt; z) alert(&quot;don&#39;t stop&quot;);"
+    escaped = if Gem::Version.new(RUBY_VERSION) < Gem::Version.new('2.0.0')
+      "if (x &lt; y &amp;&amp; x &gt; z) alert(&quot;don't stop&quot;);"
+    else
+      "if (x &lt; y &amp;&amp; x &gt; z) alert(&quot;don&#39;t stop&quot;);"
+    end
 
     describe "#text" do
       it "does HTML escape its param" do
