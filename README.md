@@ -1,23 +1,36 @@
-= Erector
+# Erector
 
-* http://erector.rubyforge.org
-* mailto:erector@googlegroups.com
-* http://github.com/erector/erector
-* http://www.pivotaltracker.com/projects/482
+* [Project Links](#project-links)
+* [Description](#description)
+* [Synopsis](#synopsis)
+* [Requirements](#requirements)
+* [Installation](#installation)
+* [Tests](#tests)
+* [Credits](#credits)
+* [License](#license)
 
-== DESCRIPTION
+## Project Links
+
+* [Project Website on Rubyforge](http://erector.rubyforge.org)
+* [Erector's Google Groups mailing list](mailto:erector@googlegroups.com)
+* [Github repo](http://github.com/erector/erector)
+* [Erector's public Pivotal Tracker](http://www.pivotaltracker.com/projects/482)
+
+## Description
 
 Erector is a Builder-like view framework, inspired by Markaby but overcoming
-some of its flaws. In Erector all views are objects, not template files,
-which allows the full power of object-oriented programming (inheritance,
-modular decomposition, encapsulation) in views. See the rdoc for the
-Erector::Widget class to learn how to make your own widgets, and visit the
-project site at http://erector.rubyforge.org for more documentation.
+some of its flaws. In Erector all views are objects, not template files, which
+allows the full power of object-oriented programming (inheritance, modular
+decomposition, encapsulation) in views. See [the rdoc for the `Erector::Widget`
+class](http://erector.rubyforge.org/rdoc/Erector/Widget.html) to learn how to make your own widgets, and visit the
+[project site](http://erector.rubyforge.org/) for more documentation.
 
-No, seriously, we've got hella docs at http://erector.rubyforge.org -- go
-check it out.
+No, seriously, we've got hella docs at
+[http://erector.rubyforge.org](http://erector.rubyforge.org) -- go check it out.
 
-== SYNOPSIS
+## Synopsis
+
+```ruby
 
     require 'erector'
 
@@ -39,45 +52,57 @@ check it out.
     Hello.new(:target => 'world').to_html
     => "<html><head><title>Hello</title></head><body>Hello, <b class=\"big\">world</b>!</body></html>"
 
+```
+
+```ruby
+
     include Erector::Mixin
     erector { div "love", :class => "big" }
     => "<div class=\"big\">love</div>"
 
-== REQUIREMENTS
+```
 
-The gem depends on rake and treetop, although this is just for using the command-line tool,
-so deployed applications won't need these. The Rails-dependent code is now separated so
-you can use Erector cleanly in a non-Rails app.
+## Requirements
 
-== INSTALL
+The gem depends on `rake` and `treetop`, although this is just for using the
+command-line tool, so deployed applications won't need these. The
+Rails-dependent code is now separated so you can use Erector cleanly in a
+non-Rails app.
+
+## Installation
 
 To install as a gem:
 
-* sudo gem install erector
+* `sudo gem install erector`
 
-Then add "require 'erector'" to any files which need erector.
+Then add `require 'erector'` to any files which need erector.
 
 To install as a Rails plugin:
 
-* Copy the erector source to vendor/plugins/erector in your Rails directory.
+* Copy the erector source to `vendor/plugins/erector` in your Rails directory.
 
 When installing this way, erector is automatically available to your Rails code
 (no require directive is needed).
 
-== TESTS
+## Tests
 
-Three spec rake tasks are provided: spec:core (core functionality),
-spec:erect (the erector command line tool), and spec:rails (rails integration).
+Three spec rake tasks are provided:
 
-'rake spec' will run the complete set of specs.
+* `spec:core` (core functionality);
+* `spec:erect` (the erector command line tool); and
+* `spec:rails` (Rails integration).
 
-== CREDITS:
+`rake spec` will run the complete set of specs.
+
+## Credits:
 
 Core Team:
+
 * Alex Chaffee
 * Brian Takita
 
 Special Thanks To:
+
 * Abby (Chaffee's muse & Best friend)
 * Jim Kingdon
 * Jeff Dean
@@ -87,7 +112,7 @@ Special Thanks To:
 * Alon Salant
 * Andy Peterson
 
-== LICENSE:
+## License
 
 (The MIT License)
 
