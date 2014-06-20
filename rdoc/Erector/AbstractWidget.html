@@ -1,0 +1,1016 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+
+<title>class Erector::AbstractWidget - Erector 0.10.0</title>
+
+<link type="text/css" media="screen" href="../rdoc.css" rel="stylesheet">
+
+<script type="text/javascript">
+  var rdoc_rel_prefix = "../";
+</script>
+
+<script type="text/javascript" charset="utf-8" src="../js/jquery.js"></script>
+<script type="text/javascript" charset="utf-8" src="../js/navigation.js"></script>
+<script type="text/javascript" charset="utf-8" src="../js/search_index.js"></script>
+<script type="text/javascript" charset="utf-8" src="../js/search.js"></script>
+<script type="text/javascript" charset="utf-8" src="../js/searcher.js"></script>
+<script type="text/javascript" charset="utf-8" src="../js/darkfish.js"></script>
+
+
+<body id="top" class="class">
+<nav id="metadata">
+  <nav id="home-section" class="section">
+  <h3 class="section-header">
+    <a href="../index.html">Home</a>
+    <a href="../table_of_contents.html#classes">Classes</a>
+    <a href="../table_of_contents.html#methods">Methods</a>
+  </h3>
+</nav>
+
+
+  <nav id="search-section" class="section project-section" class="initially-hidden">
+  <form action="#" method="get" accept-charset="utf-8">
+    <h3 class="section-header">
+      <input type="text" name="search" placeholder="Search" id="search-field"
+             title="Type to search, Up and Down to navigate, Enter to load">
+    </h3>
+  </form>
+
+  <ul id="search-results" class="initially-hidden"></ul>
+</nav>
+
+
+  <div id="file-metadata">
+    <nav id="file-list-section" class="section">
+  <h3 class="section-header">Defined In</h3>
+  <ul>
+    <li>lib/erector/abstract_widget.rb
+  </ul>
+</nav>
+
+    
+  </div>
+
+  <div id="class-metadata">
+    
+    <nav id="parent-class-section" class="section">
+  <h3 class="section-header">Parent</h3>
+  
+  <p class="link"><a href="../Object.html">Object</a>
+  
+</nav>
+
+    <!-- Included Modules -->
+<nav id="includes-section" class="section">
+  <h3 class="section-header">Included Modules</h3>
+
+  <ul class="link-list">
+  
+  
+    <li><a class="include" href="Element.html">Erector::Element</a>
+  
+  
+  
+    <li><a class="include" href="Attributes.html">Erector::Attributes</a>
+  
+  
+  
+    <li><a class="include" href="Text.html">Erector::Text</a>
+  
+  
+  
+    <li><a class="include" href="AfterInitialize.html">Erector::AfterInitialize</a>
+  
+  
+  
+    <li><a class="include" href="Convenience.html">Erector::Convenience</a>
+  
+  
+  
+    <li><a class="include" href="Inline.html">Erector::Inline</a>
+  
+  
+  </ul>
+</nav>
+
+    <!-- Method Quickref -->
+<nav id="method-list-section" class="section">
+  <h3 class="section-header">Methods</h3>
+
+  <ul class="link-list">
+    
+    <li><a href="#method-c-hyphenize_underscores">::hyphenize_underscores</a>
+    
+    <li><a href="#method-c-hyphenize_underscores-3D">::hyphenize_underscores=</a>
+    
+    <li><a href="#method-c-inline">::inline</a>
+    
+    <li><a href="#method-c-new">::new</a>
+    
+    <li><a href="#method-c-prettyprint_default">::prettyprint_default</a>
+    
+    <li><a href="#method-c-prettyprint_default-3D">::prettyprint_default=</a>
+    
+    <li><a href="#method-i-_emit">#_emit</a>
+    
+    <li><a href="#method-i-_emit_via">#_emit_via</a>
+    
+    <li><a href="#method-i-call_block">#call_block</a>
+    
+    <li><a href="#method-i-capture">#capture</a>
+    
+    <li><a href="#method-i-capture_content">#capture_content</a>
+    
+    <li><a href="#method-i-content">#content</a>
+    
+    <li><a href="#method-i-emit">#emit</a>
+    
+    <li><a href="#method-i-prettyprint_default">#prettyprint_default</a>
+    
+    <li><a href="#method-i-sort_for_xml_declaration">#sort_for_xml_declaration</a>
+    
+    <li><a href="#method-i-to_a">#to_a</a>
+    
+    <li><a href="#method-i-to_s">#to_s</a>
+    
+    <li><a href="#method-i-widget">#widget</a>
+    
+  </ul>
+</nav>
+
+  </div>
+
+  <div id="project-metadata">
+    <nav id="fileindex-section" class="section project-section">
+  <h3 class="section-header">Pages</h3>
+
+  <ul>
+  
+    <li class="file"><a href="../README_txt.html">README</a>
+  
+  </ul>
+</nav>
+
+    <nav id="classindex-section" class="section project-section">
+  <h3 class="section-header">Class and Module Index</h3>
+
+  <ul class="link-list">
+  
+    <li><a href="../Erector.html">Erector</a>
+  
+    <li><a href="../Erector/AbstractWidget.html">Erector::AbstractWidget</a>
+  
+    <li><a href="../Erector/AfterInitialize.html">Erector::AfterInitialize</a>
+  
+    <li><a href="../Erector/AfterInitialize/ClassMethods.html">Erector::AfterInitialize::ClassMethods</a>
+  
+    <li><a href="../Erector/Attributes.html">Erector::Attributes</a>
+  
+    <li><a href="../Erector/Cache.html">Erector::Cache</a>
+  
+    <li><a href="../Erector/Caching.html">Erector::Caching</a>
+  
+    <li><a href="../Erector/Caching/ClassMethods.html">Erector::Caching::ClassMethods</a>
+  
+    <li><a href="../Erector/Convenience.html">Erector::Convenience</a>
+  
+    <li><a href="../Erector/Dependencies.html">Erector::Dependencies</a>
+  
+    <li><a href="../Erector/Dependency.html">Erector::Dependency</a>
+  
+    <li><a href="../Erector/Element.html">Erector::Element</a>
+  
+    <li><a href="../Erector/Erect.html">Erector::Erect</a>
+  
+    <li><a href="../Erector/Erected.html">Erector::Erected</a>
+  
+    <li><a href="../Erector/Externals.html">Erector::Externals</a>
+  
+    <li><a href="../Erector/Externals/ClassMethods.html">Erector::Externals::ClassMethods</a>
+  
+    <li><a href="../Erector/HTML.html">Erector::HTML</a>
+  
+    <li><a href="../Erector/HTMLWidget.html">Erector::HTMLWidget</a>
+  
+    <li><a href="../Erector/HTMLWidget.html">Erector::HtmlWidget</a>
+  
+    <li><a href="../Erector/Inline.html">Erector::Inline</a>
+  
+    <li><a href="../Erector/InlineWidget.html">Erector::InlineWidget</a>
+  
+    <li><a href="../Erector/JQuery.html">Erector::JQuery</a>
+  
+    <li><a href="../Erector/Mixin.html">Erector::Mixin</a>
+  
+    <li><a href="../Erector/Needs.html">Erector::Needs</a>
+  
+    <li><a href="../Erector/Needs/ClassMethods.html">Erector::Needs::ClassMethods</a>
+  
+    <li><a href="../Erector/Output.html">Erector::Output</a>
+  
+    <li><a href="../Erector/Promise.html">Erector::Promise</a>
+  
+    <li><a href="../Erector/Rails.html">Erector::Rails</a>
+  
+    <li><a href="../Erector/Rails/FormBuilder.html">Erector::Rails::FormBuilder</a>
+  
+    <li><a href="../Erector/Rails/Helpers.html">Erector::Rails::Helpers</a>
+  
+    <li><a href="../Erector/Rails/TemplateHandler.html">Erector::Rails::TemplateHandler</a>
+  
+    <li><a href="../Erector/Rails/WidgetExtensions.html">Erector::Rails::WidgetExtensions</a>
+  
+    <li><a href="../Erector/Rails/WidgetExtensions/ClassMethods.html">Erector::Rails::WidgetExtensions::ClassMethods</a>
+  
+    <li><a href="../Erector/RailsFormBuilder.html">Erector::RailsFormBuilder</a>
+  
+    <li><a href="../Erector/Railtie.html">Erector::Railtie</a>
+  
+    <li><a href="../Erector/RawString.html">Erector::RawString</a>
+  
+    <li><a href="../Erector/RbHandler.html">Erector::RbHandler</a>
+  
+    <li><a href="../Erector/Sass.html">Erector::Sass</a>
+  
+    <li><a href="../Erector/Tag.html">Erector::Tag</a>
+  
+    <li><a href="../Erector/Text.html">Erector::Text</a>
+  
+    <li><a href="../Erector/UnicodeBuilder.html">Erector::UnicodeBuilder</a>
+  
+    <li><a href="../Erector/Widget.html">Erector::Widget</a>
+  
+    <li><a href="../Erector/Widgets.html">Erector::Widgets</a>
+  
+    <li><a href="../Erector/Widgets/EnvironmentBadge.html">Erector::Widgets::EnvironmentBadge</a>
+  
+    <li><a href="../Erector/Widgets/Page.html">Erector::Widgets::Page</a>
+  
+    <li><a href="../Erector/Widgets/Table.html">Erector::Widgets::Table</a>
+  
+    <li><a href="../Erector/XMLWidget.html">Erector::XMLWidget</a>
+  
+    <li><a href="../Erector/XMLWidget.html">Erector::XmlWidget</a>
+  
+    <li><a href="../ActionView.html">ActionView</a>
+  
+    <li><a href="../ActionView/Base.html">ActionView::Base</a>
+  
+    <li><a href="../ActionView/TemplateHandlers.html">ActionView::TemplateHandlers</a>
+  
+    <li><a href="../ActionView/TemplateHandlers/ErtTemplate.html">ActionView::TemplateHandlers::ErtTemplate</a>
+  
+    <li><a href="../Cell.html">Cell</a>
+  
+    <li><a href="../Cell/View.html">Cell::View</a>
+  
+    <li><a href="../FieldTable.html">FieldTable</a>
+  
+    <li><a href="../FieldTable/Field.html">FieldTable::Field</a>
+  
+    <li><a href="../ExternalRenderer.html">ExternalRenderer</a>
+  
+    <li><a href="../Form.html">Form</a>
+  
+    <li><a href="../Object.html">Object</a>
+  
+  </ul>
+</nav>
+
+  </div>
+</nav>
+
+<div id="documentation">
+  <h1 class="class">class Erector::AbstractWidget</h1>
+
+  <div id="description" class="description">
+    
+<p>Abstract base class for <a href="Widget.html">Widget</a>. This pattern
+allows <a href="Widget.html">Widget</a> to include lots of nicely organized
+modules and still have proper semantics for “super” in subclasses. See the
+rdoc for <a href="Widget.html">Widget</a> for the list of all the included
+modules.</p>
+
+  </div><!-- description -->
+
+  
+  
+  
+  <section id="5Buntitled-5D" class="documentation-section">
+    
+
+    
+
+    
+
+    
+
+    <!-- Methods -->
+    
+     <section id="public-class-5Buntitled-5D-method-details" class="method-section section">
+      <h3 class="section-header">Public Class Methods</h3>
+
+    
+      <div id="method-c-hyphenize_underscores" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">hyphenize_underscores</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="hyphenize_underscores-source">
+            <pre><span class="ruby-comment"># File lib/erector/abstract_widget.rb, line 38</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">hyphenize_underscores</span>
+  <span class="ruby-identifier">@@hyphenize_underscores</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- hyphenize_underscores-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- hyphenize_underscores-method -->
+
+    
+      <div id="method-c-hyphenize_underscores-3D" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">hyphenize_underscores=</span><span
+            class="method-args">(enabled)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="hyphenize_underscores-3D-source">
+            <pre><span class="ruby-comment"># File lib/erector/abstract_widget.rb, line 42</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">hyphenize_underscores=</span>(<span class="ruby-identifier">enabled</span>)
+  <span class="ruby-identifier">@@hyphenize_underscores</span> = <span class="ruby-identifier">enabled</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- hyphenize_underscores-3D-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- hyphenize_underscores-3D-method -->
+
+    
+      <div id="method-c-inline" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">inline</span><span
+            class="method-args">(*args, &block)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="inline-source">
+            <pre><span class="ruby-comment"># File lib/erector/abstract_widget.rb, line 46</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">inline</span>(*<span class="ruby-identifier">args</span>, &amp;<span class="ruby-identifier">block</span>)
+  <span class="ruby-constant">Class</span>.<span class="ruby-identifier">new</span>(<span class="ruby-keyword">self</span>) <span class="ruby-keyword">do</span>
+    <span class="ruby-identifier">include</span> <span class="ruby-constant">Erector</span><span class="ruby-operator">::</span><span class="ruby-constant">Inline</span>
+  <span class="ruby-keyword">end</span>.<span class="ruby-identifier">new</span>(*<span class="ruby-identifier">args</span>, &amp;<span class="ruby-identifier">block</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- inline-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- inline-method -->
+
+    
+      <div id="method-c-new" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">new</span><span
+            class="method-args">(assigns = {}, &block)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="new-source">
+            <pre><span class="ruby-comment"># File lib/erector/abstract_widget.rb, line 60</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">initialize</span>(<span class="ruby-identifier">assigns</span> = {}, &amp;<span class="ruby-identifier">block</span>)
+  <span class="ruby-keyword">unless</span> <span class="ruby-identifier">assigns</span>.<span class="ruby-identifier">is_a?</span> <span class="ruby-constant">Hash</span>
+    <span class="ruby-identifier">raise</span> <span class="ruby-constant">ArgumentError</span>, <span class="ruby-node">&quot;Erector widgets are initialized with only a parameter hash, but you passed #{assigns.class}:#{assigns.inspect}. (Other parameters are passed to to_html, or the #widget method.)&quot;</span>
+  <span class="ruby-keyword">end</span>
+
+  <span class="ruby-ivar">@_assigns</span> = <span class="ruby-identifier">assigns</span>
+
+  <span class="ruby-identifier">assigns</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">name</span>, <span class="ruby-identifier">value</span><span class="ruby-operator">|</span>
+    <span class="ruby-identifier">instance_variable_set</span>(<span class="ruby-identifier">name</span>.<span class="ruby-identifier">to_s</span>[<span class="ruby-value">0</span><span class="ruby-operator">..</span><span class="ruby-value">0</span>] <span class="ruby-operator">==</span> <span class="ruby-string">&#39;@&#39;</span> <span class="ruby-operator">?</span> <span class="ruby-identifier">name</span> <span class="ruby-operator">:</span> <span class="ruby-node">&quot;@#{name}&quot;</span>, <span class="ruby-identifier">value</span>)
+  <span class="ruby-keyword">end</span>
+
+  <span class="ruby-ivar">@_parent</span> = <span class="ruby-identifier">eval</span>(<span class="ruby-string">&quot;self&quot;</span>, <span class="ruby-identifier">block</span>.<span class="ruby-identifier">binding</span>) <span class="ruby-keyword">if</span> <span class="ruby-identifier">block</span>
+  <span class="ruby-ivar">@_block</span> = <span class="ruby-identifier">block</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- new-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- new-method -->
+
+    
+      <div id="method-c-prettyprint_default" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">prettyprint_default</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="prettyprint_default-source">
+            <pre><span class="ruby-comment"># File lib/erector/abstract_widget.rb, line 28</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">prettyprint_default</span>
+  <span class="ruby-identifier">@@prettyprint_default</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- prettyprint_default-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- prettyprint_default-method -->
+
+    
+      <div id="method-c-prettyprint_default-3D" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">prettyprint_default=</span><span
+            class="method-args">(enabled)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="prettyprint_default-3D-source">
+            <pre><span class="ruby-comment"># File lib/erector/abstract_widget.rb, line 32</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">prettyprint_default=</span>(<span class="ruby-identifier">enabled</span>)
+  <span class="ruby-identifier">@@prettyprint_default</span> = <span class="ruby-identifier">enabled</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- prettyprint_default-3D-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- prettyprint_default-3D-method -->
+
+    
+    </section><!-- public-class-method-details -->
+  
+     <section id="public-instance-5Buntitled-5D-method-details" class="method-section section">
+      <h3 class="section-header">Public Instance Methods</h3>
+
+    
+      <div id="method-i-call_block" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">call_block</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>When this method is executed, the default block that was passed in to the
+widget&#39;s constructor will be executed. The semantics of this block –
+that is, what “self” is, and whether it has access to <a
+href="../Erector.html">Erector</a> methods like “div” and “text”, and the
+widget&#39;s instance variables – can be quite confusing. The rule is, most
+of the time the block is evaluated using “call” or “yield”, which means
+that its scope is that of the caller. So if that caller is not an <a
+href="../Erector.html">Erector</a> widget, it will <strong>not</strong>
+have access to the <a href="../Erector.html">Erector</a> methods, but it
+<strong>will</strong> have access to instance variables and methods of the
+calling object.</p>
+
+<p>If you want this block to have access to <a
+href="../Erector.html">Erector</a> methods then use Erector::Inline#content
+or Erector#inline.</p>
+          
+
+          
+          <div class="method-source-code" id="call_block-source">
+            <pre><span class="ruby-comment"># File lib/erector/abstract_widget.rb, line 146</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">call_block</span>
+  <span class="ruby-ivar">@_block</span>.<span class="ruby-identifier">call</span>(<span class="ruby-keyword">self</span>) <span class="ruby-keyword">if</span> <span class="ruby-ivar">@_block</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- call_block-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- call_block-method -->
+
+    
+      <div id="method-i-capture" class="method-detail method-alias">
+        
+        <div class="method-heading">
+          <span class="method-name">capture</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+        </div>
+
+        
+
+        
+        <div class="aliases">
+          Alias for: <a href="AbstractWidget.html#method-i-capture_content">capture_content</a>
+        </div>
+        
+      </div><!-- capture-method -->
+
+    
+      <div id="method-i-capture_content" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">capture_content</span><span
+            class="method-args">() { || ... }</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Creates a whole new output string, executes the block, then converts the
+output string to a string and returns it as raw text. If at all possible
+you should avoid this method since it hurts performance, and use
+<code>widget</code> instead.</p>
+          
+
+          
+          <div class="method-source-code" id="capture_content-source">
+            <pre><span class="ruby-comment"># File lib/erector/abstract_widget.rb, line 176</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">capture_content</span>
+  <span class="ruby-identifier">original</span>, <span class="ruby-ivar">@_output</span> = <span class="ruby-identifier">output</span>, <span class="ruby-constant">Output</span>.<span class="ruby-identifier">new</span>
+  <span class="ruby-keyword">yield</span>
+  <span class="ruby-identifier">original</span>.<span class="ruby-identifier">widgets</span>.<span class="ruby-identifier">concat</span>(<span class="ruby-identifier">output</span>.<span class="ruby-identifier">widgets</span>) <span class="ruby-comment"># todo: test!!!</span>
+  <span class="ruby-identifier">output</span>.<span class="ruby-identifier">to_s</span>
+<span class="ruby-keyword">ensure</span>
+  <span class="ruby-ivar">@_output</span> = <span class="ruby-identifier">original</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- capture_content-source -->
+          
+        </div>
+
+        
+        <div class="aliases">
+          Also aliased as: <a href="AbstractWidget.html#method-i-capture">capture</a>
+        </div>
+        
+
+        
+      </div><!-- capture_content-method -->
+
+    
+      <div id="method-i-content" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">content</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Template method which must be overridden by all widget subclasses. Inside
+this method you call the magic <a
+href="Element.html#method-i-element">element</a> methods which emit <a
+href="HTML.html">HTML</a> and text to the output string.</p>
+
+<p>If you call “super” (or don&#39;t override <code>content</code>, or
+explicitly call “<a
+href="AbstractWidget.html#method-i-call_block">#call_block</a>”) then your
+widget will execute the block that was passed into its constructor. The
+semantics of this block are confusing; make sure to read the rdoc for
+Erector#call_block</p>
+          
+
+          
+          <div class="method-source-code" id="content-source">
+            <pre><span class="ruby-comment"># File lib/erector/abstract_widget.rb, line 130</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">content</span>
+  <span class="ruby-identifier">call_block</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- content-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- content-method -->
+
+    
+      <div id="method-i-emit" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">emit</span><span
+            class="method-args">(options = {})</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Entry point for rendering a widget (and all its children). This method
+creates a new output string (if necessary), calls this widget&#39;s <a
+href="AbstractWidget.html#method-i-content">content</a> method and returns
+the string.</p>
+
+<p>Options:</p>
+<dl class="rdoc-list note-list"><dt>output
+<dd>
+<p>the string (or array, or <a href="Output.html">Erector::Output</a>) to
+output to. Default: a new empty string</p>
+</dd><dt>prettyprint
+<dd>
+<p>whether <a href="../Erector.html">Erector</a> should add newlines and
+indentation. Default: the value of <a
+href="AbstractWidget.html#method-i-prettyprint_default">#prettyprint_default</a>
+(which, in turn, is false by default).</p>
+</dd><dt>indentation
+<dd>
+<p>the amount of spaces to indent. Ignored unless prettyprint is true.</p>
+</dd><dt>max_length
+<dd>
+<p>preferred maximum length of a line. Line wraps will only occur at space
+characters, so a long word may end up creating a line longer than this. If
+nil (default), then there is no arbitrary limit to line lengths, and only
+internal newline characters and prettyprinting will determine newlines in
+the output.</p>
+</dd><dt>helpers
+<dd>
+<p>a helpers object containing utility methods. Usually this is a <a
+href="Rails.html">Rails</a> view object.</p>
+</dd><dt>content_method_name
+<dd>
+<p>in case you want to call a method other than <a
+href="AbstractWidget.html#method-i-content">content</a>, pass its name in
+here.</p>
+</dd></dl>
+          
+
+          
+          <div class="method-source-code" id="emit-source">
+            <pre><span class="ruby-comment"># File lib/erector/abstract_widget.rb, line 98</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">emit</span>(<span class="ruby-identifier">options</span> = {})
+  <span class="ruby-identifier">_emit</span>(<span class="ruby-identifier">options</span>).<span class="ruby-identifier">to_s</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- emit-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- emit-method -->
+
+    
+      <div id="method-i-prettyprint_default" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">prettyprint_default</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="prettyprint_default-source">
+            <pre><span class="ruby-comment"># File lib/erector/abstract_widget.rb, line 24</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">prettyprint_default</span>
+  <span class="ruby-identifier">@@prettyprint_default</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- prettyprint_default-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- prettyprint_default-method -->
+
+    
+      <div id="method-i-to_a" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">to_a</span><span
+            class="method-args">(options = {})</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Entry point for rendering a widget (and all its children). Same as render /
+to_html only it returns an array, for theoretical performance improvements
+when using a Rack server (like Sinatra or <a href="Rails.html">Rails</a>
+Metal).</p>
+
+<p># Options: see <a href="AbstractWidget.html#method-i-emit">emit</a></p>
+          
+
+          
+          <div class="method-source-code" id="to_a-source">
+            <pre><span class="ruby-comment"># File lib/erector/abstract_widget.rb, line 117</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">to_a</span>(<span class="ruby-identifier">options</span> = {})
+  <span class="ruby-identifier">_emit</span>(<span class="ruby-identifier">options</span>).<span class="ruby-identifier">to_a</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- to_a-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- to_a-method -->
+
+    
+      <div id="method-i-to_s" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">to_s</span><span
+            class="method-args">(*args)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>alias for <a href="AbstractWidget.html#method-i-emit">emit</a> @deprecated
+Please use {<a href="AbstractWidget.html#method-i-emit">emit</a>} instead</p>
+          
+
+          
+          <div class="method-source-code" id="to_s-source">
+            <pre><span class="ruby-comment"># File lib/erector/abstract_widget.rb, line 104</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">to_s</span>(*<span class="ruby-identifier">args</span>)
+  <span class="ruby-keyword">unless</span> <span class="ruby-keyword">defined?</span> <span class="ruby-identifier">@@already_warned_to_s</span>
+    <span class="ruby-identifier">$stderr</span>.<span class="ruby-identifier">puts</span> <span class="ruby-node">&quot;Erector::Widget#to_s is deprecated. Please use #to_html instead. Called from #{caller.first}&quot;</span>
+    <span class="ruby-identifier">@@already_warned_to_s</span> = <span class="ruby-keyword">true</span>
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-identifier">to_html</span>(*<span class="ruby-identifier">args</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- to_s-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- to_s-method -->
+
+    
+      <div id="method-i-widget" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">widget</span><span
+            class="method-args">(target, assigns = {}, options = {}, &block)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Emits a (nested) widget onto the current widget&#39;s output stream.
+Accepts either a class or an instance. If the first argument is a class,
+then the second argument is a hash used to populate its instance variables.
+If the first argument is an instance then the hash must be unspecified (or
+empty). If a block is passed to this method, then it gets set as the emited
+widget&#39;s block, and will be executed when that widget calls
+<code>call_block</code> or calls <code>super</code> from inside its
+<code>content</code> method.</p>
+
+<p>This is the preferred way to call one widget from inside another. This
+method assures that the same output string is used, which gives better
+performance than using <code>capture</code> or <code>to_html</code>.</p>
+          
+
+          
+          <div class="method-source-code" id="widget-source">
+            <pre><span class="ruby-comment"># File lib/erector/abstract_widget.rb, line 161</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">widget</span>(<span class="ruby-identifier">target</span>, <span class="ruby-identifier">assigns</span> = {}, <span class="ruby-identifier">options</span> = {}, &amp;<span class="ruby-identifier">block</span>)
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">target</span>.<span class="ruby-identifier">is_a?</span> <span class="ruby-constant">Class</span>
+    <span class="ruby-identifier">target</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">assigns</span>, &amp;<span class="ruby-identifier">block</span>).<span class="ruby-identifier">_emit_via</span>(<span class="ruby-keyword">self</span>, <span class="ruby-identifier">options</span>)
+  <span class="ruby-keyword">else</span>
+    <span class="ruby-keyword">unless</span> <span class="ruby-identifier">assigns</span>.<span class="ruby-identifier">empty?</span>
+      <span class="ruby-identifier">raise</span> <span class="ruby-node">&quot;Unexpected second parameter. Did you mean to pass in assigns when you instantiated the #{target.class.to_s}?&quot;</span>
+    <span class="ruby-keyword">end</span>
+    <span class="ruby-identifier">target</span>.<span class="ruby-identifier">_emit_via</span>(<span class="ruby-keyword">self</span>, <span class="ruby-identifier">options</span>, &amp;<span class="ruby-identifier">block</span>)
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- widget-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- widget-method -->
+
+    
+    </section><!-- public-instance-method-details -->
+  
+     <section id="protected-instance-5Buntitled-5D-method-details" class="method-section section">
+      <h3 class="section-header">Protected Instance Methods</h3>
+
+    
+      <div id="method-i-_emit" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">_emit</span><span
+            class="method-args">(options = {}, &block)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>executes this widget&#39;s <a
+href="AbstractWidget.html#method-i-content">content</a> method, which emits
+stuff onto the output stream</p>
+          
+
+          
+          <div class="method-source-code" id="_emit-source">
+            <pre><span class="ruby-comment"># File lib/erector/abstract_widget.rb, line 189</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">_emit</span>(<span class="ruby-identifier">options</span> = {}, &amp;<span class="ruby-identifier">block</span>)
+  <span class="ruby-ivar">@_block</span>   = <span class="ruby-identifier">block</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">block</span>
+  <span class="ruby-ivar">@_parent</span>  = <span class="ruby-identifier">options</span>[<span class="ruby-value">:parent</span>]  <span class="ruby-operator">||</span> <span class="ruby-identifier">parent</span>
+  <span class="ruby-ivar">@_helpers</span> = <span class="ruby-identifier">options</span>[<span class="ruby-value">:helpers</span>] <span class="ruby-operator">||</span> <span class="ruby-identifier">parent</span>
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">options</span>[<span class="ruby-value">:output</span>]
+    <span class="ruby-comment"># todo: document that either :buffer or :output can be used to specify an output buffer, and deprecate :output</span>
+    <span class="ruby-keyword">if</span> <span class="ruby-identifier">options</span>[<span class="ruby-value">:output</span>].<span class="ruby-identifier">is_a?</span> <span class="ruby-constant">Output</span>
+      <span class="ruby-ivar">@_output</span> = <span class="ruby-identifier">options</span>[<span class="ruby-value">:output</span>]
+    <span class="ruby-keyword">else</span>
+      <span class="ruby-ivar">@_output</span> = <span class="ruby-constant">Output</span>.<span class="ruby-identifier">new</span>({<span class="ruby-value">:buffer</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">options</span>[<span class="ruby-value">:output</span>]}.<span class="ruby-identifier">merge</span>(<span class="ruby-identifier">options</span>))
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">else</span>
+    <span class="ruby-ivar">@_output</span> = <span class="ruby-constant">Output</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">options</span>)
+  <span class="ruby-keyword">end</span>
+
+  <span class="ruby-identifier">output</span>.<span class="ruby-identifier">widgets</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">class</span>
+  <span class="ruby-identifier">send</span>(<span class="ruby-identifier">options</span>[<span class="ruby-value">:content_method_name</span>] <span class="ruby-operator">||</span> <span class="ruby-value">:content</span>)
+  <span class="ruby-identifier">output</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- _emit-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- _emit-method -->
+
+    
+      <div id="method-i-_emit_via" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">_emit_via</span><span
+            class="method-args">(parent, options = {}, &block)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>same as _emit, but using a parent widget&#39;s output stream and helpers</p>
+          
+
+          
+          <div class="method-source-code" id="_emit_via-source">
+            <pre><span class="ruby-comment"># File lib/erector/abstract_widget.rb, line 210</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">_emit_via</span>(<span class="ruby-identifier">parent</span>, <span class="ruby-identifier">options</span> = {}, &amp;<span class="ruby-identifier">block</span>)
+  <span class="ruby-identifier">_emit</span>(<span class="ruby-identifier">options</span>.<span class="ruby-identifier">merge</span>(<span class="ruby-value">:parent</span>  =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">parent</span>,
+                        <span class="ruby-value">:output</span>  =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">parent</span>.<span class="ruby-identifier">output</span>,
+                        <span class="ruby-value">:helpers</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">parent</span>.<span class="ruby-identifier">helpers</span>), &amp;<span class="ruby-identifier">block</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- _emit_via-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- _emit_via-method -->
+
+    
+      <div id="method-i-sort_for_xml_declaration" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">sort_for_xml_declaration</span><span
+            class="method-args">(attributes)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="sort_for_xml_declaration-source">
+            <pre><span class="ruby-comment"># File lib/erector/abstract_widget.rb, line 218</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">sort_for_xml_declaration</span>(<span class="ruby-identifier">attributes</span>)
+  <span class="ruby-comment"># correct order is &quot;version, encoding, standalone&quot; (XML 1.0 section 2.8).</span>
+  <span class="ruby-comment"># But we only try to put version before encoding for now.</span>
+  <span class="ruby-identifier">stringized</span> = []
+  <span class="ruby-identifier">attributes</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">key</span>, <span class="ruby-identifier">value</span><span class="ruby-operator">|</span>
+    <span class="ruby-identifier">stringized</span> <span class="ruby-operator">&lt;&lt;</span> [<span class="ruby-identifier">key</span>.<span class="ruby-identifier">to_s</span>, <span class="ruby-identifier">value</span>]
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-identifier">stringized</span>.<span class="ruby-identifier">sort</span>{<span class="ruby-operator">|</span><span class="ruby-identifier">a</span>, <span class="ruby-identifier">b</span><span class="ruby-operator">|</span> <span class="ruby-identifier">b</span> <span class="ruby-operator">&lt;=&gt;</span> <span class="ruby-identifier">a</span>}
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- sort_for_xml_declaration-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- sort_for_xml_declaration-method -->
+
+    
+    </section><!-- protected-instance-method-details -->
+  
+  </section><!-- 5Buntitled-5D -->
+
+</div><!-- documentation -->
+
+
+<footer id="validator-badges">
+  <p><a href="http://validator.w3.org/check/referer">[Validate]</a>
+  <p>Generated by <a href="https://github.com/rdoc/rdoc">RDoc</a> 3.12.2.
+  <p>Generated with the <a href="http://deveiate.org/projects/Darkfish-Rdoc/">Darkfish Rdoc Generator</a> 3.
+</footer>
+

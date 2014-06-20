@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+
+<title>class Erector::RailsFormBuilder - Erector 0.10.0</title>
+
+<link type="text/css" media="screen" href="../rdoc.css" rel="stylesheet">
+
+<script type="text/javascript">
+  var rdoc_rel_prefix = "../";
+</script>
+
+<script type="text/javascript" charset="utf-8" src="../js/jquery.js"></script>
+<script type="text/javascript" charset="utf-8" src="../js/navigation.js"></script>
+<script type="text/javascript" charset="utf-8" src="../js/search_index.js"></script>
+<script type="text/javascript" charset="utf-8" src="../js/search.js"></script>
+<script type="text/javascript" charset="utf-8" src="../js/searcher.js"></script>
+<script type="text/javascript" charset="utf-8" src="../js/darkfish.js"></script>
+
+
+<body id="top" class="class">
+<nav id="metadata">
+  <nav id="home-section" class="section">
+  <h3 class="section-header">
+    <a href="../index.html">Home</a>
+    <a href="../table_of_contents.html#classes">Classes</a>
+    <a href="../table_of_contents.html#methods">Methods</a>
+  </h3>
+</nav>
+
+
+  <nav id="search-section" class="section project-section" class="initially-hidden">
+  <form action="#" method="get" accept-charset="utf-8">
+    <h3 class="section-header">
+      <input type="text" name="search" placeholder="Search" id="search-field"
+             title="Type to search, Up and Down to navigate, Enter to load">
+    </h3>
+  </form>
+
+  <ul id="search-results" class="initially-hidden"></ul>
+</nav>
+
+
+  <div id="file-metadata">
+    <nav id="file-list-section" class="section">
+  <h3 class="section-header">Defined In</h3>
+  <ul>
+    <li>lib/erector/rails2/rails_form_builder.rb
+  </ul>
+</nav>
+
+    
+  </div>
+
+  <div id="class-metadata">
+    
+    <nav id="parent-class-section" class="section">
+  <h3 class="section-header">Parent</h3>
+  
+  <p class="link"><a href="../Object.html">Object</a>
+  
+</nav>
+
+    
+    <!-- Method Quickref -->
+<nav id="method-list-section" class="section">
+  <h3 class="section-header">Methods</h3>
+
+  <ul class="link-list">
+    
+    <li><a href="#method-c-new">::new</a>
+    
+    <li><a href="#method-i-method_missing">#method_missing</a>
+    
+  </ul>
+</nav>
+
+  </div>
+
+  <div id="project-metadata">
+    <nav id="fileindex-section" class="section project-section">
+  <h3 class="section-header">Pages</h3>
+
+  <ul>
+  
+    <li class="file"><a href="../README_txt.html">README</a>
+  
+  </ul>
+</nav>
+
+    <nav id="classindex-section" class="section project-section">
+  <h3 class="section-header">Class and Module Index</h3>
+
+  <ul class="link-list">
+  
+    <li><a href="../Erector.html">Erector</a>
+  
+    <li><a href="../Erector/AbstractWidget.html">Erector::AbstractWidget</a>
+  
+    <li><a href="../Erector/AfterInitialize.html">Erector::AfterInitialize</a>
+  
+    <li><a href="../Erector/AfterInitialize/ClassMethods.html">Erector::AfterInitialize::ClassMethods</a>
+  
+    <li><a href="../Erector/Attributes.html">Erector::Attributes</a>
+  
+    <li><a href="../Erector/Cache.html">Erector::Cache</a>
+  
+    <li><a href="../Erector/Caching.html">Erector::Caching</a>
+  
+    <li><a href="../Erector/Caching/ClassMethods.html">Erector::Caching::ClassMethods</a>
+  
+    <li><a href="../Erector/Convenience.html">Erector::Convenience</a>
+  
+    <li><a href="../Erector/Dependencies.html">Erector::Dependencies</a>
+  
+    <li><a href="../Erector/Dependency.html">Erector::Dependency</a>
+  
+    <li><a href="../Erector/Element.html">Erector::Element</a>
+  
+    <li><a href="../Erector/Erect.html">Erector::Erect</a>
+  
+    <li><a href="../Erector/Erected.html">Erector::Erected</a>
+  
+    <li><a href="../Erector/Externals.html">Erector::Externals</a>
+  
+    <li><a href="../Erector/Externals/ClassMethods.html">Erector::Externals::ClassMethods</a>
+  
+    <li><a href="../Erector/HTML.html">Erector::HTML</a>
+  
+    <li><a href="../Erector/HTMLWidget.html">Erector::HTMLWidget</a>
+  
+    <li><a href="../Erector/HTMLWidget.html">Erector::HtmlWidget</a>
+  
+    <li><a href="../Erector/Inline.html">Erector::Inline</a>
+  
+    <li><a href="../Erector/InlineWidget.html">Erector::InlineWidget</a>
+  
+    <li><a href="../Erector/JQuery.html">Erector::JQuery</a>
+  
+    <li><a href="../Erector/Mixin.html">Erector::Mixin</a>
+  
+    <li><a href="../Erector/Needs.html">Erector::Needs</a>
+  
+    <li><a href="../Erector/Needs/ClassMethods.html">Erector::Needs::ClassMethods</a>
+  
+    <li><a href="../Erector/Output.html">Erector::Output</a>
+  
+    <li><a href="../Erector/Promise.html">Erector::Promise</a>
+  
+    <li><a href="../Erector/Rails.html">Erector::Rails</a>
+  
+    <li><a href="../Erector/Rails/FormBuilder.html">Erector::Rails::FormBuilder</a>
+  
+    <li><a href="../Erector/Rails/Helpers.html">Erector::Rails::Helpers</a>
+  
+    <li><a href="../Erector/Rails/TemplateHandler.html">Erector::Rails::TemplateHandler</a>
+  
+    <li><a href="../Erector/Rails/WidgetExtensions.html">Erector::Rails::WidgetExtensions</a>
+  
+    <li><a href="../Erector/Rails/WidgetExtensions/ClassMethods.html">Erector::Rails::WidgetExtensions::ClassMethods</a>
+  
+    <li><a href="../Erector/RailsFormBuilder.html">Erector::RailsFormBuilder</a>
+  
+    <li><a href="../Erector/Railtie.html">Erector::Railtie</a>
+  
+    <li><a href="../Erector/RawString.html">Erector::RawString</a>
+  
+    <li><a href="../Erector/RbHandler.html">Erector::RbHandler</a>
+  
+    <li><a href="../Erector/Sass.html">Erector::Sass</a>
+  
+    <li><a href="../Erector/Tag.html">Erector::Tag</a>
+  
+    <li><a href="../Erector/Text.html">Erector::Text</a>
+  
+    <li><a href="../Erector/UnicodeBuilder.html">Erector::UnicodeBuilder</a>
+  
+    <li><a href="../Erector/Widget.html">Erector::Widget</a>
+  
+    <li><a href="../Erector/Widgets.html">Erector::Widgets</a>
+  
+    <li><a href="../Erector/Widgets/EnvironmentBadge.html">Erector::Widgets::EnvironmentBadge</a>
+  
+    <li><a href="../Erector/Widgets/Page.html">Erector::Widgets::Page</a>
+  
+    <li><a href="../Erector/Widgets/Table.html">Erector::Widgets::Table</a>
+  
+    <li><a href="../Erector/XMLWidget.html">Erector::XMLWidget</a>
+  
+    <li><a href="../Erector/XMLWidget.html">Erector::XmlWidget</a>
+  
+    <li><a href="../ActionView.html">ActionView</a>
+  
+    <li><a href="../ActionView/Base.html">ActionView::Base</a>
+  
+    <li><a href="../ActionView/TemplateHandlers.html">ActionView::TemplateHandlers</a>
+  
+    <li><a href="../ActionView/TemplateHandlers/ErtTemplate.html">ActionView::TemplateHandlers::ErtTemplate</a>
+  
+    <li><a href="../Cell.html">Cell</a>
+  
+    <li><a href="../Cell/View.html">Cell::View</a>
+  
+    <li><a href="../FieldTable.html">FieldTable</a>
+  
+    <li><a href="../FieldTable/Field.html">FieldTable::Field</a>
+  
+    <li><a href="../ExternalRenderer.html">ExternalRenderer</a>
+  
+    <li><a href="../Form.html">Form</a>
+  
+    <li><a href="../Object.html">Object</a>
+  
+  </ul>
+</nav>
+
+  </div>
+</nav>
+
+<div id="documentation">
+  <h1 class="class">class Erector::RailsFormBuilder</h1>
+
+  <div id="description" class="description">
+    
+  </div><!-- description -->
+
+  
+  
+  
+  <section id="5Buntitled-5D" class="documentation-section">
+    
+
+    
+
+    
+
+    
+    <!-- Attributes -->
+    <section id="attribute-method-details" class="method-section section">
+      <h3 class="section-header">Attributes</h3>
+
+      
+      <div id="attribute-i-parent" class="method-detail">
+        <div class="method-heading attribute-method-heading">
+          <span class="method-name">parent</span><span
+            class="attribute-access-type">[R]</span>
+        </div>
+
+        <div class="method-description">
+        
+        
+        
+        </div>
+      </div>
+      
+      <div id="attribute-i-template" class="method-detail">
+        <div class="method-heading attribute-method-heading">
+          <span class="method-name">template</span><span
+            class="attribute-access-type">[R]</span>
+        </div>
+
+        <div class="method-description">
+        
+        
+        
+        </div>
+      </div>
+      
+    </section><!-- attribute-method-details -->
+    
+
+    <!-- Methods -->
+    
+     <section id="public-class-5Buntitled-5D-method-details" class="method-section section">
+      <h3 class="section-header">Public Class Methods</h3>
+
+    
+      <div id="method-c-new" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">new</span><span
+            class="method-args">(object_name, object, template, options, proc)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="new-source">
+            <pre><span class="ruby-comment"># File lib/erector/rails2/rails_form_builder.rb, line 5</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">initialize</span>(<span class="ruby-identifier">object_name</span>, <span class="ruby-identifier">object</span>, <span class="ruby-identifier">template</span>, <span class="ruby-identifier">options</span>, <span class="ruby-identifier">proc</span>)
+  <span class="ruby-ivar">@template</span> = <span class="ruby-identifier">template</span>
+  <span class="ruby-ivar">@parent</span> = <span class="ruby-constant">ActionView</span><span class="ruby-operator">::</span><span class="ruby-constant">Base</span>.<span class="ruby-identifier">default_form_builder</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">object_name</span>, <span class="ruby-identifier">object</span>, <span class="ruby-identifier">template</span>, <span class="ruby-identifier">options</span>, <span class="ruby-identifier">proc</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- new-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- new-method -->
+
+    
+    </section><!-- public-class-method-details -->
+  
+     <section id="public-instance-5Buntitled-5D-method-details" class="method-section section">
+      <h3 class="section-header">Public Instance Methods</h3>
+
+    
+      <div id="method-i-method_missing" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">method_missing</span><span
+            class="method-args">(method_name, *args, &block)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="method_missing-source">
+            <pre><span class="ruby-comment"># File lib/erector/rails2/rails_form_builder.rb, line 10</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">method_missing</span>(<span class="ruby-identifier">method_name</span>, *<span class="ruby-identifier">args</span>, &amp;<span class="ruby-identifier">block</span>)
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">parent</span>.<span class="ruby-identifier">respond_to?</span>(<span class="ruby-identifier">method_name</span>)
+    <span class="ruby-identifier">return_value</span> = <span class="ruby-identifier">parent</span>.<span class="ruby-identifier">send</span>(<span class="ruby-identifier">method_name</span>, *<span class="ruby-identifier">args</span>, &amp;<span class="ruby-identifier">block</span>)
+    <span class="ruby-keyword">if</span> <span class="ruby-identifier">return_value</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">String</span>)
+      <span class="ruby-identifier">template</span>.<span class="ruby-identifier">concat</span>(<span class="ruby-identifier">return_value</span>)
+      <span class="ruby-keyword">nil</span>
+    <span class="ruby-keyword">else</span>
+      <span class="ruby-identifier">return_value</span>
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">else</span>
+    <span class="ruby-keyword">super</span>
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- method_missing-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- method_missing-method -->
+
+    
+    </section><!-- public-instance-method-details -->
+  
+  </section><!-- 5Buntitled-5D -->
+
+</div><!-- documentation -->
+
+
+<footer id="validator-badges">
+  <p><a href="http://validator.w3.org/check/referer">[Validate]</a>
+  <p>Generated by <a href="https://github.com/rdoc/rdoc">RDoc</a> 3.12.2.
+  <p>Generated with the <a href="http://deveiate.org/projects/Darkfish-Rdoc/">Darkfish Rdoc Generator</a> 3.
+</footer>
+

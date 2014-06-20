@@ -1,3 +1,0 @@
-# whatever...
-module TestHelper
-end

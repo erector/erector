@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+
+<title>module Erector::Caching::ClassMethods - Erector 0.10.0</title>
+
+<link type="text/css" media="screen" href="../../rdoc.css" rel="stylesheet">
+
+<script type="text/javascript">
+  var rdoc_rel_prefix = "../../";
+</script>
+
+<script type="text/javascript" charset="utf-8" src="../../js/jquery.js"></script>
+<script type="text/javascript" charset="utf-8" src="../../js/navigation.js"></script>
+<script type="text/javascript" charset="utf-8" src="../../js/search_index.js"></script>
+<script type="text/javascript" charset="utf-8" src="../../js/search.js"></script>
+<script type="text/javascript" charset="utf-8" src="../../js/searcher.js"></script>
+<script type="text/javascript" charset="utf-8" src="../../js/darkfish.js"></script>
+
+
+<body id="top" class="module">
+<nav id="metadata">
+  <nav id="home-section" class="section">
+  <h3 class="section-header">
+    <a href="../../index.html">Home</a>
+    <a href="../../table_of_contents.html#classes">Classes</a>
+    <a href="../../table_of_contents.html#methods">Methods</a>
+  </h3>
+</nav>
+
+
+  <nav id="search-section" class="section project-section" class="initially-hidden">
+  <form action="#" method="get" accept-charset="utf-8">
+    <h3 class="section-header">
+      <input type="text" name="search" placeholder="Search" id="search-field"
+             title="Type to search, Up and Down to navigate, Enter to load">
+    </h3>
+  </form>
+
+  <ul id="search-results" class="initially-hidden"></ul>
+</nav>
+
+
+  <div id="file-metadata">
+    <nav id="file-list-section" class="section">
+  <h3 class="section-header">Defined In</h3>
+  <ul>
+    <li>lib/erector/caching.rb
+  </ul>
+</nav>
+
+    
+  </div>
+
+  <div id="class-metadata">
+    
+    
+    
+    <!-- Method Quickref -->
+<nav id="method-list-section" class="section">
+  <h3 class="section-header">Methods</h3>
+
+  <ul class="link-list">
+    
+    <li><a href="#method-i-cachable">#cachable</a>
+    
+    <li><a href="#method-i-cachable-3F">#cachable?</a>
+    
+    <li><a href="#method-i-cache">#cache</a>
+    
+    <li><a href="#method-i-cache-3D">#cache=</a>
+    
+    <li><a href="#method-i-cacheable">#cacheable</a>
+    
+  </ul>
+</nav>
+
+  </div>
+
+  <div id="project-metadata">
+    <nav id="fileindex-section" class="section project-section">
+  <h3 class="section-header">Pages</h3>
+
+  <ul>
+  
+    <li class="file"><a href="../../README_txt.html">README</a>
+  
+  </ul>
+</nav>
+
+    <nav id="classindex-section" class="section project-section">
+  <h3 class="section-header">Class and Module Index</h3>
+
+  <ul class="link-list">
+  
+    <li><a href="../../Erector.html">Erector</a>
+  
+    <li><a href="../../Erector/AbstractWidget.html">Erector::AbstractWidget</a>
+  
+    <li><a href="../../Erector/AfterInitialize.html">Erector::AfterInitialize</a>
+  
+    <li><a href="../../Erector/AfterInitialize/ClassMethods.html">Erector::AfterInitialize::ClassMethods</a>
+  
+    <li><a href="../../Erector/Attributes.html">Erector::Attributes</a>
+  
+    <li><a href="../../Erector/Cache.html">Erector::Cache</a>
+  
+    <li><a href="../../Erector/Caching.html">Erector::Caching</a>
+  
+    <li><a href="../../Erector/Caching/ClassMethods.html">Erector::Caching::ClassMethods</a>
+  
+    <li><a href="../../Erector/Convenience.html">Erector::Convenience</a>
+  
+    <li><a href="../../Erector/Dependencies.html">Erector::Dependencies</a>
+  
+    <li><a href="../../Erector/Dependency.html">Erector::Dependency</a>
+  
+    <li><a href="../../Erector/Element.html">Erector::Element</a>
+  
+    <li><a href="../../Erector/Erect.html">Erector::Erect</a>
+  
+    <li><a href="../../Erector/Erected.html">Erector::Erected</a>
+  
+    <li><a href="../../Erector/Externals.html">Erector::Externals</a>
+  
+    <li><a href="../../Erector/Externals/ClassMethods.html">Erector::Externals::ClassMethods</a>
+  
+    <li><a href="../../Erector/HTML.html">Erector::HTML</a>
+  
+    <li><a href="../../Erector/HTMLWidget.html">Erector::HTMLWidget</a>
+  
+    <li><a href="../../Erector/HTMLWidget.html">Erector::HtmlWidget</a>
+  
+    <li><a href="../../Erector/Inline.html">Erector::Inline</a>
+  
+    <li><a href="../../Erector/InlineWidget.html">Erector::InlineWidget</a>
+  
+    <li><a href="../../Erector/JQuery.html">Erector::JQuery</a>
+  
+    <li><a href="../../Erector/Mixin.html">Erector::Mixin</a>
+  
+    <li><a href="../../Erector/Needs.html">Erector::Needs</a>
+  
+    <li><a href="../../Erector/Needs/ClassMethods.html">Erector::Needs::ClassMethods</a>
+  
+    <li><a href="../../Erector/Output.html">Erector::Output</a>
+  
+    <li><a href="../../Erector/Promise.html">Erector::Promise</a>
+  
+    <li><a href="../../Erector/Rails.html">Erector::Rails</a>
+  
+    <li><a href="../../Erector/Rails/FormBuilder.html">Erector::Rails::FormBuilder</a>
+  
+    <li><a href="../../Erector/Rails/Helpers.html">Erector::Rails::Helpers</a>
+  
+    <li><a href="../../Erector/Rails/TemplateHandler.html">Erector::Rails::TemplateHandler</a>
+  
+    <li><a href="../../Erector/Rails/WidgetExtensions.html">Erector::Rails::WidgetExtensions</a>
+  
+    <li><a href="../../Erector/Rails/WidgetExtensions/ClassMethods.html">Erector::Rails::WidgetExtensions::ClassMethods</a>
+  
+    <li><a href="../../Erector/RailsFormBuilder.html">Erector::RailsFormBuilder</a>
+  
+    <li><a href="../../Erector/Railtie.html">Erector::Railtie</a>
+  
+    <li><a href="../../Erector/RawString.html">Erector::RawString</a>
+  
+    <li><a href="../../Erector/RbHandler.html">Erector::RbHandler</a>
+  
+    <li><a href="../../Erector/Sass.html">Erector::Sass</a>
+  
+    <li><a href="../../Erector/Tag.html">Erector::Tag</a>
+  
+    <li><a href="../../Erector/Text.html">Erector::Text</a>
+  
+    <li><a href="../../Erector/UnicodeBuilder.html">Erector::UnicodeBuilder</a>
+  
+    <li><a href="../../Erector/Widget.html">Erector::Widget</a>
+  
+    <li><a href="../../Erector/Widgets.html">Erector::Widgets</a>
+  
+    <li><a href="../../Erector/Widgets/EnvironmentBadge.html">Erector::Widgets::EnvironmentBadge</a>
+  
+    <li><a href="../../Erector/Widgets/Page.html">Erector::Widgets::Page</a>
+  
+    <li><a href="../../Erector/Widgets/Table.html">Erector::Widgets::Table</a>
+  
+    <li><a href="../../Erector/XMLWidget.html">Erector::XMLWidget</a>
+  
+    <li><a href="../../Erector/XMLWidget.html">Erector::XmlWidget</a>
+  
+    <li><a href="../../ActionView.html">ActionView</a>
+  
+    <li><a href="../../ActionView/Base.html">ActionView::Base</a>
+  
+    <li><a href="../../ActionView/TemplateHandlers.html">ActionView::TemplateHandlers</a>
+  
+    <li><a href="../../ActionView/TemplateHandlers/ErtTemplate.html">ActionView::TemplateHandlers::ErtTemplate</a>
+  
+    <li><a href="../../Cell.html">Cell</a>
+  
+    <li><a href="../../Cell/View.html">Cell::View</a>
+  
+    <li><a href="../../FieldTable.html">FieldTable</a>
+  
+    <li><a href="../../FieldTable/Field.html">FieldTable::Field</a>
+  
+    <li><a href="../../ExternalRenderer.html">ExternalRenderer</a>
+  
+    <li><a href="../../Form.html">Form</a>
+  
+    <li><a href="../../Object.html">Object</a>
+  
+  </ul>
+</nav>
+
+  </div>
+</nav>
+
+<div id="documentation">
+  <h1 class="module">module Erector::Caching::ClassMethods</h1>
+
+  <div id="description" class="description">
+    
+  </div><!-- description -->
+
+  
+  
+  
+  <section id="5Buntitled-5D" class="documentation-section">
+    
+
+    
+
+    
+
+    
+
+    <!-- Methods -->
+    
+     <section id="public-instance-5Buntitled-5D-method-details" class="method-section section">
+      <h3 class="section-header">Public Instance Methods</h3>
+
+    
+      <div id="method-i-cachable" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">cachable</span><span
+            class="method-args">(value = true)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="cachable-source">
+            <pre><span class="ruby-comment"># File lib/erector/caching.rb, line 47</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">cachable</span>(<span class="ruby-identifier">value</span> = <span class="ruby-keyword">true</span>)
+  <span class="ruby-ivar">@cachable</span> = <span class="ruby-identifier">value</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- cachable-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- cachable-method -->
+
+    
+      <div id="method-i-cachable-3F" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">cachable?</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="cachable-3F-source">
+            <pre><span class="ruby-comment"># File lib/erector/caching.rb, line 51</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">cachable?</span>
+  <span class="ruby-keyword">if</span> <span class="ruby-ivar">@cachable</span>.<span class="ruby-identifier">nil?</span>
+    <span class="ruby-identifier">superclass</span>.<span class="ruby-identifier">respond_to?</span>(<span class="ruby-value">:cachable?</span>) <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">superclass</span>.<span class="ruby-identifier">cachable?</span>
+  <span class="ruby-keyword">else</span>
+    <span class="ruby-ivar">@cachable</span>
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- cachable-3F-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- cachable-3F-method -->
+
+    
+      <div id="method-i-cache" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">cache</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="cache-source">
+            <pre><span class="ruby-comment"># File lib/erector/caching.rb, line 59</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">cache</span>
+  <span class="ruby-identifier">@@cache</span> <span class="ruby-operator">||=</span> <span class="ruby-keyword">nil</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- cache-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- cache-method -->
+
+    
+      <div id="method-i-cache-3D" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">cache=</span><span
+            class="method-args">(c)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="cache-3D-source">
+            <pre><span class="ruby-comment"># File lib/erector/caching.rb, line 63</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">cache=</span>(<span class="ruby-identifier">c</span>)
+  <span class="ruby-identifier">@@cache</span> = <span class="ruby-identifier">c</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- cache-3D-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- cache-3D-method -->
+
+    
+      <div id="method-i-cacheable" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">cacheable</span><span
+            class="method-args">(value = true)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="cacheable-source">
+            <pre><span class="ruby-comment"># File lib/erector/caching.rb, line 43</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">cacheable</span>(<span class="ruby-identifier">value</span> = <span class="ruby-keyword">true</span>)
+  <span class="ruby-ivar">@cachable</span> = <span class="ruby-identifier">value</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- cacheable-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- cacheable-method -->
+
+    
+    </section><!-- public-instance-method-details -->
+  
+  </section><!-- 5Buntitled-5D -->
+
+</div><!-- documentation -->
+
+
+<footer id="validator-badges">
+  <p><a href="http://validator.w3.org/check/referer">[Validate]</a>
+  <p>Generated by <a href="https://github.com/rdoc/rdoc">RDoc</a> 3.12.2.
+  <p>Generated with the <a href="http://deveiate.org/projects/Darkfish-Rdoc/">Darkfish Rdoc Generator</a> 3.
+</footer>
+

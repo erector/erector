@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+
+<title>class Erector::XmlWidget - Erector 0.10.0</title>
+
+<link type="text/css" media="screen" href="../rdoc.css" rel="stylesheet">
+
+<script type="text/javascript">
+  var rdoc_rel_prefix = "../";
+</script>
+
+<script type="text/javascript" charset="utf-8" src="../js/jquery.js"></script>
+<script type="text/javascript" charset="utf-8" src="../js/navigation.js"></script>
+<script type="text/javascript" charset="utf-8" src="../js/search_index.js"></script>
+<script type="text/javascript" charset="utf-8" src="../js/search.js"></script>
+<script type="text/javascript" charset="utf-8" src="../js/searcher.js"></script>
+<script type="text/javascript" charset="utf-8" src="../js/darkfish.js"></script>
+
+
+<body id="top" class="class">
+<nav id="metadata">
+  <nav id="home-section" class="section">
+  <h3 class="section-header">
+    <a href="../index.html">Home</a>
+    <a href="../table_of_contents.html#classes">Classes</a>
+    <a href="../table_of_contents.html#methods">Methods</a>
+  </h3>
+</nav>
+
+
+  <nav id="search-section" class="section project-section" class="initially-hidden">
+  <form action="#" method="get" accept-charset="utf-8">
+    <h3 class="section-header">
+      <input type="text" name="search" placeholder="Search" id="search-field"
+             title="Type to search, Up and Down to navigate, Enter to load">
+    </h3>
+  </form>
+
+  <ul id="search-results" class="initially-hidden"></ul>
+</nav>
+
+
+  <div id="file-metadata">
+    <nav id="file-list-section" class="section">
+  <h3 class="section-header">Defined In</h3>
+  <ul>
+    <li>lib/erector/xml_widget.rb
+  </ul>
+</nav>
+
+    
+  </div>
+
+  <div id="class-metadata">
+    
+    <nav id="parent-class-section" class="section">
+  <h3 class="section-header">Parent</h3>
+  
+  <p class="link"><a href="AbstractWidget.html">Erector::AbstractWidget</a>
+  
+</nav>
+
+    <!-- Included Modules -->
+<nav id="includes-section" class="section">
+  <h3 class="section-header">Included Modules</h3>
+
+  <ul class="link-list">
+  
+  
+    <li><a class="include" href="Needs.html">Erector::Needs</a>
+  
+  
+  </ul>
+</nav>
+
+    <!-- Method Quickref -->
+<nav id="method-list-section" class="section">
+  <h3 class="section-header">Methods</h3>
+
+  <ul class="link-list">
+    
+    <li><a href="#method-c-full_tags">::full_tags</a>
+    
+    <li><a href="#method-c-self_closing_tags">::self_closing_tags</a>
+    
+    <li><a href="#method-c-tag">::tag</a>
+    
+    <li><a href="#method-c-tag_named">::tag_named</a>
+    
+    <li><a href="#method-i-comment">#comment</a>
+    
+    <li><a href="#method-i-instruct">#instruct</a>
+    
+    <li><a href="#method-i-newliney-3F">#newliney?</a>
+    
+    <li><a href="#method-i-sort_for_xml_declaration">#sort_for_xml_declaration</a>
+    
+  </ul>
+</nav>
+
+  </div>
+
+  <div id="project-metadata">
+    <nav id="fileindex-section" class="section project-section">
+  <h3 class="section-header">Pages</h3>
+
+  <ul>
+  
+    <li class="file"><a href="../README_txt.html">README</a>
+  
+  </ul>
+</nav>
+
+    <nav id="classindex-section" class="section project-section">
+  <h3 class="section-header">Class and Module Index</h3>
+
+  <ul class="link-list">
+  
+    <li><a href="../Erector.html">Erector</a>
+  
+    <li><a href="../Erector/AbstractWidget.html">Erector::AbstractWidget</a>
+  
+    <li><a href="../Erector/AfterInitialize.html">Erector::AfterInitialize</a>
+  
+    <li><a href="../Erector/AfterInitialize/ClassMethods.html">Erector::AfterInitialize::ClassMethods</a>
+  
+    <li><a href="../Erector/Attributes.html">Erector::Attributes</a>
+  
+    <li><a href="../Erector/Cache.html">Erector::Cache</a>
+  
+    <li><a href="../Erector/Caching.html">Erector::Caching</a>
+  
+    <li><a href="../Erector/Caching/ClassMethods.html">Erector::Caching::ClassMethods</a>
+  
+    <li><a href="../Erector/Convenience.html">Erector::Convenience</a>
+  
+    <li><a href="../Erector/Dependencies.html">Erector::Dependencies</a>
+  
+    <li><a href="../Erector/Dependency.html">Erector::Dependency</a>
+  
+    <li><a href="../Erector/Element.html">Erector::Element</a>
+  
+    <li><a href="../Erector/Erect.html">Erector::Erect</a>
+  
+    <li><a href="../Erector/Erected.html">Erector::Erected</a>
+  
+    <li><a href="../Erector/Externals.html">Erector::Externals</a>
+  
+    <li><a href="../Erector/Externals/ClassMethods.html">Erector::Externals::ClassMethods</a>
+  
+    <li><a href="../Erector/HTML.html">Erector::HTML</a>
+  
+    <li><a href="../Erector/HTMLWidget.html">Erector::HTMLWidget</a>
+  
+    <li><a href="../Erector/HTMLWidget.html">Erector::HtmlWidget</a>
+  
+    <li><a href="../Erector/Inline.html">Erector::Inline</a>
+  
+    <li><a href="../Erector/InlineWidget.html">Erector::InlineWidget</a>
+  
+    <li><a href="../Erector/JQuery.html">Erector::JQuery</a>
+  
+    <li><a href="../Erector/Mixin.html">Erector::Mixin</a>
+  
+    <li><a href="../Erector/Needs.html">Erector::Needs</a>
+  
+    <li><a href="../Erector/Needs/ClassMethods.html">Erector::Needs::ClassMethods</a>
+  
+    <li><a href="../Erector/Output.html">Erector::Output</a>
+  
+    <li><a href="../Erector/Promise.html">Erector::Promise</a>
+  
+    <li><a href="../Erector/Rails.html">Erector::Rails</a>
+  
+    <li><a href="../Erector/Rails/FormBuilder.html">Erector::Rails::FormBuilder</a>
+  
+    <li><a href="../Erector/Rails/Helpers.html">Erector::Rails::Helpers</a>
+  
+    <li><a href="../Erector/Rails/TemplateHandler.html">Erector::Rails::TemplateHandler</a>
+  
+    <li><a href="../Erector/Rails/WidgetExtensions.html">Erector::Rails::WidgetExtensions</a>
+  
+    <li><a href="../Erector/Rails/WidgetExtensions/ClassMethods.html">Erector::Rails::WidgetExtensions::ClassMethods</a>
+  
+    <li><a href="../Erector/RailsFormBuilder.html">Erector::RailsFormBuilder</a>
+  
+    <li><a href="../Erector/Railtie.html">Erector::Railtie</a>
+  
+    <li><a href="../Erector/RawString.html">Erector::RawString</a>
+  
+    <li><a href="../Erector/RbHandler.html">Erector::RbHandler</a>
+  
+    <li><a href="../Erector/Sass.html">Erector::Sass</a>
+  
+    <li><a href="../Erector/Tag.html">Erector::Tag</a>
+  
+    <li><a href="../Erector/Text.html">Erector::Text</a>
+  
+    <li><a href="../Erector/UnicodeBuilder.html">Erector::UnicodeBuilder</a>
+  
+    <li><a href="../Erector/Widget.html">Erector::Widget</a>
+  
+    <li><a href="../Erector/Widgets.html">Erector::Widgets</a>
+  
+    <li><a href="../Erector/Widgets/EnvironmentBadge.html">Erector::Widgets::EnvironmentBadge</a>
+  
+    <li><a href="../Erector/Widgets/Page.html">Erector::Widgets::Page</a>
+  
+    <li><a href="../Erector/Widgets/Table.html">Erector::Widgets::Table</a>
+  
+    <li><a href="../Erector/XMLWidget.html">Erector::XMLWidget</a>
+  
+    <li><a href="../Erector/XMLWidget.html">Erector::XmlWidget</a>
+  
+    <li><a href="../ActionView.html">ActionView</a>
+  
+    <li><a href="../ActionView/Base.html">ActionView::Base</a>
+  
+    <li><a href="../ActionView/TemplateHandlers.html">ActionView::TemplateHandlers</a>
+  
+    <li><a href="../ActionView/TemplateHandlers/ErtTemplate.html">ActionView::TemplateHandlers::ErtTemplate</a>
+  
+    <li><a href="../Cell.html">Cell</a>
+  
+    <li><a href="../Cell/View.html">Cell::View</a>
+  
+    <li><a href="../FieldTable.html">FieldTable</a>
+  
+    <li><a href="../FieldTable/Field.html">FieldTable::Field</a>
+  
+    <li><a href="../ExternalRenderer.html">ExternalRenderer</a>
+  
+    <li><a href="../Form.html">Form</a>
+  
+    <li><a href="../Object.html">Object</a>
+  
+  </ul>
+</nav>
+
+  </div>
+</nav>
+
+<div id="documentation">
+  <h1 class="class">class Erector::XmlWidget</h1>
+
+  <div id="description" class="description">
+    
+<p>Abstract base class for XML <a href="Widgets.html">Widgets</a> and <a
+href="HTMLWidget.html">HTMLWidget</a>. Declares “tags” which define methods
+that emit tags.</p>
+
+  </div><!-- description -->
+
+  
+  
+  
+  <section id="5Buntitled-5D" class="documentation-section">
+    
+
+    
+
+    
+
+    
+
+    <!-- Methods -->
+    
+     <section id="public-class-5Buntitled-5D-method-details" class="method-section section">
+      <h3 class="section-header">Public Class Methods</h3>
+
+    
+      <div id="method-c-full_tags" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">full_tags</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Tags which can contain other stuff</p>
+          
+
+          
+          <div class="method-source-code" id="full_tags-source">
+            <pre><span class="ruby-comment"># File lib/erector/xml_widget.rb, line 64</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">full_tags</span>
+  <span class="ruby-ivar">@tags</span>.<span class="ruby-identifier">values</span>.<span class="ruby-identifier">select</span>{<span class="ruby-operator">|</span><span class="ruby-identifier">tag</span><span class="ruby-operator">|</span> <span class="ruby-operator">!</span><span class="ruby-identifier">tag</span>.<span class="ruby-identifier">self_closing?</span>}.<span class="ruby-identifier">map</span>{<span class="ruby-operator">|</span><span class="ruby-identifier">tag</span><span class="ruby-operator">|</span> <span class="ruby-identifier">tag</span>.<span class="ruby-identifier">name</span>}
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- full_tags-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- full_tags-method -->
+
+    
+      <div id="method-c-self_closing_tags" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">self_closing_tags</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Tags which are always self-closing</p>
+          
+
+          
+          <div class="method-source-code" id="self_closing_tags-source">
+            <pre><span class="ruby-comment"># File lib/erector/xml_widget.rb, line 59</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">self_closing_tags</span>
+  <span class="ruby-ivar">@tags</span>.<span class="ruby-identifier">values</span>.<span class="ruby-identifier">select</span>{<span class="ruby-operator">|</span><span class="ruby-identifier">tag</span><span class="ruby-operator">|</span> <span class="ruby-identifier">tag</span>.<span class="ruby-identifier">self_closing?</span>}.<span class="ruby-identifier">map</span>{<span class="ruby-operator">|</span><span class="ruby-identifier">tag</span><span class="ruby-operator">|</span> <span class="ruby-identifier">tag</span>.<span class="ruby-identifier">name</span>}
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- self_closing_tags-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- self_closing_tags-method -->
+
+    
+      <div id="method-c-tag" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">tag</span><span
+            class="method-args">(*args)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="tag-source">
+            <pre><span class="ruby-comment"># File lib/erector/xml_widget.rb, line 29</span>
+    <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">tag</span> *<span class="ruby-identifier">args</span>
+      <span class="ruby-identifier">tag</span> = <span class="ruby-constant">Tag</span>.<span class="ruby-identifier">new</span>(*<span class="ruby-identifier">args</span>)
+      <span class="ruby-ivar">@tags</span> <span class="ruby-operator">||=</span> {}
+      <span class="ruby-ivar">@tags</span>[<span class="ruby-identifier">tag</span>.<span class="ruby-identifier">name</span>] = <span class="ruby-identifier">tag</span>
+
+      <span class="ruby-keyword">if</span> <span class="ruby-identifier">instance_methods</span>.<span class="ruby-identifier">include?</span>(<span class="ruby-identifier">tag</span>.<span class="ruby-identifier">method_name</span>.<span class="ruby-identifier">to_sym</span>)
+        <span class="ruby-identifier">warn</span> <span class="ruby-node">&quot;method &#39;#{tag.method_name}&#39; is already defined; skipping #{caller[1]}&quot;</span>
+        <span class="ruby-keyword">return</span>
+      <span class="ruby-keyword">end</span>
+
+      <span class="ruby-keyword">if</span> <span class="ruby-identifier">tag</span>.<span class="ruby-identifier">self_closing?</span>
+        <span class="ruby-keyword">self</span>.<span class="ruby-identifier">class_eval</span>(<span class="ruby-string">&quot;          def #{tag.method_name}(*args, &amp;block)
+            _empty_element(&#39;#{tag.name}&#39;, *args, &amp;block)
+          end
+&quot;</span>, <span class="ruby-keyword">__FILE__</span>, <span class="ruby-keyword">__LINE__</span> <span class="ruby-operator">+</span> <span class="ruby-value">1</span>)
+      <span class="ruby-keyword">else</span>
+        <span class="ruby-keyword">self</span>.<span class="ruby-identifier">class_eval</span>(<span class="ruby-string">&quot;        def #{tag.method_name}(*args, &amp;block)
+              _element(&#39;#{tag.name}&#39;, *args, &amp;block)
+          end
+
+          def #{tag.method_name}!(*args, &amp;block)
+            _element(&#39;#{tag.name}&#39;, *(args.map{|a|raw(a)}), &amp;block)
+          end
+&quot;</span>, <span class="ruby-keyword">__FILE__</span>, <span class="ruby-keyword">__LINE__</span> <span class="ruby-operator">+</span> <span class="ruby-value">1</span>)
+      <span class="ruby-keyword">end</span>
+    <span class="ruby-keyword">end</span></pre>
+          </div><!-- tag-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- tag-method -->
+
+    
+      <div id="method-c-tag_named" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">tag_named</span><span
+            class="method-args">(tag_name, checked = [])</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="tag_named-source">
+            <pre><span class="ruby-comment"># File lib/erector/xml_widget.rb, line 12</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">tag_named</span> <span class="ruby-identifier">tag_name</span>, <span class="ruby-identifier">checked</span> = []
+  <span class="ruby-ivar">@tags</span> <span class="ruby-operator">||=</span> {}
+  <span class="ruby-ivar">@tags</span>[<span class="ruby-identifier">tag_name</span>] <span class="ruby-operator">||</span> <span class="ruby-keyword">begin</span>
+    <span class="ruby-identifier">tag</span> = <span class="ruby-keyword">nil</span>
+    <span class="ruby-identifier">checked</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-keyword">self</span>
+    <span class="ruby-identifier">taggy_ancestors</span> = (<span class="ruby-identifier">ancestors</span> <span class="ruby-operator">-</span> <span class="ruby-identifier">checked</span>).<span class="ruby-identifier">select</span>{<span class="ruby-operator">|</span><span class="ruby-identifier">k</span><span class="ruby-operator">|</span> <span class="ruby-identifier">k</span>.<span class="ruby-identifier">respond_to?</span> <span class="ruby-value">:tag_named</span>}
+    <span class="ruby-identifier">taggy_ancestors</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">k</span><span class="ruby-operator">|</span>
+      <span class="ruby-identifier">tag</span> = <span class="ruby-identifier">k</span>.<span class="ruby-identifier">tag_named</span>(<span class="ruby-identifier">tag_name</span>, <span class="ruby-identifier">checked</span>)
+      <span class="ruby-keyword">if</span> <span class="ruby-identifier">tag</span>
+        <span class="ruby-ivar">@tags</span>[<span class="ruby-identifier">tag_name</span>] = <span class="ruby-identifier">tag</span>
+        <span class="ruby-keyword">break</span>
+      <span class="ruby-keyword">end</span>
+    <span class="ruby-keyword">end</span>
+    <span class="ruby-identifier">tag</span>
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- tag_named-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- tag_named-method -->
+
+    
+    </section><!-- public-class-method-details -->
+  
+     <section id="public-instance-5Buntitled-5D-method-details" class="method-section section">
+      <h3 class="section-header">Public Instance Methods</h3>
+
+    
+      <div id="method-i-comment" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">comment</span><span
+            class="method-args">(text = '') { || ... }</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Emits an XML/HTML comment (&amp;lt;!– … –&amp;gt;) surrounding
+<code>text</code> and/or the output of <code>block</code>. see <a
+href="http://www.w3.org/TR/html4/intro/sgmltut.html#h-3.2.4">www.w3.org/TR/html4/intro/sgmltut.html#h-3.2.4</a></p>
+
+<p>If <code>text</code> is an Internet Explorer conditional comment condition
+such as “[if IE]”, the output includes the opening condition and closing
+“[endif]”. See <a
+href="http://www.quirksmode.org/css/condcom.html">www.quirksmode.org/css/condcom.html</a></p>
+
+<p>Since “Authors should avoid putting two or more adjacent hyphens inside
+comments,” we emit a warning if you do that.</p>
+          
+
+          
+          <div class="method-source-code" id="comment-source">
+            <pre><span class="ruby-comment"># File lib/erector/xml_widget.rb, line 92</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">comment</span>(<span class="ruby-identifier">text</span> = <span class="ruby-string">&#39;&#39;</span>)
+  <span class="ruby-identifier">puts</span> <span class="ruby-string">&quot;Warning: Authors should avoid putting two or more adjacent hyphens inside comments.&quot;</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">text</span> <span class="ruby-operator">=~</span> <span class="ruby-regexp">/--/</span>
+
+  <span class="ruby-identifier">conditional</span> = <span class="ruby-identifier">text</span> <span class="ruby-operator">=~</span> <span class="ruby-regexp">/\[if .*\]/</span>
+
+  <span class="ruby-identifier">rawtext</span> <span class="ruby-string">&quot;&lt;!--&quot;</span>
+  <span class="ruby-identifier">rawtext</span> <span class="ruby-identifier">text</span>
+  <span class="ruby-identifier">rawtext</span> <span class="ruby-string">&quot;&gt;&quot;</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">conditional</span>
+
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">block_given?</span>
+    <span class="ruby-identifier">rawtext</span> <span class="ruby-string">&quot;\n&quot;</span>
+    <span class="ruby-keyword">yield</span>
+    <span class="ruby-identifier">rawtext</span> <span class="ruby-string">&quot;\n&quot;</span>
+  <span class="ruby-keyword">end</span>
+
+  <span class="ruby-identifier">rawtext</span> <span class="ruby-string">&quot;&lt;![endif]&quot;</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">conditional</span>
+  <span class="ruby-identifier">rawtext</span> <span class="ruby-string">&quot;--&gt;\n&quot;</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- comment-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- comment-method -->
+
+    
+      <div id="method-i-instruct" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">instruct</span><span
+            class="method-args">(attributes={:version => "1.0", :encoding => "UTF-8"})</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Emits an XML instruction, which looks like this: &lt;?xml version="1.0"
+encoding="UTF-8" ?&gt;</p>
+          
+
+          
+          <div class="method-source-code" id="instruct-source">
+            <pre><span class="ruby-comment"># File lib/erector/xml_widget.rb, line 78</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">instruct</span>(<span class="ruby-identifier">attributes</span>={<span class="ruby-value">:version</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&quot;1.0&quot;</span>, <span class="ruby-value">:encoding</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&quot;UTF-8&quot;</span>})
+  <span class="ruby-identifier">output</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">raw</span>(<span class="ruby-node">&quot;&lt;?xml#{format_sorted(sort_for_xml_declaration(attributes))}?&gt;&quot;</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- instruct-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- instruct-method -->
+
+    
+      <div id="method-i-newliney-3F" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">newliney?</span><span
+            class="method-args">(tag_name)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="newliney-3F-source">
+            <pre><span class="ruby-comment"># File lib/erector/xml_widget.rb, line 68</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">newliney?</span>(<span class="ruby-identifier">tag_name</span>)
+  <span class="ruby-identifier">tag</span> = <span class="ruby-keyword">self</span>.<span class="ruby-identifier">class</span>.<span class="ruby-identifier">tag_named</span> <span class="ruby-identifier">tag_name</span>
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">tag</span>
+    <span class="ruby-identifier">tag</span>.<span class="ruby-identifier">newliney?</span>
+  <span class="ruby-keyword">else</span>
+    <span class="ruby-keyword">true</span>
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- newliney-3F-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- newliney-3F-method -->
+
+    
+    </section><!-- public-instance-method-details -->
+  
+     <section id="protected-instance-5Buntitled-5D-method-details" class="method-section section">
+      <h3 class="section-header">Protected Instance Methods</h3>
+
+    
+      <div id="method-i-sort_for_xml_declaration" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">sort_for_xml_declaration</span><span
+            class="method-args">(attributes)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="sort_for_xml_declaration-source">
+            <pre><span class="ruby-comment"># File lib/erector/xml_widget.rb, line 115</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">sort_for_xml_declaration</span>(<span class="ruby-identifier">attributes</span>)
+  <span class="ruby-comment"># correct order is &quot;version, encoding, standalone&quot; (XML 1.0 section 2.8).</span>
+  <span class="ruby-comment"># But we only try to put version before encoding for now.</span>
+  <span class="ruby-identifier">stringized</span> = []
+  <span class="ruby-identifier">attributes</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">key</span>, <span class="ruby-identifier">value</span><span class="ruby-operator">|</span>
+    <span class="ruby-identifier">stringized</span> <span class="ruby-operator">&lt;&lt;</span> [<span class="ruby-identifier">key</span>.<span class="ruby-identifier">to_s</span>, <span class="ruby-identifier">value</span>]
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-identifier">stringized</span>.<span class="ruby-identifier">sort</span>{<span class="ruby-operator">|</span><span class="ruby-identifier">a</span>, <span class="ruby-identifier">b</span><span class="ruby-operator">|</span> <span class="ruby-identifier">b</span> <span class="ruby-operator">&lt;=&gt;</span> <span class="ruby-identifier">a</span>}
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- sort_for_xml_declaration-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- sort_for_xml_declaration-method -->
+
+    
+    </section><!-- protected-instance-method-details -->
+  
+  </section><!-- 5Buntitled-5D -->
+
+</div><!-- documentation -->
+
+
+<footer id="validator-badges">
+  <p><a href="http://validator.w3.org/check/referer">[Validate]</a>
+  <p>Generated by <a href="https://github.com/rdoc/rdoc">RDoc</a> 3.12.2.
+  <p>Generated with the <a href="http://deveiate.org/projects/Darkfish-Rdoc/">Darkfish Rdoc Generator</a> 3.
+</footer>
+

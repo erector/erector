@@ -1,0 +1,319 @@
+<html>
+  <head>
+    <title>Erector - FAQ</title>
+    <style>body, td, a, p {
+  font-family: Lucida Grande, Lucida Sans, arial, sans-serif;
+  font-size: 11pt; }
+
+body {
+  margin: 0;
+  padding: 0; }
+
+img {
+  border: none; }
+
+.clear {
+  clear: both; }
+
+ul {
+  list-style-position: inside; }
+
+li {
+  margin-left: 1.5em;
+  padding-bottom: .5em; }
+
+li > p {
+  -webkit-margin-before: 0;
+  -webkit-margin-after: 0; }
+
+h1 {
+  /*  font-variant: small-caps;*/
+  border-bottom: 1px solid gray;
+  /*  background: #EEE; */
+  padding: .25em;
+  padding-left: 0px;
+  margin-left: 0px;
+  text-shadow: #999 1px 1px 1px; }
+
+h2 {
+  margin-top: 2em;
+  background: #FEFEEB;
+  padding: .25em;
+  border: 1px solid #CCC;
+  text-shadow: #999 1px 1px 1px; }
+
+pre {
+  background-color: #f4f4FF;
+  border: 1px solid gray;
+  padding: .5em 1em;
+  overflow: auto;
+  font-family: Inconsolata, Consolas, "Andale Mono", "Lucida Console", "Lucida Sans Typewriter", "DejaVu Sans Mono", "Bitstream Vera Sans Mono", "Liberation Mono", "Nimbus Mono L", Monaco, "Courier New", Courier, monospace; }
+
+pre.sh_html {
+  background-color: #FFFADE; }
+
+code {
+  background-color: #F4F4FF;
+  font-size: 12pt; }
+
+/* cheatsheet */
+table.cheatsheet {
+  border-style: outset;
+  border-collapse: collapse;
+  font-size: 10pt; }
+  table.cheatsheet code {
+    background-color: #EEEEFF; }
+  table.cheatsheet i {
+    font-size: 11pt; }
+  table.cheatsheet th {
+    background-color: #EDEDED; }
+  table.cheatsheet td, table.cheatsheet th {
+    border-width: 1px;
+    border-style: solid;
+    border-color: lightgray;
+    padding: .5em;
+    font-size: 10pt; }
+  table.cheatsheet td {
+    vertical-align: top; }
+
+.separator {
+  margin-right: 10px;
+  font-size: 36pt; }
+
+/* top */
+div.top {
+  background-color: #FEFDCD;
+  /*  background-color: #FDF909;
+  */
+  text-align: bottom;
+  margin: 0;
+  padding: 8px 8px 4px; }
+  div.top .logo {
+    margin: 2px auto; }
+    div.top .logo img {
+      opacity: 0.6; }
+
+/* navbar */
+div.navbar {
+  width: 100%;
+  margin: 0 0 2px;
+  padding: 8px 0px 11px;
+  /* no idea why, but this centers the buttons*/
+  overflow-vertical: auto;
+  text-align: left;
+  background-color: #A3D3D1;
+  border-top: 1px solid #6881BA;
+  border-bottom: 1px solid #6881BA; }
+  div.navbar h3 {
+    margin-bottom: .25em; }
+  div.navbar ul {
+    list-style-type: none;
+    display: inline;
+    margin: -1px 0px 0px;
+    padding: 8px 0px;
+    list-style-type: none; }
+  div.navbar li.clickable {
+    display: inline;
+    color: #ccdcea;
+    background-color: #3470a2;
+    list-style-type: none;
+    margin: 8px;
+    padding: 4px 6px;
+    /*  font-variant: small-caps;*/
+    border: 2px solid #6881BA; }
+    div.navbar li.clickable a, div.navbar li.clickable a:visited {
+      text-decoration: none;
+      /*font-weight: bold;*/
+      color: white;
+      margin: 0;
+      font-size: 10pt; }
+  div.navbar li.clickable:hover {
+    background-color: blue;
+    cursor: pointer;
+    cursor: hand; }
+  div.navbar li.clickable.current {
+    font-weight: bold;
+    border: 2px solid black;
+    background-color: #3875D7; }
+    div.navbar li.clickable.current a {
+      color: white; }
+
+/* main */
+.main {
+  margin: 0 auto; }
+
+.footer {
+  font-size: 10pt;
+  border-top: 1px solid black;
+  padding: 1em; }
+
+.body {
+  max-width: 60em;
+  margin-left: 100px;
+  margin-right: 100px; }
+
+.body a {
+  color: #6881BA;
+  text-decoration: none;
+  border-bottom: 1px dotted; }
+
+.main h1.title {
+  margin: 0 200px;
+  text-align: center; }
+
+/* article */
+div.toc {
+  margin: 1em .25em;
+  display: inline-block;
+  border: 1px solid black; }
+  div.toc h2 {
+    margin: 0; }
+  div.toc ul, div.toc ol {
+    padding: .25em 1em; }
+
+.promo_wrapper {
+  float: right; }
+
+div.promo_wrapper {
+  text-align: center;
+  margin: 4px;
+  padding: 4px; }
+
+div.promo {
+  display: inline-block;
+  border: 2px solid #6881BA;
+  text-align: center;
+  background: white; }
+  div.promo img {
+    border: 2px solid black;
+    margin: 2px; }
+  div.promo p {
+    padding: .25em .5em; }
+
+/* example */
+div.example {
+  position: relative;
+  border: 2px solid darkblue;
+  margin: 1em;
+  padding: .5em; }
+  div.example .before, div.example .after {
+    margin: 1em;
+    text-align: top;
+    vertical-align: top; }
+    div.example .before pre, div.example .after pre {
+      margin: 0;
+      width: 100%; }
+</style>
+    <script src="js/sh_main.min.js"></script>
+    <script src="js/sh_lang/sh_ruby.min.js"></script>
+    <script src="js/sh_lang/sh_html.min.js"></script>
+    <script src="js/sh_lang/sh_sh.min.js"></script>
+    <link href="css/sh_style.css" rel="stylesheet" type="text/css" />
+  </head>
+  <body onload="sh_highlightDocument();">    <a href="http://github.com/erector/erector"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://a248.e.akamai.net/assets.github.com/img/30f550e0d38ceb6ef5b81500c64d970b7fb0f028/687474703a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6f72616e67655f6666373630302e706e67" alt="Fork me on GitHub"></a>
+    <div class="top">      <div class="logo"><a href="index.html"><img src="erector-logo.png" /></a></div>
+    </div>
+    <div class="navbar">      <ul class="clickable">
+        <li class="clickable" onclick="document.location=&#39;index.html&#39;"><a href="index.html">Home</a></li>
+        <li class="clickable" onclick="document.location=&#39;userguide.html&#39;"><a href="userguide.html">User Guide</a></li>
+        <li class="clickable" onclick="document.location=&#39;rails.html&#39;"><a href="rails.html">Erector On Rails</a></li>
+        <li class="clickable current" onclick="document.location=&#39;faq.html&#39;"><a href="faq.html">FAQ</a></li>
+        <li class="clickable" onclick="document.location=&#39;cheatsheet.html&#39;"><a href="cheatsheet.html">Cheatsheet</a></li>
+        <li class="clickable" onclick="document.location=&#39;rdoc&#39;"><a href="rdoc">RDoc API</a></li>
+        <li class="clickable" onclick="document.location=&#39;developers.html&#39;"><a href="developers.html">For Developers</a></li>
+        <li class="clickable" onclick="document.location=&#39;release_notes.html&#39;"><a href="release_notes.html">Release Notes</a></li>
+        <li class="clickable" onclick="document.location=&#39;community.html&#39;"><a href="community.html">Community</a></li>
+      </ul>
+    </div>
+    <div class="promo_wrapper">      <div class="promo"><img src="images/the-mysto-erector.jpg" /></div>
+    </div>
+    <div class="main">      <div class="body">        <div class="article">
+          <h1 class="name">Erector FAQ</h1>
+          <div class="toc">
+            <h2>Table of Contents</h2>
+            <ol class="toc">
+              <li><a href="#whatiserector">What is Erector?</a></li>
+              <li><a href="#wherearethedocs">Where are the docs?</a></li>
+              <li><a href="#whyuseerector">Why use Erector?</a></li>
+              <li><a href="#wherearesomeexamples">Where are some examples?</a></li>
+              <li><a href="#howdoeserectorstackupagainstmarkaby">How does Erector stack up against Markaby?</a></li>
+              <li><a href="#howdoeserectorstackupagainsthaml">How does Erector stack up against HAML?</a></li>
+              <li><a href="#howdoiuselayouts">How do I use layouts?</a></li>
+              <li><a href="#howfastiserectorcomparedtoerbhamletc">How fast is Erector compared to ERB, HAML, etc.?</a></li>
+              <li><a href="#whydontmorepeopleuseerector">Why don&#39;t more people use Erector?</a></li>
+            </ol>
+          </div>
+          <div class="clear"></div>
+          <div class="sections">
+            <a name="whatiserector"></a>
+            <h2>1. What is Erector?</h2>
+            <p>Erector is a Builder-like view framework, inspired by <a href="http://code.whytheluckystiff.net/markaby/">Markaby</a> but overcoming some of its flaws. In Erector all views are objects, not template files, which allows the full power of object-oriented programming (inheritance, modular decomposition, encapsulation) in views.</p>
+            <a name="wherearethedocs"></a>
+            <h2>2. Where are the docs?</h2>
+            <p>See the <a href="http://erector.rubyforge.org/rdoc/classes/Erector/Widget.html">rdoc for the Erector::Widget class</a> to learn how to make your own widgets, and visit the project site at <a href="http://erector.rubyforge.org">http://erector.rubyforge.org</a> for more documentation, especially the <a href="userguide.html">user guide</a>.</p>
+            <a name="whyuseerector"></a>
+            <h2>3. Why use Erector?</h2>
+            <div>Briefly...</div>
+            <ul>
+              <li>Markaby-style DOM builder domain language</li>
+              <li>Your views are real classes, written in a real language, allowing
+                <ul>
+                  <li>Functional decomposition</li>
+                  <li>Inheritance</li>
+                  <li>Composition, not partials</li>
+                  <li>Well-defined semantics for variables, loops, blocks</li>
+                  <li>Dependency injection via constructor params</li>
+                </ul>
+              </li>
+              <li>As little magic as possible while maintaining Rails compatibility</li>
+              <li>yield works again (Markaby broke it)</li>
+              <li>Very testable</li>
+              <li>form_for ERB code is craaaaazy (not to mention the quagmire of options vs. htmloptions)</li>
+              <li>Output is streamed, improving performance over string copy</li>
+            </ul>
+            <a name="wherearesomeexamples"></a>
+            <h2>4. Where are some examples?</h2>
+            <p>This very web site you&#39;re reading right now is built with Erector, using the <a href="userguide.html#tool">erector</a> command-line tool. See the <a href="http://github.com/erector/erector">repository</a> (especially the web directory).</p>
+            <p>We also have several examples checked in to the repository in the examples directory.</p>
+            <p>At RailsConf 2009 Alex whipped up a simple Sinatra + Erector + ActiveRecord webapp called <a href="http://github.com/alexch/vegas">Vegas</a>. Caveat lector.</p>
+            <p>Currently we don&#39;t know of any open-source projects built with Erector so we can&#39;t show you working source code for a full Erector webapp. And client confidentiality keeps us from saying which of the <a href="http://pivotallabs.com/clients">Pivotal Labs</a> project were built with Erector. But trust us, they&#39;re out there.</p>
+            <a name="howdoeserectorstackupagainstmarkaby"></a>
+            <h2>5. How does Erector stack up against Markaby?</h2>
+            <p>We loved <a href="http://code.whytheluckystiff.net/markaby/">Markaby</a> when we first saw it, since it transformed the gnarliness of Rails&#39; ERB views into a clean, functional programming lanugage where views are primarily code with ways to emit HTML, rather than HTML with ways to hack in code. However, we soon realized Markaby had two main flaws:
+              <ol>
+                <li>It didn&#39;t go quite far enough down the OO road -- Markaby views are still fragments, not classes</li>
+                <li>Its use of instance_eval and capture, as well as a view&#39;s functional-but-not-quite-an-object nature, led to too much magic and made it very difficult to debug</li>
+              </ol>
+            </p>
+            <p>Erector was conceived as a natural evolution of Markaby, but overcoming these two flaws. We think Erector can do pretty much everything Markaby can; if you find a counterexample, please let us know on the <a href="http://googlegroups.com/group/erector"> mailing list</a>.</p>
+            <a name="howdoeserectorstackupagainsthaml"></a>
+            <h2>6. How does Erector stack up against HAML?</h2>
+            <p><a href="http://haml.hamptoncatlin.com/">HAML</a> is beautiful. But it suffers from the same design flaw (or, some would say, advantage) as every templating technology: views are not objects, and markup isn&#39;t code. But views want to do codey things like loops and variables and modular decomposition and inheritance, and every effort to wedge control logic into markup ends up smelling like a hack. There&#39;s always going to be some algorithmic idiom that&#39;s awkward in a template language. We figure, why deny it? Code is code. Embrace your true nature! Lick your screen and taste the code!</p>
+            <a name="howdoiuselayouts"></a>
+            <h2>7. How do I use layouts?</h2>
+            <p>Rails has a concept of layouts, which are essentially skeletons for a page, which get fleshed out by views. This is a powerful mechanism for rendering web pages; however, the mechanism Rails uses (via content_for and yield) is fundamentally incompatible with Erector&#39;s &quot;just call the content method&quot; design.</p>
+            <p>We recommend a slightly different approach, known officially as the <a href="http://en.wikipedia.org/wiki/Template_method_pattern">Template Method Design Pattern</a>: define a parent class (e.g. Page) and have your view widgets extend this class rather than directly extending Erector::Widget. The parent class implements content, and calls down to the child class to render sections or acquire information that&#39;s specific to that view.</p>
+            <p>For an example with source code, see <a href="userguide.html#layoutinheritance">the user guide</a>. Also see Alex Chaffee&#39;s Page base class, at <a href="http://gist.github.com/103976"> this gist snippet</a> (which we may soon integrate into Erector proper).</p>
+            <a name="howfastiserectorcomparedtoerbhamletc"></a>
+            <h2>8. How fast is Erector compared to ERB, HAML, etc.?</h2>
+            <p><a href="http://github.com/alexch/erector-benchmark">Initial benchmarking tests</a> show that Erector is about 2x as fast as ERB and 4x as fast as HAML under typical conditions.
+              <p>The main architectural benefits of Erector from a performance standpoint are:</p>
+              <p><b>Parsed by Ruby.</b> Since Erector widgets are Ruby classes, the native-code Ruby interpreter compiles them during classload time, not a parser written <b>in</b> Ruby at runtime.</p>
+              <p><b>Append &gt; Copy. </b> Many templating systems are casual about whether a particular operation <b>returns</b> a string, or <b>appends</b> to an output stream. This can lead to wasteful copying and reallocation. In Erector, all operations concatenate their result to a single output buffer, even when calling nested widgets (via the<code>widget</code> method). If you choose to, you can use Erector&#39;s <code>capture</code> method for explicit string conversion, but by default we use the faster way.</p>
+              <p><b>Methods, not Partials.</b> In ERB and HAML, modular decomposition is accomplished by separating reused code into separate template files. In addition to being aesthetically problematic, encouraging you to move related code into separate places, it also introduces a performance problem, since every partial may be rendered into a string. (Although sometimes it&#39;s not, which is just weird.)</p>
+            </p>
+            <p>We should point out, of course, that the choice of templating engines by itself is not what will make your application scalable. The effectiveness of your caching policy will dwarf that of your rendering engine in nearly all cases. But it&#39;s fun to know we&#39;ve got a pretty fast horse in this particular race...</p>
+            <a name="whydontmorepeopleuseerector"></a>
+            <h2>9. Why don&#39;t more people use Erector?</h2>
+            <p>See <a href="http://www.quora.com/Why-dont-more-people-use-Erector">Why don&#39;t more people use Erector?</a> at Quora.</p>
+          </div>
+        </div>
+      </div>
+      <div class="footer"><a href="http://www.pivotallabs.com"><img alt="Pivotal Labs" height="57" src="pivotal.gif" style="float:right; padding: 8px;" width="158" /></a>
+        <center>Erector is an open source project released under the MIT license.<br />
+Its initial development was sponsored by <a href="http://pivotallabs.com">Pivotal Labs</a>.<br />
+          Not affiliated with or sponsored by the makers of Erector or Meccano toys.</center>
+      </div>
+    </div>
+  </body>
+</html>

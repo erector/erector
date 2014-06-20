@@ -1,0 +1,756 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+
+<title>class Erector::Erect - Erector 0.10.0</title>
+
+<link type="text/css" media="screen" href="../rdoc.css" rel="stylesheet">
+
+<script type="text/javascript">
+  var rdoc_rel_prefix = "../";
+</script>
+
+<script type="text/javascript" charset="utf-8" src="../js/jquery.js"></script>
+<script type="text/javascript" charset="utf-8" src="../js/navigation.js"></script>
+<script type="text/javascript" charset="utf-8" src="../js/search_index.js"></script>
+<script type="text/javascript" charset="utf-8" src="../js/search.js"></script>
+<script type="text/javascript" charset="utf-8" src="../js/searcher.js"></script>
+<script type="text/javascript" charset="utf-8" src="../js/darkfish.js"></script>
+
+
+<body id="top" class="class">
+<nav id="metadata">
+  <nav id="home-section" class="section">
+  <h3 class="section-header">
+    <a href="../index.html">Home</a>
+    <a href="../table_of_contents.html#classes">Classes</a>
+    <a href="../table_of_contents.html#methods">Methods</a>
+  </h3>
+</nav>
+
+
+  <nav id="search-section" class="section project-section" class="initially-hidden">
+  <form action="#" method="get" accept-charset="utf-8">
+    <h3 class="section-header">
+      <input type="text" name="search" placeholder="Search" id="search-field"
+             title="Type to search, Up and Down to navigate, Enter to load">
+    </h3>
+  </form>
+
+  <ul id="search-results" class="initially-hidden"></ul>
+</nav>
+
+
+  <div id="file-metadata">
+    <nav id="file-list-section" class="section">
+  <h3 class="section-header">Defined In</h3>
+  <ul>
+    <li>lib/erector/erect/erect.rb
+  </ul>
+</nav>
+
+    
+  </div>
+
+  <div id="class-metadata">
+    
+    <nav id="parent-class-section" class="section">
+  <h3 class="section-header">Parent</h3>
+  
+  <p class="link"><a href="../Object.html">Object</a>
+  
+</nav>
+
+    
+    <!-- Method Quickref -->
+<nav id="method-list-section" class="section">
+  <h3 class="section-header">Methods</h3>
+
+  <ul class="link-list">
+    
+    <li><a href="#method-c-new">::new</a>
+    
+    <li><a href="#method-i-camelize">#camelize</a>
+    
+    <li><a href="#method-i-constantize">#constantize</a>
+    
+    <li><a href="#method-i-explode">#explode</a>
+    
+    <li><a href="#method-i-explode_dirs">#explode_dirs</a>
+    
+    <li><a href="#method-i-run">#run</a>
+    
+    <li><a href="#method-i-say">#say</a>
+    
+    <li><a href="#method-i-to_erector">#to_erector</a>
+    
+    <li><a href="#method-i-to_html">#to_html</a>
+    
+  </ul>
+</nav>
+
+  </div>
+
+  <div id="project-metadata">
+    <nav id="fileindex-section" class="section project-section">
+  <h3 class="section-header">Pages</h3>
+
+  <ul>
+  
+    <li class="file"><a href="../README_txt.html">README</a>
+  
+  </ul>
+</nav>
+
+    <nav id="classindex-section" class="section project-section">
+  <h3 class="section-header">Class and Module Index</h3>
+
+  <ul class="link-list">
+  
+    <li><a href="../Erector.html">Erector</a>
+  
+    <li><a href="../Erector/AbstractWidget.html">Erector::AbstractWidget</a>
+  
+    <li><a href="../Erector/AfterInitialize.html">Erector::AfterInitialize</a>
+  
+    <li><a href="../Erector/AfterInitialize/ClassMethods.html">Erector::AfterInitialize::ClassMethods</a>
+  
+    <li><a href="../Erector/Attributes.html">Erector::Attributes</a>
+  
+    <li><a href="../Erector/Cache.html">Erector::Cache</a>
+  
+    <li><a href="../Erector/Caching.html">Erector::Caching</a>
+  
+    <li><a href="../Erector/Caching/ClassMethods.html">Erector::Caching::ClassMethods</a>
+  
+    <li><a href="../Erector/Convenience.html">Erector::Convenience</a>
+  
+    <li><a href="../Erector/Dependencies.html">Erector::Dependencies</a>
+  
+    <li><a href="../Erector/Dependency.html">Erector::Dependency</a>
+  
+    <li><a href="../Erector/Element.html">Erector::Element</a>
+  
+    <li><a href="../Erector/Erect.html">Erector::Erect</a>
+  
+    <li><a href="../Erector/Erected.html">Erector::Erected</a>
+  
+    <li><a href="../Erector/Externals.html">Erector::Externals</a>
+  
+    <li><a href="../Erector/Externals/ClassMethods.html">Erector::Externals::ClassMethods</a>
+  
+    <li><a href="../Erector/HTML.html">Erector::HTML</a>
+  
+    <li><a href="../Erector/HTMLWidget.html">Erector::HTMLWidget</a>
+  
+    <li><a href="../Erector/HTMLWidget.html">Erector::HtmlWidget</a>
+  
+    <li><a href="../Erector/Inline.html">Erector::Inline</a>
+  
+    <li><a href="../Erector/InlineWidget.html">Erector::InlineWidget</a>
+  
+    <li><a href="../Erector/JQuery.html">Erector::JQuery</a>
+  
+    <li><a href="../Erector/Mixin.html">Erector::Mixin</a>
+  
+    <li><a href="../Erector/Needs.html">Erector::Needs</a>
+  
+    <li><a href="../Erector/Needs/ClassMethods.html">Erector::Needs::ClassMethods</a>
+  
+    <li><a href="../Erector/Output.html">Erector::Output</a>
+  
+    <li><a href="../Erector/Promise.html">Erector::Promise</a>
+  
+    <li><a href="../Erector/Rails.html">Erector::Rails</a>
+  
+    <li><a href="../Erector/Rails/FormBuilder.html">Erector::Rails::FormBuilder</a>
+  
+    <li><a href="../Erector/Rails/Helpers.html">Erector::Rails::Helpers</a>
+  
+    <li><a href="../Erector/Rails/TemplateHandler.html">Erector::Rails::TemplateHandler</a>
+  
+    <li><a href="../Erector/Rails/WidgetExtensions.html">Erector::Rails::WidgetExtensions</a>
+  
+    <li><a href="../Erector/Rails/WidgetExtensions/ClassMethods.html">Erector::Rails::WidgetExtensions::ClassMethods</a>
+  
+    <li><a href="../Erector/RailsFormBuilder.html">Erector::RailsFormBuilder</a>
+  
+    <li><a href="../Erector/Railtie.html">Erector::Railtie</a>
+  
+    <li><a href="../Erector/RawString.html">Erector::RawString</a>
+  
+    <li><a href="../Erector/RbHandler.html">Erector::RbHandler</a>
+  
+    <li><a href="../Erector/Sass.html">Erector::Sass</a>
+  
+    <li><a href="../Erector/Tag.html">Erector::Tag</a>
+  
+    <li><a href="../Erector/Text.html">Erector::Text</a>
+  
+    <li><a href="../Erector/UnicodeBuilder.html">Erector::UnicodeBuilder</a>
+  
+    <li><a href="../Erector/Widget.html">Erector::Widget</a>
+  
+    <li><a href="../Erector/Widgets.html">Erector::Widgets</a>
+  
+    <li><a href="../Erector/Widgets/EnvironmentBadge.html">Erector::Widgets::EnvironmentBadge</a>
+  
+    <li><a href="../Erector/Widgets/Page.html">Erector::Widgets::Page</a>
+  
+    <li><a href="../Erector/Widgets/Table.html">Erector::Widgets::Table</a>
+  
+    <li><a href="../Erector/XMLWidget.html">Erector::XMLWidget</a>
+  
+    <li><a href="../Erector/XMLWidget.html">Erector::XmlWidget</a>
+  
+    <li><a href="../ActionView.html">ActionView</a>
+  
+    <li><a href="../ActionView/Base.html">ActionView::Base</a>
+  
+    <li><a href="../ActionView/TemplateHandlers.html">ActionView::TemplateHandlers</a>
+  
+    <li><a href="../ActionView/TemplateHandlers/ErtTemplate.html">ActionView::TemplateHandlers::ErtTemplate</a>
+  
+    <li><a href="../Cell.html">Cell</a>
+  
+    <li><a href="../Cell/View.html">Cell::View</a>
+  
+    <li><a href="../FieldTable.html">FieldTable</a>
+  
+    <li><a href="../FieldTable/Field.html">FieldTable::Field</a>
+  
+    <li><a href="../ExternalRenderer.html">ExternalRenderer</a>
+  
+    <li><a href="../Form.html">Form</a>
+  
+    <li><a href="../Object.html">Object</a>
+  
+  </ul>
+</nav>
+
+  </div>
+</nav>
+
+<div id="documentation">
+  <h1 class="class">class Erector::Erect</h1>
+
+  <div id="description" class="description">
+    
+<p>“erect” is the erstwhile name of the command-line tool that converts
+between HTML/ERB and <a href="../Erector.html">Erector</a>. It&#39;s
+invoked via “erector –to-html foo.rb” or “erector –to-erector foo.html”
+(default is –to-erector)</p>
+
+  </div><!-- description -->
+
+  
+  
+  
+  <section id="5Buntitled-5D" class="documentation-section">
+    
+
+    
+
+    
+
+    
+    <!-- Attributes -->
+    <section id="attribute-method-details" class="method-section section">
+      <h3 class="section-header">Attributes</h3>
+
+      
+      <div id="attribute-i-files" class="method-detail">
+        <div class="method-heading attribute-method-heading">
+          <span class="method-name">files</span><span
+            class="attribute-access-type">[R]</span>
+        </div>
+
+        <div class="method-description">
+        
+        
+        
+        </div>
+      </div>
+      
+      <div id="attribute-i-method_name" class="method-detail">
+        <div class="method-heading attribute-method-heading">
+          <span class="method-name">method_name</span><span
+            class="attribute-access-type">[R]</span>
+        </div>
+
+        <div class="method-description">
+        
+        
+        
+        </div>
+      </div>
+      
+      <div id="attribute-i-mode" class="method-detail">
+        <div class="method-heading attribute-method-heading">
+          <span class="method-name">mode</span><span
+            class="attribute-access-type">[R]</span>
+        </div>
+
+        <div class="method-description">
+        
+        
+        
+        </div>
+      </div>
+      
+      <div id="attribute-i-output_dir" class="method-detail">
+        <div class="method-heading attribute-method-heading">
+          <span class="method-name">output_dir</span><span
+            class="attribute-access-type">[R]</span>
+        </div>
+
+        <div class="method-description">
+        
+        
+        
+        </div>
+      </div>
+      
+      <div id="attribute-i-superklass" class="method-detail">
+        <div class="method-heading attribute-method-heading">
+          <span class="method-name">superklass</span><span
+            class="attribute-access-type">[R]</span>
+        </div>
+
+        <div class="method-description">
+        
+        
+        
+        </div>
+      </div>
+      
+      <div id="attribute-i-verbose" class="method-detail">
+        <div class="method-heading attribute-method-heading">
+          <span class="method-name">verbose</span><span
+            class="attribute-access-type">[R]</span>
+        </div>
+
+        <div class="method-description">
+        
+        
+        
+        </div>
+      </div>
+      
+    </section><!-- attribute-method-details -->
+    
+
+    <!-- Methods -->
+    
+     <section id="public-class-5Buntitled-5D-method-details" class="method-section section">
+      <h3 class="section-header">Public Class Methods</h3>
+
+    
+      <div id="method-c-new" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">new</span><span
+            class="method-args">(args)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="new-source">
+            <pre><span class="ruby-comment"># File lib/erector/erect/erect.rb, line 11</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">initialize</span>(<span class="ruby-identifier">args</span>)
+  <span class="ruby-ivar">@verbose</span> = <span class="ruby-keyword">true</span>
+  <span class="ruby-ivar">@mode</span> = <span class="ruby-value">:to_erector</span>
+  <span class="ruby-ivar">@output_dir</span> = <span class="ruby-keyword">nil</span>
+  <span class="ruby-ivar">@superklass</span> = <span class="ruby-string">&#39;Erector::Widget&#39;</span>
+  <span class="ruby-ivar">@method_name</span> = <span class="ruby-string">&#39;content&#39;</span>
+
+  <span class="ruby-identifier">opts</span> = <span class="ruby-constant">OptionParser</span>.<span class="ruby-identifier">new</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">opts</span><span class="ruby-operator">|</span>
+    <span class="ruby-identifier">opts</span>.<span class="ruby-identifier">banner</span> = <span class="ruby-string">&quot;Usage: erector [options] [file|dir]*&quot;</span>
+
+    <span class="ruby-identifier">opts</span>.<span class="ruby-identifier">separator</span> <span class="ruby-string">&quot;Converts from html/rhtml files to erector widgets, or from erector widgets to html files&quot;</span>
+    <span class="ruby-identifier">opts</span>.<span class="ruby-identifier">separator</span> <span class="ruby-string">&quot;&quot;</span>
+    <span class="ruby-identifier">opts</span>.<span class="ruby-identifier">separator</span> <span class="ruby-string">&quot;Options:&quot;</span>
+
+    <span class="ruby-identifier">opts</span>.<span class="ruby-identifier">on</span>(<span class="ruby-string">&quot;-q&quot;</span>, <span class="ruby-string">&quot;--quiet&quot;</span>,
+            <span class="ruby-string">&quot;Operate silently except in case of error&quot;</span>) <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">quiet</span><span class="ruby-operator">|</span>
+      <span class="ruby-ivar">@verbose</span> = <span class="ruby-operator">!</span><span class="ruby-identifier">quiet</span>
+    <span class="ruby-keyword">end</span>
+
+    <span class="ruby-identifier">opts</span>.<span class="ruby-identifier">on</span>(<span class="ruby-string">&quot;--to-erector&quot;</span>, <span class="ruby-string">&quot;(default) Convert from html/rhtml to erector classes&quot;</span>) <span class="ruby-keyword">do</span>
+      <span class="ruby-ivar">@mode</span> = <span class="ruby-value">:to_erector</span>
+    <span class="ruby-keyword">end</span>
+
+    <span class="ruby-identifier">opts</span>.<span class="ruby-identifier">on</span>(<span class="ruby-string">&quot;--to-html&quot;</span>, <span class="ruby-string">&quot;Convert from erector to html&quot;</span>) <span class="ruby-keyword">do</span>
+      <span class="ruby-ivar">@mode</span> = <span class="ruby-value">:to_html</span>
+    <span class="ruby-keyword">end</span>
+
+    <span class="ruby-identifier">opts</span>.<span class="ruby-identifier">on</span>(<span class="ruby-string">&quot;--superclass SUPERCLASS&quot;</span>, <span class="ruby-string">&quot;Superclass for new widget (default Erector::Widget)&quot;</span>) <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">superklass</span><span class="ruby-operator">|</span>
+      <span class="ruby-ivar">@superklass</span> = <span class="ruby-identifier">superklass</span>
+    <span class="ruby-keyword">end</span>
+
+    <span class="ruby-identifier">opts</span>.<span class="ruby-identifier">on</span>(<span class="ruby-string">&quot;--method METHOD&quot;</span>, <span class="ruby-string">&quot;Method containing content for widget (default &#39;content&#39;)&quot;</span>) <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">method_name</span><span class="ruby-operator">|</span>
+      <span class="ruby-ivar">@method_name</span> = <span class="ruby-identifier">method_name</span>
+    <span class="ruby-keyword">end</span>
+
+    <span class="ruby-identifier">opts</span>.<span class="ruby-identifier">on</span>(<span class="ruby-string">&quot;-o&quot;</span>, <span class="ruby-string">&quot;--output-dir DIRECTORY&quot;</span>, <span class="ruby-string">&quot;Output files to DIRECTORY (default: output files go next to input files)&quot;</span>) <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">dir</span><span class="ruby-operator">|</span>
+      <span class="ruby-ivar">@output_dir</span> = <span class="ruby-identifier">dir</span>
+    <span class="ruby-keyword">end</span>
+
+    <span class="ruby-identifier">opts</span>.<span class="ruby-identifier">on_tail</span>(<span class="ruby-string">&quot;-h&quot;</span>, <span class="ruby-string">&quot;--help&quot;</span>, <span class="ruby-string">&quot;Show this message&quot;</span>) <span class="ruby-keyword">do</span>
+      <span class="ruby-ivar">@mode</span> = <span class="ruby-value">:help</span>
+      <span class="ruby-identifier">puts</span> <span class="ruby-identifier">opts</span>
+      <span class="ruby-identifier">exit</span>
+    <span class="ruby-keyword">end</span>
+
+    <span class="ruby-identifier">opts</span>.<span class="ruby-identifier">on_tail</span>(<span class="ruby-string">&quot;-v&quot;</span>, <span class="ruby-string">&quot;--version&quot;</span>, <span class="ruby-string">&quot;Show version&quot;</span>) <span class="ruby-keyword">do</span>
+      <span class="ruby-identifier">puts</span> <span class="ruby-constant">Erector</span><span class="ruby-operator">::</span><span class="ruby-constant">VERSION</span>
+      <span class="ruby-identifier">exit</span>
+    <span class="ruby-keyword">end</span>
+
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-identifier">opts</span>.<span class="ruby-identifier">parse!</span>(<span class="ruby-identifier">args</span>)
+  <span class="ruby-ivar">@files</span> = <span class="ruby-identifier">args</span>
+  <span class="ruby-identifier">explode_dirs</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- new-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- new-method -->
+
+    
+    </section><!-- public-class-method-details -->
+  
+     <section id="public-instance-5Buntitled-5D-method-details" class="method-section section">
+      <h3 class="section-header">Public Instance Methods</h3>
+
+    
+      <div id="method-i-camelize" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">camelize</span><span
+            class="method-args">(lower_case_and_underscored_word, first_letter_in_uppercase = true)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>stolen from activesuppport/lib/inflector.rb</p>
+          
+
+          
+          <div class="method-source-code" id="camelize-source">
+            <pre><span class="ruby-comment"># File lib/erector/erect/erect.rb, line 151</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">camelize</span>(<span class="ruby-identifier">lower_case_and_underscored_word</span>, <span class="ruby-identifier">first_letter_in_uppercase</span> = <span class="ruby-keyword">true</span>)
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">first_letter_in_uppercase</span>
+    <span class="ruby-identifier">lower_case_and_underscored_word</span>.<span class="ruby-identifier">to_s</span>.<span class="ruby-identifier">gsub</span>(<span class="ruby-regexp">/\/(.?)/</span>) { <span class="ruby-string">&quot;::&quot;</span> <span class="ruby-operator">+</span> <span class="ruby-node">$1</span>.<span class="ruby-identifier">upcase</span> }.<span class="ruby-identifier">gsub</span>(<span class="ruby-regexp">/(^|_)(.)/</span>) { <span class="ruby-node">$2</span>.<span class="ruby-identifier">upcase</span> }
+  <span class="ruby-keyword">else</span>
+    <span class="ruby-identifier">lower_case_and_underscored_word</span>.<span class="ruby-identifier">first</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">camelize</span>(<span class="ruby-identifier">lower_case_and_underscored_word</span>)[<span class="ruby-value">1</span><span class="ruby-operator">..</span><span class="ruby-value">-1</span>]
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- camelize-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- camelize-method -->
+
+    
+      <div id="method-i-constantize" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">constantize</span><span
+            class="method-args">(camel_cased_word)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="constantize-source">
+            <pre><span class="ruby-comment"># File lib/erector/erect/erect.rb, line 158</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">constantize</span>(<span class="ruby-identifier">camel_cased_word</span>)
+  <span class="ruby-keyword">unless</span> <span class="ruby-regexp">/\A(?:::)?([A-Z]\w*(?:::[A-Z]\w*)*)\z/</span> <span class="ruby-operator">=~</span> <span class="ruby-identifier">camel_cased_word</span>
+    <span class="ruby-identifier">raise</span> <span class="ruby-constant">NameError</span>, <span class="ruby-node">&quot;#{camel_cased_word.inspect} is not a valid constant name!&quot;</span>
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-constant">Object</span>.<span class="ruby-identifier">module_eval</span>(<span class="ruby-node">&quot;::#{$1}&quot;</span>, <span class="ruby-keyword">__FILE__</span>, <span class="ruby-keyword">__LINE__</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- constantize-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- constantize-method -->
+
+    
+      <div id="method-i-explode" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">explode</span><span
+            class="method-args">(dir)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="explode-source">
+            <pre><span class="ruby-comment"># File lib/erector/erect/erect.rb, line 84</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">explode</span>(<span class="ruby-identifier">dir</span>)
+  <span class="ruby-keyword">case</span> <span class="ruby-identifier">mode</span>
+  <span class="ruby-keyword">when</span> <span class="ruby-value">:to_erector</span>
+    [<span class="ruby-node">&quot;#{dir}/**/*.rhtml&quot;</span>,
+      <span class="ruby-node">&quot;#{dir}/**/*.html&quot;</span>,
+      <span class="ruby-node">&quot;#{dir}/**/*.html.erb&quot;</span>].<span class="ruby-identifier">map</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">pattern</span><span class="ruby-operator">|</span>
+      <span class="ruby-constant">Dir</span>.<span class="ruby-identifier">glob</span> <span class="ruby-identifier">pattern</span>
+    <span class="ruby-keyword">end</span>.<span class="ruby-identifier">flatten</span>
+  <span class="ruby-keyword">when</span> <span class="ruby-value">:to_html</span>
+    <span class="ruby-constant">Dir</span>.<span class="ruby-identifier">glob</span> <span class="ruby-node">&quot;#{dir}/**/*.rb&quot;</span>
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- explode-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- explode-method -->
+
+    
+      <div id="method-i-explode_dirs" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">explode_dirs</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>todo: unit test</p>
+          
+
+          
+          <div class="method-source-code" id="explode_dirs-source">
+            <pre><span class="ruby-comment"># File lib/erector/erect/erect.rb, line 72</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">explode_dirs</span>
+  <span class="ruby-identifier">exploded_files</span> = []
+  <span class="ruby-identifier">files</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">file</span><span class="ruby-operator">|</span>
+    <span class="ruby-keyword">if</span> <span class="ruby-constant">File</span>.<span class="ruby-identifier">directory?</span>(<span class="ruby-identifier">file</span>)
+      <span class="ruby-identifier">exploded_files</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">explode</span>(<span class="ruby-identifier">file</span>)
+    <span class="ruby-keyword">else</span>
+      <span class="ruby-identifier">exploded_files</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">file</span>
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-ivar">@files</span> = <span class="ruby-identifier">exploded_files</span>.<span class="ruby-identifier">flatten</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- explode_dirs-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- explode_dirs-method -->
+
+    
+      <div id="method-i-run" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">run</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="run-source">
+            <pre><span class="ruby-comment"># File lib/erector/erect/erect.rb, line 97</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">run</span>
+  <span class="ruby-ivar">@success</span> = <span class="ruby-keyword">true</span>
+  <span class="ruby-keyword">self</span>.<span class="ruby-identifier">send</span>(<span class="ruby-identifier">mode</span>)
+  <span class="ruby-ivar">@success</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- run-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- run-method -->
+
+    
+      <div id="method-i-say" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">say</span><span
+            class="method-args">(msg)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="say-source">
+            <pre><span class="ruby-comment"># File lib/erector/erect/erect.rb, line 67</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">say</span>(<span class="ruby-identifier">msg</span>)
+  <span class="ruby-identifier">print</span> <span class="ruby-identifier">msg</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">verbose</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- say-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- say-method -->
+
+    
+      <div id="method-i-to_erector" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">to_erector</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="to_erector-source">
+            <pre><span class="ruby-comment"># File lib/erector/erect/erect.rb, line 103</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">to_erector</span>
+  <span class="ruby-identifier">files</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">file</span><span class="ruby-operator">|</span>
+    <span class="ruby-identifier">say</span> <span class="ruby-node">&quot;Erecting #{file}... &quot;</span>
+    <span class="ruby-keyword">begin</span>
+      <span class="ruby-identifier">e</span> = <span class="ruby-constant">Erector</span><span class="ruby-operator">::</span><span class="ruby-constant">Erected</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">file</span>, <span class="ruby-ivar">@superklass</span>, <span class="ruby-ivar">@method_name</span>)
+      <span class="ruby-identifier">e</span>.<span class="ruby-identifier">convert</span>
+      <span class="ruby-identifier">say</span> <span class="ruby-node">&quot; --&gt; #{e.filename}\n&quot;</span>
+    <span class="ruby-keyword">rescue</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">e</span>
+      <span class="ruby-identifier">puts</span> <span class="ruby-identifier">e</span>
+      <span class="ruby-identifier">puts</span> <span class="ruby-identifier">e</span>.<span class="ruby-identifier">backtrace</span>.<span class="ruby-identifier">join</span>(<span class="ruby-string">&quot;\n\t&quot;</span>)
+      <span class="ruby-ivar">@success</span> = <span class="ruby-keyword">false</span>
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- to_erector-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- to_erector-method -->
+
+    
+      <div id="method-i-to_html" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">to_html</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="to_html-source">
+            <pre><span class="ruby-comment"># File lib/erector/erect/erect.rb, line 118</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">to_html</span>
+  <span class="ruby-identifier">files</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">file</span><span class="ruby-operator">|</span>
+    <span class="ruby-identifier">say</span> <span class="ruby-node">&quot;Erecting #{file}... &quot;</span>
+    <span class="ruby-comment">#todo: move this into Erected with better tests for the naming methods</span>
+    <span class="ruby-keyword">begin</span>
+      <span class="ruby-comment">#todo: fail if file isn&#39;t a .rb file</span>
+      <span class="ruby-identifier">require</span> <span class="ruby-identifier">file</span>
+      <span class="ruby-identifier">filename</span> = <span class="ruby-identifier">file</span>.<span class="ruby-identifier">split</span>(<span class="ruby-string">&#39;/&#39;</span>).<span class="ruby-identifier">last</span>.<span class="ruby-identifier">gsub</span>(<span class="ruby-regexp">/\.rb$/</span>, <span class="ruby-string">&#39;&#39;</span>)
+      <span class="ruby-identifier">widget_name</span> = <span class="ruby-identifier">camelize</span>(<span class="ruby-identifier">filename</span>)
+      <span class="ruby-identifier">widget_class</span> = <span class="ruby-identifier">constantize</span>(<span class="ruby-identifier">widget_name</span>)
+
+      <span class="ruby-keyword">if</span> <span class="ruby-identifier">widget_class</span> <span class="ruby-operator">&lt;</span> <span class="ruby-constant">Erector</span><span class="ruby-operator">::</span><span class="ruby-constant">Widget</span>
+        <span class="ruby-identifier">widget</span> = <span class="ruby-identifier">widget_class</span>.<span class="ruby-identifier">new</span>
+        <span class="ruby-comment">#todo: skip if it&#39;s missing a no-arg constructor</span>
+        <span class="ruby-identifier">dir</span> = <span class="ruby-identifier">output_dir</span> <span class="ruby-operator">||</span> <span class="ruby-constant">File</span>.<span class="ruby-identifier">dirname</span>(<span class="ruby-identifier">file</span>)
+        <span class="ruby-operator">::</span><span class="ruby-constant">FileUtils</span>.<span class="ruby-identifier">mkdir_p</span>(<span class="ruby-identifier">dir</span>)
+        <span class="ruby-identifier">output_file</span> = <span class="ruby-node">&quot;#{dir}/#{filename}.html&quot;</span>
+        <span class="ruby-constant">File</span>.<span class="ruby-identifier">open</span>(<span class="ruby-identifier">output_file</span>, <span class="ruby-string">&quot;w&quot;</span>) <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">f</span><span class="ruby-operator">|</span>
+          <span class="ruby-identifier">f</span>.<span class="ruby-identifier">puts</span> <span class="ruby-identifier">widget</span>.<span class="ruby-identifier">to_html</span>
+        <span class="ruby-keyword">end</span>
+        <span class="ruby-identifier">say</span> <span class="ruby-node">&quot; --&gt; #{output_file}\n&quot;</span>
+      <span class="ruby-keyword">else</span>
+        <span class="ruby-identifier">say</span> <span class="ruby-string">&quot; -- not a widget, skipping\n&quot;</span>
+      <span class="ruby-keyword">end</span>
+    <span class="ruby-keyword">rescue</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">e</span>
+      <span class="ruby-identifier">puts</span> <span class="ruby-identifier">e</span>
+      <span class="ruby-identifier">puts</span> <span class="ruby-identifier">e</span>.<span class="ruby-identifier">backtrace</span>.<span class="ruby-identifier">join</span>(<span class="ruby-string">&quot;\n\t&quot;</span>)
+      <span class="ruby-ivar">@success</span> = <span class="ruby-keyword">false</span>
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- to_html-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- to_html-method -->
+
+    
+    </section><!-- public-instance-method-details -->
+  
+  </section><!-- 5Buntitled-5D -->
+
+</div><!-- documentation -->
+
+
+<footer id="validator-badges">
+  <p><a href="http://validator.w3.org/check/referer">[Validate]</a>
+  <p>Generated by <a href="https://github.com/rdoc/rdoc">RDoc</a> 3.12.2.
+  <p>Generated with the <a href="http://deveiate.org/projects/Darkfish-Rdoc/">Darkfish Rdoc Generator</a> 3.
+</footer>
+

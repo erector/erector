@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+
+<title>module Erector - Erector 0.10.0</title>
+
+<link type="text/css" media="screen" href="./rdoc.css" rel="stylesheet">
+
+<script type="text/javascript">
+  var rdoc_rel_prefix = "./";
+</script>
+
+<script type="text/javascript" charset="utf-8" src="./js/jquery.js"></script>
+<script type="text/javascript" charset="utf-8" src="./js/navigation.js"></script>
+<script type="text/javascript" charset="utf-8" src="./js/search_index.js"></script>
+<script type="text/javascript" charset="utf-8" src="./js/search.js"></script>
+<script type="text/javascript" charset="utf-8" src="./js/searcher.js"></script>
+<script type="text/javascript" charset="utf-8" src="./js/darkfish.js"></script>
+
+
+<body id="top" class="module">
+<nav id="metadata">
+  <nav id="home-section" class="section">
+  <h3 class="section-header">
+    <a href="./index.html">Home</a>
+    <a href="./table_of_contents.html#classes">Classes</a>
+    <a href="./table_of_contents.html#methods">Methods</a>
+  </h3>
+</nav>
+
+
+  <nav id="search-section" class="section project-section" class="initially-hidden">
+  <form action="#" method="get" accept-charset="utf-8">
+    <h3 class="section-header">
+      <input type="text" name="search" placeholder="Search" id="search-field"
+             title="Type to search, Up and Down to navigate, Enter to load">
+    </h3>
+  </form>
+
+  <ul id="search-results" class="initially-hidden"></ul>
+</nav>
+
+
+  <div id="file-metadata">
+    <nav id="file-list-section" class="section">
+  <h3 class="section-header">Defined In</h3>
+  <ul>
+    <li>lib/erector.rb
+    <li>lib/erector/abstract_widget.rb
+    <li>lib/erector/after_initialize.rb
+    <li>lib/erector/attributes.rb
+    <li>lib/erector/caching.rb
+    <li>lib/erector/convenience.rb
+    <li>lib/erector/dependencies.rb
+    <li>lib/erector/dependency.rb
+    <li>lib/erector/element.rb
+    <li>lib/erector/erect/erect.rb
+    <li>lib/erector/erect/erected.rb
+    <li>lib/erector/erect/indenting.rb
+    <li>lib/erector/externals.rb
+    <li>lib/erector/html.rb
+    <li>lib/erector/html_widget.rb
+    <li>lib/erector/inline.rb
+    <li>lib/erector/jquery.rb
+    <li>lib/erector/mixin.rb
+    <li>lib/erector/needs.rb
+    <li>lib/erector/output.rb
+    <li>lib/erector/promise.rb
+    <li>lib/erector/rails/form_builder.rb
+    <li>lib/erector/rails/railtie.rb
+    <li>lib/erector/rails/template_handler.rb
+    <li>lib/erector/rails2.rb
+    <li>lib/erector/rails2/extensions/rails_helpers.rb
+    <li>lib/erector/rails2/extensions/rails_widget.rb
+    <li>lib/erector/rails2/rails_form_builder.rb
+    <li>lib/erector/rails2/rails_version.rb
+    <li>lib/erector/rails2/template_handlers/rb_handler.rb
+    <li>lib/erector/rails3.rb
+    <li>lib/erector/raw_string.rb
+    <li>lib/erector/sass.rb
+    <li>lib/erector/tag.rb
+    <li>lib/erector/text.rb
+    <li>lib/erector/version.rb
+    <li>lib/erector/widget.rb
+    <li>lib/erector/widgets/environment_badge.rb
+    <li>lib/erector/widgets/table.rb
+    <li>lib/erector/xml_widget.rb
+  </ul>
+</nav>
+
+    
+  </div>
+
+  <div id="class-metadata">
+    
+    
+    
+    <!-- Method Quickref -->
+<nav id="method-list-section" class="section">
+  <h3 class="section-header">Methods</h3>
+
+  <ul class="link-list">
+    
+    <li><a href="#method-c-init_rails">::init_rails</a>
+    
+    <li><a href="#method-c-inline">::inline</a>
+    
+  </ul>
+</nav>
+
+  </div>
+
+  <div id="project-metadata">
+    <nav id="fileindex-section" class="section project-section">
+  <h3 class="section-header">Pages</h3>
+
+  <ul>
+  
+    <li class="file"><a href="./README_txt.html">README</a>
+  
+  </ul>
+</nav>
+
+    <nav id="classindex-section" class="section project-section">
+  <h3 class="section-header">Class and Module Index</h3>
+
+  <ul class="link-list">
+  
+    <li><a href="./Erector.html">Erector</a>
+  
+    <li><a href="./Erector/AbstractWidget.html">Erector::AbstractWidget</a>
+  
+    <li><a href="./Erector/AfterInitialize.html">Erector::AfterInitialize</a>
+  
+    <li><a href="./Erector/AfterInitialize/ClassMethods.html">Erector::AfterInitialize::ClassMethods</a>
+  
+    <li><a href="./Erector/Attributes.html">Erector::Attributes</a>
+  
+    <li><a href="./Erector/Cache.html">Erector::Cache</a>
+  
+    <li><a href="./Erector/Caching.html">Erector::Caching</a>
+  
+    <li><a href="./Erector/Caching/ClassMethods.html">Erector::Caching::ClassMethods</a>
+  
+    <li><a href="./Erector/Convenience.html">Erector::Convenience</a>
+  
+    <li><a href="./Erector/Dependencies.html">Erector::Dependencies</a>
+  
+    <li><a href="./Erector/Dependency.html">Erector::Dependency</a>
+  
+    <li><a href="./Erector/Element.html">Erector::Element</a>
+  
+    <li><a href="./Erector/Erect.html">Erector::Erect</a>
+  
+    <li><a href="./Erector/Erected.html">Erector::Erected</a>
+  
+    <li><a href="./Erector/Externals.html">Erector::Externals</a>
+  
+    <li><a href="./Erector/Externals/ClassMethods.html">Erector::Externals::ClassMethods</a>
+  
+    <li><a href="./Erector/HTML.html">Erector::HTML</a>
+  
+    <li><a href="./Erector/HTMLWidget.html">Erector::HTMLWidget</a>
+  
+    <li><a href="./Erector/HTMLWidget.html">Erector::HtmlWidget</a>
+  
+    <li><a href="./Erector/Inline.html">Erector::Inline</a>
+  
+    <li><a href="./Erector/InlineWidget.html">Erector::InlineWidget</a>
+  
+    <li><a href="./Erector/JQuery.html">Erector::JQuery</a>
+  
+    <li><a href="./Erector/Mixin.html">Erector::Mixin</a>
+  
+    <li><a href="./Erector/Needs.html">Erector::Needs</a>
+  
+    <li><a href="./Erector/Needs/ClassMethods.html">Erector::Needs::ClassMethods</a>
+  
+    <li><a href="./Erector/Output.html">Erector::Output</a>
+  
+    <li><a href="./Erector/Promise.html">Erector::Promise</a>
+  
+    <li><a href="./Erector/Rails.html">Erector::Rails</a>
+  
+    <li><a href="./Erector/Rails/FormBuilder.html">Erector::Rails::FormBuilder</a>
+  
+    <li><a href="./Erector/Rails/Helpers.html">Erector::Rails::Helpers</a>
+  
+    <li><a href="./Erector/Rails/TemplateHandler.html">Erector::Rails::TemplateHandler</a>
+  
+    <li><a href="./Erector/Rails/WidgetExtensions.html">Erector::Rails::WidgetExtensions</a>
+  
+    <li><a href="./Erector/Rails/WidgetExtensions/ClassMethods.html">Erector::Rails::WidgetExtensions::ClassMethods</a>
+  
+    <li><a href="./Erector/RailsFormBuilder.html">Erector::RailsFormBuilder</a>
+  
+    <li><a href="./Erector/Railtie.html">Erector::Railtie</a>
+  
+    <li><a href="./Erector/RawString.html">Erector::RawString</a>
+  
+    <li><a href="./Erector/RbHandler.html">Erector::RbHandler</a>
+  
+    <li><a href="./Erector/Sass.html">Erector::Sass</a>
+  
+    <li><a href="./Erector/Tag.html">Erector::Tag</a>
+  
+    <li><a href="./Erector/Text.html">Erector::Text</a>
+  
+    <li><a href="./Erector/UnicodeBuilder.html">Erector::UnicodeBuilder</a>
+  
+    <li><a href="./Erector/Widget.html">Erector::Widget</a>
+  
+    <li><a href="./Erector/Widgets.html">Erector::Widgets</a>
+  
+    <li><a href="./Erector/Widgets/EnvironmentBadge.html">Erector::Widgets::EnvironmentBadge</a>
+  
+    <li><a href="./Erector/Widgets/Page.html">Erector::Widgets::Page</a>
+  
+    <li><a href="./Erector/Widgets/Table.html">Erector::Widgets::Table</a>
+  
+    <li><a href="./Erector/XMLWidget.html">Erector::XMLWidget</a>
+  
+    <li><a href="./Erector/XMLWidget.html">Erector::XmlWidget</a>
+  
+    <li><a href="./ActionView.html">ActionView</a>
+  
+    <li><a href="./ActionView/Base.html">ActionView::Base</a>
+  
+    <li><a href="./ActionView/TemplateHandlers.html">ActionView::TemplateHandlers</a>
+  
+    <li><a href="./ActionView/TemplateHandlers/ErtTemplate.html">ActionView::TemplateHandlers::ErtTemplate</a>
+  
+    <li><a href="./Cell.html">Cell</a>
+  
+    <li><a href="./Cell/View.html">Cell::View</a>
+  
+    <li><a href="./FieldTable.html">FieldTable</a>
+  
+    <li><a href="./FieldTable/Field.html">FieldTable::Field</a>
+  
+    <li><a href="./ExternalRenderer.html">ExternalRenderer</a>
+  
+    <li><a href="./Form.html">Form</a>
+  
+    <li><a href="./Object.html">Object</a>
+  
+  </ul>
+</nav>
+
+  </div>
+</nav>
+
+<div id="documentation">
+  <h1 class="module">module Erector</h1>
+
+  <div id="description" class="description">
+    
+<p>todo: unit test</p>
+
+<p><a href="Erector.html">Erector</a> view framework</p>
+
+  </div><!-- description -->
+
+  
+  
+  
+  <section id="5Buntitled-5D" class="documentation-section">
+    
+
+    
+
+    
+    <!-- Constants -->
+    <section id="constants-list" class="section">
+      <h3 class="section-header">Constants</h3>
+      <dl>
+      
+        <dt id="HtmlWidget">HtmlWidget
+        
+        <dd class="description"><p>Alias to make it easier to spell</p>
+        
+      
+        <dt id="VERSION">VERSION
+        
+        <dd class="description">
+        
+      
+        <dt id="XmlWidget">XmlWidget
+        
+        <dd class="description">
+        
+      
+      </dl>
+    </section>
+    
+
+    
+
+    <!-- Methods -->
+    
+     <section id="public-class-5Buntitled-5D-method-details" class="method-section section">
+      <h3 class="section-header">Public Class Methods</h3>
+
+    
+      <div id="method-c-init_rails" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">init_rails</span><span
+            class="method-args">(binding)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="init_rails-source">
+            <pre><span class="ruby-comment"># File lib/erector/rails2.rb, line 11</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">init_rails</span>(<span class="ruby-identifier">binding</span>)
+  <span class="ruby-comment"># Rails defaults do not include app/views in the eager load path.</span>
+  <span class="ruby-comment"># It needs to be there, because erector views are .rb files.</span>
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">config</span> = <span class="ruby-identifier">eval</span>(<span class="ruby-string">&quot;config if defined? config&quot;</span>, <span class="ruby-identifier">binding</span>)
+    <span class="ruby-identifier">view_path</span> = <span class="ruby-identifier">config</span>.<span class="ruby-identifier">view_path</span>
+    <span class="ruby-identifier">config</span>.<span class="ruby-identifier">load_paths</span>       <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">view_path</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">config</span>.<span class="ruby-identifier">load_paths</span>.<span class="ruby-identifier">include?</span>(<span class="ruby-identifier">view_path</span>)
+    <span class="ruby-identifier">config</span>.<span class="ruby-identifier">eager_load_paths</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">view_path</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">config</span>.<span class="ruby-identifier">eager_load_paths</span>.<span class="ruby-identifier">include?</span>(<span class="ruby-identifier">view_path</span>)
+
+    <span class="ruby-comment"># Rails probably already ran Initializer#set_load_path and</span>
+    <span class="ruby-comment"># #set_autoload_paths by the time we got here.</span>
+    <span class="ruby-identifier">$LOAD_PATH</span>.<span class="ruby-identifier">unshift</span>(<span class="ruby-identifier">view_path</span>) <span class="ruby-keyword">unless</span> <span class="ruby-identifier">$LOAD_PATH</span>.<span class="ruby-identifier">include?</span>(<span class="ruby-identifier">view_path</span>)
+    <span class="ruby-keyword">unless</span> <span class="ruby-constant">ActiveSupport</span><span class="ruby-operator">::</span><span class="ruby-constant">Dependencies</span>.<span class="ruby-identifier">load_paths</span>.<span class="ruby-identifier">include?</span>(<span class="ruby-identifier">view_path</span>)
+      <span class="ruby-constant">ActiveSupport</span><span class="ruby-operator">::</span><span class="ruby-constant">Dependencies</span>.<span class="ruby-identifier">load_paths</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">view_path</span>
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- init_rails-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- init_rails-method -->
+
+    
+      <div id="method-c-inline" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">inline</span><span
+            class="method-args">(*args, &block)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="inline-source">
+            <pre><span class="ruby-comment"># File lib/erector/inline.rb, line 2</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">inline</span>(*<span class="ruby-identifier">args</span>, &amp;<span class="ruby-identifier">block</span>)
+  <span class="ruby-constant">InlineWidget</span>.<span class="ruby-identifier">new</span>(*<span class="ruby-identifier">args</span>, &amp;<span class="ruby-identifier">block</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- inline-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- inline-method -->
+
+    
+    </section><!-- public-class-method-details -->
+  
+  </section><!-- 5Buntitled-5D -->
+
+</div><!-- documentation -->
+
+
+<footer id="validator-badges">
+  <p><a href="http://validator.w3.org/check/referer">[Validate]</a>
+  <p>Generated by <a href="https://github.com/rdoc/rdoc">RDoc</a> 3.12.2.
+  <p>Generated with the <a href="http://deveiate.org/projects/Darkfish-Rdoc/">Darkfish Rdoc Generator</a> 3.
+</footer>
+

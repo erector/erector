@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+
+<title>class Erector::Widgets::Page - Erector 0.10.0</title>
+
+<link type="text/css" media="screen" href="../../rdoc.css" rel="stylesheet">
+
+<script type="text/javascript">
+  var rdoc_rel_prefix = "../../";
+</script>
+
+<script type="text/javascript" charset="utf-8" src="../../js/jquery.js"></script>
+<script type="text/javascript" charset="utf-8" src="../../js/navigation.js"></script>
+<script type="text/javascript" charset="utf-8" src="../../js/search_index.js"></script>
+<script type="text/javascript" charset="utf-8" src="../../js/search.js"></script>
+<script type="text/javascript" charset="utf-8" src="../../js/searcher.js"></script>
+<script type="text/javascript" charset="utf-8" src="../../js/darkfish.js"></script>
+
+
+<body id="top" class="class">
+<nav id="metadata">
+  <nav id="home-section" class="section">
+  <h3 class="section-header">
+    <a href="../../index.html">Home</a>
+    <a href="../../table_of_contents.html#classes">Classes</a>
+    <a href="../../table_of_contents.html#methods">Methods</a>
+  </h3>
+</nav>
+
+
+  <nav id="search-section" class="section project-section" class="initially-hidden">
+  <form action="#" method="get" accept-charset="utf-8">
+    <h3 class="section-header">
+      <input type="text" name="search" placeholder="Search" id="search-field"
+             title="Type to search, Up and Down to navigate, Enter to load">
+    </h3>
+  </form>
+
+  <ul id="search-results" class="initially-hidden"></ul>
+</nav>
+
+
+  <div id="file-metadata">
+    <nav id="file-list-section" class="section">
+  <h3 class="section-header">Defined In</h3>
+  <ul>
+    <li>lib/erector/widgets/page.rb
+  </ul>
+</nav>
+
+    
+  </div>
+
+  <div id="class-metadata">
+    
+    <nav id="parent-class-section" class="section">
+  <h3 class="section-header">Parent</h3>
+  
+  <p class="link"><a href="../InlineWidget.html">Erector::InlineWidget</a>
+  
+</nav>
+
+    
+    <!-- Method Quickref -->
+<nav id="method-list-section" class="section">
+  <h3 class="section-header">Methods</h3>
+
+  <ul class="link-list">
+    
+    <li><a href="#method-i-body_attributes">#body_attributes</a>
+    
+    <li><a href="#method-i-body_content">#body_content</a>
+    
+    <li><a href="#method-i-content">#content</a>
+    
+    <li><a href="#method-i-doctype">#doctype</a>
+    
+    <li><a href="#method-i-extra_widgets">#extra_widgets</a>
+    
+    <li><a href="#method-i-head_content">#head_content</a>
+    
+    <li><a href="#method-i-html_attributes">#html_attributes</a>
+    
+    <li><a href="#method-i-included_head_content">#included_head_content</a>
+    
+    <li><a href="#method-i-page_title">#page_title</a>
+    
+  </ul>
+</nav>
+
+  </div>
+
+  <div id="project-metadata">
+    <nav id="fileindex-section" class="section project-section">
+  <h3 class="section-header">Pages</h3>
+
+  <ul>
+  
+    <li class="file"><a href="../../README_txt.html">README</a>
+  
+  </ul>
+</nav>
+
+    <nav id="classindex-section" class="section project-section">
+  <h3 class="section-header">Class and Module Index</h3>
+
+  <ul class="link-list">
+  
+    <li><a href="../../Erector.html">Erector</a>
+  
+    <li><a href="../../Erector/AbstractWidget.html">Erector::AbstractWidget</a>
+  
+    <li><a href="../../Erector/AfterInitialize.html">Erector::AfterInitialize</a>
+  
+    <li><a href="../../Erector/AfterInitialize/ClassMethods.html">Erector::AfterInitialize::ClassMethods</a>
+  
+    <li><a href="../../Erector/Attributes.html">Erector::Attributes</a>
+  
+    <li><a href="../../Erector/Cache.html">Erector::Cache</a>
+  
+    <li><a href="../../Erector/Caching.html">Erector::Caching</a>
+  
+    <li><a href="../../Erector/Caching/ClassMethods.html">Erector::Caching::ClassMethods</a>
+  
+    <li><a href="../../Erector/Convenience.html">Erector::Convenience</a>
+  
+    <li><a href="../../Erector/Dependencies.html">Erector::Dependencies</a>
+  
+    <li><a href="../../Erector/Dependency.html">Erector::Dependency</a>
+  
+    <li><a href="../../Erector/Element.html">Erector::Element</a>
+  
+    <li><a href="../../Erector/Erect.html">Erector::Erect</a>
+  
+    <li><a href="../../Erector/Erected.html">Erector::Erected</a>
+  
+    <li><a href="../../Erector/Externals.html">Erector::Externals</a>
+  
+    <li><a href="../../Erector/Externals/ClassMethods.html">Erector::Externals::ClassMethods</a>
+  
+    <li><a href="../../Erector/HTML.html">Erector::HTML</a>
+  
+    <li><a href="../../Erector/HTMLWidget.html">Erector::HTMLWidget</a>
+  
+    <li><a href="../../Erector/HTMLWidget.html">Erector::HtmlWidget</a>
+  
+    <li><a href="../../Erector/Inline.html">Erector::Inline</a>
+  
+    <li><a href="../../Erector/InlineWidget.html">Erector::InlineWidget</a>
+  
+    <li><a href="../../Erector/JQuery.html">Erector::JQuery</a>
+  
+    <li><a href="../../Erector/Mixin.html">Erector::Mixin</a>
+  
+    <li><a href="../../Erector/Needs.html">Erector::Needs</a>
+  
+    <li><a href="../../Erector/Needs/ClassMethods.html">Erector::Needs::ClassMethods</a>
+  
+    <li><a href="../../Erector/Output.html">Erector::Output</a>
+  
+    <li><a href="../../Erector/Promise.html">Erector::Promise</a>
+  
+    <li><a href="../../Erector/Rails.html">Erector::Rails</a>
+  
+    <li><a href="../../Erector/Rails/FormBuilder.html">Erector::Rails::FormBuilder</a>
+  
+    <li><a href="../../Erector/Rails/Helpers.html">Erector::Rails::Helpers</a>
+  
+    <li><a href="../../Erector/Rails/TemplateHandler.html">Erector::Rails::TemplateHandler</a>
+  
+    <li><a href="../../Erector/Rails/WidgetExtensions.html">Erector::Rails::WidgetExtensions</a>
+  
+    <li><a href="../../Erector/Rails/WidgetExtensions/ClassMethods.html">Erector::Rails::WidgetExtensions::ClassMethods</a>
+  
+    <li><a href="../../Erector/RailsFormBuilder.html">Erector::RailsFormBuilder</a>
+  
+    <li><a href="../../Erector/Railtie.html">Erector::Railtie</a>
+  
+    <li><a href="../../Erector/RawString.html">Erector::RawString</a>
+  
+    <li><a href="../../Erector/RbHandler.html">Erector::RbHandler</a>
+  
+    <li><a href="../../Erector/Sass.html">Erector::Sass</a>
+  
+    <li><a href="../../Erector/Tag.html">Erector::Tag</a>
+  
+    <li><a href="../../Erector/Text.html">Erector::Text</a>
+  
+    <li><a href="../../Erector/UnicodeBuilder.html">Erector::UnicodeBuilder</a>
+  
+    <li><a href="../../Erector/Widget.html">Erector::Widget</a>
+  
+    <li><a href="../../Erector/Widgets.html">Erector::Widgets</a>
+  
+    <li><a href="../../Erector/Widgets/EnvironmentBadge.html">Erector::Widgets::EnvironmentBadge</a>
+  
+    <li><a href="../../Erector/Widgets/Page.html">Erector::Widgets::Page</a>
+  
+    <li><a href="../../Erector/Widgets/Table.html">Erector::Widgets::Table</a>
+  
+    <li><a href="../../Erector/XMLWidget.html">Erector::XMLWidget</a>
+  
+    <li><a href="../../Erector/XMLWidget.html">Erector::XmlWidget</a>
+  
+    <li><a href="../../ActionView.html">ActionView</a>
+  
+    <li><a href="../../ActionView/Base.html">ActionView::Base</a>
+  
+    <li><a href="../../ActionView/TemplateHandlers.html">ActionView::TemplateHandlers</a>
+  
+    <li><a href="../../ActionView/TemplateHandlers/ErtTemplate.html">ActionView::TemplateHandlers::ErtTemplate</a>
+  
+    <li><a href="../../Cell.html">Cell</a>
+  
+    <li><a href="../../Cell/View.html">Cell::View</a>
+  
+    <li><a href="../../FieldTable.html">FieldTable</a>
+  
+    <li><a href="../../FieldTable/Field.html">FieldTable::Field</a>
+  
+    <li><a href="../../ExternalRenderer.html">ExternalRenderer</a>
+  
+    <li><a href="../../Form.html">Form</a>
+  
+    <li><a href="../../Object.html">Object</a>
+  
+  </ul>
+</nav>
+
+  </div>
+</nav>
+
+<div id="documentation">
+  <h1 class="class">class Erector::Widgets::Page</h1>
+
+  <div id="description" class="description">
+    
+<p><a href="../../Erector.html">Erector</a> <a href="Page.html">Page</a> base
+class.</p>
+
+<p>Allows for accumulation of script and style tags (see example below) with
+either external or inline content. External references are &#39;uniq&#39;d,
+so it&#39;s a good idea to declare a js script in all widgets that use it,
+so you don&#39;t accidentally lose the script if you remove the one widget
+that happened to declare it.</p>
+
+<p>The script and style declarations are accumulated at class load time, as
+&#39;dependencies&#39;. This technique allows all widgets to add their own
+requirements to the page header without extra logic for declaring which
+pages include which nested widgets. Fortunately, <a
+href="Page.html">Page</a> is now smart enough to figure out which widgets
+were actually rendered during the <a
+href="Page.html#method-i-body_content">#body_content</a> run, so it only
+emits into its HEAD the dependencies that are relevant. If it misses some,
+or if you want to add some extra dependencies – for instance, styles that
+apply to widgets that are rendered later via AJAX – then return an array of
+those widget classes in your subclass by overriding the <a
+href="Page.html#method-i-extra_widgets">extra_widgets</a> method.</p>
+
+<p>If you want something to show up in the headers for just one page type
+(subclass), then override <a
+href="Page.html#method-i-head_content">head_content</a>, call super, and
+then emit it yourself.</p>
+
+<p>Body content can be supplied in several ways:</p>
+
+<pre class="ruby">* <span class="ruby-constant">In</span> <span class="ruby-identifier">a</span> <span class="ruby-constant">Page</span> <span class="ruby-identifier">subclass</span>, <span class="ruby-identifier">by</span> <span class="ruby-identifier">overriding</span> <span class="ruby-identifier">the</span> <span class="ruby-comment">#body_content method:</span>
+
+   <span class="ruby-keyword">class</span> <span class="ruby-constant">MyPage</span> <span class="ruby-operator">&lt;</span> <span class="ruby-constant">Erector</span><span class="ruby-operator">::</span><span class="ruby-constant">Widgets</span><span class="ruby-operator">::</span><span class="ruby-constant">Page</span>
+     <span class="ruby-keyword">def</span> <span class="ruby-identifier">body_content</span>
+       <span class="ruby-identifier">text</span> <span class="ruby-string">&quot;body content&quot;</span>
+     <span class="ruby-keyword">end</span>
+   <span class="ruby-keyword">end</span>
+
+* <span class="ruby-constant">Or</span> <span class="ruby-identifier">by</span> <span class="ruby-identifier">overriding</span> <span class="ruby-comment">#content and passing a block to super:</span>
+
+   <span class="ruby-keyword">class</span> <span class="ruby-constant">MyPage</span> <span class="ruby-operator">&lt;</span> <span class="ruby-constant">Erector</span><span class="ruby-operator">::</span><span class="ruby-constant">Widgets</span><span class="ruby-operator">::</span><span class="ruby-constant">Page</span>
+     <span class="ruby-keyword">def</span> <span class="ruby-identifier">content</span>
+       <span class="ruby-keyword">super</span> <span class="ruby-keyword">do</span>
+         <span class="ruby-identifier">text</span> <span class="ruby-string">&quot;body content&quot;</span>
+       <span class="ruby-keyword">end</span>
+     <span class="ruby-keyword">end</span>
+   <span class="ruby-keyword">end</span>
+
+* <span class="ruby-constant">Or</span> <span class="ruby-identifier">by</span> <span class="ruby-identifier">passing</span> <span class="ruby-identifier">a</span> <span class="ruby-identifier">block</span> <span class="ruby-identifier">to</span> <span class="ruby-constant">Page</span>.<span class="ruby-identifier">new</span><span class="ruby-operator">:</span>
+
+   <span class="ruby-constant">Erector</span><span class="ruby-operator">::</span><span class="ruby-constant">Widgets</span><span class="ruby-operator">::</span><span class="ruby-constant">Page</span>.<span class="ruby-identifier">new</span> <span class="ruby-keyword">do</span>
+     <span class="ruby-identifier">text</span> <span class="ruby-string">&quot;body content&quot;</span>
+   <span class="ruby-keyword">end</span>
+</pre>
+
+<p>This last trick (passing a block to Page.new) works because <a
+href="Page.html">Page</a> is an <a
+href="../InlineWidget.html">InlineWidget</a> so its block is evaluated in
+the context of the newly instantiated widget object, and not in the context
+of its caller. But this means you can&#39;t access instance variables of
+the caller, e.g.</p>
+
+<pre>@name = &quot;fred&quot;
+Erector::Widgets::Page.new do
+  text &quot;my name is #{@name}&quot;
+end</pre>
+
+<p>will emit “my name is ” because @name is nil inside the new <a
+href="Page.html">Page</a>. However, you <strong>can</strong> call methods
+in the parent class, thanks to some method_missing magic. Confused? You
+should be. See Erector::Inline#content for more documentation.</p>
+<dl class="rdoc-list note-list"><dt>Author
+<dd>
+<p>Alex Chaffee, alex@stinky.com</p>
+</dd></dl>
+
+<h1 id="label-Example+Usage%3A+">Example Usage: </h1>
+
+<pre class="ruby"><span class="ruby-keyword">class</span> <span class="ruby-constant">MyPage</span> <span class="ruby-operator">&lt;</span> <span class="ruby-constant">Page</span>
+  <span class="ruby-identifier">external</span> :<span class="ruby-identifier">js</span>, <span class="ruby-string">&quot;lib/jquery.js&quot;</span>
+  <span class="ruby-identifier">external</span> :<span class="ruby-identifier">script</span>, <span class="ruby-string">&quot;$(document).ready(function(){...});&quot;</span>
+  <span class="ruby-identifier">external</span> :<span class="ruby-identifier">css</span>, <span class="ruby-string">&quot;stuff.css&quot;</span>
+  <span class="ruby-identifier">external</span> :<span class="ruby-identifier">style</span>, <span class="ruby-string">&quot;li.foo { color: red; }&quot;</span>
+
+  <span class="ruby-keyword">def</span> <span class="ruby-identifier">page_title</span>
+    <span class="ruby-string">&quot;my app&quot;</span>
+  <span class="ruby-keyword">end</span>
+
+  <span class="ruby-keyword">def</span> <span class="ruby-identifier">body_content</span>
+    <span class="ruby-identifier">h1</span> <span class="ruby-string">&quot;My App&quot;</span>
+    <span class="ruby-identifier">p</span> <span class="ruby-string">&quot;welcome to my app&quot;</span>
+    <span class="ruby-identifier">widget</span> <span class="ruby-constant">WidgetWithExternalStyle</span>
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span>
+
+<span class="ruby-keyword">class</span> <span class="ruby-constant">WidgetWithExternalStyle</span> <span class="ruby-operator">&lt;</span> <span class="ruby-constant">Erector</span><span class="ruby-operator">::</span><span class="ruby-constant">Widget</span>
+  <span class="ruby-identifier">external</span> :<span class="ruby-identifier">style</span>, <span class="ruby-string">&quot;div.custom { border: 2px solid green; }&quot;</span>
+
+  <span class="ruby-keyword">def</span> <span class="ruby-identifier">content</span>
+    <span class="ruby-identifier">div</span> :<span class="ruby-keyword">class</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&quot;custom&quot;</span> <span class="ruby-keyword">do</span>
+      <span class="ruby-identifier">text</span> <span class="ruby-string">&quot;green is good&quot;</span>
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span>
+</pre>
+
+<h1 id="label-Thoughts%3A">Thoughts:</h1>
+
+<pre>* It may be desirable to unify #js and #script, and #css and #style, and
+  have the routine be smart enough to analyze its parameter to decide
+  whether to make it a file or a script.</pre>
+
+  </div><!-- description -->
+
+  
+  
+  
+  <section id="5Buntitled-5D" class="documentation-section">
+    
+
+    
+
+    
+
+    
+
+    <!-- Methods -->
+    
+     <section id="public-instance-5Buntitled-5D-method-details" class="method-section section">
+      <h3 class="section-header">Public Instance Methods</h3>
+
+    
+      <div id="method-i-body_attributes" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">body_attributes</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>override me to add attributes (e.g. a css class) to the body</p>
+          
+
+          
+          <div class="method-source-code" id="body_attributes-source">
+            <pre><span class="ruby-comment"># File lib/erector/widgets/page.rb, line 142</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">body_attributes</span>
+  {}
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- body_attributes-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- body_attributes-method -->
+
+    
+      <div id="method-i-body_content" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">body_content</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>override me (or instantiate <a href="Page.html">Page</a> with a block)</p>
+          
+
+          
+          <div class="method-source-code" id="body_content-source">
+            <pre><span class="ruby-comment"># File lib/erector/widgets/page.rb, line 147</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">body_content</span>
+  <span class="ruby-identifier">call_block</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- body_content-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- body_content-method -->
+
+    
+      <div id="method-i-content" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">content</span><span
+            class="method-args">() { || ... }</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="content-source">
+            <pre><span class="ruby-comment"># File lib/erector/widgets/page.rb, line 110</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">content</span>
+  <span class="ruby-identifier">extra_head_slot</span> = <span class="ruby-keyword">nil</span>
+  <span class="ruby-identifier">rawtext</span> <span class="ruby-identifier">doctype</span>
+  <span class="ruby-identifier">html</span>(<span class="ruby-identifier">html_attributes</span>) <span class="ruby-keyword">do</span>
+    <span class="ruby-identifier">head</span> <span class="ruby-keyword">do</span>
+      <span class="ruby-identifier">head_content</span>
+      <span class="ruby-identifier">extra_head_slot</span> = <span class="ruby-identifier">output</span>.<span class="ruby-identifier">placeholder</span>
+    <span class="ruby-keyword">end</span>
+    <span class="ruby-identifier">body</span>(<span class="ruby-identifier">body_attributes</span>) <span class="ruby-keyword">do</span>
+      <span class="ruby-keyword">if</span> <span class="ruby-identifier">block_given?</span>
+        <span class="ruby-keyword">yield</span>
+      <span class="ruby-keyword">else</span>
+        <span class="ruby-identifier">body_content</span>
+      <span class="ruby-keyword">end</span>
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-comment"># after everything&#39;s been rendered, use the placeholder to</span>
+  <span class="ruby-comment"># insert all the head&#39;s dependencies</span>
+  <span class="ruby-identifier">extra_head_slot</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">included_head_content</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- content-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- content-method -->
+
+    
+      <div id="method-i-doctype" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">doctype</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Emit the Transitional doctype. TODO: allow selection from among different
+standard doctypes</p>
+          
+
+          
+          <div class="method-source-code" id="doctype-source">
+            <pre><span class="ruby-comment"># File lib/erector/widgets/page.rb, line 105</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">doctype</span>
+  <span class="ruby-string">&#39;&lt;!DOCTYPE html PUBLIC &quot;-//W3C//DTD XHTML 1.0 Transitional//EN&quot;
+     &quot;http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd&quot;&gt;&#39;</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- doctype-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- doctype-method -->
+
+    
+      <div id="method-i-extra_widgets" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">extra_widgets</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="extra_widgets-source">
+            <pre><span class="ruby-comment"># File lib/erector/widgets/page.rb, line 164</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">extra_widgets</span>
+  []
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- extra_widgets-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- extra_widgets-method -->
+
+    
+      <div id="method-i-head_content" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">head_content</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>emit the contents of the head element. Override and call super if you want
+to put more stuff in there.</p>
+          
+
+          
+          <div class="method-source-code" id="head_content-source">
+            <pre><span class="ruby-comment"># File lib/erector/widgets/page.rb, line 152</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">head_content</span>
+  <span class="ruby-identifier">meta</span> <span class="ruby-string">&#39;http-equiv&#39;</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&#39;content-type&#39;</span>, <span class="ruby-value">:content</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&#39;text/html;charset=UTF-8&#39;</span>
+  <span class="ruby-identifier">title</span> <span class="ruby-identifier">page_title</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- head_content-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- head_content-method -->
+
+    
+      <div id="method-i-html_attributes" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">html_attributes</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>override me to change the attributes of the <a href="../HTML.html">HTML</a>
+element</p>
+          
+
+          
+          <div class="method-source-code" id="html_attributes-source">
+            <pre><span class="ruby-comment"># File lib/erector/widgets/page.rb, line 137</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">html_attributes</span>
+  {<span class="ruby-value">:xmlns</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&#39;http://www.w3.org/1999/xhtml&#39;</span>, <span class="ruby-string">&#39;xml:lang&#39;</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&#39;en&#39;</span>, <span class="ruby-value">:lang</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&#39;en&#39;</span>}
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- html_attributes-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- html_attributes-method -->
+
+    
+      <div id="method-i-included_head_content" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">included_head_content</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="included_head_content-source">
+            <pre><span class="ruby-comment"># File lib/erector/widgets/page.rb, line 157</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">included_head_content</span>
+  <span class="ruby-comment"># now that we&#39;ve rendered the whole page, it&#39;s the right time</span>
+  <span class="ruby-comment"># to ask what all widgets were rendered to the output stream</span>
+  <span class="ruby-identifier">included_widgets</span> = [<span class="ruby-keyword">self</span>.<span class="ruby-identifier">class</span>] <span class="ruby-operator">+</span> <span class="ruby-identifier">output</span>.<span class="ruby-identifier">widgets</span>.<span class="ruby-identifier">to_a</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">extra_widgets</span>
+  <span class="ruby-constant">ExternalRenderer</span>.<span class="ruby-identifier">new</span>(<span class="ruby-value">:classes</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">included_widgets</span>).<span class="ruby-identifier">to_html</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- included_head_content-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- included_head_content-method -->
+
+    
+      <div id="method-i-page_title" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">page_title</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>override me to provide a page title (default = name of the <a
+href="Page.html">Page</a> subclass)</p>
+          
+
+          
+          <div class="method-source-code" id="page_title-source">
+            <pre><span class="ruby-comment"># File lib/erector/widgets/page.rb, line 132</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">page_title</span>
+  <span class="ruby-keyword">self</span>.<span class="ruby-identifier">class</span>.<span class="ruby-identifier">name</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- page_title-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- page_title-method -->
+
+    
+    </section><!-- public-instance-method-details -->
+  
+  </section><!-- 5Buntitled-5D -->
+
+</div><!-- documentation -->
+
+
+<footer id="validator-badges">
+  <p><a href="http://validator.w3.org/check/referer">[Validate]</a>
+  <p>Generated by <a href="https://github.com/rdoc/rdoc">RDoc</a> 3.12.2.
+  <p>Generated with the <a href="http://deveiate.org/projects/Darkfish-Rdoc/">Darkfish Rdoc Generator</a> 3.
+</footer>
+

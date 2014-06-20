@@ -1,0 +1,362 @@
+<html>
+  <head>
+    <title>Erector - Cheatsheet</title>
+    <style>body, td, a, p {
+  font-family: Lucida Grande, Lucida Sans, arial, sans-serif;
+  font-size: 11pt; }
+
+body {
+  margin: 0;
+  padding: 0; }
+
+img {
+  border: none; }
+
+.clear {
+  clear: both; }
+
+ul {
+  list-style-position: inside; }
+
+li {
+  margin-left: 1.5em;
+  padding-bottom: .5em; }
+
+li > p {
+  -webkit-margin-before: 0;
+  -webkit-margin-after: 0; }
+
+h1 {
+  /*  font-variant: small-caps;*/
+  border-bottom: 1px solid gray;
+  /*  background: #EEE; */
+  padding: .25em;
+  padding-left: 0px;
+  margin-left: 0px;
+  text-shadow: #999 1px 1px 1px; }
+
+h2 {
+  margin-top: 2em;
+  background: #FEFEEB;
+  padding: .25em;
+  border: 1px solid #CCC;
+  text-shadow: #999 1px 1px 1px; }
+
+pre {
+  background-color: #f4f4FF;
+  border: 1px solid gray;
+  padding: .5em 1em;
+  overflow: auto;
+  font-family: Inconsolata, Consolas, "Andale Mono", "Lucida Console", "Lucida Sans Typewriter", "DejaVu Sans Mono", "Bitstream Vera Sans Mono", "Liberation Mono", "Nimbus Mono L", Monaco, "Courier New", Courier, monospace; }
+
+pre.sh_html {
+  background-color: #FFFADE; }
+
+code {
+  background-color: #F4F4FF;
+  font-size: 12pt; }
+
+/* cheatsheet */
+table.cheatsheet {
+  border-style: outset;
+  border-collapse: collapse;
+  font-size: 10pt; }
+  table.cheatsheet code {
+    background-color: #EEEEFF; }
+  table.cheatsheet i {
+    font-size: 11pt; }
+  table.cheatsheet th {
+    background-color: #EDEDED; }
+  table.cheatsheet td, table.cheatsheet th {
+    border-width: 1px;
+    border-style: solid;
+    border-color: lightgray;
+    padding: .5em;
+    font-size: 10pt; }
+  table.cheatsheet td {
+    vertical-align: top; }
+
+.separator {
+  margin-right: 10px;
+  font-size: 36pt; }
+
+/* top */
+div.top {
+  background-color: #FEFDCD;
+  /*  background-color: #FDF909;
+  */
+  text-align: bottom;
+  margin: 0;
+  padding: 8px 8px 4px; }
+  div.top .logo {
+    margin: 2px auto; }
+    div.top .logo img {
+      opacity: 0.6; }
+
+/* navbar */
+div.navbar {
+  width: 100%;
+  margin: 0 0 2px;
+  padding: 8px 0px 11px;
+  /* no idea why, but this centers the buttons*/
+  overflow-vertical: auto;
+  text-align: left;
+  background-color: #A3D3D1;
+  border-top: 1px solid #6881BA;
+  border-bottom: 1px solid #6881BA; }
+  div.navbar h3 {
+    margin-bottom: .25em; }
+  div.navbar ul {
+    list-style-type: none;
+    display: inline;
+    margin: -1px 0px 0px;
+    padding: 8px 0px;
+    list-style-type: none; }
+  div.navbar li.clickable {
+    display: inline;
+    color: #ccdcea;
+    background-color: #3470a2;
+    list-style-type: none;
+    margin: 8px;
+    padding: 4px 6px;
+    /*  font-variant: small-caps;*/
+    border: 2px solid #6881BA; }
+    div.navbar li.clickable a, div.navbar li.clickable a:visited {
+      text-decoration: none;
+      /*font-weight: bold;*/
+      color: white;
+      margin: 0;
+      font-size: 10pt; }
+  div.navbar li.clickable:hover {
+    background-color: blue;
+    cursor: pointer;
+    cursor: hand; }
+  div.navbar li.clickable.current {
+    font-weight: bold;
+    border: 2px solid black;
+    background-color: #3875D7; }
+    div.navbar li.clickable.current a {
+      color: white; }
+
+/* main */
+.main {
+  margin: 0 auto; }
+
+.footer {
+  font-size: 10pt;
+  border-top: 1px solid black;
+  padding: 1em; }
+
+.body {
+  max-width: 60em;
+  margin-left: 100px;
+  margin-right: 100px; }
+
+.body a {
+  color: #6881BA;
+  text-decoration: none;
+  border-bottom: 1px dotted; }
+
+.main h1.title {
+  margin: 0 200px;
+  text-align: center; }
+
+/* article */
+div.toc {
+  margin: 1em .25em;
+  display: inline-block;
+  border: 1px solid black; }
+  div.toc h2 {
+    margin: 0; }
+  div.toc ul, div.toc ol {
+    padding: .25em 1em; }
+
+.promo_wrapper {
+  float: right; }
+
+div.promo_wrapper {
+  text-align: center;
+  margin: 4px;
+  padding: 4px; }
+
+div.promo {
+  display: inline-block;
+  border: 2px solid #6881BA;
+  text-align: center;
+  background: white; }
+  div.promo img {
+    border: 2px solid black;
+    margin: 2px; }
+  div.promo p {
+    padding: .25em .5em; }
+
+/* example */
+div.example {
+  position: relative;
+  border: 2px solid darkblue;
+  margin: 1em;
+  padding: .5em; }
+  div.example .before, div.example .after {
+    margin: 1em;
+    text-align: top;
+    vertical-align: top; }
+    div.example .before pre, div.example .after pre {
+      margin: 0;
+      width: 100%; }
+</style>
+    <script src="js/sh_main.min.js"></script>
+    <script src="js/sh_lang/sh_ruby.min.js"></script>
+    <script src="js/sh_lang/sh_html.min.js"></script>
+    <script src="js/sh_lang/sh_sh.min.js"></script>
+    <link href="css/sh_style.css" rel="stylesheet" type="text/css" />
+  </head>
+  <body onload="sh_highlightDocument();">    <a href="http://github.com/erector/erector"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://a248.e.akamai.net/assets.github.com/img/30f550e0d38ceb6ef5b81500c64d970b7fb0f028/687474703a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6f72616e67655f6666373630302e706e67" alt="Fork me on GitHub"></a>
+    <div class="top">      <div class="logo"><a href="index.html"><img src="erector-logo.png" /></a></div>
+    </div>
+    <div class="navbar">      <ul class="clickable">
+        <li class="clickable" onclick="document.location=&#39;index.html&#39;"><a href="index.html">Home</a></li>
+        <li class="clickable" onclick="document.location=&#39;userguide.html&#39;"><a href="userguide.html">User Guide</a></li>
+        <li class="clickable" onclick="document.location=&#39;rails.html&#39;"><a href="rails.html">Erector On Rails</a></li>
+        <li class="clickable" onclick="document.location=&#39;faq.html&#39;"><a href="faq.html">FAQ</a></li>
+        <li class="clickable current" onclick="document.location=&#39;cheatsheet.html&#39;"><a href="cheatsheet.html">Cheatsheet</a></li>
+        <li class="clickable" onclick="document.location=&#39;rdoc&#39;"><a href="rdoc">RDoc API</a></li>
+        <li class="clickable" onclick="document.location=&#39;developers.html&#39;"><a href="developers.html">For Developers</a></li>
+        <li class="clickable" onclick="document.location=&#39;release_notes.html&#39;"><a href="release_notes.html">Release Notes</a></li>
+        <li class="clickable" onclick="document.location=&#39;community.html&#39;"><a href="community.html">Community</a></li>
+      </ul>
+    </div>
+    <div class="promo_wrapper">      <div class="promo"><img src="images/1959erector.jpeg" /></div>
+    </div>
+    <div class="main">      <div class="body">        <h2 class="clear">Erector API Cheatsheet</h2>
+        <table class="cheatsheet">
+          <tr>
+            <th>code</th>
+            <th>output</th>
+          </tr>
+          <tr>
+            <td width="30%"><code>element(&#39;foo&#39;)</code></td>
+            <td><code>&lt;foo&gt;&lt;/foo&gt;</code></td>
+          </tr>
+          <tr>
+            <td width="30%"><code>empty_element(&#39;foo&#39;)</code></td>
+            <td><code>&lt;foo /&gt;</code></td>
+          </tr>
+          <tr>
+            <td width="30%"><code>html</code></td>
+            <td><code>&lt;html&gt;&lt;/html&gt;</code>&#160;&#160;&#x2026;<i>and likewise for all non-deprecated elements from the HTML 4.0.1 spec</i></td>
+          </tr>
+          <tr>
+            <td width="30%"><code>b &#39;foo&#39;</code></td>
+            <td><code>&lt;b&gt;foo&lt;/b&gt;</code></td>
+          </tr>
+          <tr>
+            <td width="30%"><code>div { b &#39;foo&#39; }</code></td>
+            <td><code>&lt;div&gt;&lt;b&gt;foo&lt;/b&gt;&lt;/div&gt;</code></td>
+          </tr>
+          <tr>
+            <td width="30%"><code>text &#39;foo&#39;</code></td>
+            <td><code>foo</code></td>
+          </tr>
+          <tr>
+            <td width="30%"><code>text &#39;&amp;&lt;&gt;&#39;</code></td>
+            <td><code>&amp;amp;&amp;lt;&amp;gt;</code>&#160;&#160;&#x2026;<i>all normal text is HTML escaped, which is what you generally want, especially if the text came from the user or a database</i></td>
+          </tr>
+          <tr>
+            <td width="30%"><code>text raw(&#39;&amp;&lt;&gt;&#39;)</code></td>
+            <td><code>&amp;&lt;&gt;</code>&#160;&#160;&#x2026;<i>raw text escapes being escaped</i></td>
+          </tr>
+          <tr>
+            <td width="30%"><code>rawtext(&#39;&amp;&lt;&gt;&#39;)</code></td>
+            <td><code>&amp;&lt;&gt;</code>&#160;&#160;&#x2026;<i>alias for text(raw())</i></td>
+          </tr>
+          <tr>
+            <td width="30%"><code>text!(&#39;&amp;&lt;&gt;&#39;)</code></td>
+            <td><code>&amp;&lt;&gt;</code>&#160;&#160;&#x2026;<i>another alias for text(raw())</i></td>
+          </tr>
+          <tr>
+            <td width="30%"><code>div { text &#39;foo&#39; }</code></td>
+            <td><code>&lt;div&gt;foo&lt;/div&gt;</code></td>
+          </tr>
+          <tr>
+            <td width="30%"><code>div &#39;foo&#39;</code></td>
+            <td><code>&lt;div&gt;foo&lt;/div&gt;</code></td>
+          </tr>
+          <tr>
+            <td width="30%"><code>foo = &#39;bar&#39;<br/>div foo</code></td>
+            <td><code>&lt;div&gt;bar&lt;/div&gt;</code></td>
+          </tr>
+          <tr>
+            <td width="30%"><code>a(:href =&gt; &#39;foo.div&#39;)</code></td>
+            <td><code>&lt;a href=&quot;foo.div&quot;&gt;&lt;/a&gt;</code></td>
+          </tr>
+          <tr>
+            <td width="30%"><code>a(:href =&gt; &#39;q?a&amp;b&#39;)</code></td>
+            <td><code>&lt;a href=&quot;q?a&amp;amp;b&quot;&gt;&lt;/a&gt;</code>&#160;&#160;&#x2026;<i>attributes are escaped like text is</i></td>
+          </tr>
+          <tr>
+            <td width="30%"><code>a(:href =&gt; raw(&#39;&amp;amp;&#39;))</code></td>
+            <td><code>&lt;a href=&quot;&amp;amp;&quot;&gt;&lt;/a&gt;</code>&#160;&#160;&#x2026;<i>raw strings are never escaped, even in attributes</i></td>
+          </tr>
+          <tr>
+            <td width="30%"><code>a &#39;foo&#39;, :href =&gt; &quot;bar&quot;</code></td>
+            <td><code>&lt;a href=&quot;bar&quot;&gt;foo&lt;/a&gt;</code></td>
+          </tr>
+          <tr>
+            <td width="30%"><code>text nbsp(&#39;Save Doc&#39;)</code></td>
+            <td><code>Save&amp;#160;Doc</code>&#160;&#160;&#x2026;<i>turns spaces into non-breaking spaces</i></td>
+          </tr>
+          <tr>
+            <td width="30%"><code>text nbsp</code></td>
+            <td><code>&amp;#160;</code>&#160;&#160;&#x2026;<i>a single non-breaking space</i></td>
+          </tr>
+          <tr>
+            <td width="30%"><code>text character(160)</code></td>
+            <td><code>&amp;#xa0;</code>&#160;&#160;&#x2026;<i>output a character given its unicode code point</i></td>
+          </tr>
+          <tr>
+            <td width="30%"><code>text character(:right-arrow)</code></td>
+            <td><code>&amp;#x2192;</code>&#160;&#160;&#x2026;<i>output a character given its unicode name</i></td>
+          </tr>
+          <tr>
+            <td width="30%"><code>instruct</code></td>
+            <td><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</code></td>
+          </tr>
+          <tr>
+            <td width="30%"><code>comment &#39;foo&#39;</code></td>
+            <td><code>&lt;!--foo--&gt;</code></td>
+          </tr>
+          <tr>
+            <td width="30%"><code>url &#39;http://example.com&#39;</code></td>
+            <td><code>&lt;a href=&quot;http://example.com&quot;&gt;http://example.com&lt;/a&gt;</code></td>
+          </tr>
+          <tr>
+            <td width="30%"><code>capture { div }</code></td>
+            <td><code>&lt;div&gt;&lt;/div&gt;</code>&#160;&#160;&#x2026;<i>returns the block as a string, doesn&#39;t add it to the current output stream</i></td>
+          </tr>
+          <tr>
+            <td width="30%"><code>div :class =&gt; [&#39;a&#39;, &#39;b&#39;]</code></td>
+            <td><code>&lt;div class=&quot;a b&quot;&gt;&lt;/div&gt;</code></td>
+          </tr>
+          <tr>
+            <td width="30%"><code>javascript(<br/>&#39;if (x &lt; y &amp;&amp; x &gt; z) <br/>alert(&quot;don&#39;t stop&quot;);)</code></td>
+            <td><code>&lt;script type=&quot;text/javascript&quot;&gt;<br/>// &lt;![CDATA[<br/>if (x &lt; y &amp;&amp; x &gt; z) alert(&quot;don&#39;t stop&quot;);<br/>// ]]&gt;<br/>&lt;/script&gt;</code></td>
+          </tr>
+          <tr>
+            <td width="30%"><code>jquery &#39;$(&quot;p&quot;).wrap(&quot;&lt;div&gt;&lt;/div&gt;&quot;);&#39;</code></td>
+            <td><code>&lt;script type=&quot;text/javascript&quot;&gt;<br/>// &lt;![CDATA[<br/>jQuery(document).ready(function($){<br/>  $(&quot;p&quot;).wrap(&quot;&lt;div&gt;&lt;/div&gt;&quot;);<br/>});<br/>// ]]&gt;<br/>&lt;/script&gt;</code></td>
+          </tr>
+          <tr>
+            <td width="30%"><code>join([widget1, widget2],<br/> separator)</code></td>
+            <td><code></code>&#160;&#160;&#x2026;<i>See examples/join.rb for more explanation</i></td>
+          </tr>
+        </table>
+        <p>Lots more documentation is at the <a href="rdoc/index.html">RDoc API pages</a> especially for <a href="rdoc/classes/Erector/Widget.html">Erector::Widget</a> so don&#39;t go saying we never wrote you nothin&#39;.</p>
+      </div>
+      <div class="footer"><a href="http://www.pivotallabs.com"><img alt="Pivotal Labs" height="57" src="pivotal.gif" style="float:right; padding: 8px;" width="158" /></a>
+        <center>Erector is an open source project released under the MIT license.<br />
+Its initial development was sponsored by <a href="http://pivotallabs.com">Pivotal Labs</a>.<br />
+          Not affiliated with or sponsored by the makers of Erector or Meccano toys.</center>
+      </div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,332 @@
+<html>
+  <head>
+    <title>Erector - Home</title>
+    <style>body, td, a, p {
+  font-family: Lucida Grande, Lucida Sans, arial, sans-serif;
+  font-size: 11pt; }
+
+body {
+  margin: 0;
+  padding: 0; }
+
+img {
+  border: none; }
+
+.clear {
+  clear: both; }
+
+ul {
+  list-style-position: inside; }
+
+li {
+  margin-left: 1.5em;
+  padding-bottom: .5em; }
+
+li > p {
+  -webkit-margin-before: 0;
+  -webkit-margin-after: 0; }
+
+h1 {
+  /*  font-variant: small-caps;*/
+  border-bottom: 1px solid gray;
+  /*  background: #EEE; */
+  padding: .25em;
+  padding-left: 0px;
+  margin-left: 0px;
+  text-shadow: #999 1px 1px 1px; }
+
+h2 {
+  margin-top: 2em;
+  background: #FEFEEB;
+  padding: .25em;
+  border: 1px solid #CCC;
+  text-shadow: #999 1px 1px 1px; }
+
+pre {
+  background-color: #f4f4FF;
+  border: 1px solid gray;
+  padding: .5em 1em;
+  overflow: auto;
+  font-family: Inconsolata, Consolas, "Andale Mono", "Lucida Console", "Lucida Sans Typewriter", "DejaVu Sans Mono", "Bitstream Vera Sans Mono", "Liberation Mono", "Nimbus Mono L", Monaco, "Courier New", Courier, monospace; }
+
+pre.sh_html {
+  background-color: #FFFADE; }
+
+code {
+  background-color: #F4F4FF;
+  font-size: 12pt; }
+
+/* cheatsheet */
+table.cheatsheet {
+  border-style: outset;
+  border-collapse: collapse;
+  font-size: 10pt; }
+  table.cheatsheet code {
+    background-color: #EEEEFF; }
+  table.cheatsheet i {
+    font-size: 11pt; }
+  table.cheatsheet th {
+    background-color: #EDEDED; }
+  table.cheatsheet td, table.cheatsheet th {
+    border-width: 1px;
+    border-style: solid;
+    border-color: lightgray;
+    padding: .5em;
+    font-size: 10pt; }
+  table.cheatsheet td {
+    vertical-align: top; }
+
+.separator {
+  margin-right: 10px;
+  font-size: 36pt; }
+
+/* top */
+div.top {
+  background-color: #FEFDCD;
+  /*  background-color: #FDF909;
+  */
+  text-align: bottom;
+  margin: 0;
+  padding: 8px 8px 4px; }
+  div.top .logo {
+    margin: 2px auto; }
+    div.top .logo img {
+      opacity: 0.6; }
+
+/* navbar */
+div.navbar {
+  width: 100%;
+  margin: 0 0 2px;
+  padding: 8px 0px 11px;
+  /* no idea why, but this centers the buttons*/
+  overflow-vertical: auto;
+  text-align: left;
+  background-color: #A3D3D1;
+  border-top: 1px solid #6881BA;
+  border-bottom: 1px solid #6881BA; }
+  div.navbar h3 {
+    margin-bottom: .25em; }
+  div.navbar ul {
+    list-style-type: none;
+    display: inline;
+    margin: -1px 0px 0px;
+    padding: 8px 0px;
+    list-style-type: none; }
+  div.navbar li.clickable {
+    display: inline;
+    color: #ccdcea;
+    background-color: #3470a2;
+    list-style-type: none;
+    margin: 8px;
+    padding: 4px 6px;
+    /*  font-variant: small-caps;*/
+    border: 2px solid #6881BA; }
+    div.navbar li.clickable a, div.navbar li.clickable a:visited {
+      text-decoration: none;
+      /*font-weight: bold;*/
+      color: white;
+      margin: 0;
+      font-size: 10pt; }
+  div.navbar li.clickable:hover {
+    background-color: blue;
+    cursor: pointer;
+    cursor: hand; }
+  div.navbar li.clickable.current {
+    font-weight: bold;
+    border: 2px solid black;
+    background-color: #3875D7; }
+    div.navbar li.clickable.current a {
+      color: white; }
+
+/* main */
+.main {
+  margin: 0 auto; }
+
+.footer {
+  font-size: 10pt;
+  border-top: 1px solid black;
+  padding: 1em; }
+
+.body {
+  max-width: 60em;
+  margin-left: 100px;
+  margin-right: 100px; }
+
+.body a {
+  color: #6881BA;
+  text-decoration: none;
+  border-bottom: 1px dotted; }
+
+.main h1.title {
+  margin: 0 200px;
+  text-align: center; }
+
+/* article */
+div.toc {
+  margin: 1em .25em;
+  display: inline-block;
+  border: 1px solid black; }
+  div.toc h2 {
+    margin: 0; }
+  div.toc ul, div.toc ol {
+    padding: .25em 1em; }
+
+.promo_wrapper {
+  float: right; }
+
+div.promo_wrapper {
+  text-align: center;
+  margin: 4px;
+  padding: 4px; }
+
+div.promo {
+  display: inline-block;
+  border: 2px solid #6881BA;
+  text-align: center;
+  background: white; }
+  div.promo img {
+    border: 2px solid black;
+    margin: 2px; }
+  div.promo p {
+    padding: .25em .5em; }
+
+/* example */
+div.example {
+  position: relative;
+  border: 2px solid darkblue;
+  margin: 1em;
+  padding: .5em; }
+  div.example .before, div.example .after {
+    margin: 1em;
+    text-align: top;
+    vertical-align: top; }
+    div.example .before pre, div.example .after pre {
+      margin: 0;
+      width: 100%; }
+</style>
+    <script src="js/sh_main.min.js"></script>
+    <script src="js/sh_lang/sh_ruby.min.js"></script>
+    <script src="js/sh_lang/sh_html.min.js"></script>
+    <script src="js/sh_lang/sh_sh.min.js"></script>
+    <link href="css/sh_style.css" rel="stylesheet" type="text/css" />
+  </head>
+  <body onload="sh_highlightDocument();">    <a href="http://github.com/erector/erector"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://a248.e.akamai.net/assets.github.com/img/30f550e0d38ceb6ef5b81500c64d970b7fb0f028/687474703a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6f72616e67655f6666373630302e706e67" alt="Fork me on GitHub"></a>
+    <div class="top">      <div class="logo"><a href="index.html"><img src="erector-logo.png" /></a></div>
+    </div>
+    <div class="navbar">      <ul class="clickable">
+        <li class="clickable current" onclick="document.location=&#39;index.html&#39;"><a href="index.html">Home</a></li>
+        <li class="clickable" onclick="document.location=&#39;userguide.html&#39;"><a href="userguide.html">User Guide</a></li>
+        <li class="clickable" onclick="document.location=&#39;rails.html&#39;"><a href="rails.html">Erector On Rails</a></li>
+        <li class="clickable" onclick="document.location=&#39;faq.html&#39;"><a href="faq.html">FAQ</a></li>
+        <li class="clickable" onclick="document.location=&#39;cheatsheet.html&#39;"><a href="cheatsheet.html">Cheatsheet</a></li>
+        <li class="clickable" onclick="document.location=&#39;rdoc&#39;"><a href="rdoc">RDoc API</a></li>
+        <li class="clickable" onclick="document.location=&#39;developers.html&#39;"><a href="developers.html">For Developers</a></li>
+        <li class="clickable" onclick="document.location=&#39;release_notes.html&#39;"><a href="release_notes.html">Release Notes</a></li>
+        <li class="clickable" onclick="document.location=&#39;community.html&#39;"><a href="community.html">Community</a></li>
+      </ul>
+    </div>
+    <div class="promo_wrapper">      <div class="promo"><img src="images/erector-the-worlds-greatest-toy.jpg" /></div>
+    </div>
+    <div class="main">      <div class="body">
+        <p>Erector is a Builder-like view framework for <a href="http://ruby-lang.org">Ruby</a>, inspired by <a href="http://code.whytheluckystiff.net/markaby/">Markaby</a>. </p>
+        <p>In Erector all views are objects, not template files, which allows the full power of object-oriented programming (inheritance, modular decomposition, encapsulation) in views.</p>
+        <h2 class="clear">Examples</h2>
+        <div class="example">
+          <table>
+            <tr>              <td class="before">
+                <pre class="sh_ruby">require &#39;erector&#39;
+
+class Hello &lt; Erector::Widget
+  def content
+    html {
+      head {
+        title &quot;Hello&quot;
+      }
+      body {
+        h1.heading! &quot;Message:&quot;
+        text &quot;Hello, &quot;
+        b.big @target
+        text &quot;!&quot;
+      }
+    }
+  end
+end
+
+Hello.new(:target =&gt; &#39;world&#39;).to_html
+</pre>
+              </td>
+              <td class="separator"><span class="separator">&#x2192;</span></td>
+              <td class="after">
+                <pre class="sh_html">&lt;html&gt;
+  &lt;head&gt;
+    &lt;title&gt;Hello&lt;/title&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;h1 id=&quot;heading&quot;&gt;Message:&lt;/h1&gt;
+    Hello, &lt;b class=&quot;big&quot;&gt;world&lt;/b&gt;!
+  &lt;/body&gt;
+&lt;/html&gt;
+</pre>
+              </td>
+            </tr>
+          </table>
+          <div class="clear"></div>
+        </div>
+        <div class="example">
+          <table>
+            <tr>              <td class="before">
+                <pre class="sh_ruby">include Erector::Mixin
+erector { div &quot;love&quot;, :class =&gt; &quot;big&quot; }
+</pre>
+              </td>
+              <td class="separator"><span class="separator">&#x2192;</span></td>
+              <td class="after">
+                <pre class="sh_html">&lt;div class=&quot;big&quot;&gt;love&lt;/div&gt;
+</pre>
+              </td>
+            </tr>
+          </table>
+          <div class="clear"></div>
+        </div>
+        <div class="example">
+          <table>
+            <tr>              <td class="before">
+                <pre class="sh_ruby">require &#39;erector&#39;
+class Logo &lt; Erector::Widget
+  def content
+    div.logo {
+      a(:href =&gt; &quot;index.html&quot;) {
+        img.logo :src =&gt; &#39;erector.jpg&#39;,
+          :height =&gt; 323, 
+          :width =&gt; 287
+      }
+    }
+  end
+end
+</pre>
+              </td>
+              <td class="separator"><span class="separator">&#x2192;</span></td>
+              <td class="after">
+                <pre class="sh_html">&lt;div class=&quot;logo&quot;&gt;
+  &lt;a href=&quot;index.html&quot;&gt;
+    &lt;img class=&quot;logo&quot; height=&quot;323&quot; 
+      src=&quot;erector.jpg&quot; width=&quot;287&quot; /&gt;
+  &lt;/a&gt;
+&lt;/div&gt;
+</pre>
+              </td>
+            </tr>
+          </table>
+          <div class="clear"></div>
+        </div>
+        <hr />
+        <p>Current version: 0.10.0</p>
+      </div>
+      <div class="footer"><a href="http://www.pivotallabs.com"><img alt="Pivotal Labs" height="57" src="pivotal.gif" style="float:right; padding: 8px;" width="158" /></a>
+        <center>Erector is an open source project released under the MIT license.<br />
+Its initial development was sponsored by <a href="http://pivotallabs.com">Pivotal Labs</a>.<br />
+          Not affiliated with or sponsored by the makers of Erector or Meccano toys.</center>
+      </div>
+    </div>
+  </body>
+</html>

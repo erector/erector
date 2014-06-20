@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+
+<title>module Erector::Convenience - Erector 0.10.0</title>
+
+<link type="text/css" media="screen" href="../rdoc.css" rel="stylesheet">
+
+<script type="text/javascript">
+  var rdoc_rel_prefix = "../";
+</script>
+
+<script type="text/javascript" charset="utf-8" src="../js/jquery.js"></script>
+<script type="text/javascript" charset="utf-8" src="../js/navigation.js"></script>
+<script type="text/javascript" charset="utf-8" src="../js/search_index.js"></script>
+<script type="text/javascript" charset="utf-8" src="../js/search.js"></script>
+<script type="text/javascript" charset="utf-8" src="../js/searcher.js"></script>
+<script type="text/javascript" charset="utf-8" src="../js/darkfish.js"></script>
+
+
+<body id="top" class="module">
+<nav id="metadata">
+  <nav id="home-section" class="section">
+  <h3 class="section-header">
+    <a href="../index.html">Home</a>
+    <a href="../table_of_contents.html#classes">Classes</a>
+    <a href="../table_of_contents.html#methods">Methods</a>
+  </h3>
+</nav>
+
+
+  <nav id="search-section" class="section project-section" class="initially-hidden">
+  <form action="#" method="get" accept-charset="utf-8">
+    <h3 class="section-header">
+      <input type="text" name="search" placeholder="Search" id="search-field"
+             title="Type to search, Up and Down to navigate, Enter to load">
+    </h3>
+  </form>
+
+  <ul id="search-results" class="initially-hidden"></ul>
+</nav>
+
+
+  <div id="file-metadata">
+    <nav id="file-list-section" class="section">
+  <h3 class="section-header">Defined In</h3>
+  <ul>
+    <li>lib/erector/convenience.rb
+  </ul>
+</nav>
+
+    
+  </div>
+
+  <div id="class-metadata">
+    
+    
+    
+    <!-- Method Quickref -->
+<nav id="method-list-section" class="section">
+  <h3 class="section-header">Methods</h3>
+
+  <ul class="link-list">
+    
+    <li><a href="#method-i-css">#css</a>
+    
+    <li><a href="#method-i-dom_id">#dom_id</a>
+    
+    <li><a href="#method-i-javascript">#javascript</a>
+    
+    <li><a href="#method-i-join">#join</a>
+    
+    <li><a href="#method-i-to_pretty">#to_pretty</a>
+    
+    <li><a href="#method-i-to_text">#to_text</a>
+    
+    <li><a href="#method-i-url">#url</a>
+    
+  </ul>
+</nav>
+
+  </div>
+
+  <div id="project-metadata">
+    <nav id="fileindex-section" class="section project-section">
+  <h3 class="section-header">Pages</h3>
+
+  <ul>
+  
+    <li class="file"><a href="../README_txt.html">README</a>
+  
+  </ul>
+</nav>
+
+    <nav id="classindex-section" class="section project-section">
+  <h3 class="section-header">Class and Module Index</h3>
+
+  <ul class="link-list">
+  
+    <li><a href="../Erector.html">Erector</a>
+  
+    <li><a href="../Erector/AbstractWidget.html">Erector::AbstractWidget</a>
+  
+    <li><a href="../Erector/AfterInitialize.html">Erector::AfterInitialize</a>
+  
+    <li><a href="../Erector/AfterInitialize/ClassMethods.html">Erector::AfterInitialize::ClassMethods</a>
+  
+    <li><a href="../Erector/Attributes.html">Erector::Attributes</a>
+  
+    <li><a href="../Erector/Cache.html">Erector::Cache</a>
+  
+    <li><a href="../Erector/Caching.html">Erector::Caching</a>
+  
+    <li><a href="../Erector/Caching/ClassMethods.html">Erector::Caching::ClassMethods</a>
+  
+    <li><a href="../Erector/Convenience.html">Erector::Convenience</a>
+  
+    <li><a href="../Erector/Dependencies.html">Erector::Dependencies</a>
+  
+    <li><a href="../Erector/Dependency.html">Erector::Dependency</a>
+  
+    <li><a href="../Erector/Element.html">Erector::Element</a>
+  
+    <li><a href="../Erector/Erect.html">Erector::Erect</a>
+  
+    <li><a href="../Erector/Erected.html">Erector::Erected</a>
+  
+    <li><a href="../Erector/Externals.html">Erector::Externals</a>
+  
+    <li><a href="../Erector/Externals/ClassMethods.html">Erector::Externals::ClassMethods</a>
+  
+    <li><a href="../Erector/HTML.html">Erector::HTML</a>
+  
+    <li><a href="../Erector/HTMLWidget.html">Erector::HTMLWidget</a>
+  
+    <li><a href="../Erector/HTMLWidget.html">Erector::HtmlWidget</a>
+  
+    <li><a href="../Erector/Inline.html">Erector::Inline</a>
+  
+    <li><a href="../Erector/InlineWidget.html">Erector::InlineWidget</a>
+  
+    <li><a href="../Erector/JQuery.html">Erector::JQuery</a>
+  
+    <li><a href="../Erector/Mixin.html">Erector::Mixin</a>
+  
+    <li><a href="../Erector/Needs.html">Erector::Needs</a>
+  
+    <li><a href="../Erector/Needs/ClassMethods.html">Erector::Needs::ClassMethods</a>
+  
+    <li><a href="../Erector/Output.html">Erector::Output</a>
+  
+    <li><a href="../Erector/Promise.html">Erector::Promise</a>
+  
+    <li><a href="../Erector/Rails.html">Erector::Rails</a>
+  
+    <li><a href="../Erector/Rails/FormBuilder.html">Erector::Rails::FormBuilder</a>
+  
+    <li><a href="../Erector/Rails/Helpers.html">Erector::Rails::Helpers</a>
+  
+    <li><a href="../Erector/Rails/TemplateHandler.html">Erector::Rails::TemplateHandler</a>
+  
+    <li><a href="../Erector/Rails/WidgetExtensions.html">Erector::Rails::WidgetExtensions</a>
+  
+    <li><a href="../Erector/Rails/WidgetExtensions/ClassMethods.html">Erector::Rails::WidgetExtensions::ClassMethods</a>
+  
+    <li><a href="../Erector/RailsFormBuilder.html">Erector::RailsFormBuilder</a>
+  
+    <li><a href="../Erector/Railtie.html">Erector::Railtie</a>
+  
+    <li><a href="../Erector/RawString.html">Erector::RawString</a>
+  
+    <li><a href="../Erector/RbHandler.html">Erector::RbHandler</a>
+  
+    <li><a href="../Erector/Sass.html">Erector::Sass</a>
+  
+    <li><a href="../Erector/Tag.html">Erector::Tag</a>
+  
+    <li><a href="../Erector/Text.html">Erector::Text</a>
+  
+    <li><a href="../Erector/UnicodeBuilder.html">Erector::UnicodeBuilder</a>
+  
+    <li><a href="../Erector/Widget.html">Erector::Widget</a>
+  
+    <li><a href="../Erector/Widgets.html">Erector::Widgets</a>
+  
+    <li><a href="../Erector/Widgets/EnvironmentBadge.html">Erector::Widgets::EnvironmentBadge</a>
+  
+    <li><a href="../Erector/Widgets/Page.html">Erector::Widgets::Page</a>
+  
+    <li><a href="../Erector/Widgets/Table.html">Erector::Widgets::Table</a>
+  
+    <li><a href="../Erector/XMLWidget.html">Erector::XMLWidget</a>
+  
+    <li><a href="../Erector/XMLWidget.html">Erector::XmlWidget</a>
+  
+    <li><a href="../ActionView.html">ActionView</a>
+  
+    <li><a href="../ActionView/Base.html">ActionView::Base</a>
+  
+    <li><a href="../ActionView/TemplateHandlers.html">ActionView::TemplateHandlers</a>
+  
+    <li><a href="../ActionView/TemplateHandlers/ErtTemplate.html">ActionView::TemplateHandlers::ErtTemplate</a>
+  
+    <li><a href="../Cell.html">Cell</a>
+  
+    <li><a href="../Cell/View.html">Cell::View</a>
+  
+    <li><a href="../FieldTable.html">FieldTable</a>
+  
+    <li><a href="../FieldTable/Field.html">FieldTable::Field</a>
+  
+    <li><a href="../ExternalRenderer.html">ExternalRenderer</a>
+  
+    <li><a href="../Form.html">Form</a>
+  
+    <li><a href="../Object.html">Object</a>
+  
+  </ul>
+</nav>
+
+  </div>
+</nav>
+
+<div id="documentation">
+  <h1 class="module">module Erector::Convenience</h1>
+
+  <div id="description" class="description">
+    
+  </div><!-- description -->
+
+  
+  
+  
+  <section id="5Buntitled-5D" class="documentation-section">
+    
+
+    
+
+    
+
+    
+
+    <!-- Methods -->
+    
+     <section id="public-instance-5Buntitled-5D-method-details" class="method-section section">
+      <h3 class="section-header">Public Instance Methods</h3>
+
+    
+      <div id="method-i-css" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">css</span><span
+            class="method-args">(href, options = {})</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p><a href="Convenience.html">Convenience</a> method to emit a css file link,
+which looks like this: &lt;link href=“erector.css” rel=“stylesheet”
+type=“text/css” /&gt; The parameter is the full contents of the href
+attribute, including any “.css” extension.</p>
+
+<p>If you want to emit raw CSS inline, use the style method instead.</p>
+          
+
+          
+          <div class="method-source-code" id="css-source">
+            <pre><span class="ruby-comment"># File lib/erector/convenience.rb, line 50</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">css</span>(<span class="ruby-identifier">href</span>, <span class="ruby-identifier">options</span> = {})
+  <span class="ruby-identifier">link</span>({<span class="ruby-value">:rel</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&#39;stylesheet&#39;</span>, <span class="ruby-value">:type</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&#39;text/css&#39;</span>, <span class="ruby-value">:href</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">href</span>}.<span class="ruby-identifier">merge</span>(<span class="ruby-identifier">options</span>))
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- css-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- css-method -->
+
+    
+      <div id="method-i-dom_id" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">dom_id</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>makes a unique id based on the widget&#39;s class name and object id that
+you can use as the <a href="HTML.html">HTML</a> id of an emitted element</p>
+          
+
+          
+          <div class="method-source-code" id="dom_id-source">
+            <pre><span class="ruby-comment"># File lib/erector/convenience.rb, line 94</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">dom_id</span>
+  <span class="ruby-node">&quot;#{self.class.name.gsub(/:+/,&quot;_&quot;)}_#{self.object_id}&quot;</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- dom_id-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- dom_id-method -->
+
+    
+      <div id="method-i-javascript" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">javascript</span><span
+            class="method-args">(value = nil, attributes = {}) { || ... }</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Emits a javascript block inside a <code>script</code> tag, wrapped in CDATA
+doohickeys like all the cool JS kids do.</p>
+          
+
+          
+          <div class="method-source-code" id="javascript-source">
+            <pre><span class="ruby-comment"># File lib/erector/convenience.rb, line 62</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">javascript</span>(<span class="ruby-identifier">value</span> = <span class="ruby-keyword">nil</span>, <span class="ruby-identifier">attributes</span> = {})
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">value</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">Hash</span>)
+    <span class="ruby-identifier">attributes</span> = <span class="ruby-identifier">value</span>
+    <span class="ruby-identifier">value</span>      = <span class="ruby-keyword">nil</span>
+  <span class="ruby-keyword">elsif</span> <span class="ruby-identifier">block_given?</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">value</span>
+    <span class="ruby-identifier">raise</span> <span class="ruby-constant">ArgumentError</span>, <span class="ruby-string">&quot;You can&#39;t pass both a block and a value to javascript -- please choose one.&quot;</span>
+  <span class="ruby-keyword">end</span>
+
+  <span class="ruby-identifier">script</span>(<span class="ruby-identifier">attributes</span>.<span class="ruby-identifier">merge</span>(<span class="ruby-value">:type</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&quot;text/javascript&quot;</span>)) <span class="ruby-keyword">do</span>
+    <span class="ruby-comment"># Shouldn&#39;t this be a &quot;cdata&quot; HtmlPart?</span>
+    <span class="ruby-comment"># (maybe, but the syntax is specific to javascript; it isn&#39;t</span>
+    <span class="ruby-comment"># really a generic XML CDATA section.  Specifically,</span>
+    <span class="ruby-comment"># ]]&gt; within value is not treated as ending the</span>
+    <span class="ruby-comment"># CDATA section by Firefox2 when parsing text/html,</span>
+    <span class="ruby-comment"># although I guess we could refuse to generate ]]&gt;</span>
+    <span class="ruby-comment"># there, for the benefit of XML/XHTML parsers).</span>
+    <span class="ruby-identifier">output</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">raw</span>(<span class="ruby-string">&quot;\n// &lt;![CDATA[\n&quot;</span>)
+    <span class="ruby-keyword">if</span> <span class="ruby-identifier">block_given?</span>
+      <span class="ruby-keyword">yield</span>
+    <span class="ruby-keyword">else</span>
+      <span class="ruby-identifier">output</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">raw</span>(<span class="ruby-identifier">value</span>)
+    <span class="ruby-keyword">end</span>
+    <span class="ruby-identifier">output</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">raw</span>(<span class="ruby-string">&quot;\n// ]]&gt;&quot;</span>)
+    <span class="ruby-identifier">output</span>.<span class="ruby-identifier">append_newline</span> <span class="ruby-comment"># this forces a newline even if we&#39;re not in pretty mode</span>
+  <span class="ruby-keyword">end</span>
+
+  <span class="ruby-identifier">output</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">raw</span>(<span class="ruby-string">&quot;\n&quot;</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- javascript-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- javascript-method -->
+
+    
+      <div id="method-i-join" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">join</span><span
+            class="method-args">(array, separator)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Emits the result of joining the elements in array with the separator. The
+array elements and separator can be <a
+href="Widget.html">Erector::Widget</a> objects, which are rendered, or
+strings, which are html-escaped and output.</p>
+          
+
+          
+          <div class="method-source-code" id="join-source">
+            <pre><span class="ruby-comment"># File lib/erector/convenience.rb, line 26</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">join</span>(<span class="ruby-identifier">array</span>, <span class="ruby-identifier">separator</span>)
+  <span class="ruby-identifier">first</span> = <span class="ruby-keyword">true</span>
+  <span class="ruby-identifier">array</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">item</span><span class="ruby-operator">|</span>
+    <span class="ruby-keyword">if</span> <span class="ruby-operator">!</span><span class="ruby-identifier">first</span>
+      <span class="ruby-keyword">if</span> <span class="ruby-identifier">separator</span>.<span class="ruby-identifier">is_a?</span> <span class="ruby-constant">Widget</span>
+        <span class="ruby-identifier">widget</span> <span class="ruby-identifier">separator</span>
+      <span class="ruby-keyword">else</span>
+        <span class="ruby-identifier">text</span> <span class="ruby-identifier">separator</span>
+      <span class="ruby-keyword">end</span>
+    <span class="ruby-keyword">end</span>
+    <span class="ruby-identifier">first</span> = <span class="ruby-keyword">false</span>
+    <span class="ruby-keyword">if</span> <span class="ruby-identifier">item</span>.<span class="ruby-identifier">is_a?</span> <span class="ruby-constant">Widget</span>
+      <span class="ruby-identifier">widget</span> <span class="ruby-identifier">item</span>
+    <span class="ruby-keyword">else</span>
+      <span class="ruby-identifier">text</span> <span class="ruby-identifier">item</span>
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- join-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- join-method -->
+
+    
+      <div id="method-i-to_pretty" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">to_pretty</span><span
+            class="method-args">(options = {})</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Render (like to_html) but adding newlines and indentation. You may just
+want to call to_html(:prettyprint =&gt; true) so you can pass in other
+rendering options as well.</p>
+          
+
+          
+          <div class="method-source-code" id="to_pretty-source">
+            <pre><span class="ruby-comment"># File lib/erector/convenience.rb, line 6</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">to_pretty</span>(<span class="ruby-identifier">options</span> = {})
+  <span class="ruby-identifier">emit</span>(<span class="ruby-identifier">options</span>.<span class="ruby-identifier">merge</span>(<span class="ruby-value">:prettyprint</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword">true</span>))
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- to_pretty-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- to_pretty-method -->
+
+    
+      <div id="method-i-to_text" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">to_text</span><span
+            class="method-args">(options = {})</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Render (like to_html) but stripping all tags and inserting some appropriate
+formatting. Currently we format p, br, ol, ul, and li tags.</p>
+          
+
+          
+          <div class="method-source-code" id="to_text-source">
+            <pre><span class="ruby-comment"># File lib/erector/convenience.rb, line 13</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">to_text</span>(<span class="ruby-identifier">options</span> = {})
+  <span class="ruby-comment"># TODO: make text output a first class rendering strategy, like HTML is now,</span>
+  <span class="ruby-comment"># so we can do things like nested lists and numbered lists</span>
+  <span class="ruby-identifier">html</span> = <span class="ruby-identifier">to_html</span>(<span class="ruby-identifier">options</span>.<span class="ruby-identifier">merge</span>(<span class="ruby-value">:prettyprint</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword">false</span>))
+  <span class="ruby-identifier">html</span>.<span class="ruby-identifier">gsub!</span>(<span class="ruby-regexp">/^&lt;p[^&gt;]*&gt;/</span>, <span class="ruby-string">&#39;&#39;</span>)
+  <span class="ruby-identifier">html</span>.<span class="ruby-identifier">gsub!</span>(<span class="ruby-regexp">/(&lt;(ul|ol)&gt;)?&lt;li&gt;/</span>, <span class="ruby-string">&quot;\n* &quot;</span>)
+  <span class="ruby-identifier">html</span>.<span class="ruby-identifier">gsub!</span>(<span class="ruby-regexp">/&lt;(\/?(ul|ol|p|br))[^&gt;]*( \/)?&gt;/</span>, <span class="ruby-string">&quot;\n&quot;</span>)
+  <span class="ruby-constant">CGI</span>.<span class="ruby-identifier">unescapeHTML</span>(<span class="ruby-identifier">html</span>.<span class="ruby-identifier">gsub</span>(<span class="ruby-regexp">/&lt;[^&gt;]*&gt;/</span>, <span class="ruby-string">&#39;&#39;</span>))
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- to_text-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- to_text-method -->
+
+    
+      <div id="method-i-url" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">url</span><span
+            class="method-args">(href, options = {})</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p><a href="Convenience.html">Convenience</a> method to emit an anchor tag
+whose href and text are the same, e.g. &lt;a href=“<a
+href="http://example.com">http://example.com</a">example.com”>http://example.com</a</a>&gt;</p>
+          
+
+          
+          <div class="method-source-code" id="url-source">
+            <pre><span class="ruby-comment"># File lib/erector/convenience.rb, line 56</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">url</span>(<span class="ruby-identifier">href</span>, <span class="ruby-identifier">options</span> = {})
+  <span class="ruby-identifier">a</span> <span class="ruby-identifier">href</span>, ({<span class="ruby-value">:href</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">href</span>}.<span class="ruby-identifier">merge</span>(<span class="ruby-identifier">options</span>))
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- url-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- url-method -->
+
+    
+    </section><!-- public-instance-method-details -->
+  
+  </section><!-- 5Buntitled-5D -->
+
+</div><!-- documentation -->
+
+
+<footer id="validator-badges">
+  <p><a href="http://validator.w3.org/check/referer">[Validate]</a>
+  <p>Generated by <a href="https://github.com/rdoc/rdoc">RDoc</a> 3.12.2.
+  <p>Generated with the <a href="http://deveiate.org/projects/Darkfish-Rdoc/">Darkfish Rdoc Generator</a> 3.
+</footer>
+

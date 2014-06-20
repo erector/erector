@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+
+<title>class Erector::Widgets::EnvironmentBadge - Erector 0.10.0</title>
+
+<link type="text/css" media="screen" href="../../rdoc.css" rel="stylesheet">
+
+<script type="text/javascript">
+  var rdoc_rel_prefix = "../../";
+</script>
+
+<script type="text/javascript" charset="utf-8" src="../../js/jquery.js"></script>
+<script type="text/javascript" charset="utf-8" src="../../js/navigation.js"></script>
+<script type="text/javascript" charset="utf-8" src="../../js/search_index.js"></script>
+<script type="text/javascript" charset="utf-8" src="../../js/search.js"></script>
+<script type="text/javascript" charset="utf-8" src="../../js/searcher.js"></script>
+<script type="text/javascript" charset="utf-8" src="../../js/darkfish.js"></script>
+
+
+<body id="top" class="class">
+<nav id="metadata">
+  <nav id="home-section" class="section">
+  <h3 class="section-header">
+    <a href="../../index.html">Home</a>
+    <a href="../../table_of_contents.html#classes">Classes</a>
+    <a href="../../table_of_contents.html#methods">Methods</a>
+  </h3>
+</nav>
+
+
+  <nav id="search-section" class="section project-section" class="initially-hidden">
+  <form action="#" method="get" accept-charset="utf-8">
+    <h3 class="section-header">
+      <input type="text" name="search" placeholder="Search" id="search-field"
+             title="Type to search, Up and Down to navigate, Enter to load">
+    </h3>
+  </form>
+
+  <ul id="search-results" class="initially-hidden"></ul>
+</nav>
+
+
+  <div id="file-metadata">
+    <nav id="file-list-section" class="section">
+  <h3 class="section-header">Defined In</h3>
+  <ul>
+    <li>lib/erector/widgets/environment_badge.rb
+  </ul>
+</nav>
+
+    
+  </div>
+
+  <div id="class-metadata">
+    
+    <nav id="parent-class-section" class="section">
+  <h3 class="section-header">Parent</h3>
+  
+  <p class="link"><a href="../Widget.html">Erector::Widget</a>
+  
+</nav>
+
+    
+    <!-- Method Quickref -->
+<nav id="method-list-section" class="section">
+  <h3 class="section-header">Methods</h3>
+
+  <ul class="link-list">
+    
+    <li><a href="#method-i-content">#content</a>
+    
+    <li><a href="#method-i-environment">#environment</a>
+    
+  </ul>
+</nav>
+
+  </div>
+
+  <div id="project-metadata">
+    <nav id="fileindex-section" class="section project-section">
+  <h3 class="section-header">Pages</h3>
+
+  <ul>
+  
+    <li class="file"><a href="../../README_txt.html">README</a>
+  
+  </ul>
+</nav>
+
+    <nav id="classindex-section" class="section project-section">
+  <h3 class="section-header">Class and Module Index</h3>
+
+  <ul class="link-list">
+  
+    <li><a href="../../Erector.html">Erector</a>
+  
+    <li><a href="../../Erector/AbstractWidget.html">Erector::AbstractWidget</a>
+  
+    <li><a href="../../Erector/AfterInitialize.html">Erector::AfterInitialize</a>
+  
+    <li><a href="../../Erector/AfterInitialize/ClassMethods.html">Erector::AfterInitialize::ClassMethods</a>
+  
+    <li><a href="../../Erector/Attributes.html">Erector::Attributes</a>
+  
+    <li><a href="../../Erector/Cache.html">Erector::Cache</a>
+  
+    <li><a href="../../Erector/Caching.html">Erector::Caching</a>
+  
+    <li><a href="../../Erector/Caching/ClassMethods.html">Erector::Caching::ClassMethods</a>
+  
+    <li><a href="../../Erector/Convenience.html">Erector::Convenience</a>
+  
+    <li><a href="../../Erector/Dependencies.html">Erector::Dependencies</a>
+  
+    <li><a href="../../Erector/Dependency.html">Erector::Dependency</a>
+  
+    <li><a href="../../Erector/Element.html">Erector::Element</a>
+  
+    <li><a href="../../Erector/Erect.html">Erector::Erect</a>
+  
+    <li><a href="../../Erector/Erected.html">Erector::Erected</a>
+  
+    <li><a href="../../Erector/Externals.html">Erector::Externals</a>
+  
+    <li><a href="../../Erector/Externals/ClassMethods.html">Erector::Externals::ClassMethods</a>
+  
+    <li><a href="../../Erector/HTML.html">Erector::HTML</a>
+  
+    <li><a href="../../Erector/HTMLWidget.html">Erector::HTMLWidget</a>
+  
+    <li><a href="../../Erector/HTMLWidget.html">Erector::HtmlWidget</a>
+  
+    <li><a href="../../Erector/Inline.html">Erector::Inline</a>
+  
+    <li><a href="../../Erector/InlineWidget.html">Erector::InlineWidget</a>
+  
+    <li><a href="../../Erector/JQuery.html">Erector::JQuery</a>
+  
+    <li><a href="../../Erector/Mixin.html">Erector::Mixin</a>
+  
+    <li><a href="../../Erector/Needs.html">Erector::Needs</a>
+  
+    <li><a href="../../Erector/Needs/ClassMethods.html">Erector::Needs::ClassMethods</a>
+  
+    <li><a href="../../Erector/Output.html">Erector::Output</a>
+  
+    <li><a href="../../Erector/Promise.html">Erector::Promise</a>
+  
+    <li><a href="../../Erector/Rails.html">Erector::Rails</a>
+  
+    <li><a href="../../Erector/Rails/FormBuilder.html">Erector::Rails::FormBuilder</a>
+  
+    <li><a href="../../Erector/Rails/Helpers.html">Erector::Rails::Helpers</a>
+  
+    <li><a href="../../Erector/Rails/TemplateHandler.html">Erector::Rails::TemplateHandler</a>
+  
+    <li><a href="../../Erector/Rails/WidgetExtensions.html">Erector::Rails::WidgetExtensions</a>
+  
+    <li><a href="../../Erector/Rails/WidgetExtensions/ClassMethods.html">Erector::Rails::WidgetExtensions::ClassMethods</a>
+  
+    <li><a href="../../Erector/RailsFormBuilder.html">Erector::RailsFormBuilder</a>
+  
+    <li><a href="../../Erector/Railtie.html">Erector::Railtie</a>
+  
+    <li><a href="../../Erector/RawString.html">Erector::RawString</a>
+  
+    <li><a href="../../Erector/RbHandler.html">Erector::RbHandler</a>
+  
+    <li><a href="../../Erector/Sass.html">Erector::Sass</a>
+  
+    <li><a href="../../Erector/Tag.html">Erector::Tag</a>
+  
+    <li><a href="../../Erector/Text.html">Erector::Text</a>
+  
+    <li><a href="../../Erector/UnicodeBuilder.html">Erector::UnicodeBuilder</a>
+  
+    <li><a href="../../Erector/Widget.html">Erector::Widget</a>
+  
+    <li><a href="../../Erector/Widgets.html">Erector::Widgets</a>
+  
+    <li><a href="../../Erector/Widgets/EnvironmentBadge.html">Erector::Widgets::EnvironmentBadge</a>
+  
+    <li><a href="../../Erector/Widgets/Page.html">Erector::Widgets::Page</a>
+  
+    <li><a href="../../Erector/Widgets/Table.html">Erector::Widgets::Table</a>
+  
+    <li><a href="../../Erector/XMLWidget.html">Erector::XMLWidget</a>
+  
+    <li><a href="../../Erector/XMLWidget.html">Erector::XmlWidget</a>
+  
+    <li><a href="../../ActionView.html">ActionView</a>
+  
+    <li><a href="../../ActionView/Base.html">ActionView::Base</a>
+  
+    <li><a href="../../ActionView/TemplateHandlers.html">ActionView::TemplateHandlers</a>
+  
+    <li><a href="../../ActionView/TemplateHandlers/ErtTemplate.html">ActionView::TemplateHandlers::ErtTemplate</a>
+  
+    <li><a href="../../Cell.html">Cell</a>
+  
+    <li><a href="../../Cell/View.html">Cell::View</a>
+  
+    <li><a href="../../FieldTable.html">FieldTable</a>
+  
+    <li><a href="../../FieldTable/Field.html">FieldTable::Field</a>
+  
+    <li><a href="../../ExternalRenderer.html">ExternalRenderer</a>
+  
+    <li><a href="../../Form.html">Form</a>
+  
+    <li><a href="../../Object.html">Object</a>
+  
+  </ul>
+</nav>
+
+  </div>
+</nav>
+
+<div id="documentation">
+  <h1 class="class">class Erector::Widgets::EnvironmentBadge</h1>
+
+  <div id="description" class="description">
+    
+<p>Displays a colored badge in the upper-left corner  signifying the
+environment the app is running in.  Inspired by Assaf Arkin</p>
+
+<pre>&lt;http://blog.labnotes.org/2009/10/08/using-a-badge-to-distinguish-development-and-production-environments/&gt;</pre>
+
+<p>Erectorized by Alex Chaffee</p>
+
+  </div><!-- description -->
+
+  
+  
+  
+  <section id="5Buntitled-5D" class="documentation-section">
+    
+
+    
+
+    
+
+    
+
+    <!-- Methods -->
+    
+     <section id="public-instance-5Buntitled-5D-method-details" class="method-section section">
+      <h3 class="section-header">Public Instance Methods</h3>
+
+    
+      <div id="method-i-content" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">content</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="content-source">
+            <pre><span class="ruby-comment"># File lib/erector/widgets/environment_badge.rb, line 10</span>
+      <span class="ruby-keyword">def</span> <span class="ruby-identifier">content</span>
+        <span class="ruby-identifier">style</span> <span class="ruby-value">&lt;&lt;-STYLE
+#environment_badge { position: fixed; left: 1em; font-weight: bold; padding: .2em 0.9em; text-transform: uppercase; display: none }
+#environment_badge.staging { color: #000; background: #ffff00; border: 2px solid #cccc20; }
+#environment_badge.development { color: #fff; background: #ff0000; border: 2px solid #cc2020; }
+#environment_badge.staging, #environment_badge.development { border-top: none; display: block; opacity: 0.6 }    
+        STYLE</span>
+        <span class="ruby-keyword">unless</span> <span class="ruby-identifier">environment</span> <span class="ruby-operator">=~</span> <span class="ruby-regexp">/production/</span>
+          <span class="ruby-identifier">p</span> <span class="ruby-identifier">environment</span>, <span class="ruby-value">:class</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">environment</span>, <span class="ruby-value">:id</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&quot;environment_badge&quot;</span>
+        <span class="ruby-keyword">end</span>
+      <span class="ruby-keyword">end</span></pre>
+          </div><!-- content-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- content-method -->
+
+    
+      <div id="method-i-environment" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">environment</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="environment-source">
+            <pre><span class="ruby-comment"># File lib/erector/widgets/environment_badge.rb, line 22</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">environment</span>
+  <span class="ruby-constant">RAILS_ENV</span>
+<span class="ruby-keyword">rescue</span> <span class="ruby-constant">NameError</span>
+  <span class="ruby-constant">ENV</span>[<span class="ruby-string">&#39;RAILS_ENV&#39;</span>] <span class="ruby-operator">||</span> <span class="ruby-constant">ENV</span>[<span class="ruby-string">&#39;RACK_ENV&#39;</span>]
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- environment-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- environment-method -->
+
+    
+    </section><!-- public-instance-method-details -->
+  
+  </section><!-- 5Buntitled-5D -->
+
+</div><!-- documentation -->
+
+
+<footer id="validator-badges">
+  <p><a href="http://validator.w3.org/check/referer">[Validate]</a>
+  <p>Generated by <a href="https://github.com/rdoc/rdoc">RDoc</a> 3.12.2.
+  <p>Generated with the <a href="http://deveiate.org/projects/Darkfish-Rdoc/">Darkfish Rdoc Generator</a> 3.
+</footer>
+

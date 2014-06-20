@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+
+<title>module Erector::Rails::WidgetExtensions::ClassMethods - Erector 0.10.0</title>
+
+<link type="text/css" media="screen" href="../../../rdoc.css" rel="stylesheet">
+
+<script type="text/javascript">
+  var rdoc_rel_prefix = "../../../";
+</script>
+
+<script type="text/javascript" charset="utf-8" src="../../../js/jquery.js"></script>
+<script type="text/javascript" charset="utf-8" src="../../../js/navigation.js"></script>
+<script type="text/javascript" charset="utf-8" src="../../../js/search_index.js"></script>
+<script type="text/javascript" charset="utf-8" src="../../../js/search.js"></script>
+<script type="text/javascript" charset="utf-8" src="../../../js/searcher.js"></script>
+<script type="text/javascript" charset="utf-8" src="../../../js/darkfish.js"></script>
+
+
+<body id="top" class="module">
+<nav id="metadata">
+  <nav id="home-section" class="section">
+  <h3 class="section-header">
+    <a href="../../../index.html">Home</a>
+    <a href="../../../table_of_contents.html#classes">Classes</a>
+    <a href="../../../table_of_contents.html#methods">Methods</a>
+  </h3>
+</nav>
+
+
+  <nav id="search-section" class="section project-section" class="initially-hidden">
+  <form action="#" method="get" accept-charset="utf-8">
+    <h3 class="section-header">
+      <input type="text" name="search" placeholder="Search" id="search-field"
+             title="Type to search, Up and Down to navigate, Enter to load">
+    </h3>
+  </form>
+
+  <ul id="search-results" class="initially-hidden"></ul>
+</nav>
+
+
+  <div id="file-metadata">
+    <nav id="file-list-section" class="section">
+  <h3 class="section-header">Defined In</h3>
+  <ul>
+    <li>lib/erector/rails2/extensions/rails_widget.rb
+  </ul>
+</nav>
+
+    
+  </div>
+
+  <div id="class-metadata">
+    
+    
+    
+    <!-- Method Quickref -->
+<nav id="method-list-section" class="section">
+  <h3 class="section-header">Methods</h3>
+
+  <ul class="link-list">
+    
+    <li><a href="#method-i-controller_assigns_propagate_to_partials">#controller_assigns_propagate_to_partials</a>
+    
+    <li><a href="#method-i-controller_assigns_propagate_to_partials-3D">#controller_assigns_propagate_to_partials=</a>
+    
+    <li><a href="#method-i-ignore_extra_controller_assigns">#ignore_extra_controller_assigns</a>
+    
+    <li><a href="#method-i-ignore_extra_controller_assigns-3D">#ignore_extra_controller_assigns=</a>
+    
+  </ul>
+</nav>
+
+  </div>
+
+  <div id="project-metadata">
+    <nav id="fileindex-section" class="section project-section">
+  <h3 class="section-header">Pages</h3>
+
+  <ul>
+  
+    <li class="file"><a href="../../../README_txt.html">README</a>
+  
+  </ul>
+</nav>
+
+    <nav id="classindex-section" class="section project-section">
+  <h3 class="section-header">Class and Module Index</h3>
+
+  <ul class="link-list">
+  
+    <li><a href="../../../Erector.html">Erector</a>
+  
+    <li><a href="../../../Erector/AbstractWidget.html">Erector::AbstractWidget</a>
+  
+    <li><a href="../../../Erector/AfterInitialize.html">Erector::AfterInitialize</a>
+  
+    <li><a href="../../../Erector/AfterInitialize/ClassMethods.html">Erector::AfterInitialize::ClassMethods</a>
+  
+    <li><a href="../../../Erector/Attributes.html">Erector::Attributes</a>
+  
+    <li><a href="../../../Erector/Cache.html">Erector::Cache</a>
+  
+    <li><a href="../../../Erector/Caching.html">Erector::Caching</a>
+  
+    <li><a href="../../../Erector/Caching/ClassMethods.html">Erector::Caching::ClassMethods</a>
+  
+    <li><a href="../../../Erector/Convenience.html">Erector::Convenience</a>
+  
+    <li><a href="../../../Erector/Dependencies.html">Erector::Dependencies</a>
+  
+    <li><a href="../../../Erector/Dependency.html">Erector::Dependency</a>
+  
+    <li><a href="../../../Erector/Element.html">Erector::Element</a>
+  
+    <li><a href="../../../Erector/Erect.html">Erector::Erect</a>
+  
+    <li><a href="../../../Erector/Erected.html">Erector::Erected</a>
+  
+    <li><a href="../../../Erector/Externals.html">Erector::Externals</a>
+  
+    <li><a href="../../../Erector/Externals/ClassMethods.html">Erector::Externals::ClassMethods</a>
+  
+    <li><a href="../../../Erector/HTML.html">Erector::HTML</a>
+  
+    <li><a href="../../../Erector/HTMLWidget.html">Erector::HTMLWidget</a>
+  
+    <li><a href="../../../Erector/HTMLWidget.html">Erector::HtmlWidget</a>
+  
+    <li><a href="../../../Erector/Inline.html">Erector::Inline</a>
+  
+    <li><a href="../../../Erector/InlineWidget.html">Erector::InlineWidget</a>
+  
+    <li><a href="../../../Erector/JQuery.html">Erector::JQuery</a>
+  
+    <li><a href="../../../Erector/Mixin.html">Erector::Mixin</a>
+  
+    <li><a href="../../../Erector/Needs.html">Erector::Needs</a>
+  
+    <li><a href="../../../Erector/Needs/ClassMethods.html">Erector::Needs::ClassMethods</a>
+  
+    <li><a href="../../../Erector/Output.html">Erector::Output</a>
+  
+    <li><a href="../../../Erector/Promise.html">Erector::Promise</a>
+  
+    <li><a href="../../../Erector/Rails.html">Erector::Rails</a>
+  
+    <li><a href="../../../Erector/Rails/FormBuilder.html">Erector::Rails::FormBuilder</a>
+  
+    <li><a href="../../../Erector/Rails/Helpers.html">Erector::Rails::Helpers</a>
+  
+    <li><a href="../../../Erector/Rails/TemplateHandler.html">Erector::Rails::TemplateHandler</a>
+  
+    <li><a href="../../../Erector/Rails/WidgetExtensions.html">Erector::Rails::WidgetExtensions</a>
+  
+    <li><a href="../../../Erector/Rails/WidgetExtensions/ClassMethods.html">Erector::Rails::WidgetExtensions::ClassMethods</a>
+  
+    <li><a href="../../../Erector/RailsFormBuilder.html">Erector::RailsFormBuilder</a>
+  
+    <li><a href="../../../Erector/Railtie.html">Erector::Railtie</a>
+  
+    <li><a href="../../../Erector/RawString.html">Erector::RawString</a>
+  
+    <li><a href="../../../Erector/RbHandler.html">Erector::RbHandler</a>
+  
+    <li><a href="../../../Erector/Sass.html">Erector::Sass</a>
+  
+    <li><a href="../../../Erector/Tag.html">Erector::Tag</a>
+  
+    <li><a href="../../../Erector/Text.html">Erector::Text</a>
+  
+    <li><a href="../../../Erector/UnicodeBuilder.html">Erector::UnicodeBuilder</a>
+  
+    <li><a href="../../../Erector/Widget.html">Erector::Widget</a>
+  
+    <li><a href="../../../Erector/Widgets.html">Erector::Widgets</a>
+  
+    <li><a href="../../../Erector/Widgets/EnvironmentBadge.html">Erector::Widgets::EnvironmentBadge</a>
+  
+    <li><a href="../../../Erector/Widgets/Page.html">Erector::Widgets::Page</a>
+  
+    <li><a href="../../../Erector/Widgets/Table.html">Erector::Widgets::Table</a>
+  
+    <li><a href="../../../Erector/XMLWidget.html">Erector::XMLWidget</a>
+  
+    <li><a href="../../../Erector/XMLWidget.html">Erector::XmlWidget</a>
+  
+    <li><a href="../../../ActionView.html">ActionView</a>
+  
+    <li><a href="../../../ActionView/Base.html">ActionView::Base</a>
+  
+    <li><a href="../../../ActionView/TemplateHandlers.html">ActionView::TemplateHandlers</a>
+  
+    <li><a href="../../../ActionView/TemplateHandlers/ErtTemplate.html">ActionView::TemplateHandlers::ErtTemplate</a>
+  
+    <li><a href="../../../Cell.html">Cell</a>
+  
+    <li><a href="../../../Cell/View.html">Cell::View</a>
+  
+    <li><a href="../../../FieldTable.html">FieldTable</a>
+  
+    <li><a href="../../../FieldTable/Field.html">FieldTable::Field</a>
+  
+    <li><a href="../../../ExternalRenderer.html">ExternalRenderer</a>
+  
+    <li><a href="../../../Form.html">Form</a>
+  
+    <li><a href="../../../Object.html">Object</a>
+  
+  </ul>
+</nav>
+
+  </div>
+</nav>
+
+<div id="documentation">
+  <h1 class="module">module Erector::Rails::WidgetExtensions::ClassMethods</h1>
+
+  <div id="description" class="description">
+    
+  </div><!-- description -->
+
+  
+  
+  
+  <section id="5Buntitled-5D" class="documentation-section">
+    
+
+    
+
+    
+
+    
+
+    <!-- Methods -->
+    
+     <section id="public-instance-5Buntitled-5D-method-details" class="method-section section">
+      <h3 class="section-header">Public Instance Methods</h3>
+
+    
+      <div id="method-i-controller_assigns_propagate_to_partials" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">controller_assigns_propagate_to_partials</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="controller_assigns_propagate_to_partials-source">
+            <pre><span class="ruby-comment"># File lib/erector/rails2/extensions/rails_widget.rb, line 82</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">controller_assigns_propagate_to_partials</span>
+  <span class="ruby-identifier">out</span> = <span class="ruby-ivar">@controller_assigns_propagate_to_partials</span>
+  <span class="ruby-identifier">out</span> <span class="ruby-operator">||=</span> (<span class="ruby-identifier">superclass</span>.<span class="ruby-identifier">controller_assigns_propagate_to_partials</span> <span class="ruby-operator">?</span> <span class="ruby-value">:true</span> <span class="ruby-operator">:</span> <span class="ruby-value">:false</span>) <span class="ruby-keyword">if</span> <span class="ruby-identifier">superclass</span>.<span class="ruby-identifier">respond_to?</span>(<span class="ruby-value">:controller_assigns_propagate_to_partials</span>)
+  <span class="ruby-identifier">out</span> <span class="ruby-operator">||=</span> <span class="ruby-value">:true</span>
+  <span class="ruby-identifier">out</span> <span class="ruby-operator">==</span> <span class="ruby-value">:true</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- controller_assigns_propagate_to_partials-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- controller_assigns_propagate_to_partials-method -->
+
+    
+      <div id="method-i-controller_assigns_propagate_to_partials-3D" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">controller_assigns_propagate_to_partials=</span><span
+            class="method-args">(new_value)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>In ERb templates, controller instance variables are available to any
+partial that gets rendered by the view, no matter how deeply-nested. This
+effectively makes controller instance variables “globals”. In small view
+hierarchies this probably isn&#39;t an issue, but in large ones it can make
+debugging and reasoning about the code very difficult.</p>
+
+<p>If you set this to true (and it&#39;s inherited through to subclasses),
+then any widget that&#39;s getting rendered as a partial will only have
+access to locals explicitly passed to it (render :partial =&gt; …, :locals
+=&gt; …). (This doesn&#39;t change the behavior of widgets that are
+explicitly rendered, as they don&#39;t have this issue.) This can allow for
+cleaner encapsulation of partials, as they must be passed everything they
+use and can&#39;t rely on controller instance variables.</p>
+          
+
+          
+          <div class="method-source-code" id="controller_assigns_propagate_to_partials-3D-source">
+            <pre><span class="ruby-comment"># File lib/erector/rails2/extensions/rails_widget.rb, line 102</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">controller_assigns_propagate_to_partials=</span>(<span class="ruby-identifier">new_value</span>)
+  <span class="ruby-ivar">@controller_assigns_propagate_to_partials</span> = (<span class="ruby-identifier">new_value</span> <span class="ruby-operator">?</span> <span class="ruby-value">:true</span> <span class="ruby-operator">:</span> <span class="ruby-value">:false</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- controller_assigns_propagate_to_partials-3D-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- controller_assigns_propagate_to_partials-3D-method -->
+
+    
+      <div id="method-i-ignore_extra_controller_assigns" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">ignore_extra_controller_assigns</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="ignore_extra_controller_assigns-source">
+            <pre><span class="ruby-comment"># File lib/erector/rails2/extensions/rails_widget.rb, line 58</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">ignore_extra_controller_assigns</span>
+  <span class="ruby-identifier">out</span> = <span class="ruby-ivar">@ignore_extra_controller_assigns</span>
+  <span class="ruby-identifier">out</span> <span class="ruby-operator">||=</span> (<span class="ruby-identifier">superclass</span>.<span class="ruby-identifier">ignore_extra_controller_assigns</span> <span class="ruby-operator">?</span> <span class="ruby-value">:true</span> <span class="ruby-operator">:</span> <span class="ruby-value">:false</span>) <span class="ruby-keyword">if</span> <span class="ruby-identifier">superclass</span>.<span class="ruby-identifier">respond_to?</span>(<span class="ruby-value">:ignore_extra_controller_assigns</span>)
+  <span class="ruby-identifier">out</span> <span class="ruby-operator">||=</span> <span class="ruby-value">:true</span>
+  <span class="ruby-identifier">out</span> <span class="ruby-operator">==</span> <span class="ruby-value">:true</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- ignore_extra_controller_assigns-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- ignore_extra_controller_assigns-method -->
+
+    
+      <div id="method-i-ignore_extra_controller_assigns-3D" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">ignore_extra_controller_assigns=</span><span
+            class="method-args">(new_value)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Often, large <a href="../../Rails.html">Rails</a> applications will assign
+many controller instance variables. Sometimes these aren&#39;t used by a
+view: ApplicationController might assign variables that are used by many,
+but not all, views; and various other things may accumulate, especially if
+you&#39;ve been using templating systems that are more forgiving than <a
+href="../../../Erector.html">Erector</a>. If you then migrate to <a
+href="../../../Erector.html">Erector</a>, you&#39;re stuck using no “needs”
+declaration at all, because it needs to contain every assigned variable, or
+<a href="../../../Erector.html">Erector</a> will raise an exception.</p>
+
+<p>If you set this to true (and it&#39;s inherited through to subclasses),
+however, then “needs” declarations on the widget will cause excess
+controller variables to be ignored – they&#39;ll be unavailable to the
+widget (so &#39;needs&#39; still means something), but they won&#39;t cause
+widget instantiation to fail, either. This can let a large <a
+href="../../Rails.html">Rails</a> project transition to <a
+href="../../../Erector.html">Erector</a> more smoothly.</p>
+          
+
+          
+          <div class="method-source-code" id="ignore_extra_controller_assigns-3D-source">
+            <pre><span class="ruby-comment"># File lib/erector/rails2/extensions/rails_widget.rb, line 78</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">ignore_extra_controller_assigns=</span>(<span class="ruby-identifier">new_value</span>)
+  <span class="ruby-ivar">@ignore_extra_controller_assigns</span> = (<span class="ruby-identifier">new_value</span> <span class="ruby-operator">?</span> <span class="ruby-value">:true</span> <span class="ruby-operator">:</span> <span class="ruby-value">:false</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- ignore_extra_controller_assigns-3D-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- ignore_extra_controller_assigns-3D-method -->
+
+    
+    </section><!-- public-instance-method-details -->
+  
+  </section><!-- 5Buntitled-5D -->
+
+</div><!-- documentation -->
+
+
+<footer id="validator-badges">
+  <p><a href="http://validator.w3.org/check/referer">[Validate]</a>
+  <p>Generated by <a href="https://github.com/rdoc/rdoc">RDoc</a> 3.12.2.
+  <p>Generated with the <a href="http://deveiate.org/projects/Darkfish-Rdoc/">Darkfish Rdoc Generator</a> 3.
+</footer>
+

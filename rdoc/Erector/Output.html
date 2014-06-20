@@ -1,0 +1,917 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+
+<title>class Erector::Output - Erector 0.10.0</title>
+
+<link type="text/css" media="screen" href="../rdoc.css" rel="stylesheet">
+
+<script type="text/javascript">
+  var rdoc_rel_prefix = "../";
+</script>
+
+<script type="text/javascript" charset="utf-8" src="../js/jquery.js"></script>
+<script type="text/javascript" charset="utf-8" src="../js/navigation.js"></script>
+<script type="text/javascript" charset="utf-8" src="../js/search_index.js"></script>
+<script type="text/javascript" charset="utf-8" src="../js/search.js"></script>
+<script type="text/javascript" charset="utf-8" src="../js/searcher.js"></script>
+<script type="text/javascript" charset="utf-8" src="../js/darkfish.js"></script>
+
+
+<body id="top" class="class">
+<nav id="metadata">
+  <nav id="home-section" class="section">
+  <h3 class="section-header">
+    <a href="../index.html">Home</a>
+    <a href="../table_of_contents.html#classes">Classes</a>
+    <a href="../table_of_contents.html#methods">Methods</a>
+  </h3>
+</nav>
+
+
+  <nav id="search-section" class="section project-section" class="initially-hidden">
+  <form action="#" method="get" accept-charset="utf-8">
+    <h3 class="section-header">
+      <input type="text" name="search" placeholder="Search" id="search-field"
+             title="Type to search, Up and Down to navigate, Enter to load">
+    </h3>
+  </form>
+
+  <ul id="search-results" class="initially-hidden"></ul>
+</nav>
+
+
+  <div id="file-metadata">
+    <nav id="file-list-section" class="section">
+  <h3 class="section-header">Defined In</h3>
+  <ul>
+    <li>lib/erector/output.rb
+  </ul>
+</nav>
+
+    
+  </div>
+
+  <div id="class-metadata">
+    
+    <nav id="parent-class-section" class="section">
+  <h3 class="section-header">Parent</h3>
+  
+  <p class="link"><a href="../Object.html">Object</a>
+  
+</nav>
+
+    
+    <!-- Method Quickref -->
+<nav id="method-list-section" class="section">
+  <h3 class="section-header">Methods</h3>
+
+  <ul class="link-list">
+    
+    <li><a href="#method-c-new">::new</a>
+    
+    <li><a href="#method-i-3C-3C">#&lt;&lt;</a>
+    
+    <li><a href="#method-i-append">#append</a>
+    
+    <li><a href="#method-i-append_indentation">#append_indentation</a>
+    
+    <li><a href="#method-i-append_newline">#append_newline</a>
+    
+    <li><a href="#method-i-at_line_start-3F">#at_line_start?</a>
+    
+    <li><a href="#method-i-buffer">#buffer</a>
+    
+    <li><a href="#method-i-indent">#indent</a>
+    
+    <li><a href="#method-i-mark">#mark</a>
+    
+    <li><a href="#method-i-newline">#newline</a>
+    
+    <li><a href="#method-i-placeholder">#placeholder</a>
+    
+    <li><a href="#method-i-rewind">#rewind</a>
+    
+    <li><a href="#method-i-space_left">#space_left</a>
+    
+    <li><a href="#method-i-to_a">#to_a</a>
+    
+    <li><a href="#method-i-to_s">#to_s</a>
+    
+    <li><a href="#method-i-undent">#undent</a>
+    
+  </ul>
+</nav>
+
+  </div>
+
+  <div id="project-metadata">
+    <nav id="fileindex-section" class="section project-section">
+  <h3 class="section-header">Pages</h3>
+
+  <ul>
+  
+    <li class="file"><a href="../README_txt.html">README</a>
+  
+  </ul>
+</nav>
+
+    <nav id="classindex-section" class="section project-section">
+  <h3 class="section-header">Class and Module Index</h3>
+
+  <ul class="link-list">
+  
+    <li><a href="../Erector.html">Erector</a>
+  
+    <li><a href="../Erector/AbstractWidget.html">Erector::AbstractWidget</a>
+  
+    <li><a href="../Erector/AfterInitialize.html">Erector::AfterInitialize</a>
+  
+    <li><a href="../Erector/AfterInitialize/ClassMethods.html">Erector::AfterInitialize::ClassMethods</a>
+  
+    <li><a href="../Erector/Attributes.html">Erector::Attributes</a>
+  
+    <li><a href="../Erector/Cache.html">Erector::Cache</a>
+  
+    <li><a href="../Erector/Caching.html">Erector::Caching</a>
+  
+    <li><a href="../Erector/Caching/ClassMethods.html">Erector::Caching::ClassMethods</a>
+  
+    <li><a href="../Erector/Convenience.html">Erector::Convenience</a>
+  
+    <li><a href="../Erector/Dependencies.html">Erector::Dependencies</a>
+  
+    <li><a href="../Erector/Dependency.html">Erector::Dependency</a>
+  
+    <li><a href="../Erector/Element.html">Erector::Element</a>
+  
+    <li><a href="../Erector/Erect.html">Erector::Erect</a>
+  
+    <li><a href="../Erector/Erected.html">Erector::Erected</a>
+  
+    <li><a href="../Erector/Externals.html">Erector::Externals</a>
+  
+    <li><a href="../Erector/Externals/ClassMethods.html">Erector::Externals::ClassMethods</a>
+  
+    <li><a href="../Erector/HTML.html">Erector::HTML</a>
+  
+    <li><a href="../Erector/HTMLWidget.html">Erector::HTMLWidget</a>
+  
+    <li><a href="../Erector/HTMLWidget.html">Erector::HtmlWidget</a>
+  
+    <li><a href="../Erector/Inline.html">Erector::Inline</a>
+  
+    <li><a href="../Erector/InlineWidget.html">Erector::InlineWidget</a>
+  
+    <li><a href="../Erector/JQuery.html">Erector::JQuery</a>
+  
+    <li><a href="../Erector/Mixin.html">Erector::Mixin</a>
+  
+    <li><a href="../Erector/Needs.html">Erector::Needs</a>
+  
+    <li><a href="../Erector/Needs/ClassMethods.html">Erector::Needs::ClassMethods</a>
+  
+    <li><a href="../Erector/Output.html">Erector::Output</a>
+  
+    <li><a href="../Erector/Promise.html">Erector::Promise</a>
+  
+    <li><a href="../Erector/Rails.html">Erector::Rails</a>
+  
+    <li><a href="../Erector/Rails/FormBuilder.html">Erector::Rails::FormBuilder</a>
+  
+    <li><a href="../Erector/Rails/Helpers.html">Erector::Rails::Helpers</a>
+  
+    <li><a href="../Erector/Rails/TemplateHandler.html">Erector::Rails::TemplateHandler</a>
+  
+    <li><a href="../Erector/Rails/WidgetExtensions.html">Erector::Rails::WidgetExtensions</a>
+  
+    <li><a href="../Erector/Rails/WidgetExtensions/ClassMethods.html">Erector::Rails::WidgetExtensions::ClassMethods</a>
+  
+    <li><a href="../Erector/RailsFormBuilder.html">Erector::RailsFormBuilder</a>
+  
+    <li><a href="../Erector/Railtie.html">Erector::Railtie</a>
+  
+    <li><a href="../Erector/RawString.html">Erector::RawString</a>
+  
+    <li><a href="../Erector/RbHandler.html">Erector::RbHandler</a>
+  
+    <li><a href="../Erector/Sass.html">Erector::Sass</a>
+  
+    <li><a href="../Erector/Tag.html">Erector::Tag</a>
+  
+    <li><a href="../Erector/Text.html">Erector::Text</a>
+  
+    <li><a href="../Erector/UnicodeBuilder.html">Erector::UnicodeBuilder</a>
+  
+    <li><a href="../Erector/Widget.html">Erector::Widget</a>
+  
+    <li><a href="../Erector/Widgets.html">Erector::Widgets</a>
+  
+    <li><a href="../Erector/Widgets/EnvironmentBadge.html">Erector::Widgets::EnvironmentBadge</a>
+  
+    <li><a href="../Erector/Widgets/Page.html">Erector::Widgets::Page</a>
+  
+    <li><a href="../Erector/Widgets/Table.html">Erector::Widgets::Table</a>
+  
+    <li><a href="../Erector/XMLWidget.html">Erector::XMLWidget</a>
+  
+    <li><a href="../Erector/XMLWidget.html">Erector::XmlWidget</a>
+  
+    <li><a href="../ActionView.html">ActionView</a>
+  
+    <li><a href="../ActionView/Base.html">ActionView::Base</a>
+  
+    <li><a href="../ActionView/TemplateHandlers.html">ActionView::TemplateHandlers</a>
+  
+    <li><a href="../ActionView/TemplateHandlers/ErtTemplate.html">ActionView::TemplateHandlers::ErtTemplate</a>
+  
+    <li><a href="../Cell.html">Cell</a>
+  
+    <li><a href="../Cell/View.html">Cell::View</a>
+  
+    <li><a href="../FieldTable.html">FieldTable</a>
+  
+    <li><a href="../FieldTable/Field.html">FieldTable::Field</a>
+  
+    <li><a href="../ExternalRenderer.html">ExternalRenderer</a>
+  
+    <li><a href="../Form.html">Form</a>
+  
+    <li><a href="../Object.html">Object</a>
+  
+  </ul>
+</nav>
+
+  </div>
+</nav>
+
+<div id="documentation">
+  <h1 class="class">class Erector::Output</h1>
+
+  <div id="description" class="description">
+    
+  </div><!-- description -->
+
+  
+  
+  
+  <section id="5Buntitled-5D" class="documentation-section">
+    
+
+    
+
+    
+    <!-- Constants -->
+    <section id="constants-list" class="section">
+      <h3 class="section-header">Constants</h3>
+      <dl>
+      
+        <dt id="SPACES_PER_INDENT">SPACES_PER_INDENT
+        
+        <dd class="description">
+        
+      
+      </dl>
+    </section>
+    
+
+    
+    <!-- Attributes -->
+    <section id="attribute-method-details" class="method-section section">
+      <h3 class="section-header">Attributes</h3>
+
+      
+      <div id="attribute-i-indentation" class="method-detail">
+        <div class="method-heading attribute-method-heading">
+          <span class="method-name">indentation</span><span
+            class="attribute-access-type">[R]</span>
+        </div>
+
+        <div class="method-description">
+        
+        
+        
+        </div>
+      </div>
+      
+      <div id="attribute-i-max_length" class="method-detail">
+        <div class="method-heading attribute-method-heading">
+          <span class="method-name">max_length</span><span
+            class="attribute-access-type">[R]</span>
+        </div>
+
+        <div class="method-description">
+        
+        
+        
+        </div>
+      </div>
+      
+      <div id="attribute-i-prettyprint" class="method-detail">
+        <div class="method-heading attribute-method-heading">
+          <span class="method-name">prettyprint</span><span
+            class="attribute-access-type">[R]</span>
+        </div>
+
+        <div class="method-description">
+        
+        
+        
+        </div>
+      </div>
+      
+      <div id="attribute-i-widgets" class="method-detail">
+        <div class="method-heading attribute-method-heading">
+          <span class="method-name">widgets</span><span
+            class="attribute-access-type">[R]</span>
+        </div>
+
+        <div class="method-description">
+        
+        
+        
+        </div>
+      </div>
+      
+    </section><!-- attribute-method-details -->
+    
+
+    <!-- Methods -->
+    
+     <section id="public-class-5Buntitled-5D-method-details" class="method-section section">
+      <h3 class="section-header">Public Class Methods</h3>
+
+    
+      <div id="method-c-new" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">new</span><span
+            class="method-args">(options = {})</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="new-source">
+            <pre><span class="ruby-comment"># File lib/erector/output.rb, line 9</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">initialize</span>(<span class="ruby-identifier">options</span> = {})
+  <span class="ruby-ivar">@prettyprint</span> = <span class="ruby-identifier">options</span>.<span class="ruby-identifier">fetch</span>(<span class="ruby-value">:prettyprint</span>, <span class="ruby-constant">AbstractWidget</span>.<span class="ruby-identifier">prettyprint_default</span>)
+  <span class="ruby-ivar">@indentation</span> = <span class="ruby-identifier">options</span>.<span class="ruby-identifier">fetch</span>(<span class="ruby-value">:indentation</span>, <span class="ruby-value">0</span>)
+  <span class="ruby-ivar">@current_line_length</span> = <span class="ruby-value">0</span>
+  <span class="ruby-ivar">@max_length</span> = <span class="ruby-identifier">options</span>[<span class="ruby-value">:max_length</span>]
+  <span class="ruby-ivar">@widgets</span> = []
+
+  <span class="ruby-ivar">@get_buffer</span> = <span class="ruby-keyword">if</span> <span class="ruby-identifier">options</span>[<span class="ruby-value">:buffer</span>] <span class="ruby-keyword">and</span> <span class="ruby-identifier">options</span>[<span class="ruby-value">:buffer</span>].<span class="ruby-identifier">respond_to?</span> <span class="ruby-value">:call</span>
+    <span class="ruby-identifier">options</span>[<span class="ruby-value">:buffer</span>]
+  <span class="ruby-keyword">elsif</span> <span class="ruby-identifier">options</span>[<span class="ruby-value">:buffer</span>]
+    <span class="ruby-identifier">lambda</span> { <span class="ruby-identifier">options</span>[<span class="ruby-value">:buffer</span>] }
+  <span class="ruby-keyword">else</span>
+    <span class="ruby-identifier">buffer</span> = []
+    <span class="ruby-identifier">lambda</span> { <span class="ruby-identifier">buffer</span> }
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- new-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- new-method -->
+
+    
+    </section><!-- public-class-method-details -->
+  
+     <section id="public-instance-5Buntitled-5D-method-details" class="method-section section">
+      <h3 class="section-header">Public Instance Methods</h3>
+
+    
+      <div id="method-i-3C-3C" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">&lt;&lt;</span><span
+            class="method-args">(s)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="3C-3C-source">
+            <pre><span class="ruby-comment"># File lib/erector/output.rb, line 30</span>
+<span class="ruby-keyword">def</span> <span class="ruby-operator">&lt;&lt;</span>(<span class="ruby-identifier">s</span>)
+  <span class="ruby-comment"># raise s.inspect unless s.is_a? String</span>
+  <span class="ruby-comment">#</span>
+  <span class="ruby-identifier">s</span> = <span class="ruby-identifier">s</span>.<span class="ruby-identifier">to_s</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">s</span>.<span class="ruby-identifier">is_a?</span> <span class="ruby-constant">String</span>
+  <span class="ruby-identifier">append_indentation</span>
+  <span class="ruby-keyword">if</span> <span class="ruby-ivar">@max_length</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">s</span>.<span class="ruby-identifier">length</span> <span class="ruby-operator">+</span> <span class="ruby-ivar">@current_line_length</span> <span class="ruby-operator">&gt;</span> <span class="ruby-ivar">@max_length</span>
+    <span class="ruby-identifier">leading_spaces</span> = <span class="ruby-identifier">s</span> <span class="ruby-operator">=~</span> <span class="ruby-regexp">/^( +)/</span> <span class="ruby-operator">?</span> <span class="ruby-node">$1</span>.<span class="ruby-identifier">size</span> <span class="ruby-operator">:</span> <span class="ruby-value">0</span>
+    <span class="ruby-identifier">trailing_spaces</span> = <span class="ruby-identifier">s</span> <span class="ruby-operator">=~</span> <span class="ruby-regexp">/( +)$/</span> <span class="ruby-operator">?</span> <span class="ruby-node">$1</span>.<span class="ruby-identifier">size</span> <span class="ruby-operator">:</span> <span class="ruby-value">0</span>
+
+    <span class="ruby-identifier">append</span>(<span class="ruby-string">&quot; &quot;</span> * <span class="ruby-identifier">leading_spaces</span>)
+    <span class="ruby-identifier">need_space</span> = <span class="ruby-keyword">false</span>
+    <span class="ruby-identifier">words</span> = <span class="ruby-identifier">s</span>.<span class="ruby-identifier">split</span>(<span class="ruby-regexp">/ /</span>)
+    <span class="ruby-identifier">words</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">word</span><span class="ruby-operator">|</span>
+      <span class="ruby-keyword">if</span> (<span class="ruby-identifier">need_space</span> <span class="ruby-operator">?</span> <span class="ruby-value">1</span> <span class="ruby-operator">:</span> <span class="ruby-value">0</span>) <span class="ruby-operator">+</span> <span class="ruby-identifier">word</span>.<span class="ruby-identifier">length</span> <span class="ruby-operator">&gt;</span> <span class="ruby-identifier">space_left</span>
+        <span class="ruby-identifier">append_newline</span>
+        <span class="ruby-identifier">append_indentation</span>
+        <span class="ruby-identifier">need_space</span> = <span class="ruby-keyword">false</span>
+      <span class="ruby-keyword">end</span>
+      <span class="ruby-identifier">append</span>(<span class="ruby-string">&quot; &quot;</span>) <span class="ruby-keyword">if</span> <span class="ruby-identifier">need_space</span>
+      <span class="ruby-identifier">append</span>(<span class="ruby-identifier">word</span>)
+      <span class="ruby-identifier">need_space</span> = <span class="ruby-keyword">true</span>
+    <span class="ruby-keyword">end</span>
+    <span class="ruby-identifier">append</span>(<span class="ruby-string">&quot; &quot;</span> * <span class="ruby-identifier">trailing_spaces</span>)
+  <span class="ruby-keyword">else</span>
+    <span class="ruby-identifier">append</span>(<span class="ruby-identifier">s</span>)
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">self</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- 3C-3C-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- 3C-3C-method -->
+
+    
+      <div id="method-i-append_newline" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">append_newline</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <pre>always append a newline, regardless of prettyprint setting</pre>
+
+<p>todo: test</p>
+          
+
+          
+          <div class="method-source-code" id="append_newline-source">
+            <pre><span class="ruby-comment"># File lib/erector/output.rb, line 98</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">append_newline</span>
+  <span class="ruby-identifier">buffer</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-string">&quot;\n&quot;</span>
+  <span class="ruby-ivar">@current_line_length</span> = <span class="ruby-value">0</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- append_newline-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- append_newline-method -->
+
+    
+      <div id="method-i-at_line_start-3F" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">at_line_start?</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="at_line_start-3F-source">
+            <pre><span class="ruby-comment"># File lib/erector/output.rb, line 84</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">at_line_start?</span>
+  <span class="ruby-ivar">@current_line_length</span> <span class="ruby-operator">==</span> <span class="ruby-value">0</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- at_line_start-3F-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- at_line_start-3F-method -->
+
+    
+      <div id="method-i-buffer" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">buffer</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="buffer-source">
+            <pre><span class="ruby-comment"># File lib/erector/output.rb, line 26</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">buffer</span>
+  <span class="ruby-ivar">@get_buffer</span>.<span class="ruby-identifier">call</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- buffer-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- buffer-method -->
+
+    
+      <div id="method-i-indent" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">indent</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="indent-source">
+            <pre><span class="ruby-comment"># File lib/erector/output.rb, line 88</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">indent</span>
+  <span class="ruby-ivar">@indentation</span> <span class="ruby-operator">+=</span> <span class="ruby-value">1</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">prettyprint</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- indent-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- indent-method -->
+
+    
+      <div id="method-i-mark" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">mark</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="mark-source">
+            <pre><span class="ruby-comment"># File lib/erector/output.rb, line 103</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">mark</span>
+  <span class="ruby-ivar">@mark</span> = <span class="ruby-identifier">buffer</span>.<span class="ruby-identifier">size</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- mark-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- mark-method -->
+
+    
+      <div id="method-i-newline" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">newline</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="newline-source">
+            <pre><span class="ruby-comment"># File lib/erector/output.rb, line 78</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">newline</span>
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">prettyprint</span>
+    <span class="ruby-identifier">append_newline</span>
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- newline-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- newline-method -->
+
+    
+      <div id="method-i-placeholder" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">placeholder</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Inserts a blank string into the output stream and returns a pointer to it.
+If the caller holds on to this pointer, she can later go back and insert
+text earlier in the stream. This is used for, e.g., inserting stuff inside
+the HEAD element that is not known until after the entire page renders.</p>
+          
+
+          
+          <div class="method-source-code" id="placeholder-source">
+            <pre><span class="ruby-comment"># File lib/erector/output.rb, line 64</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">placeholder</span>
+  <span class="ruby-identifier">s</span> = <span class="ruby-string">&quot;&quot;</span>
+  <span class="ruby-identifier">buffer</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">s</span>
+  <span class="ruby-identifier">s</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- placeholder-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- placeholder-method -->
+
+    
+      <div id="method-i-rewind" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">rewind</span><span
+            class="method-args">(pos = @mark)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="rewind-source">
+            <pre><span class="ruby-comment"># File lib/erector/output.rb, line 107</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">rewind</span> <span class="ruby-identifier">pos</span> = <span class="ruby-ivar">@mark</span>
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">buffer</span>.<span class="ruby-identifier">kind_of?</span>(<span class="ruby-constant">Array</span>)
+    <span class="ruby-identifier">buffer</span>.<span class="ruby-identifier">slice!</span>(<span class="ruby-identifier">pos</span><span class="ruby-operator">..</span><span class="ruby-value">-1</span>)
+  <span class="ruby-keyword">elsif</span> (<span class="ruby-constant">Object</span>.<span class="ruby-identifier">const_defined?</span>(<span class="ruby-value">:ActiveSupport</span>) <span class="ruby-keyword">and</span>
+    <span class="ruby-identifier">buffer</span>.<span class="ruby-identifier">kind_of?</span>(<span class="ruby-constant">ActiveSupport</span><span class="ruby-operator">::</span><span class="ruby-constant">SafeBuffer</span>))
+    <span class="ruby-comment"># monkey patch to get around SafeBuffer&#39;s well-meaning paranoia</span>
+    <span class="ruby-comment"># see http://yehudakatz.com/2010/02/01/safebuffers-and-rails-3-0/</span>
+    <span class="ruby-comment"># and http://weblog.rubyonrails.org/2011/6/8/potential-xss-vulnerability-in-ruby-on-rails-applications</span>
+    <span class="ruby-constant">String</span>.<span class="ruby-identifier">instance_method</span>(<span class="ruby-value">:slice!</span>).<span class="ruby-identifier">bind</span>(<span class="ruby-identifier">buffer</span>).<span class="ruby-identifier">call</span>(<span class="ruby-identifier">pos</span><span class="ruby-operator">..</span><span class="ruby-value">-1</span>)
+  <span class="ruby-keyword">elsif</span> <span class="ruby-identifier">buffer</span>.<span class="ruby-identifier">kind_of?</span>(<span class="ruby-constant">String</span>)
+    <span class="ruby-identifier">buffer</span>.<span class="ruby-identifier">slice!</span>(<span class="ruby-identifier">pos</span><span class="ruby-operator">..</span><span class="ruby-value">-1</span>)
+  <span class="ruby-keyword">else</span>
+    <span class="ruby-identifier">raise</span> <span class="ruby-node">&quot;Don&#39;t know how to rewind a #{buffer.class}&quot;</span>
+  <span class="ruby-keyword">end</span>
+
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- rewind-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- rewind-method -->
+
+    
+      <div id="method-i-to_a" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">to_a</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="to_a-source">
+            <pre><span class="ruby-comment"># File lib/erector/output.rb, line 74</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">to_a</span>
+  <span class="ruby-identifier">buffer</span>.<span class="ruby-identifier">kind_of?</span>(<span class="ruby-constant">Array</span>) <span class="ruby-operator">?</span> <span class="ruby-identifier">buffer</span> <span class="ruby-operator">:</span> [<span class="ruby-identifier">buffer</span>]
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- to_a-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- to_a-method -->
+
+    
+      <div id="method-i-to_s" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">to_s</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="to_s-source">
+            <pre><span class="ruby-comment"># File lib/erector/output.rb, line 70</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">to_s</span>
+  <span class="ruby-constant">RawString</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">buffer</span>.<span class="ruby-identifier">kind_of?</span>(<span class="ruby-constant">String</span>) <span class="ruby-operator">?</span> <span class="ruby-identifier">buffer</span> <span class="ruby-operator">:</span> <span class="ruby-identifier">buffer</span>.<span class="ruby-identifier">join</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- to_s-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- to_s-method -->
+
+    
+      <div id="method-i-undent" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">undent</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="undent-source">
+            <pre><span class="ruby-comment"># File lib/erector/output.rb, line 92</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">undent</span>
+  <span class="ruby-ivar">@indentation</span> <span class="ruby-operator">-=</span> <span class="ruby-value">1</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">prettyprint</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- undent-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- undent-method -->
+
+    
+    </section><!-- public-instance-method-details -->
+  
+     <section id="protected-instance-5Buntitled-5D-method-details" class="method-section section">
+      <h3 class="section-header">Protected Instance Methods</h3>
+
+    
+      <div id="method-i-append" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">append</span><span
+            class="method-args">(s)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="append-source">
+            <pre><span class="ruby-comment"># File lib/erector/output.rb, line 126</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">append</span>(<span class="ruby-identifier">s</span>)
+  <span class="ruby-identifier">buffer</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">s</span>
+  <span class="ruby-ivar">@current_line_length</span> <span class="ruby-operator">+=</span> <span class="ruby-identifier">s</span>.<span class="ruby-identifier">length</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- append-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- append-method -->
+
+    
+      <div id="method-i-append_indentation" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">append_indentation</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="append_indentation-source">
+            <pre><span class="ruby-comment"># File lib/erector/output.rb, line 135</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">append_indentation</span>
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">prettyprint</span> <span class="ruby-keyword">and</span> <span class="ruby-identifier">at_line_start?</span>
+    <span class="ruby-identifier">spaces</span> = <span class="ruby-string">&quot; &quot;</span> * ([<span class="ruby-ivar">@indentation</span>, <span class="ruby-value">0</span>].<span class="ruby-identifier">max</span> * <span class="ruby-constant">SPACES_PER_INDENT</span>)
+    <span class="ruby-identifier">buffer</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">spaces</span>
+    <span class="ruby-ivar">@current_line_length</span> <span class="ruby-operator">+=</span> <span class="ruby-identifier">spaces</span>.<span class="ruby-identifier">length</span>
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- append_indentation-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- append_indentation-method -->
+
+    
+      <div id="method-i-space_left" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">space_left</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="space_left-source">
+            <pre><span class="ruby-comment"># File lib/erector/output.rb, line 131</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">space_left</span>
+  <span class="ruby-ivar">@max_length</span> <span class="ruby-operator">-</span> <span class="ruby-ivar">@current_line_length</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- space_left-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- space_left-method -->
+
+    
+    </section><!-- protected-instance-method-details -->
+  
+  </section><!-- 5Buntitled-5D -->
+
+</div><!-- documentation -->
+
+
+<footer id="validator-badges">
+  <p><a href="http://validator.w3.org/check/referer">[Validate]</a>
+  <p>Generated by <a href="https://github.com/rdoc/rdoc">RDoc</a> 3.12.2.
+  <p>Generated with the <a href="http://deveiate.org/projects/Darkfish-Rdoc/">Darkfish Rdoc Generator</a> 3.
+</footer>
+

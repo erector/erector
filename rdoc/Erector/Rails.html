@@ -1,0 +1,735 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+
+<title>module Erector::Rails - Erector 0.10.0</title>
+
+<link type="text/css" media="screen" href="../rdoc.css" rel="stylesheet">
+
+<script type="text/javascript">
+  var rdoc_rel_prefix = "../";
+</script>
+
+<script type="text/javascript" charset="utf-8" src="../js/jquery.js"></script>
+<script type="text/javascript" charset="utf-8" src="../js/navigation.js"></script>
+<script type="text/javascript" charset="utf-8" src="../js/search_index.js"></script>
+<script type="text/javascript" charset="utf-8" src="../js/search.js"></script>
+<script type="text/javascript" charset="utf-8" src="../js/searcher.js"></script>
+<script type="text/javascript" charset="utf-8" src="../js/darkfish.js"></script>
+
+
+<body id="top" class="module">
+<nav id="metadata">
+  <nav id="home-section" class="section">
+  <h3 class="section-header">
+    <a href="../index.html">Home</a>
+    <a href="../table_of_contents.html#classes">Classes</a>
+    <a href="../table_of_contents.html#methods">Methods</a>
+  </h3>
+</nav>
+
+
+  <nav id="search-section" class="section project-section" class="initially-hidden">
+  <form action="#" method="get" accept-charset="utf-8">
+    <h3 class="section-header">
+      <input type="text" name="search" placeholder="Search" id="search-field"
+             title="Type to search, Up and Down to navigate, Enter to load">
+    </h3>
+  </form>
+
+  <ul id="search-results" class="initially-hidden"></ul>
+</nav>
+
+
+  <div id="file-metadata">
+    <nav id="file-list-section" class="section">
+  <h3 class="section-header">Defined In</h3>
+  <ul>
+    <li>lib/erector/rails/form_builder.rb
+    <li>lib/erector/rails/template_handler.rb
+    <li>lib/erector/rails2/extensions/rails_helpers.rb
+    <li>lib/erector/rails2/extensions/rails_widget.rb
+    <li>lib/erector/rails2/rails_version.rb
+    <li>lib/erector/rails3.rb
+  </ul>
+</nav>
+
+    
+  </div>
+
+  <div id="class-metadata">
+    
+    
+    
+    <!-- Method Quickref -->
+<nav id="method-list-section" class="section">
+  <h3 class="section-header">Methods</h3>
+
+  <ul class="link-list">
+    
+    <li><a href="#method-c-assigns_for">::assigns_for</a>
+    
+    <li><a href="#method-c-def_rails_form_helper">::def_rails_form_helper</a>
+    
+    <li><a href="#method-c-def_simple_rails_helper">::def_simple_rails_helper</a>
+    
+    <li><a href="#method-c-filter_local_assigns_for_partial">::filter_local_assigns_for_partial</a>
+    
+    <li><a href="#method-c-remove_unneeded_assigns">::remove_unneeded_assigns</a>
+    
+    <li><a href="#method-c-render">::render</a>
+    
+    <li><a href="#method-c-should_assign-3F">::should_assign?</a>
+    
+    <li><a href="#method-i-capture">#capture</a>
+    
+    <li><a href="#method-i-content_for">#content_for</a>
+    
+    <li><a href="#method-i-method_missing">#method_missing</a>
+    
+    <li><a href="#method-i-render">#render</a>
+    
+    <li><a href="#method-i-respond_to-3F">#respond_to?</a>
+    
+  </ul>
+</nav>
+
+  </div>
+
+  <div id="project-metadata">
+    <nav id="fileindex-section" class="section project-section">
+  <h3 class="section-header">Pages</h3>
+
+  <ul>
+  
+    <li class="file"><a href="../README_txt.html">README</a>
+  
+  </ul>
+</nav>
+
+    <nav id="classindex-section" class="section project-section">
+  <h3 class="section-header">Class and Module Index</h3>
+
+  <ul class="link-list">
+  
+    <li><a href="../Erector.html">Erector</a>
+  
+    <li><a href="../Erector/AbstractWidget.html">Erector::AbstractWidget</a>
+  
+    <li><a href="../Erector/AfterInitialize.html">Erector::AfterInitialize</a>
+  
+    <li><a href="../Erector/AfterInitialize/ClassMethods.html">Erector::AfterInitialize::ClassMethods</a>
+  
+    <li><a href="../Erector/Attributes.html">Erector::Attributes</a>
+  
+    <li><a href="../Erector/Cache.html">Erector::Cache</a>
+  
+    <li><a href="../Erector/Caching.html">Erector::Caching</a>
+  
+    <li><a href="../Erector/Caching/ClassMethods.html">Erector::Caching::ClassMethods</a>
+  
+    <li><a href="../Erector/Convenience.html">Erector::Convenience</a>
+  
+    <li><a href="../Erector/Dependencies.html">Erector::Dependencies</a>
+  
+    <li><a href="../Erector/Dependency.html">Erector::Dependency</a>
+  
+    <li><a href="../Erector/Element.html">Erector::Element</a>
+  
+    <li><a href="../Erector/Erect.html">Erector::Erect</a>
+  
+    <li><a href="../Erector/Erected.html">Erector::Erected</a>
+  
+    <li><a href="../Erector/Externals.html">Erector::Externals</a>
+  
+    <li><a href="../Erector/Externals/ClassMethods.html">Erector::Externals::ClassMethods</a>
+  
+    <li><a href="../Erector/HTML.html">Erector::HTML</a>
+  
+    <li><a href="../Erector/HTMLWidget.html">Erector::HTMLWidget</a>
+  
+    <li><a href="../Erector/HTMLWidget.html">Erector::HtmlWidget</a>
+  
+    <li><a href="../Erector/Inline.html">Erector::Inline</a>
+  
+    <li><a href="../Erector/InlineWidget.html">Erector::InlineWidget</a>
+  
+    <li><a href="../Erector/JQuery.html">Erector::JQuery</a>
+  
+    <li><a href="../Erector/Mixin.html">Erector::Mixin</a>
+  
+    <li><a href="../Erector/Needs.html">Erector::Needs</a>
+  
+    <li><a href="../Erector/Needs/ClassMethods.html">Erector::Needs::ClassMethods</a>
+  
+    <li><a href="../Erector/Output.html">Erector::Output</a>
+  
+    <li><a href="../Erector/Promise.html">Erector::Promise</a>
+  
+    <li><a href="../Erector/Rails.html">Erector::Rails</a>
+  
+    <li><a href="../Erector/Rails/FormBuilder.html">Erector::Rails::FormBuilder</a>
+  
+    <li><a href="../Erector/Rails/Helpers.html">Erector::Rails::Helpers</a>
+  
+    <li><a href="../Erector/Rails/TemplateHandler.html">Erector::Rails::TemplateHandler</a>
+  
+    <li><a href="../Erector/Rails/WidgetExtensions.html">Erector::Rails::WidgetExtensions</a>
+  
+    <li><a href="../Erector/Rails/WidgetExtensions/ClassMethods.html">Erector::Rails::WidgetExtensions::ClassMethods</a>
+  
+    <li><a href="../Erector/RailsFormBuilder.html">Erector::RailsFormBuilder</a>
+  
+    <li><a href="../Erector/Railtie.html">Erector::Railtie</a>
+  
+    <li><a href="../Erector/RawString.html">Erector::RawString</a>
+  
+    <li><a href="../Erector/RbHandler.html">Erector::RbHandler</a>
+  
+    <li><a href="../Erector/Sass.html">Erector::Sass</a>
+  
+    <li><a href="../Erector/Tag.html">Erector::Tag</a>
+  
+    <li><a href="../Erector/Text.html">Erector::Text</a>
+  
+    <li><a href="../Erector/UnicodeBuilder.html">Erector::UnicodeBuilder</a>
+  
+    <li><a href="../Erector/Widget.html">Erector::Widget</a>
+  
+    <li><a href="../Erector/Widgets.html">Erector::Widgets</a>
+  
+    <li><a href="../Erector/Widgets/EnvironmentBadge.html">Erector::Widgets::EnvironmentBadge</a>
+  
+    <li><a href="../Erector/Widgets/Page.html">Erector::Widgets::Page</a>
+  
+    <li><a href="../Erector/Widgets/Table.html">Erector::Widgets::Table</a>
+  
+    <li><a href="../Erector/XMLWidget.html">Erector::XMLWidget</a>
+  
+    <li><a href="../Erector/XMLWidget.html">Erector::XmlWidget</a>
+  
+    <li><a href="../ActionView.html">ActionView</a>
+  
+    <li><a href="../ActionView/Base.html">ActionView::Base</a>
+  
+    <li><a href="../ActionView/TemplateHandlers.html">ActionView::TemplateHandlers</a>
+  
+    <li><a href="../ActionView/TemplateHandlers/ErtTemplate.html">ActionView::TemplateHandlers::ErtTemplate</a>
+  
+    <li><a href="../Cell.html">Cell</a>
+  
+    <li><a href="../Cell/View.html">Cell::View</a>
+  
+    <li><a href="../FieldTable.html">FieldTable</a>
+  
+    <li><a href="../FieldTable/Field.html">FieldTable::Field</a>
+  
+    <li><a href="../ExternalRenderer.html">ExternalRenderer</a>
+  
+    <li><a href="../Form.html">Form</a>
+  
+    <li><a href="../Object.html">Object</a>
+  
+  </ul>
+</nav>
+
+  </div>
+</nav>
+
+<div id="documentation">
+  <h1 class="module">module Erector::Rails</h1>
+
+  <div id="description" class="description">
+    
+  </div><!-- description -->
+
+  
+  
+  
+  <section id="5Buntitled-5D" class="documentation-section">
+    
+
+    
+
+    
+    <!-- Constants -->
+    <section id="constants-list" class="section">
+      <h3 class="section-header">Constants</h3>
+      <dl>
+      
+        <dt id="RAILS_VERSION">RAILS_VERSION
+        
+        <dd class="description">
+        
+      
+        <dt id="RAILS_VERSION_TAG">RAILS_VERSION_TAG
+        
+        <dd class="description">
+        
+      
+      </dl>
+    </section>
+    
+
+    
+
+    <!-- Methods -->
+    
+     <section id="public-class-5Buntitled-5D-method-details" class="method-section section">
+      <h3 class="section-header">Public Class Methods</h3>
+
+    
+      <div id="method-c-assigns_for" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">assigns_for</span><span
+            class="method-args">(widget_class, view, local_assigns, is_partial)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="assigns_for-source">
+            <pre><span class="ruby-comment"># File lib/erector/rails2/extensions/rails_widget.rb, line 3</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">assigns_for</span>(<span class="ruby-identifier">widget_class</span>, <span class="ruby-identifier">view</span>, <span class="ruby-identifier">local_assigns</span>, <span class="ruby-identifier">is_partial</span>)
+  <span class="ruby-identifier">assigns</span> = {}
+
+  <span class="ruby-identifier">instance_variables</span> = <span class="ruby-identifier">view</span>.<span class="ruby-identifier">instance_variables_for_widget_assignment</span>
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">is_partial</span> <span class="ruby-operator">||</span> <span class="ruby-identifier">widget_class</span>.<span class="ruby-identifier">ignore_extra_controller_assigns</span>
+    <span class="ruby-identifier">instance_variables</span> = <span class="ruby-identifier">remove_unneeded_assigns</span>(<span class="ruby-identifier">widget_class</span>, <span class="ruby-identifier">instance_variables</span>)
+  <span class="ruby-keyword">end</span>
+
+  <span class="ruby-identifier">assigns</span>.<span class="ruby-identifier">merge!</span>(<span class="ruby-identifier">instance_variables</span>) <span class="ruby-keyword">unless</span> <span class="ruby-identifier">is_partial</span> <span class="ruby-operator">&amp;&amp;</span> (<span class="ruby-operator">!</span> <span class="ruby-identifier">widget_class</span>.<span class="ruby-identifier">controller_assigns_propagate_to_partials</span>)
+
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">is_partial</span>
+    <span class="ruby-identifier">assigns</span>.<span class="ruby-identifier">merge!</span>(<span class="ruby-identifier">filter_local_assigns_for_partial</span>(<span class="ruby-identifier">widget_class</span>, <span class="ruby-identifier">local_assigns</span> <span class="ruby-operator">||</span> { }))
+  <span class="ruby-keyword">end</span>
+
+  <span class="ruby-identifier">assigns</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- assigns_for-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- assigns_for-method -->
+
+    
+      <div id="method-c-def_rails_form_helper" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">def_rails_form_helper</span><span
+            class="method-args">(method_name)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="def_rails_form_helper-source">
+            <pre><span class="ruby-comment"># File lib/erector/rails3.rb, line 56</span>
+      <span class="ruby-keyword">def</span> <span class="ruby-identifier">def_rails_form_helper</span>(<span class="ruby-identifier">method_name</span>)
+        <span class="ruby-identifier">module_eval</span> <span class="ruby-string">&quot;          def #{method_name}(*args, &amp;block)
+            options = args.extract_options!
+            args &lt;&lt; options.merge(:builder =&gt; FormBuilder.wrapping(options[:builder]))
+            text helpers.#{method_name}(*args, &amp;block)
+          end
+&quot;</span>, <span class="ruby-keyword">__FILE__</span>, <span class="ruby-keyword">__LINE__</span><span class="ruby-operator">+</span><span class="ruby-value">1</span>
+      <span class="ruby-keyword">end</span></pre>
+          </div><!-- def_rails_form_helper-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- def_rails_form_helper-method -->
+
+    
+      <div id="method-c-def_simple_rails_helper" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">def_simple_rails_helper</span><span
+            class="method-args">(method_name)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Wrappers for rails helpers that produce markup. <a
+href="../Erector.html">Erector</a> needs to manually emit their result.</p>
+          
+
+          
+          <div class="method-source-code" id="def_simple_rails_helper-source">
+            <pre><span class="ruby-comment"># File lib/erector/rails3.rb, line 48</span>
+      <span class="ruby-keyword">def</span> <span class="ruby-identifier">def_simple_rails_helper</span>(<span class="ruby-identifier">method_name</span>)
+        <span class="ruby-identifier">module_eval</span> <span class="ruby-string">&quot;          def #{method_name}(*args, &amp;block)
+            text helpers.#{method_name}(*args, &amp;block)
+          end
+&quot;</span>, <span class="ruby-keyword">__FILE__</span>, <span class="ruby-keyword">__LINE__</span><span class="ruby-operator">+</span><span class="ruby-value">1</span>
+      <span class="ruby-keyword">end</span></pre>
+          </div><!-- def_simple_rails_helper-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- def_simple_rails_helper-method -->
+
+    
+      <div id="method-c-filter_local_assigns_for_partial" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">filter_local_assigns_for_partial</span><span
+            class="method-args">(widget_class, local_assigns)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="filter_local_assigns_for_partial-source">
+            <pre><span class="ruby-comment"># File lib/erector/rails2/extensions/rails_widget.rb, line 29</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">filter_local_assigns_for_partial</span>(<span class="ruby-identifier">widget_class</span>, <span class="ruby-identifier">local_assigns</span>)
+  <span class="ruby-identifier">widget_class_variable_name</span> = <span class="ruby-identifier">widget_class</span>.<span class="ruby-identifier">name</span>.<span class="ruby-identifier">underscore</span>
+  <span class="ruby-identifier">widget_class_variable_name</span> = <span class="ruby-node">$1</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">widget_class_variable_name</span> <span class="ruby-operator">=~</span> <span class="ruby-regexp">%r{.*/(.*?)$}</span>
+
+  <span class="ruby-identifier">local_assigns</span>.<span class="ruby-identifier">reject</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">name</span>, <span class="ruby-identifier">value</span><span class="ruby-operator">|</span>
+    <span class="ruby-identifier">name</span> <span class="ruby-operator">==</span> <span class="ruby-value">:object</span> <span class="ruby-operator">||</span> <span class="ruby-identifier">name</span> <span class="ruby-operator">==</span> <span class="ruby-identifier">widget_class_variable_name</span>.<span class="ruby-identifier">to_sym</span>
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- filter_local_assigns_for_partial-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- filter_local_assigns_for_partial-method -->
+
+    
+      <div id="method-c-remove_unneeded_assigns" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">remove_unneeded_assigns</span><span
+            class="method-args">(widget_class, assigns)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="remove_unneeded_assigns-source">
+            <pre><span class="ruby-comment"># File lib/erector/rails2/extensions/rails_widget.rb, line 20</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">remove_unneeded_assigns</span>(<span class="ruby-identifier">widget_class</span>, <span class="ruby-identifier">assigns</span>)
+  <span class="ruby-identifier">needs</span> = <span class="ruby-identifier">widget_class</span>.<span class="ruby-identifier">needed_variables</span>
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">needs</span>.<span class="ruby-identifier">empty?</span>
+    <span class="ruby-identifier">assigns</span>
+  <span class="ruby-keyword">else</span>
+    <span class="ruby-identifier">assigns</span>.<span class="ruby-identifier">reject</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">key</span>, <span class="ruby-identifier">value</span><span class="ruby-operator">|</span> <span class="ruby-operator">!</span> <span class="ruby-identifier">needs</span>.<span class="ruby-identifier">include?</span>(<span class="ruby-identifier">key</span>) }
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- remove_unneeded_assigns-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- remove_unneeded_assigns-method -->
+
+    
+      <div id="method-c-render" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">render</span><span
+            class="method-args">(widget, view, assigns = nil, options = {})</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="render-source">
+            <pre><span class="ruby-comment"># File lib/erector/rails2/extensions/rails_widget.rb, line 38</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">render</span>(<span class="ruby-identifier">widget</span>, <span class="ruby-identifier">view</span>, <span class="ruby-identifier">assigns</span> = <span class="ruby-keyword">nil</span>, <span class="ruby-identifier">options</span> = {})
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">widget</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">Class</span>)
+    <span class="ruby-identifier">assigns</span> <span class="ruby-operator">||=</span> <span class="ruby-identifier">assigns_for</span>(<span class="ruby-identifier">widget</span>, <span class="ruby-identifier">view</span>, <span class="ruby-keyword">nil</span>, <span class="ruby-keyword">false</span>)
+    <span class="ruby-identifier">widget</span> = <span class="ruby-identifier">widget</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">assigns</span>)
+  <span class="ruby-keyword">end</span>
+
+  <span class="ruby-identifier">view</span>.<span class="ruby-identifier">send</span>(<span class="ruby-value">:_evaluate_assigns_and_ivars</span>)
+
+  <span class="ruby-identifier">output_buffer</span> = <span class="ruby-identifier">view</span>.<span class="ruby-identifier">with_output_buffer</span> <span class="ruby-keyword">do</span>
+    <span class="ruby-comment"># Set parent to the view and use Rails&#39;s output buffer.</span>
+    <span class="ruby-identifier">new_output</span> = <span class="ruby-constant">Output</span>.<span class="ruby-identifier">new</span> <span class="ruby-value">:buffer</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">lambda</span> { <span class="ruby-identifier">view</span>.<span class="ruby-identifier">output_buffer</span> }
+    <span class="ruby-identifier">widget</span>.<span class="ruby-identifier">to_html</span>(<span class="ruby-identifier">options</span>.<span class="ruby-identifier">merge</span>(<span class="ruby-value">:parent</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">view</span>,
+                              <span class="ruby-value">:output</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">new_output</span>))
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-identifier">output_buffer</span>
+
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- render-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- render-method -->
+
+    
+      <div id="method-c-should_assign-3F" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">should_assign?</span><span
+            class="method-args">(name, widget_class, is_partial)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="should_assign-3F-source">
+            <pre><span class="ruby-comment"># File lib/erector/rails3.rb, line 9</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">should_assign?</span>(<span class="ruby-identifier">name</span>, <span class="ruby-identifier">widget_class</span>, <span class="ruby-identifier">is_partial</span>)
+  (<span class="ruby-operator">!</span><span class="ruby-identifier">widget_class</span>.<span class="ruby-identifier">ignore_extra_controller_assigns</span> <span class="ruby-operator">||</span> <span class="ruby-identifier">widget_class</span>.<span class="ruby-identifier">needs?</span>(<span class="ruby-identifier">name</span>)) <span class="ruby-operator">&amp;&amp;</span>
+    (<span class="ruby-operator">!</span><span class="ruby-identifier">is_partial</span> <span class="ruby-operator">||</span> <span class="ruby-identifier">widget_class</span>.<span class="ruby-identifier">controller_assigns_propagate_to_partials</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- should_assign-3F-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- should_assign-3F-method -->
+
+    
+    </section><!-- public-class-method-details -->
+  
+     <section id="public-instance-5Buntitled-5D-method-details" class="method-section section">
+      <h3 class="section-header">Public Instance Methods</h3>
+
+    
+      <div id="method-i-capture" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">capture</span><span
+            class="method-args">(&block)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>We need to delegate <a href="Rails.html#method-i-capture">capture</a> to
+helpers.capture, so that when the captured block is executed, both erector
+and <a href="Rails.html">Rails</a> output from within the block go to the
+appropriate buffer.</p>
+          
+
+          
+          <div class="method-source-code" id="capture-source">
+            <pre><span class="ruby-comment"># File lib/erector/rails3.rb, line 106</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">capture</span>(&amp;<span class="ruby-identifier">block</span>)
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">helpers</span>.<span class="ruby-identifier">respond_to?</span>(<span class="ruby-value">:capture</span>)
+    <span class="ruby-identifier">raw</span>(<span class="ruby-identifier">helpers</span>.<span class="ruby-identifier">capture</span>(&amp;<span class="ruby-identifier">block</span>).<span class="ruby-identifier">to_s</span>)
+  <span class="ruby-keyword">else</span>
+    <span class="ruby-keyword">super</span>
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- capture-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- capture-method -->
+
+    
+      <div id="method-i-content_for" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">content_for</span><span
+            class="method-args">(*args,&block)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p><a href="Rails.html">Rails</a> <a
+href="Rails.html#method-i-content_for">#content_for</a> is output if and
+only if no block given</p>
+          
+
+          
+          <div class="method-source-code" id="content_for-source">
+            <pre><span class="ruby-comment"># File lib/erector/rails3.rb, line 124</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">content_for</span>(*<span class="ruby-identifier">args</span>,&amp;<span class="ruby-identifier">block</span>)
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">block</span>
+    <span class="ruby-identifier">helpers</span>.<span class="ruby-identifier">content_for</span>(*<span class="ruby-identifier">args</span>,&amp;<span class="ruby-identifier">block</span>)
+  <span class="ruby-keyword">else</span>
+    <span class="ruby-identifier">rawtext</span>(<span class="ruby-identifier">helpers</span>.<span class="ruby-identifier">content_for</span>(*<span class="ruby-identifier">args</span>))
+    <span class="ruby-string">&#39;&#39;</span>
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- content_for-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- content_for-method -->
+
+    
+      <div id="method-i-method_missing" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">method_missing</span><span
+            class="method-args">(name, *args, &block)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Delegate to non-markup producing helpers via <a
+href="Rails.html#method-i-method_missing">#method_missing</a>, returning
+their result directly.</p>
+          
+
+          
+          <div class="method-source-code" id="method_missing-source">
+            <pre><span class="ruby-comment"># File lib/erector/rails3.rb, line 135</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">method_missing</span>(<span class="ruby-identifier">name</span>, *<span class="ruby-identifier">args</span>, &amp;<span class="ruby-identifier">block</span>)
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">helpers</span>.<span class="ruby-identifier">respond_to?</span>(<span class="ruby-identifier">name</span>)
+    <span class="ruby-identifier">helpers</span>.<span class="ruby-identifier">send</span>(<span class="ruby-identifier">name</span>, *<span class="ruby-identifier">args</span>, &amp;<span class="ruby-identifier">block</span>)
+  <span class="ruby-keyword">else</span>
+    <span class="ruby-keyword">super</span>
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- method_missing-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- method_missing-method -->
+
+    
+      <div id="method-i-render" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">render</span><span
+            class="method-args">(*args, &block)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Wrap Rails&#39; render method, to capture output from partials etc.</p>
+          
+
+          
+          <div class="method-source-code" id="render-source">
+            <pre><span class="ruby-comment"># File lib/erector/rails3.rb, line 115</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">render</span>(*<span class="ruby-identifier">args</span>, &amp;<span class="ruby-identifier">block</span>)
+  <span class="ruby-identifier">captured</span> = <span class="ruby-identifier">helpers</span>.<span class="ruby-identifier">capture</span> <span class="ruby-keyword">do</span>
+    <span class="ruby-identifier">helpers</span>.<span class="ruby-identifier">concat</span>(<span class="ruby-identifier">helpers</span>.<span class="ruby-identifier">render</span>(*<span class="ruby-identifier">args</span>, &amp;<span class="ruby-identifier">block</span>))
+    <span class="ruby-identifier">helpers</span>.<span class="ruby-identifier">output_buffer</span>.<span class="ruby-identifier">to_s</span>
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-identifier">rawtext</span>(<span class="ruby-identifier">captured</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- render-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- render-method -->
+
+    
+      <div id="method-i-respond_to-3F" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">respond_to?</span><span
+            class="method-args">(name)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Since we delegate <a
+href="Rails.html#method-i-method_missing">#method_missing</a> to helpers,
+we need to delegate respond_to? as well.</p>
+          
+
+          
+          <div class="method-source-code" id="respond_to-3F-source">
+            <pre><span class="ruby-comment"># File lib/erector/rails3.rb, line 145</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">respond_to?</span>(<span class="ruby-identifier">name</span>)
+  <span class="ruby-keyword">super</span> <span class="ruby-operator">||</span> <span class="ruby-identifier">helpers</span>.<span class="ruby-identifier">respond_to?</span>(<span class="ruby-identifier">name</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- respond_to-3F-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- respond_to-3F-method -->
+
+    
+    </section><!-- public-instance-method-details -->
+  
+  </section><!-- 5Buntitled-5D -->
+
+</div><!-- documentation -->
+
+
+<footer id="validator-badges">
+  <p><a href="http://validator.w3.org/check/referer">[Validate]</a>
+  <p>Generated by <a href="https://github.com/rdoc/rdoc">RDoc</a> 3.12.2.
+  <p>Generated with the <a href="http://deveiate.org/projects/Darkfish-Rdoc/">Darkfish Rdoc Generator</a> 3.
+</footer>
+

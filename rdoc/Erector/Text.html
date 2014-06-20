@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+
+<title>module Erector::Text - Erector 0.10.0</title>
+
+<link type="text/css" media="screen" href="../rdoc.css" rel="stylesheet">
+
+<script type="text/javascript">
+  var rdoc_rel_prefix = "../";
+</script>
+
+<script type="text/javascript" charset="utf-8" src="../js/jquery.js"></script>
+<script type="text/javascript" charset="utf-8" src="../js/navigation.js"></script>
+<script type="text/javascript" charset="utf-8" src="../js/search_index.js"></script>
+<script type="text/javascript" charset="utf-8" src="../js/search.js"></script>
+<script type="text/javascript" charset="utf-8" src="../js/searcher.js"></script>
+<script type="text/javascript" charset="utf-8" src="../js/darkfish.js"></script>
+
+
+<body id="top" class="module">
+<nav id="metadata">
+  <nav id="home-section" class="section">
+  <h3 class="section-header">
+    <a href="../index.html">Home</a>
+    <a href="../table_of_contents.html#classes">Classes</a>
+    <a href="../table_of_contents.html#methods">Methods</a>
+  </h3>
+</nav>
+
+
+  <nav id="search-section" class="section project-section" class="initially-hidden">
+  <form action="#" method="get" accept-charset="utf-8">
+    <h3 class="section-header">
+      <input type="text" name="search" placeholder="Search" id="search-field"
+             title="Type to search, Up and Down to navigate, Enter to load">
+    </h3>
+  </form>
+
+  <ul id="search-results" class="initially-hidden"></ul>
+</nav>
+
+
+  <div id="file-metadata">
+    <nav id="file-list-section" class="section">
+  <h3 class="section-header">Defined In</h3>
+  <ul>
+    <li>lib/erector/text.rb
+  </ul>
+</nav>
+
+    
+  </div>
+
+  <div id="class-metadata">
+    
+    
+    
+    <!-- Method Quickref -->
+<nav id="method-list-section" class="section">
+  <h3 class="section-header">Methods</h3>
+
+  <ul class="link-list">
+    
+    <li><a href="#method-i-character">#character</a>
+    
+    <li><a href="#method-i-h">#h</a>
+    
+    <li><a href="#method-i-nbsp">#nbsp</a>
+    
+    <li><a href="#method-i-raw">#raw</a>
+    
+    <li><a href="#method-i-rawtext">#rawtext</a>
+    
+    <li><a href="#method-i-text">#text</a>
+    
+    <li><a href="#method-i-text-21">#text!</a>
+    
+  </ul>
+</nav>
+
+  </div>
+
+  <div id="project-metadata">
+    <nav id="fileindex-section" class="section project-section">
+  <h3 class="section-header">Pages</h3>
+
+  <ul>
+  
+    <li class="file"><a href="../README_txt.html">README</a>
+  
+  </ul>
+</nav>
+
+    <nav id="classindex-section" class="section project-section">
+  <h3 class="section-header">Class and Module Index</h3>
+
+  <ul class="link-list">
+  
+    <li><a href="../Erector.html">Erector</a>
+  
+    <li><a href="../Erector/AbstractWidget.html">Erector::AbstractWidget</a>
+  
+    <li><a href="../Erector/AfterInitialize.html">Erector::AfterInitialize</a>
+  
+    <li><a href="../Erector/AfterInitialize/ClassMethods.html">Erector::AfterInitialize::ClassMethods</a>
+  
+    <li><a href="../Erector/Attributes.html">Erector::Attributes</a>
+  
+    <li><a href="../Erector/Cache.html">Erector::Cache</a>
+  
+    <li><a href="../Erector/Caching.html">Erector::Caching</a>
+  
+    <li><a href="../Erector/Caching/ClassMethods.html">Erector::Caching::ClassMethods</a>
+  
+    <li><a href="../Erector/Convenience.html">Erector::Convenience</a>
+  
+    <li><a href="../Erector/Dependencies.html">Erector::Dependencies</a>
+  
+    <li><a href="../Erector/Dependency.html">Erector::Dependency</a>
+  
+    <li><a href="../Erector/Element.html">Erector::Element</a>
+  
+    <li><a href="../Erector/Erect.html">Erector::Erect</a>
+  
+    <li><a href="../Erector/Erected.html">Erector::Erected</a>
+  
+    <li><a href="../Erector/Externals.html">Erector::Externals</a>
+  
+    <li><a href="../Erector/Externals/ClassMethods.html">Erector::Externals::ClassMethods</a>
+  
+    <li><a href="../Erector/HTML.html">Erector::HTML</a>
+  
+    <li><a href="../Erector/HTMLWidget.html">Erector::HTMLWidget</a>
+  
+    <li><a href="../Erector/HTMLWidget.html">Erector::HtmlWidget</a>
+  
+    <li><a href="../Erector/Inline.html">Erector::Inline</a>
+  
+    <li><a href="../Erector/InlineWidget.html">Erector::InlineWidget</a>
+  
+    <li><a href="../Erector/JQuery.html">Erector::JQuery</a>
+  
+    <li><a href="../Erector/Mixin.html">Erector::Mixin</a>
+  
+    <li><a href="../Erector/Needs.html">Erector::Needs</a>
+  
+    <li><a href="../Erector/Needs/ClassMethods.html">Erector::Needs::ClassMethods</a>
+  
+    <li><a href="../Erector/Output.html">Erector::Output</a>
+  
+    <li><a href="../Erector/Promise.html">Erector::Promise</a>
+  
+    <li><a href="../Erector/Rails.html">Erector::Rails</a>
+  
+    <li><a href="../Erector/Rails/FormBuilder.html">Erector::Rails::FormBuilder</a>
+  
+    <li><a href="../Erector/Rails/Helpers.html">Erector::Rails::Helpers</a>
+  
+    <li><a href="../Erector/Rails/TemplateHandler.html">Erector::Rails::TemplateHandler</a>
+  
+    <li><a href="../Erector/Rails/WidgetExtensions.html">Erector::Rails::WidgetExtensions</a>
+  
+    <li><a href="../Erector/Rails/WidgetExtensions/ClassMethods.html">Erector::Rails::WidgetExtensions::ClassMethods</a>
+  
+    <li><a href="../Erector/RailsFormBuilder.html">Erector::RailsFormBuilder</a>
+  
+    <li><a href="../Erector/Railtie.html">Erector::Railtie</a>
+  
+    <li><a href="../Erector/RawString.html">Erector::RawString</a>
+  
+    <li><a href="../Erector/RbHandler.html">Erector::RbHandler</a>
+  
+    <li><a href="../Erector/Sass.html">Erector::Sass</a>
+  
+    <li><a href="../Erector/Tag.html">Erector::Tag</a>
+  
+    <li><a href="../Erector/Text.html">Erector::Text</a>
+  
+    <li><a href="../Erector/UnicodeBuilder.html">Erector::UnicodeBuilder</a>
+  
+    <li><a href="../Erector/Widget.html">Erector::Widget</a>
+  
+    <li><a href="../Erector/Widgets.html">Erector::Widgets</a>
+  
+    <li><a href="../Erector/Widgets/EnvironmentBadge.html">Erector::Widgets::EnvironmentBadge</a>
+  
+    <li><a href="../Erector/Widgets/Page.html">Erector::Widgets::Page</a>
+  
+    <li><a href="../Erector/Widgets/Table.html">Erector::Widgets::Table</a>
+  
+    <li><a href="../Erector/XMLWidget.html">Erector::XMLWidget</a>
+  
+    <li><a href="../Erector/XMLWidget.html">Erector::XmlWidget</a>
+  
+    <li><a href="../ActionView.html">ActionView</a>
+  
+    <li><a href="../ActionView/Base.html">ActionView::Base</a>
+  
+    <li><a href="../ActionView/TemplateHandlers.html">ActionView::TemplateHandlers</a>
+  
+    <li><a href="../ActionView/TemplateHandlers/ErtTemplate.html">ActionView::TemplateHandlers::ErtTemplate</a>
+  
+    <li><a href="../Cell.html">Cell</a>
+  
+    <li><a href="../Cell/View.html">Cell::View</a>
+  
+    <li><a href="../FieldTable.html">FieldTable</a>
+  
+    <li><a href="../FieldTable/Field.html">FieldTable::Field</a>
+  
+    <li><a href="../ExternalRenderer.html">ExternalRenderer</a>
+  
+    <li><a href="../Form.html">Form</a>
+  
+    <li><a href="../Object.html">Object</a>
+  
+  </ul>
+</nav>
+
+  </div>
+</nav>
+
+<div id="documentation">
+  <h1 class="module">module Erector::Text</h1>
+
+  <div id="description" class="description">
+    
+  </div><!-- description -->
+
+  
+  
+  
+  <section id="5Buntitled-5D" class="documentation-section">
+    
+
+    
+
+    
+
+    
+
+    <!-- Methods -->
+    
+     <section id="public-instance-5Buntitled-5D-method-details" class="method-section section">
+      <h3 class="section-header">Public Instance Methods</h3>
+
+    
+      <div id="method-i-character" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">character</span><span
+            class="method-args">(code_point_or_name)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Return a character given its unicode code point or unicode name.</p>
+          
+
+          
+          <div class="method-source-code" id="character-source">
+            <pre><span class="ruby-comment"># File lib/erector/text.rb, line 107</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">character</span>(<span class="ruby-identifier">code_point_or_name</span>)
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">code_point_or_name</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">Symbol</span>)
+    <span class="ruby-identifier">require</span> <span class="ruby-string">&quot;erector/unicode&quot;</span>
+    <span class="ruby-identifier">found</span> = <span class="ruby-constant">Erector</span><span class="ruby-operator">::</span><span class="ruby-constant">CHARACTERS</span>[<span class="ruby-identifier">code_point_or_name</span>]
+    <span class="ruby-keyword">if</span> <span class="ruby-identifier">found</span>.<span class="ruby-identifier">nil?</span>
+      <span class="ruby-identifier">raise</span> <span class="ruby-node">&quot;Unrecognized character #{code_point_or_name}&quot;</span>
+    <span class="ruby-keyword">end</span>
+    <span class="ruby-identifier">raw</span>(<span class="ruby-node">&quot;&amp;#x#{sprintf &#39;%x&#39;, found};&quot;</span>)
+  <span class="ruby-keyword">elsif</span> <span class="ruby-identifier">code_point_or_name</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">Integer</span>)
+    <span class="ruby-identifier">raw</span>(<span class="ruby-node">&quot;&amp;#x#{sprintf &#39;%x&#39;, code_point_or_name};&quot;</span>)
+  <span class="ruby-keyword">else</span>
+    <span class="ruby-identifier">raise</span> <span class="ruby-node">&quot;Unrecognized argument to character: #{code_point_or_name}&quot;</span>
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- character-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- character-method -->
+
+    
+      <div id="method-i-h" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">h</span><span
+            class="method-args">(content)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Returns an HTML-escaped version of its parameter. Leaves the output string
+untouched. This method is idempotent: h(h(text)) will not double-escape
+text. This means that it is safe to do something like text(h(“2&lt;4”)) –
+it will produce “2&amp;lt;4”, not “2&amp;amp;lt;4”.</p>
+          
+
+          
+          <div class="method-source-code" id="h-source">
+            <pre><span class="ruby-comment"># File lib/erector/text.rb, line 98</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">h</span>(<span class="ruby-identifier">content</span>)
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">content</span>.<span class="ruby-identifier">respond_to?</span>(<span class="ruby-value">:html_safe?</span>) <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">content</span>.<span class="ruby-identifier">html_safe?</span>
+    <span class="ruby-identifier">content</span>
+  <span class="ruby-keyword">else</span>
+    <span class="ruby-identifier">raw</span>(<span class="ruby-constant">CGI</span>.<span class="ruby-identifier">escapeHTML</span>(<span class="ruby-identifier">content</span>.<span class="ruby-identifier">to_s</span>))
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- h-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- h-method -->
+
+    
+      <div id="method-i-nbsp" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">nbsp</span><span
+            class="method-args">(value = " ")</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Returns a copy of value with spaces replaced by non-breaking space
+characters. With no arguments, return a single non-breaking space. The
+output uses the escaping format &#39;&amp;#160;&#39; since that works in
+both <a href="HTML.html">HTML</a> and XML (as opposed to
+&#39;&amp;nbsp;&#39; which only works in <a href="HTML.html">HTML</a>).</p>
+          
+
+          
+          <div class="method-source-code" id="nbsp-source">
+            <pre><span class="ruby-comment"># File lib/erector/text.rb, line 90</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">nbsp</span>(<span class="ruby-identifier">value</span> = <span class="ruby-string">&quot; &quot;</span>)
+  <span class="ruby-identifier">raw</span>(<span class="ruby-identifier">h</span>(<span class="ruby-identifier">value</span>).<span class="ruby-identifier">gsub</span>(<span class="ruby-regexp">/ /</span>,<span class="ruby-string">&#39;&amp;#160;&#39;</span>))
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- nbsp-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- nbsp-method -->
+
+    
+      <div id="method-i-raw" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">raw</span><span
+            class="method-args">(value)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Returns text which will <strong>not</strong> be HTML-escaped.</p>
+          
+
+          
+          <div class="method-source-code" id="raw-source">
+            <pre><span class="ruby-comment"># File lib/erector/text.rb, line 75</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">raw</span>(<span class="ruby-identifier">value</span>)
+  <span class="ruby-constant">RawString</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">value</span>.<span class="ruby-identifier">to_s</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- raw-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- raw-method -->
+
+    
+      <div id="method-i-rawtext" class="method-detail method-alias">
+        
+        <div class="method-heading">
+          <span class="method-name">rawtext</span><span
+            class="method-args">(value)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+        </div>
+
+        
+
+        
+        <div class="aliases">
+          Alias for: <a href="Text.html#method-i-text-21">text!</a>
+        </div>
+        
+      </div><!-- rawtext-method -->
+
+    
+      <div id="method-i-text" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">text</span><span
+            class="method-args">(*values)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Emits text to the output buffer, e.g.</p>
+
+<pre class="ruby"><span class="ruby-identifier">text</span> <span class="ruby-string">&quot;my dog smells awful&quot;</span>
+=<span class="ruby-operator">&gt;</span> <span class="ruby-string">&quot;my dog smells awful&quot;</span>
+</pre>
+
+<p>If a string is passed in, it will be HTML-escaped. If the result of calling
+methods such as raw is passed in, the <a href="HTML.html">HTML</a> will not
+be HTML-escaped again. If another kind of object is passed in, the result
+of calling its to_s method will be treated as a string would be.</p>
+
+<p>You shouldn&#39;t pass a widget in to this method, as that will cause
+performance problems (as well as being semantically goofy). Use the widget
+method instead.</p>
+
+<p>You may pass a series of values (i.e. varargs). In that case, each value
+will be emitted to the output stream in turn. You can specify a delimiter
+by using an options hash with as the final argument, using
+<code>:join</code> as the key, e.g.</p>
+
+<pre class="ruby"><span class="ruby-identifier">text</span> <span class="ruby-string">&quot;my&quot;</span>, <span class="ruby-string">&quot;dog&quot;</span>, <span class="ruby-string">&quot;smells&quot;</span>, :<span class="ruby-identifier">join</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&quot; &quot;</span>
+=<span class="ruby-operator">&gt;</span> <span class="ruby-string">&quot;my dog smells&quot;</span>
+</pre>
+
+<p>You may also pass a <a href="Promise.html">Promise</a> as a parameter;
+every tag method now returns a <a href="Promise.html">Promise</a> after
+emitting. This allows you to easily embed simple <a
+href="HTML.html">HTML</a> formatting into a sentence, e.g.</p>
+
+<pre class="ruby"><span class="ruby-identifier">text</span> <span class="ruby-string">&quot;my&quot;</span>, <span class="ruby-string">&quot;dog&quot;</span>, <span class="ruby-string">&quot;smells&quot;</span>, <span class="ruby-identifier">b</span>(<span class="ruby-string">&quot;great!&quot;</span>), :<span class="ruby-identifier">join</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&quot; &quot;</span>
+=<span class="ruby-operator">&gt;</span> <span class="ruby-string">&quot;my dog smells &lt;b&gt;great!&lt;/b&gt;&quot;</span>
+</pre>
+
+<p>(Yes, the initial call to <code>b</code> emits “&lt;b&gt;great&lt;/b&gt;”
+to the output buffer; the <a href="Promise.html">Promise</a> feature takes
+care of rewinding and rewriting the output buffer during the later call to
+<code>text</code>.)</p>
+          
+
+          
+          <div class="method-source-code" id="text-source">
+            <pre><span class="ruby-comment"># File lib/erector/text.rb, line 38</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">text</span>(*<span class="ruby-identifier">values</span>)
+  <span class="ruby-identifier">options</span> = <span class="ruby-keyword">if</span> <span class="ruby-identifier">values</span>.<span class="ruby-identifier">last</span>.<span class="ruby-identifier">is_a?</span> <span class="ruby-constant">Hash</span>
+    <span class="ruby-identifier">values</span>.<span class="ruby-identifier">pop</span>
+  <span class="ruby-keyword">else</span>
+    {}
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-identifier">delimiter</span> = <span class="ruby-identifier">options</span>[<span class="ruby-value">:join</span>]
+
+  <span class="ruby-identifier">values</span>.<span class="ruby-identifier">select</span>{<span class="ruby-operator">|</span><span class="ruby-identifier">value</span><span class="ruby-operator">|</span> <span class="ruby-identifier">value</span>.<span class="ruby-identifier">is_a?</span> <span class="ruby-constant">Promise</span>}.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">promise</span><span class="ruby-operator">|</span>
+    <span class="ruby-comment"># erase whatever the promises wrote already</span>
+    <span class="ruby-identifier">promise</span>.<span class="ruby-identifier">_rewind</span>
+  <span class="ruby-keyword">end</span>
+
+  <span class="ruby-identifier">first</span> = <span class="ruby-keyword">true</span>
+  <span class="ruby-identifier">values</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">value</span><span class="ruby-operator">|</span>
+    <span class="ruby-keyword">if</span> <span class="ruby-operator">!</span><span class="ruby-identifier">first</span> <span class="ruby-keyword">and</span> <span class="ruby-identifier">delimiter</span>
+      <span class="ruby-identifier">output</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">h</span>(<span class="ruby-identifier">delimiter</span>)
+    <span class="ruby-keyword">end</span>
+    <span class="ruby-identifier">first</span> = <span class="ruby-keyword">false</span>
+
+    <span class="ruby-keyword">case</span> <span class="ruby-identifier">value</span>
+    <span class="ruby-keyword">when</span> <span class="ruby-constant">AbstractWidget</span>
+      <span class="ruby-comment"># todo: better deprecation</span>
+      <span class="ruby-identifier">raise</span> <span class="ruby-string">&quot;Don&#39;t pass a widget to the text method. Use the widget method instead.&quot;</span>
+    <span class="ruby-keyword">when</span> <span class="ruby-constant">Promise</span>
+      <span class="ruby-identifier">value</span>.<span class="ruby-identifier">_mark</span> <span class="ruby-comment"># so the promise&#39;s rewind won&#39;t erase anything</span>
+      <span class="ruby-identifier">value</span>.<span class="ruby-identifier">_render</span> <span class="ruby-comment"># render the promise to the output stream again</span>
+      <span class="ruby-comment"># note: we could let the promise cache its first effort, but</span>
+      <span class="ruby-comment"># here I think it&#39;s better to optimize for memory over speed</span>
+    <span class="ruby-keyword">else</span>
+      <span class="ruby-identifier">output</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">h</span>(<span class="ruby-identifier">value</span>)
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">nil</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- text-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- text-method -->
+
+    
+      <div id="method-i-text-21" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">text!</span><span
+            class="method-args">(value)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Emits text which will <strong>not</strong> be HTML-escaped. Same effect as
+text(raw(s))</p>
+          
+
+          
+          <div class="method-source-code" id="text-21-source">
+            <pre><span class="ruby-comment"># File lib/erector/text.rb, line 80</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">text!</span>(<span class="ruby-identifier">value</span>)
+  <span class="ruby-identifier">text</span> <span class="ruby-identifier">raw</span>(<span class="ruby-identifier">value</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- text-21-source -->
+          
+        </div>
+
+        
+        <div class="aliases">
+          Also aliased as: <a href="Text.html#method-i-rawtext">rawtext</a>
+        </div>
+        
+
+        
+      </div><!-- text-21-method -->
+
+    
+    </section><!-- public-instance-method-details -->
+  
+  </section><!-- 5Buntitled-5D -->
+
+</div><!-- documentation -->
+
+
+<footer id="validator-badges">
+  <p><a href="http://validator.w3.org/check/referer">[Validate]</a>
+  <p>Generated by <a href="https://github.com/rdoc/rdoc">RDoc</a> 3.12.2.
+  <p>Generated with the <a href="http://deveiate.org/projects/Darkfish-Rdoc/">Darkfish Rdoc Generator</a> 3.
+</footer>
+
