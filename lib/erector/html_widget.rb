@@ -11,7 +11,7 @@ module Erector
   # You can also define a widget on the fly by passing a block to +new+. This
   # block will get executed when the widget's +content+ method is called. See
   # the userguide for important details about the scope of this block when run --
-  # http://erector.rubyforge.org/userguide.html#blocks
+  # http://erector.github.io/erector/userguide.html#blocks
   #
   # To render a widget from the outside, instantiate it and call its +to_html+
   # method.

@@ -7,14 +7,14 @@ class Developers < Page
   def initialize
     super(:page_title => "For Developers")
   end
-  
+
   def promo
     "images/be-an-erector-engineer.jpeg"
   end
 
   def body_content
     h1 "Want to help develop Erector? Here's what to do."
-    
+
     h2 "Clone Erector from Github or create your own fork:"
     pre <<END
 git clone git://github.com/erector/erector.git
@@ -34,17 +34,13 @@ END
 
     h2 "Sign up for the mailing list:"
     a "'erector' Google Group", :href => "http://groups.google.com/group/erector"
-    p do
-      text "and check out the archives of the old "
-      a "erector-devel mailing list", :href=>"http://rubyforge.org/mailman/listinfo/erector-devel"
-    end
 
     h2 "Watch the github repo at "
     url "http://github.com/erector/erector"
 
     h2 "Join the Pivotal Tracker project at "
     url "http://www.pivotaltracker.com/projects/482"
-    
+
     h2 "Basic read-only git usage"
     p "First, install git.  Then download erector using git:"
     pre "git clone git://github.com/erector/erector.git"
@@ -69,13 +65,13 @@ END
     source_code :sh, <<END
 git commit -a
 git pull
-# Deal with merge issues if any. 
+# Deal with merge issues if any.
 git push
 END
 
     p "To get other people's changes:"
     pre "git pull"
-    
+
     h2 "Versioning and Release Policy"
     ul do
       li "Versions are of the form major.minor.tiny"

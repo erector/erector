@@ -58,7 +58,7 @@ desc "Publish web site and docs to GitHub Pages"
 task :publish => [:web, :docs] do
 
   # create a temporary clone of the current repository,
-  # create a gh-pages branch if one doesn't already exist,
+  # in the gh-pages branch,
   # copy over all files from the web directory
   # copy over all files from the rdoc directory
   # commit all changes,

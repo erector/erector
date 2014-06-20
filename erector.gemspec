@@ -17,7 +17,7 @@ Gem::Specification.new do |spec|
   spec.email = "erector@googlegroups.com"
   spec.description = "Erector is a Builder-like view framework, inspired by Markaby but overcoming some of its flaws. In Erector all views are objects, not template files, which allows the full power of object-oriented programming (inheritance, modular decomposition, encapsulation) in views."
 
-  spec.homepage = "http://erector.rubyforge.org/" # todo: change to github pages
+  spec.homepage = "http://erector.github.io/erector" # todo: change to github pages
   spec.license = "MIT"
 
   spec.files = `git ls-files`.split($/)

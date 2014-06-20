@@ -8,7 +8,6 @@ gem "treetop", ">= 1.2.3"
 group :development, :test do
   gem "activesupport", "~>3"
   gem "rspec", "~>2"
-  gem "rubyforge"
   gem "rr"
   gem "nokogiri"
   gem "jeweler"

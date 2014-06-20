@@ -4,7 +4,6 @@ gem "treetop", ">= 1.2.3"
 
 group :development do
   gem "rspec", "~>2"
-  gem "rubyforge"
   gem "rr"
   gem "nokogiri"
   gem "jeweler"

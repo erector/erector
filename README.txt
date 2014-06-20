@@ -1,6 +1,6 @@
 = Erector
 
-* http://erector.rubyforge.org
+* http://erector.github.io/erector
 * mailto:erector@googlegroups.com
 * http://github.com/erector/erector
 * http://www.pivotaltracker.com/projects/482
@@ -12,9 +12,9 @@ some of its flaws. In Erector all views are objects, not template files,
 which allows the full power of object-oriented programming (inheritance,
 modular decomposition, encapsulation) in views. See the rdoc for the
 Erector::Widget class to learn how to make your own widgets, and visit the
-project site at http://erector.rubyforge.org for more documentation.
+project site at http://erector.github.io/erector for more documentation.
 
-No, seriously, we've got hella docs at http://erector.rubyforge.org -- go
+No, seriously, we've got hella docs at http://erector.github.io/erector -- go
 check it out.
 
 == SYNOPSIS
