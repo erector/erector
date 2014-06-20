@@ -33,19 +33,19 @@ h1 {
   padding: .25em;
   padding-left: 0px;
   margin-left: 0px;
-  text-shadow: #999999 1px 1px 1px; }
+  text-shadow: #999 1px 1px 1px; }
 
 h2 {
   margin-top: 2em;
   background: #FEFEEB;
   padding: .25em;
-  border: 1px solid #cccccc;
-  text-shadow: #999999 1px 1px 1px; }
+  border: 1px solid #CCC;
+  text-shadow: #999 1px 1px 1px; }
 
 pre {
   background-color: #f4f4FF;
   border: 1px solid gray;
-  padding: 0.5em 1em;
+  padding: .5em 1em;
   overflow: auto;
   font-family: Inconsolata, Consolas, "Andale Mono", "Lucida Console", "Lucida Sans Typewriter", "DejaVu Sans Mono", "Bitstream Vera Sans Mono", "Liberation Mono", "Nimbus Mono L", Monaco, "Courier New", Courier, monospace; }
 
@@ -102,8 +102,8 @@ div.navbar {
   overflow-vertical: auto;
   text-align: left;
   background-color: #A3D3D1;
-  border-top: 1px solid #6881ba;
-  border-bottom: 1px solid #6881ba; }
+  border-top: 1px solid #6881BA;
+  border-bottom: 1px solid #6881BA; }
   div.navbar h3 {
     margin-bottom: .25em; }
   div.navbar ul {
@@ -120,7 +120,7 @@ div.navbar {
     margin: 8px;
     padding: 4px 6px;
     /*  font-variant: small-caps;*/
-    border: 2px solid #6881ba; }
+    border: 2px solid #6881BA; }
     div.navbar li.clickable a, div.navbar li.clickable a:visited {
       text-decoration: none;
       /*font-weight: bold;*/
@@ -163,13 +163,13 @@ div.navbar {
 
 /* article */
 div.toc {
-  margin: 1em 0.25em;
+  margin: 1em .25em;
   display: inline-block;
   border: 1px solid black; }
   div.toc h2 {
     margin: 0; }
   div.toc ul, div.toc ol {
-    padding: 0.25em 1em; }
+    padding: .25em 1em; }
 
 .promo_wrapper {
   float: right; }
@@ -181,14 +181,14 @@ div.promo_wrapper {
 
 div.promo {
   display: inline-block;
-  border: 2px solid #6881ba;
+  border: 2px solid #6881BA;
   text-align: center;
   background: white; }
   div.promo img {
     border: 2px solid black;
     margin: 2px; }
   div.promo p {
-    padding: 0.25em 0.5em; }
+    padding: .25em .5em; }
 
 /* example */
 div.example {
@@ -214,15 +214,15 @@ div.example {
     <div class="top">      <div class="logo"><a href="index.html"><img src="erector-logo.png" /></a></div>
     </div>
     <div class="navbar">      <ul class="clickable">
-        <li class="clickable" onclick="document.location='index.html'"><a href="index.html">Home</a></li>
-        <li class="clickable current" onclick="document.location='userguide.html'"><a href="userguide.html">User Guide</a></li>
-        <li class="clickable" onclick="document.location='rails.html'"><a href="rails.html">Erector On Rails</a></li>
-        <li class="clickable" onclick="document.location='faq.html'"><a href="faq.html">FAQ</a></li>
-        <li class="clickable" onclick="document.location='cheatsheet.html'"><a href="cheatsheet.html">Cheatsheet</a></li>
-        <li class="clickable" onclick="document.location='rdoc'"><a href="rdoc">RDoc API</a></li>
-        <li class="clickable" onclick="document.location='developers.html'"><a href="developers.html">For Developers</a></li>
-        <li class="clickable" onclick="document.location='release_notes.html'"><a href="release_notes.html">Release Notes</a></li>
-        <li class="clickable" onclick="document.location='community.html'"><a href="community.html">Community</a></li>
+        <li class="clickable" onclick="document.location=&#39;index.html&#39;"><a href="index.html">Home</a></li>
+        <li class="clickable current" onclick="document.location=&#39;userguide.html&#39;"><a href="userguide.html">User Guide</a></li>
+        <li class="clickable" onclick="document.location=&#39;rails.html&#39;"><a href="rails.html">Erector On Rails</a></li>
+        <li class="clickable" onclick="document.location=&#39;faq.html&#39;"><a href="faq.html">FAQ</a></li>
+        <li class="clickable" onclick="document.location=&#39;cheatsheet.html&#39;"><a href="cheatsheet.html">Cheatsheet</a></li>
+        <li class="clickable" onclick="document.location=&#39;rdoc&#39;"><a href="rdoc">RDoc API</a></li>
+        <li class="clickable" onclick="document.location=&#39;developers.html&#39;"><a href="developers.html">For Developers</a></li>
+        <li class="clickable" onclick="document.location=&#39;release_notes.html&#39;"><a href="release_notes.html">Release Notes</a></li>
+        <li class="clickable" onclick="document.location=&#39;community.html&#39;"><a href="community.html">Community</a></li>
       </ul>
     </div>
     <div class="promo_wrapper">      <div class="promo"><img src="images/1959erector.jpeg" /></div>
@@ -283,7 +283,7 @@ end
                 </td>
               </tr>
             </table>
-            <p>Once you have a widget class, you can instantiate it and then call its <code>to_html</code> method. If you want to pass in parameters (aka 'assigns' or 'locals' in Rails parlance), then do so in the constructor's default hash. This will make instance variables of the same name, with Ruby's '@' sign.</p>
+            <p>Once you have a widget class, you can instantiate it and then call its <code>to_html</code> method. If you want to pass in parameters (aka &#39;assigns&#39; or &#39;locals&#39; in Rails parlance), then do so in the constructor&#39;s default hash. This will make instance variables of the same name, with Ruby&#39;s &#39;@&#39; sign.</p>
             <pre class="sh_ruby">class Email &lt; Erector::Widget
   def content
     a @address, :href =&gt; &quot;mailto:#{@address}&quot;
@@ -298,7 +298,7 @@ end
             <h2>2. Mixin</h2>
             <p>If all this widget stuff is too complicated, just do </p>
             <pre>include Erector::Mixin</pre>
-            <p>and then call <code>erector { }</code> from anywhere in your code. It will make an <a href="#inline">inline widget</a> for you, pass in the block, and call <code>to_html</code> on it. And if you pass any options to <code>erector</code>, like <code>:prettyprint =&gt; true</code>, it'll pass them along to <code>to_html</code>!</p>
+            <p>and then call <code>erector { }</code> from anywhere in your code. It will make an <a href="#inline">inline widget</a> for you, pass in the block, and call <code>to_html</code> on it. And if you pass any options to <code>erector</code>, like <code>:prettyprint =&gt; true</code>, it&#39;ll pass them along to <code>to_html</code>!</p>
             <h3>Examples:</h3>
             <pre class="sh_ruby">erector { a &quot;lols&quot;, :href =&gt; &quot;http://icanhascheezburger.com/&quot; }
 =&gt; &quot;&lt;a href=\&quot;http://icanhascheezburger.com/\&quot;&gt;lols&lt;/a&gt;&quot;
@@ -315,7 +315,7 @@ end
             <a name="prettyprinting"></a>
             <h2>3. Pretty-printing</h2>
             <p>Erector has the ability to insert newlines and indentation to make the generated HTML more readable.  Newlines are inserted before and after certain tags.</p>
-            <p>To enable pretty-printing (insertion of newlines and indentation) of Erector's output, do one of the following:</p>
+            <p>To enable pretty-printing (insertion of newlines and indentation) of Erector&#39;s output, do one of the following:</p>
             <ul>
               <li>call <code>to_pretty</code> instead of <code>to_html</code> on your Erector::Widget</li>
               <li>pass <code>:prettyprint =&gt; true</code> to <code>to_html</code></li>
@@ -356,15 +356,15 @@ body.my_id!.nav_bar &quot;Hello, world!&quot;
             <p>You can put the setting of <code>hyphenize_underscores</code> anywhere it is convenient, for example <code>config/application.rb</code> in a rails application. For compatibility with erector 0.9.0, the default is false, but this is likely to change to true in a future version of erector, so explicitly set it to false if you are relying on the underscores.</p>
             <a name="tool"></a>
             <h2>5. Erector tool: Command-line conversion to and from HTML</h2>
-            <p>We've written a little tool that will help you
-      erect your existing HTML app. The 'erector' tool will convert HTML or HTML/ERB into an Erector class.
+            <p>We&#39;ve written a little tool that will help you
+      erect your existing HTML app. The &#39;erector&#39; tool will convert HTML or HTML/ERB into an Erector class.
       It ships as part of the Erector gem, so to try it out, install the gem, then run</p>
             <pre>erector app/views/foos/*.html.erb</pre>
             <p>or just</p>
             <pre>erector app/views</pre>
-            <p>and then delete the original files when you're satisfied.</p>
+            <p>and then delete the original files when you&#39;re satisfied.</p>
             <p>See the <a href="rails.html">Erector on Rails Guide</a> for more details on converting a Rails app.</p>
-            <p>On the erector-to-html side, pass in the <code>--to-html</code>option and some file names and it will render the erector widgets to appropriately-named HTML files. We're actually using <code>erector</code> to build this Erector documentation web site that you're reading <b>right now.</b> Check out the <a href="https://github.com/erector/erector/tree/master/web">'web' directory</a> and the <a href="https://github.com/erector/erector/blob/77738d13fbbb3e1b8d24653ff2950dbb88b756ed/Rakefile#L74-84">'web' task in the Rakefile</a> to see how it's done.</p>
+            <p>On the erector-to-html side, pass in the <code>--to-html</code>option and some file names and it will render the erector widgets to appropriately-named HTML files. We&#39;re actually using <code>erector</code> to build this Erector documentation web site that you&#39;re reading <b>right now.</b> Check out the <a href="https://github.com/erector/erector/tree/master/web">&#39;web&#39; directory</a> and the <a href="https://github.com/erector/erector/blob/77738d13fbbb3e1b8d24653ff2950dbb88b756ed/Rakefile#L74-84">&#39;web&#39; task in the Rakefile</a> to see how it&#39;s done.</p>
             <a name="pagelayoutinheritance"></a>
             <h2>6. Page Layout Inheritance</h2>
             <p>Erector replaces the typical Rails layout mechanism with a more natural construct, the use of inheritance. Want a common
@@ -439,19 +439,19 @@ end
 hello.to_html          #=&gt; &lt;p&gt;Hello, world!&lt;/p&gt;
 </pre>
               This lets you define mini-widgets on the fly.</p>
-            <p>If you're in Rails, your inline block has access to Rails helpers if you pass a helpers object to <code>to_html</code>:
+            <p>If you&#39;re in Rails, your inline block has access to Rails helpers if you pass a helpers object to <code>to_html</code>:
               <pre class="sh_ruby">image = Erector.inline do
   image_tag(&quot;/foo&quot;)
 end
 image.to_html(:helpers =&gt; controller)          #=&gt; &lt;img alt=&quot;Foo&quot; src=&quot;/foo&quot; /&gt;
 </pre>
             </p>
-            <p>Note that inline widgets are usually redundant if you're already inside an Erector content method. You can just use a normal <code>do</code> block and the Erector methods will work as usual when called back from <code>yield</code>. Inline widgets get evaluated with <code>instance_eval</code> which may or may not be what you want. See the section on <a href="#blocks">blocks</a> in this user guide for more detail.</p>
-            <p>One extra bonus feature of inline widgets is that they can call methods defined on the parent class, even though they're out of scope. How do they do this? Through method_missing magic. (But isn't method_missing magic against the design goals of Erector? Yes, some would say so, and that's why we're reserving it for a special subclass and method. For Erector::Widget and subclasses, if you pass in a block, it's a plain old block with normal semantics.) But they can't directly access instance variables on the parent, so watch it.</p>
+            <p>Note that inline widgets are usually redundant if you&#39;re already inside an Erector content method. You can just use a normal <code>do</code> block and the Erector methods will work as usual when called back from <code>yield</code>. Inline widgets get evaluated with <code>instance_eval</code> which may or may not be what you want. See the section on <a href="#blocks">blocks</a> in this user guide for more detail.</p>
+            <p>One extra bonus feature of inline widgets is that they can call methods defined on the parent class, even though they&#39;re out of scope. How do they do this? Through method_missing magic. (But isn&#39;t method_missing magic against the design goals of Erector? Yes, some would say so, and that&#39;s why we&#39;re reserving it for a special subclass and method. For Erector::Widget and subclasses, if you pass in a block, it&#39;s a plain old block with normal semantics.) But they can&#39;t directly access instance variables on the parent, so watch it.</p>
             <a name="needs"></a>
             <h2>8. Needs</h2>
-            <p>Named parameters in Ruby are fun, but one frustrating aspect of the 'options hash' technique is that the code is less self-documenting and doesn't 'fail fast' if you pass in the wrong parameters, or fail to pass in the right ones. Even simple typos can lead to very annoying debugging problems.</p>
-            <p>To help this, we've added an optional feature by which your widget can declare that it needs a certain set of named parameters to be passed in. For example:
+            <p>Named parameters in Ruby are fun, but one frustrating aspect of the &#39;options hash&#39; technique is that the code is less self-documenting and doesn&#39;t &#39;fail fast&#39; if you pass in the wrong parameters, or fail to pass in the right ones. Even simple typos can lead to very annoying debugging problems.</p>
+            <p>To help this, we&#39;ve added an optional feature by which your widget can declare that it needs a certain set of named parameters to be passed in. For example:
               <pre class="sh_ruby">class Car &lt; Erector::Widget
   needs :engine, :wheels =&gt; 4
   def content
@@ -459,13 +459,13 @@ image.to_html(:helpers =&gt; controller)          #=&gt; &lt;img alt=&quot;Foo&q
   end
 end
 </pre>
-              This widget will throw an exception if you fail to pass <code>:engine =&gt; 'V-8'</code> into its constructor. (Actually, it will work with any engine, but a V-8 is the baddest.)</p>
+              This widget will throw an exception if you fail to pass <code>:engine =&gt; &#39;V-8&#39;</code> into its constructor. (Actually, it will work with any engine, but a V-8 is the baddest.)</p>
             <p>See the <a href="rdoc/classes/Erector/Widget.html#M000053">rdoc for Widget#needs</a> for more details. Note that as of version 0.7.0, using <code>needs</code> no longer automatically declares accessor methods.</p>
             <a name="externals"></a>
             <h2>9. Externals</h2>
-            <p>Erector's got some nice tags, like <code>script</code> and <code>style</code>, that you can emit in the content method of your widget. But what if your widget needs something, say a JavaScript library, that should be included not in the main page, but inside the <code>head</code> section?</p>
-            <p><a href="rdoc/classes/Erector/Externals.html">Externals</a> are a way for your widget to announce to the world that it has an external dependency. It's then up to <a href="rdoc/classes/Erector/Widgets/Page.html">another widget</a> to emit that dependency while it's rendering the <code>head</code>.</p>
-            <p>Here's an example:
+            <p>Erector&#39;s got some nice tags, like <code>script</code> and <code>style</code>, that you can emit in the content method of your widget. But what if your widget needs something, say a JavaScript library, that should be included not in the main page, but inside the <code>head</code> section?</p>
+            <p><a href="rdoc/classes/Erector/Externals.html">Externals</a> are a way for your widget to announce to the world that it has an external dependency. It&#39;s then up to <a href="rdoc/classes/Erector/Widgets/Page.html">another widget</a> to emit that dependency while it&#39;s rendering the <code>head</code>.</p>
+            <p>Here&#39;s an example:
               <pre class="sh_ruby">class HotSauce &lt; Erector::Widget
   depends_on :css, &quot;/css/tapatio.css&quot;
   depends_on :css, &quot;/css/salsa_picante.css&quot;, :media =&gt; &quot;print&quot;
@@ -479,7 +479,7 @@ end
   end
 end
 </pre>
-              Then when <code>Page</code> emits the <code>head</code> it'll look like this:
+              Then when <code>Page</code> emits the <code>head</code> it&#39;ll look like this:
               <pre class="sh_ruby">&lt;head&gt;
   &lt;meta content=&quot;text/html;charset=UTF-8&quot; http-equiv=&quot;content-type&quot; /&gt;
   &lt;title&gt;HotPage&lt;/title&gt;
@@ -490,7 +490,7 @@ end
 &lt;/head&gt;
 </pre>
             </p>
-            <p>It also collapses redundant externals, so if lots of your widgets declare the same thing (say, 'jquery.js'), it'll only get included once.</p>
+            <p>It also collapses redundant externals, so if lots of your widgets declare the same thing (say, &#39;jquery.js&#39;), it&#39;ll only get included once.</p>
             <p><a href="rdoc/classes/Erector/Widgets/Page.html">Page</a> looks for the following externals:
               <table>
                 <tr>
@@ -510,14 +510,14 @@ end
                   <td>inline CSS style</td>
                 </tr>
               </table>
-              It might be a little difficult to remember the difference between :js and :script, and between :css and :style, so I'm thinking of maybe unifying them and looking at the content to determine whether it's inline or not. (Something simple like, if it includes a space, then it's inline.) Good idea? Let us know on <a href="http://googlegroups.com/group/erector">the erector mailing list</a>!</p>
-            <p>Instead of a string, you can also specify a File object; the file's contents get read and used as text. This allows you to inline files instead of referring to them, for potential performance benefits. Example:
+              It might be a little difficult to remember the difference between :js and :script, and between :css and :style, so I&#39;m thinking of maybe unifying them and looking at the content to determine whether it&#39;s inline or not. (Something simple like, if it includes a space, then it&#39;s inline.) Good idea? Let us know on <a href="http://googlegroups.com/group/erector">the erector mailing list</a>!</p>
+            <p>Instead of a string, you can also specify a File object; the file&#39;s contents get read and used as text. This allows you to inline files instead of referring to them, for potential performance benefits. Example:
               <pre class="sh_ruby">    depends_on :style, File.new(&quot;#{File.dirname(__FILE__)}/../public/sample.css&quot;)
 </pre>
             </p>
             <a name="blocks"></a>
             <h2>10. Blocks</h2>
-            <p>Erector is all about blocks (otherwise known as closures). Unfortunately, there are some confusing aspects to working with blocks; this section aims to clarify the issues so if you find yourself stuck on an 'undefined method' or a nil instance variable, at least you'll have some context to help debug it.</p>
+            <p>Erector is all about blocks (otherwise known as closures). Unfortunately, there are some confusing aspects to working with blocks; this section aims to clarify the issues so if you find yourself stuck on an &#39;undefined method&#39; or a nil instance variable, at least you&#39;ll have some context to help debug it.</p>
             <p>There are basically three cases where you can pass a block to Erector:</p>
             <h3>1. To an element method</h3>
             <p>This is the normal case that provides the slick HTML DSL. In the following code:</p>
@@ -554,21 +554,21 @@ end
 end
 </pre>
             <p>In this case, you will get two <code>form</code> elements, each of which has some boilerplate HTML for emitting the form element, emitting the hidden <code>_method</code> input tag in the case of the delete method, then calling back into your widget to emit the contents of the form. In this case, as above, the <code>@user</code> instance variable will be sought inside the <b>calling</b> widget<code>(PersonActions)</code>, not the <b>called </b> widget<code>(Form)</code>.</p>
-            <p>A quirk of this technique is that methods inside the block will be called on the calling widget, not the called widget. This doesn't cause any problems for element methods (<code>b</code> and <code>input</code> above), but may be confusing if you want the block to be able to call methods on the target widget. In that case the caller can declare the block to take a parameter; this parameter will point to the nested widget instance.
+            <p>A quirk of this technique is that methods inside the block will be called on the calling widget, not the called widget. This doesn&#39;t cause any problems for element methods (<code>b</code> and <code>input</code> above), but may be confusing if you want the block to be able to call methods on the target widget. In that case the caller can declare the block to take a parameter; this parameter will point to the nested widget instance.
               <pre class="sh_ruby">widget(Form.new(:action =&gt; &quot;/person/#{@user.id}&quot;, :method =&gt; &quot;delete&quot;) do |f|
-  span &quot;This form's method is #{f.method}&quot;
+  span &quot;This form&#39;s method is #{f.method}&quot;
   input :type =&gt; &quot;submit&quot;, :value =&gt; &quot;Remove #{@user.name}&quot;
 end)
 </pre>
             </p>
-            <p>(As a variant of this case, note that the<code>widget</code> method can accept a widget class, hash and block, instead of an instance; in this case it will set the widget's block and this code:
+            <p>(As a variant of this case, note that the<code>widget</code> method can accept a widget class, hash and block, instead of an instance; in this case it will set the widget&#39;s block and this code:
               <pre class="sh_ruby">widget Form, :action =&gt; &quot;/person/#{@user.id}&quot;, :method =&gt; &quot;delete&quot; do
   input :type =&gt; &quot;submit&quot;, :value =&gt; &quot;Remove #{@user.name}&quot;
 end
 </pre>
                will work the same as the version above.)</p>
             <h3>3. To the constructor of an Erector::InlineWidget</h3>
-            <p>This is where things get hairy. Sometimes we want to construct a widget on the fly, but we're not inside a widget already. So any block we pass in will not have access to Erector methods. In this case we have a special subclass called <code>Erector::InlineWidget</code> which uses two magic tricks: <code>instance_eval</code> and <code>method_missing</code> to accomplish the following:
+            <p>This is where things get hairy. Sometimes we want to construct a widget on the fly, but we&#39;re not inside a widget already. So any block we pass in will not have access to Erector methods. In this case we have a special subclass called <code>Erector::InlineWidget</code> which uses two magic tricks: <code>instance_eval</code> and <code>method_missing</code> to accomplish the following:
               <ul>
                 <li>inside the block, <code>self</code> points to the widget, not the caller.</li>
                 <li>methods will be looked for first on the inline widget, and then on the caller.</li>

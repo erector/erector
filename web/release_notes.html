@@ -33,19 +33,19 @@ h1 {
   padding: .25em;
   padding-left: 0px;
   margin-left: 0px;
-  text-shadow: #999999 1px 1px 1px; }
+  text-shadow: #999 1px 1px 1px; }
 
 h2 {
   margin-top: 2em;
   background: #FEFEEB;
   padding: .25em;
-  border: 1px solid #cccccc;
-  text-shadow: #999999 1px 1px 1px; }
+  border: 1px solid #CCC;
+  text-shadow: #999 1px 1px 1px; }
 
 pre {
   background-color: #f4f4FF;
   border: 1px solid gray;
-  padding: 0.5em 1em;
+  padding: .5em 1em;
   overflow: auto;
   font-family: Inconsolata, Consolas, "Andale Mono", "Lucida Console", "Lucida Sans Typewriter", "DejaVu Sans Mono", "Bitstream Vera Sans Mono", "Liberation Mono", "Nimbus Mono L", Monaco, "Courier New", Courier, monospace; }
 
@@ -102,8 +102,8 @@ div.navbar {
   overflow-vertical: auto;
   text-align: left;
   background-color: #A3D3D1;
-  border-top: 1px solid #6881ba;
-  border-bottom: 1px solid #6881ba; }
+  border-top: 1px solid #6881BA;
+  border-bottom: 1px solid #6881BA; }
   div.navbar h3 {
     margin-bottom: .25em; }
   div.navbar ul {
@@ -120,7 +120,7 @@ div.navbar {
     margin: 8px;
     padding: 4px 6px;
     /*  font-variant: small-caps;*/
-    border: 2px solid #6881ba; }
+    border: 2px solid #6881BA; }
     div.navbar li.clickable a, div.navbar li.clickable a:visited {
       text-decoration: none;
       /*font-weight: bold;*/
@@ -163,13 +163,13 @@ div.navbar {
 
 /* article */
 div.toc {
-  margin: 1em 0.25em;
+  margin: 1em .25em;
   display: inline-block;
   border: 1px solid black; }
   div.toc h2 {
     margin: 0; }
   div.toc ul, div.toc ol {
-    padding: 0.25em 1em; }
+    padding: .25em 1em; }
 
 .promo_wrapper {
   float: right; }
@@ -181,14 +181,14 @@ div.promo_wrapper {
 
 div.promo {
   display: inline-block;
-  border: 2px solid #6881ba;
+  border: 2px solid #6881BA;
   text-align: center;
   background: white; }
   div.promo img {
     border: 2px solid black;
     margin: 2px; }
   div.promo p {
-    padding: 0.25em 0.5em; }
+    padding: .25em .5em; }
 
 /* example */
 div.example {
@@ -214,22 +214,56 @@ div.example {
     <div class="top">      <div class="logo"><a href="index.html"><img src="erector-logo.png" /></a></div>
     </div>
     <div class="navbar">      <ul class="clickable">
-        <li class="clickable" onclick="document.location='index.html'"><a href="index.html">Home</a></li>
-        <li class="clickable" onclick="document.location='userguide.html'"><a href="userguide.html">User Guide</a></li>
-        <li class="clickable" onclick="document.location='rails.html'"><a href="rails.html">Erector On Rails</a></li>
-        <li class="clickable" onclick="document.location='faq.html'"><a href="faq.html">FAQ</a></li>
-        <li class="clickable" onclick="document.location='cheatsheet.html'"><a href="cheatsheet.html">Cheatsheet</a></li>
-        <li class="clickable" onclick="document.location='rdoc'"><a href="rdoc">RDoc API</a></li>
-        <li class="clickable" onclick="document.location='developers.html'"><a href="developers.html">For Developers</a></li>
-        <li class="clickable current" onclick="document.location='release_notes.html'"><a href="release_notes.html">Release Notes</a></li>
-        <li class="clickable" onclick="document.location='community.html'"><a href="community.html">Community</a></li>
+        <li class="clickable" onclick="document.location=&#39;index.html&#39;"><a href="index.html">Home</a></li>
+        <li class="clickable" onclick="document.location=&#39;userguide.html&#39;"><a href="userguide.html">User Guide</a></li>
+        <li class="clickable" onclick="document.location=&#39;rails.html&#39;"><a href="rails.html">Erector On Rails</a></li>
+        <li class="clickable" onclick="document.location=&#39;faq.html&#39;"><a href="faq.html">FAQ</a></li>
+        <li class="clickable" onclick="document.location=&#39;cheatsheet.html&#39;"><a href="cheatsheet.html">Cheatsheet</a></li>
+        <li class="clickable" onclick="document.location=&#39;rdoc&#39;"><a href="rdoc">RDoc API</a></li>
+        <li class="clickable" onclick="document.location=&#39;developers.html&#39;"><a href="developers.html">For Developers</a></li>
+        <li class="clickable current" onclick="document.location=&#39;release_notes.html&#39;"><a href="release_notes.html">Release Notes</a></li>
+        <li class="clickable" onclick="document.location=&#39;community.html&#39;"><a href="community.html">Community</a></li>
       </ul>
     </div>
     <div class="promo_wrapper">      <div class="promo"><img src="images/erector-the-worlds-greatest-toy.jpg" /></div>
     </div>
-    <div class="main">      <div class="body"><ul><li>
+    <div class="main">      <div class="body">
+<h2 id="label-0.10.0+-+2014-04-14">0.10.0 - 2014-04-14</h2>
+<ul><li>
+<p>“Ryan Davis says so” release</p>
+</li><li>
 <p>Add option hyphenize_underscores to control hyphens versus underscores in
 dot-class and dot-id-bang syntax.</p>
+</li><li>
+<p>e9c8c50 ignore_extra_assigns feature where one can skip excess check.
+inspired by :ignore_extra_controller_assigns in rails widget.      Ahto
+Jussila</p>
+</li><li>
+<p>misc bugfixes</p>
+</li><li>
+<p>1796dbf `needs` doesn&#39;t duplicate symbol values (Mike Lewis)</p>
+</li><li>
+<p>67e5b89 default syntax for sass is scss</p>
+</li><li>
+<p>b90246f silence silly &#39;Erector::Widgets::Table requires
+active_support&#39; message. (Who uses Table anyway?) (Alex Chaffee)</p>
+</li><li>
+<p>61147fe Add hyphenize_underscores option.        Jim Kingdon</p>
+</li><li>
+<p>Rails 3 improvements</p>
+<ul><li>
+<p>3601aca 2012-11-12  content_for returns empty string to avoid double
+rendering errors        zelig</p>
+</li><li>
+<p>155d928 2012-11-11  rails 3 templates, layouts, render deprecation   zelig</p>
+</li><li>
+<p>d30b1fd 2012-11-11  update Gemfile, regenerate gemspec       zelig</p>
+</li></ul>
+</li><li>
+<p>4ea4d16 2012-09-12    The following elements are inline according to HTML 4
+DTD: abbr, acronym, bdo, big, caption, cite, code, dfn, dt, em, kbd, label,
+legend. Fixes bug whereby prettyprinting would output excess whitespace
+which affects the appearance in a browser.     NeedFeed Developer</p>
 </li></ul>
 
 <h2 id="label-0.9.0+-+2012-08-12">0.9.0 - 2012-08-12</h2>
@@ -237,7 +271,7 @@ dot-class and dot-id-bang syntax.</p>
 <p>Finally merged bigfix/rails3 branch - Erector now works with either Rails 2
 or Rails 3 (or neither)</p>
 </li><li>
-<p>‘scss’ external type [needs tests]</p>
+<p>&#39;scss&#39; external type [needs tests]</p>
 </li><li>
 <p>dot-class and dot-id-bang syntax</p>
 </li><li>
@@ -245,18 +279,18 @@ or Rails 3 (or neither)</p>
 non-HTML widget (for XML formats that may not want the HTML tags and
 methods)</p>
 </li><li>
-<p>‘emit’ method as preferred synonym for to_html (since we now support
-non-HTML widgets)</p>
+<p>&#39;emit&#39; method as preferred synonym for to_html (since we now
+support non-HTML widgets)</p>
 </li><li>
-<p>‘tag’ macro to add your own tag types (esp. to XML widgets)</p>
+<p>&#39;tag&#39; macro to add your own tag types (esp. to XML widgets)</p>
 </li><li>
 <p>:snake_case option to tag (if you want the method name to be nice for a
 CamelCase tag name)</p>
 </li><li>
 <p>remove dependency on rake gem</p>
 </li><li>
-<p>rename ‘render’ method to ‘emit’ (to reduce confusion with Rails’ “render”
-methods)</p>
+<p>rename &#39;render&#39; method to &#39;emit&#39; (to reduce confusion with
+Rails&#39; “render” methods)</p>
 </li><li>
 <p>Add missing favicon_link_tag and crsf_meta_tags helper methods</p>
 </li><li>
@@ -320,7 +354,8 @@ Barlow)</p>
 </li><li>
 <p>delegate method_missing to parent widget</p>
 </li><li>
-<p>‘embed’ and ‘param’ are now self-closing tags (as per browser warnings)</p>
+<p>&#39;embed&#39; and &#39;param&#39; are now self-closing tags (as per
+browser warnings)</p>
 </li><li>
 <p>Converted Widget#context to take a params hash.</p>
 </li><li>
@@ -383,26 +418,26 @@ href="http://github.com/erector/erector/issues/closed#issue/3">github.com/erecto
 
 <p>Rails:</p>
 
-<pre>* Add Widget.controller_assigns_propagate_to_partials: lets you keep controller instance variables from propagating to partials, so that you don't have this giant &quot;global&quot; namespace that partials can pull from. Enforces encapsulation much better.
+<pre>* Add Widget.controller_assigns_propagate_to_partials: lets you keep controller instance variables from propagating to partials, so that you don&#39;t have this giant &quot;global&quot; namespace that partials can pull from. Enforces encapsulation much better.
 * Add Widget.ignore_extra_controller_assigns, which allows widgets to use #needs but silently ignore excess controller variables, rather than raising an exception instead. This can be very useful for transitioning large codebases to Erector.
 * Factor out directly-delegated methods into an array; add url_for and image_path.
 * Make Erector work with the Cells plugin for Rails (http://cells.rubyforge.org/).</pre>
 
 <p>Erector tool:</p>
 
-<pre>* Make 'erector' ignore ERb trim markers (&quot;-%&gt;&quot;).
-* Make 'erector' process ERb escapes in HTML attributes correctly.
-* Make sure 'erector' adds parentheses to function calls when necessary.
-* Don't add empty strings to the end of converted attributes.
-* Don't omit empty attribute strings.
-* Allow setting an alternate superclass for the new widget coming from the 'erector' tool.
-* Add --method switch to 'erector', in case you don't want the base 'content' method overridden, but something it calls in your superclass, instead.</pre>
+<pre>* Make &#39;erector&#39; ignore ERb trim markers (&quot;-%&gt;&quot;).
+* Make &#39;erector&#39; process ERb escapes in HTML attributes correctly.
+* Make sure &#39;erector&#39; adds parentheses to function calls when necessary.
+* Don&#39;t add empty strings to the end of converted attributes.
+* Don&#39;t omit empty attribute strings.
+* Allow setting an alternate superclass for the new widget coming from the &#39;erector&#39; tool.
+* Add --method switch to &#39;erector&#39;, in case you don&#39;t want the base &#39;content&#39; method overridden, but something it calls in your superclass, instead.</pre>
 
 <h2 id="label-0.7.2+-+2009-11-16">0.7.2 - 2009-11-16</h2>
 <ul><li>
-<p>Widget#url and #css accept optional extra attributes (e.g. ‘media’)</p>
+<p>Widget#url and #css accept optional extra attributes (e.g. &#39;media&#39;)</p>
 </li><li>
-<p>Externals accept optional extra attributes (e.g. ‘media’)</p>
+<p>Externals accept optional extra attributes (e.g. &#39;media&#39;)</p>
 </li><li>
 <p>Page:</p>
 <ul><li>
@@ -413,7 +448,7 @@ href="http://github.com/erector/erector/issues/closed#issue/3">github.com/erecto
 <p>now an InlineWidget</p>
 </li></ul>
 </li><li>
-<p>erector method passes in parameters to both to_s and the widget’s
+<p>erector method passes in parameters to both to_s and the widget&#39;s
 constructor</p>
 </li><li>
 <p>Widget#dom_id method to generate a unique id</p>
@@ -422,11 +457,11 @@ constructor</p>
 </li><li>
 <p>supports HTML5 element names</p>
 </li><li>
-<p>Widget#text! and #element! which don’t escape their parameters</p>
+<p>Widget#text! and #element! which don&#39;t escape their parameters</p>
 </li><li>
 <p>Better Rails initialization</p>
 </li><li>
-<p>Don’t emit an attribute with an empty array of values</p>
+<p>Don&#39;t emit an attribute with an empty array of values</p>
 </li><li>
 <p>Enhanced support for comments, including IE conditional comments</p>
 </li><li>
@@ -444,12 +479,12 @@ constructor</p>
 <p>EnvironmentBadge widget - inspired by <a
 href="http://blog.labnotes.org/2009/10/08/using-a-badge-to-distinguish-development-and-production-environments">blog.labnotes.org/2009/10/08/using-a-badge-to-distinguish-development-and-production-environments</a></p>
 </li><li>
-<p>added ‘jquery’ method to perform a script on $(document).ready</p>
+<p>added &#39;jquery&#39; method to perform a script on $(document).ready</p>
 </li><li>
 <p>removed the “alias_method :inspect, :to_s” since it made debugging inside
 widget constructors hard, and what was it for anyway?</p>
 </li><li>
-<p>Instance variables may begin with a ‘@’</p>
+<p>Instance variables may begin with a &#39;@&#39;</p>
 </li><li>
 <p>Fixed Rails integration regressions</p>
 </li><li>
@@ -469,13 +504,13 @@ inline semantics can upgrade more easily.</p>
 “Erector::RailsWidget.inline”.</p>
 </li><li>
 <p>Due to popular demand, parameters no longer automatically create accessor
-methods, even if you declare them with ‘needs’. You’ll have to type out
-“attr_accessor :underpants” yourself.</p>
+methods, even if you declare them with &#39;needs&#39;. You&#39;ll have to
+type out “attr_accessor :underpants” yourself.</p>
 </li></ul>
 
 <h2 id="label-0.6.8+%2F+2009-09">0.6.8 / 2009-09</h2>
 <ul><li>
-<p>Added missing tag ‘embed’</p>
+<p>Added missing tag &#39;embed&#39;</p>
 </li></ul>
 
 <h2 id="label-0.6.7+%2F+2009-06-17">0.6.7 / 2009-06-17</h2>
@@ -485,13 +520,13 @@ methods, even if you declare them with ‘needs’. You’ll have to type out
 
 <h2 id="label-0.6.6+%2F+2009-05-25">0.6.6 / 2009-05-25</h2>
 <ul><li>
-<p>fix to_a bug that slipped in yesterday when I wasn’t looking</p>
+<p>fix to_a bug that slipped in yesterday when I wasn&#39;t looking</p>
 </li><li>
 <p>attempting to assign a local variable that overlaps with an internal one
 raises error</p>
 </li><li>
-<p>attempting to ‘needs’ a variable that overlaps with an existing method
-raises error</p>
+<p>attempting to &#39;needs&#39; a variable that overlaps with an existing
+method raises error</p>
 </li></ul>
 
 <h2 id="label-0.6.4+%2F+2009-05-24">0.6.4 / 2009-05-24</h2>
@@ -506,7 +541,8 @@ and to_html a widget for you</p>
 </li><li>
 <p>no longer chokes on “if IE” directives</p>
 </li><li>
-<p>changes ‘yield’ in a scriptlet to use a missing “@content_for_layout”</p>
+<p>changes &#39;yield&#39; in a scriptlet to use a missing
+“@content_for_layout”</p>
 </li><li>
 <p>escapes single quotes inside text strings</p>
 </li></ul>
@@ -524,25 +560,25 @@ There are deprecation warnings/errors</p>
 
 <p>and there should be an upgrade guide up on the website soon.</p>
 <ul><li>
-<p>‘render’ renamed to ‘content’</p>
+<p>&#39;render&#39; renamed to &#39;content&#39;</p>
 </li><li>
-<p>widget constructor only takes one parameter, an ‘assigns’ hash (plus the
-optional default block)</p>
+<p>widget constructor only takes one parameter, an &#39;assigns&#39; hash
+(plus the optional default block)</p>
 </li><li>
-<p>to render one widget from inside another, use the ‘widget’ method (not
-‘render_to’). This method</p>
+<p>to render one widget from inside another, use the &#39;widget&#39; method
+(not &#39;render_to&#39;). This method</p>
 </li></ul>
 
 <p>accepts either a widget instance, or a widget class and an assigns hash.</p>
 <ul><li>
-<p>‘needs’ macro to declare the variables your widget accepts via the
-‘assigns’ constructor parameter</p>
+<p>&#39;needs&#39; macro to declare the variables your widget accepts via the
+&#39;assigns&#39; constructor parameter</p>
 </li><li>
 <p>Removed Widget#to_html caching, which fixed indentation issues.</p>
 </li><li>
 <p>BUGFIX: Indentation level is now correctly propagated to nested widgets.</p>
 </li><li>
-<p>Erector’s Rails support strategy has changed. The released version of
+<p>Erector&#39;s Rails support strategy has changed. The released version of
 Erector only supports the latest stable</p>
 </li></ul>
 
@@ -551,16 +587,16 @@ of Rails, there are separate Git branches for each one, but we will not be
 in the habit of keeping these up to date with the latest features and
 patches.</p>
 <ul><li>
-<p>Renamed the command line tool to ‘erector’</p>
+<p>Renamed the command line tool to &#39;erector&#39;</p>
 </li></ul>
 
 <h2 id="label-0.5.1">0.5.1</h2>
 <ul><li>
 <p>Added methods to easily render additional HTML elements (col, object, and
 about a dozen others).  There are now methods for all non-deprecated
-elements from the HTML 4.0.1 spec.  As before, if erector doesn’t have a
-method built-in, you can still call the element or empty_element method to
-output any tag.</p>
+elements from the HTML 4.0.1 spec.  As before, if erector doesn&#39;t have
+a method built-in, you can still call the element or empty_element method
+to output any tag.</p>
 </li><li>
 <p>The method instruct!, which was a deprecated synonym for instruct, has been
 removed.</p>
@@ -630,15 +666,15 @@ right</p>
 <p>More Rails helpers proxies added to helpers.rb.</p>
 </li><li>
 <p>Fake erbouts can now nest, allowing better support for Rails helpers like
-form_for (though they’re currently capped at 10 deep to head off infinite
-regress).</p>
+form_for (though they&#39;re currently capped at 10 deep to head off
+infinite regress).</p>
 </li><li>
 <p>Rails finds both .rb and .html.rb files inside the app/views directories.</p>
 </li><li>
 <p>Use Rails view_paths instead of hardcoded RAILS_ROOT/app/views (patch by
 Rami Grossman)</p>
 </li><li>
-<p>add ‘url’ and ‘css’ convenience methods to Widget</p>
+<p>add &#39;url&#39; and &#39;css&#39; convenience methods to Widget</p>
 </li></ul>
 
 <h3 id="label-0.2.83+%2F+2008-04-23">0.2.83 / 2008-04-23</h3>
@@ -685,8 +721,8 @@ views</p>
 <ul><li>
 <p>nbsp method</p>
 </li><li>
-<p>:class =&gt; [‘one’, ‘two’]  (that is, passing an array rather than a
-string)</p>
+<p>:class =&gt; [&#39;one&#39;, &#39;two&#39;]  (that is, passing an array
+rather than a string)</p>
 </li></ul>
 
 <p>… perhaps one or two I forgot.</p>
@@ -696,7 +732,7 @@ string)</p>
 <p>add empty_element feature</p>
 </li><li>
 <p>for the built-in HTML tags, knows which ones should be empty and which
-shouldn’t be. For example, generates `&lt;input /&gt;` rather than
+shouldn&#39;t be. For example, generates `&lt;input /&gt;` rather than
 `&lt;input&gt;&lt;/input&gt;`</p>
 </li><li>
 <p>text and attributes are quoted by default; call raw to avoid this</p>

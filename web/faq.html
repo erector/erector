@@ -33,19 +33,19 @@ h1 {
   padding: .25em;
   padding-left: 0px;
   margin-left: 0px;
-  text-shadow: #999999 1px 1px 1px; }
+  text-shadow: #999 1px 1px 1px; }
 
 h2 {
   margin-top: 2em;
   background: #FEFEEB;
   padding: .25em;
-  border: 1px solid #cccccc;
-  text-shadow: #999999 1px 1px 1px; }
+  border: 1px solid #CCC;
+  text-shadow: #999 1px 1px 1px; }
 
 pre {
   background-color: #f4f4FF;
   border: 1px solid gray;
-  padding: 0.5em 1em;
+  padding: .5em 1em;
   overflow: auto;
   font-family: Inconsolata, Consolas, "Andale Mono", "Lucida Console", "Lucida Sans Typewriter", "DejaVu Sans Mono", "Bitstream Vera Sans Mono", "Liberation Mono", "Nimbus Mono L", Monaco, "Courier New", Courier, monospace; }
 
@@ -102,8 +102,8 @@ div.navbar {
   overflow-vertical: auto;
   text-align: left;
   background-color: #A3D3D1;
-  border-top: 1px solid #6881ba;
-  border-bottom: 1px solid #6881ba; }
+  border-top: 1px solid #6881BA;
+  border-bottom: 1px solid #6881BA; }
   div.navbar h3 {
     margin-bottom: .25em; }
   div.navbar ul {
@@ -120,7 +120,7 @@ div.navbar {
     margin: 8px;
     padding: 4px 6px;
     /*  font-variant: small-caps;*/
-    border: 2px solid #6881ba; }
+    border: 2px solid #6881BA; }
     div.navbar li.clickable a, div.navbar li.clickable a:visited {
       text-decoration: none;
       /*font-weight: bold;*/
@@ -163,13 +163,13 @@ div.navbar {
 
 /* article */
 div.toc {
-  margin: 1em 0.25em;
+  margin: 1em .25em;
   display: inline-block;
   border: 1px solid black; }
   div.toc h2 {
     margin: 0; }
   div.toc ul, div.toc ol {
-    padding: 0.25em 1em; }
+    padding: .25em 1em; }
 
 .promo_wrapper {
   float: right; }
@@ -181,14 +181,14 @@ div.promo_wrapper {
 
 div.promo {
   display: inline-block;
-  border: 2px solid #6881ba;
+  border: 2px solid #6881BA;
   text-align: center;
   background: white; }
   div.promo img {
     border: 2px solid black;
     margin: 2px; }
   div.promo p {
-    padding: 0.25em 0.5em; }
+    padding: .25em .5em; }
 
 /* example */
 div.example {
@@ -214,15 +214,15 @@ div.example {
     <div class="top">      <div class="logo"><a href="index.html"><img src="erector-logo.png" /></a></div>
     </div>
     <div class="navbar">      <ul class="clickable">
-        <li class="clickable" onclick="document.location='index.html'"><a href="index.html">Home</a></li>
-        <li class="clickable" onclick="document.location='userguide.html'"><a href="userguide.html">User Guide</a></li>
-        <li class="clickable" onclick="document.location='rails.html'"><a href="rails.html">Erector On Rails</a></li>
-        <li class="clickable current" onclick="document.location='faq.html'"><a href="faq.html">FAQ</a></li>
-        <li class="clickable" onclick="document.location='cheatsheet.html'"><a href="cheatsheet.html">Cheatsheet</a></li>
-        <li class="clickable" onclick="document.location='rdoc'"><a href="rdoc">RDoc API</a></li>
-        <li class="clickable" onclick="document.location='developers.html'"><a href="developers.html">For Developers</a></li>
-        <li class="clickable" onclick="document.location='release_notes.html'"><a href="release_notes.html">Release Notes</a></li>
-        <li class="clickable" onclick="document.location='community.html'"><a href="community.html">Community</a></li>
+        <li class="clickable" onclick="document.location=&#39;index.html&#39;"><a href="index.html">Home</a></li>
+        <li class="clickable" onclick="document.location=&#39;userguide.html&#39;"><a href="userguide.html">User Guide</a></li>
+        <li class="clickable" onclick="document.location=&#39;rails.html&#39;"><a href="rails.html">Erector On Rails</a></li>
+        <li class="clickable current" onclick="document.location=&#39;faq.html&#39;"><a href="faq.html">FAQ</a></li>
+        <li class="clickable" onclick="document.location=&#39;cheatsheet.html&#39;"><a href="cheatsheet.html">Cheatsheet</a></li>
+        <li class="clickable" onclick="document.location=&#39;rdoc&#39;"><a href="rdoc">RDoc API</a></li>
+        <li class="clickable" onclick="document.location=&#39;developers.html&#39;"><a href="developers.html">For Developers</a></li>
+        <li class="clickable" onclick="document.location=&#39;release_notes.html&#39;"><a href="release_notes.html">Release Notes</a></li>
+        <li class="clickable" onclick="document.location=&#39;community.html&#39;"><a href="community.html">Community</a></li>
       </ul>
     </div>
     <div class="promo_wrapper">      <div class="promo"><img src="images/the-mysto-erector.jpg" /></div>
@@ -240,7 +240,7 @@ div.example {
               <li><a href="#howdoeserectorstackupagainsthaml">How does Erector stack up against HAML?</a></li>
               <li><a href="#howdoiuselayouts">How do I use layouts?</a></li>
               <li><a href="#howfastiserectorcomparedtoerbhamletc">How fast is Erector compared to ERB, HAML, etc.?</a></li>
-              <li><a href="#whydontmorepeopleuseerector">Why don't more people use Erector?</a></li>
+              <li><a href="#whydontmorepeopleuseerector">Why don&#39;t more people use Erector?</a></li>
             </ol>
           </div>
           <div class="clear"></div>
@@ -273,39 +273,39 @@ div.example {
             </ul>
             <a name="wherearesomeexamples"></a>
             <h2>4. Where are some examples?</h2>
-            <p>This very web site you're reading right now is built with Erector, using the <a href="userguide.html#tool">erector</a> command-line tool. See the <a href="http://github.com/erector/erector">repository</a> (especially the web directory).</p>
+            <p>This very web site you&#39;re reading right now is built with Erector, using the <a href="userguide.html#tool">erector</a> command-line tool. See the <a href="http://github.com/erector/erector">repository</a> (especially the web directory).</p>
             <p>We also have several examples checked in to the repository in the examples directory.</p>
             <p>At RailsConf 2009 Alex whipped up a simple Sinatra + Erector + ActiveRecord webapp called <a href="http://github.com/alexch/vegas">Vegas</a>. Caveat lector.</p>
-            <p>Currently we don't know of any open-source projects built with Erector so we can't show you working source code for a full Erector webapp. And client confidentiality keeps us from saying which of the <a href="http://pivotallabs.com/clients">Pivotal Labs</a> project were built with Erector. But trust us, they're out there.</p>
+            <p>Currently we don&#39;t know of any open-source projects built with Erector so we can&#39;t show you working source code for a full Erector webapp. And client confidentiality keeps us from saying which of the <a href="http://pivotallabs.com/clients">Pivotal Labs</a> project were built with Erector. But trust us, they&#39;re out there.</p>
             <a name="howdoeserectorstackupagainstmarkaby"></a>
             <h2>5. How does Erector stack up against Markaby?</h2>
-            <p>We loved <a href="http://code.whytheluckystiff.net/markaby/">Markaby</a> when we first saw it, since it transformed the gnarliness of Rails' ERB views into a clean, functional programming lanugage where views are primarily code with ways to emit HTML, rather than HTML with ways to hack in code. However, we soon realized Markaby had two main flaws:
+            <p>We loved <a href="http://code.whytheluckystiff.net/markaby/">Markaby</a> when we first saw it, since it transformed the gnarliness of Rails&#39; ERB views into a clean, functional programming lanugage where views are primarily code with ways to emit HTML, rather than HTML with ways to hack in code. However, we soon realized Markaby had two main flaws:
               <ol>
-                <li>It didn't go quite far enough down the OO road -- Markaby views are still fragments, not classes</li>
-                <li>Its use of instance_eval and capture, as well as a view's functional-but-not-quite-an-object nature, led to too much magic and made it very difficult to debug</li>
+                <li>It didn&#39;t go quite far enough down the OO road -- Markaby views are still fragments, not classes</li>
+                <li>Its use of instance_eval and capture, as well as a view&#39;s functional-but-not-quite-an-object nature, led to too much magic and made it very difficult to debug</li>
               </ol>
             </p>
             <p>Erector was conceived as a natural evolution of Markaby, but overcoming these two flaws. We think Erector can do pretty much everything Markaby can; if you find a counterexample, please let us know on the <a href="http://googlegroups.com/group/erector"> mailing list</a>.</p>
             <a name="howdoeserectorstackupagainsthaml"></a>
             <h2>6. How does Erector stack up against HAML?</h2>
-            <p><a href="http://haml.hamptoncatlin.com/">HAML</a> is beautiful. But it suffers from the same design flaw (or, some would say, advantage) as every templating technology: views are not objects, and markup isn't code. But views want to do codey things like loops and variables and modular decomposition and inheritance, and every effort to wedge control logic into markup ends up smelling like a hack. There's always going to be some algorithmic idiom that's awkward in a template language. We figure, why deny it? Code is code. Embrace your true nature! Lick your screen and taste the code!</p>
+            <p><a href="http://haml.hamptoncatlin.com/">HAML</a> is beautiful. But it suffers from the same design flaw (or, some would say, advantage) as every templating technology: views are not objects, and markup isn&#39;t code. But views want to do codey things like loops and variables and modular decomposition and inheritance, and every effort to wedge control logic into markup ends up smelling like a hack. There&#39;s always going to be some algorithmic idiom that&#39;s awkward in a template language. We figure, why deny it? Code is code. Embrace your true nature! Lick your screen and taste the code!</p>
             <a name="howdoiuselayouts"></a>
             <h2>7. How do I use layouts?</h2>
-            <p>Rails has a concept of layouts, which are essentially skeletons for a page, which get fleshed out by views. This is a powerful mechanism for rendering web pages; however, the mechanism Rails uses (via content_for and yield) is fundamentally incompatible with Erector's &quot;just call the content method&quot; design.</p>
-            <p>We recommend a slightly different approach, known officially as the <a href="http://en.wikipedia.org/wiki/Template_method_pattern">Template Method Design Pattern</a>: define a parent class (e.g. Page) and have your view widgets extend this class rather than directly extending Erector::Widget. The parent class implements content, and calls down to the child class to render sections or acquire information that's specific to that view.</p>
-            <p>For an example with source code, see <a href="userguide.html#layoutinheritance">the user guide</a>. Also see Alex Chaffee's Page base class, at <a href="http://gist.github.com/103976"> this gist snippet</a> (which we may soon integrate into Erector proper).</p>
+            <p>Rails has a concept of layouts, which are essentially skeletons for a page, which get fleshed out by views. This is a powerful mechanism for rendering web pages; however, the mechanism Rails uses (via content_for and yield) is fundamentally incompatible with Erector&#39;s &quot;just call the content method&quot; design.</p>
+            <p>We recommend a slightly different approach, known officially as the <a href="http://en.wikipedia.org/wiki/Template_method_pattern">Template Method Design Pattern</a>: define a parent class (e.g. Page) and have your view widgets extend this class rather than directly extending Erector::Widget. The parent class implements content, and calls down to the child class to render sections or acquire information that&#39;s specific to that view.</p>
+            <p>For an example with source code, see <a href="userguide.html#layoutinheritance">the user guide</a>. Also see Alex Chaffee&#39;s Page base class, at <a href="http://gist.github.com/103976"> this gist snippet</a> (which we may soon integrate into Erector proper).</p>
             <a name="howfastiserectorcomparedtoerbhamletc"></a>
             <h2>8. How fast is Erector compared to ERB, HAML, etc.?</h2>
             <p><a href="http://github.com/alexch/erector-benchmark">Initial benchmarking tests</a> show that Erector is about 2x as fast as ERB and 4x as fast as HAML under typical conditions.
               <p>The main architectural benefits of Erector from a performance standpoint are:</p>
               <p><b>Parsed by Ruby.</b> Since Erector widgets are Ruby classes, the native-code Ruby interpreter compiles them during classload time, not a parser written <b>in</b> Ruby at runtime.</p>
-              <p><b>Append &gt; Copy. </b> Many templating systems are casual about whether a particular operation <b>returns</b> a string, or <b>appends</b> to an output stream. This can lead to wasteful copying and reallocation. In Erector, all operations concatenate their result to a single output buffer, even when calling nested widgets (via the<code>widget</code> method). If you choose to, you can use Erector's <code>capture</code> method for explicit string conversion, but by default we use the faster way.</p>
-              <p><b>Methods, not Partials.</b> In ERB and HAML, modular decomposition is accomplished by separating reused code into separate template files. In addition to being aesthetically problematic, encouraging you to move related code into separate places, it also introduces a performance problem, since every partial may be rendered into a string. (Although sometimes it's not, which is just weird.)</p>
+              <p><b>Append &gt; Copy. </b> Many templating systems are casual about whether a particular operation <b>returns</b> a string, or <b>appends</b> to an output stream. This can lead to wasteful copying and reallocation. In Erector, all operations concatenate their result to a single output buffer, even when calling nested widgets (via the<code>widget</code> method). If you choose to, you can use Erector&#39;s <code>capture</code> method for explicit string conversion, but by default we use the faster way.</p>
+              <p><b>Methods, not Partials.</b> In ERB and HAML, modular decomposition is accomplished by separating reused code into separate template files. In addition to being aesthetically problematic, encouraging you to move related code into separate places, it also introduces a performance problem, since every partial may be rendered into a string. (Although sometimes it&#39;s not, which is just weird.)</p>
             </p>
-            <p>We should point out, of course, that the choice of templating engines by itself is not what will make your application scalable. The effectiveness of your caching policy will dwarf that of your rendering engine in nearly all cases. But it's fun to know we've got a pretty fast horse in this particular race...</p>
+            <p>We should point out, of course, that the choice of templating engines by itself is not what will make your application scalable. The effectiveness of your caching policy will dwarf that of your rendering engine in nearly all cases. But it&#39;s fun to know we&#39;ve got a pretty fast horse in this particular race...</p>
             <a name="whydontmorepeopleuseerector"></a>
-            <h2>9. Why don't more people use Erector?</h2>
-            <p>See <a href="http://www.quora.com/Why-dont-more-people-use-Erector">Why don't more people use Erector?</a> at Quora.</p>
+            <h2>9. Why don&#39;t more people use Erector?</h2>
+            <p>See <a href="http://www.quora.com/Why-dont-more-people-use-Erector">Why don&#39;t more people use Erector?</a> at Quora.</p>
           </div>
         </div>
       </div>

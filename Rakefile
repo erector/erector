@@ -1,4 +1,5 @@
 puts "RUBY_VERSION=#{RUBY_VERSION}"
+$here = File.dirname(__FILE__)
 
 begin
   # fix http://stackoverflow.com/questions/4932881/gemcutter-rake-build-now-throws-undefined-method-write-for-syckemitter
@@ -53,21 +54,31 @@ task :clean_rdoc do
   FileUtils.rm_rf("rdoc")
 end
 
-desc "Publish web site and docs to RubyForge"
+desc "Publish web site and docs to GitHub Pages"
 task :publish => [:web, :docs] do
-  config = YAML.load(File.read(File.expand_path("~/.rubyforge/user-config.yml")))
-  host = "#{config["username"]}@rubyforge.org"
-  rubyforge_name = "erector"
-  remote_dir = "/var/www/gforge-projects/#{rubyforge_name}"
-  local_dir = "web"
-  rdoc_dir = "rdoc"
-  rsync_args = '--archive --verbose --delete'
 
-  puts "== Publishing web site to RubyForge"
-  sh %{rsync #{rsync_args} --exclude=#{rdoc_dir} #{local_dir}/ #{host}:#{remote_dir}}
+  # create a temporary clone of the current repository,
+  # create a gh-pages branch if one doesn't already exist,
+  # copy over all files from the web directory
+  # copy over all files from the rdoc directory
+  # commit all changes,
+  # push to the origin remote
 
-  puts "== Publishing rdoc to RubyForge"
-  sh %{rsync #{rsync_args} #{rdoc_dir}/ #{host}:#{remote_dir}/rdoc}
+  origin = `git config --get remote.origin.url`
+  repo="/tmp/erector-web-repo"
+  origin="git@github.com:erector/erector.git"
+  sh "rm -rf #{repo}" rescue nil
+  sh "git clone --no-checkout --local --branch gh-pages --single-branch -o local -- #{$here} #{repo}"
+  sh "rm -r #{repo}/*" rescue nil
+  sh "cp -r #{$here}/web/* #{repo}"
+  sh "cp -r #{$here}/rdoc #{repo}"
+  Dir.chdir(repo) do
+    sh "git remote add origin #{origin}"
+    sh "git add -A"
+    sh "git commit -m 'publish erector website' #{repo}"
+    sh "git push origin gh-pages"
+  end
+
 end
 
 

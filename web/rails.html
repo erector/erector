@@ -33,19 +33,19 @@ h1 {
   padding: .25em;
   padding-left: 0px;
   margin-left: 0px;
-  text-shadow: #999999 1px 1px 1px; }
+  text-shadow: #999 1px 1px 1px; }
 
 h2 {
   margin-top: 2em;
   background: #FEFEEB;
   padding: .25em;
-  border: 1px solid #cccccc;
-  text-shadow: #999999 1px 1px 1px; }
+  border: 1px solid #CCC;
+  text-shadow: #999 1px 1px 1px; }
 
 pre {
   background-color: #f4f4FF;
   border: 1px solid gray;
-  padding: 0.5em 1em;
+  padding: .5em 1em;
   overflow: auto;
   font-family: Inconsolata, Consolas, "Andale Mono", "Lucida Console", "Lucida Sans Typewriter", "DejaVu Sans Mono", "Bitstream Vera Sans Mono", "Liberation Mono", "Nimbus Mono L", Monaco, "Courier New", Courier, monospace; }
 
@@ -102,8 +102,8 @@ div.navbar {
   overflow-vertical: auto;
   text-align: left;
   background-color: #A3D3D1;
-  border-top: 1px solid #6881ba;
-  border-bottom: 1px solid #6881ba; }
+  border-top: 1px solid #6881BA;
+  border-bottom: 1px solid #6881BA; }
   div.navbar h3 {
     margin-bottom: .25em; }
   div.navbar ul {
@@ -120,7 +120,7 @@ div.navbar {
     margin: 8px;
     padding: 4px 6px;
     /*  font-variant: small-caps;*/
-    border: 2px solid #6881ba; }
+    border: 2px solid #6881BA; }
     div.navbar li.clickable a, div.navbar li.clickable a:visited {
       text-decoration: none;
       /*font-weight: bold;*/
@@ -163,13 +163,13 @@ div.navbar {
 
 /* article */
 div.toc {
-  margin: 1em 0.25em;
+  margin: 1em .25em;
   display: inline-block;
   border: 1px solid black; }
   div.toc h2 {
     margin: 0; }
   div.toc ul, div.toc ol {
-    padding: 0.25em 1em; }
+    padding: .25em 1em; }
 
 .promo_wrapper {
   float: right; }
@@ -181,14 +181,14 @@ div.promo_wrapper {
 
 div.promo {
   display: inline-block;
-  border: 2px solid #6881ba;
+  border: 2px solid #6881BA;
   text-align: center;
   background: white; }
   div.promo img {
     border: 2px solid black;
     margin: 2px; }
   div.promo p {
-    padding: 0.25em 0.5em; }
+    padding: .25em .5em; }
 
 /* example */
 div.example {
@@ -214,15 +214,15 @@ div.example {
     <div class="top">      <div class="logo"><a href="index.html"><img src="erector-logo.png" /></a></div>
     </div>
     <div class="navbar">      <ul class="clickable">
-        <li class="clickable" onclick="document.location='index.html'"><a href="index.html">Home</a></li>
-        <li class="clickable" onclick="document.location='userguide.html'"><a href="userguide.html">User Guide</a></li>
-        <li class="clickable current" onclick="document.location='rails.html'"><a href="rails.html">Erector On Rails</a></li>
-        <li class="clickable" onclick="document.location='faq.html'"><a href="faq.html">FAQ</a></li>
-        <li class="clickable" onclick="document.location='cheatsheet.html'"><a href="cheatsheet.html">Cheatsheet</a></li>
-        <li class="clickable" onclick="document.location='rdoc'"><a href="rdoc">RDoc API</a></li>
-        <li class="clickable" onclick="document.location='developers.html'"><a href="developers.html">For Developers</a></li>
-        <li class="clickable" onclick="document.location='release_notes.html'"><a href="release_notes.html">Release Notes</a></li>
-        <li class="clickable" onclick="document.location='community.html'"><a href="community.html">Community</a></li>
+        <li class="clickable" onclick="document.location=&#39;index.html&#39;"><a href="index.html">Home</a></li>
+        <li class="clickable" onclick="document.location=&#39;userguide.html&#39;"><a href="userguide.html">User Guide</a></li>
+        <li class="clickable current" onclick="document.location=&#39;rails.html&#39;"><a href="rails.html">Erector On Rails</a></li>
+        <li class="clickable" onclick="document.location=&#39;faq.html&#39;"><a href="faq.html">FAQ</a></li>
+        <li class="clickable" onclick="document.location=&#39;cheatsheet.html&#39;"><a href="cheatsheet.html">Cheatsheet</a></li>
+        <li class="clickable" onclick="document.location=&#39;rdoc&#39;"><a href="rdoc">RDoc API</a></li>
+        <li class="clickable" onclick="document.location=&#39;developers.html&#39;"><a href="developers.html">For Developers</a></li>
+        <li class="clickable" onclick="document.location=&#39;release_notes.html&#39;"><a href="release_notes.html">Release Notes</a></li>
+        <li class="clickable" onclick="document.location=&#39;community.html&#39;"><a href="community.html">Community</a></li>
       </ul>
     </div>
     <div class="promo_wrapper">      <div class="promo"><img src="images/erectorhudson.jpeg" /></div>
@@ -247,16 +247,16 @@ div.example {
           <div class="sections">
             <a name="install"></a>
             <h2>1. Install</h2>
-            <p>To install as a gem, add <code>gem 'erector'</code> to your <code>Gemfile</code>, then add <code>require 'erector'</code> to <code>environment.rb</code>.</p>
+            <p>To install as a gem, add <code>gem &#39;erector&#39;</code> to your <code>Gemfile</code>, then add <code>require &#39;erector&#39;</code> to <code>environment.rb</code>.</p>
             <p>To install as a Rails plugin, copy the erector source to <code>vendor/plugins/erector</code> in your project directory. When installing this way, erector is automatically available to your Rails code (no require directive is needed).</p>
             <a name="rails"></a>
             <h2>2. Using Erector from Ruby on Rails</h2>
-            <p>Your views are just ruby classes.  Your controller can either call Rails' <code>render :template</code> method as usual, or directly instantiate the view class and call its content method.</p>
+            <p>Your views are just ruby classes.  Your controller can either call Rails&#39; <code>render :template</code> method as usual, or directly instantiate the view class and call its content method.</p>
             <p>For example:</p>
             <code>app/controllers/welcome_controller.rb:</code>
             <pre class="sh_ruby">class WelcomeController &lt; ApplicationController
   def index
-    render :template =&gt; 'welcome/show'
+    render :template =&gt; &#39;welcome/show&#39;
   end
 end
 </pre>
@@ -274,21 +274,21 @@ end
   end
 end
 </pre>
-            <p>For Rails to find these .rb files during <code>render :template</code>, you must first either copy the erector source to <code>vendor/plugins/erector</code>, or add <code>require 'erector'</code> to <code>config/environment.rb</code>. You also should delete (or rename) any other view files with the same base name that might be getting in the way.</p>
+            <p>For Rails to find these .rb files during <code>render :template</code>, you must first either copy the erector source to <code>vendor/plugins/erector</code>, or add <code>require &#39;erector&#39;</code> to <code>config/environment.rb</code>. You also should delete (or rename) any other view files with the same base name that might be getting in the way.</p>
             <p>You must also add app to the class load path. Put this line into <code>config/application.rb</code>
               <pre>config.autoload_paths += %W(#{config.root}/app)</pre>
             </p>
             <p>Currently there is only partial support for some standard Rails features like partials, layouts, assigns, and helpers. Check the <a href="http://googlegroups.com/group/erector">erector Google Groups mailing list</a> for status updates on these features.</p>
             <a name="tool"></a>
             <h2>3. Erector tool: Command-line conversion to and from HTML</h2>
-            <p>To make Rails integration as smooth as possible, we've written a little tool that will help you
-      erect your existing Rails app. The 'erector' tool will convert HTML or HTML/ERB into an Erector class.
+            <p>To make Rails integration as smooth as possible, we&#39;ve written a little tool that will help you
+      erect your existing Rails app. The &#39;erector&#39; tool will convert HTML or HTML/ERB into an Erector class.
       It ships as part of the Erector gem, so to try it out, install the gem, then run</p>
             <pre>erector app/views/foos/*.html.erb</pre>
             <p>or just</p>
             <pre>erector app/views</pre>
-            <p>and then delete the original files when you're satisfied.</p>
-            <p>Here's a little command-line howto for erecting a scaffold Rails app:</p>
+            <p>and then delete the original files when you&#39;re satisfied.</p>
+            <p>Here&#39;s a little command-line howto for erecting a scaffold Rails app:</p>
             <pre class="sh_sh"># create a toy Rails app
 rails foo
 cd foo
@@ -301,14 +301,14 @@ erector app/views/posts
 rm app/views/posts/*.erb
 
 # a little configuration step
-(echo &quot;&quot;; echo &quot;require 'erector'&quot;) &gt;&gt; config/environment.rb
+(echo &quot;&quot;; echo &quot;require &#39;erector&#39;&quot;) &gt;&gt; config/environment.rb
 
 # launch the app and make sure it works
 rake db:migrate
 script/server
 open http://localhost:3000/posts
 </pre>
-            <p>On the erector-to-html side, pass in the <code>--to-html</code>option and some file names and it will render the erector widgets to appropriately-named HTML files. We're actually using <code>erector</code> to build this Erector documentation web site that you're reading <b>right now.</b> Check out the 'web' directory and the 'web' task in the Rakefile to see how it's done.</p>
+            <p>On the erector-to-html side, pass in the <code>--to-html</code>option and some file names and it will render the erector widgets to appropriately-named HTML files. We&#39;re actually using <code>erector</code> to build this Erector documentation web site that you&#39;re reading <b>right now.</b> Check out the &#39;web&#39; directory and the &#39;web&#39; task in the Rakefile to see how it&#39;s done.</p>
             <a name="pagelayoutinheritance"></a>
             <h2>4. Page Layout Inheritance</h2>
             <p>Erector replaces the typical Rails layout mechanism with a more natural construct, the use of inheritance. Want a common
@@ -377,7 +377,7 @@ end
             <p>To use layout inheritance in Rails, declare <code>layout nil</code> in <code>app/controllers/application.rb</code> (or in an individual controller class) and then define your Page parent class as <code>class Views::Layouts::Page</code> in <code>app/views/layouts</code> as usual.</p>
             <a name="erectorwidgetsasrailslayouts"></a>
             <h2>5. Erector Widgets as Rails Layouts</h2>
-            <p>To use an Erector widget as a regular Rails layout, you'll have to set things up a bit differently.<br />
+            <p>To use an Erector widget as a regular Rails layout, you&#39;ll have to set things up a bit differently.<br />
               <code>app/views/layouts/application.rb:</code>
               <pre class="sh_ruby">class Views::Layouts::Application &lt; Erector::Widget
   def content
@@ -435,34 +435,34 @@ end
 the view, and also to any partial
 that gets rendered by the view, no matter how deeply-nested. This effectively
 makes controller instance variables &quot;globals&quot;. In small view hierarchies this
-probably isn't an issue, but in large ones it can make debugging and
+probably isn&#39;t an issue, but in large ones it can make debugging and
 reasoning about the code very difficult.
 </p>
             <p>Often, large Rails applications will assign many controller instance variables.
-Sometimes these aren't used by a view: ApplicationController might assign
+Sometimes these aren&#39;t used by a view: ApplicationController might assign
 variables that are used by many, but not all, views; and various other things
-may accumulate, especially if you've been using templating systems that are
-more forgiving than Erector. Erector's &quot;needs&quot; mechanism helps enforce
+may accumulate, especially if you&#39;ve been using templating systems that are
+more forgiving than Erector. Erector&#39;s &quot;needs&quot; mechanism helps enforce
 stricter encapsulation. But if you migrate from a promiscuous Rails app
-to Erector, you're stuck using
+to Erector, you&#39;re stuck using
 no &quot;needs&quot; declaration at all, because it needs to contain every assigned
 variable, or Erector will raise an exception.
 </p>
             <p>Two widget-class-level settings can help you with these problems.</p>
             <h3>controller_assigns_propagate_to_partials</h3>
-            <p>If you set this to true (and it's inherited through to subclasses), then any
-widget that's getting rendered as a partial will only have access to locals
+            <p>If you set this to true (and it&#39;s inherited through to subclasses), then any
+widget that&#39;s getting rendered as a partial will only have access to locals
 explicitly passed to it (render :partial =&gt; ..., :locals =&gt; ...). (This
-doesn't change the behavior of widgets that are explicitly rendered, as they
-don't have this issue.) This can allow for cleaner encapsulation of partials,
-as they must be passed everything they use and can't rely on controller
+doesn&#39;t change the behavior of widgets that are explicitly rendered, as they
+don&#39;t have this issue.) This can allow for cleaner encapsulation of partials,
+as they must be passed everything they use and can&#39;t rely on controller
 instance variables.
 </p>
             <h3>ignore_extra_controller_assigns</h3>
-            <p>If you set this to true (and it's inherited through to subclasses), however,
+            <p>If you set this to true (and it&#39;s inherited through to subclasses), however,
 then &quot;needs&quot; declarations on the widget will cause excess controller variables
-to be ignored -- they'll be unavailable to the widget (so 'needs' still means
-something), but they won't cause widget instantiation to fail, either. This
+to be ignored -- they&#39;ll be unavailable to the widget (so &#39;needs&#39; still means
+something), but they won&#39;t cause widget instantiation to fail, either. This
 can let a large Rails project transition to Erector more smoothly.
 </p>
             <a name="moreaboutrails"></a>
