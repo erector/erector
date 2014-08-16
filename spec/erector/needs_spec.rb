@@ -15,6 +15,14 @@ describe Erector::Needs do
     lambda { Thing2.new(:foo => 1) }.should raise_error(ArgumentError)
   end
 
+  it "doesn't support needs 'string'" do
+    expect {
+      class Thing2 < Erector::Widget
+        needs 'asdf'
+      end
+    }.to raise_error
+  end
+
   it "doesn't complain if you pass it a declared parameter" do
     class Thing2b < Erector::Widget
       needs :foo
@@ -137,5 +145,15 @@ describe Erector::Needs do
       needs :text
     end
     lambda { ThingWithOverlap.new(:text => "alas") }.should_not raise_error
+  end
+
+  # https://github.com/ajb/erector-rails4/issues/23
+  # ...but this is passing?
+  it 'can need variables of the same name as the class' do
+    class Post < Erector::Widget
+      needs :post
+    end
+    view = Post.new(post: { foo: 'bar' })
+    view.instance_variable_get(:@post)[:foo].should == 'bar'
   end
 end
