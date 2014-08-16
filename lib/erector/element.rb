@@ -86,7 +86,7 @@ module Erector
 
       attributes ||= {}
       promise = if !value.nil?
-        Promise.new(output, tag_name,  attributes, false, newliney?(tag_name)) do
+        Promise.new(output, tag_name,  attributes, false, self.class.newliney?(tag_name)) do
           if value.is_a? AbstractWidget
             widget value
           else
@@ -94,16 +94,16 @@ module Erector
           end
         end
       elsif block
-        Promise.new(output, tag_name, attributes, false, newliney?(tag_name), &block)
+        Promise.new(output, tag_name, attributes, false, self.class.newliney?(tag_name), &block)
       else
-        Promise.new(output, tag_name, attributes, false, newliney?(tag_name))
+        Promise.new(output, tag_name, attributes, false, self.class.newliney?(tag_name))
       end
       promise._render
       promise
     end
 
     def _empty_element(tag_name, attributes={})
-      promise = Promise.new(output, tag_name, attributes, true, newliney?(tag_name))
+      promise = Promise.new(output, tag_name, attributes, true, self.class.newliney?(tag_name))
       promise._render
       promise
     end

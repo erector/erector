@@ -8,8 +8,8 @@ describe "indentation" do
     widget.instance_eval do
       @prettyprint = true
     end
-    widget.send(:newliney?, "i").should == false
-    widget.send(:newliney?, "table").should == true
+    widget.class.send(:newliney?, "i").should == false
+    widget.class.send(:newliney?, "table").should == true
   end
 
   it "should not add newline for non-newliney tags" do
