@@ -28,6 +28,7 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'appraisal', '1.0.0'
   s.add_development_dependency 'coveralls', '0.7.0'
   s.add_development_dependency 'haml', '4.0.5'
+  s.add_development_dependency 'guard-rspec', '4.3.1'
   s.add_development_dependency 'nokogiri', '1.6.1'
   s.add_development_dependency 'rr', '1.1.2'
   s.add_development_dependency 'rspec-rails', '2.14.2'
