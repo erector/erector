@@ -61,7 +61,9 @@ module Erector
       end
 
       def needed_variables
-        @needed_variables ||= get_needs.map{|need| need.is_a?(Hash) ? need.keys : need}.flatten
+        @needed_variables ||= get_needs.map { |need|
+          need.is_a?(Hash) ? need.keys : need
+        }.flatten
       end
 
       def needed_defaults
