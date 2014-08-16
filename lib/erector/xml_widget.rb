@@ -9,21 +9,18 @@ module Erector
   class XMLWidget < AbstractWidget
     include Needs
 
+    def self.inherited(subclass)
+      super
+      subclass.add_tags(@tags) if @tags
+    end
+
     def self.tag_named tag_name, checked = []
+      @tags && @tags[tag_name]
+    end
+
+    def self.add_tags(tags)
       @tags ||= {}
-      @tags[tag_name] || begin
-        tag = nil
-        checked << self
-        taggy_ancestors = (ancestors - checked).select{|k| k.respond_to? :tag_named}
-        taggy_ancestors.each do |k|
-          tag = k.tag_named(tag_name, checked)
-          if tag
-            @tags[tag_name] = tag
-            break
-          end
-        end
-        tag
-      end
+      @tags = @tags.merge(tags)
     end
 
     def self.tag *args
@@ -65,9 +62,8 @@ module Erector
       @tags.values.select{|tag| !tag.self_closing?}.map{|tag| tag.name}
     end
 
-    def newliney?(tag_name)
-      tag = self.class.tag_named tag_name
-      if tag
+    def self.newliney?(tag_name)
+      if (tag = self.tag_named(tag_name))
         tag.newliney?
       else
         true
