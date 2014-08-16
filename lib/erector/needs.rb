@@ -36,19 +36,28 @@ module Erector
       #   FancyForm.new(:name => 'Login')
       # will fail.
       #
+      def inherited(subclass)
+        subclass.needs(*self.get_needs)
+      end
+
       def needs(*args)
+        @needs ||= []
+
         args.each do |arg|
-          (@needs ||= []) << (arg.nil? ? nil : (arg.is_a? Hash) ? arg : arg.to_sym)
+          @needs.push(if arg.nil?
+            nil
+          elsif arg.is_a? Hash
+            arg
+          elsif arg.is_a? Symbol
+            arg
+          else
+            fail 'arguments passed to :needs must be Nil, a Hash, or a Symbol'
+          end)
         end
       end
 
       def get_needs
-        @needs ||= []
-
-        ancestors[1..-1].inject(@needs.dup) do |needs, ancestor|
-          needs.push(*ancestor.get_needs) if ancestor.respond_to?(:get_needs)
-          needs
-        end
+        @needs || []
       end
 
       def needed_variables
