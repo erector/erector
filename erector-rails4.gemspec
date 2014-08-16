@@ -8,7 +8,7 @@ Gem::Specification.new do |s|
   s.name = "erector-rails4"
   s.version = Erector::VERSION
 
-  s.required_ruby_version = Gem::Requirement.new('>= 2.0.0')
+  s.required_ruby_version = Gem::Requirement.new('>= 1.9.3')
   s.authors = ["Alex Chaffee", "Brian Takita", "Jeff Dean", "Jim Kingdon", "John Firebaugh", "Adam Becker"]
   s.summary = "Erector, for Rails 4"
   s.description = "This is a fork of Erector, updated for Rails 4."
@@ -24,6 +24,7 @@ Gem::Specification.new do |s|
   s.add_dependency 'rails', '>= 3.0.0'
   s.add_dependency 'treetop'
 
+  s.add_development_dependency 'allocation_stats', '0.1.5'
   s.add_development_dependency 'appraisal', '1.0.0'
   s.add_development_dependency 'coveralls', '0.7.0'
   s.add_development_dependency 'haml', '4.0.5'
