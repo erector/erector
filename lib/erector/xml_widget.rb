@@ -14,7 +14,7 @@ module Erector
       subclass.add_tags(@tags) if @tags
     end
 
-    def self.tag_named tag_name, checked = []
+    def self.tag_named(tag_name)
       @tags && @tags[tag_name]
     end
 
@@ -23,7 +23,7 @@ module Erector
       @tags = @tags.merge(tags)
     end
 
-    def self.tag *args
+    def self.tag(*args)
       tag = Tag.new(*args)
       @tags ||= {}
       @tags[tag.name] = tag
