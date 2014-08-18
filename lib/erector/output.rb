@@ -28,9 +28,7 @@ module Erector
     end
 
     def <<(s)
-      # raise s.inspect unless s.is_a? String
-      #
-      s = s.to_s unless s.is_a? String
+      s = s.to_s
       append_indentation
       if @max_length && s.length + @current_line_length > @max_length
         leading_spaces = s =~ /^( +)/ ? $1.size : 0
