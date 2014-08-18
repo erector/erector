@@ -18,7 +18,7 @@ Gem::Specification.new do |s|
   s.files = `git ls-files`.split("\n")
   s.test_files = `git ls-files -- {features,spec}/*`.split("\n")
 
-  s.homepage = "http://github.com/adamjacobbecker/erector-rails4"
+  s.homepage = "http://github.com/ajb/erector-rails4"
   s.require_paths = ["lib"]
 
   s.add_dependency 'rails', '>= 3.0.0'
