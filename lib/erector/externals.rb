@@ -30,14 +30,6 @@ module Erector
         my_dependencies.push(x)
       end
 
-      # deprecated in favor of #depends_on
-      # todo: warning
-      def external(type, value, options = {})
-        type = type.to_sym
-        x = Dependency.new(type, value, options)
-        my_dependencies << x unless my_dependencies.include?(x)
-      end
-
       # returns all dependencies of the given type from this class and all its
       # superclasses
       def dependencies(type)
