@@ -80,15 +80,5 @@ module Erector
       _emit(options).to_s
     end
 
-    # alias for #to_html
-    # @deprecated Please use {#to_html} instead
-    def to_s(*args)
-      unless defined? @@already_warned_to_s
-        $stderr.puts "Erector::Widget#to_s is deprecated. Please use #to_html instead. Called from #{caller.first}"
-        @@already_warned_to_s = true
-      end
-      to_html(*args)
-    end
-
   end
 end
