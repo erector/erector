@@ -101,16 +101,6 @@ module Erector
       _emit(options).to_s
     end
 
-    # alias for #emit
-    # @deprecated Please use {#emit} instead
-    def to_s(*args)
-      unless defined? @@already_warned_to_s
-        $stderr.puts "Erector::Widget#to_s is deprecated. Please use #to_html instead. Called from #{caller.first}"
-        @@already_warned_to_s = true
-      end
-      to_html(*args)
-    end
-
     # Entry point for rendering a widget (and all its children). Same as
     # #render / #to_html only it returns an array, for theoretical performance
     # improvements when using a Rack server (like Sinatra or Rails Metal).
