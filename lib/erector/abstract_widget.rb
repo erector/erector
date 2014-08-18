@@ -183,7 +183,6 @@ module Erector
     ensure
       @_output = original
     end
-    alias_method :capture, :capture_content
 
     protected
     # executes this widget's #content method, which emits stuff onto the
