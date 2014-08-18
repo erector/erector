@@ -6,7 +6,7 @@ describe Erector::Caching do
 
   class Cash < Erector::Widget
     needs :name
-    cachable # this is correct, just an alias
+    cacheable
 
     def content
       p do
@@ -18,7 +18,7 @@ describe Erector::Caching do
 
   class CashWithVersion < Erector::Widget
     needs :name
-    cachable 'v2'
+    cacheable 'v2'
 
     def content
       p do
@@ -30,7 +30,7 @@ describe Erector::Caching do
 
   class CashWithComplexKey < Erector::Widget
     needs :sites
-    cachable
+    cacheable
 
     def content
       text @sites.first.name
@@ -39,7 +39,7 @@ describe Erector::Caching do
 
   class CashWithCacheOpts < Erector::Widget
     needs :name, :occupation
-    cachable 'v3', only_keys: [:occupation]
+    cacheable 'v3', only_keys: [:occupation]
 
     def content
       text "#{@name} is a #{@occupation}"
@@ -63,7 +63,7 @@ describe Erector::Caching do
     end
   end
 
-  class NotCachable < Erector::Widget
+  class NotCacheable < Erector::Widget
     def content
       text "CONTENT"
     end
@@ -79,16 +79,16 @@ describe Erector::Caching do
     Erector::Widget.cache.should == @cache
   end
 
-  it '-- a widget is not cachable by default' do
-    Erector::Widget.cachable?.should be_false
+  it '-- a widget is not cacheable by default' do
+    Erector::Widget.cacheable?.should be_false
   end
 
-  it '-- a widget is cachable if you say so in the class definition' do
-    Cash.cachable?.should be_true
+  it '-- a widget is cacheable if you say so in the class definition' do
+    Cash.cacheable?.should be_true
   end
 
-  it '-- can be declared cachable using the alternate spelling "cacheable"' do
-    Family.cachable?.should be_true
+  it '-- can be declared cacheable using the alternate spelling "cacheable"' do
+    Family.cacheable?.should be_true
   end
 
   describe '#to_html' do
@@ -130,14 +130,14 @@ describe Erector::Caching do
       CashWithCacheOpts.new(name: "Foobar", occupation: "Hairdressr").to_html.should == "Foobar is a Hairdressr"
     end
 
-    it "doesn't use the cached value for widgets not declared cachable" do
-      @cache[NotCachable] = "CACHED"
-      NotCachable.new.to_html.should == "CONTENT"
+    it "doesn't use the cached value for widgets not declared cacheable" do
+      @cache[NotCacheable] = "CACHED"
+      NotCacheable.new.to_html.should == "CONTENT"
     end
 
-    it "doesn't cache widgets not declared cachable" do
-      NotCachable.new.to_html
-      @cache[NotCachable].should be_nil
+    it "doesn't cache widgets not declared cacheable" do
+      NotCacheable.new.to_html
+      @cache[NotCacheable].should be_nil
     end
 
     it "doesn't cache widgets initialized with a block (yet)" do

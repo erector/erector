@@ -6,25 +6,23 @@ module Erector
 
     module ClassMethods
       def cacheable(value = true, opts = {})
-        @cachable, @cache_opts = value, opts
+        @cacheable, @cache_opts = value, opts
 
         if value && value != true
           @cache_version = value
         end
       end
 
-      alias_method :cachable, :cacheable
-
-      def cachable?
-        if @cachable.nil?
-          superclass.respond_to?(:cachable?) && superclass.cachable?
+      def cacheable?
+        if @cacheable.nil?
+          superclass.respond_to?(:cacheable?) && superclass.cacheable?
         else
-          @cachable
+          @cacheable
         end
       end
 
       def cache_opts
-        if cachable?
+        if cacheable?
           @cache_opts || {}
         end
       end
@@ -43,7 +41,7 @@ module Erector
     end
 
     def should_cache?
-      if block.nil? && self.class.cachable? && caching_configured?
+      if block.nil? && self.class.cacheable? && caching_configured?
         true
       else
         false
