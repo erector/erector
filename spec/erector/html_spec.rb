@@ -466,9 +466,9 @@ describe Erector::HTML do
         erector { rawtext plain }.should == plain
       end
     end
-    describe "#text!" do
+    describe "#rawtext" do
       it "doesn't HTML escape its param" do
-        erector { text! plain }.should == plain
+        erector { rawtext plain }.should == plain
       end
     end
     describe "#element" do

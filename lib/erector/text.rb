@@ -20,7 +20,7 @@ module Erector
     # will be emitted to the output stream in turn. You can specify a delimiter
     # by using an options hash with as the final argument, using +:join+ as the key,
     # e.g.
-    # 
+    #
     #   text "my", "dog", "smells", :join => " "
     #   => "my dog smells"
     #
@@ -77,11 +77,9 @@ module Erector
     end
 
     # Emits text which will *not* be HTML-escaped. Same effect as text(raw(s))
-    def text!(value)
+    def rawtext(value)
       text raw(value)
     end
-
-    alias rawtext text!
 
     # Returns a copy of value with spaces replaced by non-breaking space characters.
     # With no arguments, return a single non-breaking space.

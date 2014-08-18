@@ -187,7 +187,7 @@ describe Erector::Rails do
     it "supports block syntax" do
       test_render do
         javascript_tag do
-          text! "alert('All is good')"
+          rawtext "alert('All is good')"
         end
       end.should == %{<script#{@script_type_tag}>\n//<![CDATA[\nalert('All is good')\n//]]>\n</script>}
     end
