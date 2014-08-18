@@ -207,6 +207,10 @@ describe ActionController::Base do
       render :template => "test/render_with_widget_as_layout", :layout => "layouts/widget_as_layout"
     end
 
+    def render_with_needs_name_same_as_partial_name
+      render template: 'test/users', layout: false
+    end
+
     def render_with_widget_as_layout_using_content_for
       render :template => "test/render_with_widget_as_layout_using_content_for", :layout => "layouts/widget_as_layout"
     end
@@ -389,6 +393,10 @@ describe ActionController::Base do
       test_action(:render_with_cache_one).should == "One"
       test_action(:render_with_cache_two).should == "Two"
       test_action(:render_with_cache_two).should == "Two"
+    end
+
+    it "allows for the same needs name as partial name" do
+      test_action(:render_with_needs_name_same_as_partial_name).should == "FooBar"
     end
 
   end

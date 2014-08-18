@@ -36,7 +36,7 @@ module Erector
         widget_class_variable_name = $1 if widget_class_variable_name =~ %r{.*/(.*?)$}
 
         local_assigns.reject do |name, value|
-          name == :object || name == widget_class_variable_name.to_sym
+          name == :object || (name == widget_class_variable_name.to_sym && value.nil?)
         end
       end
 
