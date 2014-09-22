@@ -1,7 +1,7 @@
 module ActiveSupport
   module Dependencies
 
-    def search_for_file(path_suffix)
+    def self.search_for_file(path_suffix)
       path_suffix = path_suffix.sub(/(\.rb)?$/, ".rb")
       underscored_path_suffix = path_suffix.gsub(/\/([\w\.]*$)/, '/_\1')
 
