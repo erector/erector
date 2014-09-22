@@ -1,4 +1,4 @@
-require File.expand_path("#{File.dirname(__FILE__)}/rails_spec_helper")
+require 'rails_spec_helper'
 
 describe Erector::Rails::FormBuilder do
   describe ".parent_builder_class" do

@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_spec_helper'
 
 # todo: figure out why "include Caching" only works when it's on Widget
 describe Erector::Cache do
