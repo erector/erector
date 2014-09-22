@@ -3,7 +3,7 @@ group :main do
         all_on_start: false,
         all_after_pass: false,
         spec_paths: ['spec/dummy', 'spec/erector'],
-        cmd: 'rspec'  do
+        cmd: 'bundle exec rspec'  do
 
     watch(%r{^spec/.+_spec\.rb$})
     watch(%r{^lib/(.+)\.rb$})             { |m| "spec/#{m[1]}_spec.rb" }
@@ -16,7 +16,7 @@ group :perf do
         all_on_start: false,
         all_after_pass: false,
         spec_paths: ['spec/performance'],
-        cmd: 'rspec'  do
+        cmd: 'bundle exec rspec'  do
 
   end
 end
