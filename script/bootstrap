@@ -1,0 +1,30 @@
+#! /bin/bash
+
+## Make sure we're in the project root
+cd $(dirname "$0")/..
+
+## Check dependencies
+printf "Checking dependencies... "
+
+deps=(
+  ruby
+  bundler
+  git
+)
+
+for i in "${deps[@]}"
+do
+  :
+  if [ ! $(which $i) ]; then
+    printf "\nDependency check failed, file not in PATH: $i\n"
+    exit 1
+  fi
+done
+
+printf "OK\n"
+
+## Bundle
+printf "Bundling...\n"
+bundle install
+
+printf "\nSuccess!\n\n"

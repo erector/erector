@@ -1,6 +1,6 @@
 language: ruby
 cache: bundler
-script: bundle exec rspec
+script: script/cibuild
 notifications:
   email: false
 
