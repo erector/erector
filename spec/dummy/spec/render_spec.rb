@@ -139,6 +139,10 @@ describe ActionController::Base do
       render :template => 'test/erector_with_locals_from_erb', :handlers => [:erb]
     end
 
+    def render_erector_with_helpers_from_erb
+      render :template => 'test/erector_with_helpers_from_erb', :handlers => [:erb]
+    end
+
     def render_erector_with_locals_from_erb_defaulted
       @local_foo = "hihi"
       render :template => 'test/erector_with_locals_from_erb', :handlers => [:erb]
@@ -326,6 +330,10 @@ describe ActionController::Base do
 
     it "should render an ERB template which uses an erector widget partial with locals" do
       test_action(:render_erector_with_locals_from_erb).should == "Partial, foo hihi, bar byebye"
+    end
+
+    it "should render an ERB template which uses an erector widget partial with helpers" do
+      test_action(:render_erector_with_helpers_from_erb).should match '<form'
     end
 
     it "should render an ERB template which uses an erector widget partial with a defaulted local" do

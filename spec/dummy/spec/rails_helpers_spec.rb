@@ -53,6 +53,14 @@ describe Erector::Rails do
     end
   end
 
+  describe 'from a partial' do
+    it 'still works' do
+      test_render do
+        widget Views::Test::PartialWithRailsHelpers.new
+      end.should match('<form')
+    end
+  end
+
   describe "#link_to" do
     it "renders a link" do
       test_render do
