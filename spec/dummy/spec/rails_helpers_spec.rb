@@ -4,7 +4,7 @@ require 'simple_form'
 describe Erector::Rails do
   before do
     @controller         = ApplicationController.new
-    @controller.request = ActionController::TestRequest.new
+    @controller.request = ActionDispatch::TestRequest.new
 
     @view            = ActionView::Base.new
     @view.controller = @controller
@@ -115,7 +115,7 @@ describe Erector::Rails do
         root :to => "rails_helpers_spec#index"
       end
       @app_controller         = ApplicationController.new
-      @app_controller.request = ActionController::TestRequest.new
+      @app_controller.request = ActionDispatch::TestRequest.new
       def app_render(&block)
         Erector::Rails.render(Erector.inline(&block), @app_controller.view_context)
       end
@@ -264,14 +264,14 @@ describe Erector::Rails do
     end
   end
 
-  # describe "#simple_form_for" do
-  #   it "instantiates a SimpleForm builder" do
-  #     test_render do
-  #       simple_form_for(:something, :url => "/test") do |form|
-  #         form.input :foobar
-  #       end
-  #     end.should =~ /foobar/
-  #   end
-  # end
+  describe "#simple_form_for" do
+    it "instantiates a SimpleForm builder" do
+      test_render do
+        simple_form_for(:something, :url => "/test") do |form|
+          form.input :foobar
+        end
+      end.should =~ /foobar/
+    end
+  end
 
 end
