@@ -24,7 +24,6 @@ Gem::Specification.new do |s|
   s.add_dependency 'rails', '>= 3.0.0'
   s.add_dependency 'treetop'
 
-  s.add_development_dependency 'allocation_stats', '0.1.5'
   s.add_development_dependency 'appraisal', '1.0.0'
   s.add_development_dependency 'coveralls', '0.7.0'
   s.add_development_dependency 'haml', '4.0.5'
@@ -32,10 +31,14 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'nokogiri', '1.6.1'
   s.add_development_dependency 'rr', '1.1.2'
   s.add_development_dependency 'rspec-rails', '2.14.2'
-  s.add_development_dependency 'ruby-prof', '0.15.1'
   s.add_development_dependency 'sass', '3.3.4'
   s.add_development_dependency 'simple_form'
   s.add_development_dependency 'sqlite3', '1.3.9'
   s.add_development_dependency 'wrong', '0.7.1'
+
+  if RUBY_VERSION >= '2.1'
+    s.add_development_dependency 'allocation_stats', '0.1.5'
+    s.add_development_dependency 'ruby-prof', '0.15.1'
+  end
 
 end
