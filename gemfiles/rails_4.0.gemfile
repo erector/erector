@@ -2,6 +2,7 @@
 
 source "https://rubygems.org"
 
+gem "activesupport", "4.0.0"
 gem "rails", "4.0.0"
 gem "simple_form", "3.0.2"
 

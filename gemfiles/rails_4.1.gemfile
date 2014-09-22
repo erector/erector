@@ -2,7 +2,8 @@
 
 source "https://rubygems.org"
 
-gem "rails", "4.1.0"
+gem "activesupport", "4.1.6"
+gem "rails", "4.1.6"
 gem "simple_form", "3.0.2"
 
 gemspec :path => "../"

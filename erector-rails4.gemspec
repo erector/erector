@@ -21,7 +21,7 @@ Gem::Specification.new do |s|
   s.homepage = "http://github.com/ajb/erector-rails4"
   s.require_paths = ["lib"]
 
-  s.add_dependency 'rails', '>= 3.0.0'
+  s.add_dependency 'activesupport', '>= 3.0.0'
   s.add_dependency 'treetop'
 
   s.add_development_dependency 'appraisal', '1.0.0'
@@ -29,6 +29,7 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'haml', '4.0.5'
   s.add_development_dependency 'guard-rspec', '4.3.1'
   s.add_development_dependency 'nokogiri', '1.6.1'
+  s.add_development_dependency 'rails', '>= 3.0.0'
   s.add_development_dependency 'rr', '1.1.2'
   s.add_development_dependency 'rspec-rails', '2.14.2'
   s.add_development_dependency 'sass', '3.3.4'
