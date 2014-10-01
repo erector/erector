@@ -218,6 +218,10 @@ describe ActionController::Base do
     def render_with_widget_as_layout_using_content_for
       render :template => "test/render_with_widget_as_layout_using_content_for", :layout => "layouts/widget_as_layout"
     end
+
+    def render_virtual_path
+      render template: "test/render_virtual_path", layout: false
+    end
   end
 
   class TestWidget < Erector::Widget
@@ -405,6 +409,10 @@ describe ActionController::Base do
 
     it "allows for the same needs name as partial name" do
       test_action(:render_with_needs_name_same_as_partial_name).should == "FooBar"
+    end
+
+    it "passes the correct virtual path" do
+      test_action(:render_virtual_path).should == "views/test/render_virtual_path.rb,views/test/_virtual_path_partial.rb"
     end
 
   end

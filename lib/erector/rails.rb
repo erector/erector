@@ -42,6 +42,11 @@ module Erector
 
       def render(widget, view, local_assigns = {}, is_partial = false, options = {})
         widget = widget.new(assigns_for(widget, view, local_assigns, is_partial)) if widget.is_a?(Class)
+
+        if options[:pathname]
+          widget.instance_variable_set(:@virtual_path, options[:pathname])
+        end
+
         view.with_output_buffer do
           # Set parent and helpers to the view and use Rails's output buffer.
           widget.to_html(options.merge(:helpers => view,
