@@ -1,10 +1,10 @@
-require 'spec_helper'
-require 'ruby-prof'
-require_relative 'support/basic_widget'
-
 describe 'Ruby Prof', performance: true do
 
   it 'takes time' do
+    require 'spec_helper'
+    require 'ruby-prof'
+    require_relative 'support/basic_widget'
+
     result = RubyProf.profile do
       Erector.inline {
         div(class: 'foo') {

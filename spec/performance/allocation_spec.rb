@@ -1,10 +1,10 @@
-require 'spec_helper'
-require 'allocation_stats'
-require_relative 'support/basic_widget'
-
 describe 'Allocation', performance: true do
 
   it 'takes time' do
+    require 'spec_helper'
+    require 'allocation_stats'
+    require_relative 'support/basic_widget'
+
     stats = AllocationStats.trace do
       Erector.inline {
         div(class: 'foo') {
