@@ -51,7 +51,6 @@ module Erector
   # * Attributes
   # * Text
   # * Needs
-  # * Caching
   # * Externals
   # * AfterInitialize
   #
@@ -66,7 +65,6 @@ module Erector
 
     # for some reason these need to be included in Widget and not AbstractWidget
     include Needs
-    include Caching
     include Externals
 
     include HTML
