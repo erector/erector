@@ -1,4 +1,4 @@
-require 'rails_spec_helper'
+require 'spec_helper'
 
 describe Erector::Rails::FormBuilder do
   describe ".parent_builder_class" do
