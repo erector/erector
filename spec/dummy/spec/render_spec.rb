@@ -1,13 +1,9 @@
-require 'rails_spec_helper'
+require 'spec_helper'
 
 describe ActionController::Base do
   class TestController < ActionController::Base
     # Let exceptions propagate rather than generating the usual error page.
     include ActionController::TestCase::RaiseActionExceptions
-
-    # We need this, because we reference Views::Test::Needs below, and it
-    # doesn't auto-load otherwise.
-    require 'views/test/needs.html.rb'
 
     # replicate deprecated use for rails <3.2
     if (Gem::Version.new(Rails.version) < Gem::Version.new('3.2.0') rescue false)
