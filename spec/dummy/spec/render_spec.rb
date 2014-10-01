@@ -412,7 +412,7 @@ describe ActionController::Base do
     end
 
     it "passes the correct virtual path" do
-      test_action(:render_virtual_path).should == "views/test/render_virtual_path.rb,views/test/_virtual_path_partial.rb"
+      test_action(:render_virtual_path).should == "test/render_virtual_path.rb,test/_virtual_path_partial.rb"
     end
 
   end

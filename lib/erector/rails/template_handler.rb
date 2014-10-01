@@ -3,7 +3,7 @@ module Erector
     class TemplateHandler
       def call(template)
         require_dependency template.identifier
-        pathname = "views/#{template.identifier =~ %r(views/(.*)) && $1}"
+        pathname = "#{template.identifier =~ %r(views/(.*)) && $1}"
         widget_class_name = "views/#{template.identifier =~ %r(views/([^.]*)(\..*)?\.rb) && $1}".camelize
         is_partial = File.basename(template.identifier) =~ /^_/
         <<-SRC
