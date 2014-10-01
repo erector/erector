@@ -5,19 +5,6 @@ describe ActionController::Base do
     # Let exceptions propagate rather than generating the usual error page.
     include ActionController::TestCase::RaiseActionExceptions
 
-    # replicate deprecated use for rails <3.2
-    if (Gem::Version.new(Rails.version) < Gem::Version.new('3.2.0') rescue false)
-      def render(*args, &block)
-        options = args.extract_options!
-        if options[:template]
-          handlers = options.delete(:handlers)
-          format = '.html' unless options.delete(:bare)
-          options[:template] += "#{format}.#{handlers.first}"
-        end
-        render(*(args << options), &block)
-      end
-    end
-
     def render_widget_class
       @foobar = "foobar"
       render :widget => TestWidget
@@ -43,16 +30,6 @@ describe ActionController::Base do
 
     def render_with_content_method
       render :widget => TestWidget, :content_method_name => :content_method
-    end
-
-    def render_with_cache_one
-      @name = 'One'
-      render :widget => CashWidget
-    end
-
-    def render_with_cache_two
-      @name = 'Two'
-      render :widget => CashWidget
     end
 
     def render_with_rails_options
@@ -214,6 +191,10 @@ describe ActionController::Base do
     def render_with_widget_as_layout_using_content_for
       render :template => "test/render_with_widget_as_layout_using_content_for", :layout => "layouts/widget_as_layout"
     end
+
+    def render_virtual_path
+      render template: "test/render_virtual_path", layout: false
+    end
   end
 
   class TestWidget < Erector::Widget
@@ -240,15 +221,6 @@ describe ActionController::Base do
 
     def content
       text "foo #{@foo} bar #{@bar}"
-    end
-  end
-
-  class CashWidget < Erector::Widget
-    needs :name
-    cacheable 'v1'
-
-    def content
-      text @name
     end
   end
 
@@ -392,15 +364,12 @@ describe ActionController::Base do
       test_action(:render_with_widget_as_layout_using_content_for).should == "TOPBEFOREDURINGAFTER"
     end
 
-    it "should cache properly" do
-      test_action(:render_with_cache_one).should == "One"
-      test_action(:render_with_cache_one).should == "One"
-      test_action(:render_with_cache_two).should == "Two"
-      test_action(:render_with_cache_two).should == "Two"
-    end
-
     it "allows for the same needs name as partial name" do
       test_action(:render_with_needs_name_same_as_partial_name).should == "FooBar"
+    end
+
+    it "passes the correct virtual path" do
+      test_action(:render_virtual_path).should == "test/render_virtual_path.rb,test/_virtual_path_partial.rb"
     end
 
   end

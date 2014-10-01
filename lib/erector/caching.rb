@@ -5,91 +5,51 @@ module Erector
     end
 
     module ClassMethods
-      def cacheable(value = true, opts = {})
-        @cacheable, @cache_opts = value, opts
+      def cacheable(*args)
+        options = args.extract_options!
 
-        if value && value != true
-          @cache_version = value
+        @cacheable_opts = {
+          static_keys: args,
+          dynamic_keys: if options[:needs_keys]
+            needed_variables & options[:needs_keys]
+          else
+            needed_variables
+          end,
+          skip_digest: options[:skip_digest]
+        }
+      end
+
+      def cacheable_opts
+        @cacheable_opts
+      end
+    end
+
+    def cacheable?
+      !self.class.cacheable_opts.nil?
+    end
+
+    def cache_name
+      [].tap do |a|
+        a.push(*self.class.cacheable_opts[:static_keys])
+
+        self.class.cacheable_opts[:dynamic_keys].each do |x|
+          a.push(instance_variable_get(:"@#{x}"))
         end
-      end
-
-      def cacheable?
-        if @cacheable.nil?
-          superclass.respond_to?(:cacheable?) && superclass.cacheable?
-        else
-          @cacheable
-        end
-      end
-
-      def cache_opts
-        if cacheable?
-          @cache_opts || {}
-        end
-      end
-
-      def cache_version
-        @cache_version || nil
-      end
-
-      def cache
-        Erector::Cache.instance
-      end
+      end.reject(&:nil?)
     end
 
-    def cache
-      self.class.cache
-    end
-
-    def should_cache?
-      if block.nil? && self.class.cacheable? && caching_configured?
-        true
-      else
-        false
-      end
-    end
-
-    def caching_configured?
-      return true if !defined?(Rails)
-      ::Rails.configuration.action_controller.perform_caching &&
-      ::Rails.configuration.action_controller.cache_store
-    end
-
-    def cache_key_assigns
-      if self.class.cache_opts[:only_keys]
-        assigns.slice(*self.class.cache_opts[:only_keys])
-      else
-        assigns
-      end
+    def cache_options
+      {
+        skip_digest: self.class.cacheable_opts[:skip_digest]
+      }
     end
 
     protected
     def _emit(options = {})
-      if should_cache?
-        if options[:output]
-          # todo: document that either :buffer or :output can be used to specify an output buffer, and deprecate :output
-          if options[:output].is_a? Output
-            @_output = options[:output]
-          else
-            @_output = Output.new({:buffer => options[:output]}.merge(options))
-          end
-        else
-          @_output = Output.new(options)
+      if cacheable?
+        cache cache_name, cache_options do
+          super
         end
-
-        if (cached_str = cache[self.class, self.class.cache_version, cache_key_assigns, options[:content_method_name]])
-          output << cached_str
-        else
-          cache[self.class, self.class.cache_version, cache_key_assigns, options[:content_method_name]] = super
-        end
-      else
-        super
-      end
-    end
-
-    def _emit_via(parent, options = {})
-      if should_cache?
-        parent.output << cache[self.class, self.class.cache_version, cache_key_assigns, options[:content_method_name]] ||= parent.capture_content { super }
-        parent.output.widgets << self.class # todo: test!!!
       else
         super
       end

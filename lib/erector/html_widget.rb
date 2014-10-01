@@ -45,7 +45,6 @@ module Erector
   # * Attributes
   # * Text
   # * Needs
-  # * Caching
   # * Externals
   # * AfterInitialize
   #
