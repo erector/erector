@@ -13,7 +13,7 @@ module Dummy
     # -- all .rb files in that directory are automatically loaded.
 
     # Custom directories with classes and modules you want to be autoloadable.
-    config.autoload_paths += %W(#{config.root}/app)
+    # config.autoload_paths += %W(#{config.root}/app)
 
     config.cache_store = :memory_store
 

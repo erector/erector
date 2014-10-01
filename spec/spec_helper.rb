@@ -6,11 +6,17 @@ SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter[
   SimpleCov::Formatter::HTMLFormatter
 ]
 
-require 'erector'
-require 'rspec'
+ENV["RAILS_ENV"] = "test"
 
-Dir[File.join(File.dirname(__FILE__), "../spec/support/**/*.rb")].each {|f| require f}
+require File.expand_path("../dummy/config/environment.rb",  __FILE__)
+require 'erector'
+
+Rails.backtrace_cleaner.remove_silencers!
+
+require 'rspec/rails'
+
+Dir[Rails.root.join("../../spec/support/**/*.rb")].each {|f| require f}
 
 RSpec.configure do |config|
-  # nada
+  config.filter_run_excluding performance: true
 end
