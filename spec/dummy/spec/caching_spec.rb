@@ -1,3 +1,4 @@
+require 'ostruct'
 require 'spec_helper'
 
 describe 'Caching' do
@@ -18,6 +19,22 @@ describe 'Caching' do
     end
 
     def cache_helper_with_implicit_dependencies
+    end
+
+    def cacheable_widget_with_needs
+      @person = 'person'
+      @food = 'food'
+    end
+
+    def cacheable_widget_with_needs_keys
+      @person = 'person'
+      @food = 'food'
+    end
+
+    def cacheable_widget_with_skip_digest
+    end
+
+    def cacheable_widget_with_static_keys
     end
   end
 
@@ -96,10 +113,39 @@ describe 'Caching' do
   end
 
   describe 'Widget.cacheable' do
-    it 'uses :needs as the cache key'
-    it 'can select using the :needs_keys option'
-    it 'can skip the digest with skip_digest: true'
-    it 'can add additional keys'
+    it 'sets as cacheable' do
+      expect(Views::TestCaching::CacheableWidgetWithNeeds.new(person: nil, food: nil)).to be_cacheable
+    end
+
+    context ':needs as cache key' do
+      it 'calculates the fragment key' do
+        expect_any_instance_of(Erector::Widget).to receive(:cache).
+          with(['person', 'food'], skip_digest: nil)
+
+        test_action(:cacheable_widget_with_needs)
+      end
+    end
+
+    it 'can select using the :needs_keys option' do
+      expect_any_instance_of(Erector::Widget).to receive(:cache).
+        with(['person', 'beer'], skip_digest: nil)
+
+      test_action(:cacheable_widget_with_needs_keys)
+    end
+
+    it 'can skip the digest with skip_digest: true' do
+      expect_any_instance_of(Erector::Widget).to receive(:cache).
+        with([], skip_digest: true)
+
+      test_action(:cacheable_widget_with_skip_digest)
+    end
+
+    it 'can add static keys' do
+      expect_any_instance_of(Erector::Widget).to receive(:cache).
+        with(['v1'], skip_digest: nil)
+
+      test_action(:cacheable_widget_with_static_keys)
+    end
   end
 
 end
