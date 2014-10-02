@@ -3,6 +3,8 @@ require 'spec_helper'
 
 describe 'Caching' do
 
+  next unless Gem::Version.new(::Rails.version) >= Gem::Version.new('4.0.0')
+
   class TestCachingController < ActionController::Base
     layout false
 
@@ -44,7 +46,11 @@ describe 'Caching' do
   end
 
   def digestor_for(template_name)
-    ActionView::Digestor.new(name: "test_caching/#{template_name}.rb", finder: ActionController::Base.new.lookup_context)
+    if Gem::Version.new(::Rails.version) > Gem::Version.new('4.0.0')
+      ActionView::Digestor.new(name: "test_caching/#{template_name}.rb", finder: ActionController::Base.new.lookup_context)
+    else
+      ActionView::Digestor.new("test_caching/#{template_name}", :rb, ActionController::Base.new.lookup_context)
+    end
   end
 
   context 'disabled in Rails config' do

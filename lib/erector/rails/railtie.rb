@@ -10,7 +10,7 @@ module Erector
           begin
             require 'action_view/dependency_tracker'
             ActionView::DependencyTracker.register_tracker :rb, ActionView::DependencyTracker::ERBTracker
-          rescue
+          rescue LoadError
             # likely this version of Rails doesn't support dependency tracking
           end
         end
