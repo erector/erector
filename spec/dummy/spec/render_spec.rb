@@ -5,19 +5,6 @@ describe ActionController::Base do
     # Let exceptions propagate rather than generating the usual error page.
     include ActionController::TestCase::RaiseActionExceptions
 
-    # replicate deprecated use for rails <3.2
-    if (Gem::Version.new(Rails.version) < Gem::Version.new('3.2.0') rescue false)
-      def render(*args, &block)
-        options = args.extract_options!
-        if options[:template]
-          handlers = options.delete(:handlers)
-          format = '.html' unless options.delete(:bare)
-          options[:template] += "#{format}.#{handlers.first}"
-        end
-        render(*(args << options), &block)
-      end
-    end
-
     def render_widget_class
       @foobar = "foobar"
       render :widget => TestWidget
