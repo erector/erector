@@ -5,7 +5,7 @@ class Views::TestCaching::CacheableWidgetWithNeedsKeys < Erector::Widget
   cacheable needs_keys: [:person, :beer]
 
   def content
-    text DateTime.now
+    text DateTime.current
   end
 
 end

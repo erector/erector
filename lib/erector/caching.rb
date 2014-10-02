@@ -46,8 +46,8 @@ module Erector
 
     protected
     def _emit(options = {})
-      if cacheable?
-        cache cache_name, cache_options do
+      if cacheable? && options[:helpers].try(:respond_to?, :cache)
+        options[:helpers].cache cache_name, cache_options do
           super
         end
       else

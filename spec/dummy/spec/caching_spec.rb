@@ -125,7 +125,7 @@ describe 'Caching' do
 
     context ':needs as cache key' do
       it 'calculates the fragment key' do
-        expect_any_instance_of(Erector::Widget).to receive(:cache).
+        expect_any_instance_of(ActionView::Base).to receive(:cache).
           with(['person', 'food'], skip_digest: nil)
 
         test_action(:cacheable_widget_with_needs)
@@ -133,25 +133,38 @@ describe 'Caching' do
     end
 
     it 'can select using the :needs_keys option' do
-      expect_any_instance_of(Erector::Widget).to receive(:cache).
+      expect_any_instance_of(ActionView::Base).to receive(:cache).
         with(['person', 'beer'], skip_digest: nil)
 
       test_action(:cacheable_widget_with_needs_keys)
     end
 
     it 'can skip the digest with skip_digest: true' do
-      expect_any_instance_of(Erector::Widget).to receive(:cache).
+      expect_any_instance_of(ActionView::Base).to receive(:cache).
         with([], skip_digest: true)
 
       test_action(:cacheable_widget_with_skip_digest)
     end
 
     it 'can add static keys' do
-      expect_any_instance_of(Erector::Widget).to receive(:cache).
+      expect_any_instance_of(ActionView::Base).to receive(:cache).
         with(['v1'], skip_digest: nil)
 
       test_action(:cacheable_widget_with_static_keys)
     end
+
+    it 'caches appropriately' do
+      expect(DateTime).to receive(:current).exactly(1).times
+      2.times { test_action(:cacheable_widget_with_static_keys) }
+    end
+
+    it 'does not cache when called without rails helpers' do
+      expect(DateTime).to receive(:current).exactly(2).times
+      2.times do
+        Views::TestCaching::CacheableWidgetWithStaticKeys.new.to_html
+      end
+    end
+
   end
 
 end

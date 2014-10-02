@@ -5,7 +5,7 @@ class Views::TestCaching::CacheableWidgetWithNeeds < Erector::Widget
   cacheable
 
   def content
-    text DateTime.now
+    text DateTime.current
   end
 
 end
