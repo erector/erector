@@ -1,11 +1,11 @@
-= Erector
+# Erector
 
 * http://erector.github.io/erector
 * mailto:erector@googlegroups.com
 * http://github.com/erector/erector
 * http://www.pivotaltracker.com/projects/482
 
-== DESCRIPTION
+## DESCRIPTION
 
 Erector is a Builder-like view framework, inspired by Markaby but overcoming
 some of its flaws. In Erector all views are objects, not template files,
@@ -17,8 +17,8 @@ project site at http://erector.github.io/erector for more documentation.
 No, seriously, we've got hella docs at http://erector.github.io/erector -- go
 check it out.
 
-== SYNOPSIS
-
+## SYNOPSIS
+```ruby
     require 'erector'
 
     class Hello < Erector::Widget
@@ -42,14 +42,14 @@ check it out.
     include Erector::Mixin
     erector { div "love", :class => "big" }
     => "<div class=\"big\">love</div>"
-
-== REQUIREMENTS
+```
+## REQUIREMENTS
 
 The gem depends on rake and treetop, although this is just for using the command-line tool,
 so deployed applications won't need these. The Rails-dependent code is now separated so
 you can use Erector cleanly in a non-Rails app.
 
-== INSTALL
+## INSTALL
 
 To install as a gem:
 
@@ -64,14 +64,14 @@ To install as a Rails plugin:
 When installing this way, erector is automatically available to your Rails code
 (no require directive is needed).
 
-== TESTS
+## TESTS
 
 Three spec rake tasks are provided: spec:core (core functionality),
 spec:erect (the erector command line tool), and spec:rails (rails integration).
 
-'rake spec' will run the complete set of specs.
+`rake spec` will run the complete set of specs.
 
-== CONTRIBUTING
+## CONTRIBUTING
 
 1. Fork it
 2. Create your feature branch (`git checkout -b my-new-feature`)
@@ -81,7 +81,7 @@ spec:erect (the erector command line tool), and spec:rails (rails integration).
 
 See web site docs for more details.
 
-== CREDITS
+## CREDITS
 
 Core Team:
 * Alex Chaffee
@@ -97,10 +97,10 @@ Special Thanks To:
 * Alon Salant
 * Andy Peterson
 
-== VERSION HISTORY
+## VERSION HISTORY
 
 see History.txt
 
-== LICENSE: MIT
+## LICENSE: MIT
 
 see LICENSE.txt
