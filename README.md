@@ -7,8 +7,9 @@
 
 ## DESCRIPTION
 
-Erector is a Builder-like view framework, inspired by Markaby but overcoming
-some of its flaws. In Erector all views are objects, not template files,
+Erector is a view framework. That is, it helps you generate HTML mixing in
+dynamic content (like erb, slim or haml). Unlike erb, slim, or haml, views
+are objects, not template files,
 which allows the full power of object-oriented programming (inheritance,
 modular decomposition, encapsulation) in views. See the rdoc for the
 Erector::Widget class to learn how to make your own widgets, and visit the
@@ -104,3 +105,9 @@ see History.txt
 ## LICENSE: MIT
 
 see LICENSE.txt
+
+## SEE ALSO
+
+The [fortitude](https://github.com/ageweke/fortitude) gem is similar. Pick that one
+if you want better integration with tilt (the template rendering mechanism used
+in Sinatra and many other ruby web frameworks).
