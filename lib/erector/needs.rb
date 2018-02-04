@@ -1,5 +1,7 @@
 module Erector
   module Needs
+    NO_DUP_CLASSES = [NilClass, FalseClass, TrueClass, 0.class, Float, Symbol].freeze
+
     def self.included(base)
       base.extend ClassMethods
     end
@@ -83,7 +85,7 @@ module Erector
       # set variables with default values
       self.class.needed_defaults.each do |name, value|
         unless assigned.include?(name)
-          value = [NilClass, FalseClass, TrueClass, Fixnum, Float, Symbol].include?(value.class) ? value : value.dup
+          value = NO_DUP_CLASSES.include?(value.class) ? value : value.dup
           instance_variable_set("@#{name}", value)
           assigned << name
         end
