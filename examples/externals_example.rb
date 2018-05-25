@@ -14,6 +14,9 @@ class HotSauce < Erector::Widget
 end
 
 class HotPage < Erector::Widgets::Page
+  def doctype
+    standard_doctype :html5
+  end
   def body_content
     widget HotSauce
   end
