@@ -17,7 +17,14 @@ module Erector
             next if value.empty?
             value = value.join(' ')
           end
-          results << "#{key}=\"#{h(value)}\""
+          if value.is_a?(TrueClass)
+            # TODO: Consider supporting non-xhtml style, e.g., "<option checked>"
+            results << "#{key}=\"#{key}\""
+          elsif value.is_a?(FalseClass)
+            # Nothing is generated in this case
+          else
+            results << "#{key}=\"#{h(value)}\""
+          end
         end
       end
       results.join(' ')
