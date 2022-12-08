@@ -108,6 +108,6 @@ see LICENSE.txt
 
 ## SEE ALSO
 
-The [fortitude](https://github.com/ageweke/fortitude) gem is similar. Pick that one
-if you want better integration with tilt (the template rendering mechanism used
-in Sinatra and many other ruby web frameworks).
+* Phlex is a similar view tool. See [Phlex webpage](https://www.phlex.fun/) or [Phlex github](https://github.com/joeldrapper/phlex) .
+
+* The [fortitude](https://github.com/ageweke/fortitude) gem, like erector, has not gotten much maintenance in recent years.
