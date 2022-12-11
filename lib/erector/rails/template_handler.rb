@@ -1,7 +1,7 @@
 module Erector
   module Rails
     class TemplateHandler
-      def call(template)
+      def call(template, source = nil)
         require_dependency template.identifier
         widget_class_name = "views/#{template.identifier =~ %r(views/([^.]*)(\..*)?\.rb) && $1}".camelize
         is_partial = File.basename(template.identifier) =~ /^_/
